@@ -3,7 +3,7 @@ module Fog
     class Google
       class Mock
         def insert_backend_service(backend_service_name)
-            Fog::Mock.not_implemented
+          Fog::Mock.not_implemented
         end
       end
 
@@ -23,4 +23,3 @@ module Fog
     end
   end
 end
-

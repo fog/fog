@@ -38,17 +38,18 @@ module Fog
         end
 
         def destroy(async=false)
-            requires :name
-            operation = service.delete_backend_service(name)
-            unless async
-              operation.wait_for { ready? }
-            end
-            operation
+          requires :name
+          operation = service.delete_backend_service(name)
+          unless async
+            operation.wait_for { ready? }
+          end
+          operation
         end
 
         def get_health
           service.get_backend_service_health self
         end
+
         def ready?
           begin
             service.get_backend_service(self.name)
@@ -61,11 +62,12 @@ module Fog
         def reload
           requires :name
 
-          return unless data = begin
-            collection.get(name)
-          rescue Excon::Errors::SocketError
-            nil
-          end
+          return unless data =
+            begin
+              collection.get(name)
+            rescue Excon::Errors::SocketError
+              nil
+            end
 
           new_attributes = data.attributes
           merge_attributes(new_attributes)
@@ -76,5 +78,3 @@ module Fog
     end
   end
 end
-
-

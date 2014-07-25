@@ -12,7 +12,6 @@ module Fog
           api_method = @compute.backend_services.list
           parameters = {
             'project' => @project,
-            
           }
 
           result = self.build_result(api_method, parameters)

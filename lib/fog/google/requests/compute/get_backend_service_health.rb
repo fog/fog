@@ -14,12 +14,12 @@ module Fog
             'project' => @project,
             'backendService' => backend_service.name
           }
-         health_results = backend_service.backends.map do |backend|
-           body = { 'group' => backend['group'] }
+          health_results = backend_service.backends.map do |backend|
+            body = { 'group' => backend['group'] }
             resp = build_response(build_result(api_method, parameters, body_object= body))
-   [backend['group'], resp.data[:body]['healthStatus']]
-         end
-  Hash[health_results]
+            [backend['group'], resp.data[:body]['healthStatus']]
+          end
+          Hash[health_results]
         end
       end
     end
