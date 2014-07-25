@@ -6,10 +6,14 @@ require 'fog/aws/models/orchestration/outputs'
 module Fog
   module Orchestration
     class AWS
+      # Stack instance
       class Stack < Fog::Orchestration::Stack
 
+        # Register stack resources class
         resources Fog::Orchestration::AWS::Resources
+        # Register stack events class
         events Fog::Orchestration::AWS::Events
+        # Register stack outputs class
         outputs Fog::Orchestration::AWS::Outputs
 
         attribute :stack_name, :aliases => ['StackName']
@@ -22,6 +26,7 @@ module Fog
         attribute :parameters, :aliases => ['Parameters']
         attribute :capabilities, :aliases => ['Capabilities']
 
+        # valid options for stack create and update actions
         ALLOWED_OPTIONS = {
           :create => [
             :template, :template_url, :disable_rollback, :parameters, :timeout_in_minutes, :capabilities
@@ -31,7 +36,8 @@ module Fog
           ]
         }
 
-        CREATE_MAP = {
+        # option name remapping for API request
+        OPTIONS_MAPPING = {
           :template => 'TemplateBody',
           :parameters => 'Parameters',
           :capabilities => 'Capabilities',
@@ -39,39 +45,56 @@ module Fog
           :timeout_in_minutes => 'TimeoutInMinutes',
           :notification_arns => 'NotificationARNs'
         }
-        def create
-          requires :stack_name, :template
-          args = self.attributes.find_all do |key, value|
-            ALLOWED_OPTIONS[:create].include?(key)
-          end
 
-          args = Hash[args]
-
-          create_args = {}.tap do |c_args|
-            CREATE_MAP.each do |orig, convrt|
-              c_args[convrt] = args[orig] if args[orig]
+        # Generate API options hash for action
+        #
+        # @param action [String, Symbol] :create or :update
+        # @return [Hash]
+        def api_arguments_for(action)
+          args = Hash[
+            self.attributes.find_all do |key, value|
+              ALLOWED_OPTIONS[action.to_sym].include?(key)
+            end
+          ]
+          OPTIONS_MAPPING.each do |original, mapped|
+            val = args.delete(original)
+            if(val)
+              args[mapped] = val
             end
           end
-
-          service.create_stack(stack_name, create_args)
-          self
+          args
         end
 
-        def update
+        # Create the stack
+        #
+        # @return [self]
+        def create
           requires :stack_name
-          args = self.attributes.find_all do |key, value|
-            ALLOWED_OPTIONS[:update].include?(key)
-          end
-          service.update_stack(stack_name, Hash[args])
+          args = api_arguments_for(:create)
+          service.create_stack(stack_name, args)
           self
         end
 
+        # Update the stack
+        #
+        # @return [self]
+        def update
+          requires :stack_name, :id
+          args = api_arguments_for(:update)
+          service.update_stack(stack_name, args)
+          self
+        end
+
+        # Destroy the stack
+        #
+        # @return [TrueClass]
         def destroy
-          requires :id
+          requires :stack_name, :id
           service.delete_stack(self.stack_name)
           true
         end
 
+        # @return [String] template JSON
         def template
           if(persisted? && !attributes[:template])
             attributes[:template] = service.get_template(stack_name).
@@ -80,20 +103,34 @@ module Fog
           attributes[:template]
         end
 
+        # Validate the template of the stack
+        #
+        # @return [TrueClass]
+        # @raises [Fog::Errors::OrchestrationError::InvalidTemplate]
         def validate
-          if(template)
-            service.validate_template('TemplateBody' => template)
-          elsif(template_url)
-            service.validate_template('TemplateURL' => template_url)
-          else
-            raise 'No template provided to validate'
+          unless(self.template || self.template_url)
+            raise ArgumentError.new('Stack must defined `template` or `template_url`')
+          end
+          begin
+            if(template)
+              validate_args = {'TemplateBody' => self.template}
+            else
+              validate_args = {'TemplateURL' => self.template_url}
+            end
+            service.validate_template(validate_args)
+            true
+          rescue Fog::AWS::CloudFormation::NotFound => e
+            raise Fog::Errors::OrchestrationError::InvalidTemplate.new e.message
           end
         end
 
+        # @return [TrueClass, FalseClass]
         def exists?
-          self.stack_status != 'DELETE_COMPLETE'
+          persisted? &&
+            self.stack_status != 'DELETE_COMPLETE'
         end
 
+        # @return [Hash] stack parameters
         def parameters
           Hash[
             attributes.fetch(:parameters, []).map do |param_hash|
@@ -102,6 +139,9 @@ module Fog
           ]
         end
 
+        # Customized reload to affect only this instance
+        #
+        # @return [self]
         def reload
           requires :identity
           describe = service.describe_stacks('StackName' => stack_name).body['Stacks'].first
