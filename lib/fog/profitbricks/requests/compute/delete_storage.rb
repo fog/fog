@@ -47,12 +47,14 @@ module Fog
                     }
                         self.data[:volumes].delete(storage)
                     else
-                        raise Fog::Errors::NotFound.new('The requested resource could not be found')
+                        raise Fog::Errors::NotFound.new(
+                          'The requested resource could not be found'
+                        )
                     end
 
                     response.body = { 'deleteStorageResponse' => {
-                        'requestId' => Fog::Mock::random_numbers(7),
-                        'dataCenterId' => Fog::UUID.uuid,
+                        'requestId'         => Fog::Mock::random_numbers(7),
+                        'dataCenterId'      => Fog::UUID.uuid,
                         'dataCenterVersion' => 3
                         }
                     }

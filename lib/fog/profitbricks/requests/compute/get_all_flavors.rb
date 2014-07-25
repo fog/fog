@@ -2,7 +2,7 @@ module Fog
     module Compute
         class ProfitBricks
             class Real
-                def get_all_flavors(options = {})
+                def get_all_flavors()
                     response        = Excon::Response.new
                     response.status = 200
                     response.body   = {

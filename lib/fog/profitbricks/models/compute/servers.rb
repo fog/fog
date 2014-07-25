@@ -7,15 +7,13 @@ module Fog
             class Servers < Fog::Collection
                 model Fog::Compute::ProfitBricks::Server
 
-                def all(filters = {})
+                def all
+                    load (service.get_all_servers.body['getAllServersResponse'])
                 end
 
-                def bootstrap(new_attributes = {})
-                end
-
-                def get(data_center_id)
-                    data_center = service.get_data_center(data_center_id).body['getDataCenterResponse']
-                    new(data_center)
+                def get(id)
+                    server = service.get_server(id).body['getServerResponse']
+                    new(server)
                 rescue Excon::Errors::NotFound
                     nil
                 end

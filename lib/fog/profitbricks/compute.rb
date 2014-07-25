@@ -56,8 +56,10 @@ module Fog
             request      :create_storage        # createStorage
             request      :update_storage        # updateStorage
             request      :delete_storage        # deleteStorage
-            #request      :connect_storage_to_server      # connectStorageToServer
-            #request      :disconnect_storage_from_server # disconnectStorageFromServer
+            request      :connect_storage_to_server      # connectStorageToServer
+            request      :disconnect_storage_from_server # disconnectStorageFromServer
+
+            request      :create_nic            # createNic
 
             class Real
                 def initialize(options={})
@@ -169,20 +171,22 @@ module Fog
                             ],
                             :volumes => [
                               {
-                                 'data_center_id'         => '8b80d933-d728-438d-8831-e2bd76aa15e0',
-                                 'data_center_version'    => 1,
-                                 'id'                     => '440831cf-2281-4d2c-8b45-b7cf7aab7238',
-                                 'size'                   => 5,
-                                 'name'                   => 'SystemVolume',
-                                 'mount_image'            => {
-                                   'image_id'   => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
-                                   'image_name' => 'CentOS-6-server'
-                                 },
-                                 'provisioning_state'     => 'AVAILABLE',
-                                 'creation_time'          => Time.now,
-                                 'last_modification_time' => Time.now
+                                'data_center_id'         => '8b80d933-d728-438d-8831-e2bd76aa15e0',
+                                'data_center_version'    => 1,
+                                'id'                     => '440831cf-2281-4d2c-8b45-b7cf7aab7238',
+                                'size'                   => 5,
+                                'name'                   => 'SystemVolume',
+                                'mount_image'            =>
+                                {
+                                  'image_id'   => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
+                                  'image_name' => 'CentOS-6-server'
+                                },
+                                'provisioning_state'     => 'AVAILABLE',
+                                'creation_time'          => Time.now,
+                                'last_modification_time' => Time.now
                               },
-                            ]
+                            ],
+                            :network_interfaces => []
                         }
                     end
                 end

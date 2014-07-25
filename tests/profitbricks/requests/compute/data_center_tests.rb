@@ -3,7 +3,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | data_center request', ['profitbricks
     @data_center_format = {
         'requestId'         => String,
         'id'                => String,
-        'name'    => String,
+        'name'              => String,
         'dataCenterVersion' => Integer,
         'provisioningState' => 'AVAILABLE',
         'region'            => String
