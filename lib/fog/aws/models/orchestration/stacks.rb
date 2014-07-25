@@ -1,20 +1,21 @@
 require 'fog/orchestration/models/stacks'
 require 'fog/aws/models/orchestration/stack'
+require 'fog/aws/models/orchestration/common'
 
 module Fog
   module Orchestration
     class AWS
+      # Stacks list
       class Stacks < Fog::Orchestration::Stacks
 
+        include Fog::Orchestration::AWS::Common
+
+        # Register the stack model class
         model Fog::Orchestration::AWS::Stack
 
-        attribute :filters
-
-        def initialize(attributes)
-          self.filters = {}
-          super
-        end
-
+        # Load all stacks
+        #
+        # @return [self]
         def all
           unless(attributes['Stacks'])
             attributes['Stacks'] = fetch_stacks
@@ -22,17 +23,11 @@ module Fog
           load(attributes['Stacks'])
         end
 
-        def fetch_paged_results(result_key, next_token=nil, &block)
-          list = []
-          options = next_token ? {'NextToken' => next_token} : {}
-          result = block.call(options)
-          list += result.body[result_key]
-          if(token = result.body['NextToken'])
-            list += fetch_paged_results(result_key, token, &block)
-          end
-          list
-        end
-
+        # Fetch all stacks
+        #
+        # @return [Array<Hash>] stacks
+        # @note this combines describe_stacks with list_stacks to grab
+        #       as much data as possible with the fewest API calls
         def fetch_stacks
           describe = fetch_paged_results('Stacks') do |options|
             service.describe_stacks(options)
@@ -45,10 +40,6 @@ module Fog
             stack_hash.merge!(desc_hash) if desc_hash
             stack_hash
           end
-        end
-
-        def find_by_name(name)
-          self.find{|stack| stack.stack_name == name}
         end
 
       end
