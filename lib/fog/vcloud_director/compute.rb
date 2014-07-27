@@ -369,7 +369,7 @@ module Fog
         def request(params)
           begin
             do_request(params)
-          rescue Excon::Errors::SocketError::EOFError
+          rescue EOFError
             # This error can occur if Vcloud receives a request from a network
             # it deems to be unauthorized; no HTTP response is sent, but the
             # connection is sent a signal to terminate early.
