@@ -5,9 +5,10 @@ module Fog
   module Google
     extend Fog::Provider
 
-    service(:compute, 'Compute')
-    service(:storage, 'Storage')
-    service(:sql,     'SQL')
+    service(:compute,    'Compute')
+    service(:monitoring, 'Monitoring')
+    service(:storage,    'Storage')
+    service(:sql,        'SQL')
 
     class Mock
       def self.etag
