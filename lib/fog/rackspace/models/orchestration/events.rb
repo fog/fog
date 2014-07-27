@@ -21,6 +21,9 @@ module Fog
               self.stack.attributes['events'] = service.
                 list_events_stack(self.stack.stack_name, self.stack.id).
                 body['events']
+              self.stack.attributes['events'].sort! do |event_x, event_y|
+                Time.parse(event_y['event_time']) <=> Time.parse(event_x['event_time'])
+              end
             end
             items = self.stack.attributes['events']
           else

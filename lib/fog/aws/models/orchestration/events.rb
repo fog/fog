@@ -24,6 +24,9 @@ module Fog
               self.stack.attributes['Events'] = fetch_paged_results('StackEvents') do |opts|
                 service.describe_stack_events(self.stack.stack_name, opts)
               end
+              self.stack.attributes.sort! do |event_x, event_y|
+                Time.parse(event_y['Timestamp']) <=> Time.parse(event_x['Timestamp'])
+              end
             end
             items = self.stack.attributes['Events']
           else
