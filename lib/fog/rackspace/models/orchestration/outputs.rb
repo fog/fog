@@ -18,7 +18,7 @@ module Fog
           self.stack = load_stack if load_stack
           if(self.stack)
             self.stack.expand!
-            items = stack.data['outputs']
+            items = stack.attributes['outputs']
           else
             items = []
           end
