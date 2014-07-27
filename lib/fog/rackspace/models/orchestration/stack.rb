@@ -133,7 +133,7 @@ module Fog
         EXPAND_FOR_ATTRIBUTES.each do |attribute_name|
           define_method(attribute_name) do
             expand!
-            super
+            super()
           end
         end
 
