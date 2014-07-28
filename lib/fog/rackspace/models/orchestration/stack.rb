@@ -34,8 +34,9 @@ module Fog
 
         # lazy loaded attributes requiring data expansion
         EXPAND_FOR_ATTRIBUTES = [
-          :disable_rollback,
           :capabilities,
+          :disable_rollback,
+          :parameters,
           :timeout_in_minutes
         ]
 
@@ -45,9 +46,12 @@ module Fog
         # @return [Hash]
         def api_arguments_for(action)
           args = Hash[
-            self.attributes.find_all do |key, value|
-              ALLOWED_OPTIONS[action.to_sym].include?(key)
-            end
+            ALLOWED_OPTIONS[action.to_sym].map do |key|
+              val = self.send(key)
+              if(val)
+                [key, val]
+              end
+            end.compact
           ]
           OPTIONS_MAPPING.each do |original, mapped|
             val = args.delete(original)
@@ -74,7 +78,8 @@ module Fog
         def update
           requires :stack_name
           args = api_arguments_for(:update)
-          service.update_stack(stack_name, args)
+          filter_parameters_for_update!(args.fetch(:parameters, {}))
+          service.update_stack(id, stack_name, args)
           self
         end
 
@@ -131,10 +136,12 @@ module Fog
 
         # Force data expansion for lazy loaded attributes
         EXPAND_FOR_ATTRIBUTES.each do |attribute_name|
-          define_method(attribute_name) do
+          define_method("expander_#{attribute_name}") do
             expand!
-            super()
+            send("unexpander_#{attribute_name}")
           end
+          alias_method "unexpander_#{attribute_name}".to_sym, attribute_name.to_sym
+          alias_method attribute_name.to_sym, "expander_#{attribute_name}".to_sym
         end
 
         # Load full stack data into attributes
@@ -146,6 +153,21 @@ module Fog
             merge_attributes(data)
           end
           data
+        end
+
+        # Remove parameters not defined within template
+        #
+        # @param params [Hash] new stack parameters
+        # @return [Hash] filtered parameters
+        def filter_parameters_for_update!(params)
+          template_struct = Fog::JSON.decode(template)
+          valid = template_struct.fetch('Parameters',
+            template_struct.fetch('parameters', {})
+          )
+          params.keys.each do |key|
+            params.delete(key) unless valid.include?(key)
+          end
+          params
         end
 
       end
