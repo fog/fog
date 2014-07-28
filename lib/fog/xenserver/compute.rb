@@ -113,6 +113,9 @@ module Fog
       request :snapshot_revert
 
       class Real
+          
+        attr_reader :connection
+
         def initialize(options={})
           @host        = options[:xenserver_url]
           @username    = options[:xenserver_username]
