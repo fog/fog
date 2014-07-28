@@ -21,8 +21,7 @@ module Fog
         #         * updated_time [Time] -
         #
         #
-        # @see http://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListStacks.html
-
+        # @see http://docs.rackspace.com/orchestration/api/v1/orchestration-devguide/content/GET_stack_list_v1__tenant_id__stacks_Stack_Operations.html
         def list_stacks(options = {})
           request(
             :expects  => 200,

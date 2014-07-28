@@ -8,16 +8,17 @@ module Fog
         # @param [String] stack_id ID of the stack to update.
         # @param [String] stack_name Name of the stack to update.
         # @param [Hash] options
-        #   * :template [String] Structure containing the template body.
-        #   or (one of the two Template parameters is required)
-        #   * :template_url [String] URL of file containing the template body.
-        #   * :parameters [Hash] Hash of providers to supply to template.
+        # @option options [String] :template template body
+        # @option options [String] :template_url URL of file containing template body
+        # @option options [Hash] :parameters stack parameters
+        # @return [Excon::Response]
+        #   * body [String] accept message
         #
+        # @see http://docs.rackspace.com/orchestration/api/v1/orchestration-devguide/content/PUT_stack_update_v1__tenant_id__stacks__stack_name___stack_id__Stack_Operations.html
         def update_stack(stack_id, stack_name, options = {})
           params = {
             :stack_name => stack_name
           }.merge(options)
-
           request(
             :expects  => 202,
             :path => "stacks/#{stack_name}/#{stack_id}",

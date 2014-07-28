@@ -5,10 +5,14 @@ module Fog
 
         # Return resource events for a stack
         #
-        # * stack_name [String] Name of the stack to create.
-        # * stack_id   [String] The unique identifer for a stack
+        # @param stack_name [String] name of stack
+        # @param stack_id [String] ID of stack
+        #
+        # @return [Excon::Response]
+        #   * body [Hash]:
+        #     * events [Array]:
+        #
         # @see http://docs.rackspace.com/orchestration/api/v1/orchestration-devguide/content/GET_stack_event_list_v1__tenant_id__stacks__stack_name___stack_id__events_Stack_Events.html
-
         def list_events_stack(stack_name, stack_id)
           request(
             :expects  => 200,

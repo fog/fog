@@ -5,17 +5,21 @@ module Fog
 
         # Create a stack.
         #
-        # * stack_name [String] Name of the stack to create.
-        # * options [Hash]:
-        #   * :template [String] Structure containing the template body.
-        #   or (one of the two Template parameters is required)
-        #   * :template_url [String] URL of file containing the template body.
-        #   * :disable_rollback [Boolean] Controls rollback on stack creation failure, defaults to false.
-        #   * :parameters [Hash] Hash of providers to supply to template
-        #   * :timeout_in_minutes [Integer] Minutes to wait before status is set to CREATE_FAILED
+        # @param stack_name [String] name of the stack
+        # @param options [Hash]
+        # @option options [String] :template template body
+        # @option options [String] :template_url URL of the file containing the template body
+        # @option options [TrueClass, FalseClass] :disable_rollback control rollback on stack failure
+        # @option options [Hash] :parameters parameters for template
+        # @option options [Integer] :timeout_mins timeout for stack creation in minutes
         #
-        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_CreateStack.html
-
+        # @return [Excon::Response]
+        #   * body [Hash]:
+        #     * stack [Hash]:
+        #       * id [String]
+        #       * links [Array]
+        #
+        # @see http://docs.rackspace.com/orchestration/api/v1/orchestration-devguide/content/POST_stack_create_v1__tenant_id__stacks_Stack_Operations.html
         def create_stack(stack_name, options = {})
           params = {
             :stack_name => stack_name

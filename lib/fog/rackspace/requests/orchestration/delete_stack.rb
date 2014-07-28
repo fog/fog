@@ -8,10 +8,7 @@ module Fog
         # @param stack_name [String] Name of the stack to delete.
         # @param stack_id [String] ID of the stack to delete.
         #
-        # @return [Excon::Response]
-        #
-        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_DeleteStack.html
-
+        # @see http://docs.rackspace.com/orchestration/api/v1/orchestration-devguide/content/DELETE_stack_delete_v1__tenant_id__stacks__stack_name___stack_id__Stack_Operations.html
         def delete_stack(stack_name, stack_id)
           request(
             :expects  => 204,
