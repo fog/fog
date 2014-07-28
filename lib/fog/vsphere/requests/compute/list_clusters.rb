@@ -24,6 +24,7 @@ module Fog
             :num_cpu_cores  => cluster.summary.numCpuCores,
             :overall_status => cluster.summary.overallStatus,
             :datacenter     => datacenter_name || parent_attribute(cluster.path, :datacenter)[1],
+            :host           => cluster.host,
           }
         end
 
