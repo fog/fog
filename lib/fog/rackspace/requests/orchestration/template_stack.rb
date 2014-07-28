@@ -23,6 +23,10 @@ module Fog
 
       class Mock
         def template(stack_name, stack_id)
+          Excon::Response.new(
+            :body => self.data[:stacks][:template],
+            :status => 200
+          )
         end
       end
     end

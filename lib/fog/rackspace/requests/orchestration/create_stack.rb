@@ -41,19 +41,20 @@ module Fog
           stack = self.data[:stacks][stack_id] = {
             'id' => stack_id,
             'stack_name' => stack_name,
-            'links' => [],
+            'links' => [{"href"=>"http://localhost:8004/v1/fake_tenant_id/stacks/#{stack_name}/#{stack_id}", "rel"=>"self"}],
             'description' => options[:description],
             'stack_status' => 'CREATE_COMPLETE',
             'stack_status_reason' => 'Stack successfully created',
             'creation_time' => Time.now,
             'updated_time' => Time.now
-          }
+          }.merge(Fog::JSON.decode(Fog::JSON.encode(options)))
 
           response = Excon::Response.new
           response.status = 201
           response.body = {
             'id' => stack_id,
-            'links'=>[{"href"=>"http://localhost:8004/v1/fake_tenant_id/stacks/#{stack_name}/#{stack_id}", "rel"=>"self"}]}
+            'links'=> stack['links']
+          }
           response
         end
       end

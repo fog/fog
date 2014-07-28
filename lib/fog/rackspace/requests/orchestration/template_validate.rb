@@ -25,6 +25,19 @@ module Fog
 
       class Mock
         def template_validate(options)
+          template = self.data[:stacks][:template]
+
+          Excon::Response.new(
+            :body => {
+              'Description' => template.fetch('Description',
+                template.fetch('description', '')
+              ),
+              'Parameters' => template.fetch('Parameters',
+                template.fetch('parameters', {})
+              )
+            },
+            :status => 200
+          )
         end
       end
     end

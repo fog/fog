@@ -33,7 +33,7 @@ module Fog
         def update_stack(stack_name, options = {})
           response = Excon::Response.new
           response.status = 202
-          response.body = {}
+          response.body = 'Update acceptance message'
           response
         end
       end
