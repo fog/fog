@@ -105,6 +105,19 @@ module Fog
           attributes[:template]
         end
 
+        # Set stack template
+        #
+        # @param template_body [String, Hash] stack template
+        # @return [String]
+        # @note if data structure provided, it will be dumped to JSON
+        #   content and stored
+        def template=(template_body)
+          unless(template_body.is_a?(String))
+            template_body = Fog::JSON.encode(template_body)
+          end
+          attributes[:template] = template_body
+        end
+
         # Validate the template of the stack
         #
         # @return [TrueClass]
