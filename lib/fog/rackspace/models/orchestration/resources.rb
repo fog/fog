@@ -34,8 +34,9 @@ module Fog
         # @return [self]
         def reload
           if(self.stack)
-            self.stack.attributes.delete('resources')
+            self.stack.reload
           end
+          super
           self
         end
 
