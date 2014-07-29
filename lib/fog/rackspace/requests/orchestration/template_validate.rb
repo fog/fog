@@ -17,7 +17,8 @@ module Fog
           request(
             :expects  => 200,
             :path => 'validate',
-            :method => 'POST'
+            :method => 'POST',
+            :body => Fog::JSON.encode(options)
           )
         end
 
