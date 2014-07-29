@@ -19,7 +19,7 @@ module Fog
           request(
             :method   => 'GET',
             :expects  => 200,
-            :path     => '/os-keypairs'
+            :path     => 'os-keypairs'
           )
         end
       end
