@@ -13,8 +13,8 @@ Shindo.tests('Fog::Orchestration::Rackspace', ['rackspace']) do
   }
   template_parameters_format = [
     'Default' => Fog::Nullable::String,
-    'Description' => String,
-    'NoEcho' => String, # ack!
+    'Description' => Fog::Nullable::String,
+    'NoEcho' => Fog::Nullable::String, # ack!
     'Type' => String,
     'Label' => Fog::Nullable::String
   ]
