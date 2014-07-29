@@ -23,6 +23,7 @@ module Fog
             Fog::Logger.warning(e.message)
             availability = false
           rescue => e
+            Fog::Logger.warning(e.message)
             availability = false
           end
         end
