@@ -10,7 +10,15 @@ module Fog
 
 
       class Real < Fog::Rackspace::Service; end
-      class Mock < Fog::Rackspace::Service; end
+
+      class Mock < Fog::Rackspace::Service
+        attr_reader :data
+        def initialize(options={})
+          @data = {
+            :stacks => {}
+          }
+        end
+      end
 
       requires :rackspace_username, :rackspace_api_key
       recognizes :rackspace_endpoint
