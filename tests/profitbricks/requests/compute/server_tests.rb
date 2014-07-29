@@ -51,7 +51,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
 
         tests('#create_data_center') do
             puts '#create_data_center'
-            data = service.create_data_center('FogTestDataCenter', 'EUROPE')
+            data = service.create_data_center('FogDataCenter', 'EUROPE')
             @data_center_id = data.body['createDataCenterResponse']['id']
             data.body['createDataCenterResponse']
 
@@ -68,32 +68,34 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
             @image_id = data['id']
         end
 
-        tests('#create_storage').formats(@minimal_format.merge(
-          'id' => String)) do
+        tests('#create_storage') do
             puts '#create_storage'
             data = service.create_storage(
-                @data_center_id, 'FogTestVolume', @image_id, 5
+                @data_center_id, 5, { 'storageName' => 'FogVolume',
+                                      'mountImageId'  => @image_id }
             )
             @storage_id = data.body['createStorageResponse']['id']
             data.body['createStorageResponse']
         end
 
-        tests('#create_server').formats(@minimal_format.merge('id' => String)) do
+        tests('#get_storage') do
+            puts '#get_storage'
+            data = service.get_storage(@storage_id)
+            data.body['getStorageResponse']
+        end
+
+        tests('#create_server') do
             puts '#create_server'
-            data = service.create_server(@data_center_id, 1, 1024, 'FogServer',
-                                         0, '', 'false', 1, 'LINUX', 'AUTO')
+            data = service.create_server(@data_center_id, 1, 512, { 
+                   'serverName' => 'FogServer','bootFromStorageId' => @storage_id })
             @server_id = data.body['createServerResponse']['id']
             data.body['createServerResponse']
         end
 
-        tests('#connect_storage_to_server').formats(@minimal_format) do
-            puts '#connect_storage_to_server'
-            data = service.connect_storage_to_server('VIRTIO', 0, @storage_id,
-                                                     @server_id)
-            data.body['connectStorageToServerResponse']
-        end
+        #     Fog::Compute[:openstack].servers.get(@server_id).wait_for { ready? } if not Fog.mocking?
 
-        tests('#get_all_servers').formats(@server_format) do
+
+        tests('#get_all_servers') do
             puts '#get_all_servers'
             data = service.get_all_servers
             data.body['getAllServersResponse'].find {
@@ -101,37 +103,37 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
             }
         end
 
-        tests('#get_server').formats(@server_format) do
+        tests('#get_server') do
             puts '#get_server'
             data = service.get_server(@server_id)
             data.body['getServerResponse']
         end
 
-        #tests('#update_server').formats(@server_format) do
-        #    puts '#update_server'
-        #    data = service.update_server(@server_id)
-        #    data.body['updateServerResponse']
-        #end
-
-        #tests('#start_server')
-
-        #tests('#reset_server')
-
-        #tests('#stop_server')
-
-        tests('#disconnect_storage_from_server').formats(@minimal_format) do
-            puts '#disconnect_storage_from_server'
-            data = service.disconnect_storage_from_server(@server_id, @storage_id)
-            data.body['disconnectStorageFromServerResponse']
+        tests('#update_server') do
+            puts '#update_server'
+            data = service.update_server(@server_id, { 'serverName' => 'FogServerRename' })
+            data.body['updateServerResponse']
         end
 
-        tests('#delete_server').formats(@minimal_format) do
+        tests('#stop_server') do
+            puts '#stop_server'
+        end
+
+        tests('#start_server') do
+            puts '#start_server'
+        end
+
+        tests('#reset_server') do
+            puts '#reset_server'
+        end
+
+        tests('#delete_server') do
             puts '#delete_server'
             data = service.delete_server(@server_id)
             data.body['deleteServerResponse']
         end
 
-        tests('#delete_storage').formats(@minimal_format) do
+        tests('#delete_storage') do
             puts '#delete_storage'
             data = service.delete_storage(@storage_id)
             data.body['deleteStorageResponse']

@@ -48,17 +48,16 @@ module Fog
 
             class Mock
                 def create_storage(data_center_id, size, options={})
-                    puts options
                     response = Excon::Response.new
                     response.status = 200
                     
-                    #if data_center = self.data[:datacenters].find {
-                    #    |attrib| attrib['id'] == data_center_id
-                    #}
-                    #    data_center['dataCenterVersion'] += 1
-                    #else
-                    #    raise Fog::Errors::NotFound.new('Data center resource could not be found')
-                    #end
+                    if data_center = self.data[:datacenters].find {
+                        |attrib| attrib['id'] == data_center_id
+                    }
+                        data_center['dataCenterVersion'] += 1
+                    else
+                        raise Fog::Errors::NotFound.new('Data center resource could not be found')
+                    end
 
                     if image = self.data[:images].find {
                         |attrib| attrib['id'] == options['mountImageId']
@@ -71,8 +70,8 @@ module Fog
 
                     storage_id = Fog::UUID.uuid
                     storage = {
-                        #'dataCenterId'         => data_center_id,
-                        #'dataCenterVersion'    => data_center['dataCenterVersion'],
+                        'dataCenterId'         => data_center_id,
+                        'dataCenterVersion'    => data_center['dataCenterVersion'],
                         'id'                   => storage_id,
                         'size'                 => size,
                         'storageName'          => options['storageName'] || '',

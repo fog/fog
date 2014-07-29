@@ -175,19 +175,19 @@ module Fog
                             ],
                             :volumes => [
                               {
-                                'dataCenterId'         => '8b80d933-d728-438d-8831-e2bd76aa15e0',
-                                'dataCenterVersion'    => 1,
-                                'id'                   => '440831cf-2281-4d2c-8b45-b7cf7aab7238',
-                                'size'                 => 5,
-                                'storageName'          => 'MockVolume',
-                                'mountImage'           =>
+                                'data_center_id'         => '8b80d933-d728-438d-8831-e2bd76aa15e0',
+                                'data_center_version'    => 1,
+                                'id'                     => '440831cf-2281-4d2c-8b45-b7cf7aab7238',
+                                'size'                   => 5,
+                                'storage_name'           => 'MockVolume',
+                                'mount_image'            =>
                                 {
-                                  'imageId'   => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
-                                  'imageName' => 'CentOS-6-server'
+                                  'image_id'   => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
+                                  'image_name' => 'CentOS-6-server'
                                 },
-                                'provisioningState'    => 'AVAILABLE',
-                                'creationTime'         => Time.now,
-                                'lastModificationTime' => Time.now
+                                'provisioning_state'     => 'AVAILABLE',
+                                'creation_time'          => Time.now,
+                                'last_modification_time' => Time.now
                               },
                             ],
                             :network_interfaces => []

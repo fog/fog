@@ -1,12 +1,12 @@
 Shindo.tests('Fog::Compute[:profitbricks] | storage request', ['profitbricks', 'compute']) do
 
     @storage_format = {
-        'dataCenterId'         => String,
-        'dataCenterVersion'    => Integer,
-        'id'                   => String,
-        'size'                 => Integer,
-        'name'                 => String,
-        'mountImage'           =>
+        'dataCenterId'      => String,
+        'dataCenterVersion' => Integer,
+        'id'                => String,
+        'size'              => Integer,
+        'storageName'       => String,
+        'mountImage'        =>
         {
             'imageId'   => String,
             'imageName' => String
@@ -28,7 +28,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | storage request', ['profitbricks', '
 
         tests('#create_data_center') do
             puts '#create_data_center'
-            data = service.create_data_center('FogTestDataCenter', 'EUROPE')
+            data = service.create_data_center('FogDataCenter', 'EUROPE')
             @data_center_id = data.body['createDataCenterResponse']['id']
             data.body['createDataCenterResponse']
 
@@ -49,7 +49,8 @@ Shindo.tests('Fog::Compute[:profitbricks] | storage request', ['profitbricks', '
           'id' => String)) do
             puts '#create_storage'
             data = service.create_storage(
-                @data_center_id, 'FogTestVolume', @image_id, 5
+                @data_center_id, 5, { 'storageName' => 'FogVolume',
+                                      'mountImageId'  => @image_id }
             )
             @storage_id = data.body['createStorageResponse']['id']
             data.body['createStorageResponse']
@@ -71,7 +72,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | storage request', ['profitbricks', '
 
         tests('#update_storage').formats(@minimal_format) do
             puts '#update_storage'
-            data = service.update_storage(@storage_id, 10)
+            data = service.update_storage(@storage_id, { 'size' => 10 })
             data.body['updateStorageResponse']
         end
 
