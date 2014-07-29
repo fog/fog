@@ -47,33 +47,36 @@ module Fog
             'stack_status_reason' => '',
             'stack_name' => '',
             'outputs' => [],
-            'creation_time' => Time.now,
+            'creation_time' => Time.now.to_s,
             'links' => [],
             'capabilities' => [],
             'notification_topics' => [],
             'timeout_mins' => nil,
             'stack_status' => '',
-            'updated_time' => Time.now,
+            'updated_time' => Time.now.to_s,
             'id' => '',
             'template_description' => ''
           }
           stored = self.data[:stacks][stack_id]
-          stack.keys.each do |key|
-            if(stored[key])
-              stack[key] = begin; stored[key].dup; rescue TypeError; stored[key]; end
+          if(stored)
+            stack.keys.each do |key|
+              if(stored[key])
+                stack[key] = begin; stored[key].dup; rescue TypeError; stored[key]; end
+              end
             end
-          end
-          if(template)
+            template = Fog::JSON.decode(stored['template'])
             stack['template_description'] = template.fetch('Description',
               template.fetch('description', '')
             )
+            response = Excon::Response.new
+            response.status = 200
+            response.body = {
+              'stack' => stack
+            }
+            response
+          else
+            raise
           end
-          response = Excon::Response.new
-          response.status = 200
-          response.body = {
-            'stack' => stack
-          }
-          response
         end
       end
     end

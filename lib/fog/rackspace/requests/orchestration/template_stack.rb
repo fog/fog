@@ -22,9 +22,10 @@ module Fog
       end
 
       class Mock
-        def template(stack_name, stack_id)
+        def template_stack(stack_name, stack_id)
+          template = Fog::JSON.decode(self.data[:stacks][stack_id]['template'])
           Excon::Response.new(
-            :body => self.data[:stacks][:template],
+            :body => template,
             :status => 200
           )
         end

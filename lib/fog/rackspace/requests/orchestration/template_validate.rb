@@ -26,19 +26,31 @@ module Fog
 
       class Mock
         def template_validate(options)
-          template = self.data[:stacks][:template]
+          if(options[:template])
+            begin
+              template = Fog::JSON.decode(options[:template])
+              result = {
+                'Description' => template.fetch('Description',
+                  template.fetch('description', '')
+                ),
+                'Parameters' => template.fetch('Parameters',
+                  template.fetch('parameters', {})
+                )
+              }
+              result['Parameters'].values.each do |param|
+                param['Type'] = 'String' unless param['Type']
+              end
 
-          Excon::Response.new(
-            :body => {
-              'Description' => template.fetch('Description',
-                template.fetch('description', '')
-              ),
-              'Parameters' => template.fetch('Parameters',
-                template.fetch('parameters', {})
+              Excon::Response.new(
+                :body => result,
+                :status => 200
               )
-            },
-            :status => 200
-          )
+            rescue => e
+              raise BadRequest.new(e.message)
+            end
+          else
+            raise NotImplementedError.new ':template_url not currently mocked'
+          end
         end
       end
     end

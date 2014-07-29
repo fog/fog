@@ -45,15 +45,17 @@ module Fog
             'description' => options[:description],
             'stack_status' => 'CREATE_COMPLETE',
             'stack_status_reason' => 'Stack successfully created',
-            'creation_time' => Time.now,
-            'updated_time' => Time.now
+            'creation_time' => Time.now.to_s,
+            'updated_time' => Time.now.to_s
           }.merge(Fog::JSON.decode(Fog::JSON.encode(options)))
 
           response = Excon::Response.new
           response.status = 201
           response.body = {
-            'id' => stack_id,
-            'links'=> stack['links']
+            'stack' => {
+              'id' => stack_id,
+              'links'=> stack['links']
+            }
           }
           response
         end
