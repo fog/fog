@@ -161,7 +161,7 @@ module Fog
         #
         # @return [Hash] raw data hash
         def expand!
-          unless(@expanded)
+          unless(@expanded || !persisted?)
             data = service.data_stack(self.stack_name, self.id).body['stack']
             merge_attributes(data)
           end
