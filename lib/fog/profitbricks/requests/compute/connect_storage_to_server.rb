@@ -7,10 +7,11 @@ module Fog
                 # Connect virtual storage
                 #
                 # ==== Parameters
-                # * busType<~String> - 
-                # * deviceNumber<~String> -
-                # * storageId<~String> - UUID of virtual storage
-                # * serverId<~String> -
+                # * storageId<~String> - Required, UUID of virtual storage
+                # * serverId<~String> - Required, 
+                # * options<~Hash>:
+                #   * busType<~String> - Optional, VIRTIO, IDE 
+                #   * deviceNumber<~Integer> - Optional, 
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:
@@ -21,15 +22,15 @@ module Fog
                 #       * dataCenterVersion<~Integer> - Version of the virtual data center
                 #
                 # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?connectStorageToServer.html]
-                def connect_storage_to_server(bus_type='VIRTIO', device_number='',
-                                              storage_id, server_id)
+                #def connect_storage_to_server(bus_type='VIRTIO', device_number='',
+                #                              storage_id, server_id)
+                def connect_storage_to_server(storage_id, server_id, options={})
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].connectStorageToServer {
                         xml.request { 
-                          xml.busType(bus_type)
-                          xml.deviceNumber(device_number)
                           xml.storageId(storage_id)
                           xml.serverId(server_id)
+                          options.each { |key, value| xml.send(key, value) }
                         }
                       }
                     }
@@ -47,8 +48,7 @@ module Fog
             end
 
             class Mock
-                def connect_storage_to_server(bus_type='VIRTIO', device_number='',
-                                              storage_id, server_id)
+                def connect_storage_to_server(storage_id, server_id, options={})
                     response = Excon::Response.new
                     response.status = 200
 

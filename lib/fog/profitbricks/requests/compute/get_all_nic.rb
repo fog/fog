@@ -2,9 +2,9 @@ module Fog
     module Compute
         class ProfitBricks
             class Real
-                require 'fog/profitbricks/parsers/compute/get_nic'
+                require 'fog/profitbricks/parsers/compute/get_all_nic'
 
-                # Return virtual NIC information
+                # Returns all virtual NICs
                 #
                 # ==== Parameters
                 # * N/A
@@ -26,40 +26,34 @@ module Fog
                 #       * gatewayIp<~String> - 
                 #       * provisioningState<~String> - INACTIVE, INPROCESS, AVAILABLE, DELETED, ERROR
                 #
-                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/GetNIC.html]
-                def get_nic(nic_id)
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/GetAllNIC.html]
+                def get_all_nic
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
-                      |xml| xml[:ws].getNic {
-                        xml.nicId(nic_id)
-                      }
+                      |xml| xml[:ws].getAllNic
                     }
 
                     request(
                         :expects => [200],
                         :method  => 'POST',
                         :body    => soap_envelope.to_xml,
-                        :parser  =>
-                          Fog::Parsers::Compute::ProfitBricks::GetNic.new
+                        :parser  => 
+                          Fog::Parsers::Compute::ProfitBricks::GetAllNic.new
                     )
-                rescue Excon::Errors::InternalServerError => error
-                    Fog::Errors::NotFound.new(error)
                 end
             end
 
             class Mock
-                def get_nic(nic_id)
-                    response        = Excon::Response.new
-                    response.status = 200
-
-                    if nic = self.data[:volumes].find {
-                      |attrib| attrib['id'] == nic_id
-                    }
+                def get_all_nic
+                    if data = self.data[:nics]
+                        response        = Excon::Response.new
+                        response.status = 200
+                        response.body   = {
+                          'getAllNicResponse' => self.data[:nics]
+                        }
+                        response
                     else
-                        raise Fog::Errors::NotFound.new('The requested resource could not be found')
+                        raise Fog::Compute::NotFound
                     end
-
-                    response.body = { 'getNicResponse' => nic }
-                    response
                 end
             end
         end

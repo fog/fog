@@ -7,11 +7,11 @@ module Fog
                 # Create new virtual network interface
                 #
                 # ==== Parameters
-                # * ip<~String> - 
-                # * nicName<~String> - Name of the new virtual network interface
-                # * dhcpActive<~String> - 
-                # * serverId<~Integer> -
-                # * lanId -
+                # * serverId<~String> - Required, 
+                # * lanId - Required,
+                # * nicName<~String> - Optional, name of the new virtual network interface
+                # * ip<~String> - Optional, 
+                # * dhcpActive<~String> - Optional, 
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:
@@ -22,17 +22,14 @@ module Fog
                 #       * dataCenterVersion<~Integer> - Version of the virtual data center
                 #       * nicId<~String> - UUID of the new virtual network interface
                 #
-                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?createNic.html]
-                def create_nic(ip_address, nic_name, dhcp_active,
-                               server_id, lan_id)
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/CreateNIC.html]
+                def create_nic(server_id, lan_id, options={})
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createNic {
                         xml.request {
-                          xml.ip(ip_address)
-                          xml.nicName(nic_name)
-                          xml.dhcpActive(dhcp_active)
                           xml.serverId(server_id)
-                          xml.nicId(nic_id)
+                          xml.lanId(lan_id)
+                          options.each { |key, value| xml.send(key, value) }
                         }
                       }
                     }
@@ -48,30 +45,25 @@ module Fog
             end
 
             class Mock
-                def create_nic(ip_address, nic_name, dhcp_active,
-                               server_id, lan_id)
+                def create_nic(server_id, lan_id, options={})
                     response = Excon::Response.new
                     response.status = 200
                     
-
                     nic_id = Fog::UUID.uuid
                     nic = {
-                        #'dataCenterId'      => data_center_id,
-                        #'dataCenterVersion' => data_center['dataCenterVersion'],
                         'id'                => nic_id,
-                        'lan_id'            => lan_id,
-                        'internetAccess'    => '',
-                        'serverId'          => server_id,
-                        'ips'               => ip_address,
-                        'macAddress'        => nil,
+                        'lanId'             => lan_id,
+                        'internetAccess'    => options['internetAccess'] || false,
+                        'ip'                => options['ip'] || nil,
+                        'macAddress'        => Fog::Mock::random_hex(12),
                         'firewall' =>
                         {
                             'active'            => 'false',
-                            'firewallId'        => nil,
+                            'firewallId'        => Fog::UUID.uuid,
                             'nicId'             => nic_id,
                             'provisioningState' => 'AVAILABLE',
                         },
-                        'dhcpActive'        => dhcp_active,
+                        'dhcpActive'        => options['dhcpActive'] || false,
                         'provisioningState' => 'AVAILABLE'
                     }
                     

@@ -15,7 +15,7 @@ module Fog
                 #     * resetServerResponse<~Hash>:
                 #       * requestId<~String> - ID of request
                 #
-                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?resetServer.html]
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/ResetServer.html]
                 def reset_server(server_id)
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].resetServer {

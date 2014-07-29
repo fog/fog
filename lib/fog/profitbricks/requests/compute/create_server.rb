@@ -7,16 +7,17 @@ module Fog
                 # Create new virtual server
                 #
                 # ==== Parameters
-                # * dataCenterId<~String> - 
-                # * cores<~Integer> - 
-                # * ram<~Integer> -
-                # * serverName<~String> - Name of the new virtual network interface
-                # * bootFromStorageId<~String> - 
-                # * bootFromImageId<~<String> - 
-                # * internetAccess<~String> - 
-                # * lanId<~String> - 
-                # * osType<~String> -
-                # * availabilityZone - AUTO, ZONE_1, ZONE_2
+                # * dataCenterId<~String> - Required, UUID of virtual data center
+                # * cores<~Integer> - Required, number of CPU cores allocated to virtual server
+                # * ram<~Integer> - Required, amount of memory in GB allocated to virtual server
+                # * options<~Hash>:
+                #   * serverName<~String> - Name of the new virtual network interface
+                #   * bootFromStorageId<~String> - Optional, 
+                #   * bootFromImageId<~<String> - Optional, 
+                #   * internetAccess<~Boolean> - Optional, 
+                #   * lanId<~String> - Optional, 
+                #   * osType<~String> - Optional, UNKNOWN, WINDOWS, LINUX, OTHER
+                #   * availabilityZone - Optional, AUTO, ZONE_1, ZONE_2
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:
@@ -27,24 +28,15 @@ module Fog
                 #       * dataCenterVersion<~Integer> - Version of the virtual data center
                 #       * serverId<~String> - UUID of the new virtual server
                 #
-                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?createServer.html]
-                def create_server(data_center_id, cores, ram, server_name,
-                                  #boot_from_storage_id, boot_from_image_id,
-                                  internet_access, lan_id, os_type,
-                                  availability_zone = 'AUTO')
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/CreateServer.html]
+                def create_server(data_center_id, cores, ram, options={})
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createServer {
                         xml.request {
                           xml.dataCenterId(data_center_id)
                           xml.cores(cores)
                           xml.ram(ram)
-                          xml.serverName(server_name)
-                          #xml.bootFromStorageId(boot_from_storage_id)
-                          #xml.bootFromImageId(boot_from_image_id)
-                          xml.internetAccess(server_name)
-                          xml.lanId(lan_id)
-                          xml.osType(os_type)
-                          xml.availabilityZone(availability_zone)
+                          options.each { |key, value| xml.send(key, value) }
                         }
                       }
                     }
@@ -60,10 +52,7 @@ module Fog
             end
 
             class Mock
-                def create_server(data_center_id, cores, ram, server_name,
-                                  boot_from_storage_id, boot_from_image_id,
-                                  internet_access, lan_id, os_type,
-                                  availability_zone)
+                def create_server(data_center_id, cores, ram, options={})
                     response = Excon::Response.new
                     response.status = 200
                     
@@ -73,24 +62,24 @@ module Fog
                         'id'                   => server_id,
                         'cores'                => cores,
                         'ram'                  => ram,
-                        'serverName'           => server_name,
-                        'internetAccess'       => internet_access,
-                        'ips'                  => [],
-                        'connectedStorages'    => [],
-                        'romDrives'            => [],
-                        'nics'                 => [],
+                        'serverName'           => options['serverName'] || '',
+                        'internetAccess'       => options['internetAccess'] || false,
+                        'ips'                  => options['ips'] || [],
+                        'connectedStorages'    => options['connectedStorages'] || [],
+                        'romDrives'            => options['romDrives'] || [],
+                        'nics'                 => options['nics'] || [],
                         'provisioningState'    => 'AVAILABLE',
                         'virtualMachineState'  => 'RUNNING',
                         'creationTime'         => Time.now,
                         'lastModificationTime' => Time.now,
-                        'osType'               => 'LINUX',
-                        'availabilityZone'     => 'AUTO',
-                        #'cpuHotPlug'           => 'true',
-                        #'ramHotPlug'           => 'true',
-                        #'nicHotPlug'           => 'true',
-                        #'nicHotUnPlug'         => 'true',
-                        #'discVirtioHotPlug'    => 'true',
-                        #'discVirtioHotUnPlug'  => 'true'
+                        'osType'               => options['osType'] || 'UNKNOWN',
+                        'availabilityZone'     => options['availabilityZone'] || 'AUTO',
+                        ##'cpuHotPlug'           => 'true',
+                        ##'ramHotPlug'           => 'true',
+                        ##'nicHotPlug'           => 'true',
+                        ##'nicHotUnPlug'         => 'true',
+                        ##'discVirtioHotPlug'    => 'true',
+                        ##'discVirtioHotUnPlug'  => 'true'
                     }
                     
                     self.data[:servers] << server

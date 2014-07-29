@@ -7,7 +7,7 @@ module Fog
             class Datacenters < Fog::Collection
                 model Fog::Compute::ProfitBricks::Datacenter
 
-                def all(filters = {})
+                def all
                     load (service.get_all_data_centers.body['getAllDataCentersResponse'])
                 end
 

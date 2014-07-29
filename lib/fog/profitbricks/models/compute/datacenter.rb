@@ -9,7 +9,7 @@ module Fog
                 attribute :request_id, :aliases => 'requestId'
                 attribute :region
 
-                def initialize()
+                def initialize(attributes={})
                     super
                 end
 

@@ -26,20 +26,20 @@ module Fog
             request_path 'fog/profitbricks/requests/compute'
             request      :create_server         # createServer
             request      :delete_server         # deleteServer
+            request      :update_server         # updateServer
             request      :get_all_servers       # getAllServers
             request      :get_server            # getServer
             request      :reset_server          # resetServer
             request      :start_server          # startServer
             request      :stop_server           # stopServer
-            request      :update_server         # updateServer
 
             request      :clear_data_center     # clearDataCenter
             request      :create_data_center    # createDataCenter
             request      :delete_data_center    # deleteDataCenter
+            request      :update_data_center    # updateDataCenter
             request      :get_all_data_centers  # getAllDataCenters
             request      :get_data_center       # getDataCenter
             request      :get_data_center_state # getDataCenterState
-            request      :update_data_center    # updateDataCenter
 
             request      :get_all_regions       # getAllRegions
             request      :get_region            # getRegion
@@ -51,15 +51,19 @@ module Fog
             request      :get_flavor            # getFlavor
             request      :create_flavor         # createFlavor
 
+            request      :create_storage        # createStorage
+            request      :delete_storage        # deleteStorage
+            request      :update_storage        # updateStorage
             request      :get_all_storages      # getAllStorages
             request      :get_storage           # getStorage
-            request      :create_storage        # createStorage
-            request      :update_storage        # updateStorage
-            request      :delete_storage        # deleteStorage
             request      :connect_storage_to_server      # connectStorageToServer
             request      :disconnect_storage_from_server # disconnectStorageFromServer
 
             request      :create_nic            # createNic
+            request      :delete_nic            # deleteNic
+            request      :update_nic            # updateNic
+            request      :get_all_nic           # getAllNic
+            request      :get_nic               # getNic
 
             class Real
                 def initialize(options={})
@@ -171,19 +175,19 @@ module Fog
                             ],
                             :volumes => [
                               {
-                                'data_center_id'         => '8b80d933-d728-438d-8831-e2bd76aa15e0',
-                                'data_center_version'    => 1,
-                                'id'                     => '440831cf-2281-4d2c-8b45-b7cf7aab7238',
-                                'size'                   => 5,
-                                'name'                   => 'SystemVolume',
-                                'mount_image'            =>
+                                'dataCenterId'         => '8b80d933-d728-438d-8831-e2bd76aa15e0',
+                                'dataCenterVersion'    => 1,
+                                'id'                   => '440831cf-2281-4d2c-8b45-b7cf7aab7238',
+                                'size'                 => 5,
+                                'storageName'          => 'MockVolume',
+                                'mountImage'           =>
                                 {
-                                  'image_id'   => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
-                                  'image_name' => 'CentOS-6-server'
+                                  'imageId'   => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
+                                  'imageName' => 'CentOS-6-server'
                                 },
-                                'provisioning_state'     => 'AVAILABLE',
-                                'creation_time'          => Time.now,
-                                'last_modification_time' => Time.now
+                                'provisioningState'    => 'AVAILABLE',
+                                'creationTime'         => Time.now,
+                                'lastModificationTime' => Time.now
                               },
                             ],
                             :network_interfaces => []

@@ -4,9 +4,9 @@ module Fog
             class Flavor < Fog::Model
                 identity  :id
                 attribute :name
+                attribute :cores
                 attribute :ram
                 attribute :disk
-                attribute :cores
 
                 def initialize(attributes={})
                     super
@@ -14,14 +14,14 @@ module Fog
 
                 def save
                     requires :name, :ram, :disk, :cores
-                    data = service.create_flavor(name, ram, disk, cores)
+                    data = service.create_flavor(name, cores, ram, disk)
                     merge_attributes(data.body['createFlavorResponse'])
                     true
                 end
 
-                def update
-                    true
-                end
+                #def update
+                #    true
+                #end
             end
         end
     end

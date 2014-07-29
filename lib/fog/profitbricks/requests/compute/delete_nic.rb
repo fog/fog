@@ -2,26 +2,26 @@ module Fog
     module Compute
         class ProfitBricks
             class Real
-                require 'fog/profitbricks/parsers/compute/delete_server'
+                require 'fog/profitbricks/parsers/compute/delete_nic'
 
-                # Delete virtual server
+                # Delete virtual nic
                 #
                 # ==== Parameters
-                # * serverId<~String> - UUID of the virtual server
+                # * nicId<~String> - UUID of the virtual nic
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:
                 #   * body<~Hash>:
-                #     * deleteServerResponse<~Hash>:
+                #     * deleteNicResponse<~Hash>:
                 #       * requestId<~String> - ID of request
                 #       * dataCenterId<~String> - UUID of virtual data center
                 #       * dataCenterVersion<~Integer> - Version of the virtual data center
                 #
-                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/DeleteServer.html]
-                def delete_server(server_id)
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/DeleteNic.html]
+                def delete_nic(nic_id)
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
-                      |xml| xml[:ws].deleteServer {
-                        xml.serverId(server_id)
+                      |xml| xml[:ws].deleteNic {
+                        xml.nicId(nic_id)
                       }
                     }
 
@@ -30,7 +30,7 @@ module Fog
                         :method  => 'POST',
                         :body    => soap_envelope.to_xml,
                         :parser  => 
-                          Fog::Parsers::Compute::ProfitBricks::DeleteServer.new
+                          Fog::Parsers::Compute::ProfitBricks::DeleteNic.new
                     )
                 rescue Excon::Errors::InternalServerError => error
                     Fog::Errors::NotFound.new(error)
@@ -38,21 +38,21 @@ module Fog
             end
 
             class Mock
-                def delete_server(server_id)
+                def delete_nic(nic_id)
                     response = Excon::Response.new
                     response.status = 200
                     
-                    if server = self.data[:servers].find {
-                      |attrib| attrib['id'] == server_id
+                    if nic = self.data[:nics].find {
+                      |attrib| attrib['id'] == nic_id
                     }
-                        self.data[:servers].delete(server)
+                        self.data[:nics].delete(nic)
                     else
                         raise Fog::Errors::NotFound.new(
-                          'The requested server resource could not be found'
+                          'The requested NIC resource could not be found'
                         )
                     end
 
-                    response.body = { 'deleteServerResponse' => {
+                    response.body = { 'deleteNicResponse' => {
                         'requestId'         => Fog::Mock::random_numbers(7),
                         'dataCenterId'      => Fog::UUID.uuid,
                         'dataCenterVersion' => 1,

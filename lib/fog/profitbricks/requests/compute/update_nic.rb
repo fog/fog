@@ -2,30 +2,31 @@ module Fog
     module Compute
         class ProfitBricks
             class Real
-                require 'fog/profitbricks/parsers/compute/update_storage'
+                require 'fog/profitbricks/parsers/compute/update_nic'
 
-                # Update a virtual storage
+                # Update a virtual NIC
                 #
                 # ==== Parameters
-                # * storageId<~String> - Required, UUID of the virtual storage
-                # * size<~Integer> - Optional, size of virtual storage in GB
-                # * storageName<~String> - Optional, 
-                # * mountImageId<~String> - Optional, 
+                # * nicId<~String> - Required, 
+                # * lanId<~Integer> - Optional, 
+                # * nicName<~String> - Optional, name of the new virtual network interface
+                # * ip<~String> - Optional, 
+                # * dhcpActive<~Boolean> - Optional, 
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:
                 #   * body<~Hash>:
-                #     * updateStorageResponse<~Hash>:
+                #     * updateNicResponse<~Hash>:
                 #       * requestId<~String> - ID of request
                 #       * dataCenterId<~String> - UUID of virtual data center
                 #       * dataCenterVersion<~Integer> - Version of the virtual data center
                 #
-                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?deleteStorage.html]
-                def update_storage(storage_id, options={})
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/UpdateNIC.html]
+                def update_nic(nic_id, options={})
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
-                      |xml| xml[:ws].updateStorage {
+                      |xml| xml[:ws].updateNic {
                         xml.request { 
-                          xml.storageId(storage_id)
+                          xml.nicId(nic_id)
                           options.each { |key, value| xml.send(key, value) }
                         }
                       }
@@ -36,7 +37,7 @@ module Fog
                         :method  => 'POST',
                         :body    => soap_envelope.to_xml,
                         :parser  =>
-                          Fog::Parsers::Compute::ProfitBricks::UpdateStorage.new
+                          Fog::Parsers::Compute::ProfitBricks::UpdateNic.new
                     )
                 rescue Excon::Errors::InternalServerError => error
                     Fog::Errors::NotFound.new(error)
@@ -44,22 +45,22 @@ module Fog
             end
 
             class Mock
-                def update_storage(storage_id, options={})
+                def update_nic(nic_id, options={})
                     response = Excon::Response.new
                     response.status = 200
                     
-                    if storage = self.data[:volumes].find {
-                      |attrib| attrib['id'] == storage_id
+                    if nic = self.data[:nics].find {
+                      |attrib| attrib['id'] == nic_id
                     }
                         options.each do |key, value|
-                            storage[key] = value
+                            nic[key] = value
                         end
                     else
-                        raise Fog::Errors::NotFound.new('The requested resource could not be found')
+                        raise Fog::Errors::NotFound.new('The requested NIC resource could not be found')
                     end
                     
                     response.body = {
-                      'updateStorageResponse' =>
+                      'updateNicResponse' =>
                       {
                         'requestId'         => Fog::Mock::random_numbers(7),
                         'dataCenterId'      => Fog::UUID.uuid,

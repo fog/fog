@@ -19,7 +19,7 @@ module Fog
                 #       * dataCenterVersion<~Integer> - Version of the virtual data center
                 #       * region<~String> - Region of virtual data center
                 #
-                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?CreateDataCenter.html]
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/CreateDataCenter.html]
                 def create_data_center(data_center_name, region='DEFAULT')
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createDataCenter {

@@ -22,10 +22,8 @@ module Fog
                 def disconnect_storage_from_server(server_id, storage_id)
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].disconnectStorageFromServer {
-                        xml.request {
                           xml.serverId(server_id)
                           xml.storageId(storage_id)
-                        }
                       }
                     }
 

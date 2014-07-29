@@ -22,14 +22,14 @@ module Fog
                 #       * ram<~Integer> -
                 #       * internetAccess<~String> -
                 #       * ips<~String> -
-                #       * connectedStorages<~Hash>:
+                #       * connectedStorages<~Array>:
                 #         * bootDevice<~Integer> -
                 #         * busType<~String> - VIRTIO|IDE
                 #         * deviceNumber<~Integer> -
                 #         * size<~Integer> -
                 #         * storageId<~String> -
                 #         * storageName<~String> -
-                #       * nics<~Hash>:
+                #       * nics<~Array>:
                 #         * dataCenterId<~String> -
                 #         * dataCenterVersion<~Integer> -
                 #         * nicId<~String> -

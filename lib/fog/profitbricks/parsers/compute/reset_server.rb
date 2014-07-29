@@ -9,7 +9,7 @@ module Fog
 
                     def end_element(name)
                         case name
-                        when 'serverId'
+                        when 'requestId'
                             @response['resetServerResponse'][name] = value.to_i
                         end
                     end

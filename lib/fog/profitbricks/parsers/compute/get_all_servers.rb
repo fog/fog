@@ -36,7 +36,7 @@ module Fog
                             @server['nics'] << @nic
                         when 'return'
                             @response['getAllServersResponse'] << @server
-                            @server = {}
+                            @server = { 'connectedStorages' => [], 'nics' => [] }
                         end
                     end
                 end

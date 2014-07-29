@@ -7,7 +7,7 @@ module Fog
             class Images < Fog::Collection
                 model Fog::Compute::ProfitBricks::Image
 
-                def all(filters = {})
+                def all
                     load (service.get_all_images.body['getAllImagesResponse'])
                 end
 

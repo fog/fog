@@ -3,16 +3,16 @@ module Fog
         class ProfitBricks
             class Real
                 # Not a real API method; will only return flavor object.
-                def create_flavor(flavor_name, ram, disk, cores)
+                def create_flavor(flavor_name, cores, disk, ram)
                     response        = Excon::Response.new
                     response.status = 200
                     response.body   = {
                       'createFlavorResponse' => {
                           'id'    => Fog::UUID.uuid,
                           'name'  => flavor_name,
+                          'cores' => cores,
                           'ram'   => ram,
                           'disk'  => disk,
-                          'cores' => cores
                       }
                     }
                     response
