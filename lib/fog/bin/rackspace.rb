@@ -27,7 +27,7 @@ class Rackspace < Fog::Bin
       when :queues
         Fog::Rackspace::Queues
       when :orchestration
-        Fog::Rackspace::Orchestration
+        Fog::Orchestration::Rackspace
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
