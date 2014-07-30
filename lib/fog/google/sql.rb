@@ -20,6 +20,10 @@ module Fog
       model :flag
       collection :flags
 
+      # Operation
+      model :operation
+      collection :operations
+
       # Tier
       model :tier
       collection :tiers
@@ -30,6 +34,10 @@ module Fog
 
       # Flag
       request :list_flags
+
+      # Operation
+      request :get_operation
+      request :list_operations
 
       # Tier
       request :list_tiers
