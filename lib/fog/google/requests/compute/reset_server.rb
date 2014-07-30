@@ -16,8 +16,7 @@ module Fog
             'zone'     => zone.split('/')[-1],
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

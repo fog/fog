@@ -7,7 +7,7 @@ module Fog
           get_zone(zone_name)
           zone = self.data[:zones][zone_name]
           if server.nil? or server["zone"] != zone["selfLink"]
-            return build_response(:body => {
+            return build_excon_response({
               "error" => {
                 "errors" => [
                  {
@@ -48,7 +48,7 @@ module Fog
             end
           end
 
-          build_response(:body => server)
+          build_excon_response(server)
         end
       end
 
@@ -67,8 +67,7 @@ module Fog
             'instance' => server_name
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

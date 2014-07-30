@@ -3,7 +3,7 @@ module Fog
     class Google
       class Mock
         def list_regions
-          build_response(:body => {
+          build_excon_response({
             "kind" => "compute#regionList",
             "selfLink" => "https://www.googleapis.com/compute/v1/projects/#{@project}/regions",
             "id" => "projects/#{@project}/regions",
@@ -77,8 +77,7 @@ module Fog
             'project' => @project
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

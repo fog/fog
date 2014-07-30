@@ -3,7 +3,7 @@ module Fog
     class Google
       class Mock
         def list_disk_types(zone)
-          build_response(:body => {
+          build_excon_response({
             'kind' => 'compute#diskTypeList',
             'selfLink' => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone}/diskTypes",
             'items' => [
@@ -38,8 +38,7 @@ module Fog
             'zone'    => zone.split('/')[-1],
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end
