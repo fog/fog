@@ -33,6 +33,17 @@ module Fog
           )
         end
 
+        # Remove cached outputs data
+        #
+        # @return [self]
+        def reload
+          if(self.stack)
+            self.stack.attributes.delete('outputs')
+            self.stack.reload
+          end
+          super
+        end
+
       end
     end
   end

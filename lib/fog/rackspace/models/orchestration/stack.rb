@@ -161,9 +161,10 @@ module Fog
         #
         # @return [Hash] raw data hash
         def expand!
-          unless(@expanded || !persisted?)
+          if(!@expanded && persisted?)
             data = service.data_stack(self.stack_name, self.id).body['stack']
             merge_attributes(data)
+            @expanded = true
           end
           data
         end
@@ -181,6 +182,14 @@ module Fog
             params.delete(key) unless valid.include?(key)
           end
           params
+        end
+
+        # Allow instance to be expanded again
+        #
+        # @return [self]
+        def reload
+          @expanded = false
+          super
         end
 
       end

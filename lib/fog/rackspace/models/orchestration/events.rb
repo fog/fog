@@ -37,10 +37,9 @@ module Fog
         # @return [self]
         def reload
           if(self.stack)
-            self.stack.reload
+            self.stack.attributes.delete('events')
           end
           super
-          self
         end
 
       end
