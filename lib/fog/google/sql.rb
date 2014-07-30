@@ -28,6 +28,10 @@ module Fog
       model :operation
       collection :operations
 
+      # SSL Certificate
+      model :ssl_cert
+      collection :ssl_certs
+
       # Tier
       model :tier
       collection :tiers
@@ -56,6 +60,12 @@ module Fog
       # Operation
       request :get_operation
       request :list_operations
+
+      # SSL Certificate
+      request :delete_ssl_cert
+      request :get_ssl_cert
+      request :insert_ssl_cert
+      request :list_ssl_certs
 
       # Tier
       request :list_tiers
