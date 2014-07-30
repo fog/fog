@@ -13,7 +13,6 @@ module Fog
           parameters = {
             'project' => @project
           }
-
           body_object = { 'name' => name }
           body_object.merge!(opts)
 

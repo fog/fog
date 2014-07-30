@@ -8,7 +8,6 @@ module Fog
       end
 
       class Real
-
         def delete_global_forwarding_rule(global_forwarding_rule_name, region_name)
           if region_name.start_with? 'http'
             region_name = region_name.split('/')[-1]
