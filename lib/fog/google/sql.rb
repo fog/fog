@@ -16,6 +16,10 @@ module Fog
       # MODELS
       model_path 'fog/google/models/sql'
 
+      # Backup Run
+      model :backup_run
+      collection :backup_runs
+
       # Flag
       model :flag
       collection :flags
@@ -39,6 +43,10 @@ module Fog
       ##
       # REQUESTS
       request_path 'fog/google/requests/sql'
+
+      # Backup Run
+      request :get_backup_run
+      request :list_backup_runs
 
       # Flag
       request :list_flags
