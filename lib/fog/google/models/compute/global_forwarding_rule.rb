@@ -37,6 +37,7 @@ module Fog
 
         def destroy(async=true)
           requires :name
+
           operation = service.delete_global_forwarding_rule(name, 'global')
           if not async
             # wait until "RUNNING" or "DONE" to ensure the operation doesn't

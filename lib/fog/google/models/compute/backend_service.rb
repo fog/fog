@@ -39,6 +39,7 @@ module Fog
 
         def destroy(async=false)
           requires :name
+
           operation = service.delete_backend_service(name)
           unless async
             operation.wait_for { ready? }
@@ -48,6 +49,14 @@ module Fog
 
         def get_health
           service.get_backend_service_health self
+        end
+
+        def add_backend backend
+          # ensure backend is an array of hashes
+          backend = [backend] unless backend.class == Array
+          backend.map! { |resource| resource.class == String ? { 'group' => resource }: resource }
+          service.add_backend_service_backends(self, backend)
+          reload
         end
 
         def ready?
@@ -73,6 +82,7 @@ module Fog
           merge_attributes(new_attributes)
           self
         end
+
         RUNNING_STATE = "READY"
       end
     end

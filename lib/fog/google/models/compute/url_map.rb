@@ -37,6 +37,7 @@ module Fog
       
         def destroy(async=true)
           requires :name
+
           operation = service.delete_url_map(name)
           if not async
             Fog.wait_for do
@@ -86,6 +87,7 @@ module Fog
           merge_attributes(new_attributes)
           self
         end
+
         RUNNING_STATE ="READY"
       end
     end

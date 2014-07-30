@@ -29,6 +29,7 @@ module Fog
 
         def destroy(async=true)
           requires :name
+
           operation = service.delete_target_http_proxy(name)
           if not async
             # wait until "DONE" to ensure the operation doesn't fail, raises
