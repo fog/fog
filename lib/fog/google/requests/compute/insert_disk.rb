@@ -60,7 +60,7 @@ module Fog
             "selfLink" => "#{object["zone"]}/operations/#{operation}"
           }
 
-          build_response(:body => self.data[:operations][operation])
+          build_excon_response(self.data[:operations][operation])
         end
       end
 
@@ -105,9 +105,7 @@ module Fog
           # Merge in any remaining options (only 'description' should remain)
           body_object.merge!(opts)
 
-          result = self.build_result(api_method, parameters,
-                                     body_object)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object)
         end
       end
     end

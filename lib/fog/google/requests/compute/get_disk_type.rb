@@ -6,7 +6,7 @@ module Fog
           disk_types = list_disk_types(zone).body['items']
           disk_type = disk_types.select { |dt| dt['name'] == identity } || []
           if disk_type.empty?
-            return build_response(:body => {
+            return build_excon_response({
               'error' => {
                 'errors' => [
                   {
@@ -21,7 +21,7 @@ module Fog
             })
           end
 
-          build_response(:body => disk_type.first)
+          build_excon_response(disk_type.first)
         end
       end
 
@@ -34,8 +34,7 @@ module Fog
             'diskType' => identity,
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

@@ -16,7 +16,7 @@ module Fog
               disk_types_items["zones/#{zone}"] = { 'diskTypes' => disk_types }
             end
           end
-          build_response(:body => {
+          build_excon_response({
             'kind' => 'compute#diskTypeAggregatedList',
             'selfLink' => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/aggregated/diskTypes",
             'items' => disk_types_items,
@@ -32,8 +32,7 @@ module Fog
           }
           parameters['filter'] = options[:filter] if options[:filter]
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

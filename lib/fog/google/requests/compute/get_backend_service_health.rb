@@ -16,7 +16,7 @@ module Fog
           }
           health_results = backend_service.backends.map do |backend|
             body = { 'group' => backend['group'] }
-            resp = build_response(build_result(api_method, parameters, body_object= body))
+            resp = request(api_method, parameters, body_object= body)
             [backend['group'], resp.data[:body]['healthStatus']]
           end
           Hash[health_results]
