@@ -32,6 +32,16 @@ module Fog
           load(items)
         end
 
+        # Remove cached resources
+        #
+        # @return [self]
+        def reload
+          if(self.stack)
+            self.stack.attributes.delete('Resources')
+          end
+          super
+        end
+
       end
 
     end

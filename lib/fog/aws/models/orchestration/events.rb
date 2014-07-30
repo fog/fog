@@ -35,6 +35,16 @@ module Fog
           load(items)
         end
 
+        # Remove cached events
+        #
+        # @return [self]
+        def reload
+          if(self.stack)
+            self.stack.attributes.delete('Events')
+          end
+          super
+        end
+
       end
     end
   end

@@ -24,6 +24,16 @@ module Fog
           load(items)
         end
 
+        # Reload stack to refresh outputs
+        #
+        # @return [self]
+        def reload
+          if(self.stack)
+            self.stack.reload
+          end
+          super
+        end
+
       end
     end
   end
