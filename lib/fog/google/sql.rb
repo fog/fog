@@ -20,6 +20,10 @@ module Fog
       model :flag
       collection :flags
 
+      # Instance
+      model :instance
+      collection :instances
+
       # Operation
       model :operation
       collection :operations
@@ -34,6 +38,20 @@ module Fog
 
       # Flag
       request :list_flags
+
+      # Instance
+      request :clone_instance
+      request :delete_instance
+      request :export_instance
+      request :get_instance
+      request :import_instance
+      request :insert_instance
+      request :list_instances
+      request :reset_instance_ssl_config
+      request :restart_instance
+      request :restore_instance_backup
+      request :set_instance_root_password
+      request :update_instance
 
       # Operation
       request :get_operation
