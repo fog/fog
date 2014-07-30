@@ -16,6 +16,10 @@ module Fog
       # MODELS
       model_path 'fog/google/models/sql'
 
+      # Flag
+      model :flag
+      collection :flags
+
       # Tier
       model :tier
       collection :tiers
@@ -23,6 +27,9 @@ module Fog
       ##
       # REQUESTS
       request_path 'fog/google/requests/sql'
+
+      # Flag
+      request :list_flags
 
       # Tier
       request :list_tiers
