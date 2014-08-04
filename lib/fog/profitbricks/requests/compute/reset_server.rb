@@ -39,7 +39,7 @@ module Fog
                 def reset_server(server_id)
                     response        = Excon::Response.new
                     response.status = 200
-                    response.body = { 'resetServerResponse' =>
+                    response.body   = { 'resetServerResponse' =>
                       { 'requestId' => Fog::Mock::random_numbers(7) }
                     }
                     response

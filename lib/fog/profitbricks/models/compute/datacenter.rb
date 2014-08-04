@@ -9,20 +9,21 @@ module Fog
                 attribute :request_id, :aliases => 'requestId'
                 attribute :region
 
+                attr_accessor :options
+
                 def initialize(attributes={})
                     super
                 end
 
                 def save
-                    requires :name
-                    data = service.create_data_center(name, region)
+                    data = service.create_data_center(options)
                     merge_attributes(data.body['createDataCenterResponse'])
                     true
                 end
 
                 def update
-                    requires :id, :name
-                    data = service.update_data_center(id, name)
+                    requires :id
+                    data = service.update_data_center(id, options)
                     merge_attributes(data.body['updateDataCenterResponse'])
                     true
                 end
@@ -31,6 +32,16 @@ module Fog
                     requires :id
                     service.delete_data_center(id)
                     true
+                end
+
+                def clear(confirm = false)
+                    requires :id
+                    if confirm == true
+                        service.clear_data_center(id)
+                        true
+                    else
+                        raise ArgumentError.new('Confirm with true boolean to clear datacenter')
+                    end
                 end
 
                 def ready?

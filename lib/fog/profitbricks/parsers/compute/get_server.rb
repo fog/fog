@@ -24,10 +24,22 @@ module Fog
                             @response['getServerResponse'][name] = value.to_i
                         when 'creationTime', 'lastModificationTime'
                             @response['getServerResponse'][name] = Time.parse(value)
-                        when 'busType', 'storageId', 'storageName', 'bootDevice'
-                            @storage[name] = value
-                        when 'deviceNumber', 'size'
-                            @storage[name] = value.to_i
+                        #when 'storageId', 'storageName', 'busType', 'bootDevice'
+                        #    @storage[name] = value
+                        #when 'deviceNumber', 'size'
+                        #    @storage[name] = value.to_i
+                        when 'storageId'
+                            @storage['id'] = value
+                        when 'storageName'
+                            @storage['name'] = value
+                        when 'busType'
+                            @storage['bus_type'] = value
+                        when 'bootDevice'
+                            @storage['boot_device'] = value
+                        when 'deviceNumber'
+                            @storage['device_number'] = value.to_i
+                        when 'size'
+                            @storage['size'] = value.to_i
                         when 'connectedStorages'
                             @response['getServerResponse']['connectedStorages'] << @storage
                         when 'nicId', 'nicName', 'macAddress', 'gatewayIp',

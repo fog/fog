@@ -23,14 +23,13 @@ module Fog
             class Mock
                 def get_data_center_state(data_center_id)
                     if data = self.data[:datacenters]
-                        response        = Excon::Response.new
-                        response.status = 200
-                        
                         dc = self.data[:datacenters].find {
                           |attrib| attrib['id'] == data_center_id
                         }
 
-                        response.body = { 'getDataCenterStateResponse' =>
+                        response        = Excon::Response.new
+                        response.status = 200
+                        response.body   = { 'getDataCenterStateResponse' =>
                           { 'return' => dc['provisioningState'] }
                         }
                         response

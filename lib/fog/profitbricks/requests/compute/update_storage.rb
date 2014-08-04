@@ -45,9 +45,7 @@ module Fog
 
             class Mock
                 def update_storage(storage_id, options={})
-                    response = Excon::Response.new
-                    response.status = 200
-                    
+
                     if storage = self.data[:volumes].find {
                       |attrib| attrib['id'] == storage_id
                     }
@@ -57,8 +55,10 @@ module Fog
                     else
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')
                     end
-                    
-                    response.body = {
+
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = {
                       'updateStorageResponse' =>
                       {
                         'requestId'         => Fog::Mock::random_numbers(7),

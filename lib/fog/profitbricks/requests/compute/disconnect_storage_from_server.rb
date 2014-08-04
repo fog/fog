@@ -18,7 +18,7 @@ module Fog
                 #       * dataCenterId<~String> - UUID of virtual data center
                 #       * dataCenterVersion<~Integer> - Version of the virtual data center
                 #
-                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?disconnectStorageToServer.html]
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/DisconnectStorage.html]
                 def disconnect_storage_from_server(server_id, storage_id)
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].disconnectStorageFromServer {
@@ -41,9 +41,7 @@ module Fog
 
             class Mock
                 def disconnect_storage_from_server(server_id, storage_id)
-                    response = Excon::Response.new
-                    response.status = 200
-                    
+
                     unless storage = self.data[:volumes].find {
                       |attrib| attrib['id'] == storage_id
                     }
@@ -60,8 +58,10 @@ module Fog
                           'The requested server resource could not be found'
                         )
                     end
-                    
-                    response.body =
+
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   =
                     { 'disconnectStorageFromServerResponse' =>
                       {
                         'requestId' => Fog::Mock::random_numbers(7),

@@ -21,6 +21,8 @@ module Fog
             collection   :flavors
             model        :volume
             collection   :volumes
+            model        :interface
+            collection   :interfaces
 
             # Requests
             request_path 'fog/profitbricks/requests/compute'
@@ -64,6 +66,7 @@ module Fog
             request      :update_nic            # updateNic
             request      :get_all_nic           # getAllNic
             request      :get_nic               # getNic
+            request      :set_internet_access   # setInternetAccess
 
             class Real
                 def initialize(options={})
@@ -72,7 +75,6 @@ module Fog
                     @profitbricks_url      = options[:profitbricks_url] ||
                                              'https://api.profitbricks.com/1.2'
 
-                    #@connection = Fog::XML::Connection.new('https://api.profitbricks.com/1.2', false)
                     @connection = Fog::XML::Connection.new(@profitbricks_url, false)
                 end
 
@@ -98,15 +100,15 @@ module Fog
 
                 private
 
-                def parse(response)
-                    unless response.body.empty?
-                        document = Fog::ToHashDocument.new
-                        parser = Nokogiri::XML::SAX::PushParser.new(document)
-                        parser << response.body
-                        parser.finish
-                        response.body = document.body
-                    end
-                end
+                #def parse(response)
+                #    unless response.body.empty?
+                #        document = Fog::ToHashDocument.new
+                #        parser = Nokogiri::XML::SAX::PushParser.new(document)
+                #        parser << response.body
+                #        parser.finish
+                #        response.body = document.body
+                #    end
+                #end
 
                 def auth_header
                     return Base64.encode64(
@@ -175,19 +177,19 @@ module Fog
                             ],
                             :volumes => [
                               {
-                                'data_center_id'         => '8b80d933-d728-438d-8831-e2bd76aa15e0',
-                                'data_center_version'    => 1,
+                                'dataCenterId'         => '8b80d933-d728-438d-8831-e2bd76aa15e0',
+                                'dataCenterVersion'    => 1,
                                 'id'                     => '440831cf-2281-4d2c-8b45-b7cf7aab7238',
                                 'size'                   => 5,
-                                'storage_name'           => 'MockVolume',
-                                'mount_image'            =>
+                                'storageName'           => 'MockVolume',
+                                'mountImage'             =>
                                 {
-                                  'image_id'   => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
-                                  'image_name' => 'CentOS-6-server'
+                                  'imageId'   => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
+                                  'imageName' => 'CentOS-6-server'
                                 },
-                                'provisioning_state'     => 'AVAILABLE',
-                                'creation_time'          => Time.now,
-                                'last_modification_time' => Time.now
+                                'provisioningState'     => 'AVAILABLE',
+                                'creationTime'          => Time.now,
+                                'lastModificationTime' => Time.now
                               },
                             ],
                             :network_interfaces => []

@@ -23,9 +23,6 @@ module Fog
 
             class Mock
                 def get_region(region_id)
-                    response        = Excon::Response.new
-                    response.status = 200
-
                     if region = self.data[:regions].find {
                       |attrib| attrib['regionId'] == region_id
                     }
@@ -33,7 +30,9 @@ module Fog
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')
                     end
 
-                    response.body = { 'getRegionResponse' => region }
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = { 'getRegionResponse' => region }
                     response
                 end
             end

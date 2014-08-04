@@ -9,9 +9,10 @@ module Fog
                 # ==== Parameters
                 # * serverId<~String> - Required, 
                 # * lanId - Required,
-                # * nicName<~String> - Optional, name of the new virtual network interface
-                # * ip<~String> - Optional, 
-                # * dhcpActive<~String> - Optional, 
+                # * options<~Hash>:
+                #   * nicName<~String> - Optional, name of the new virtual network interface
+                #   * ip<~String> - Optional, 
+                #   * dhcpActive<~String> - Optional, 
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:

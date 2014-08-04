@@ -50,9 +50,7 @@ module Fog
 
             class Mock
                 def update_server(server_id, options={})
-                    response = Excon::Response.new
-                    response.status = 200
-                    
+
                     if server = self.data[:servers].find {
                       |attrib| attrib['id'] == server_id
                     }
@@ -62,8 +60,10 @@ module Fog
                     else
                         raise Fog::Errors::NotFound.new('The requested server resource could not be found')
                     end
-                    
-                    response.body = {
+
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = {
                       'updateServerResponse' =>
                       {
                         'requestId'         => Fog::Mock::random_numbers(7),

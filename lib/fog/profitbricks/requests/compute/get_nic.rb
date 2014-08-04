@@ -48,9 +48,6 @@ module Fog
 
             class Mock
                 def get_nic(nic_id)
-                    response        = Excon::Response.new
-                    response.status = 200
-
                     if nic = self.data[:volumes].find {
                       |attrib| attrib['id'] == nic_id
                     }
@@ -58,7 +55,9 @@ module Fog
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')
                     end
 
-                    response.body = { 'getNicResponse' => nic }
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = { 'getNicResponse' => nic }
                     response
                 end
             end

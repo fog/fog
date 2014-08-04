@@ -80,8 +80,6 @@ module Fog
 
             class Mock
                 def get_server(server_id)
-                    response        = Excon::Response.new
-                    response.status = 200
 
                     if server = self.data[:servers].find {
                       |attrib| attrib['id'] == server_id
@@ -90,7 +88,9 @@ module Fog
                         raise Fog::Errors::NotFound.new('The server resource could not be found')
                     end
 
-                    response.body = { 'getServerResponse' => server }
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = { 'getServerResponse' => server }
                     response
                 end
             end

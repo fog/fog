@@ -8,10 +8,11 @@ module Fog
                 #
                 # ==== Parameters
                 # * nicId<~String> - Required, 
-                # * lanId<~Integer> - Optional, 
-                # * nicName<~String> - Optional, name of the new virtual network interface
-                # * ip<~String> - Optional, 
-                # * dhcpActive<~Boolean> - Optional, 
+                # * options<~Hash>:
+                #   * lanId<~Integer> - Optional, 
+                #   * nicName<~String> - Optional, name of the new virtual network interface
+                #   * ip<~String> - Optional, 
+                #   * dhcpActive<~Boolean> - Optional, 
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:
@@ -46,9 +47,7 @@ module Fog
 
             class Mock
                 def update_nic(nic_id, options={})
-                    response = Excon::Response.new
-                    response.status = 200
-                    
+
                     if nic = self.data[:nics].find {
                       |attrib| attrib['id'] == nic_id
                     }
@@ -59,7 +58,9 @@ module Fog
                         raise Fog::Errors::NotFound.new('The requested NIC resource could not be found')
                     end
                     
-                    response.body = {
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = {
                       'updateNicResponse' =>
                       {
                         'requestId'         => Fog::Mock::random_numbers(7),

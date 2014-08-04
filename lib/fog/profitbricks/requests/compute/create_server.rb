@@ -53,16 +53,13 @@ module Fog
 
             class Mock
                 def create_server(data_center_id, cores, ram, options={})
-                    response = Excon::Response.new
-                    response.status = 200
-                    
-
                     server_id = Fog::UUID.uuid
+
                     server = {
                         'id'                   => server_id,
                         'cores'                => cores,
                         'ram'                  => ram,
-                        'serverName'           => options['serverName'] || '',
+                        'serverName'           => options['serverName'], # || '',
                         'internetAccess'       => options['internetAccess'] || false,
                         'ips'                  => options['ips'] || [],
                         'connectedStorages'    => options['connectedStorages'] || [],
@@ -83,6 +80,9 @@ module Fog
                     }
                     
                     self.data[:servers] << server
+
+                    response = Excon::Response.new
+                    response.status = 200
                     response.body = {
                       'createServerResponse' => {
                         'requestId'         => Fog::Mock::random_numbers(7),

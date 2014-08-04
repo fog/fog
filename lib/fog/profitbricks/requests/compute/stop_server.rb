@@ -37,9 +37,19 @@ module Fog
 
             class Mock
                 def stop_server(server_id)
+
+                    if server = self.data[:servers].find {
+                      |attrib| attrib['id'] == server_id
+                    }
+                        server['machine_state'] = 'SHUTOFF'
+                        server['provisioning_state'] = 'INACTIVE'
+                    else
+                        raise Fog::Errors::NotFound.new('The requested server resource could not be found')
+                    end
+
                     response        = Excon::Response.new
                     response.status = 200
-                    response.body = { 'stopServerResponse' =>
+                    response.body   = { 'stopServerResponse' =>
                       { 'requestId' => Fog::Mock::random_numbers(7) }
                     }
                     response

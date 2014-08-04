@@ -24,9 +24,6 @@ module Fog
 
             class Mock
                 def get_data_center(data_center_id)
-                    response        = Excon::Response.new
-                    response.status = 200
-
                     if dc = self.data[:datacenters].find {
                       |attrib| attrib['id'] == data_center_id
                     }
@@ -34,7 +31,9 @@ module Fog
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')
                     end
 
-                    response.body = { 'getDataCenterResponse' => dc }
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = { 'getDataCenterResponse' => dc }
                     response
                 end
             end

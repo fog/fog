@@ -48,9 +48,6 @@ module Fog
 
             class Mock
                 def get_storage(storage_id)
-                    response        = Excon::Response.new
-                    response.status = 200
-
                     if storage = self.data[:volumes].find {
                       |attrib| attrib['id'] == storage_id
                     }
@@ -58,7 +55,9 @@ module Fog
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')
                     end
 
-                    response.body = { 'getStorageResponse' => storage }
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = { 'getStorageResponse' => storage }
                     response
                 end
             end

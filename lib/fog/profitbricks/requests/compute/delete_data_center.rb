@@ -3,6 +3,21 @@ module Fog
         class ProfitBricks
             class Real
                 require 'fog/profitbricks/parsers/compute/delete_data_center'
+
+                # Delete virtual data center
+                #
+                # ==== Parameters
+                # * dataCenterId<~String> - UUID of the virtual data center
+                #
+                # ==== Returns
+                # * response<~Excon::Response>:
+                #   * body<~Hash>:
+                #     * deleteDataCenterResponse<~Hash>:
+                #       * requestId<~String> - ID of request
+                #       * dataCenterId<~String> - UUID of virtual data center
+                #       * dataCenterVersion<~Integer> - Version of the virtual data center
+                #
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/DeleteDataCenter.html]
                 def delete_data_center(data_center_id)
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].deleteDataCenter {

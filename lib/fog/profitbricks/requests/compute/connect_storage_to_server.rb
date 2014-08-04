@@ -21,9 +21,7 @@ module Fog
                 #       * dataCenterId<~String> - UUID of virtual data center
                 #       * dataCenterVersion<~Integer> - Version of the virtual data center
                 #
-                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?connectStorageToServer.html]
-                #def connect_storage_to_server(bus_type='VIRTIO', device_number='',
-                #                              storage_id, server_id)
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/ConnectStorage.html]
                 def connect_storage_to_server(storage_id, server_id, options={})
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].connectStorageToServer {

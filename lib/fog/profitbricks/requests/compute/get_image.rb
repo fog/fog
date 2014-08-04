@@ -47,9 +47,6 @@ module Fog
 
             class Mock
                 def get_image(image_id)
-                    response        = Excon::Response.new
-                    response.status = 200
-
                     if data_center = self.data[:images].find {
                       |attrib| attrib['id'] == image_id
                     }
@@ -57,7 +54,9 @@ module Fog
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')
                     end
 
-                    response.body = { 'getImageResponse' => data_center }
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = { 'getImageResponse' => data_center }
                     response
                 end
             end

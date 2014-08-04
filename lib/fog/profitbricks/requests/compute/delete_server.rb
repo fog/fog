@@ -39,9 +39,7 @@ module Fog
 
             class Mock
                 def delete_server(server_id)
-                    response = Excon::Response.new
-                    response.status = 200
-                    
+
                     if server = self.data[:servers].find {
                       |attrib| attrib['id'] == server_id
                     }
@@ -52,7 +50,9 @@ module Fog
                         )
                     end
 
-                    response.body = { 'deleteServerResponse' => {
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = { 'deleteServerResponse' => {
                         'requestId'         => Fog::Mock::random_numbers(7),
                         'dataCenterId'      => Fog::UUID.uuid,
                         'dataCenterVersion' => 1,

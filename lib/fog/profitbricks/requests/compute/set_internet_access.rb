@@ -9,7 +9,7 @@ module Fog
                 # ==== Parameters
                 # * dataCenterId<~String> -
                 # * lanId<~Integer> -
-                # * internetAccess<~String> - 
+                # * internetAccess<~Boolean> - 
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:
@@ -21,43 +21,39 @@ module Fog
                 #
                 # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/SetInternetAccess.html]
                 def set_internet_access(data_center_id, lan_id, internet_access)
-                    raise NotImplementedError.new('Method not yet implemented.')
-                    #soap_envelope = Fog::ProfitBricks.construct_envelope {
-                    #  |xml| xml[:ws].setInternetAccess {
-                    #    xml.dataCenterId(data_center_id)
-                    #    xml.lanId(lan_id)
-                    #    xml.internetAccess(internet_access)
-                    #    options.each { |key, value| xml.send(key, value) }
-                    #  }
-                    #}
+                    soap_envelope = Fog::ProfitBricks.construct_envelope {
+                      |xml| xml[:ws].setInternetAccess {
+                        xml.dataCenterId(data_center_id)
+                        xml.lanId(lan_id)
+                        xml.internetAccess(internet_access)
+                      }
+                    }
 
-                    #request(
-                    #    :expects => [200],
-                    #    :method  => 'POST',
-                    #    :body    => soap_envelope.to_xml,
-                    #    :parser  =>
-                    #      Fog::Parsers::Compute::ProfitBricks::SetInternetAccess.new
-                    #)
-                #rescue Excon::Errors::InternalServerError => error
-                    #Fog::Errors::NotFound.new(error)
+                    request(
+                        :expects => [200],
+                        :method  => 'POST',
+                        :body    => soap_envelope.to_xml,
+                        :parser  =>
+                          Fog::Parsers::Compute::ProfitBricks::SetInternetAccess.new
+                    )
+                rescue Excon::Errors::InternalServerError => error
+                    Fog::Errors::NotFound.new(error)
                 end
             end
 
             class Mock
                 def set_internet_access(data_center_id, lan_id, internet_access)
-                    raise NotImplementedError.new('Method not yet implemented.')
-                    #response = Excon::Response.new
-                    #response.status = 200
-                    
-                    #response.body = {
-                    #  'setInternetAccessResponse' =>
-                    #  {
-                    #    'requestId'         => Fog::Mock::random_numbers(7),
-                    #    'dataCenterId'      => Fog::UUID.uuid,
-                    #    'dataCenterVersion' => 1
-                    #  }
-                    #}
-                    #response
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = {
+                      'setInternetAccessResponse' =>
+                      {
+                        'requestId'         => Fog::Mock::random_numbers(7),
+                        'dataCenterId'      => Fog::UUID.uuid,
+                        'dataCenterVersion' => 1
+                      }
+                    }
+                    response
                 end
             end
         end

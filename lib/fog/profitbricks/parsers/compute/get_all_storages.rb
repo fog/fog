@@ -13,8 +13,10 @@ module Fog
                         when 'dataCenterId', 'storageId', 'storageName',
                              'serverIds', 'provisioningState'
                             @storage[name] = value
-                        when 'imageId', 'imageName'
-                            @storage['mountImage'][name] = value
+                        when 'imageId'
+                            @storage['mountImage']['id'] = value
+                        when 'imageName'
+                            @storage['mountImage']['name'] = value
                         when 'dataCenterVersion', 'size'
                             @storage[name] = value.to_i
                         when 'creationTime', 'lastModificationTime'

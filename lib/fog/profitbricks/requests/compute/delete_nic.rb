@@ -4,10 +4,10 @@ module Fog
             class Real
                 require 'fog/profitbricks/parsers/compute/delete_nic'
 
-                # Delete virtual nic
+                # Delete virtual network interface
                 #
                 # ==== Parameters
-                # * nicId<~String> - UUID of the virtual nic
+                # * nicId<~String> - UUID of the virtual network interface
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:

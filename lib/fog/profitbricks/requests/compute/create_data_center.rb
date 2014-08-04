@@ -7,8 +7,9 @@ module Fog
                 # Create a new virtual data center
                 #
                 # ==== Parameters
-                # * dataCenterName<~String> - Name of the new virtual data center
-                # * region<~String> - Region to create the new data center (NORTH_AMERICA, EUROPE, or DEFAULT)
+                # * options<~Hash>:
+                # *   dataCenterName<~String> - Name of the new virtual data center
+                # *   region<~String> - Region to create the new data center (NORTH_AMERICA, EUROPE, or DEFAULT)
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:
@@ -23,8 +24,7 @@ module Fog
                 def create_data_center(data_center_name, region='DEFAULT')
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createDataCenter {
-                        xml.dataCenterName(data_center_name)
-                        xml.region(region)
+                        options.each { |key, value| xml.send(key, value) }
                       }
                     }
 

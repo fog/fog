@@ -12,7 +12,7 @@ module Fog
                 # ==== Returns
                 # * response<~Excon::Response>:
                 #   * body<~Hash>:
-                #     * getNicResponse<~Hash>:
+                #     * getAllNicResponse<~Hash>:
                 #       * nicId<~String> - UUID of the network interface
                 #       * nicName<~String> - Name of the network interface
                 #       * lanId<~Integer> - 
