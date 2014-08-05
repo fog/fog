@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/create_db_snapshot'
 
         # creates a db snapshot
@@ -21,11 +20,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::CreateDBSnapshot.new
           })
         end
-
       end
 
       class Mock
-
         def create_db_snapshot(identifier, name)
           response = Excon::Response.new
           if data[:snapshots][name]
@@ -64,7 +61,6 @@ module Fog
           # SnapshotCreateTime is not part of the response.
           self.data[:snapshots][name]['SnapshotCreateTime'] = Time.now
           response
-
         end
       end
     end

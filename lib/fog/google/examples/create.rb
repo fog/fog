@@ -45,5 +45,5 @@ def test
   end
 
   raise "Could not bootstrap sshable server." unless server.ssh("whoami")
-  raise "Cloud note delete server." unless server.destroy
+  raise "Could not delete server." unless server.destroy
 end

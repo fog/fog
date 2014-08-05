@@ -13,7 +13,6 @@ module Fog
 
       class Mock
         def get_agent(agent_id)
-
           if agent_id == -1
             raise Fog::Rackspace::Monitoring::NotFound
           end

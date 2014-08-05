@@ -27,7 +27,7 @@ module Fog
       #}
       class Real
         def container_create(attrs)
-          downcase_hash_keys Docker::Container.create(camelize_hash_keys(attrs)).info
+          downcase_hash_keys Docker::Container.create(camelize_hash_keys(attrs)).json
         end
       end
 
@@ -46,7 +46,6 @@ module Fog
            'names'      =>  ['/boring_engelbert']
           }
         end
-
       end
     end
   end

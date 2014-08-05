@@ -5,7 +5,6 @@ require 'fog/libvirt/models/compute/util/uri'
 module Fog
   module Compute
     class Libvirt < Fog::Service
-
       requires   :libvirt_uri
       recognizes :libvirt_username, :libvirt_password
       recognizes :libvirt_ip_command
@@ -38,6 +37,7 @@ module Fog
       request :list_volumes
       request :volume_action
       request :create_volume
+      request :clone_volume
       request :list_networks
       request :destroy_network
       request :list_interfaces
@@ -75,7 +75,6 @@ module Fog
         attr_reader :uri
         attr_reader :ip_command
 
-
         def initialize(options={})
           @uri = ::Fog::Compute::LibvirtUtil::URI.new(enhance_uri(options[:libvirt_uri]))
           @ip_command = options[:libvirt_ip_command]
@@ -105,7 +104,6 @@ module Fog
           rescue ::Libvirt::ConnectionError
             raise Fog::Errors::Error.new("Error making a connection to libvirt URI #{uri.uri}:\n#{$!}")
           end
-
         end
 
         def terminate
@@ -126,14 +124,13 @@ module Fog
             if querystring.nil?
               append="?socket=/var/run/libvirt/libvirt-sock"
             else
-              if !::CGI.parse(querystring).has_key?("socket")
+              if !::CGI.parse(querystring).key?("socket")
                 append="&socket=/var/run/libvirt/libvirt-sock"
               end
             end
           end
           uri+append
         end
-
       end
     end
   end

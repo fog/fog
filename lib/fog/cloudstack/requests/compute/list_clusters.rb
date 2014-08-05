@@ -1,20 +1,20 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
-        # Lists configurations and provides detailed account information for listed configurations.
+      class Real
+        # Lists clusters.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listAccounts.html]
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listClusters.html]
         def list_clusters(options={})
           options.merge!(
-            'command' => 'listClusters'
+            'command' => 'listClusters'  
           )
-
           request(options)
         end
-
       end
+
     end
   end
 end
+

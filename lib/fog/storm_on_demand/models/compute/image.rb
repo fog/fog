@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class StormOnDemand
-
       class Image < Fog::Model
         identity :id
         attribute :accnt
@@ -15,7 +14,6 @@ module Fog
         attribute :template
         attribute :template_description
         attribute :time_taken
-
 
         def destroy
           requires :identity
@@ -33,9 +31,7 @@ module Fog
           service.restore_image({:id => identity}.merge!(options))
           true
         end
-
       end
-
     end
   end
 end

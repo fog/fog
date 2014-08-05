@@ -4,49 +4,41 @@ require 'fog/google/models/compute/server'
 module Fog
   module Compute
     class Google
-
       class Servers < Fog::Collection
-
         model Fog::Compute::Google::Server
 
         def all(filters={})
-          if filters['zone'].nil?
-            data = []
-            service.list_zones.body['items'].each do |zone|
-              data += service.list_servers(zone['name']).body["items"] || []
-            end
+          if filters['zone']
+            data = service.list_servers(filters['zone']).body['items'] || []
           else
-            data = service.list_servers(filters['zone']).body["items"] || []
+            data = []
+            service.list_aggregated_servers.body['items'].each_value do |zone|
+              data.concat(zone['instances']) if zone['instances']
+            end
           end
           load(data)
         end
 
         def get(identity, zone=nil)
           response = nil
-          if zone.nil?
-            service.list_zones.body['items'].each do |zone|
-              begin
-                response = service.get_server(identity, zone['name'])
-                break if response.status == 200
-              rescue Fog::Errors::Error
-              end
-            end
+          if zone
+            response = service.get_server(identity, zone).body
           else
-            response = service.get_server(identity, zone)
-          end
+            servers = service.list_aggregated_servers(:filter => "name eq .*#{identity}").body['items']
+            server = servers.each_value.select { |zone| zone.key?('instances') }
 
-          if response.nil? or response.status != 200
-            nil
-          else
-            new(response.body)
+            # It can only be 1 server with the same name across all regions
+            response = server.first['instances'].first unless server.empty?
           end
+          return nil if response.nil?
+          new(response)
         rescue Fog::Errors::NotFound
           nil
         end
 
         def bootstrap(new_attributes = {})
           name = "fog-#{Time.now.to_i}"
-          zone = "us-central1-b"
+          zone = "us-central1-a"
 
           disks = new_attributes[:disks]
 
@@ -56,7 +48,7 @@ module Fog
               :name => name,
               :size_gb => 10,
               :zone_name => zone,
-              :source_image => "debian-7-wheezy-v20131120",
+              :source_image => "debian-7-wheezy-v20140408",
             }
 
             # backwards compatibility to pre-v1

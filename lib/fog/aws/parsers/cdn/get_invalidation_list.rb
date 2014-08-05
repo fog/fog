@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module CDN
       module AWS
-
         class GetInvalidationList < Fog::Parsers::Base
-
           def reset
             @invalidation_summary = { }
             @response = { 'InvalidationSummary' => [] }
@@ -33,9 +31,7 @@ module Fog
               @response[name] = @value.to_i
             end
           end
-
         end
-
       end
     end
   end

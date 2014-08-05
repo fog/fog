@@ -4,9 +4,7 @@ require 'fog/hp/models/network/subnet'
 module Fog
   module HP
     class Network
-
       class Subnets < Fog::Collection
-
         attribute :filters
 
         model Fog::HP::Network::Subnet
@@ -29,7 +27,6 @@ module Fog
         rescue Fog::HP::Network::NotFound
           nil
         end
-
       end
     end
   end

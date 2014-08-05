@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class PutScalingPolicy < Fog::Parsers::Base
-
           def reset
             @results = {}
             @response = { 'PutScalingPolicyResult' => {}, 'ResponseMetadata' => {} }
@@ -22,7 +20,6 @@ module Fog
               @response['PutScalingPolicyResult'] = @results
             end
           end
-
         end
       end
     end

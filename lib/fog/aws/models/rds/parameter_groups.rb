@@ -4,9 +4,7 @@ require 'fog/aws/models/rds/parameter_group'
 module Fog
   module AWS
     class RDS
-
       class ParameterGroups < Fog::Collection
-
         model Fog::AWS::RDS::ParameterGroup
 
         def all
@@ -20,7 +18,6 @@ module Fog
         rescue Fog::AWS::RDS::NotFound
           nil
         end
-
       end
     end
   end

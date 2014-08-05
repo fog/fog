@@ -4,9 +4,7 @@ require 'fog/cloudstack/models/compute/image'
 module Fog
   module Compute
     class Cloudstack
-
       class Images < Fog::Collection
-
         model Fog::Compute::Cloudstack::Image
 
         def all(filters={})

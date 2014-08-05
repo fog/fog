@@ -1,20 +1,24 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
+      class Real
         # Creates a load balancer rule
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.11/global_admin/createLoadBalancerRule.html]
-        def create_load_balancer_rule(options={})
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createLoadBalancerRule.html]
+        def create_load_balancer_rule(publicport, algorithm, privateport, name, options={})
           options.merge!(
-            'command' => 'createLoadBalancerRule'
+            'command' => 'createLoadBalancerRule', 
+            'publicport' => publicport, 
+            'algorithm' => algorithm, 
+            'privateport' => privateport, 
+            'name' => name  
           )
-
           request(options)
         end
-
       end
+
     end
   end
 end
+

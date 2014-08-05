@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Policy < Fog::Model
-
         # @!attribute [r] id
         # @return [String] The policy id
         identity :id
@@ -215,7 +214,6 @@ module Fog
             :group  => group
           })
         end
-
       end
     end
   end

@@ -3,7 +3,6 @@ require 'fog/joyent/core'
 module Fog
   module Compute
     class Joyent < Fog::Service
-
       class Errors
         module MessageParserMixin
           def message

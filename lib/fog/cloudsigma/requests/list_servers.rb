@@ -12,7 +12,6 @@ module Fog
           mock_list(:servers, 200)
         end
       end
-
     end
   end
 end

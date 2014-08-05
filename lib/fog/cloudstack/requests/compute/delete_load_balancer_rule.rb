@@ -1,20 +1,21 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Creates a domain.
+        # Deletes a load balancer rule.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/deleteLoadBalancerRule.html]
-        def delete_load_balancer_rule(options={})
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteLoadBalancerRule.html]
+        def delete_load_balancer_rule(id, options={})
           options.merge!(
-            'command' => 'deleteLoadBalancerRule'
+            'command' => 'deleteLoadBalancerRule', 
+            'id' => id  
           )
-
           request(options)
         end
-
       end
+
     end
   end
 end
+

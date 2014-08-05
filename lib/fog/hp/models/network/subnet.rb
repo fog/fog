@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module HP
     class Network
-
       class Subnet < Fog::Model
         identity :id
 
@@ -42,7 +41,6 @@ module Fog
           merge_attributes(service.update_subnet(id, attributes).body['subnet'])
           true
         end
-
       end
     end
   end

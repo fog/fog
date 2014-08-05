@@ -20,6 +20,38 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def get_runtime_info_section_type(id)
+
+          type = 'application/vnd.vmware.vcloud.virtualHardwareSection+xml'
+
+          unless vm = data[:vms][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'This operation is denied.'
+            )
+          end
+
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{type};version=#{api_version}"},
+            :body => get_vm_runtime_info_section_body(id, vm)
+          )
+        end
+
+        def get_vm_runtime_info_section_body(id, vm)
+          {
+            :xmlns_ns12 => "http://www.vmware.com/vcloud/v1.5",
+            :ns12_href => make_href("vApp/#{id}/runtimeInfoSection"),
+            :ns12_type => "application/vnd.vmware.vcloud.virtualHardwareSection+xml",
+            :"ovf:Info" => "Specifies Runtime info",
+            :VMWareTools => {
+              :version => "9282",
+            }
+          }
+        end
+
+      end
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/enable_availability_zones_for_load_balancer'
 
         # Enable an availability zone for an existing ELB
@@ -27,12 +26,10 @@ module Fog
           }.merge!(params))
         end
 
-        alias :enable_zones :enable_availability_zones_for_load_balancer
-
+        alias_method :enable_zones, :enable_availability_zones_for_load_balancer
       end
 
       class Mock
-
         def enable_availability_zones_for_load_balancer(availability_zones, lb_name)
           raise Fog::AWS::ELB::NotFound unless load_balancer = self.data[:load_balancers][lb_name]
 
@@ -54,7 +51,7 @@ module Fog
           response
         end
 
-        alias :enable_zones :enable_availability_zones_for_load_balancer
+        alias_method :enable_zones, :enable_availability_zones_for_load_balancer
       end
     end
   end

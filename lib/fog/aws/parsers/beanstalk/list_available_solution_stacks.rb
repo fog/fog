@@ -2,10 +2,8 @@ module Fog
   module Parsers
     module AWS
       module ElasticBeanstalk
-
         require 'fog/aws/parsers/beanstalk/parser'
         class ListAvailableSolutionStacks < Fog::Parsers::AWS::ElasticBeanstalk::BaseParser
-
           def initialize
             super("ListAvailableSolutionStacksResult")
             tag 'SolutionStackDetails', :object, :list
@@ -13,7 +11,6 @@ module Fog
             tag 'SolutionStackName', :string
             tag 'SolutionStacks', :string, :list
           end
-
         end
       end
     end

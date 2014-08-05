@@ -4,7 +4,6 @@ module Fog
   module Volume
     class SakuraCloud
       class Real
-
         def configure_disk( disk_id, sshkey_id )
           body = {
             "SSHKey" => {"ID" => sshkey_id.to_s }

@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get details of a vdc
         #
         # ==== Parameters
@@ -28,16 +27,14 @@ module Fog
             :path     => "vdc/#{vdc_id}"
           )
         end
-
       end
 
       module Mock
-
         def get_vdc(vdc_id)
           vdc_id = vdc_id.to_i
           response = Excon::Response.new
 
-          if vdc = self.data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| vdc[:id] == vdc_id }
+          if vdc = self.data[:organizations].map { |org| org[:vdcs] }.flatten.find { |vdc| vdc[:id] == vdc_id }
 
             body = { "name" => vdc[:name],
                      "href" => "#{@base_url}/vdc/#{vdc[:id]}",
@@ -118,7 +115,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

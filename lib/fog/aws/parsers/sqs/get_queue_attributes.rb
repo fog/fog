@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module SQS
-
         class GetQueueAttributes < Fog::Parsers::Base
-
           def reset
             @response = { 'ResponseMetadata' => {}, 'Attributes' => {}}
           end
@@ -26,9 +24,7 @@ module Fog
               end
             end
           end
-
         end
-
       end
     end
   end

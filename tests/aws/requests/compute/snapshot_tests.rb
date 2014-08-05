@@ -2,6 +2,7 @@ Shindo.tests('Fog::Compute[:aws] | snapshot requests', ['aws']) do
 
   @snapshot_format = {
     'description' => Fog::Nullable::String,
+    'encrypted'   => Fog::Boolean,
     'ownerId'     => String,
     'progress'    => String,
     'snapshotId'  => String,

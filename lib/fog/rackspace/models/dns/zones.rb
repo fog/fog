@@ -5,7 +5,6 @@ module Fog
   module DNS
     class Rackspace
       class Zones < Fog::Collection
-
         attribute :total_entries, :aliases => "totalEntries"
 
         model Fog::DNS::Rackspace::Zone
@@ -23,7 +22,7 @@ module Fog
           load(body['domains'])
         end
 
-        alias :each_zone_this_page :each
+        alias_method :each_zone_this_page, :each
         def each
           return self unless block_given?
 
@@ -69,7 +68,6 @@ module Fog
           CGI.parse uri.query
         end
       end
-
     end
   end
 end

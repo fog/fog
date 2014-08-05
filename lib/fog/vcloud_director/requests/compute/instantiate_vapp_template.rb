@@ -36,8 +36,7 @@ module Fog
         def populate_uris(options = {})
           options[:vdc_id] || raise("vdc_id option is required")
           options[:vdc_uri] =  vdc_end_point(options[:vdc_id])
-          options[:network_id] || raise("network_id option is required")
-          options[:network_uri] = network_end_point(options[:network_id])
+          options[:network_uri] = network_end_point(options[:network_id]) if options[:network_id]
           options[:template_uri] = vapp_template_end_point(options[:template_id]) || raise("template_id option is required")
           options
         end
@@ -90,7 +89,6 @@ module Fog
         def endpoint
           end_point
         end
-
       end
     end
   end

@@ -14,7 +14,6 @@ module Fog
             :path       => "vms/query?format=records&filter=metadata:#{key}==STRING:#{value}"
           )
         end
-
       end
     end
   end

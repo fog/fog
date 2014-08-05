@@ -76,9 +76,8 @@ module Fog
       request :get_stats
 
       module Shared
-
         def algorithms
-          list_algorithms.body['algorithms'].collect { |i| i['name'] }
+          list_algorithms.body['algorithms'].map { |i| i['name'] }
         end
 
         def protocols
@@ -88,7 +87,6 @@ module Fog
         def usage(options = {})
           get_usage(options).body
         end
-
       end
 
       class Mock < Fog::Rackspace::Service
@@ -99,7 +97,6 @@ module Fog
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
         end
-
       end
 
       class Real < Fog::Rackspace::Service
@@ -119,7 +116,7 @@ module Fog
           deprecation_warnings(options)
 
           @persistent = options[:persistent] || false
-          @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def request(params, parse_json = true)
@@ -190,7 +187,7 @@ module Fog
           end
 
           unless options[:rackspace_region]
-            Fog::Logger.deprecation("Default region support will be removed in an upcoming release. Please switch to manually setting your endpoint. This requires settng the :rackspace_region option")
+            Fog::Logger.deprecation("Default region support will be removed in an upcoming release. Please switch to manually setting your endpoint. This requires setting the :rackspace_region option")
           end
         end
 
@@ -207,7 +204,6 @@ module Fog
           append_tenant_v1 credentials
           @auth_token = credentials['X-Auth-Token']
         end
-
       end
     end
   end

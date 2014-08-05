@@ -5,7 +5,6 @@ module Fog
         require 'fog/aws/parsers/elasticache/base'
 
         class ParameterGroupParser < Base
-
           def reset
             super
             reset_parameter_group

@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/key_pair'
 module Fog
   module Compute
     class OpenStack
-
       class KeyPairs < Fog::Collection
-
         model Fog::Compute::OpenStack::KeyPair
 
         def all
@@ -24,7 +22,6 @@ module Fog
         rescue Fog::Compute::OpenStack::NotFound
           nil
         end
-
       end
     end
   end

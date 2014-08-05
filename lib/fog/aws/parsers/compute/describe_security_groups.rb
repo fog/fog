@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeSecurityGroups < Fog::Parsers::Base
-
           def reset
             @group = {}
             @ip_permission = { 'groups' => [], 'ipRanges' => []}
@@ -91,9 +89,7 @@ module Fog
               @group[name] = value
             end
           end
-
         end
-
       end
     end
   end

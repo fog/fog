@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class BlockStorage
       class Real
-
         # Retrieves volume detail
         # @param [String] volume_id
         # @return [Excon::Response] response:

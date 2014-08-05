@@ -4,7 +4,6 @@ require 'fog/aws/models/compute/flavor'
 module Fog
   module Compute
     class AWS
-
       FLAVORS = [
         {
           :id                      => 't1.micro',
@@ -13,6 +12,36 @@ module Fog
           :cores                   => 2,
           :disk                    => 0,
           :ram                     => 613,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't2.micro',
+          :name                    => 'Micro Instance',
+          :bits                    => 64,
+          :cores                   => 1,
+          :disk                    => 0,
+          :ram                     => 1024,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't2.small',
+          :name                    => 'Micro Instance',
+          :bits                    => 64,
+          :cores                   => 1,
+          :disk                    => 0,
+          :ram                     => 2048,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't2.medium',
+          :name                    => 'Micro Instance',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 4096,
           :ebs_optimized_available => false,
           :instance_store_volumes  => 0
         },
@@ -305,11 +334,60 @@ module Fog
           :ram                     => 249856,
           :ebs_optimized_available => false,
           :instance_store_volumes  => 8
+        },
+        {
+          :id                      => "r3.large",
+          :name                    => "R3 Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 15360,
+          :disk                    => 32,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r3.xlarge",
+          :name                    => "R3 Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 31232,
+          :disk                    => 80,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r3.2xlarge",
+          :name                    => "R3 Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 62464,
+          :disk                    => 160,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r3.4xlarge",
+          :name                    => "R3 Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 124928,
+          :disk                    => 320,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r3.8xlarge",
+          :name                    => "R3 Eight Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 249856,
+          :disk                    => 640,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
         }
       ]
 
       class Flavors < Fog::Collection
-
         model Fog::Compute::AWS::Flavor
 
         # Returns an array of all flavors that have been created
@@ -520,11 +598,9 @@ module Fog
         #
 
         def get(flavor_id)
-          self.class.new(:service => service).all.detect {|flavor| flavor.id == flavor_id}
+          self.class.new(:service => service).all.find {|flavor| flavor.id == flavor_id}
         end
-
       end
-
     end
   end
 end

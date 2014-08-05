@@ -79,7 +79,7 @@ module Fog
               :VMReference : :VMRecord
 
           %w[firstPage previousPage nextPage lastPage].each do |rel|
-            if link = response.body[:Link].detect {|l| l[:rel] == rel}
+            if link = response.body[:Link].find {|l| l[:rel] == rel}
               href = Nokogiri::XML.fragment(link[:href])
               query = CGI.parse(URI.parse(href.text).query)
               response.body[rel.to_sym] = query['page'].first.to_i
@@ -89,6 +89,61 @@ module Fog
 
           response
         end
+      end
+
+      class Mock
+
+        def get_vms_in_lease_from_query(options={})
+
+          if options.key?(:filter) && options[:filter] =~ /^href==([^;,]+)$/
+            href = $1
+            id = href.split('/').last
+          else
+            Fog::Mock.not_implemented("Filter by href is currently the only option implemented in get_vms_in_lease_from_query Mock")
+          end
+
+          vm = data[:vms][id]
+          parent_vapp_id = vm[:parent_vapp]
+          vdc_id = data[:vapps][parent_vapp_id][:vdc_id]
+
+          body = {
+            :xmlns=>xmlns,
+            :xmlns_xsi=>xmlns_xsi,
+            :href=>make_href('query'),
+            :name=>"vm",
+            :type=>"application/vnd.vmware.vcloud.query.records+xml",
+            :xsi_schemaLocation=>xsi_schema_location,
+            :total=>"1",
+            :pageSize=>"25",
+            :page=>"1",
+            :Link=>
+              [{:rel=>"alternate",
+                :type=>"application/vnd.vmware.vcloud.query.references+xml",
+                :href=>make_href('query')},
+               {:rel=>"alternate",
+                :type=>"application/vnd.vmware.vcloud.query.idrecords+xml",
+                :href=>make_href('query')}],
+            :VMRecord=>
+              [{:vdc=>make_href(vdc_id),
+                :numberOfCpus=>vm[:cpu_count],
+                :name=>vm[:name],
+                :containerName=>data[:vapps][parent_vapp_id][:name],
+                :memoryMB=>vm[:memory_in_mb],
+                :isVAppTemplate=>"false",
+                :href=>make_href(id),
+                :taskStatus=>"success",
+                :task=>make_href("task/#{uuid}"),
+                :taskDetails=>" ",
+                :taskStatusName=>"vappUpdateVm"}]
+          }
+
+          Excon::Response.new(
+            :status  => 200,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body    => body
+          )
+        end
+
       end
     end
   end

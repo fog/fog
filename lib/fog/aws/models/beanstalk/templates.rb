@@ -4,7 +4,6 @@ require 'fog/aws/models/beanstalk/template'
 module Fog
   module AWS
     class ElasticBeanstalk
-
       class Templates < Fog::Collection
         model Fog::AWS::ElasticBeanstalk::Template
 
@@ -14,7 +13,7 @@ module Fog
         # a describe configuration templates call in the AWS API.
         def all(options={})
           application_filter = []
-          if options.has_key?('ApplicationName')
+          if options.key?('ApplicationName')
             application_filter << options['ApplicationName']
           end
 
@@ -63,7 +62,6 @@ module Fog
           end
             result
         end
-
       end
     end
   end

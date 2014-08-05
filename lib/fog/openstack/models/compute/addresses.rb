@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/address'
 module Fog
   module Compute
     class OpenStack
-
       class Addresses < Fog::Collection
-
         model Fog::Compute::OpenStack::Address
 
         def all
@@ -24,10 +22,7 @@ module Fog
         def get_address_pools
           service.list_address_pools.body['floating_ip_pools']
         end
-
       end
-
     end
   end
 end
-

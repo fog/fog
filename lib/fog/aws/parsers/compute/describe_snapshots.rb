@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeSnapshots < Fog::Parsers::Base
-
           def reset
             @response = { 'snapshotSet' => [] }
             @snapshot = { 'tagSet' => {} }
@@ -42,12 +40,12 @@ module Fog
                 @snapshot[name] = Time.parse(value)
               when 'volumeSize'
                 @snapshot[name] = value.to_i
+              when 'encrypted'
+                @snapshot[name] = (value == 'true')
               end
             end
           end
-
         end
-
       end
     end
   end

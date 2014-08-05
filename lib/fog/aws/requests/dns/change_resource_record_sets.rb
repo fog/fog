@@ -2,7 +2,6 @@ module Fog
   module DNS
     class AWS
       class Real
-
         require 'fog/aws/parsers/dns/change_resource_record_sets'
 
         # Use this action to create or change your authoritative DNS information for a zone
@@ -22,6 +21,7 @@ module Fog
         #     * alias_target<~Hash> - Information about the domain to which you are redirecting traffic (Alias record sets only)
         #       * dns_name<~String> - The Elastic Load Balancing domain to which you want to reroute traffic
         #       * hosted_zone_id<~String> - The ID of the hosted zone that contains the Elastic Load Balancing domain to which you want to reroute traffic
+        #       * evaluate_target_health<~Boolean> - Applies only to alias, weighted alias, latency alias, and failover alias resource record sets: If you set the value of EvaluateTargetHealth to true, the alias resource record sets inherit the health of the referenced resource record sets.
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
@@ -55,7 +55,6 @@ module Fog
         #     change_resource_record_sets("ABCDEFGHIJKLMN", change_batch_options)
         #
         def change_resource_record_sets(zone_id, change_batch, options = {})
-
           # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
           # that form or just the actual id (which is what this request needs)
           zone_id = zone_id.sub('/hostedzone/', '')
@@ -108,7 +107,9 @@ module Fog
                 # Accept either underscore or camel case for hash keys.
                 dns_name = change_item[:alias_target][:dns_name] || change_item[:alias_target][:DNSName]
                 hosted_zone_id = change_item[:alias_target][:hosted_zone_id] || change_item[:alias_target][:HostedZoneId] || AWS.hosted_zone_for_alias_target(dns_name)
-                alias_target_tag += %Q{<AliasTarget><HostedZoneId>#{hosted_zone_id}</HostedZoneId><DNSName>#{dns_name}</DNSName></AliasTarget>}
+                evaluate_target_health = change_item[:alias_target][:evaluate_target_health] || change_item[:alias_target][:EvaluateTargetHealth] || false
+                evaluate_target_health_xml = !evaluate_target_health.nil? ? %Q{<EvaluateTargetHealth>#{evaluate_target_health}</EvaluateTargetHealth>} : ''
+                alias_target_tag += %Q{<AliasTarget><HostedZoneId>#{hosted_zone_id}</HostedZoneId><DNSName>#{dns_name}</DNSName>#{evaluate_target_health_xml}</AliasTarget>}
               end
 
               change_tags = %Q{<Change>#{action_tag}<ResourceRecordSet>#{name_tag}#{type_tag}#{set_identifier_tag}#{weight_tag}#{region_tag}#{ttl_tag}#{resource_tag}#{alias_target_tag}</ResourceRecordSet></Change>}
@@ -118,7 +119,6 @@ module Fog
             changes += '</Changes></ChangeBatch>'
           end
 
-
           body = %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/">#{changes}</ChangeResourceRecordSetsRequest>}
           request({
             :body       => body,
@@ -127,13 +127,10 @@ module Fog
             :method     => 'POST',
             :path       => "hostedzone/#{zone_id}/rrset"
           })
-
         end
-
       end
 
       class Mock
-
         def change_resource_record_sets(zone_id, change_batch, options = {})
           response = Excon::Response.new
           errors   = []
@@ -200,7 +197,6 @@ module Fog
             response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>NoSuchHostedZone</Code><Message>A hosted zone with the specified hosted zone ID does not exist.</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestID></Response>"
             raise(Excon::Errors.status_error({:expects => 200}, response))
           end
-
         end
       end
 

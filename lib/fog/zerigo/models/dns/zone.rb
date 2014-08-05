@@ -4,9 +4,7 @@ require 'fog/zerigo/models/dns/records'
 module Fog
   module DNS
     class Zerigo
-
       class Zone < Fog::Model
-
         identity :id
 
         attribute :created_at,  :aliases => 'created-at'
@@ -80,9 +78,7 @@ module Fog
           merge_attributes(data.body)
           true
         end
-
       end
-
     end
   end
 end

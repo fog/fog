@@ -2,7 +2,6 @@ module Fog
   module Compute
     class BareMetalCloud
       class Real
-
         # Boot a new server by configuration
         #
         # ==== Parameters
@@ -26,7 +25,6 @@ module Fog
             :query    => {'configuration' => config}.merge!(options)
           )
         end
-
       end
     end
   end

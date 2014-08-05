@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/register_instances_with_load_balancer'
 
         # Register an instance with an existing ELB
@@ -28,8 +27,7 @@ module Fog
           }.merge!(params))
         end
 
-        alias :register_instances :register_instances_with_load_balancer
-
+        alias_method :register_instances, :register_instances_with_load_balancer
       end
 
       class Mock
@@ -57,7 +55,7 @@ module Fog
 
           response
         end
-        alias :register_instances :register_instances_with_load_balancer
+        alias_method :register_instances, :register_instances_with_load_balancer
       end
     end
   end

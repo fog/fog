@@ -46,7 +46,6 @@ module Fog
       request :update_server
 
       class Mock < Fog::Rackspace::Service
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -181,11 +180,9 @@ module Fog
         def reset_data
           self.class.data.delete(@rackspace_username)
         end
-
       end
 
       class Real < Fog::Rackspace::Service
-
         def initialize(options={})
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
@@ -197,7 +194,7 @@ module Fog
           authenticate
           Excon.defaults[:ssl_verify_peer] = false if service_net?
           @persistent = options[:persistent] || false
-          @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def reload
@@ -242,7 +239,7 @@ module Fog
            super(@rackspace_endpoint || service_endpoint_url, :rackspace_compute_v1_url)
          end
 
-         private
+        private
 
          def deprecation_warnings(options)
            Fog::Logger.deprecation("The :rackspace_management_url option is deprecated. Please use :rackspace_compute_v1_url for custom endpoints") if options[:rackspace_management_url]
@@ -253,7 +250,6 @@ module Fog
            endpoint_uri credentials['X-Server-Management-Url']
            @auth_token = credentials['X-Auth-Token']
          end
-
       end
     end
   end

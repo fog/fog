@@ -4,9 +4,7 @@ require 'fog/cloudstack/models/compute/snapshot'
 module Fog
   module Compute
     class Cloudstack
-
       class Snapshots < Fog::Collection
-
         model Fog::Compute::Cloudstack::Snapshot
 
         def all
@@ -19,7 +17,6 @@ module Fog
           new(snapshot) if snapshot
         end
       end
-
     end
   end
 end

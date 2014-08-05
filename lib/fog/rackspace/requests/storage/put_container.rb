@@ -1,9 +1,7 @@
 module Fog
   module Storage
     class Rackspace
-
       class Real
-
         # Create a new container
         #
         # ==== Parameters
@@ -20,7 +18,6 @@ module Fog
             :path     => Fog::Rackspace.escape(name)
           )
         end
-
       end
 
       class Mock
@@ -36,7 +33,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

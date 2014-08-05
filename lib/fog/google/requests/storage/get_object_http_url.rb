@@ -1,9 +1,7 @@
 module Fog
   module Storage
     class Google
-
       module GetObjectHttpUrl
-
         def get_object_http_url(bucket_name, object_name, expires)
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -18,11 +16,9 @@ module Fog
             :path     => "#{bucket_name}/#{object_name}"
           }, expires)
         end
-
       end
 
       class Real
-
         # Get an expiring object http url from S3
         #
         # ==== Parameters
@@ -38,13 +34,10 @@ module Fog
         # http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_QSAuth.html
 
         include GetObjectHttpUrl
-
       end
 
       class Mock # :nodoc:all
-
         include GetObjectHttpUrl
-
       end
     end
   end

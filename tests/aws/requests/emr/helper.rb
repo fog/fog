@@ -1,7 +1,5 @@
 class AWS
-
   module EMR
-
     module Formats
       BASIC = {
         'RequestId' => String
@@ -10,12 +8,12 @@ class AWS
       RUN_JOB_FLOW = BASIC.merge({
         'JobFlowId' => String
       })
-      
+
       ADD_INSTANCE_GROUPS = {
         'JobFlowId' => String,
         'InstanceGroupIds' => Array
       }
-      
+
       SIMPLE_DESCRIBE_JOB_FLOW = {
         'JobFlows' => [{
           'Name' => String,
@@ -61,7 +59,7 @@ class AWS
           }
         }]
       }
-      
+
       JOB_FLOW_WITHOUT_CHANGE = {
         'JobFlows' => [{
           'Name' => String,
@@ -107,7 +105,7 @@ class AWS
           }
         }]
       }
-      
+
       DESCRIBE_JOB_FLOW_WITH_INSTANCE_GROUPS = {
         'JobFlows' => [{
           'Name' => String,
@@ -165,8 +163,6 @@ class AWS
           }
         }]
       }
-
     end
   end
-
 end

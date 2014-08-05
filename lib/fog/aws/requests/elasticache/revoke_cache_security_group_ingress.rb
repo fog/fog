@@ -3,7 +3,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/single_security_group'
 
         # Revoke ingress to a CacheSecurityGroup using EC2 Security Groups
@@ -24,7 +23,6 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::SingleSecurityGroup.new
           })
         end
-
       end
 
       class Mock

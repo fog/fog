@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         class SnapshotParser < Fog::Parsers::Base
-
           def reset
             @db_snapshot = fresh_snapshot
           end
@@ -15,7 +13,6 @@ module Fog
 
           def start_element(name, attrs = [])
             super
-
           end
 
           def end_element(name)

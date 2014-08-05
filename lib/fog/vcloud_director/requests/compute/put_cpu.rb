@@ -19,7 +19,14 @@ module Fog
         # @since vCloud API version 0.9
         def put_cpu(id, num_cpus)
           data = <<EOF
-          <Item xmlns="http://www.vmware.com/vcloud/v1.5" xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns12="http://www.vmware.com/vcloud/v1.5" ns12:href="#{end_point}vApp/#{id}/virtualHardwareSection/cpu" ns12:type="application/vnd.vmware.vcloud.rasdItem+xml" xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_ResourceAllocationSettingData.xsd">
+          <Item 
+            xmlns="http://www.vmware.com/vcloud/v1.5" 
+            xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xmlns:ns12="http://www.vmware.com/vcloud/v1.5" 
+            ns12:href="#{end_point}vApp/#{id}/virtualHardwareSection/cpu" 
+            ns12:type="application/vnd.vmware.vcloud.rasdItem+xml" 
+            xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 #{end_point}v1.5/schema/master.xsd http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_ResourceAllocationSettingData.xsd">
             <rasd:AllocationUnits>hertz * 10^6</rasd:AllocationUnits>
             <rasd:Description>Number of Virtual CPUs</rasd:Description>
             <rasd:ElementName>#{num_cpus} virtual CPU(s)</rasd:ElementName>
@@ -41,6 +48,40 @@ EOF
             :path    => "vApp/#{id}/virtualHardwareSection/cpu"
           )
         end
+      end
+
+      class Mock
+
+        def put_cpu(id, num_cpus)
+          unless vm = data[:vms][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'This operation is denied.'
+            )
+          end
+
+          owner = {
+            :href => make_href("vApp/#{id}"),
+            :type => 'application/vnd.vmware.vcloud.vm+xml'
+          }
+          task_id = enqueue_task(
+            "Updating Virtual Machine #{data[:vms][id][:name]}(#{id})", 'vappUpdateVm', owner,
+            :on_success => lambda do
+              data[:vms][id][:cpu_count] = num_cpus
+            end
+          )
+          body = {
+            :xmlns => xmlns,
+            :xmlns_xsi => xmlns_xsi,
+            :xsi_schemaLocation => xsi_schema_location,
+          }.merge(task_body(task_id))
+
+          Excon::Response.new(
+            :status => 202,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
+        end
+
       end
     end
   end

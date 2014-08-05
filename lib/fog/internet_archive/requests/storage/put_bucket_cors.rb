@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         require 'fog/internet_archive/requests/storage/cors_utils'
 
         # Sets the cors configuration for your bucket. If the configuration exists, Amazon S3 replaces it.
@@ -43,7 +42,6 @@ module Fog
           self.data[:cors][:bucket][bucket_name] = Fog::Storage::InternetArchive.hash_to_cors(cors)
         end
       end
-
     end
   end
 end

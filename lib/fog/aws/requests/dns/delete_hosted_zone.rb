@@ -2,7 +2,6 @@ module Fog
   module DNS
     class AWS
       class Real
-
         require 'fog/aws/parsers/dns/delete_hosted_zone'
 
         # Delete a hosted zone
@@ -19,7 +18,6 @@ module Fog
         #       * 'SubmittedAt'<~String> The date and time the change was made
         #   * status<~Integer> - 200 when successful
         def delete_hosted_zone(zone_id)
-
           # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
           # that form or just the actual id (which is what this request needs)
           zone_id = zone_id.sub('/hostedzone/', '')
@@ -30,13 +28,10 @@ module Fog
             :method  => 'DELETE',
             :path    => "hostedzone/#{zone_id}"
           })
-
         end
-
       end
 
       class Mock
-
         require 'time'
 
         def delete_hosted_zone(zone_id)
@@ -66,7 +61,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

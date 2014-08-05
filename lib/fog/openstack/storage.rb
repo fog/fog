@@ -3,7 +3,6 @@ require 'fog/openstack/core'
 module Fog
   module Storage
     class OpenStack < Fog::Service
-
       requires   :openstack_auth_url, :openstack_username,
                  :openstack_api_key
       recognizes :persistent, :openstack_service_name,
@@ -38,7 +37,6 @@ module Fog
       request :post_set_meta_temp_url_key
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
@@ -72,11 +70,9 @@ module Fog
         def reset_account_name
           @path = @original_path
         end
-
       end
 
       class Real
-
         def initialize(options={})
           @openstack_api_key = options[:openstack_api_key]
           @openstack_username = options[:openstack_username]
@@ -92,7 +88,7 @@ module Fog
           @openstack_temp_url_key = options[:openstack_temp_url_key]
           authenticate
           @persistent = options[:persistent] || false
-          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
@@ -213,7 +209,6 @@ module Fog
           @scheme = uri.scheme
           true
         end
-
       end
     end
   end

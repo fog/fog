@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/metadata'
 module Fog
   module Compute
     class OpenStack
-
       class Volume < Fog::Model
-
         identity :id
 
         attribute :name,                :aliases => 'displayName'
@@ -18,7 +16,6 @@ module Fog
         attribute :availability_zone,   :aliases => 'availabilityZone'
         attribute :created_at,          :aliases => 'createdAt'
         attribute :attachments
-
 
         def initialize(attributes)
           # Old 'connection' is renamed as service and should be used instead
@@ -55,10 +52,7 @@ module Fog
         def ready?
           self.status == "available"
         end
-
       end
-
     end
   end
-
 end

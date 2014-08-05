@@ -3,16 +3,19 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class Image < Fog::Model
-
         identity :name
 
         attribute :id
         attribute :kind
-        attribute :self_link, :aliases => 'selfLink'
+        attribute :archive_size_bytes, :aliases => 'archiveSizeBytes'
         attribute :creation_timestamp, :aliases => 'creationTimestamp'
+        attribute :deprecated
         attribute :description
+        attribute :disk_size_gb, :aliases => 'diskSizeGb'
+        attribute :self_link, :aliases => 'selfLink'
+        attribute :source_type, :aliases => 'sourceType'
+        attribute :status
 
         # This attribute is not available in the representation of an
         # 'image' returned by the GCE servser (see GCE API). However,
@@ -27,21 +30,36 @@ module Fog
         #   :container_type => 'TAR',
         #   :sha1Checksum   => ,
         # }
-        attribute :raw_disk
-
-        attribute :status
+        attribute :raw_disk, :aliases => 'rawDisk'
 
         def preferred_kernel=(args)
           Fog::Logger.deprecation("preferred_kernel= is no longer used [light_black](#{caller.first})[/]")
         end
+
         def preferred_kernel
           Fog::Logger.deprecation("preferred_kernel is no longer used [light_black](#{caller.first})[/]")
           nil
         end
 
+        READY_STATE = "READY"
+
+        def ready?
+          self.status == READY_STATE
+        end
+
+        def destroy(async=true)
+          data = service.delete_image(name)
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'])
+          unless async
+            operation.wait_for { ready? }
+          end
+          operation
+        end
+
         def reload
           requires :name
 
+          self.project = self.service.project
           data = service.get_image(name, self.project).body
 
           self.merge_attributes(data)
@@ -57,23 +75,15 @@ module Fog
             'description'     => description,
           }
 
-          service.insert_image(name, options)
-
-          data = service.backoff_if_unfound {
-            service.get_image(self.name).body
-          }
-
-          # Track the name of the project in which we insert the image
-          data.merge!('project' => service.project)
-          self.project = self.service.project
-
-          service.images.merge_attributes(data)
+          data = service.insert_image(name, options)
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'])
+          operation.wait_for { !pending? }
+          reload
         end
 
         def resource_url
           "#{self.project}/global/images/#{name}"
         end
-
       end
     end
   end

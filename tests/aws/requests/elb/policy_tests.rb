@@ -43,7 +43,7 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
                 "PolicyName"=>"fog-app-policy",
                 "PolicyTypeName"=>"AppCookieStickinessPolicyType"
               }) do
-        body["DescribeLoadBalancerPoliciesResult"]["PolicyDescriptions"].detect{|e| e['PolicyName'] == 'fog-app-policy' }
+        body["DescribeLoadBalancerPoliciesResult"]["PolicyDescriptions"].find{|e| e['PolicyName'] == 'fog-app-policy' }
       end
 
       returns({
@@ -54,7 +54,7 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
                 "PolicyName"=>"fog-lb-expiry",
                 "PolicyTypeName"=>"LBCookieStickinessPolicyType"
               }) do
-        body["DescribeLoadBalancerPoliciesResult"]["PolicyDescriptions"].detect{|e| e['PolicyName'] == 'fog-lb-expiry' }
+        body["DescribeLoadBalancerPoliciesResult"]["PolicyDescriptions"].find{|e| e['PolicyName'] == 'fog-lb-expiry' }
       end
 
       returns({
@@ -65,7 +65,7 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
                 "PolicyName"=>"fog-lb-no-expiry",
                 "PolicyTypeName"=>"LBCookieStickinessPolicyType"
               }) do
-        body["DescribeLoadBalancerPoliciesResult"]["PolicyDescriptions"].detect{|e| e['PolicyName'] == 'fog-lb-no-expiry' }
+        body["DescribeLoadBalancerPoliciesResult"]["PolicyDescriptions"].find{|e| e['PolicyName'] == 'fog-lb-no-expiry' }
       end
 
       returns({
@@ -76,7 +76,7 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
                 "PolicyName"=>"fog-policy",
                 "PolicyTypeName"=>"PublicKeyPolicyType"
               }) do
-        body["DescribeLoadBalancerPoliciesResult"]["PolicyDescriptions"].detect{|e| e['PolicyName'] == 'fog-policy' }
+        body["DescribeLoadBalancerPoliciesResult"]["PolicyDescriptions"].find{|e| e['PolicyName'] == 'fog-policy' }
       end
     end
 
@@ -126,8 +126,7 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
       description = Fog::AWS[:elb].describe_load_balancers("LoadBalancerNames" => [@load_balancer_id]).body["DescribeLoadBalancersResult"]["LoadBalancerDescriptions"].first
       returns(true) { description["Policies"]["OtherPolicies"].include?(proxy_policy) }
     end
-    
+
     Fog::AWS[:elb].delete_load_balancer(@load_balancer_id)
   end
 end
-

@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # List all the record types available
         # ==== Parameters
         #
@@ -19,7 +18,6 @@ module Fog
                   :path     => '/rapi/listrecordtypes'
                   )
         end
-
       end
     end
   end

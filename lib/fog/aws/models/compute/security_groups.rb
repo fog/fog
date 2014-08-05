@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/security_group'
 module Fog
   module Compute
     class AWS
-
       class SecurityGroups < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::SecurityGroup
@@ -114,7 +112,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

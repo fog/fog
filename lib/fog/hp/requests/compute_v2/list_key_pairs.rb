@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # List all key pairs
         #
         # ==== Returns
@@ -20,11 +19,9 @@ module Fog
             :path     => 'os-keypairs'
           )
         end
-
       end
 
       class Mock
-
         def list_key_pairs
           response = Excon::Response.new
 
@@ -35,7 +32,6 @@ module Fog
           response.body = { 'keypairs' => key_pairs }
           response
         end
-
       end
     end
   end

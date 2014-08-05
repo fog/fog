@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def insert_disk(disk_name, zone_name, image_name=nil, options={})
           # check that image and zone exist
           image = nil
@@ -38,6 +36,11 @@ module Fog
               "sourceImageId" => image.id
             })
           end
+          if disk_type = options.delete(:type)
+            object["type"] = type
+          else
+            object["type"] = "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/diskTypes/pd-standard"
+          end
           self.data[:disks][disk_name] = object
 
           operation = self.random_operation
@@ -57,13 +60,11 @@ module Fog
             "selfLink" => "#{object["zone"]}/operations/#{operation}"
           }
 
-          build_response(:body => self.data[:operations][operation])
+          build_excon_response(self.data[:operations][operation])
         end
-
       end
 
       class Real
-
         def insert_disk(disk_name, zone_name, image_name=nil, opts={})
           api_method = @compute.disks.insert
           parameters = {
@@ -80,17 +81,18 @@ module Fog
           end
 
           body_object = { 'name' => disk_name }
+          body_object['type'] = opts.delete('type')
 
           # According to Google docs, if image name is not present, only one of
           # sizeGb or sourceSnapshot need to be present, one will create blank
           # disk of desired size, other will create disk from snapshot
           if image_name.nil?
-            if opts.has_key?('sourceSnapshot')
+            if opts.key?('sourceSnapshot')
               # New disk from snapshot
               snap = snapshots.get(opts.delete('sourceSnapshot'))
               raise ArgumentError.new('Invalid source snapshot') unless snap
               body_object['sourceSnapshot'] = @api_url + snap.resource_url
-            elsif opts.has_key?('sizeGb')
+            elsif opts.key?('sizeGb')
               # New blank disk
               body_object['sizeGb'] = opts.delete('sizeGb')
             else
@@ -103,13 +105,9 @@ module Fog
           # Merge in any remaining options (only 'description' should remain)
           body_object.merge!(opts)
 
-          result = self.build_result(api_method, parameters,
-                                     body_object)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object)
         end
-
       end
-
     end
   end
 end

@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Ecloud
       class Servers < Fog::Ecloud::Collection
-
         model Fog::Compute::Ecloud::Server
 
         identity :href
@@ -47,7 +46,7 @@ module Fog
             else
               [*options[:network_uri]].each do |uri|
                 index = options[:network_uri].index(uri)
-                ip = self.service.ip_addresses(:href => uri).detect { |i| i.host == nil && i.detected_on.nil? }.name
+                ip = self.service.ip_addresses(:href => uri).find { |i| i.host == nil && i.detected_on.nil? }.name
                 options[:ips] ||= []
                 options[:ips][index] = ip
               end
@@ -60,9 +59,7 @@ module Fog
           object = self.service.servers.new(data)
           object
         end
-
       end
     end
   end
 end
-

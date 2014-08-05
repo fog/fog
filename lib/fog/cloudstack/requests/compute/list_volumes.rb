@@ -1,21 +1,19 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
+      class Real
         # Lists all volumes.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listVolumes.html]
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listVolumes.html]
         def list_volumes(options={})
           options.merge!(
-            'command' => 'listVolumes'
+            'command' => 'listVolumes'  
           )
-
           request(options)
         end
-
-      end # Real
-
+      end
+ 
       class Mock
         def list_volumes(options={})
           volume_id = options.delete('id')
@@ -32,7 +30,8 @@ module Fog
             }
           }
         end
-      end # Mock
-    end # Cloudstack
-  end # Compute
-end #Fog
+      end 
+    end
+  end
+end
+

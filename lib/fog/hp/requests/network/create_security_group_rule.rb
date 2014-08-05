@@ -2,7 +2,6 @@ module Fog
   module HP
     class Network
       class Real
-
         # Create a new security group rule
         #
         # ==== Parameters
@@ -51,11 +50,9 @@ module Fog
             :path     => 'security-group-rules'
           )
         end
-
       end
 
       class Mock
-
         def create_security_group_rule(security_group_id, direction, options = {})
           response = Excon::Response.new
           data = {
@@ -75,9 +72,7 @@ module Fog
           response.body = { 'security_group_rule' => data }
           response
         end
-
       end
-
     end
   end
 end

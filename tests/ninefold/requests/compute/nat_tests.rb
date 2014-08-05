@@ -56,7 +56,6 @@ Shindo.tests('Fog::Compute[:ninefold] | nat requests', ['ninefold']) do
       Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']
     end
 
-
     tests("#disable_static_nat()").formats(Ninefold::Compute::Formats::Nat::DISABLE_NAT_RESPONSE) do
       pending if Fog.mocking?
       job = Fog::Compute[:ninefold].disable_static_nat(:ipaddressid => @ipid)

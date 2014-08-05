@@ -1,12 +1,15 @@
 module Google # deviates from other bin stuff to accomodate gem
   class << self
-
     def class_for(key)
       case key
       when :compute
         Fog::Compute::Google
+      when :monitoring
+        Fog::Google::Monitoring
       when :storage
         Fog::Storage::Google
+      when :sql
+        Fog::Google::SQL
       else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
@@ -21,6 +24,10 @@ module Google # deviates from other bin stuff to accomodate gem
         when :compute
           Fog::Logger.warning("Google[:compute] is not recommended, use Compute[:google] for portability")
           Fog::Compute.new(:provider => 'Google')
+        when :monitoring
+          Fog::Google::Monitoring.new
+        when :sql
+          Fog::Google::SQL.new
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end

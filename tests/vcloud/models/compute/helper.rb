@@ -1,7 +1,6 @@
 class Vcloud
   module Compute
     module TestSupport
-
       if Fog.mocking?
         def self.template
           'mock_template'
@@ -15,11 +14,9 @@ class Vcloud
           template_res.href
         end
       end
-
     end
 
     module Formats
     end
-
   end
 end

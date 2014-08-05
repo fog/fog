@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module AWS
-
         class GetBucketWebsite < Fog::Parsers::Base
-
           def reset
             @response = { 'ErrorDocument' => {}, 'IndexDocument' => {} }
           end
@@ -17,9 +15,7 @@ module Fog
               @response['IndexDocument'][name] = value
             end
           end
-
         end
-
       end
     end
   end

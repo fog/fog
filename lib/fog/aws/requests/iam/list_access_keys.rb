@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/list_access_keys'
 
         # List access_keys
@@ -33,15 +32,13 @@ module Fog
             :parser   => Fog::Parsers::AWS::IAM::ListAccessKeys.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def list_access_keys(options = {})
           #FIXME: Doesn't do anything with options, aside from UserName
           if user = options['UserName']
-            if data[:users].has_key? user
+            if data[:users].key? user
               access_keys_data = data[:users][user][:access_keys]
             else
               raise Fog::AWS::IAM::NotFound.new("The user with name #{user} cannot be found.")

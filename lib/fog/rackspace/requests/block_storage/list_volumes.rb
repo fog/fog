@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class BlockStorage
       class Real
-
         # Retrieves list of volumes
         # @return [Excon::Response] response:
         #   * body [Hash]:

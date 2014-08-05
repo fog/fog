@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_availability_zones'
 
         # Describe all or specified availability zones
@@ -32,11 +31,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeAvailabilityZones.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def describe_availability_zones(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_availability_zones with #{filters.class} param is deprecated, use describe_availability_zones('zone-name' => []) instead [light_black](#{caller.first})[/]")
@@ -91,7 +88,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

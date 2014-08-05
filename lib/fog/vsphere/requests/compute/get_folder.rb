@@ -35,7 +35,7 @@ module Fog
 
           return dc_root_folder if paths.empty?
           # Walk the tree resetting the folder pointer as we go
-          paths.inject(dc_root_folder) do |last_returned_folder, sub_folder|
+          paths.reduce(dc_root_folder) do |last_returned_folder, sub_folder|
             # JJM VIM::Folder#find appears to be quite efficient as it uses the
             # searchIndex It certainly appears to be faster than
             # VIM::Folder#inventory since that returns _all_ managed objects of
@@ -69,7 +69,6 @@ module Fog
         def get_folder(path, filters = { })
         end
       end
-
     end
   end
 end

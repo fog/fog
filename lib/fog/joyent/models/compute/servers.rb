@@ -3,7 +3,6 @@ require 'fog/joyent/models/compute/server'
 
 module Fog
   module Compute
-
     class Joyent
       class Servers < Fog::Collection
         model Fog::Compute::Joyent::Server
@@ -30,9 +29,7 @@ module Fog
           server.tags = server.list_tags if server.tags.nil?
           server
         end
-
       end
     end # Joyent
-
   end # Compute
 end # Fog

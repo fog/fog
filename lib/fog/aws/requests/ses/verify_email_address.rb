@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SES
       class Real
-
         require 'fog/aws/parsers/ses/verify_email_address'
 
         # Verifies an email address. This action causes a confirmation email message to be sent to the specified address.
@@ -21,7 +20,6 @@ module Fog
             :parser            => Fog::Parsers::AWS::SES::VerifyEmailAddress.new
           })
         end
-
       end
     end
   end

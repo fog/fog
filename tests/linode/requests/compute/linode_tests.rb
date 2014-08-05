@@ -55,7 +55,7 @@ Shindo.tests('Fog::Compute[:linode] | linode requests', ['linode']) do
 
   @disk_format = Linode::Compute::Formats::BASIC.merge({
     'DATA' => { 'JobID' => Integer, 'DiskID' => Integer }
-  })  
+  })
 
   tests('success') do
 
@@ -75,7 +75,7 @@ Shindo.tests('Fog::Compute[:linode] | linode requests', ['linode']) do
     end
 
     tests('#linode_list').formats(@linodes_format) do
-      pending if Fog.mocking?      
+      pending if Fog.mocking?
       Fog::Compute[:linode].linode_list.body
     end
 
@@ -94,7 +94,7 @@ Shindo.tests('Fog::Compute[:linode] | linode requests', ['linode']) do
       data = Fog::Compute[:linode].linode_disk_create(@linode_id, 'test1', 'ext3', 1).body
       @disk1_id = data['DATA']['DiskID']
       data
-    end    
+    end
 
     tests('#linode_disk_createfromdistribution').formats(@disk_format) do
       pending if Fog.mocking?
@@ -110,7 +110,7 @@ Shindo.tests('Fog::Compute[:linode] | linode requests', ['linode']) do
 
     # tests("#linode_reboot(#{@linode_id})").formats(@reboot_format) do
     #   Fog::Compute[:linode].linode_reboot(@linode_id).body
-    # end    
+    # end
 
     tests('#linode_disk_delete').formats(@disk_format) do
       pending if Fog.mocking?

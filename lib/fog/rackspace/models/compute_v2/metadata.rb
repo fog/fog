@@ -7,9 +7,7 @@ require 'fog/rackspace/models/compute_v2/server'
 module Fog
   module Compute
     class RackspaceV2
-
       class Metadata < Fog::Collection
-
         model Fog::Compute::RackspaceV2::Metadatum
 
         include Fog::Compute::RackspaceV2::MetaParent
@@ -104,7 +102,6 @@ module Fog
           self.each { |datum| h[datum.key] = datum.value }
           h
         end
-
       end
     end
   end

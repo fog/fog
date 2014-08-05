@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorageV2
       class Real
-
         # Create a new block storage volume
         #
         # ==== Parameters
@@ -52,11 +51,9 @@ module Fog
             :path     => 'volumes'
           )
         end
-
       end
 
       class Mock  # :nodoc:all
-
         def create_volume(options={})
           if options['snapshot_id'] && options['imageRef'] && options['source_volid']
             raise Fog::Errors::BadRequest.new('The snapshot_id, imageRef and the source_volid parameters are mutually exclusive, and only one should be specified in the request.')
@@ -84,7 +81,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

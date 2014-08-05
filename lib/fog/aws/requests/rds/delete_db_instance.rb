@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/delete_db_instance'
 
         # delete a database instance
@@ -25,11 +24,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::DeleteDBInstance.new
           }.merge(params))
         end
-
       end
 
       class Mock
-
         def delete_db_instance(identifier, snapshot_identifier, skip_snapshot = false)
           response = Excon::Response.new
 
@@ -48,7 +45,6 @@ module Fog
             raise Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found")
           end
         end
-
       end
     end
   end

@@ -4,15 +4,13 @@ require 'fog/vsphere/models/compute/volume'
 module Fog
   module Compute
     class Vsphere
-
       class Volumes < Fog::Collection
-
-        attribute :server
+        attribute :server_id
 
         model Fog::Compute::Vsphere::Volume
 
         def all(filters = {})
-          requires :server
+          requires :server_id
 
           case server
             when Fog::Compute::Vsphere::Server
@@ -32,17 +30,25 @@ module Fog
         end
 
         def new(attributes = {})
-          if server
+          if server_id
             # Default to the root volume datastore if one is not configured.
-            datastore = ! attributes.has_key?(:datastore) && self.any? ? self.first.datastore : nil
+            datastore = ! attributes.key?(:datastore) && self.any? ? self.first.datastore : nil
 
-            super({ :server_id => server.id, :datastore => datastore }.merge!(attributes))
+            super({ :server_id => server_id, :datastore => datastore }.merge!(attributes))
           else
             super
           end
         end
 
-     end
+        def server
+          return nil if server_id.nil?
+          service.servers.get(server_id)
+        end
+
+        def server=(new_server)
+          server_id = new_server.id
+        end
+      end
     end
   end
 end

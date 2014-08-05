@@ -3,7 +3,6 @@ require "fog/core/model"
 module Fog
   module Network
     class StormOnDemand
-
       class Zone < Fog::Model
         identity :id
         attribute :is_default
@@ -20,7 +19,6 @@ module Fog
           requires :identity
           service.set_default_zone(:id => identity)
         end
-
       end
     end
   end

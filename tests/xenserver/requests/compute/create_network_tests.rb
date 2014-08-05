@@ -16,5 +16,5 @@ Shindo.tests('Fog::Compute[:xenserver] | create_network request', ['xenserver'])
   end
 
   compute.destroy_network @ref
-  
+
 end

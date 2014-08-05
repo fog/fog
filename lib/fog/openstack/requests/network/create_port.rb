@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def create_port(network_id, options = {})
           data = {
@@ -46,7 +45,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

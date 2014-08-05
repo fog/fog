@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Create a record
         # ==== Parameters
         # * domain id <~Integer> The id of the domain you wish to create a record for
@@ -17,6 +16,7 @@ module Fog
         # * geolock <~Boolean> Lock geo coordinates, default false
         # * geolat <~Double> Geo latitude, (nullable)
         # * geolong <~Double> Geo longitude, (nullable)
+        # * udplimit <~Boolean> Limit number of records returned, (nullable, default false)
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -25,13 +25,9 @@ module Fog
         #      * 'id'<~Integer>
         #      * 'error'<~String>
 
-
 # https://secure.rage4.com/rapi/createrecord/
 
-
         def create_record(domain_id, name, content, type, options = {})
-
-
           path = "/rapi/createrecord/#{domain_id}"
           path << "?name=#{name}&content=#{content}&type=#{type}"
 
@@ -49,6 +45,7 @@ module Fog
           path << "&geolock=#{options[:geolock]}" if options[:geolock]
           path << "&geolat=#{options[:geolat]}"   if options[:geolat]
           path << "&geolong=#{options[:geolong]}" if options[:geolong]
+          path << "&udplimit=#{options[:udplimit]}" if options[:udplimit]
 
           request(
                   :expects  => 200,
@@ -56,10 +53,7 @@ module Fog
                   :path     => path
           )
         end
-
       end
-
-
     end
   end
 end

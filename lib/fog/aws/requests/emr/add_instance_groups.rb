@@ -2,7 +2,6 @@ module Fog
   module AWS
     class EMR
       class Real
-
         require 'fog/aws/parsers/emr/add_instance_groups'
 
         # adds an instance group to a running cluster
@@ -21,7 +20,6 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def add_instance_groups(job_flow_id, options={})
-
           if instance_groups = options.delete('InstanceGroups')
             options.merge!(Fog::AWS.indexed_param('InstanceGroups.member.%d', [*instance_groups]))
           end
@@ -32,14 +30,12 @@ module Fog
             :parser   => Fog::Parsers::AWS::EMR::AddInstanceGroups.new,
           }.merge(options))
         end
-
       end
 
       class Mock
         def add_instance_groups(job_flow_id, options={})
           Fog::Mock.not_implemented
         end
-
       end
     end
   end

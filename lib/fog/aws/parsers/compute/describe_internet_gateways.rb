@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeInternetGateways < Fog::Parsers::Base
-
           def reset
             @internet_gateway = { 'attachmentSet' => {}, 'tagSet' => {} }
             @response = { 'internetGatewaySet' => [] }
@@ -49,8 +47,7 @@ module Fog
                 @internet_gateway[name] = value
               when 'item'
                 @response['internetGatewaySet'] << @internet_gateway
-                @internet_gateway = { 'tagSet' => {} }
-                @internet_gateway = { 'attachmentSet' => {} }
+                @internet_gateway = { 'attachmentSet' => {}, 'tagSet' => {} }
               when 'requestId'
                 @response[name] = value
               end
@@ -61,5 +58,3 @@ module Fog
     end
   end
 end
-
-

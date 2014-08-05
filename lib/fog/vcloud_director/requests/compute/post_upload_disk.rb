@@ -111,7 +111,7 @@ module Fog
             :status => 0,
             :tasks => [task_id],
             :vdc_id => id,
-            :vdc_storage_class => data[:vdc_storage_classes].detect {|k,v| v[:default]}.first
+            :vdc_storage_class => data[:vdc_storage_classes].find {|k,v| v[:default]}.first
           }
           data[:disks][disk_id] = disk
 

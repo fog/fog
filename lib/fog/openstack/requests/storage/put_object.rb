@@ -2,7 +2,6 @@ module Fog
   module Storage
     class OpenStack
       class Real
-
         # Create a new object
         #
         # When passed a block, it will make a chunked request, calling

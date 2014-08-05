@@ -4,7 +4,7 @@ Shindo.tests('Fog::Rackspace::Storage | directories', ['rackspace']) do
 
   begin
     @name = "fog-directories-test-#{Time.now.to_i.to_s}"
-    @filename = 'lorem.txt'    
+    @filename = 'lorem.txt'
     @dir = @service.directories.create :key => @name, :metadata => {:fog_test => true}
     @file = @dir.files.create :key => @filename, :body => lorem_file
 
@@ -17,10 +17,10 @@ Shindo.tests('Fog::Rackspace::Storage | directories', ['rackspace']) do
       returns( Fog::Storage.get_body_size(lorem_file)) {instance.bytes }
       returns(@filename) { instance.files.first.key }
     end
-    
+
   ensure
     @file.destroy if @file
     @dir.destroy if @dir
   end
-   
+
 end

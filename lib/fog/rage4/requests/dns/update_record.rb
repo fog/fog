@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Updates an existing record
         # ==== Parameters
         # * record_id <~Integer> The id of the record you wish to update
@@ -17,6 +16,7 @@ module Fog
         # * geolock <~Boolean> Lock geo coordinates, default false
         # * geolat <~Double> Geo latitude, (nullable)
         # * geolong <~Double> Geo longitude, (nullable)
+        # * udplimit <~Boolean> Limit number of records returned, (nullable, default false)
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -25,12 +25,9 @@ module Fog
         #      * 'id'<~Integer>
         #      * 'error'<~String>
 
-
 # https://secure.rage4.com/rapi/createrecord/
 
-
         def update_record(record_id, name, content, type, options = {})
-
           path = "/rapi/updaterecord/#{record_id}"
           path << "?name=#{name}&content=#{content}&type=#{type}"
 
@@ -48,6 +45,7 @@ module Fog
           path << "&geolock=#{options[:geolock]}" if options[:geolock]
           path << "&geolat=#{options[:geolat]}"   if options[:geolat]
           path << "&geolong=#{options[:geolong]}" if options[:geolong]
+          path << "&udplimit=#{options[:udplimit]}" if options[:udplimit]
 
           request(
                   :expects  => 200,
@@ -55,10 +53,7 @@ module Fog
                   :path     => path
           )
         end
-
       end
-
-
     end
   end
 end

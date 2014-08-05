@@ -4,7 +4,6 @@ require 'fog/vcloud_director/models/compute/media'
 module Fog
   module Compute
     class VcloudDirector
-
       class Medias < Collection
         model Fog::Compute::VcloudDirector::Media
 
@@ -25,7 +24,7 @@ module Fog
 
           file = response.body[:Files][:File].first
           file[:Link] = [file[:Link]] if file[:Link].is_a?(Hash)
-          link = file[:Link].detect {|l| l[:rel] == 'upload:default'}
+          link = file[:Link].find {|l| l[:rel] == 'upload:default'}
 
           headers = {
             'Content-Length' => io.size,
@@ -70,7 +69,6 @@ module Fog
           items.each {|item| service.add_id_from_href!(item)}
           items
         end
-
       end
     end
   end

@@ -57,6 +57,8 @@ module Fog
       request :describe_db_log_files
       request :download_db_logfile_portion
 
+      request :promote_read_replica
+
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
@@ -83,7 +85,6 @@ module Fog
       collection  :log_files
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
@@ -111,14 +112,12 @@ module Fog
         end
 
         def initialize(options={})
-
           @use_iam_profile = options[:use_iam_profile]
           @region = options[:region] || 'us-east-1'
 
           unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
-
         end
 
         def data
@@ -132,7 +131,6 @@ module Fog
         def setup_credentials(options)
           @aws_access_key_id = options[:aws_access_key_id]
         end
-
       end
 
       class Real
@@ -242,7 +240,6 @@ module Fog
             end
           end
         end
-
       end
     end
   end

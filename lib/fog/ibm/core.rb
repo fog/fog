@@ -3,7 +3,6 @@ require 'fog/json'
 
 module Fog
   module IBM
-
     extend Fog::Provider
 
     service(:compute, 'Compute')
@@ -17,7 +16,6 @@ module Fog
     end
 
     class Connection < Fog::XML::Connection
-
       def initialize(user, password)
         @user = user
         @password = password
@@ -54,12 +52,11 @@ module Fog
 
     class Mock
       class << self
-
         def id
           Fog::Mock.random_numbers(7).to_i.to_s
         end
-        alias :instance_id :id
-        alias :request_id  :id
+        alias_method :instance_id, :id
+        alias_method :request_id,  :id
 
         def primary_ip
           { "type" => 0, "ip" => Fog::IBM::Mock.ip_address, "hostname" => Fog::IBM::Mock.hostname }
@@ -169,9 +166,7 @@ module Fog
             "state"     => 0
           }
         end
-
       end
     end
-
   end
 end

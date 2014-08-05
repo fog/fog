@@ -4,9 +4,7 @@ require 'fog/hp/models/compute_v2/flavor'
 module Fog
   module Compute
     class HPV2
-
       class Flavors < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::HPV2::Flavor
@@ -34,9 +32,7 @@ module Fog
         rescue Fog::Compute::HPV2::NotFound
           nil
         end
-
       end
-
     end
   end
 end

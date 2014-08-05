@@ -1,7 +1,6 @@
 module Fog
   module HP
     class LB
-
       # Create a new load balancer node
       #
       # ==== Parameters
@@ -40,7 +39,6 @@ module Fog
             :method  => 'POST',
             :path    => "loadbalancers/#{load_balancer_id}/nodes"
           )
-
         end
       end
       class Mock
@@ -63,10 +61,8 @@ module Fog
           else
             raise Fog::HP::LB::NotFound
           end
-
         end
       end
     end
-
   end
 end

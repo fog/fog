@@ -20,6 +20,36 @@ module Fog
           )
         end
       end
+
+      class Mock
+
+        def get_snapshot_section(id)
+          type = 'application/vnd.vmware.vcloud.snapshotSection+xml'
+
+          unless data[:vms][id] || data[:vapps][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'This operation is denied.'
+            )
+          end
+
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{type};version=#{api_version}"},
+            :body => get_snapshot_section_body(id)
+          )
+        end
+
+        def get_snapshot_section_body(id)
+          {
+            :type => "application/vnd.vmware.vcloud.snapshotSection+xml",
+            :href => make_href("vApp/#{id}/snapshotSection"),
+            :ovf_required => "false",
+            :"ovf:Info"   => "Snapshot information section"
+          }
+        end
+
+      end
+
     end
   end
 end

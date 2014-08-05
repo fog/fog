@@ -46,7 +46,6 @@ module Fog
           service.delete_port(self.id)
           true
         end
-
       end
     end
   end

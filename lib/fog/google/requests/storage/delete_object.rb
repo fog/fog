@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Google
       class Real
-
         # Delete an object from Google Storage
         #
         # ==== Parameters
@@ -22,11 +21,9 @@ module Fog
             :path       => CGI.escape(object_name)
           })
         end
-
       end
 
       class Mock
-
         def delete_object(bucket_name, object_name)
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
@@ -43,7 +40,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

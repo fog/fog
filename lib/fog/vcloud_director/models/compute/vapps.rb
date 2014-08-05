@@ -4,7 +4,6 @@ require 'fog/vcloud_director/models/compute/vapp'
 module Fog
   module Compute
     class VcloudDirector
-
       class Vapps < Collection
         model Fog::Compute::VcloudDirector::Vapp
 
@@ -27,7 +26,6 @@ module Fog
           items.each{|item| service.add_id_from_href!(item) }
           items
         end
-
       end
     end
   end

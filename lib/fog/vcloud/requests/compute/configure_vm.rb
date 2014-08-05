@@ -6,7 +6,7 @@ module Fog
 
         def validate_vm_data(vm_data)
           valid_opts = [:name, :cpus, :memory, :disks]
-          unless valid_opts.all? { |opt| vm_data.has_key?(opt) }
+          unless valid_opts.all? { |opt| vm_data.key?(opt) }
             raise ArgumentError.new("Required vm data missing: #{(valid_opts - vm_data.keys).map(&:inspect).join(", ")}")
           end
         end
@@ -62,8 +62,6 @@ module Fog
               }
             end
 
-
-
              # builder.Item(:xmlns => 'http://schemas.dmtf.org/ovf/envelope/1') {
              # #builder.Item {
              #   builder.InstanceID(1, :xmlns => 'http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData')
@@ -102,7 +100,6 @@ module Fog
             :parse    => true
           )
         end
-
       end
     end
   end

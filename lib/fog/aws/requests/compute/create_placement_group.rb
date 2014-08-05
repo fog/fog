@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Create a new placement group
@@ -26,9 +25,7 @@ module Fog
             :parser             => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
-
       end
-
     end
   end
 end

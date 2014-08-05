@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Linode
       class Real
-
         def linode_disk_createfromdistribution(linode_id, distro_id, name, size, password)
           request(
             :expects  => 200,
@@ -17,7 +16,6 @@ module Fog
             }
           )
         end
-
       end
 
       class Mock

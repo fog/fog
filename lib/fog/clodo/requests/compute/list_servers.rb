@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Clodo
       class Real
-
         # List all servers (IDs and names only)
         #
         # ==== Returns
@@ -27,11 +26,9 @@ module Fog
             :path     => 'servers'
           )
         end
-
       end
 
       class Mock
-
         def list_servers
           response = Excon::Response.new
           data = list_servers_detail.body['servers']
@@ -43,7 +40,6 @@ module Fog
           response.body = { 'servers' => servers }
           response
         end
-
       end
     end
   end

@@ -2,11 +2,9 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         require 'fog/aws/parsers/rds/db_parser'
 
         class RestoreDBInstanceFromDBSnapshot < Fog::Parsers::AWS::RDS::DbParser
-
           def reset
             @response = { 'RestoreDBInstanceFromDBSnapshot' => {}, 'ResponseMetadata' => {} }
             super

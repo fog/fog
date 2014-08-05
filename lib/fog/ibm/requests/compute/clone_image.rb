@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Clones image specified by image_id
         #
         # ==== Parameters
@@ -25,10 +24,8 @@ module Fog
             }
           )
         end
-
       end
       class Mock
-
         def clone_image(image_id, name, description)
           response = Excon::Response.new
           if image_exists? image_id
@@ -41,7 +38,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Runs the policy you create for your Auto Scaling group in
@@ -34,17 +32,13 @@ module Fog
             :parser      => Fog::Parsers::AWS::AutoScaling::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def execute_policy(policy_name, options = {})
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

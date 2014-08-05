@@ -2,7 +2,6 @@ module Fog
   module Storage
     class OpenStack
       class Real
-
         # Get details for container and total bytes stored
         #
         # ==== Parameters
@@ -37,7 +36,6 @@ module Fog
             :query    => {'format' => 'json'}.merge!(options)
           )
         end
-
       end
     end
   end

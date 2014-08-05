@@ -6,7 +6,7 @@ Shindo.tests("Fog::DNS[:dreamhost] | record", ['dreamhost', 'dns']) do
   tests('#attributes') do
     tests('should have') do
       model_attribute_hash = record.attributes
-      attributes = [ 
+      attributes = [
         :name,
         :value,
         :zone,
@@ -19,7 +19,7 @@ Shindo.tests("Fog::DNS[:dreamhost] | record", ['dreamhost', 'dns']) do
         test("#{attribute} method") { record.respond_to? attribute }
       end
       attributes.each do |attribute|
-        test("#{attribute} key") { model_attribute_hash.has_key? attribute }
+        test("#{attribute} key") { model_attribute_hash.key? attribute }
       end
     end
 
@@ -33,9 +33,9 @@ Shindo.tests("Fog::DNS[:dreamhost] | record", ['dreamhost', 'dns']) do
                                  :type  => 'A',
                                  :value => "8.8.8.8"
       sleep 10
-      tests('#save') do 
+      tests('#save') do
         test('returns Fog::DNS::Dreamhost::Record') do
-          r.is_a? Fog::DNS::Dreamhost::Record 
+          r.is_a? Fog::DNS::Dreamhost::Record
         end
         test('value is 8.8.8.8') do
           r.value == '8.8.8.8'
@@ -70,4 +70,3 @@ Shindo.tests("Fog::DNS[:dreamhost] | record", ['dreamhost', 'dns']) do
   cleanup_records
 
 end
-

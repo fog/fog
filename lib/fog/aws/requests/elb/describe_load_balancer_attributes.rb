@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/describe_load_balancer_attributes'
 
         # Describe the load balancer attributes
@@ -17,6 +16,9 @@ module Fog
         #       * 'RequestId'<~String> - Id of request
         #     * 'DescribeLoadBalancerAttributesResult'<~Hash>:
         #       * 'LoadBalancerAttributes'<~Hash>
+        #         * 'ConnectionDraining'<~Hash>
+        #           * 'Enabled'<~Boolean> - whether connection draining is enabled
+        #           * 'Timeout'<~Integer> - max time (in seconds) to keep existing conns open before deregistering instances.
         #         * 'CrossZoneLoadBalancing'<~Hash>
         #           * 'Enabled'<~Boolean> - whether crosszone load balancing is enabled
         def describe_load_balancer_attributes(lb_name)
@@ -26,7 +28,6 @@ module Fog
             :parser   => Fog::Parsers::AWS::ELB::DescribeLoadBalancerAttributes.new
           })
         end
-
       end
 
       class Mock

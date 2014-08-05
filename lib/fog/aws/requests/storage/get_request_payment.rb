@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/get_request_payment'
 
         # Get configured payer for an S3 bucket
@@ -26,11 +25,9 @@ module Fog
             :query    => {'requestPayment' => nil}
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_request_payment(bucket_name)
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
@@ -42,7 +39,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/update_group'
 
         # Update a Group
@@ -32,7 +31,6 @@ module Fog
             :parser       => Fog::Parsers::AWS::IAM::UpdateGroup.new
           }.merge!(options))
         end
-
       end
     end
   end

@@ -43,5 +43,4 @@ Shindo.tests('HP::LB | load balancer nodes', ['hp', 'lb', 'nodes']) do
     end
   end
 
-
 end

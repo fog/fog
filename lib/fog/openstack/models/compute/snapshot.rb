@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/metadata'
 module Fog
   module Compute
     class OpenStack
-
       class Snapshot < Fog::Model
-
         identity :id
 
         attribute :name,                :aliases => 'displayName'
@@ -15,7 +13,6 @@ module Fog
         attribute :status
         attribute :size
         attribute :created_at,          :aliases => 'createdAt'
-
 
         def initialize(attributes)
           # Old 'connection' is renamed as service and should be used instead
@@ -35,10 +32,7 @@ module Fog
           service.delete_snapshot(id)
           true
         end
-
       end
-
     end
   end
-
 end

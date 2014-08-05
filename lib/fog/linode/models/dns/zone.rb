@@ -4,9 +4,7 @@ require 'fog/linode/models/dns/records'
 module Fog
   module DNS
     class Linode
-
       class Zone < Fog::Model
-
         identity :id,           :aliases => ['DomainID', 'DOMAINID', 'ResourceID']
 
         attribute :description, :aliases => 'DESCRIPTION'
@@ -75,9 +73,7 @@ module Fog
           merge_attributes(response.body['DATA'])
           true
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/create_volume'
 
         # Create an EBS volume
@@ -14,6 +13,7 @@ module Fog
         #   * 'SnapshotId'<~String> - Optional, snapshot to create volume from
         #   * 'VolumeType'<~String> - Optional, volume type. standard or io1, default is standard.
         #   * 'Iops'<~Integer> - Number of IOPS the volume supports. Required if VolumeType is io1, must be between 1 and 4000.
+        #   * 'Encrypted'<~Boolean> - Optional, specifies whether the volume should be encrypted, default is false.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -26,6 +26,7 @@ module Fog
         #     * 'volumeId'<~String> - Reference to volume
         #     * 'volumeType'<~String> - Type of volume
         #     * 'iops'<~Integer> - Number of IOPS the volume supports
+        #     * 'encrypted'<~Boolean> - Indicates whether the volume will be encrypted
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVolume.html]
         def create_volume(availability_zone, size, options = {})
@@ -41,11 +42,9 @@ module Fog
             :parser             => Fog::Parsers::Compute::AWS::CreateVolume.new
           }.merge(options))
         end
-
       end
 
       class Mock
-
         def create_volume(availability_zone, size, options = {})
           unless options.is_a?(Hash)
             Fog::Logger.deprecation("create_volume with a bare snapshot_id is deprecated, use create_volume(availability_zone, size, 'SnapshotId' => snapshot_id) instead [light_black](#{caller.first})[/]")
@@ -75,8 +74,8 @@ module Fog
                 raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Volume of #{size}GiB is too small; minimum is 10GiB.")
               end
 
-              if (iops_to_size_ratio = iops.to_f / size.to_f) > 10.0
-                raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Iops to volume size ratio of #{"%.1f" % iops_to_size_ratio} is too high; maximum is 10.0")
+              if (iops_to_size_ratio = iops.to_f / size.to_f) > 30.0
+                raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Iops to volume size ratio of #{"%.1f" % iops_to_size_ratio} is too high; maximum is 30.0")
               end
 
               if iops < 100
@@ -95,6 +94,7 @@ module Fog
               'attachmentSet'     => [],
               'createTime'        => Time.now,
               'iops'              => options['Iops'],
+              'encrypted'         => options['Encrypted'] || false,
               'size'              => size,
               'snapshotId'        => options['SnapshotId'],
               'status'            => 'creating',
@@ -104,7 +104,7 @@ module Fog
             self.data[:volumes][volume_id] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
-            }.merge!(data.reject {|key,value| !['availabilityZone','createTime','size','snapshotId','status','volumeId','volumeType'].include?(key) })
+            }.merge!(data.reject {|key,value| !['availabilityZone','createTime','encrypted','size','snapshotId','status','volumeId','volumeType'].include?(key) })
           else
             response.status = 400
             response.body = {
@@ -118,7 +118,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

@@ -4,7 +4,6 @@ require 'fog/aws/models/rds/instance_option'
 module Fog
   module AWS
     class RDS
-
       class InstanceOptions < Fog::PagedCollection
         attribute :filters
         attribute :engine
@@ -23,7 +22,6 @@ module Fog
           self.filters[:marker] = result['Marker']
           load(result['OrderableDBInstanceOptions'])
         end
-
       end
     end
   end

@@ -4,7 +4,6 @@ require 'fog/aws/models/cloud_watch/metric'
 module Fog
   module AWS
     class CloudWatch
-
       class Metrics < Fog::Collection
         attribute :next_token, :aliases => 'NextToken'
 
@@ -16,7 +15,7 @@ module Fog
           load(result['Metrics']) # an array of attribute hashes
         end
 
-        alias :each_metric_this_page :each
+        alias_method :each_metric_this_page, :each
         def each
           if !block_given?
             self
@@ -36,7 +35,7 @@ module Fog
         def get(namespace, metric_name, dimensions=nil)
           list_opts = {'Namespace' => namespace, 'MetricName' => metric_name}
           if dimensions
-            dimensions_array = dimensions.collect do |name, value|
+            dimensions_array = dimensions.map do |name, value|
               {'Name' => name, 'Value' => value}
             end
             # list_opts.merge!('Dimensions' => dimensions_array)
@@ -45,7 +44,6 @@ module Fog
             new(data)
           end
         end
-
       end
     end
   end

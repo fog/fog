@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Deletes the specified route from the specified route table.
@@ -26,11 +25,9 @@ module Fog
             :parser                 => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
-
       end
 
       class Mock
-
         def delete_route(route_table_id, destination_cidr_block)
           route_table = self.data[:route_tables].find { |routetable| routetable["routeTableId"].eql? route_table_id }
           unless route_table.nil?

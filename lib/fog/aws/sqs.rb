@@ -144,7 +144,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

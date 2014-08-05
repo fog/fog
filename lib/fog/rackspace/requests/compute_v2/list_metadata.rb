@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Retrieves all metadata associated with a server or an image.
         # @param [String<images, servers>] collection type of metadata
         # @param [String] obj_id id of the object where the metadata is attached
@@ -18,7 +17,7 @@ module Fog
           request(
             :expects => [200, 203],
             :method => 'GET',
-            :path => "/#{collection}/#{obj_id}/metadata"
+            :path => "#{collection}/#{obj_id}/metadata"
           )
         end
       end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module CDN
       module AWS
-
         class GetStreamingDistributionList < Fog::Parsers::Base
-
           def reset
             @distribution_summary = { 'CNAME' => [], 'TrustedSigners' => [] }
             @response = { 'StreamingDistributionSummary' => [] }
@@ -50,9 +48,7 @@ module Fog
               @response[name] = @value.to_i
             end
           end
-
         end
-
       end
     end
   end

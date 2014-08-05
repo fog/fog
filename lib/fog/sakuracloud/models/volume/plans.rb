@@ -4,7 +4,6 @@ require 'fog/sakuracloud/models/volume/plan'
 module Fog
   module Volume
     class SakuraCloud
-
       class Plans < Fog::Collection
         model Fog::Volume::SakuraCloud::Plan
 
@@ -17,9 +16,7 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

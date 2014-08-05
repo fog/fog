@@ -12,7 +12,6 @@ module Fog
           mock_get(:ips, 200, ip)
         end
       end
-
     end
   end
 end

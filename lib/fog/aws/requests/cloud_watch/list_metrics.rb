@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudWatch
       class Real
-
         require 'fog/aws/parsers/cloud_watch/list_metrics'
 
         # List availabe metrics
@@ -22,8 +21,8 @@ module Fog
         #
         def list_metrics(options={})
           if dimensions = options.delete('Dimensions')
-            options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.collect {|dimension| dimension['Name']}))
-            options.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.collect {|dimension| dimension['Value']}))
+            options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.map {|dimension| dimension['Name']}))
+            options.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.map {|dimension| dimension['Value']}))
           end
 
           request({
@@ -31,7 +30,6 @@ module Fog
               :parser     => Fog::Parsers::AWS::CloudWatch::ListMetrics.new
             }.merge(options))
         end
-
       end
 
       class Mock
@@ -59,7 +57,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

@@ -1,6 +1,5 @@
 class Vcloud < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -25,6 +24,5 @@ class Vcloud < Fog::Bin
     def services
       Fog::Vcloud.services
     end
-
   end
 end

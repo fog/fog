@@ -1,28 +1,22 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Lists all available networks.
+        # Generates usage records. This will generate records only if there any records to be generated, i.e if the scheduled usage job was not run or failed
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/generateUsageRecords.html]
-        def generate_usage_records(options={})
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/generateUsageRecords.html]
+        def generate_usage_records(enddate, startdate, options={})
           options.merge!(
-            'command' => 'generateUsageRecords'
+            'command' => 'generateUsageRecords', 
+            'enddate' => enddate, 
+            'startdate' => startdate  
           )
-
-          if startdate = options.delete('startdate')
-            options.merge!('startdate' => startdate.strftime('%Y-%m-%d'))
-          end
-
-          if enddate = options.delete('enddate')
-            options.merge!('enddate' => enddate.strftime('%Y-%m-%d'))
-          end
-
           request(options)
         end
-
       end
+
     end
   end
 end
+

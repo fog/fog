@@ -3,7 +3,6 @@ module Fog
   module Compute
     class Joyent
       class Networks < Fog::Collection
-
         model Fog::Compute::Joyent::Network
 
         def all

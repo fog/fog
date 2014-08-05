@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         require 'fog/internet_archive/parsers/storage/complete_multipart_upload'
 
         # Complete a multipart upload
@@ -41,7 +40,6 @@ module Fog
             :query      => {'uploadId' => upload_id}
           })
         end
-
       end # Real
     end # Storage
   end # InternetArchive

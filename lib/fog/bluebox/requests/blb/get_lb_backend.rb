@@ -30,7 +30,6 @@ module Fog
 
       class Mock
       end
-
     end
   end
 end

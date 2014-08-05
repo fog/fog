@@ -1,17 +1,16 @@
 Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
   require 'fog'
-  @availability_zones = Fog::Compute[:aws].describe_availability_zones('state' => 'available').body['availabilityZoneInfo'].collect{ |az| az['zoneName'] }
+  Fog::Compute::AWS::Mock.reset if Fog.mocking?
+  @availability_zones = Fog::Compute[:aws].describe_availability_zones('state' => 'available').body['availabilityZoneInfo'].map{ |az| az['zoneName'] }
   @key_name = 'fog-test-model'
-  @vpc=Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
+  @vpc = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
   @vpc_id = @vpc.id
   @subnet = Fog::Compute[:aws].subnets.create({:vpc_id => @vpc_id, :cidr_block => '10.0.10.0/24'})
   @subnet_id = @subnet.subnet_id
   @scheme = 'internal'
-  @igw=Fog::Compute[:aws].internet_gateways.create
+  @igw = Fog::Compute[:aws].internet_gateways.create
   @igw_id = @igw.id
   @igw.attach(@vpc_id)
-
-
 
   tests('success') do
     tests('load_balancers') do
@@ -57,10 +56,8 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
         end
       end
       tests('with vpc') do
-        Fog::Compute[:aws].ec2_compatibility_mode(false)
         elb2 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :subnet_ids => [@subnet_id])
-        tests("elb source group should be default_elb*").returns(true) { !!(elb2.source_group["GroupName"] =~ /default_elb_*/) }
-        tests("should have a 'default_elb_*' security group").returns(true) { Fog::Compute[:aws].security_groups.all.any? { |sg| sg.name =~ /default_elb/ } }
+        tests("elb source group should be default").returns('default') { elb2.source_group["GroupName"] }
         tests("subnet ids are correct").returns(@subnet_id) { elb2.subnet_ids.first }
         elb2.destroy
       end
@@ -69,6 +66,20 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
         tests("scheme is internal").returns(@scheme) { elb2.scheme }
         elb2.destroy
       end
+      tests('with default vpc') do
+        Fog::Compute[:aws].disable_ec2_classic if Fog.mocking?
+
+        if Fog::Compute[:aws].supported_platforms.include?("EC2")
+          Formatador.display_line("[yellow]Skipping test [bold]with default vpc[/][yellow] due to AWS account having EC2 available[/]")
+        else
+          elb2 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :availability_zones => @availability_zones[0])
+          tests("elb source group should start with default_elb_").returns(true) { !!(elb2.source_group["GroupName"] =~ /default_elb_/) }
+          elb2.destroy
+        end
+
+        Fog::Compute[:aws].enable_ec2_classic if Fog.mocking?
+      end
+
       if !Fog.mocking?
         @igw.detach(@vpc_id)
         @igw.destroy
@@ -78,10 +89,13 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
      end
 
       tests('with availability zones') do
-        Fog::Compute[:aws].ec2_compatibility_mode(true)
         azs = @availability_zones[1..-1]
         elb2 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :availability_zones => azs)
-        tests("elb source group should be amazon-elb-sg").returns(true) { elb2.source_group["GroupName"] == 'amazon-elb-sg' }
+        if Fog::Compute[:aws].supported_platforms.include?("EC2")
+          tests("elb source group should be amazon-elb-sg").returns('amazon-elb-sg') { elb2.source_group["GroupName"] }
+        else
+          tests("elb source group should match default_elb_").returns(true) { !!(elb2.source_group["GroupName"] =~ /default_elb_/) }
+        end
         tests("availability zones are correct").returns(azs.sort) { elb2.availability_zones.sort }
         elb2.destroy
       end
@@ -171,7 +185,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
 
     tests('instance_health') do
       returns('OutOfService') do
-        elb.instance_health.detect{|hash| hash['InstanceId'] == server.id}['State']
+        elb.instance_health.find{|hash| hash['InstanceId'] == server.id}['State']
       end
 
       returns([server.id]) { elb.instances_out_of_service }
@@ -191,6 +205,14 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     tests('enable_availability_zones') do
       elb.enable_availability_zones(@availability_zones[1..-1])
       returns(@availability_zones) { elb.availability_zones.sort }
+    end
+
+    tests('connection_draining') do
+      returns(false) { elb.connection_draining? }
+      returns(300) { elb.connection_draining_timeout }
+      elb.set_connection_draining(true, 60)
+      returns(true) { elb.connection_draining? }
+      returns(60) { elb.connection_draining_timeout }
     end
 
     tests('cross_zone_load_balancing') do
@@ -330,9 +352,5 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     end
 
     Fog::AWS[:iam].delete_server_certificate(@key_name)
-
-    @igw.destroy
-    @subnet.destroy
-    @vpc.destroy
   end
 end

@@ -31,7 +31,6 @@ module Fog
         def base_price
           price / multiplier
         end
-
       end
     end
   end

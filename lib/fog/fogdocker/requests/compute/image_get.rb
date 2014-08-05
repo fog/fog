@@ -3,9 +3,8 @@ module Fog
     class Fogdocker
       class Real
         def image_get(id)
-          downcase_hash_keys Docker::Image.get(id).info
+          downcase_hash_keys Docker::Image.get(id).json
         end
-
       end
       class Mock
         def image_get(id)

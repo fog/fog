@@ -102,7 +102,6 @@ module Fog
           state == ready_state
         end
 
-
         # Destroy image
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400

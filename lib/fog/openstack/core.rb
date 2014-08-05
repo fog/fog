@@ -63,7 +63,7 @@ module Fog
     # legacy v1.0 style auth
     def self.authenticate_v1(options, connection_options = {})
       uri = options[:openstack_auth_uri]
-      connection = Fog::XML::Connection.new(uri.to_s, false, connection_options)
+      connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
       @openstack_api_key  = options[:openstack_api_key]
       @openstack_username = options[:openstack_username]
 
@@ -94,7 +94,6 @@ module Fog
       endpoint_type         = (options[:openstack_endpoint_type] || 'publicURL').to_s
       openstack_region      = options[:openstack_region]
 
-
       body = retrieve_tokens_v2(options, connection_options)
       service = get_service(body, service_type, service_name)
 
@@ -102,7 +101,7 @@ module Fog
 
       unless service
         unless tenant_name
-          response = Fog::XML::Connection.new(
+          response = Fog::Core::Connection.new(
             "#{uri.scheme}://#{uri.host}:#{uri.port}/v2.0/tenants", false, connection_options).request({
             :expects => [200, 204],
             :headers => {'Content-Type' => 'application/json',
@@ -153,8 +152,8 @@ module Fog
       tenant = body['access']['token']['tenant']
       user = body['access']['user']
 
-      management_url = service['endpoints'].detect{|s| s[endpoint_type]}[endpoint_type]
-      identity_url   = identity_service['endpoints'].detect{|s| s['publicURL']}['publicURL'] if identity_service
+      management_url = service['endpoints'].find{|s| s[endpoint_type]}[endpoint_type]
+      identity_url   = identity_service['endpoints'].find{|s| s['publicURL']}['publicURL'] if identity_service
 
       {
         :user                     => user,
@@ -166,11 +165,10 @@ module Fog
         :current_user_id          => body['access']['user']['id'],
         :unscoped_token           => options[:unscoped_token]
       }
-
     end
 
     def self.get_service(body, service_type=[], service_name=nil)
-      body['access']['serviceCatalog'].detect do |s|
+      body['access']['serviceCatalog'].find do |s|
         if service_name.nil? or service_name.empty?
           service_type.include?(s['type'])
         else
@@ -186,7 +184,7 @@ module Fog
       auth_token  = options[:openstack_auth_token] || options[:unscoped_token]
       uri         = options[:openstack_auth_uri]
 
-      connection = Fog::XML::Connection.new(uri.to_s, false, connection_options)
+      connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
       request_body = {:auth => Hash.new}
 
       if auth_token
@@ -213,7 +211,7 @@ module Fog
     end
 
     def self.get_supported_version(supported_versions, uri, auth_token, connection_options = {})
-      connection = Fog::XML::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, connection_options)
+      connection = Fog::Core::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, connection_options)
       response = connection.request({
         :expects => [200, 204, 300],
         :headers => {'Content-Type' => 'application/json',
@@ -225,7 +223,7 @@ module Fog
       body = Fog::JSON.decode(response.body)
       version = nil
       unless body['versions'].empty?
-        supported_version = body['versions'].detect do |x|
+        supported_version = body['versions'].find do |x|
           x["id"].match(supported_versions) &&
           (x["status"] == "CURRENT" || x["status"] == "SUPPORTED")
         end
@@ -245,6 +243,5 @@ module Fog
         '%' + $1.unpack('H2' * $1.bytesize).join('%').upcase
       end
     end
-
   end
 end

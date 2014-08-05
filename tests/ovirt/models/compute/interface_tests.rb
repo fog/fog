@@ -17,7 +17,7 @@ Shindo.tests('Fog::Compute[:ovirt] | interface model', ['ovirt']) do
       end
       tests("The attributes hash should have key") do
         attributes.each do |attribute|
-          test("#{attribute}") { model_attribute_hash.has_key? attribute }
+          test("#{attribute}") { model_attribute_hash.key? attribute }
         end
       end
     end

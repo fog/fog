@@ -4,7 +4,6 @@ module Fog
   module Compute
     class DigitalOcean
       class SshKeys < Fog::Collection
-
         identity :href
 
         model Fog::Compute::DigitalOcean::SshKey

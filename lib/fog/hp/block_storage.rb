@@ -3,7 +3,6 @@ require 'fog/hp/core'
 module Fog
   module HP
     class BlockStorage < Fog::Service
-
       requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
       recognizes  :hp_auth_uri, :credentials, :hp_service_type
       recognizes  :persistent, :connection_options
@@ -34,7 +33,6 @@ module Fog
       request :list_snapshots
 
       module Utils
-
         def compute
           @compute ||= Fog::Compute.new(
             :provider       => 'HP',
@@ -47,7 +45,6 @@ module Fog
             :connection_options => @connection_options
           )
         end
-
       end
 
       class Mock
@@ -85,7 +82,6 @@ module Fog
         def reset_data
           self.class.data.delete(@hp_access_key)
         end
-
       end
 
       class Real
@@ -168,7 +164,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

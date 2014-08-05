@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/get_console_output'
 
         # Retrieve console output for specified instance
@@ -27,11 +26,9 @@ module Fog
             :parser       => Fog::Parsers::Compute::AWS::GetConsoleOutput.new
           )
         end
-
       end
 
       class Mock
-
         def get_console_output(instance_id)
           response = Excon::Response.new
           if instance = self.data[:instances][instance_id]
@@ -47,7 +44,6 @@ module Fog
             raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_id}' does not exist")
           end
         end
-
       end
     end
   end

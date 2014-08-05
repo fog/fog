@@ -2,7 +2,6 @@ module Fog
   module DNS
     class AWS
       class Real
-
         require 'fog/aws/parsers/dns/list_resource_record_sets'
 
         # list your resource record sets
@@ -34,7 +33,6 @@ module Fog
         #     * 'NextRecordIdentifier'<~String>
         #   * status<~Integer> - 201 when successful
         def list_resource_record_sets(zone_id, options = {})
-
           # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
           # that form or just the actual id (which is what this request needs)
           zone_id = zone_id.sub('/hostedzone/', '')
@@ -56,13 +54,10 @@ module Fog
             :method  => 'GET',
             :path    => "hostedzone/#{zone_id}/rrset"
           })
-
         end
-
       end
 
       class Mock
-
         def list_resource_record_sets(zone_id, options = {})
           maxitems = [options[:max_items]||100,100].min
 
@@ -75,11 +70,14 @@ module Fog
             raise(Excon::Errors.status_error({:expects => 200}, response))
           end
 
-          if options[:type]
-            records = zone[:records][options[:type]].values
+          records = if options[:type]
+            records_type = zone[:records][options[:type]]
+            records_type.values if records_type
           else
-            records = zone[:records].values.map{|r| r.values}.flatten
+            zone[:records].values.map{|r| r.values}.flatten
           end
+
+          records ||= []
 
           # sort for pagination
           records.sort! { |a,b| a[:name].gsub(zone[:name],"") <=> b[:name].gsub(zone[:name],"") }
@@ -126,7 +124,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

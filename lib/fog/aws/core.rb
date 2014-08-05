@@ -69,7 +69,7 @@ module Fog
 
     def self.indexed_request_param(name, values)
       idx = -1
-      Array(values).inject({}) do |params, value|
+      Array(values).reduce({}) do |params, value|
         params["#{name}.#{idx += 1}"] = value
         params
       end
@@ -89,15 +89,6 @@ module Fog
     end
 
     def self.escape(string)
-      unless @unf_loaded_or_warned
-        begin
-          require('unf/normalizer')
-        rescue LoadError
-          Fog::Logger.warning("Unable to load the 'unf' gem. Your AWS strings may not be properly encoded.")
-        end
-        @unf_loaded_or_warned = true
-      end
-      string = defined?(::UNF::Normalizer) ? ::UNF::Normalizer.normalize(string, :nfc) : string
       string.gsub(/([^a-zA-Z0-9_.\-~]+)/) {
         "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
       }
@@ -130,7 +121,6 @@ module Fog
     end
 
     class Mock
-
       def self.arn(vendor, account_id, path, region = nil)
         "arn:aws:#{vendor}:#{region}:#{account_id}:#{path}"
       end
@@ -228,10 +218,10 @@ module Fog
         request_id.join('-')
       end
       class << self
-        alias :reserved_instances_id :request_id
-        alias :reserved_instances_offering_id :request_id
-        alias :sqs_message_id :request_id
-        alias :sqs_sender_id :request_id
+        alias_method :reserved_instances_id, :request_id
+        alias_method :reserved_instances_offering_id, :request_id
+        alias_method :sqs_message_id, :request_id
+        alias_method :sqs_sender_id, :request_id
       end
 
       def self.reservation_id

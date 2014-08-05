@@ -1,7 +1,6 @@
 module Fog
   module HP
     class DNS
-
       class Real
         # Update an existing DNS domain
         #
@@ -42,7 +41,7 @@ module Fog
       class Mock
         def update_domain(domain_id, options={})
           response = Excon::Response.new
-          if domain = list_domains.body['domains'].detect { |_| _['id'] == domain_id }
+          if domain = list_domains.body['domains'].find { |_| _['id'] == domain_id }
 
             domain['name']          = options[:name]   if options[:name]
             domain['description']   = options[:description]   if options[:description]

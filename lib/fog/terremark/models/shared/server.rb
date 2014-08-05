@@ -10,13 +10,10 @@ module VAppStatus
   POWERED_ON = "4"
 end
 
-
 module Fog
   module Terremark
     module Shared
-
       class Server < Fog::Model
-
         identity :id
 
         attribute :name
@@ -33,6 +30,7 @@ module Fog
         def reload
          merge_attributes(service.get_vapp(id).body)
         end
+
         def destroy
           case self.status
             when VAppStatus::BEING_CREATED, VAppStatus::BEING_DEPLOYED
@@ -202,9 +200,10 @@ module Fog
         end
 
         def type=(new_type); @type = new_type; end
-        def size=(new_size); @size = new_size; end
-        def Links=(new_links); @Links = new_links; end
 
+        def size=(new_size); @size = new_size; end
+
+        def Links=(new_links); @Links = new_links; end
       end
     end
   end

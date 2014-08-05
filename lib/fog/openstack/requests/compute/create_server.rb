@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def create_server(name, image_ref, flavor_ref, options = {})
           data = {
             'server' => {
@@ -38,8 +37,8 @@ module Fog
             data['server']['personality'] = []
             for file in options['personality']
               data['server']['personality'] << {
-                'contents'  => Base64.encode64(file['contents']),
-                'path'      => file['path']
+                'contents'  => Base64.encode64(file['contents'] || file[:contents]),
+                'path'      => file['path'] || file[:path]
               }
             end
           end
@@ -83,11 +82,9 @@ module Fog
             :path     => path
           )
         end
-
       end
 
       class Mock
-
         def create_server(name, image_ref, flavor_ref, options = {})
           response = Excon::Response.new
           response.status = 202
@@ -108,7 +105,7 @@ module Fog
                     end
 
           mock_data = {
-            'addresses'    => {},
+            'addresses'    => {"Private" => [{"addr" => Fog::Mock.random_ip }]},
             'flavor'       => {"id" => flavor_ref, "links"=>[{"href"=>"http://nova1:8774/admin/flavors/1", "rel"=>"bookmark"}]},
             'id'           => server_id,
             'image'        => {"id" => image_ref, "links"=>[{"href"=>"http://nova1:8774/admin/images/#{image_ref}", "rel"=>"bookmark"}]},

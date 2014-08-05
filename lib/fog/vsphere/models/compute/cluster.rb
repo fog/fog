@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Vsphere
-
       class Cluster < Fog::Model
-
         identity :id
 
         attribute :name
@@ -23,9 +21,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end

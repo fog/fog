@@ -4,9 +4,7 @@ require 'fog/aws/models/iam/role'
 module Fog
   module AWS
     class IAM
-
       class Roles < Fog::Collection
-
         model Fog::AWS::IAM::Role
 
         def initialize(attributes = {})
@@ -28,12 +26,11 @@ module Fog
         end
 
         def new(attributes = {})
-          if not attributes.has_key?(:assume_role_policy_document)
+          if not attributes.key?(:assume_role_policy_document)
             attributes[:assume_role_policy_document] = Fog::AWS::IAM::EC2_ASSUME_ROLE_POLICY.to_s
           end
           super
         end
-
       end
     end
   end

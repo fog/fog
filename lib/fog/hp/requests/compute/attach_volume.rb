@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Attach a block storage volume to an existing server
         #
         # ==== Parameters
@@ -31,11 +30,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock  # :nodoc:all
-
         def attach_volume(server_id, volume_id, device)
           response = Excon::Response.new
           if server = self.data[:servers][server_id]
@@ -71,7 +68,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

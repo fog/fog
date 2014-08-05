@@ -3,14 +3,13 @@ require 'fog/core/model'
 module Fog
   module HP
     class Network
-
       class Router < Fog::Model
         identity :id
 
         attribute :name
         attribute :tenant_id
         attribute :external_gateway_info
-        attribute :admin_state_up
+        attribute :admin_state_up, :type => :boolean
         attribute :status
 
         def destroy
@@ -59,7 +58,6 @@ module Fog
           merge_attributes(service.update_router(id, attributes).body['router'])
           true
         end
-
       end
     end
   end

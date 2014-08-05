@@ -4,9 +4,7 @@ require 'fog/dynect/models/dns/records'
 module Fog
   module DNS
     class Dynect
-
       class Zone < Fog::Model
-
         identity  :domain
 
         attribute :domain,        :aliases => 'zone'
@@ -52,9 +50,7 @@ module Fog
           merge_attributes(data)
           true
         end
-
       end
-
     end
   end
 end

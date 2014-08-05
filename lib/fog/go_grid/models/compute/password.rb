@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class GoGrid
-
       class Password < Fog::Model
-
         identity :id
 
         attribute :server_id
@@ -41,10 +39,7 @@ module Fog
           merge_attributes(data.body)
           true
         end
-
       end
-
     end
-
   end
 end

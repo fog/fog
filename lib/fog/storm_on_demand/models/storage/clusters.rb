@@ -4,7 +4,6 @@ require 'fog/storm_on_demand/models/storage/cluster'
 module Fog
   module Storage
     class StormOnDemand
-
       class Clusters < Fog::Collection
         model Fog::Storage::StormOnDemand::Cluster
 
@@ -12,9 +11,7 @@ module Fog
           data = service.list_clusters(options).body['items']
           load(data)
         end
-
       end
-
     end
   end
 end

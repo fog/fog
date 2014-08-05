@@ -4,9 +4,7 @@ require 'fog/dnsimple/models/dns/record'
 module Fog
   module DNS
     class DNSimple
-
       class Records < Fog::Collection
-
         attribute :zone
 
         model Fog::DNS::DNSimple::Record
@@ -30,9 +28,7 @@ module Fog
           requires :zone
           super({ :zone => zone }.merge!(attributes))
         end
-
       end
-
     end
   end
 end

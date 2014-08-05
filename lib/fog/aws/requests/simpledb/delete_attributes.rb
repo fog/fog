@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SimpleDB
       class Real
-
         # List metadata for SimpleDB domain
         #
         # ==== Parameters
@@ -30,11 +29,9 @@ module Fog
             :parser       => Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string)
           }.merge!(encode_attributes(attributes)))
         end
-
       end
 
       class Mock
-
         def delete_attributes(domain_name, item_name, attributes = nil)
           response = Excon::Response.new
           if self.data[:domains][domain_name]
@@ -66,7 +63,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

@@ -4,9 +4,7 @@ require 'fog/hp/models/network/security_group_rule'
 module Fog
   module HP
     class Network
-
       class SecurityGroupRules < Fog::Collection
-
         attribute :filters
 
         model Fog::HP::Network::SecurityGroupRule
@@ -29,7 +27,6 @@ module Fog
         rescue Fog::HP::Network::NotFound
           nil
         end
-
       end
     end
   end

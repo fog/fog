@@ -30,7 +30,6 @@ module Fog
             :status => 202
           )
         end
-
       end
     end
   end

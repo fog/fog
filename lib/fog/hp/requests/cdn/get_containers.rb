@@ -2,7 +2,6 @@ module Fog
   module CDN
     class HP
       class Real
-
         # List existing cdn-enabled storage containers
         #
         # ==== Parameters
@@ -24,11 +23,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_containers(options = {})
           response = Excon::Response.new
           data = self.data[:cdn_containers].map {|_,v| v}
@@ -36,9 +33,7 @@ module Fog
           response.status = 200
           response
         end
-
       end
-
     end
   end
 end

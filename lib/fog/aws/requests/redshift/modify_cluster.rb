@@ -87,7 +87,6 @@ module Fog
             params[:query].merge!(Fog::AWS.indexed_param('VpcSecurityGroupIds.member.%d', [*vpc_security_group_ids]))
           end
 
-
           params[:query]['Action']                           = 'ModifyCluster'
           params[:query]['ClusterIdentifier']                = cluster_identifier if cluster_identifier
           params[:query]['ClusterParameterGroupName']        = cluster_parameter_group_name if cluster_parameter_group_name
@@ -105,7 +104,6 @@ module Fog
           request(params)
         end
       end
-
     end
   end
 end

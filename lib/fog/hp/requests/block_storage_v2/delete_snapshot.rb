@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorageV2
       class Real
-
         # Delete an existing block storage snapshot
         #
         # ==== Parameters
@@ -16,11 +15,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def delete_snapshot(snapshot_id)
           response = Excon::Response.new
           if self.data[:snapshots][snapshot_id]
@@ -32,7 +29,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

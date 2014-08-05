@@ -28,7 +28,6 @@ module Fog
             :datacenter           => datacenter
           }
         end
-
       end
       class Mock
         def list_resource_pools(filters = { })

@@ -145,7 +145,7 @@ module Fog
           # @return [Integer] The number of bytes occupied by each contained
           #   object.
           def bytes_used
-            @objects.values.map { |o| o.bytes_used }.inject(0) { |a, b| a + b }
+            @objects.values.map { |o| o.bytes_used }.reduce(0) { |a, b| a + b }
           end
 
           # Render the HTTP headers that would be associated with this
@@ -419,7 +419,7 @@ module Fog
           authenticate
           @persistent = options[:persistent] || false
           Excon.defaults[:ssl_verify_peer] = false if service_net?
-          @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         # Using SSL?
@@ -454,7 +454,6 @@ module Fog
           @auth_token = credentials['X-Auth-Token']
         end
       end
-
     end
   end
 end

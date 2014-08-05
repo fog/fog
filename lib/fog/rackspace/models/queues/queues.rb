@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Queues
       class Queues < Fog::Collection
-
         model Fog::Rackspace::Queues::Queue
 
         # Returns list of queues

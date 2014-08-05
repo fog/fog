@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Returns details of key by name specified
         #
         # ==== Parameters
@@ -23,11 +22,9 @@ module Fog
             :path     => "/keys/#{key_name}"
           )
         end
-
       end
 
       class Mock
-
         def get_key(key_name)
           response = Excon::Response.new
           if key_exists? key_name
@@ -42,7 +39,6 @@ module Fog
         def key_exists?(name)
           self.data[:keys].key? name
         end
-
       end
     end
   end

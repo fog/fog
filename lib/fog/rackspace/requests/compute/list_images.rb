@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Rackspace
       class Real
-
         # List all images (IDs and names only)
         #
         # ==== Returns
@@ -17,11 +16,9 @@ module Fog
             :path     => 'images.json'
           )
         end
-
       end
 
       class Mock
-
         def list_images
           response = Excon::Response.new
           data = list_images_detail.body['images']
@@ -33,7 +30,6 @@ module Fog
           response.body = { 'images' => images }
           response
         end
-
       end
     end
   end

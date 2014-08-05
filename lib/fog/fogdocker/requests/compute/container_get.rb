@@ -3,9 +3,8 @@ module Fog
     class Fogdocker
       class Real
         def container_get(id)
-          downcase_hash_keys Docker::Container.get(id).info
+          downcase_hash_keys Docker::Container.get(id).json
         end
-
       end
       class Mock
         def container_get(id)

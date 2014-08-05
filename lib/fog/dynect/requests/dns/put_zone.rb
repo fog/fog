@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Dynect
       class Real
-
         # Update a zone
         #
         # ==== Parameters

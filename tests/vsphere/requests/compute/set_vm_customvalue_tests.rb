@@ -18,4 +18,3 @@ Shindo.tests('Fog::Compute[:vsphere] | set_vm_customvalue request', ['vsphere'])
   end
 
 end
-

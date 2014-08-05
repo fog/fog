@@ -30,7 +30,6 @@ module Fog
             :parser                 => Fog::Parsers::AWS::IAM::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock

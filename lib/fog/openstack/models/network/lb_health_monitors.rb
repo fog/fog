@@ -5,7 +5,6 @@ module Fog
   module Network
     class OpenStack
       class LbHealthMonitors < Fog::Collection
-
         attribute :filters
 
         model Fog::Network::OpenStack::LbHealthMonitor
@@ -27,7 +26,6 @@ module Fog
         rescue Fog::Network::OpenStack::NotFound
           nil
         end
-
       end
     end
   end

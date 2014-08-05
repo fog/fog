@@ -1,18 +1,20 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        def query_async_job_result(options={})
+        # Retrieves the current status of asynchronous job.
+        #
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/queryAsyncJobResult.html]
+        def query_async_job_result(jobid, options={})
           options.merge!(
-            'command' => 'queryAsyncJobResult'
+            'command' => 'queryAsyncJobResult', 
+            'jobid' => jobid  
           )
-
           request(options)
         end
-
-      end # Real
-
+      end
+ 
       class Mock
         def query_async_job_result(options={})
           unless job_id = options['jobid']
@@ -25,8 +27,8 @@ module Fog
 
           {'queryasyncjobresultresponse' => job }
         end
-      end
-
+      end 
     end
   end
 end
+

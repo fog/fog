@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/network_acl'
 module Fog
   module Compute
     class AWS
-
       class NetworkAcls < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::NetworkAcl

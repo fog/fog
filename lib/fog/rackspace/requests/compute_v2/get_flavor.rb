@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Retrieves flavor detail
         # @param [Sring] flavor_id
         # @return [Excon::Response] response:
@@ -24,7 +23,7 @@ module Fog
           request(
             :expects => [200, 203],
             :method => 'GET',
-            :path => "flavors/#{flavor_id}"
+            :path => "flavors/#{Fog::Rackspace.escape(flavor_id)}"
           )
         end
       end

@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Vsphere
-
       class Customvalue < Fog::Model
-
         attribute :value
         attribute :key
 
@@ -11,7 +9,6 @@ module Fog
           value
         end
       end
-
     end
   end
 end

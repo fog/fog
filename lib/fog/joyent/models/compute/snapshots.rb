@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Joyent
       class Snapshots < Fog::Collection
-
         model Fog::Compute::Joyent::Snapshot
 
         def create(machine_id, snapshot_name)
@@ -30,7 +29,6 @@ module Fog
             nil
           end
         end
-
       end
     end
   end

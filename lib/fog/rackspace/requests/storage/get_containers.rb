@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Rackspace
       class Real
-
         # List existing storage containers
         #
         # ==== Parameters
@@ -30,7 +29,6 @@ module Fog
             :query    => {'format' => 'json'}.merge!(options)
           )
         end
-
       end
 
       class Mock
@@ -48,7 +46,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

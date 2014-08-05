@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorageV2
       class Real
-
         # List existing block storage volume backups
         #
         # ==== Parameters
@@ -28,11 +27,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def list_volume_backups(options = {})
           response = Excon::Response.new
           backups = []
@@ -46,7 +43,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

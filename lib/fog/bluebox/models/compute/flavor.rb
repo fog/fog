@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Bluebox
-
       class Flavor < Fog::Model
-
         identity :id
 
         attribute :name
@@ -37,9 +35,7 @@ module Fog
           # end
           raise StandardError.new("Figure me out!?!")
         end
-
       end
-
     end
   end
 end

@@ -3,7 +3,6 @@ module Fog
     class Libvirt
       class Real
         def list_networks(filter = { })
-
           data=[]
           if filter.keys.empty?
             (client.list_networks + client.list_defined_networks).each do |network_name|
@@ -24,7 +23,6 @@ module Fog
             when :name
               client.lookup_network_by_name(filter[:name])
           end
-
         end
 
         def network_to_attributes(net)
@@ -35,7 +33,6 @@ module Fog
             :bridge_name => net.bridge_name
           }
         end
-
       end
 
       class Mock

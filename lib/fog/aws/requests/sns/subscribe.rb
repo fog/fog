@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SNS
       class Real
-
         require 'fog/aws/parsers/sns/subscribe'
 
         # Create a subscription
@@ -25,9 +24,7 @@ module Fog
             :parser     => Fog::Parsers::AWS::SNS::Subscribe.new
           })
         end
-
       end
-
     end
   end
 end

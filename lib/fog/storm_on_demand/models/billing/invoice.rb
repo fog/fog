@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Billing
     class StormOnDemand
-
       class Invoice < Fog::Model
         identity :id
         attribute :accnt
@@ -20,9 +19,7 @@ module Fog
         def initialize(attributes={})
           super
         end
-
       end
-
     end
   end
 end

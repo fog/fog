@@ -4,9 +4,7 @@ require 'fog/libvirt/models/compute/volume'
 module Fog
   module Compute
     class Libvirt
-
       class Volumes < Fog::Collection
-
         model Fog::Compute::Libvirt::Volume
 
         def all(filter = {})
@@ -16,9 +14,7 @@ module Fog
         def get(key)
           self.all(:key => key).first
         end
-
       end
-
     end
   end
 end

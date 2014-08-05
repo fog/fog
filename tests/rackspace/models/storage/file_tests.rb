@@ -68,7 +68,7 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
       tests('#metadata') do
 
         before do
-          @instance.metadata[:foo] = 'bar'  
+          @instance.metadata[:foo] = 'bar'
           @instance.save
         end
 
@@ -89,17 +89,17 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
           @instance.metadata[:foo] = nil
           @instance.save
           object_meta_attributes
-        end      
+        end
 
         tests("removes one key while leaving the other") do
           @instance.metadata[:color] = "green"
           @instance.save
           returns({"X-Object-Meta-Foo"=>"bar", "X-Object-Meta-Color"=>"green"}) { object_meta_attributes  }
-                    
+
           tests("set metadata[:color] = nil").returns({"X-Object-Meta-Foo"=>"bar"}) do
             @instance.metadata[:color] = nil
             @instance.save
-            
+
             object_meta_attributes
           end
         end
@@ -118,10 +118,10 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
       ensure
         @file.destroy if @file
       end
-      
+
       tests('urls') do
         tests('no CDN') do
-          
+
           tests('url') do
             tests('http').succeeds do
               expire_time = Time.now + 3600
@@ -152,7 +152,7 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
               @directory.service.instance_variable_set "@rackspace_cdn_ssl", true
               tests('ssl').returns(nil) do
                 @instance.public_url
-              end   
+              end
               @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil
            end
 
@@ -168,12 +168,12 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
           tests('#public_url') do
             @directory.public = true
             @directory.save
-            
+
             tests('http').returns(0) do
               @instance.public_url  =~ /http:\/\/.*#{@instance.key}/
              end
 
-             @directory.cdn_cname = "my_cname.com"        
+             @directory.cdn_cname = "my_cname.com"
              tests('cdn_cname').returns(0) do
                @instance.public_url  =~ /my_cname\.com.*#{@instance.key}/
              end
@@ -182,7 +182,7 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
              @directory.service.instance_variable_set "@rackspace_cdn_ssl", true
              tests('ssl').returns(0) do
                @instance.public_url =~ /https:\/\/.+\.ssl\..*#{@instance.key}/
-             end   
+             end
              @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil
           end
 
@@ -216,33 +216,33 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
         end
       end
     end
-    
+
       tests('#metadata keys') do
-        
+
         after do
           clear_metadata
           @instance.save
         end
 
-        @instance.metadata[:foo_bar] = 'baz'  
+        @instance.metadata[:foo_bar] = 'baz'
         tests("should support compound key names").returns('baz') do
           @instance.save
           object_meta_attributes['X-Object-Meta-Foo-Bar']
         end
 
-        @instance.metadata['foo'] = 'bar'  
+        @instance.metadata['foo'] = 'bar'
         tests("should support string keys").returns('bar') do
           @instance.save
           object_meta_attributes['X-Object-Meta-Foo']
         end
 
-        @instance.metadata['foo_bar'] = 'baz'  
+        @instance.metadata['foo_bar'] = 'baz'
         tests("should support compound string key names").returns('baz') do
           @instance.save
           object_meta_attributes['X-Object-Meta-Foo-Bar']
         end
 
-        @instance.metadata['foo-bar'] = 'baz'  
+        @instance.metadata['foo-bar'] = 'baz'
         tests("should support hyphenated keys").returns('baz') do
           @instance.save
           object_meta_attributes['X-Object-Meta-Foo-Bar']
@@ -258,41 +258,43 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
       end
 
       @instance.access_control_allow_origin = 'http://example.com'
-      @instance.save              
+      @instance.save
       tests("#access_control_allow_origin should return access control attribute").returns('http://example.com') do
         @instance.access_control_allow_origin
       end
 
       @instance.access_control_allow_origin = 'foo'
-      @instance.save              
+      @instance.save
       tests("#access_control_allow_origin= should update access_control_allow_origin").returns('bar') do
         @instance.access_control_allow_origin = 'bar'
-        @instance.save                
+        @instance.save
         @instance.access_control_allow_origin
       end
 
       tests("#access_control_allow_origin= should not blow up on nil") do
         @instance.access_control_allow_origin = nil
-        @instance.save                        
+        @instance.save
       end
 
     end
 
     tests("#delete_at") do
+      @delete_at_time = (Time.now + 300).to_i
+
       tests("#delete_at should default to nil").returns(nil) do
         @instance.delete_at
       end
 
-      @instance.delete_at = 1
+      @instance.delete_at = @delete_at_time
       @instance.save
-      tests("#delete_at should return delete_at attribute").returns(1) do
+      tests("#delete_at should return delete_at attribute").returns(@delete_at_time) do
         @instance.delete_at
       end
 
-      @instance.delete_at = 1
+      @instance.delete_at = @delete_at_time
       @instance.save
-      tests("#delete_at= should update delete_at").returns(2) do
-        @instance.delete_at = 2
+      tests("#delete_at= should update delete_at").returns(@delete_at_time + 100) do
+        @instance.delete_at = @delete_at_time + 100
         @instance.save
         @instance.delete_at
       end
@@ -304,20 +306,22 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
     end
 
     tests("#delete_after") do
+      @delete_after_time = (Time.now + 300).to_i
+
       tests("#delete_after should default to nil").returns(nil) do
         @instance.delete_after
       end
 
-      @instance.delete_after = 1
+      @instance.delete_after = @delete_after_time
       @instance.save
-      tests("#delete_after should return delete_after attribute").returns(1) do
+      tests("#delete_after should return delete_after attribute").returns(@delete_after_time) do
         @instance.delete_after
       end
 
-      @instance.delete_after = 1
+      @instance.delete_after = @delete_after_time
       @instance.save
-      tests("#delete_after= should update delete_after").returns(2) do
-        @instance.delete_after = 2
+      tests("#delete_after= should update delete_after").returns(@delete_after_time + 100) do
+        @instance.delete_after = @delete_after_time + 100
         @instance.save
         @instance.delete_after
       end
@@ -329,13 +333,12 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
     end
   end
 
-
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
 
     tests("#origin") do
 
       tests("#origin should default to nil").returns(nil) do
-        @instance.save                        
+        @instance.save
         @instance.origin
       end
 
@@ -347,7 +350,7 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
       @instance.attributes.delete('Origin')
 
       @instance.origin = 'foo'
-      @instance.save      
+      @instance.save
       tests("#origin= should update origin").returns('bar') do
         @instance.origin = 'bar'
         @instance.save
@@ -356,7 +359,7 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
 
       tests("#origin= should not blow up on nil") do
         @instance.origin = nil
-        @instance.save        
+        @instance.save
       end
 
     end

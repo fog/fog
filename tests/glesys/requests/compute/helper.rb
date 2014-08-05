@@ -2,7 +2,6 @@ class Glesys
   module Compute
     module Formats
       module Servers
-
         LIST = {
           'debug' => {
             'input' => Array
@@ -38,13 +37,14 @@ class Glesys
             'memorysize'    => Integer,
             'cpucores'      => Integer,
             'transfer'      => Integer,
+            'bandwidth'     => Integer,
             'templatename'  => String,
             'iplist'        =>  [{
               'cost'      => Integer,
               'version'   => Fog::Nullable::Integer,
               'ipaddress' => Fog::Nullable::String,
               'currency'  => String
-            }], 
+            }],
             'description' => String,
             'hostname'    => String,
             'disksize'    => Integer,
@@ -80,6 +80,7 @@ class Glesys
               'memorysize'    => String,
               'cpucores'      => String,
               'transfer'      => String,
+              'bandwidth'     => String,
               'description'   => String
             }
           }
@@ -144,10 +145,8 @@ class Glesys
             'text'      => String
           }
         }
-
       end
       module Ips
-
         IPLIST = {
           'debug' => {
             'input' => []
@@ -229,10 +228,8 @@ class Glesys
             'text'      => String
           }
         }
-
       end
       module Templates
-
         LIST = {
           'debug' => {
             'input' => []
@@ -259,7 +256,6 @@ class Glesys
             'text'      => String
           }
         }
-
       end
     end
   end

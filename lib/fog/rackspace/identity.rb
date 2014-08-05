@@ -3,7 +3,6 @@ require 'fog/rackspace/core'
 module Fog
   module Rackspace
     class Identity < Fog::Service
-
       US_ENDPOINT = 'https://identity.api.rackspacecloud.com/v2.0'
       UK_ENDPOINT = 'https://lon.identity.api.rackspacecloud.com/v2.0'
 
@@ -74,7 +73,7 @@ module Fog
 
         def initialize(options={})
           apply_options(options)
-          @connection = Fog::XML::Connection.new(@uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new(@uri.to_s, @persistent, @connection_options)
 
           authenticate
         end

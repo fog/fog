@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Vsphere
-
       class Network < Fog::Model
-
         identity :id
 
         attribute :name
@@ -13,9 +11,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end

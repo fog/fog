@@ -4,9 +4,7 @@ require 'fog/bluebox/models/dns/zone'
 module Fog
   module DNS
     class Bluebox
-
       class Zones < Fog::Collection
-
         model Fog::DNS::Bluebox::Zone
 
         def all
@@ -20,9 +18,7 @@ module Fog
         rescue Fog::Service::NotFound
           nil
         end
-
       end
-
     end
   end
 end

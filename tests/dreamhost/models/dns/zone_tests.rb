@@ -6,7 +6,7 @@ Shindo.tests("Fog::DNS[:dreamhost] | zone", ['dreamhost', 'dns']) do
   tests('#attributes') do
     tests('should have') do
       model_attribute_hash = zone.attributes
-      attributes = [ 
+      attributes = [
         :domain,
         :id,
       ]
@@ -14,7 +14,7 @@ Shindo.tests("Fog::DNS[:dreamhost] | zone", ['dreamhost', 'dns']) do
         test("#{attribute} method") { zone.respond_to? attribute }
       end
       attributes.each do |attribute|
-        test("#{attribute} key") { model_attribute_hash.has_key? attribute }
+        test("#{attribute} key") { model_attribute_hash.key? attribute }
       end
     end
 
@@ -24,7 +24,7 @@ Shindo.tests("Fog::DNS[:dreamhost] | zone", ['dreamhost', 'dns']) do
 
     tests('Write operations') do
       name = "#{test_domain}"
-      tests('#save') do 
+      tests('#save') do
         # Does not capture the exception for some reason
         #raises(NotImplementedError, 'raises NotImplementedError') do
         #  service.zones.create :domain => name
@@ -59,4 +59,3 @@ Shindo.tests("Fog::DNS[:dreamhost] | zone", ['dreamhost', 'dns']) do
   end
 
 end
-

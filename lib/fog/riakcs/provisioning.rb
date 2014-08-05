@@ -3,7 +3,6 @@ require 'fog/riakcs/core'
 module Fog
   module RiakCS
     class Provisioning < Fog::Service
-
       class UserAlreadyExists  < Fog::RiakCS::Provisioning::Error; end
       class ServiceUnavailable < Fog::RiakCS::Provisioning::Error; end
 
@@ -92,7 +91,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

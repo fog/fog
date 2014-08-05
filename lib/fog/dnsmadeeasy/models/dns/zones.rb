@@ -4,14 +4,12 @@ require 'fog/dnsmadeeasy/models/dns/zone'
 module Fog
   module DNS
     class DNSMadeEasy
-
       class Zones < Fog::Collection
-
         model Fog::DNS::DNSMadeEasy::Zone
 
         def all
           clear
-          data = service.list_domains.body['list'].collect{|domain| {:id => domain}}
+          data = service.list_domains.body['list'].map{|domain| {:id => domain}}
           load(data)
         end
 
@@ -22,9 +20,7 @@ module Fog
         rescue Fog::Service::NotFound
           nil
         end
-
       end
-
     end
   end
 end

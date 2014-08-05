@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module VcloudDirector
-
         class VmCustomization < VcloudDirectorParser
-
           def reset
             @response = { }
           end
@@ -49,9 +47,7 @@ module Fog
               @response[:customization_script] = CGI::unescapeHTML(value) if @response[:has_customization_script]
             end
           end
-
         end
-
       end
     end
   end

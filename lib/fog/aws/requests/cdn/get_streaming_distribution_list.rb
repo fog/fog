@@ -2,7 +2,6 @@ module Fog
   module CDN
     class AWS
       class Real
-
         require 'fog/aws/parsers/cdn/get_streaming_distribution_list'
 
         # List information about distributions in CloudFront.
@@ -48,11 +47,9 @@ module Fog
             :query      => options
           })
         end
-
       end
 
       class Mock
-
         def get_streaming_distribution_list(options = {})
           response = Excon::Response.new
           response.status = 200
@@ -79,7 +76,6 @@ module Fog
           }.merge(d['StreamingDistributionConfig'])
         end
       end
-
     end
   end
 end

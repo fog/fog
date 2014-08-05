@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorageV2
       class Real
-
         # Create a new block storage snapshot
         # The snapshot is created in the same availability_zone as the specified volume
         #
@@ -44,11 +43,9 @@ module Fog
             :path     => 'snapshots'
           )
         end
-
       end
 
       class Mock  # :nodoc:all
-
         def create_snapshot(volume_id, options={})
           response = Excon::Response.new
           if self.data[:volumes][volume_id]
@@ -70,7 +67,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

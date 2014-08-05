@@ -3,11 +3,9 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class DigitalOcean
-
       # A DigitalOcean Droplet
       #
       class Server < Fog::Compute::Server
-
         identity  :id
         attribute :name
         attribute :state, :aliases => 'status'
@@ -176,9 +174,7 @@ module Fog
           msg = 'DigitalOcean servers do not support updates'
           raise NotImplementedError.new(msg)
         end
-
       end
-
     end
   end
 end

@@ -3,9 +3,7 @@ require 'fog/vcloud/models/compute/vdc'
 module Fog
   module Vcloud
     class Compute
-
       class Vdcs < Collection
-
         model Fog::Vcloud::Compute::Vdc
 
         undef_method :create

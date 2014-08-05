@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Vsphere
-
       class Datastore < Fog::Model
-
         identity :id
 
         attribute :name
@@ -17,9 +15,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end

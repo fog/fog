@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SES
       class Real
-
         require 'fog/aws/parsers/ses/verify_domain_identity'
 
         # Verifies a domain. This action returns a verification authorization
@@ -23,7 +22,6 @@ module Fog
             :parser            => Fog::Parsers::AWS::SES::VerifyDomainIdentity.new
           })
         end
-
       end
     end
   end

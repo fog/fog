@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Support
     class StormOnDemand
-
       class Ticket < Fog::Model
         identity :id
         attribute :accnt
@@ -65,10 +64,7 @@ module Fog
                                       :secid => secid}.merge!(options)).body
           res['reply'].to_i == 1 ? true : false
         end
-
-
       end
-
     end
   end
 end

@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Queues
       class Claims < Fog::Collection
-
         model Fog::Rackspace::Queues::Claim
 
         # @!attribute [rw] queue

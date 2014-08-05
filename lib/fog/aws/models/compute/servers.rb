@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/server'
 module Fog
   module Compute
     class AWS
-
       class Servers < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::Server
@@ -72,41 +70,39 @@ module Fog
           )
         end
 
+        # Create between m and n servers with the server options specified in
+        # new_attributes.  Equivalent to this loop, but happens in 1 request:
+        #
+        #    1.upto(n).map { create(new_attributes) }
+        #
+        # See the AWS RunInstances API.
+        def create_many(min_servers = 1, max_servers = nil, new_attributes = {})
+          max_servers ||= min_servers
+          template = new(new_attributes)
+          save_many(template, min_servers, max_servers)
+        end
+
+        # Bootstrap between m and n servers with the server options specified in
+        # new_attributes.  Equivalent to this loop, but happens in 1 AWS request
+        # and the machines' spinup will happen in parallel:
+        #
+        #   1.upto(n).map { bootstrap(new_attributes) }
+        #
+        # See the AWS RunInstances API.
+        def bootstrap_many(min_servers = 1, max_servers = nil, new_attributes = {})
+          template = service.servers.new(new_attributes)
+          _setup_bootstrap(template)
+
+          servers = save_many(template, min_servers, max_servers)
+          servers.each do |server|
+            server.wait_for { ready? }
+            server.setup(:key_data => [server.private_key])
+          end
+          servers
+        end
+
         def bootstrap(new_attributes = {})
-          server = service.servers.new(new_attributes)
-
-          unless new_attributes[:key_name]
-            # first or create fog_#{credential} keypair
-            name = Fog.respond_to?(:credential) && Fog.credential || :default
-            unless server.key_pair = service.key_pairs.get("fog_#{name}")
-              server.key_pair = service.key_pairs.create(
-                :name => "fog_#{name}",
-                :public_key => server.public_key
-              )
-            end
-          end
-        
-          security_group = service.security_groups.get(server.groups.first)
-          if security_group.nil?
-            raise Fog::Compute::AWS::Error, "The security group" \
-              " #{server.groups.first} doesn't exist."
-          end
-          
-          # make sure port 22 is open in the first security group
-          authorized = security_group.ip_permissions.detect do |ip_permission|
-            ip_permission['ipRanges'].first && ip_permission['ipRanges'].first['cidrIp'] == '0.0.0.0/0' &&
-            ip_permission['fromPort'] == 22 &&
-            ip_permission['ipProtocol'] == 'tcp' &&
-            ip_permission['toPort'] == 22
-          end
-          unless authorized
-            security_group.authorize_port_range(22..22)
-          end
-
-          server.save
-          server.wait_for { ready? }
-          server.setup(:key_data => [server.private_key])
-          server
+          bootstrap_many(1, 1, new_attributes).first
         end
 
         # Used to retrieve a server
@@ -157,8 +153,59 @@ module Fog
           nil
         end
 
-      end
+        # From a template, create between m-n servers (see the AWS RunInstances API)
+        def save_many(template, min_servers = 1, max_servers = nil)
+          max_servers ||= min_servers
+          data = service.run_instances(template.image_id, min_servers, max_servers, template.run_instance_options)
+          # For some reason, AWS sometimes returns empty results alongside the real ones.  Thus the select
+          data.body['instancesSet'].select { |instance_set| instance_set['instanceId'] }.map do |instance_set|
+            server = template.dup
+            server.merge_attributes(instance_set)
+            # expect eventual consistency
+            if (tags = server.tags) && tags.size > 0
+              Fog.wait_for { server.reload rescue nil }
+              service.create_tags(
+                server.identity,
+                tags
+              )
+            end
+            server
+          end
+        end
 
+        private
+
+        def _setup_bootstrap(server, new_attributes = {})
+          unless new_attributes[:key_name]
+            # first or create fog_#{credential} keypair
+            name = Fog.respond_to?(:credential) && Fog.credential || :default
+            unless server.key_pair = service.key_pairs.get("fog_#{name}")
+              server.key_pair = service.key_pairs.create(
+                :name => "fog_#{name}",
+                :public_key => server.public_key
+              )
+            end
+          end
+
+          security_group = service.security_groups.get(server.groups.first)
+          if security_group.nil?
+            raise Fog::Compute::AWS::Error, "The security group" \
+              " #{server.groups.first} doesn't exist."
+          end
+
+          # make sure port 22 is open in the first security group
+          authorized = security_group.ip_permissions.find do |ip_permission|
+            ip_permission['ipRanges'].first && ip_permission['ipRanges'].first['cidrIp'] == '0.0.0.0/0' &&
+            ip_permission['fromPort'] == 22 &&
+            ip_permission['ipProtocol'] == 'tcp' &&
+            ip_permission['toPort'] == 22
+          end
+
+          unless authorized
+            security_group.authorize_port_range(22..22)
+          end
+        end
+      end
     end
   end
 end

@@ -1,20 +1,21 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Updates account information for the authenticated user.
+        # Stops a virtual machine.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/stopVirtualMachine.html]
-        def stop_virtual_machine(options={})
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/stopVirtualMachine.html]
+        def stop_virtual_machine(id, options={})
           options.merge!(
-            'command' => 'stopVirtualMachine'
+            'command' => 'stopVirtualMachine', 
+            'id' => id  
           )
-
           request(options)
         end
-
       end
+
     end
   end
 end
+

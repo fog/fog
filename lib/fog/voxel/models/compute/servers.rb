@@ -5,7 +5,6 @@ module Fog
   module Compute
     class Voxel
       class Servers < Fog::Collection
-
         model Fog::Compute::Voxel::Server
 
         def all
@@ -24,9 +23,7 @@ module Fog
             raise error
           end
         end
-
       end
-
     end
   end
 end

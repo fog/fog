@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Update an existing router by id
         #
@@ -44,7 +43,7 @@ module Fog
       class Mock
         def update_router(router_id, options = {})
           response = Excon::Response.new
-          if router = list_routers.body['routers'].detect {|_| _['id'] == router_id}
+          if router = list_routers.body['routers'].find {|_| _['id'] == router_id}
             router['name']                  = options[:name]
             router['admin_state_up']        = options[:admin_state_up]
             router['external_gateway_info'] = options[:external_gateway_info]
@@ -56,7 +55,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

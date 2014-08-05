@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class Subnet < Fog::Model
-
         identity  :subnet_id,                   :aliases => 'subnetId'
         attribute :state
         attribute :vpc_id,                      :aliases => 'vpcId'
@@ -13,6 +11,7 @@ module Fog
         attribute :available_ip_address_count,  :aliases => 'availableIpAddressCount'
         attribute :availability_zone,           :aliases => 'availabilityZone'
         attribute :tag_set,                     :aliases => 'tagSet'
+        attribute :map_public_ip_on_launch,     :aliases => 'mapPublicIpOnLaunch'
 
         def ready?
           requires :state
@@ -56,7 +55,6 @@ module Fog
 
           true
         end
-
       end
     end
   end

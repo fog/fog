@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SimpleDB
       class Real
-
         # Delete a SimpleDB domain
         #
         # ==== Parameters
@@ -22,11 +21,9 @@ module Fog
             :parser       => Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string)
           )
         end
-
       end
 
       class Mock
-
         def delete_domain(domain_name)
           response = Excon::Response.new
           if self.data[:domains].delete(domain_name)
@@ -38,7 +35,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

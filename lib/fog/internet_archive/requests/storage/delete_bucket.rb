@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         # Delete an S3 bucket
         #
         # @param bucket_name [String] name of bucket to delete
@@ -20,11 +19,9 @@ module Fog
             :method   => 'DELETE'
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def delete_bucket(bucket_name)
           response = Excon::Response.new
           if self.data[:buckets][bucket_name].nil?
@@ -39,9 +36,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module IAM
-
         class ListSigningCertificates < Fog::Parsers::Base
-
           def reset
             @signing_certificate = {}
             @response = { 'SigningCertificates' => [] }
@@ -23,10 +21,8 @@ module Fog
               response[name] = value
             end
           end
-
         end
       end
     end
   end
 end
-

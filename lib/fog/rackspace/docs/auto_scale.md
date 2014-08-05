@@ -47,7 +47,7 @@ Next, create a connection to Auto Scale:
 
 Using a US-based account:
 
-	service = Fog::Rackspace::AutoScale(
+	service = Fog::Rackspace::AutoScale.new (
 		:rackspace_username  => RACKSPACE_USER_NAME, # Your Rackspace Username
 		:rackspace_api_key   => RACKSPACE_API,       # Your Rackspace API key
 		:rackspace_region    => :ord,
@@ -56,7 +56,7 @@ Using a US-based account:
 
 Using a UK-based account:
 
-	service = Fog::Rackspace::AutoScale(
+	service = Fog::Rackspace::AutoScale.new (
 		:rackspace_username  => RACKSPACE_USER_NAME,        # Your Rackspace Username
 		:rackspace_api_key   => RACKSPACE_API,              # Your Rackspace API key
 		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT,
@@ -70,7 +70,7 @@ By default `Fog::Rackspace::AutoScale` will authenticate against the US authenti
 
 Alternative regions are specified using the key `:rackspace_region `. A list of regions available for Auto Scale can be found by executing the following:
 
-	identity_service = Fog::Identity({
+	identity_service = Fog::Identity.new({
 		:provider            => 'Rackspace',                     # Rackspace Fog provider
 		:rackspace_username  => RACKSPACE_USER_NAME,             # Your Rackspace Username
 		:rackspace_api_key   => RACKSPACE_API,                   # Your Rackspace API key
@@ -319,7 +319,7 @@ And then use the builder as follows:
       ],
       :max_entities => 3,
       :min_entities => 2,
-      :cooldown => cooldown,
+      :cooldown => 600,
       :name => "MyScalingGroup",
       :metadata => { "created_by" => "autoscale sample script" },
       :load_balancers => {
@@ -330,6 +330,7 @@ And then use the builder as follows:
     }
 
     group = Fog::Rackspace::AutoScale::GroupBuilder.build(service, attributes)
+    group.save
 
 This creates the scaling group with the name `MyScalingGroup`, and returns a `Fog::Rackspace::AutoScale::Group` object representing the new group. Since the `:min_entities` is 2, it immediately creates 2 servers for the group, based on the image whose ID is in the variable `my_image`. When they are created, they are then added to the load balancer whose ID is `1234`, and receive requests on port 80.
 
@@ -338,6 +339,8 @@ Note that the `:server_name` parameter represents a base string to which Autosca
     as5defddd4-testgroup
     as92e512fe-testgroup
     asedcf7587-testgroup
+
+**Note**: You will see need to add policies to trigger auto scaling operations. See [Policies Section](#policies) for more information.
 
 #### Parameters
 Parameter | Required | Default | Notes
@@ -355,7 +358,6 @@ Parameter | Required | Default | Notes
 **:personality** | no |  | Small text files that are created on the new servers. _Personality_ is discussed in the [Rackspace Cloud Servers documentation](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html)
 **:networks** | no |  | Any array of networks to which you want to attach new servers. See the [Create Servers documentation](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/CreateServers.html) for standard network IDs.
 **:load_balancers** | no |  | Either a  hash of {:port, :loadBalancerId} or a `Fog::Rackspace::LoadBalancers::LoadBalancer` object.
-**scaling_policies** | no |  | You can define the scaling policies when you create the group, or add them later.
 
 ### Updating a Scaling Configuration Group
 

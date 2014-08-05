@@ -17,7 +17,6 @@ module Fog
       recognizes :rackspace_queues_url
       recognizes :rackspace_queues_client_id
 
-
       model_path 'fog/rackspace/models/queues'
       model :queue
       collection :queues
@@ -378,7 +377,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def request(params, parse_json = true, &block)
@@ -395,7 +394,6 @@ module Fog
           raise ServiceError.slurp(error, self)
         end
       end
-
     end
   end
 end

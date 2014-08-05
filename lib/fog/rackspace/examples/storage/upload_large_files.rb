@@ -49,7 +49,6 @@ service = Fog::Storage.new({
   :rackspace_region     => :ord
   })
 
-
 # retrieve directories with files
 directories = service.directories
 
@@ -63,7 +62,6 @@ segment_name = File.basename(file_name)
 File.open(file_name) do |f|
   num_segments = (f.stat.size / SEGMENT_LIMIT).round + 1
   puts "\nThis upload of '#{file_name}' will require #{num_segments} segment(s) and 1 manifest file\n"
-
 
   segment = 0
    until f.eof?

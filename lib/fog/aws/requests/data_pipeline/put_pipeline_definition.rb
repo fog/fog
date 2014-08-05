@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class DataPipeline
-
       class Real
-
         # Put raw pipeline definition JSON
         # http://docs.aws.amazon.com/datapipeline/latest/APIReference/API_PutPipelineDefinition.html
         # ==== Parameters
@@ -47,7 +45,7 @@ module Fog
             }
           end
 
-        private
+          private
 
           def fields
             @json_fields.map{|k,v| field_for_kv(k,v)}.flatten
@@ -66,7 +64,6 @@ module Fog
             end
           end
         end
-
       end
 
       class Mock
@@ -74,7 +71,6 @@ module Fog
           Fog::Mock.not_implemented
         end
       end
-
     end
   end
 end

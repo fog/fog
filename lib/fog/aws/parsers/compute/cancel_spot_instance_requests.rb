@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class CancelSpotInstanceRequests < Fog::Parsers::Base
-
           def reset
             @spot_instance_request = {}
             @response = { 'spotInstanceRequestSet' => [] }
@@ -21,9 +19,7 @@ module Fog
               @spot_instance_request[name] = value
             end
           end
-
         end
-
       end
     end
   end

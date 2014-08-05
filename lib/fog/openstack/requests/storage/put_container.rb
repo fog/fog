@@ -2,7 +2,6 @@ module Fog
   module Storage
     class OpenStack
       class Real
-
         # Create a new container
         #
         # ==== Parameters
@@ -15,7 +14,6 @@ module Fog
             :path     => Fog::OpenStack.escape(name)
           )
         end
-
       end
     end
   end

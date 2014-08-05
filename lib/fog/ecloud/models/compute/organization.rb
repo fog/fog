@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       class Organization < Fog::Ecloud::Model
-
         identity :href
 
         ignore_attributes :xmlns, :xmlns_xsi, :xmlns_xsd, :xmlns_i
@@ -72,7 +71,7 @@ module Fog
           href.scan(/\d+/)[0]
         end
 
-        alias :vdcs :environments
+        alias_method :vdcs, :environments
       end
     end
   end

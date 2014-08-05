@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/detach_load_balancer_from_subnets'
 
         # Disable a subnet for an existing ELB
@@ -27,12 +26,10 @@ module Fog
           }.merge!(params))
         end
 
-        alias :disable_subnets :detach_load_balancer_from_subnets
-
+        alias_method :disable_subnets, :detach_load_balancer_from_subnets
       end
 
       class Mock
-
         def detach_load_balancer_from_subnets(subnet_ids, lb_name)
           raise Fog::AWS::ELB::NotFound unless load_balancer = self.data[:load_balancers][lb_name]
 
@@ -54,7 +51,7 @@ module Fog
           response
         end
 
-        alias :disable_subnets :detach_load_balancer_from_subnets
+        alias_method :disable_subnets, :detach_load_balancer_from_subnets
       end
     end
   end

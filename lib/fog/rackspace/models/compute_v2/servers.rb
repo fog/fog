@@ -4,9 +4,7 @@ require 'fog/rackspace/models/compute_v2/server'
 module Fog
   module Compute
     class RackspaceV2
-
       class Servers < Fog::Collection
-
         model Fog::Compute::RackspaceV2::Server
 
         # Returns list of servers
@@ -41,7 +39,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::InvalidServerStateException] if server state is an error state
         def bootstrap(new_attributes = {})
           server = create(new_attributes)
-          server.wait_for(1500) { ready? && !public_ip_address.empty? }
+          server.wait_for { ready? && !public_ip_address.empty? }
           server.setup(:password => server.password)
           server
         end

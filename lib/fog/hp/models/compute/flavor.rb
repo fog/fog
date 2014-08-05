@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class HP
-
       class Flavor < Fog::Model
-
         identity :id
 
         attribute :disk
@@ -16,9 +14,7 @@ module Fog
         #def bits
         #  64
         #end
-
       end
-
     end
   end
 end

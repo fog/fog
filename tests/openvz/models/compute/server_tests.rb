@@ -53,4 +53,3 @@ Shindo.tests("Fog::Compute[:openvz] | server model", ['openvz', 'compute']) do
   server.start
 
 end
-

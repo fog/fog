@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/run_instances'
 
         # Launch specified instances
@@ -27,7 +26,8 @@ module Fog
         #     * 'VirtualName'<~String> - volume virtual device name
         #     * 'Ebs.SnapshotId'<~String> - id of snapshot to boot volume from
         #     * 'Ebs.VolumeSize'<~String> - size of volume in GiBs required unless snapshot is specified
-        #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
+        #     * 'Ebs.DeleteOnTermination'<~Boolean> - specifies whether or not to delete the volume on instance termination
+        #     * 'Ebs.Encrypted'<~Boolean> - specifies whether or not the volume is to be encrypted unless snapshot is specified
         #     * 'Ebs.VolumeType'<~String> - Type of EBS volue. Valid options in ['standard', 'io1'] default is 'standard'.
         #     * 'Ebs.Iops'<~String> - The number of I/O operations per second (IOPS) that the volume supports. Required when VolumeType is 'io1'
         #   * 'NetworkInterfaces'<~Array>: array of hashes
@@ -36,7 +36,7 @@ module Fog
         #     * 'SubnetId'<~String> - The subnet ID. Applies only when creating a network interface
         #     * 'Description'<~String> - A description. Applies only when creating a network interface
         #     * 'PrivateIpAddress'<~String> - The primary private IP address. Applies only when creating a network interface
-        #     * 'SecurityGroupId'<~String> - The ID of the security group. Applies only when creating a network interface.
+        #     * 'SecurityGroupId'<~Array> or <~String> - ids of security group(s) for network interface. Applies only when creating a network interface.
         #     * 'DeleteOnTermination'<~String> - Indicates whether to delete the network interface on instance termination.
         #     * 'PrivateIpAddresses.PrivateIpAddress'<~String> - The private IP address. This parameter can be used multiple times to specify explicit private IP addresses for a network interface, but only one private IP address can be designated as primary.
         #     * 'PrivateIpAddresses.Primary'<~Bool> - Indicates whether the private IP address is the primary private IP address.
@@ -48,7 +48,7 @@ module Fog
         #   * 'SecurityGroupId'<~Array> or <~String> - id's of security group(s) for instances, use this or SecurityGroup
         #   * 'InstanceInitiatedShutdownBehaviour'<~String> - specifies whether volumes are stopped or terminated when instance is shutdown, in [stop, terminate]
         #   * 'InstanceType'<~String> - Type of instance to boot. Valid options
-        #     in ['t1.micro', 'm1.small', 'm1.medium', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'c3.large', 'c3.xlarge', 'c3.2xlarge', 'c3.4xlarge', 'c3.8xlarge', 'g2.2xlarge', 'hs1.8xlarge', 'm2.xlarge', 'm2.2xlarge', 'm2.4xlarge', 'cr1.8xlarge', 'm3.xlarge', 'm3.2xlarge', 'hi1.4xlarge', 'cc1.4xlarge', 'cc2.8xlarge', 'cg1.4xlarge', 'i2.xlarge', 'i2.2xlarge', 'i2.4xlarge', 'i2.8xlarge']
+        #     in ['t1.micro', 't2.micro', 't2.small', 't2.medium', 'm1.small', 'm1.medium', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'c3.large', 'c3.xlarge', 'c3.2xlarge', 'c3.4xlarge', 'c3.8xlarge', 'g2.2xlarge', 'hs1.8xlarge', 'm2.xlarge', 'm2.2xlarge', 'm2.4xlarge', 'cr1.8xlarge', 'm3.xlarge', 'm3.2xlarge', 'hi1.4xlarge', 'cc1.4xlarge', 'cc2.8xlarge', 'cg1.4xlarge', 'i2.xlarge', 'i2.2xlarge', 'i2.4xlarge', 'i2.8xlarge']
         #     default is 'm1.small'
         #   * 'KernelId'<~String> - Id of kernel with which to launch
         #   * 'KeyName'<~String> - Name of a keypair to add to booting instances
@@ -122,8 +122,14 @@ module Fog
           end
           if network_interfaces = options.delete('NetworkInterfaces')
             network_interfaces.each_with_index do |mapping, index|
+              iface = format("NetworkInterface.%d", index)
               for key, value in mapping
-                options.merge!({ format("NetworkInterface.%d.#{key}", index) => value })
+                case key
+                when "SecurityGroupId"
+                  options.merge!(Fog::AWS.indexed_param("#{iface}.SecurityGroupId", [*value]))
+                else
+                  options.merge!({ "#{iface}.#{key}" => value })
+                end
               end
             end
           end
@@ -139,11 +145,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::RunInstances.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def run_instances(image_id, min_count, max_count, options = {})
           response = Excon::Response.new
           response.status = 200
@@ -160,7 +164,7 @@ module Fog
             instance_id = Fog::AWS::Mock.instance_id
             availability_zone = options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region)
 
-            block_device_mapping = (options['BlockDeviceMapping'] || []).inject([]) do |mapping, device|
+            block_device_mapping = (options['BlockDeviceMapping'] || []).reduce([]) do |mapping, device|
               device_name           = device.fetch("DeviceName", "/dev/sda1")
               volume_size           = device.fetch("Ebs.VolumeSize", 15)            # @todo should pull this from the image
               delete_on_termination = device.fetch("Ebs.DeleteOnTermination", true) # @todo should pull this from the image
@@ -178,7 +182,17 @@ module Fog
               }
             end
 
-            network_interfaces = (options['NetworkInterfaces'] || []).inject([]) do |mapping, device|
+            if options['SubnetId']
+              if options['PrivateIpAddress']
+                ni_options = {'PrivateIpAddress' => options['PrivateIpAddress']}
+              else
+                ni_options = {}
+              end
+
+              network_interface_id = create_network_interface(options['SubnetId'], ni_options).body['networkInterface']['networkInterfaceId']
+            end
+
+            network_interfaces = (options['NetworkInterfaces'] || []).reduce([]) do |mapping, device|
               device_index          = device.fetch("DeviceIndex", 0)
               subnet_id             = device.fetch("SubnetId", options[:subnet_id] ||  Fog::AWS::Mock.subnet_id)
               private_ip_address    = device.fetch("PrivateIpAddress", options[:private_ip_address] || Fog::AWS::Mock.private_ip_address)
@@ -224,6 +238,7 @@ module Fog
               'privateDnsName'      => nil,
               'productCodes'        => [],
               'reason'              => nil,
+              'rootDeviceName'      => block_device_mapping.first && block_device_mapping.first["deviceName"],
               'rootDeviceType'      => 'instance-store',
               'virtualizationType'  => 'paravirtual'
             }
@@ -232,12 +247,17 @@ module Fog
               'groupIds'            => [],
               'groupSet'            => group_set,
               'iamInstanceProfile'  => {},
-              'networkInterfaces'   => [],
               'ownerId'             => self.data[:owner_id],
-              'privateIpAddress'    => nil,
               'reservationId'       => reservation_id,
               'stateReason'         => {}
             })
+
+            if options['SubnetId']
+              self.data[:instances][instance_id]['vpcId'] = self.data[:subnets].find{|subnet| subnet['subnetId'] == options['SubnetId'] }['vpcId']
+
+              attachment_id = attach_network_interface(network_interface_id, instance_id, '0').data[:body]['attachmentId']
+              modify_network_interface_attribute(network_interface_id, 'attachment', {'attachmentId' => attachment_id, 'deleteOnTermination' => 'true'})
+            end
           end
           response.body = {
             'groupSet'      => group_set,
@@ -248,7 +268,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

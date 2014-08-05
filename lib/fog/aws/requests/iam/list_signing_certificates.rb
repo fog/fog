@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/list_signing_certificates'
 
         # List signing certificates for user (by default detects user from access credentials)
@@ -31,7 +30,6 @@ module Fog
             :parser   => Fog::Parsers::AWS::IAM::ListSigningCertificates.new
           }.merge!(options))
         end
-
       end
     end
   end

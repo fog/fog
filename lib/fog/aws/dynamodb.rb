@@ -24,7 +24,6 @@ module Fog
       request :update_table
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -112,7 +111,6 @@ module Fog
           # defaults for all dynamodb requests
           params.merge!({
             :expects  => 200,
-            :host     => @host,
             :method   => :post,
             :path     => '/'
           })
@@ -135,7 +133,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

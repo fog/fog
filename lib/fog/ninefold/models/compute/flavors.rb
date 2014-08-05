@@ -4,9 +4,7 @@ require 'fog/ninefold/models/compute/flavor'
 module Fog
   module Compute
     class Ninefold
-
       class Flavors < Fog::Collection
-
         model Fog::Compute::Ninefold::Flavor
 
         def all
@@ -22,9 +20,7 @@ module Fog
             new(data[0])
           end
         end
-
       end
-
     end
   end
 end

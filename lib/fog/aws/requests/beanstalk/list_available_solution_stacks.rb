@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ElasticBeanstalk
       class Real
-
         require 'fog/aws/parsers/beanstalk/list_available_solution_stacks'
 
         # Checks if the specified CNAME is available.

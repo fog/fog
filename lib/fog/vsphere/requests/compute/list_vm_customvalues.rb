@@ -9,9 +9,7 @@ module Fog
               :value  => customvalue.value,
             }
           end
-
         end
-
       end
       class Mock
         def list_vm_customfields(vm_id)

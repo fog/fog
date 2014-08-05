@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Ecloud
       class ComputePools < Fog::Ecloud::Collection
-
         undef_method :create
 
         attribute :href, :aliases => :Href

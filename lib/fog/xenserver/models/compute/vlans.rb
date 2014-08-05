@@ -4,9 +4,7 @@ require 'fog/xenserver/models/compute/vlan'
 module Fog
   module Compute
     class XenServer
-
       class Vlans < Fog::Collection
-
         model Fog::Compute::XenServer::VLAN
 
         # Return the list of VLANs available
@@ -31,9 +29,7 @@ module Fog
         rescue Fog::XenServer::NotFound
           nil
         end
-
       end
-
     end
   end
 end

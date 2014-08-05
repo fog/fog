@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # List all flavors (IDs and names only)
         #
         # ==== Parameters
@@ -26,11 +25,9 @@ module Fog
             :query    => options
           )
         end
-
       end
 
       class Mock
-
         def list_flavors
           response = Excon::Response.new
           response.status = 200
@@ -46,7 +43,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

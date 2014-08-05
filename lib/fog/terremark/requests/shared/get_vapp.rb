@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get details of a vapp
         #
         # ==== Parameters
@@ -35,7 +34,6 @@ module Fog
             :path     => "vapp/#{vapp_id}"
           )
         end
-
       end
     end
   end

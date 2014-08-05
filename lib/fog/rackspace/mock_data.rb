@@ -1,7 +1,6 @@
 module Fog
   module Rackspace
     module MockData
-
       NOT_FOUND_ID = "NOT-FOUND"
 
       def data

@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class NetworkAcl < Fog::Model
         ICMP = 1
         TCP  = 6
@@ -134,7 +133,7 @@ module Fog
           requires :network_acl_id
 
           # We have to manually find out the network ACL the subnet is currently associated with
-          old_id = service.network_acls.all('association.subnet-id' => subnet.subnet_id).first.associations.detect { |a| a['subnetId'] == subnet.subnet_id }['networkAclAssociationId']
+          old_id = service.network_acls.all('association.subnet-id' => subnet.subnet_id).first.associations.find { |a| a['subnetId'] == subnet.subnet_id }['networkAclAssociationId']
           service.replace_network_acl_association(old_id, network_acl_id)
           true
         end
@@ -161,7 +160,18 @@ module Fog
         def save
           requires :vpc_id
           data = service.create_network_acl(vpc_id).body['networkAcl']
-          merge_attributes(data)
+          new_attributes = data.reject { |key,value| key == 'tagSet' }
+          merge_attributes(new_attributes)
+
+          if tags = self.tags
+            # expect eventual consistency
+            Fog.wait_for { self.reload rescue nil }
+            service.create_tags(
+              self.identity,
+              tags
+            )
+          end
+
           true
         end
       end

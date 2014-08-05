@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
         require 'fog/zerigo/parsers/dns/get_zone'
 
         # Get details of a DNS zone. The response is similar to list_zones, with the
@@ -42,7 +41,6 @@ module Fog
             :path     => "/api/1.1/zones/#{zone_id_or_domain}.xml"
           )
         end
-
       end
 
       class Mock # :nodoc:all

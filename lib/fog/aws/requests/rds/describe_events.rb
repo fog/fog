@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/event_list'
 
         # Returns a list of service events
@@ -39,7 +38,6 @@ module Fog
             :parser => Fog::Parsers::AWS::RDS::EventListParser.new
           )
         end
-
       end
 
       class Mock

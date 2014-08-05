@@ -1,6 +1,5 @@
 class Terremark < Fog::Bin
   class << self
-
     def available?
       Fog::Terremark::VCLOUD_OPTIONS.all? {|requirement| Fog.credentials.include?(requirement)}
     end
@@ -26,6 +25,5 @@ class Terremark < Fog::Bin
       end
       @@connections[service]
     end
-
   end
 end

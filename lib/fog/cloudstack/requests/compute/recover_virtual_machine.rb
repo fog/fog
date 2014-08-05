@@ -1,20 +1,21 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
+      class Real
         # Recovers a virtual machine.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/recoverVirtualMachine.html]
-        def recover_virtual_machine(options={})
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/recoverVirtualMachine.html]
+        def recover_virtual_machine(id, options={})
           options.merge!(
-            'command' => 'recoverVirtualMachine'
+            'command' => 'recoverVirtualMachine', 
+            'id' => id  
           )
-
           request(options)
         end
-
       end
+
     end
   end
 end
+

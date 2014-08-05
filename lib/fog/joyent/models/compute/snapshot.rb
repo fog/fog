@@ -38,7 +38,6 @@ module Fog
 
           service.servers.get(self.machine_id)
         end
-
       end
     end
   end

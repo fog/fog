@@ -2,10 +2,8 @@ module Fog
   module Parsers
     module AWS
       module ElasticBeanstalk
-
         require 'fog/aws/parsers/beanstalk/parser'
         class UpdateApplicationVersion < Fog::Parsers::AWS::ElasticBeanstalk::BaseParser
-
           def initialize
             super("UpdateApplicationVersionResult")
             tag 'ApplicationVersion', :object
@@ -18,7 +16,6 @@ module Fog
             tag 'S3Key', :string
             tag 'VersionLabel', :string
           end
-
         end
       end
     end

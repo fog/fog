@@ -4,9 +4,7 @@ require 'fog/aws/models/storage/version'
 module Fog
   module Storage
     class AWS
-
       class Versions < Fog::Collection
-
         attribute :file
         attribute :directory
 
@@ -30,9 +28,7 @@ module Fog
 
           model
         end
-
       end
-
     end
   end
 end

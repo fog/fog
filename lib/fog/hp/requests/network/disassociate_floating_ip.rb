@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Associate port with floating ip
         #
@@ -45,7 +44,7 @@ module Fog
       class Mock
         def disassociate_floating_ip(floating_ip_id, options = {})
           response = Excon::Response.new
-          if list_floating_ips.body['floatingips'].detect {|_| _['id'] == floating_ip_id}
+          if list_floating_ips.body['floatingips'].find {|_| _['id'] == floating_ip_id}
             response.status = 200
             data = {
                 'id'                  => floating_ip_id,
@@ -65,7 +64,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

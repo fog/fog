@@ -2,7 +2,6 @@ module Fog
   module Orchestration
     class OpenStack
       class Real
-
         # Delete a stack.
         #
         # @param stack_name [String] Name of the stack to delete.
@@ -19,7 +18,6 @@ module Fog
             :method => 'DELETE'
           )
         end
-
       end
 
       class Mock

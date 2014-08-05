@@ -4,7 +4,6 @@ require 'fog/openstack/models/metering/resource'
 module Fog
   module Metering
     class OpenStack
-
       class Resources < Fog::Collection
         model Fog::Metering::OpenStack::Resource
 
@@ -19,7 +18,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

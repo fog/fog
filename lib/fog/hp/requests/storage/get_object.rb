@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Get details for an object
         #
         # ==== Parameters
@@ -26,11 +25,9 @@ module Fog
           end
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_object(container_name, object_name, options = {}, &block)
           unless container_name
             raise ArgumentError.new('container_name is required')
@@ -77,9 +74,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

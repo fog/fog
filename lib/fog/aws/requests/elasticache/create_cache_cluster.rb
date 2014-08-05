@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/single_cache_cluster'
         # creates a cache cluster
         #
@@ -23,11 +22,11 @@ module Fog
         #   * :preferred_availablility_zone <~String>
         #   * :preferred_maintenance_window <~String>
         #   * :cache_subnet_group_name <~String>
+        #   * :s3_snapshot_location <~String> - Amazon resource location for snapshot
         # === Returns
         # * response <~Excon::Response>:
         #   * body <~Hash>
         def create_cache_cluster(id, options = {})
-
           req_options = {
             'Action'          => 'CreateCacheCluster',
             'CacheClusterId'  => id.strip,
@@ -45,6 +44,10 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::SingleCacheCluster.new
           }
 
+          if s3_snapshot_location = options.delete(:s3_snapshot_location)
+            req_options.merge!(Fog::AWS.indexed_param('SnapshotArns.member.%d', [*s3_snapshot_location]))
+          end
+
           if cache_security_groups = options.delete(:security_group_names)
               req_options.merge!(Fog::AWS.indexed_param('CacheSecurityGroupNames.member.%d', [*cache_security_groups]))
           end
@@ -54,7 +57,6 @@ module Fog
           end
 
           request( req_options )
-
         end
       end
 
@@ -87,7 +89,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

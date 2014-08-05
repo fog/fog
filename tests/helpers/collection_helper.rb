@@ -1,5 +1,4 @@
 def collection_tests(collection, params = {}, mocks_implemented = true)
-
   tests('success') do
 
     tests("#new(#{params.inspect})").succeeds do
@@ -21,8 +20,6 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
       pending if Fog.mocking? && !mocks_implemented
       collection.all
     end
-
-
 
     if !Fog.mocking? || mocks_implemented
       @identity = @instance.identity
@@ -73,9 +70,8 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
 
     end
 
-
     if block_given?
-      yield
+      yield(@instance)
     end
 
     if !Fog.mocking? || mocks_implemented
@@ -98,5 +94,4 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
     end
 
   end
-
 end

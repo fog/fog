@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudWatch
       class Real
-
         require 'fog/aws/parsers/cloud_watch/describe_alarm_history'
 
         # Retrieves history for the specified alarm

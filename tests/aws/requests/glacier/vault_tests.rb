@@ -5,7 +5,7 @@ Shindo.tests('AWS::Glacier | glacier vault requests', ['aws']) do
   Fog::AWS[:glacier].create_vault('Fog-Test-Vault')
 
   tests('list_vaults') do
-    returns(true){Fog::AWS[:glacier].list_vaults.body['VaultList'].collect {|data| data['VaultName']}.include?('Fog-Test-Vault')}
+    returns(true){Fog::AWS[:glacier].list_vaults.body['VaultList'].map {|data| data['VaultName']}.include?('Fog-Test-Vault')}
   end
 
   tests('describe_vault') do

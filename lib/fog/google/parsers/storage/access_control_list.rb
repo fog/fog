@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module Google
-
         class AccessControlList < Fog::Parsers::Base
-
           def reset
             @in_entries = false
             @entry = { 'Scope' => {} }
@@ -39,9 +37,7 @@ module Fog
               @entry[name] = value
             end
           end
-
         end
-
       end
     end
   end

@@ -5,11 +5,10 @@ Shindo.tests('AWS::Glacier | glacier archive tests', ['aws']) do
 
   tests('initiate and abort') do
     id = Fog::AWS[:glacier].initiate_multipart_upload('Fog-Test-Vault-upload', 1024*1024).headers['x-amz-multipart-upload-id']
-    returns(true){ Fog::AWS[:glacier].list_multipart_uploads('Fog-Test-Vault-upload').body['UploadsList'].collect {|item| item['MultipartUploadId']}.include?(id)}
+    returns(true){ Fog::AWS[:glacier].list_multipart_uploads('Fog-Test-Vault-upload').body['UploadsList'].map {|item| item['MultipartUploadId']}.include?(id)}
     Fog::AWS[:glacier].abort_multipart_upload('Fog-Test-Vault-upload', id)
-    returns(false){ Fog::AWS[:glacier].list_multipart_uploads('Fog-Test-Vault-upload').body['UploadsList'].collect {|item| item['MultipartUploadId']}.include?(id)}
+    returns(false){ Fog::AWS[:glacier].list_multipart_uploads('Fog-Test-Vault-upload').body['UploadsList'].map {|item| item['MultipartUploadId']}.include?(id)}
   end
-
 
   tests('do multipart upload') do
     hash = Fog::AWS::Glacier::TreeHash.new
@@ -24,7 +23,7 @@ Shindo.tests('AWS::Glacier | glacier archive tests', ['aws']) do
 
     archive = Fog::AWS[:glacier].complete_multipart_upload('Fog-Test-Vault-upload', id, 2*1024*1024, hash.hexdigest).headers['x-amz-archive-id']
 
-    Fog::AWS[:glacier].delete_archive('Fog-Test-Vault-upload', archive)    
+    Fog::AWS[:glacier].delete_archive('Fog-Test-Vault-upload', archive)
   #amazon won't let us delete the vault because it has been written to in the past day
   end
 end

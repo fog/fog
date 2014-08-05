@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Delete an existing router
         #
@@ -19,7 +18,7 @@ module Fog
       class Mock
         def delete_router(router_id)
           response = Excon::Response.new
-          if list_routers.body['routers'].detect {|_| _['id'] == router_id}
+          if list_routers.body['routers'].find {|_| _['id'] == router_id}
             self.data[:routers].delete(router_id)
             response.status = 204
             response
@@ -28,7 +27,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

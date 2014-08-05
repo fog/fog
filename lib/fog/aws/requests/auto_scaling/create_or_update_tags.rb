@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Creates new tags or updates existing tags for an Auto Scaling group.
@@ -44,20 +42,16 @@ module Fog
             :parser  => Fog::Parsers::AWS::AutoScaling::Basic.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def create_or_update_tags(tags)
           if tags.to_a.empty?
             raise Fog::AWS::AutoScaling::ValidationError.new("1 validation error detected: Value null at 'tags' failed to satisfy constraint: Member must not be null")
           end
           raise Fog::Mock::NotImplementedError
         end
-
       end
-
     end
   end
 end

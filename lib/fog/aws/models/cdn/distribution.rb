@@ -5,7 +5,6 @@ require 'fog/aws/models/cdn/distribution_helper'
 module Fog
   module CDN
     class AWS
-
       class Distribution < Fog::Model
         include Fog::CDN::AWS::DistributionHelper
 
@@ -85,9 +84,7 @@ module Fog
         def distribution_config_to_attributes(new_attributes = {})
           new_attributes.merge(new_attributes.delete('DistributionConfig') || {})
         end
-
       end
-
     end
   end
 end

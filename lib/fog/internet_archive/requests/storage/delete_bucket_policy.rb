@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         # Delete policy for a bucket
         #
         # @param bucket_name [String] name of bucket to delete policy from
@@ -21,9 +20,7 @@ module Fog
             :query    => {'policy' => nil}
           })
         end
-
       end
-
     end
   end
 end

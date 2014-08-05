@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Redshift
       module AWS
-
         class DescribeClusterSubnetGroups < Fog::Parsers::Base
           # :marker - (String)
           # :cluster_subnet_groups - (Array<Hash>)
@@ -54,5 +53,3 @@ module Fog
     end
   end
 end
-
-

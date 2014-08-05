@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module AWS
     class Elasticache
-
       class Cluster < Fog::Model
         # simple attributes
         identity :id, :aliases => 'CacheClusterId'
@@ -18,20 +17,14 @@ module Fog
         attribute :maintenance_window, :aliases => 'PreferredMaintenanceWindow'
         # complex attributes
         attribute :nodes, :aliases => 'CacheNodes', :type => :array
-        attribute :parameter_group,
-          :aliases => 'CacheParameterGroup', :type => :hash
-        attribute :pending_values,
-          :aliases => 'PendingModifiedValues', :type => :hash
-        attribute :create_time,
-          :aliases => 'CacheClusterCreateTime', :type => :date_time
-        attribute :security_groups,
-          :aliases => 'CacheSecurityGroups', :type => :array
-        attribute :notification_config,
-          :aliases => 'NotificationConfiguration', :type => :hash
-        attribute :cache_subnet_group_name,
-          :aliases => 'CacheSubnetGroupName'
-        attribute :vpc_security_groups,
-          :aliases => 'VpcSecurityGroups', :type => :array
+        attribute :parameter_group, :aliases => 'CacheParameterGroup'
+        attribute :pending_values, :aliases => 'PendingModifiedValues'
+        attribute :create_time, :aliases => 'CacheClusterCreateTime', :type => :timestamp
+        attribute :security_groups, :aliases => 'CacheSecurityGroups', :type => :array
+        attribute :notification_config, :aliases => 'NotificationConfiguration'
+        attribute :cache_subnet_group_name, :aliases => 'CacheSubnetGroupName'
+        attribute :vpc_security_groups, :aliases => 'VpcSecurityGroups', :type => :array
+        attribute :s3_snapshot_location, :aliases => 'SnapshotArns', :type => :array
 
         attr_accessor :parameter_group_name
 
@@ -63,15 +56,14 @@ module Fog
               :port                         => port,
               :preferred_availablility_zone => zone,
               :preferred_maintenance_window => maintenance_window,
+              :s3_snapshot_location         => s3_snapshot_location,
               :parameter_group_name         => parameter_group_name || parameter_group['CacheParameterGroupName'],
               :cache_subnet_group_name      => cache_subnet_group_name,
               :vpc_security_groups          => vpc_security_groups,
             }
           )
         end
-
       end
-
     end
   end
 end

@@ -5,7 +5,6 @@ module Fog
   module Compute
     class HP
       class Meta < Fog::Model
-
         include Fog::Compute::HP::MetaParent
 
         identity :key
@@ -22,7 +21,6 @@ module Fog
           service.update_meta(collection_name, @parent.id, key, value)
           true
         end
-
       end
     end
   end

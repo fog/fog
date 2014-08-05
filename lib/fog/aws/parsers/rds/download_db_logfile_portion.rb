@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         class DownloadDBLogFilePortion < Fog::Parsers::Base
-
           def reset
             @response = { 'DownloadDBLogFilePortionResult' => {}, 'ResponseMetadata' => {} }
           end
@@ -17,9 +15,7 @@ module Fog
             key = (name == 'RequestId') ? 'ResponseMetadata' : 'DownloadDBLogFilePortionResult'
             @response[key][name] = value
           end
-
         end
-
       end
     end
   end

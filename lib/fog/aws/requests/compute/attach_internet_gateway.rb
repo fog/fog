@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
         # Attaches an Internet gateway to a VPC, enabling connectivity between the Internet and the VPC
         #
@@ -26,11 +25,9 @@ module Fog
             :parser       => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
-
       end
 
       class Mock
-
         def attach_internet_gateway(internet_gateway_id, vpc_id)
           response = Excon::Response.new
           if internet_gateway_id && vpc_id
@@ -49,7 +46,6 @@ module Fog
             raise Fog::Compute::AWS::Error.new(message)
           end
         end
-
       end
     end
   end

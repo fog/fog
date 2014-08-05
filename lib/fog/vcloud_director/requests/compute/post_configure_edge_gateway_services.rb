@@ -2,7 +2,6 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-
         require 'fog/vcloud_director/generators/compute/edge_gateway_service_configuration'
 
         # Configure edge gateway services like firewall, nat and load balancer.
@@ -32,7 +31,6 @@ module Fog
               :path => "admin/edgeGateway/#{id}/action/configureServices"
           )
         end
-
       end
 
       class Mock
@@ -67,4 +65,3 @@ module Fog
     end
   end
 end
-

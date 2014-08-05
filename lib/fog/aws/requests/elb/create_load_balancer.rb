@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/create_load_balancer'
 
         # Create a new Elastic Load Balancer
@@ -61,7 +60,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
 
-          raise Fog::AWS::ELB::IdentifierTaken if self.data[:load_balancers].has_key? lb_name
+          raise Fog::AWS::ELB::IdentifierTaken if self.data[:load_balancers].key? lb_name
 
           certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map {|n, c| c['Arn'] }
 
@@ -76,28 +75,77 @@ module Fog
 
           availability_zones = [*availability_zones].compact
           region = availability_zones.empty? ? "us-east-1" : availability_zones.first.gsub(/[a-z]$/, '')
-          supported_platforms = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:account_attributes].detect { |h| h["attributeName"] == "supported-platforms" }["values"]
-          security_group = if supported_platforms.include?("EC2")
-                             Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups]['amazon-elb-sg']
+          supported_platforms = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:account_attributes].find { |h| h["attributeName"] == "supported-platforms" }["values"]
+          subnet_ids = options[:subnet_ids] || []
+          subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select {|e| subnet_ids.include?(e["subnetId"]) }
+
+          # http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/default-vpc.html
+          elb_location = if supported_platforms.include?("EC2")
+                           if subnet_ids.empty?
+                             'EC2-Classic'
                            else
-                             if default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.detect { |sg| sg['groupName'] =~ /default_elb/ }
-                               default_sg
-                             else
-                               default_sg_name   = "default_elb_#{Fog::Mock.random_hex(6)}"
-                               default_sg = {
-                                 'groupDescription'    => 'default elb security group',
-                                 'groupName'           => default_sg_name,
-                                 'groupId'             => Fog::AWS::Mock.security_group_id,
-                                 'ipPermissionsEgress' => [],
-                                 'ipPermissions'       => [],
-                                 'ownerId'             => self.data[:owner_id]
-                               }
-                               Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups][default_sg_name] = default_sg
+                             'EC2-VPC'
+                           end
+                         else
+                           if subnet_ids.empty?
+                             'EC2-VPC-Default'
+                           else
+                             'VPC'
+                           end
+                         end
+
+          security_group = case elb_location
+                           when 'EC2-Classic'
+                             Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups]['amazon-elb-sg']
+                           when 'EC2-VPC-Default'
+                             # find or create default vpc
+                             compute = Fog::Compute::AWS::new(:aws_access_key_id => @aws_access_key_id, :aws_secret_access_key => @aws_secret_access_key)
+                             unless vpc = compute.vpcs.all.first
+                               vpc = compute.vpcs.create('cidr_block' => '10.0.0.0/24')
                              end
+
+                             default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
+                               sg['groupName'] =~ /^default_elb/ &&
+                                 sg["vpcId"] == vpc.id
+                             }
+
+                             unless default_sg
+                               default_sg = {
+                                             'groupDescription'    => 'default_elb security group',
+                                             'groupName'           => "default_elb_#{Fog::Mock.random_hex(6)}",
+                                             'groupId'             => Fog::AWS::Mock.security_group_id,
+                                             'ipPermissionsEgress' => [],
+                                             'ipPermissions'       => [],
+                                             'ownerId'             => self.data[:owner_id],
+                                             'vpcId'               => vpc.id
+                                            }
+                               Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups]['default'] = default_sg
+                             end
+
+                             default_sg
+                           when 'EC2-VPC'
+                             # find or create default vpc security group
+                             vpc_id = subnets.first["vpcId"]
+                             default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
+                               sg['groupName'] == 'default' &&
+                                 sg["vpcId"] == vpc_id
+                             }
+
+                             unless default_sg
+                               default_sg = {
+                                             'groupDescription'    => 'default elb security group',
+                                             'groupName'           => 'default',
+                                             'groupId'             => Fog::AWS::Mock.security_group_id,
+                                             'ipPermissionsEgress' => [],
+                                             'ipPermissions'       => [],
+                                             'ownerId'             => self.data[:owner_id],
+                                             'vpcId'               => vpc_id
+                                            }
+                               Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups]['default'] = default_sg
+                             end
+
                              default_sg
                            end
-
-
 
           self.data[:load_balancers][lb_name] = {
             'AvailabilityZones' => availability_zones,
@@ -122,7 +170,10 @@ module Fog
             },
             'Instances' => [],
             'ListenerDescriptions' => listeners,
-            'LoadBalancerAttributes' => {'CrossZoneLoadBalancing' => {'Enabled' => false}},
+            'LoadBalancerAttributes' => {
+              'ConnectionDraining' => {'Enabled' => false, 'Timeout' => 300},
+              'CrossZoneLoadBalancing' => {'Enabled' => false}
+            },
             'LoadBalancerName' => lb_name,
             'Policies' => {
               'AppCookieStickinessPolicies' => [],

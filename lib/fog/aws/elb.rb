@@ -56,7 +56,6 @@ module Fog
       collection :backend_server_descriptions
 
       class Mock
-
         require 'fog/aws/elb/policy_types'
 
         def self.data
@@ -92,7 +91,8 @@ module Fog
         end
 
         def setup_credentials(options)
-          @aws_access_key_id = options[:aws_access_key_id]
+          @aws_access_key_id     = options[:aws_access_key_id]
+          @aws_secret_access_key = options[:aws_secret_access_key]
         end
 
         def data

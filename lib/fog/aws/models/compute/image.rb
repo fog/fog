@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class Image < Fog::Model
-
         identity :id,                     :aliases => 'imageId'
 
         attribute :architecture
@@ -25,12 +23,13 @@ module Fog
         attribute :root_device_name,      :aliases => 'rootDeviceName'
         attribute :tags,                  :aliases => 'tagSet'
         attribute :name
+        attribute :virtualization_type,   :aliases => 'virtualizationType'
 
         def deregister(delete_snapshot = false)
           service.deregister_image(id)
 
           if(delete_snapshot && root_device_type == "ebs")
-            block_device = block_device_mapping.detect {|block_device| block_device['deviceName'] == root_device_name}
+            block_device = block_device_mapping.find {|block_device| block_device['deviceName'] == root_device_name}
             service.snapshots.new(:id => block_device['snapshotId']).destroy
           else
             true
@@ -40,9 +39,7 @@ module Fog
         def ready?
           state == 'available'
         end
-
       end
-
     end
   end
 end

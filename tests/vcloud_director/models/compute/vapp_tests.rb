@@ -38,4 +38,12 @@ Shindo.tests("Compute::VcloudDirector | vapps", ['vclouddirector', 'all']) do
     tests("#get_by_name").returns(vapp.name) { vapps.get_by_name(vapp.name).name }
     tests("#get").returns(vapp.id) { vapps.get(vapp.id).id }
   end
+
+  tests("Compute::VcloudDirector | vapp", ['custom_fields']) do
+    tests("#set_custom_field").returns('2'){ vapp.custom_fields[:custom_field] = '2' }
+
+    tests("#get_custom_field_by_name").returns('2') { vapp.custom_fields[:custom_field].value }
+    tests("#delete_custom_field").returns([]){ vapp.custom_fields.delete(:custom_field); vapp.custom_fields }
+  end
+
 end

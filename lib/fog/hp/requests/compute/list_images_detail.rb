@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # List all images
         #
         # ==== Returns
@@ -20,11 +19,9 @@ module Fog
             :path     => 'images/detail.json'
           )
         end
-
       end
 
       class Mock
-
         def list_images_detail
           response = Excon::Response.new
 
@@ -42,7 +39,6 @@ module Fog
           response.body = { 'images' => images.map {|image| image.reject {|key, value| !['id', 'name', 'links', 'metadata', 'progress' ,'status', 'created', 'updated'].include?(key)}} }
           response
         end
-
       end
     end
   end

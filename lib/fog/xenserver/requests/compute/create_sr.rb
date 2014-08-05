@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class XenServer
-
       class Real
-
         #
         # Create a storage repository (SR)
         #
@@ -48,11 +46,9 @@ module Fog
             sm_config || {}
           )
         end
-
       end
 
       class Mock
-
         def create_sr( host_ref,
                        name_label,
                        type,
@@ -64,9 +60,7 @@ module Fog
                        sm_config        = {} )
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

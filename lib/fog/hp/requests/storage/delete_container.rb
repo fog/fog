@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Delete an existing container
         #
         # ==== Parameters
@@ -16,11 +15,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def delete_container(container_name)
           response = Excon::Response.new
           if self.data[:containers][container_name].nil?
@@ -35,9 +32,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

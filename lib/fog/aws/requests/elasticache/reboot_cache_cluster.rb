@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/single_cache_cluster'
 
         # Reboots some or all of an existing cache cluster's nodes
@@ -19,7 +18,7 @@ module Fog
           # Construct CacheNodeIdsToReboot parameters in the format:
           #   CacheNodeIdsToReboot.member.N => "node_id"
           node_ids = nodes_to_reboot || []
-          node_id_params = node_ids.inject({}) do |node_hash, node_id|
+          node_id_params = node_ids.reduce({}) do |node_hash, node_id|
             index = node_ids.index(node_id) + 1
             node_hash["CacheNodeIdsToReboot.member.#{index}"] = node_id
             node_hash
@@ -31,7 +30,6 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::SingleCacheCluster.new
           ))
         end
-
       end
 
       class Mock
@@ -46,7 +44,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

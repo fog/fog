@@ -7,4 +7,3 @@ module Fog
     service(:compute, 'Compute')
   end
 end
-

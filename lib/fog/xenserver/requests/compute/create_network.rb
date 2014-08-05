@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class XenServer
-
       class Real
-
         # Create a Network
         #
         # @see http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=network
@@ -30,13 +28,10 @@ module Fog
       end
 
       class Mock
-
         def create_network( name, description = '', config = {} )
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

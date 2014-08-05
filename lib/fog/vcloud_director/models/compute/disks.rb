@@ -4,7 +4,6 @@ require 'fog/vcloud_director/models/compute/disk'
 module Fog
   module Compute
     class VcloudDirector
-
       class Disks < Collection
         model Fog::Compute::VcloudDirector::Disk
 
@@ -19,7 +18,7 @@ module Fog
         end
 
         def get_by_id(item_id)
-          item = item_list.detect{ |i| i[:id] == item_id}
+          item = item_list.find{ |i| i[:id] == item_id}
           item.merge!(:all_disks => @disks, :vm => vm) if item
           item
         end
@@ -33,7 +32,6 @@ module Fog
           end
           items
         end
-
       end
     end
   end

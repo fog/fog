@@ -4,7 +4,6 @@ module Fog
   module Volume
     class SakuraCloud
       class Disk < Fog::Model
-
         identity :id, :aliases => 'ID'
         attribute :name, :aliases => 'Name'
         attribute :connection, :aliases => 'Connection'

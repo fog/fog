@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Delete an image
         # @param [String] image_id Id of image to delete
         # @return [Excon::Response] response
@@ -18,7 +17,6 @@ module Fog
             :path     => "images/#{image_id}"
           )
         end
-
       end
 
       class Mock
@@ -28,7 +26,6 @@ module Fog
           response.status = 202
           response.body = ""
         end
-
       end
     end
   end

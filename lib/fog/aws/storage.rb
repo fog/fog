@@ -108,7 +108,6 @@ module Fog
       request :upload_part
 
       module Utils
-
         attr_accessor :region
 
         def cdn
@@ -177,15 +176,6 @@ module Fog
 
         # NOTE: differs from Fog::AWS.escape by NOT escaping `/`
         def escape(string)
-          unless @unf_loaded_or_warned
-            begin
-              require('unf/normalizer')
-            rescue LoadError
-              Fog::Logger.warning("Unable to load the 'unf' gem. Your AWS strings may not be properly encoded.")
-            end
-            @unf_loaded_or_warned = true
-          end
-          string = defined?(::UNF::Normalizer) ? ::UNF::Normalizer.normalize(string, :nfc) : string
           string.gsub(/([^a-zA-Z0-9_.\-~\/]+)/) {
             "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
           }
@@ -269,7 +259,6 @@ module Fog
             :query  => query,
           }).to_s
         end
-
       end
 
       class Mock
@@ -394,7 +383,6 @@ module Fog
           @aws_session_token     = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
         end
-
       end
 
       class Real
@@ -467,7 +455,6 @@ DATA
             canonical_amz_headers << "#{key}:#{value}\n"
           end
           string_to_sign << canonical_amz_headers
-
 
           query_string = ''
           if params[:query]

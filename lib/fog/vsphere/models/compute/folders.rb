@@ -4,9 +4,7 @@ require 'fog/vsphere/models/compute/folder'
 module Fog
   module Compute
     class Vsphere
-
       class Folders < Fog::Collection
-
         model Fog::Compute::Vsphere::Folder
         attr_accessor :datacenter, :type, :path
 
@@ -20,7 +18,6 @@ module Fog
           requires :datacenter
           new service.get_folder(id, datacenter, type)
         end
-
       end
     end
   end

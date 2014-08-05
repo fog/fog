@@ -66,7 +66,6 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
       Fog::AWS[:iam].delete_user('fog_user').body
     end
 
-
   end
 
   tests('failure') do

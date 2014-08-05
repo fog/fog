@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module InternetArchive
-
         class CopyObject < Fog::Parsers::Base
-
           def end_element(name)
             case name
             when 'ETag'
@@ -13,9 +11,7 @@ module Fog
               @response[name] = Time.parse(value)
             end
           end
-
         end
-
       end
     end
   end

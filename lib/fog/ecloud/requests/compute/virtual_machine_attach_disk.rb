@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       module Shared
-
         def build_request_body_attach_disk(options)
           xml = Builder::XmlMarkup.new
           xml.AttachDisks(:name => options[:name]) do

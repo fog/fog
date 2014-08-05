@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def create_check(entity_id, options = {})
           data = options.dup
           request(
@@ -16,7 +15,6 @@ module Fog
 
       class Mock
         def create_check(entity_id, options = {})
-
           account_id = Fog::Mock.random_numbers(6).to_s
           mock_id = Fog::Mock.random_letters(10).to_s
 
@@ -47,4 +45,3 @@ module Fog
     end
   end
 end
-
