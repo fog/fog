@@ -13,6 +13,14 @@ module Fog
         # Register the stack model class
         model Fog::Orchestration::AWS::Stack
 
+        # @return [Hash] filters to apply to stack list
+        attr_accessor :filters
+
+        def initialize(args={})
+          self.filters = args.delete(:filters) || {}
+          super
+        end
+
         # Load all stacks
         #
         # @return [self]
