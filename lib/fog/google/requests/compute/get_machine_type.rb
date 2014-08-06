@@ -18,7 +18,7 @@ module Fog
              "message" => "The resource 'projects/#{@project}/zones/#{zone_name}/machineTypes/#{machine_type_name}' was not found"
             }
           }
-          build_response(:body => machine_type)
+          build_excon_response(machine_type)
         end
       end
 
@@ -35,8 +35,7 @@ module Fog
             'machineType' => machine_type_name
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

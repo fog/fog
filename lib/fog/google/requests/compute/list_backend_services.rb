@@ -3,7 +3,14 @@ module Fog
     class Google
       class Mock
         def list_backend_services
-          Fog::Mock.not_implemented
+          backend_services = self.data[:backend_services]
+
+          build_excon_response({
+            "kind" => "compute#backendServiceList",
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/backendServices",
+            "id" => "projects/#{@project}/global/backendServices",
+            "items" => backend_services
+          })
         end
       end
 
@@ -14,8 +21,7 @@ module Fog
             'project' => @project,
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

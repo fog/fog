@@ -8,12 +8,12 @@ module Fog
         model Fog::Compute::Google::GlobalForwardingRule
 
         def all
-          data = service.list_global_forwarding_rules.body['items'] || []
+          data = service.list_global_forwarding_rules.body['items'].values || []
           load(data)
         end
 
         def get(identity, region='global')
-          response = service.get_forwarding_rule(identity, region['name'])
+          response = service.get_global_forwarding_rule(identity, region)
           return nil if response.nil?
           new(response.body)
         end

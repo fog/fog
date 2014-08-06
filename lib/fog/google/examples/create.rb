@@ -1,3 +1,5 @@
+require 'rubygems'
+require 'fog'
 def test
   connection = Fog::Compute.new({ :provider => "Google" })
 
@@ -17,8 +19,6 @@ def test
     :disks => [disk],
     :machine_type => "n1-standard-1",
     :zone_name => "us-central1-a",
-    :private_key_path => File.expand_path("~/.ssh/id_rsa"),
-    :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
     :user => ENV['USER'],
     :tags => ["fog"]
   })
@@ -47,3 +47,4 @@ def test
   raise "Could not bootstrap sshable server." unless server.ssh("whoami")
   raise "Could not delete server." unless server.destroy
 end
+test

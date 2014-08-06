@@ -8,7 +8,7 @@ module Fog
         model Fog::Compute::Google::BackendService
 
         def all(filters={})
-          data = service.list_backend_service.body['items'] || []
+          data = service.list_backend_services.body['items'].values || []
           load(data)
         end
 

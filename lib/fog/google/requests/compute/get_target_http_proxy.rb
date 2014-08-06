@@ -3,7 +3,11 @@ module Fog
     class Google
       class Mock
         def get_target_http_proxy(name)
-          Fog::Mock.not_implemented
+          proxy = self.data[:target_http_proxies][name]
+          if proxy.nil?
+            return nil
+          end
+          build_excon_response(proxy)
         end
       end
 
@@ -15,8 +19,7 @@ module Fog
             'targetHttpProxy' => name
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

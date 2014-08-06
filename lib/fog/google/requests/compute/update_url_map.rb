@@ -16,7 +16,12 @@ module Fog
           }
           
           # add new properties to the url_map resource
-          if  url_map.hostRules then  url_map.hostRules.concat( host_rules) else  url_map.hostRules = host_rules end
+          if  url_map.hostRules then
+            url_map.hostRules.concat(host_rules)
+          else
+            url_map.hostRules = host_rules
+          end
+
           # a path matcher can only be created with a host rule that uses it
           if path_matchers then
             if url_map.pathMatchers then
@@ -26,10 +31,7 @@ module Fog
             end
           end
 
-          body = url_map
-        
-          result = self.build_result(api_method, parameters, body_object=body)
-          self.build_response(result)
+          request(api_method, parameters, body_object=url_map)
         end
       end
     end

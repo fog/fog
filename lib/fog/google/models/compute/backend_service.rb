@@ -42,7 +42,9 @@ module Fog
 
           operation = service.delete_backend_service(name)
           unless async
-            operation.wait_for { ready? }
+            Fog.wait_for do
+              operation.body["status"] == "DONE"
+            end
           end
           operation
         end

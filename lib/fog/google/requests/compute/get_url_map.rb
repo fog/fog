@@ -3,7 +3,11 @@ module Fog
     class Google
       class Mock
         def get_url_map(name)
-          Fog::Mock.not_implemented
+          url_map = self.data[:url_maps][name]
+          if url_map.nil?
+            return nil
+          end
+          build_excon_response(url_map)
         end
       end
 
@@ -15,8 +19,7 @@ module Fog
             'urlMap' => name
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

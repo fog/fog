@@ -3,7 +3,14 @@ module Fog
     class Google
       class Mock
         def list_target_http_proxies
-          Fog::Mock.not_implemented
+          proxies = self.data[:target_http_proxies]
+
+          build_excon_response({
+            "kind" => "compute#targetHttpProxyList",
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/targetHttpProxies",
+            "id" => "projects/#{@project}/global/targetHttpProxies",
+            "items" => proxies
+          })
         end
       end
 
@@ -14,8 +21,7 @@ module Fog
             'project' => @project
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

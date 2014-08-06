@@ -14,11 +14,14 @@ module Fog
             'project' => @project,
             'backendService' => backend_service.name,
           }
-          if backend_service.backends then backend_service.backends.concat(new_backends) else backend_service.backends = new_backends end
+          if backend_service.backends then
+            backend_service.backends.concat(new_backends)
+          else
+            backend_service.backends = new_backends
+          end
           body_object = backend_service
           
-          result = self.build_result(api_method, parameters, body_object=body_object)
-          self.build_response(result)
+          request(api_method, parameters, body_object)
         end
       end
     end

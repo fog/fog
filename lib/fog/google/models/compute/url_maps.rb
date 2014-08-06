@@ -8,13 +8,13 @@ module Fog
         model Fog::Compute::Google::UrlMap
 
         def all
-          data = service.list_url_maps.body['items'] || []
+          data = service.list_url_maps.body['items'].values || []
           load(data)
         end
 
         def get(identity)
           response = service.get_url_map(identity)
-          new(response.body)
+          new(response.body) unless response.nil?
         end
       end
     end

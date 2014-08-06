@@ -3,7 +3,14 @@ module Fog
     class Google
       class Mock
         def list_url_maps
-          Fog::Mock.not_implemented
+          url_maps = self.data[:url_maps]
+
+          build_excon_response({
+            "kind" => "compute#urlMapList",
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/urlMaps",
+            "id" => "projects/#{@project}/global/urlMaps",
+            "items" => url_maps
+          })
         end
       end
 
@@ -14,8 +21,7 @@ module Fog
             'project' => @project
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

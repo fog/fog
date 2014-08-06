@@ -4,6 +4,8 @@ module Google # deviates from other bin stuff to accomodate gem
       case key
       when :compute
         Fog::Compute::Google
+      when :monitoring
+        Fog::Google::Monitoring
       when :storage
         Fog::Storage::Google
       when :sql
@@ -22,6 +24,8 @@ module Google # deviates from other bin stuff to accomodate gem
         when :compute
           Fog::Logger.warning("Google[:compute] is not recommended, use Compute[:google] for portability")
           Fog::Compute.new(:provider => 'Google')
+        when :monitoring
+          Fog::Google::Monitoring.new
         when :sql
           Fog::Google::SQL.new
         else
@@ -47,7 +51,6 @@ module Google # deviates from other bin stuff to accomodate gem
       else
         !Gem.source_index.find_name('google-api-client').empty? # legacy
       end
-
       # Then make sure we have all of the requirements
       for service in services
         begin

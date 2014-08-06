@@ -18,7 +18,7 @@ module Fog
           request(
             :expects => [200, 203],
             :method => 'POST',
-            :path => "/#{collection}/#{obj_id}/metadata",
+            :path => "#{collection}/#{obj_id}/metadata",
             :body => Fog::JSON.encode('metadata' => metadata)
           )
         end

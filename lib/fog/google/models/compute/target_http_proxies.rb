@@ -8,13 +8,13 @@ module Fog
         model Fog::Compute::Google::TargetHttpProxy
 
         def all(filters={})
-          data = service.list_target_http_proxies.body['items'] || []
+          data = service.list_target_http_proxies.body['items'].values || []
           load(data)
         end
 
         def get(identity)
           response = service.get_target_http_proxy(identity)
-          new(response.body)
+          new(response.body) unless response.nil?
         end
       end
     end

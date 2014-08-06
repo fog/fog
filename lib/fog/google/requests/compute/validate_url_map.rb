@@ -16,8 +16,7 @@ module Fog
           }
           body = { 'resource' => url_map }
 
-          result = self.build_result(api_method, parameters, body_object = body)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object = body)
         end
       end
     end
