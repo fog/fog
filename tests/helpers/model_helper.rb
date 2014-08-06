@@ -1,4 +1,3 @@
-
 def model_tests(collection, params = {}, mocks_implemented = true)
   tests('success') do
 
@@ -17,6 +16,7 @@ def model_tests(collection, params = {}, mocks_implemented = true)
       pending if Fog.mocking? && !mocks_implemented
       @instance.destroy
     end
+
   end
 end
 
