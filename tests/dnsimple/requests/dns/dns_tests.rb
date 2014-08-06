@@ -1,11 +1,9 @@
-require 'pry-nav'
 Shindo.tests('Fog::DNS[:dnsimple] | DNS requests', ['dnsimple', 'dns']) do
 
   @domain = nil
   @domain_count = 0
 
   tests("success") do
-binding.pry
     test("get current domain count") do
       response = Fog::DNS[:dnsimple].list_domains()
       if response.status == 200
