@@ -61,7 +61,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rbovirt', '0.0.24')
   s.add_development_dependency('shindo', '~> 0.3.4')
   s.add_development_dependency('fission')
-  s.add_development_dependency('pry-nav')
+  s.add_development_dependency('pry')
   s.add_development_dependency('opennebula', '>=4.4.0')
   s.add_development_dependency('google-api-client', '~> 0.6', '>= 0.6.2')
   s.add_development_dependency('rubocop') if RUBY_VERSION > "1.9"
