@@ -36,7 +36,7 @@ module Fog
             when 'deviceName', 'status', 'volumeId'
               @block_device_mapping[name] = value
             when 'groupId'
-              if !@context.include?('networkInterfaceSet') then
+              if !@context.include?('networkInterfaceSet')
                 @spot_instance_request['launchSpecification']['groupSet'] << value
               end
             when 'arn', 'name'
