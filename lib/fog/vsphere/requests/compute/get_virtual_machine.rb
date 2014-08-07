@@ -21,6 +21,7 @@ module Fog
               if dc
                 ret = raw_datacenter.find_vm(id)
                 unless ret
+                  id.sub!(/^\//,'')                  
                   ret = @connection.serviceContent.viewManager.CreateContainerView({                    
                       :container  => raw_datacenter.vmFolder,
                       :type       =>  ["VirtualMachine"],
