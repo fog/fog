@@ -3,7 +3,7 @@ module Fog
     class Google
       class Mock
         def list_url_maps
-          url_maps = self.data[:url_maps]
+          url_maps = self.data[:url_maps].values
 
           build_excon_response({
             "kind" => "compute#urlMapList",

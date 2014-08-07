@@ -3,7 +3,7 @@ module Fog
     class Google
       class Mock
         def list_global_forwarding_rules(region_name = 'global')
-          global_forwarding_rules = self.data[:global_forwarding_rules]
+          global_forwarding_rules = self.data[:global_forwarding_rules].values
 
           build_excon_response({
             "kind" => "compute#forwardingRuleList",

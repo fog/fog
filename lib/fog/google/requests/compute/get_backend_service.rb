@@ -1,4 +1,3 @@
-
 module Fog
   module Compute
     class Google
@@ -25,4 +24,3 @@ module Fog
     end
   end
 end
-

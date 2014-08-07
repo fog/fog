@@ -3,7 +3,7 @@ module Fog
     class Google
       class Mock
         def list_backend_services
-          backend_services = self.data[:backend_services]
+          backend_services = self.data[:backend_services].values
 
           build_excon_response({
             "kind" => "compute#backendServiceList",

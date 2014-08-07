@@ -8,7 +8,7 @@ module Fog
         model Fog::Compute::Google::UrlMap
 
         def all
-          data = service.list_url_maps.body['items'].values || []
+          data = service.list_url_maps.body['items'] || []
           load(data)
         end
 
@@ -20,5 +20,3 @@ module Fog
     end
   end
 end
-
-

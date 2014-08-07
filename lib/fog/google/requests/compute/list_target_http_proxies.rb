@@ -3,7 +3,7 @@ module Fog
     class Google
       class Mock
         def list_target_http_proxies
-          proxies = self.data[:target_http_proxies]
+          proxies = self.data[:target_http_proxies].values
 
           build_excon_response({
             "kind" => "compute#targetHttpProxyList",

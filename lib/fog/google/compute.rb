@@ -9,8 +9,8 @@ module Fog
       GOOGLE_COMPUTE_API_VERSION     = 'v1'
       GOOGLE_COMPUTE_BASE_URL        = 'https://www.googleapis.com/compute/'
       GOOGLE_COMPUTE_API_SCOPE_URLS  = %w(https://www.googleapis.com/auth/compute
-                                         https://www.googleapis.com/auth/devstorage.read_write 
-                                         https://www.googleapis.com/auth/ndev.cloudman 
+                                         https://www.googleapis.com/auth/devstorage.read_write
+                                         https://www.googleapis.com/auth/ndev.cloudman
                                          https://www.googleapis.com/auth/cloud-platform)
       GOOGLE_COMPUTE_DEFAULT_NETWORK = 'default'
 
@@ -385,7 +385,7 @@ module Fog
                     "name" => "test-backend-service",
                     "description" => '',
                     "backends" => [
-                       { 
+                       {
                       "description" => '',
                       "group" => "https://www.googleapis.com/resourceviews/v1beta1/projects#{@project}/zones/us-central1-a/zoneViews/name",
                       "balancingMode" => "RATE",

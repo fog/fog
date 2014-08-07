@@ -45,6 +45,13 @@ Shindo.tests('Fog::Compute[:google] | target instance requests', ['google']) do
       'operationType' => String
   }
 
+  @list_target_instances_format = {
+      'kind' => String,
+      'id' => String,
+      'selfLink' => String,
+      'items' => Array
+  }
+
   tests('success') do
 
     target_instance_name = 'test-target_instance'
@@ -61,6 +68,10 @@ Shindo.tests('Fog::Compute[:google] | target instance requests', ['google']) do
 
     tests("#get_target_instance").formats(@get_target_instance_format) do
       @google.get_target_instance(target_instance_name, @zone).body
+    end
+
+    tests("#list_target_instances").formats(@list_target_instances_format) do
+      @google.list_target_instances(@zone).body
     end
 
     tests("#delete_target_instance").formats(@delete_target_instance_format) do

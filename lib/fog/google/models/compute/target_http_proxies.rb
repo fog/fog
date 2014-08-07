@@ -8,7 +8,7 @@ module Fog
         model Fog::Compute::Google::TargetHttpProxy
 
         def all(filters={})
-          data = service.list_target_http_proxies.body['items'].values || []
+          data = service.list_target_http_proxies.body['items'] || []
           load(data)
         end
 

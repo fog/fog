@@ -45,6 +45,13 @@ Shindo.tests('Fog::Compute[:google] | backend services requests', ['google']) do
       'operationType' => String
   }
 
+  @list_backend_services_format = {
+      'kind' => String,
+      'selfLink' => String,
+      'id' => String,
+      'items' => Array
+  }
+
   tests('success') do
 
     backend_service_name = 'test-backend-service'
@@ -57,6 +64,10 @@ Shindo.tests('Fog::Compute[:google] | backend services requests', ['google']) do
       response = @google.insert_backend_service(backend_service_name, options).body
       wait_operation(@google, response)
       response
+    end
+
+    tests("#list_backend_services").formats(@list_backend_services_format) do
+      @google.list_backend_services.body
     end
 
     tests("#get_backend_service").formats(@get_backend_service_format) do

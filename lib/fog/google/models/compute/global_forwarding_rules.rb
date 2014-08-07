@@ -8,7 +8,7 @@ module Fog
         model Fog::Compute::Google::GlobalForwardingRule
 
         def all
-          data = service.list_global_forwarding_rules.body['items'].values || []
+          data = service.list_global_forwarding_rules.body['items'] || []
           load(data)
         end
 

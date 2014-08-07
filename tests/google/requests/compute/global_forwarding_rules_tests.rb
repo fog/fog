@@ -46,6 +46,13 @@ Shindo.tests('Fog::Compute[:google] | global forwarding rule requests', ['google
       'operationType' => String
   }
 
+  @list_global_forwarding_rules_format = {
+      'kind' => String,
+      'id' => String,
+      'items' => Array,
+      'selfLink' => String
+  }
+
   tests('success') do
 
     global_forwarding_rule_name = 'test-global-forwarding-rule'
@@ -61,6 +68,10 @@ Shindo.tests('Fog::Compute[:google] | global forwarding rule requests', ['google
 
     tests("#get_global_forwarding_rule").formats(@get_global_forwarding_rule_format) do
       @google.get_global_forwarding_rule(global_forwarding_rule_name).body
+    end
+
+    tests("#list_global_forwarding_rules").formats(@list_global_forwarding_rules_format) do
+      @google.list_global_forwarding_rules('global').body
     end
 
     tests("#delete_global_forwarding_rule").formats(@delete_global_forwarding_rule_format) do

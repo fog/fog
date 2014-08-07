@@ -1,5 +1,6 @@
 def collection_tests(collection, params = {}, mocks_implemented = true)
   tests('success') do
+
     tests("#new(#{params.inspect})").succeeds do
       pending if Fog.mocking? && !mocks_implemented
       collection.new(params)
@@ -10,25 +11,25 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
       @instance = collection.create(params)
     end
     # FIXME: work around for timing issue on AWS describe_instances mocks
-    
+
     if Fog.mocking? && @instance.respond_to?(:ready?)
       @instance.wait_for { ready? }
     end
-    
+
     tests("#all").succeeds do
       pending if Fog.mocking? && !mocks_implemented
       collection.all
     end
-    
+
     if !Fog.mocking? || mocks_implemented
       @identity = @instance.identity
     end
-    
+
     tests("#get(#{@identity})").succeeds do
       pending if Fog.mocking? && !mocks_implemented
       collection.get(@identity)
     end
-    
+
     tests('Enumerable') do
       pending if Fog.mocking? && !mocks_implemented
 
@@ -43,7 +44,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
       if RUBY_PLATFORM == "java" and JRUBY_VERSION =~ /1\.7\.[5-8]/
         methods.delete('all?')
       end
-      
+
       methods.each do |enum_method|
         if collection.respond_to?(enum_method)
           tests("##{enum_method}").succeeds do

@@ -20,7 +20,6 @@ def create_test_http_health_check(connection)
   health_check = connection.http_health_checks.create({
       :name => "fog-test-check-#{random_string}"
       })
-#health_check.wait_for { ready? }
   health_check
 end
 
@@ -45,7 +44,6 @@ end
 def create_test_server(connection, zone)
   random_string = SecureRandom.hex
   disk = create_test_disk(connection,zone)
-
   server = connection.servers.create({
       :name => "fog-test-server-#{random_string}",
       :disks => [disk],
@@ -65,7 +63,6 @@ end
 
 def create_test_zone_view(connection, zone)
   random_string = SecureRandom.hex
-
   zone_view = connection.zone_views.create({
       :name => "fog-test-zone-view-#{random_string}",
       :zone => zone

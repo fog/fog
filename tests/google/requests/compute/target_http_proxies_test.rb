@@ -42,6 +42,13 @@ Shindo.tests('Fog::Compute[:google] | target HTTP proxy requests', ['google']) d
       'operationType' => String
   }
 
+  @list_target_http_proxies_format = {
+      'kind' => String,
+      'selfLink' => String,
+      'id' => String,
+      'items' => Array
+  }
+
   tests('success') do
 
     target_http_proxy_name = 'test-target-http-proxy'
@@ -57,6 +64,10 @@ Shindo.tests('Fog::Compute[:google] | target HTTP proxy requests', ['google']) d
 
     tests("#get_target_http_proxy").formats(@get_target_http_proxy_format) do
       @google.get_target_http_proxy(target_http_proxy_name).body
+    end
+
+    tests("#list_target_http_proxies").formats(@list_target_http_proxies_format) do
+      @google.list_target_http_proxies.body
     end
 
     tests("#delete_target_http_proxy").formats(@delete_target_http_proxy_format) do
