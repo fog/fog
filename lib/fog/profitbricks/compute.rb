@@ -125,74 +125,58 @@ module Fog
                             :datacenters     => [],
                             :regions         => [
                               {
-                                'id'   => '8b80d933-d728-438d-8831-e2bd76aa15e0',
-                                'name' => 'EUROPE'
+                                'regionId'   => '8b80d933-d728-438d-8831-e2bd76aa15e0',
+                                'regionName' => 'EUROPE'
                               },
                               {
                                 'id'   => 'ba3e3dcf-5bb6-413a-bb96-14998108d1c9',
                                 'name' => 'NORTH_AMERICA'
                               }
                             ],
-                            :images          => [
-                              { 'id'             => 'ece948c0-14f8-4d49-8bdc-b966b746b6f9',
-                                'name'           => 'CentOS-6.5-x86_64-netinstall.iso',
-                                'type'           => 'CDROM',
-                                'size'           => 244,
-                                'cpu_hotplug'    => 'false',
-                                'memory_hotplug' => 'false',
-                                'server_ids'     => nil,
-                                'os_type'        => 'LINUX',
-                                'writeable'      => 'true',
-                                'region'         => 'NORTH_AMERICA',
-                                'public'         => 'true'
+                            :images => [
+                              { 'imageId'            => 'ece948c0-14f8-4d49-8bdc-b966b746b6f9',
+                                'imageName'          => 'CentOS-6.5-x86_64-netinstall.iso',
+                                'imageType'          => 'CDROM',
+                                'imageSize'          => 244,
+                                'cpuHotpluggable'    => 'false',
+                                'memoryHotpluggable' => 'false',
+                                'serverIds'          => nil,
+                                'osType'             => 'LINUX',
+                                'writeable'          => 'true',
+                                'region'             => 'NORTH_AMERICA',
+                                'public'             => 'true'
                               },
-                              { 'id'             => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
-                                'name'           => 'CentOS-6-server',
-                                'type'           => 'HDD',
-                                'size'           => 11264,
-                                'cpu_hotplug'    => 'false',
-                                'memory_hotplug' => 'false',
-                                'server_ids'     => nil,
-                                'os_type'        => 'LINUX',
-                                'writeable'      => 'true',
-                                'region'         => 'EUROPE',
-                                'public'         => 'true'
+                              { 'imageId'            => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
+                                'imageName'          => 'CentOS-6-server',
+                                'imageType'          => 'HDD',
+                                'imageSize'          => 11264,
+                                'cpuHotpluggable'    => 'false',
+                                'memoryHotpluggable' => 'false',
+                                'serverIds'          => nil,
+                                'osType'             => 'LINUX',
+                                'writeable'          => 'true',
+                                'region'             => 'EUROPE',
+                                'public'             => 'true'
                               }
                             ],
                             :flavors => [
                               {
-                                 'id'    => Fog::UUID.uuid,
-                                 'name'  => 'Micro',
-                                 'ram'   => 1024,
-                                 'disk'  => 50,
-                                 'cores' => 1
+                                 'flavorId'   => Fog::UUID.uuid,
+                                 'flavorName' => 'Micro',
+                                 'ram'        => 1024,
+                                 'disk'       => 50,
+                                 'cores'      => 1
                               },
                               {
-                                 'id'    => Fog::UUID.uuid,
-                                 'name'  => 'Small',
-                                 'ram'   => 2048,
-                                 'disk'  => 50,
-                                 'cores' => 1
+                                 'flavorId'   => Fog::UUID.uuid,
+                                 'flavorName' => 'Small',
+                                 'ram'        => 2048,
+                                 'disk'       => 50,
+                                 'cores'      => 1
                               }
                             ],
-                            :volumes => [
-                              {
-                                'dataCenterId'         => '8b80d933-d728-438d-8831-e2bd76aa15e0',
-                                'dataCenterVersion'    => 1,
-                                'id'                     => '440831cf-2281-4d2c-8b45-b7cf7aab7238',
-                                'size'                   => 5,
-                                'storageName'           => 'MockVolume',
-                                'mountImage'             =>
-                                {
-                                  'imageId'   => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
-                                  'imageName' => 'CentOS-6-server'
-                                },
-                                'provisioningState'     => 'AVAILABLE',
-                                'creationTime'          => Time.now,
-                                'lastModificationTime' => Time.now
-                              },
-                            ],
-                            :network_interfaces => []
+                            :volumes    => [],
+                            :interfaces => []
                         }
                     end
                 end

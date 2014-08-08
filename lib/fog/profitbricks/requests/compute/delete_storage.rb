@@ -17,7 +17,7 @@ module Fog
                 #       * dataCenterId<~String> - UUID of virtual data center
                 #       * dataCenterVersion<~Integer> - Version of the virtual data center
                 #
-                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?deleteStorage.html]
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/DeleteStorage.html]
                 def delete_storage(storage_id)
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].deleteStorage {
@@ -43,7 +43,7 @@ module Fog
                     response.status = 200
 
                     if storage = self.data[:volumes].find {
-                      |attrib| attrib['id'] == storage_id
+                      |attrib| attrib['storageId'] == storage_id
                     }
                         self.data[:volumes].delete(storage)
                     else

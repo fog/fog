@@ -70,7 +70,7 @@ module Fog
             end
 
             class Mock
-                def get_all_flavors(options = {})
+                def get_all_flavors
                     data = self.data[:flavors]
                     response        = Excon::Response.new
                     response.status = 200

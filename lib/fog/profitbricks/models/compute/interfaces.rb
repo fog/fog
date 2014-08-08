@@ -18,11 +18,6 @@ module Fog
                 rescue Excon::Errors::NotFound
                     nil
                 end
-
-                def set_internet_access
-                    require :data_center_id, :lan_id, :internet_access
-                    service.set_internet_access(data_center_id, lan_id, internet_access)
-                end
             end
         end
     end

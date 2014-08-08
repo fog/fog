@@ -25,7 +25,7 @@ module Fog
             class Mock
                 def get_data_center(data_center_id)
                     if dc = self.data[:datacenters].find {
-                      |attrib| attrib['id'] == data_center_id
+                      |attrib| attrib['dataCenterId'] == data_center_id
                     }
                     else
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')

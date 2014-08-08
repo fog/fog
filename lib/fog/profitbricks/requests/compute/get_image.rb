@@ -48,7 +48,7 @@ module Fog
             class Mock
                 def get_image(image_id)
                     if data_center = self.data[:images].find {
-                      |attrib| attrib['id'] == image_id
+                      |attrib| attrib['imageId'] == image_id
                     }
                     else
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')

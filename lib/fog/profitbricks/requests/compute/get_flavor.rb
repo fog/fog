@@ -75,10 +75,10 @@ module Fog
                     response.status = 200
 
                     if flavor = self.data[:flavors].find {
-                      |attrib| attrib['id'] == flavor_id
+                      |attrib| attrib['flavorId'] == flavor_id
                     }
                     else
-                        raise Fog::Errors::NotFound.new('The requested resource could not be found')
+                        raise Fog::Errors::NotFound.new('The requested flavor could not be found')
                     end
 
                     response.body = { 'getFlavorResponse' => flavor }

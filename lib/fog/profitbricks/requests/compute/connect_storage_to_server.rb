@@ -47,27 +47,28 @@ module Fog
 
             class Mock
                 def connect_storage_to_server(storage_id, server_id, options={})
-                    response = Excon::Response.new
-                    response.status = 200
 
                     if storage = self.data[:volumes].find {
-                      |attrib| attrib['id'] == storage_id
+                        |attrib| attrib['storageId'] == storage_id
                     }
-                        if server = self.data[:servers].find {
-                          |attrib| attrib['id'] == server_id
-                        }
-                            server['connectedStorages'] << storage
-                        else
-                            raise Fog::Errors::NotFound.new(
-                              'The requested server resource could not be found'
-                            )
-                        end
                     else
                         raise Fog::Errors::NotFound.new(
-                          'The requested storage resource could not be found'
+                            'The requested volume could not be found'
                         )
                     end
 
+                    if server = self.data[:servers].find {
+                        |attrib| attrib['serverId'] == server_id
+                    }
+                        server['connectedStorages'] << storage
+                    else
+                        raise Fog::Errors::NotFound.new(
+                            'The requested server could not be found'
+                        )
+                    end
+
+                    response = Excon::Response.new
+                    response.status = 200
                     response.body =
                     { 'connectStorageToServerResponse' =>
                       {

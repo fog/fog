@@ -29,7 +29,7 @@ module Fog
                 #       * serverId<~String> - UUID of the new virtual server
                 #
                 # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/CreateServer.html]
-                def create_server(data_center_id, cores, ram, options={})
+                def create_server(data_center_id, cores, ram, options = {})
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createServer {
                         xml.request {
@@ -52,16 +52,16 @@ module Fog
             end
 
             class Mock
-                def create_server(data_center_id, cores, ram, options={})
+                def create_server(data_center_id, cores, ram, options = {})
                     server_id = Fog::UUID.uuid
 
                     server = {
-                        'id'                   => server_id,
+                        'serverId'             => server_id,
                         'cores'                => cores,
                         'ram'                  => ram,
-                        'serverName'           => options['serverName'], # || '',
-                        'internetAccess'       => options['internetAccess'] || false,
-                        'ips'                  => options['ips'] || [],
+                        'serverName'           => options['serverName'],
+                        'internetAccess'       => options['internetAccess'] || 'false',
+                        #'ips'                  => options['ips'] || '',
                         'connectedStorages'    => options['connectedStorages'] || [],
                         'romDrives'            => options['romDrives'] || [],
                         'nics'                 => options['nics'] || [],
@@ -71,6 +71,8 @@ module Fog
                         'lastModificationTime' => Time.now,
                         'osType'               => options['osType'] || 'UNKNOWN',
                         'availabilityZone'     => options['availabilityZone'] || 'AUTO',
+                        'dataCenterId'         => Fog::UUID.uuid,
+                        'dataCenterVersion'    => 1
                         ##'cpuHotPlug'           => 'true',
                         ##'ramHotPlug'           => 'true',
                         ##'nicHotPlug'           => 'true',
@@ -88,7 +90,7 @@ module Fog
                         'requestId'         => Fog::Mock::random_numbers(7),
                         'dataCenterId'      => Fog::UUID.uuid,
                         'dataCenterVersion' => 1,
-                        'id'                => server_id
+                        'serverId'          => server_id
                       }
                     }
                     response

@@ -1,8 +1,8 @@
 Shindo.tests('Fog::Compute[:profitbricks] | region request', ['profitbricks', 'compute']) do
 
     @region_format = {
-        'id'   => String,
-        'name' => String,
+        'regionId'   => String,
+        'regionName' => String,
     }
 
     service = Fog::Compute[:profitbricks]
@@ -27,7 +27,6 @@ Shindo.tests('Fog::Compute[:profitbricks] | region request', ['profitbricks', 'c
         tests('#get_region').raises(Fog::Errors::NotFound) do
             #puts '#get_region'
             data = service.get_region('00000000-0000-0000-0000-000000000000')
-            data.body['getRegionResponse']
         end
     end
 end

@@ -82,11 +82,11 @@ module Fog
                 end
 
                 def ready?
-                    self.provisioning_state == 'AVAILABLE'
+                    self.state == 'AVAILABLE'
                 end
 
                 def failed?
-                    self.provisioning_state == 'ERROR'
+                    self.state == 'ERROR'
                 end
             end
         end

@@ -23,7 +23,7 @@ module Fog
                 #       * dataCenterVersion<~Integer> - Version of the virtual data center
                 #
                 # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/UpdateNIC.html]
-                def update_nic(nic_id, options={})
+                def update_nic(nic_id, options = {})
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].updateNic {
                         xml.request { 
@@ -46,16 +46,16 @@ module Fog
             end
 
             class Mock
-                def update_nic(nic_id, options={})
+                def update_nic(nic_id, options = {})
 
-                    if nic = self.data[:nics].find {
-                      |attrib| attrib['id'] == nic_id
+                    if nic = self.data[:interfaces].find {
+                      |attrib| attrib['nicId'] == nic_id
                     }
                         options.each do |key, value|
                             nic[key] = value
                         end
                     else
-                        raise Fog::Errors::NotFound.new('The requested NIC resource could not be found')
+                        raise Fog::Errors::NotFound.new('The requested NIC could not be found')
                     end
                     
                     response        = Excon::Response.new

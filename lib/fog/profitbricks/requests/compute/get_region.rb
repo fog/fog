@@ -15,7 +15,7 @@ module Fog
                            'regionId'   => 'e102ba74-6764-47f3-8896-246141da8ada',
                            'regionName' => 'NORTH_AMERICA',
                          }
-                      ].find { |region| region['regionId'] == region_id }
+                      ].find { |region| region['regionId'] == region_id } || raise(Fog::Errors::NotFound)
                     }
                     response
                 end

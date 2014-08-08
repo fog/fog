@@ -24,7 +24,7 @@ module Fog
                 def get_data_center_state(data_center_id)
                     if data = self.data[:datacenters]
                         dc = self.data[:datacenters].find {
-                          |attrib| attrib['id'] == data_center_id
+                          |attrib| attrib['dataCenterId'] == data_center_id
                         }
 
                         response        = Excon::Response.new

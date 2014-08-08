@@ -1,16 +1,12 @@
 Shindo.tests('Fog::Compute[:profitbricks] | storage request', ['profitbricks', 'compute']) do
 
     @storage_format = {
-        'dataCenterId'      => String,
-        'dataCenterVersion' => Integer,
-        'id'                => String,
-        'size'              => Integer,
-        'storageName'       => String,
-        'mountImage'        =>
-        {
-            'imageId'   => String,
-            'imageName' => String
-        },
+        'dataCenterId'         => String,
+        'dataCenterVersion'    => Integer,
+        'storageId'            => String,
+        'size'                 => Integer,
+        'storageName'          => String,
+        'mountImage'           => Hash,
         'provisioningState'    => 'AVAILABLE',
         'creationTime'         => Time,
         'lastModificationTime' => Time
@@ -26,43 +22,39 @@ Shindo.tests('Fog::Compute[:profitbricks] | storage request', ['profitbricks', '
 
     tests('success') do
 
+        Excon.defaults[:connection_timeout] = 200
+
         tests('#create_data_center') do
             puts '#create_data_center'
-            data = service.create_data_center('FogDataCenter', 'EUROPE')
-            @data_center_id = data.body['createDataCenterResponse']['id']
+            data = service.create_data_center({ 'dataCenterName' => 'FogDataCenter', 'region' => 'EUROPE' })
+            @data_center_id = data.body['createDataCenterResponse']['dataCenterId']
+            puts data.body['createDataCenterResponse']['datacenterId']
             data.body['createDataCenterResponse']
 
         end
 
         tests('#get_all_images') do
             puts '#get_all_images'
-            data = service.get_all_images.body['getAllImagesResponse'].find {
-              |image|
-              image['region'] == 'EUROPE' &&
-              image['type'] == 'HDD' &&
-              image['os_type'] == 'LINUX'
+            data = service.get_all_images.body['getAllImagesResponse'].find { |image|
+                image['region']    == 'EUROPE' &&
+                image['imageType'] == 'HDD' &&
+                image['osType']    == 'LINUX'
             }
-            @image_id = data['id']
+            @image_id = data['imageId']
         end
 
-        tests('#create_storage').formats(@minimal_format.merge(
-          'id' => String)) do
+        tests('#create_storage').formats(@minimal_format.merge('storageId' => String)) do
             puts '#create_storage'
-            data = service.create_storage(
-                @data_center_id, 5, { 'storageName' => 'FogVolume',
-                                      'mountImageId'  => @image_id }
+            data = service.create_storage(@data_center_id, 5, {
+                                          'storageName'  => 'FogVolume',
+                                          'mountImageId' => @image_id }
             )
-            @storage_id = data.body['createStorageResponse']['id']
+            @storage_id = data.body['createStorageResponse']['storageId']
+            service.volumes.get(@storage_id).wait_for { ready? }
             data.body['createStorageResponse']
         end
 
-        tests('#get_all_storages').formats(@storage_format) do
-            puts '#get_all_storages'
-            data = service.get_all_storages
-            data.body['getAllStoragesResponse'].find {
-              |storage| storage['id'] == @storage_id
-            }
-        end
+        #Fog::Compute[:profitbricks].volumes.get(@storage_id).wait_for { ready? }
 
         tests('#get_storage').formats(@storage_format) do
             puts '#get_storage'
@@ -70,9 +62,17 @@ Shindo.tests('Fog::Compute[:profitbricks] | storage request', ['profitbricks', '
             data.body['getStorageResponse']
         end
 
+        tests('#get_all_storages').formats(@storage_format) do
+            puts '#get_all_storages'
+            data = service.get_all_storages
+            data.body['getAllStoragesResponse'].find {
+              |storage| storage['storageId'] == @storage_id
+            }
+        end
+
         tests('#update_storage').formats(@minimal_format) do
             puts '#update_storage'
-            data = service.update_storage(@storage_id, { 'size' => 10 })
+            data = service.update_storage(@storage_id, { 'size' => 6 })
             data.body['updateStorageResponse']
         end
 
@@ -102,7 +102,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | storage request', ['profitbricks', '
 
         tests('#update_storage').raises(Fog::Errors::NotFound) do
             puts '#update_storage'
-            service.update_storage('00000000-0000-0000-0000-000000000000', 10)
+            service.update_storage('00000000-0000-0000-0000-000000000000')
         end
 
         tests('#delete_storage').raises(Fog::Errors::NotFound) do

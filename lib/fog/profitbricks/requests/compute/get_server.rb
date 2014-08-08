@@ -82,11 +82,13 @@ module Fog
                 def get_server(server_id)
 
                     if server = self.data[:servers].find {
-                      |attrib| attrib['id'] == server_id
+                      |attrib| attrib['serverId'] == server_id
                     }
                     else
                         raise Fog::Errors::NotFound.new('The server resource could not be found')
                     end
+
+                    server['requestId'] = Fog::Mock::random_numbers(7)
 
                     response        = Excon::Response.new
                     response.status = 200

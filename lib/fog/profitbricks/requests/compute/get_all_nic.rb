@@ -44,16 +44,10 @@ module Fog
 
             class Mock
                 def get_all_nic
-                    if data = self.data[:nics]
-                        response        = Excon::Response.new
-                        response.status = 200
-                        response.body   = {
-                          'getAllNicResponse' => self.data[:nics]
-                        }
-                        response
-                    else
-                        raise Fog::Compute::NotFound
-                    end
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = { 'getAllNicResponse' => self.data[:interfaces] }
+                    response
                 end
             end
         end

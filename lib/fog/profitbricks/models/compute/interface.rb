@@ -44,12 +44,19 @@ module Fog
                     true
                 end
 
+                def set_internet_access(options={})
+                    service.set_internet_access(
+                        options[:data_center_id], options[:lan_id], options[:internet_access]
+                    )
+                    true
+                end
+
                 def ready?
-                    self.provisioning_state == 'AVAILABLE'
+                    self.state == 'AVAILABLE'
                 end
 
                 def failed?
-                    self.provisioning_state == 'ERROR'
+                    self.state == 'ERROR'
                 end
             end
         end

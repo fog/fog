@@ -21,7 +21,7 @@ module Fog
                 #       * region<~String> - Region of virtual data center
                 #
                 # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/CreateDataCenter.html]
-                def create_data_center(data_center_name, region='DEFAULT')
+                def create_data_center(options = {})
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createDataCenter {
                         options.each { |key, value| xml.send(key, value) }
@@ -39,21 +39,22 @@ module Fog
             end
 
             class Mock
-                def create_data_center(data_center_name, region='DEFAULT')
-                    response = Excon::Response.new
-                    response.status = 200
-                    
+                def create_data_center(options = {})
+                    raise NoMethodError unless options.is_a?(Hash)
+
                     data_center = {
                         'requestId'         => Fog::Mock::random_numbers(7),
-                        'id'                => Fog::UUID.uuid,
-                        'name'              => data_center_name,
+                        'dataCenterId'      => Fog::UUID.uuid,
+                        'dataCenterName'    => options['dataCenterName'] || '',
                         'dataCenterVersion' => 1,
                         'provisioningState' => 'AVAILABLE',
-                        'region'            => region
+                        'region'            => options['region'] || ''
                     }
-                    
+
                     self.data[:datacenters] << data_center
-                    response.body = { 'createDataCenterResponse' => data_center }
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = { 'createDataCenterResponse' => data_center }
                     response
                 end
             end

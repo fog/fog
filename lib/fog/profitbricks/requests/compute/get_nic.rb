@@ -48,8 +48,8 @@ module Fog
 
             class Mock
                 def get_nic(nic_id)
-                    if nic = self.data[:volumes].find {
-                      |attrib| attrib['id'] == nic_id
+                    if nic = self.data[:interfaces].find {
+                      |attrib| attrib['nicId'] == nic_id
                     }
                     else
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')

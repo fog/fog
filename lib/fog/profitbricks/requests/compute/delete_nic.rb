@@ -42,13 +42,13 @@ module Fog
                     response = Excon::Response.new
                     response.status = 200
                     
-                    if nic = self.data[:nics].find {
-                      |attrib| attrib['id'] == nic_id
+                    if nic = self.data[:interfaces].find {
+                      |attrib| attrib['nicId'] == nic_id
                     }
-                        self.data[:nics].delete(nic)
+                        self.data[:interfaces].delete(nic)
                     else
                         raise Fog::Errors::NotFound.new(
-                          'The requested NIC resource could not be found'
+                          'The requested NIC could not be found'
                         )
                     end
 

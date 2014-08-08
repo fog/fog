@@ -52,13 +52,15 @@ module Fog
                 def update_server(server_id, options={})
 
                     if server = self.data[:servers].find {
-                      |attrib| attrib['id'] == server_id
+                      |attrib| attrib['serverId'] == server_id
                     }
                         options.each do |key, value|
                             server[key] = value
                         end
                     else
-                        raise Fog::Errors::NotFound.new('The requested server resource could not be found')
+                        raise Fog::Errors::NotFound.new(
+                            'The requested server resource could not be found'
+                        )
                     end
 
                     response        = Excon::Response.new

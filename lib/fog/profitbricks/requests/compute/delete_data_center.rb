@@ -43,7 +43,7 @@ module Fog
                     response.status = 200
                     
                     if data_center = self.data[:datacenters].find {
-                      |attrib| attrib['id'] == data_center_id
+                      |attrib| attrib['dataCenterId'] == data_center_id
                     }
                         self.data[:datacenters].delete(data_center)
                     else

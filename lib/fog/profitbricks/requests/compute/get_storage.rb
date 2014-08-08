@@ -49,7 +49,7 @@ module Fog
             class Mock
                 def get_storage(storage_id)
                     if storage = self.data[:volumes].find {
-                      |attrib| attrib['id'] == storage_id
+                      |attrib| attrib['storageId'] == storage_id
                     }
                     else
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')

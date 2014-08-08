@@ -9,10 +9,10 @@ module Fog
                 # ==== Parameters
                 # * dataCenterId<~String> - Required, UUID of virtual data center
                 # * size<~Integer> - Required, size of virtual storage
-                #   * options<~Hash>:
-                #     * storageName<~String> - Optional, name of the new virtual storage
-                #     * mountImageId<~String> - Optional, UUID of image
-                #     * profitBricksImagePassword<~String> - Optional, 
+                # * options<~Hash>:
+                #   * storageName<~String> - Optional, name of the new virtual storage
+                #   * mountImageId<~String> - Optional, UUID of image
+                #   * profitBricksImagePassword<~String> - Optional, 
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:
@@ -24,8 +24,7 @@ module Fog
                 #       * storageId<~String> - UUID of the new virtual storage
                 #
                 # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/CreateStorage.html]
-                def create_storage(data_center_id, size, options={})
-                    puts options
+                def create_storage(data_center_id, size, options = {})
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createStorage {
                         xml.request {
@@ -47,12 +46,12 @@ module Fog
             end
 
             class Mock
-                def create_storage(data_center_id, size, options={})
+                def create_storage(data_center_id, size, options = {})
                     response = Excon::Response.new
                     response.status = 200
                     
                     if data_center = self.data[:datacenters].find {
-                        |attrib| attrib['id'] == data_center_id
+                        |attrib| attrib['dataCenterId'] == data_center_id
                     }
                         data_center['dataCenterVersion'] += 1
                     else
@@ -60,11 +59,11 @@ module Fog
                     end
 
                     if image = self.data[:images].find {
-                        |attrib| attrib['id'] == options['mountImageId']
+                        |attrib| attrib['imageId'] == options['mountImageId']
                     }
                         mount_image = {
                             'imageId'   => options['mountImageId'],
-                            'imageName' => image['name']
+                            'imageName' => image['imageName']
                         }
                     end
 
@@ -72,7 +71,7 @@ module Fog
                     storage = {
                         'dataCenterId'         => data_center_id,
                         'dataCenterVersion'    => data_center['dataCenterVersion'],
-                        'id'                   => storage_id,
+                        'storageId'            => storage_id,
                         'size'                 => size,
                         'storageName'          => options['storageName'] || '',
                         'mountImage'           => mount_image || {},
@@ -88,7 +87,7 @@ module Fog
                         'requestId'         => Fog::Mock::random_numbers(7),
                         'dataCenterId'      => Fog::UUID.uuid,
                         'dataCenterVersion' => 1,
-                        'id'                => storage_id
+                        'storageId'         => storage_id
                       }
                     }
                     response

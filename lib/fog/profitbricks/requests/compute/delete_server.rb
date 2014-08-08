@@ -41,7 +41,7 @@ module Fog
                 def delete_server(server_id)
 
                     if server = self.data[:servers].find {
-                      |attrib| attrib['id'] == server_id
+                      |attrib| attrib['serverId'] == server_id
                     }
                         self.data[:servers].delete(server)
                     else

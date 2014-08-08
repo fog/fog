@@ -19,7 +19,7 @@ module Fog
                 #       * dataCenterVersion<~Integer> - Version of the virtual data center
                 #
                 # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/DisconnectStorage.html]
-                def disconnect_storage_from_server(server_id, storage_id)
+                def disconnect_storage_from_server(storage_id, server_id)
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].disconnectStorageFromServer {
                           xml.serverId(server_id)
@@ -40,18 +40,19 @@ module Fog
             end
 
             class Mock
-                def disconnect_storage_from_server(server_id, storage_id)
+                def disconnect_storage_from_server(storage_id, server_id)
 
-                    unless storage = self.data[:volumes].find {
-                      |attrib| attrib['id'] == storage_id
+                    if storage = self.data[:volumes].find {
+                      |attrib| attrib['storageId'] == storage_id
                     }
+                    else
                         raise Fog::Errors::NotFound.new(
                           'The requested storage resource could not be found'
                         )
                     end
 
                     if server = self.data[:servers].find {
-                      |attrib| attrib['id'] == server_id
+                      |attrib| attrib['serverId'] == server_id
                     }['connectedStorages'].delete(storage)
                     else
                         raise Fog::Errors::NotFound.new(

@@ -36,8 +36,13 @@ module Fog
                     true
                 end
 
-                def attach(server_id)
+                def attach(server_id, options={})
                     requires :id
+                    
+                    options = {
+                        'busType'      => options[:bus_type],
+                        'deviceNumber' => options[:device_number]
+                    }
 
                     data = service.connect_storage_to_server(id, server_id, options)
                     reload
@@ -46,7 +51,7 @@ module Fog
                 def detach(server_id)
                     requires :id
 
-                    data = service.connect_storage_to_server(id, server_id, options)
+                    data = service.disconnect_storage_from_server(id, server_id)
                     reload
                 end
 

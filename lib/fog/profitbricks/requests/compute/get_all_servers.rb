@@ -48,16 +48,10 @@ module Fog
 
             class Mock
                 def get_all_servers
-                    if data = self.data[:servers]
-                        response        = Excon::Response.new
-                        response.status = 200
-                        response.body   = {
-                          'getAllServersResponse' => self.data[:servers]
-                        }
-                        response
-                    else
-                        raise Fog::Compute::NotFound
-                    end
+                    response        = Excon::Response.new
+                    response.status = 200
+                    response.body   = { 'getAllServersResponse' => self.data[:servers] }
+                    response
                 end
             end
         end
