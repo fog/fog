@@ -10,7 +10,7 @@ module Fog
         attribute :bytes, :aliases => 'X-Container-Bytes-Used'
         attribute :count, :aliases => 'X-Container-Object-Count'
         
-        attr_reader :public
+        attr_writer :public
 
         def destroy
           requires :key
