@@ -31,7 +31,7 @@ module Fog
                     if data_center = self.data[:datacenters].find {
                       |attrib| attrib['dataCenterId'] == data_center_id
                     }
-                        data_center['dataCenterName'] = options['dataCenterName'] || ''
+                        data_center['dataCenterName'] = options['dataCenterName']
                         data_center['dataCenterVersion'] += 1
                     else
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')
@@ -39,7 +39,14 @@ module Fog
 
                     response        = Excon::Response.new
                     response.status = 200
-                    response.body   = { 'updateDataCenterResponse' => data_center }
+                    response.body   = {
+                        'updateDataCenterResponse' =>
+                        {
+                            'requestId'         => Fog::Mock::random_numbers(7),
+                            'dataCenterId'      => Fog::UUID.uuid,
+                            'dataCenterVersion' => 1
+                        }
+                    }
                     response
                 end
             end

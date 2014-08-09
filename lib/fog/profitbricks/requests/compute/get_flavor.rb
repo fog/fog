@@ -63,7 +63,7 @@ module Fog
                            'disk'  => 50,
                            'cores' => 8
                         },
-                      ].find { |flavor| flavor['id'] == flavor_id }
+                      ].find { |flavor| flavor['flavorId'] == flavor_id || raise(Fog::Errors::NotFound) }
                     }
                     response
                 end
