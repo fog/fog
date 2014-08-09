@@ -9,6 +9,8 @@ module Fog
 
         attribute :bytes, :aliases => 'X-Container-Bytes-Used'
         attribute :count, :aliases => 'X-Container-Object-Count'
+        
+        attr_accessor :public
 
         def destroy
           requires :key
@@ -27,17 +29,13 @@ module Fog
           end
         end
 
-        def public=(new_public)
-          @public = new_public
-        end
-
         def public_url
           raise NotImplementedError
         end
 
         def save
           requires :key
-          service.put_container(key)
+          service.put_container(key, :public => @public)
           true
         end
       end
