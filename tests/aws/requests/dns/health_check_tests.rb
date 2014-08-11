@@ -108,5 +108,42 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
           list_response_2['HealthCheckConfig']['IPAddress'].nil?
       end
     end
+
+    tests('assign a health check to a DNS record') do
+      after do
+        @r53_connection.change_resource_record_sets(@zone_id, [@resource_record.merge(action: 'DELETE')])
+        @r53_connection.delete_hosted_zone(@zone_id)
+        @r53_connection.delete_health_check @health_check_id
+      end
+
+      health_check_response = @r53_connection.create_health_check('8.8.8.8', '53', 'TCP')
+      raise "Health check was not created" unless health_check_response.status == 201
+      @health_check_id = health_check_response.body['HealthCheck']['Id']
+
+      @domain_name = generate_unique_domain
+      zone_response = @r53_connection.create_hosted_zone(@domain_name)
+      raise "Zone was not created for #{@domain_name}" unless zone_response.status == 201
+      @zone_id = zone_response.body['HostedZone']['Id']
+
+      @resource_record = {
+        :name => "www.#{@domain_name}.",
+        :type => 'A',
+        :ttl => 3600,
+        :resource_records => ['8.8.4.4'],
+        health_check_id: @health_check_id,
+        set_identifier: SecureRandom.hex(8),
+        weight: 50
+      }
+      resource_record_set = [@resource_record.merge(:action => 'CREATE')]
+      record_response = @r53_connection.change_resource_record_sets @zone_id, resource_record_set
+      raise "A record was not created" unless record_response.status == 200
+
+      test('succeeds') do
+        new_record = @r53_connection.list_resource_record_sets(@zone_id).body['ResourceRecordSets'].find do |record|
+          record['Name'] == @resource_record[:name]
+        end
+        new_record['HealthCheckId'] == @health_check_id
+      end
+    end
   end
 end
