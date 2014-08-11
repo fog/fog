@@ -15,9 +15,8 @@ module Fog
           }
           body_object = { 'name' => backend_service_name }
           body_object.merge!(opts)
-          result = self.build_result(api_method, parameters, body_object=body_object)
 
-          response = self.build_response(result)
+          request(api_method, parameters, body_object=body_object)
         end
       end
     end

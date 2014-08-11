@@ -21,8 +21,7 @@ module Fog
           body_object['description'] = options[:description] if options[:description]
           body_object['gatewayIPv4'] = options[:gateway_ipv4] if options[:gateway_ipv4]
 
-          result = self.build_result(api_method, parameters, body_object)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object)
         end
       end
     end

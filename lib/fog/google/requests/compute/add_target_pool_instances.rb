@@ -19,8 +19,7 @@ module Fog
             'instances' => instances.map { |i| { 'instance' => i } }
           }
 
-          result = self.build_result(api_method, parameters, body_object=body)
-          self.build_response(result)
+          request(api_method, parameters, body_object=body)
         end
       end
     end

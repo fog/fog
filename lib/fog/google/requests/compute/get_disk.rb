@@ -10,7 +10,7 @@ module Fog
           get_zone(zone_name)
           zone = self.data[:zones][zone_name]
           if disk.nil? or disk["zone"] != zone["selfLink"]
-            return build_response(:body => {
+            return build_excon_response({
               "error" => {
                 "errors" => [
                  {
@@ -27,7 +27,7 @@ module Fog
 
           # TODO transition the disk through the states
 
-          build_response(:body => disk)
+          build_excon_response(disk)
         end
       end
 
@@ -44,8 +44,7 @@ module Fog
             'zone' => zone_name
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

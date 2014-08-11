@@ -18,16 +18,12 @@ module Fog
           body_object = {
             'sourceType'      => 'RAW',
             'name'            => image_name,
-            'rawDisk'         => { 'source' => options.delete('rawDisk') }
           }
 
-          # Merge in the remaining params (only 'description' should remain)
+          # Merge in the remaining params 
           body_object.merge!(options)
 
-          result = self.build_result(api_method,
-                                     parameters,
-                                     body_object=body_object)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object=body_object)
         end
       end
     end

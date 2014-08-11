@@ -17,8 +17,7 @@ module Fog
           body_object = { 'name' => address_name }
           body_object['description'] = options[:description] if options[:description]
 
-          result = self.build_result(api_method, parameters, body_object)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object)
         end
       end
     end

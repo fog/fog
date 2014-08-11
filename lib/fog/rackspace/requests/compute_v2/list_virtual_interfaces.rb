@@ -13,7 +13,7 @@ module Fog
           request(
             :expects => [200],
             :method => 'GET',
-            :path => "/servers/#{server_id}/os-virtual-interfacesv2"
+            :path => "servers/#{server_id}/os-virtual-interfacesv2"
           )
         end
       end

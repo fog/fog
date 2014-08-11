@@ -16,7 +16,7 @@ module Fog
               "message" => "The resource 'projects/#{project}/global/images/#{image_name}' was not found"
             }
           }
-          build_response(:body => image)
+          build_excon_response(image)
         end
       end
 
@@ -28,8 +28,7 @@ module Fog
             'project' => project,
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end
