@@ -17,7 +17,6 @@ module Fog
               params[:datacenter] = raw_datacenter if dc
               @connection.searchIndex.FindByUuid(params)
             else
-              # try to find based on VM name
               if dc
                 ret = raw_datacenter.find_vm(id)
                 unless ret
@@ -29,9 +28,10 @@ module Fog
                   }).view.find{|vm| vm.name==id}
                 end
               else
-                raw_datacenters.map { |d| d.find_vm(id) }.compact.first
+                ret = raw_datacenters.map { |d| d.find_vm(id) }.compact.first
               end
-          end
+              ret
+            end
           vm ? vm : raise(Fog::Compute::Vsphere::NotFound, "#{id} was not found")
         end
       end
