@@ -125,7 +125,7 @@ module Fog
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version = options[:hp_auth_version] || :v2
           ### Pass the service name for network to the authentication call
-          options[:hp_service_type] ||= "Networking"
+          options[:hp_service_type] ||= "network"
           @hp_tenant_id = options[:hp_tenant_id]
           @hp_avl_zone  = options[:hp_avl_zone]
 
@@ -134,6 +134,7 @@ module Fog
             # Call the control services authentication
             credentials = Fog::HP.authenticate_v2(options, @connection_options)
             # the CS service catalog returns the network endpoint
+
             @hp_network_uri = credentials[:endpoint_url]
             @credentials = credentials
           else
@@ -152,6 +153,7 @@ module Fog
           @port   = uri.port
           @scheme = uri.scheme
 
+
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
@@ -161,13 +163,19 @@ module Fog
 
         def request(params, parse_json = true, &block)
           begin
+            if @path == "/"
+              #helion network @path is "/"
+              @calculated_path = "v2.0/#{params[:path]}"
+            else
+               @calculated_path = "#{@path}/v2.0/#{params[:path]}"
+            end
             response = @connection.request(params.merge!({
               :headers  => {
                 'Content-Type' => 'application/json',
                 'Accept'       => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :path     => "#{@path}/v2.0/#{params[:path]}"
+              :path     => @calculated_path
             }), &block)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
