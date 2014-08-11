@@ -19,14 +19,6 @@ module Fog
             else
               if dc
                 ret = raw_datacenter.find_vm(id)
-                unless ret
-                  id.sub!(/^\//,'')                  
-                  ret = @connection.serviceContent.viewManager.CreateContainerView({                    
-                      :container  => raw_datacenter.vmFolder,
-                      :type       =>  ["VirtualMachine"],
-                      :recursive  => true
-                  }).view.find{|vm| vm.name==id}
-                end
               else
                 ret = raw_datacenters.map { |d| d.find_vm(id) }.compact.first
               end

@@ -305,7 +305,7 @@ module Fog
           # Return hash
           {
             'vm_ref'        => new_vm ? new_vm._ref : nil,
-            'new_vm'        => new_vm ? get_virtual_machine("#{options['dest_folder']}/#{options['name']}", options['datacenter']) : nil,
+            'new_vm'        => new_vm ? get_virtual_machine(new_vm.config.instanceUuid) : nil,
             'task_ref'      => task._ref
           }
         end
