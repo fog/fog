@@ -121,8 +121,7 @@ module Fog
 
         def key_pair
           requires :key_name
-
-          service.key_pairs.all(key_name).first
+          service.key_pairs.all({'key-name' => key_name}).first
         end
 
         def key_pair=(new_keypair)
