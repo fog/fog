@@ -146,6 +146,9 @@ module Fog
             elsif state_reason_key = filter_key.split('state-reason-')[1]
               aliased_key = state_reason_aliases[state_reason_key]
               instance_set = instance_set.reject{|instance| ![*filter_value].include?(instance['stateReason'][aliased_key])}
+            elsif filter_key == "availability-zone"
+              aliased_key = aliases[filter_key]
+              instance_set = instance_set.reject{|instance| ![*filter_value].include?(instance['placement'][aliased_key])}
             elsif filter_key == "group-name"
               instance_set = instance_set.reject {|instance| !instance['groupSet'].include?(filter_value)}
             elsif filter_key == "group-id"

@@ -24,8 +24,7 @@ module Fog
           body_object['name'] = options[:name] ? options[:name] : 'External NAT'
           body_object['natIP'] = options[:address] if options[:address]
 
-          result = self.build_result(api_method, parameters, body_object)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object)
         end
       end
     end

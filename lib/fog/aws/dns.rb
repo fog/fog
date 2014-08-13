@@ -15,9 +15,13 @@ module Fog
       collection  :zones
 
       request_path 'fog/aws/requests/dns'
+      request :create_health_check
       request :create_hosted_zone
+      request :delete_health_check
+      request :get_health_check
       request :get_hosted_zone
       request :delete_hosted_zone
+      request :list_health_checks
       request :list_hosted_zones
       request :change_resource_record_sets
       request :list_resource_record_sets

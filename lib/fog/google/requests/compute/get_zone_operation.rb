@@ -28,7 +28,7 @@ module Fog
               }
             }
           end
-          build_response(:body => operation)
+          build_excon_response(operation)
         end
       end
 
@@ -47,8 +47,7 @@ module Fog
             'operation' => operation
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

@@ -39,6 +39,8 @@ module Fog
       request :linode_ip_addprivate
       request :linode_config_list
       request :linode_config_create
+      request :linode_config_delete
+      request :linode_config_update
       request :linode_create
       request :linode_delete
       request :linode_list
