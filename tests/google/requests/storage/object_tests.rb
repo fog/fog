@@ -15,7 +15,7 @@ Shindo.tests('Fog::Storage[:google] | object requests', ["google"]) do
       Fog::Storage[:google].copy_object(@directory.identity, 'fog_object', @directory.identity, 'fog_other_object')
     end
 
-    @directory.files.get('fog_other_object').destroy
+#@directory.files.get('fog_other_object').destroy
 
     tests("#get_object('#{@directory.identity}', 'fog_object')").returns(lorem_file.read) do
       Fog::Storage[:google].get_object(@directory.identity, 'fog_object').body

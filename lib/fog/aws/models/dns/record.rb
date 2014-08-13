@@ -8,18 +8,21 @@ module Fog
         deprecate :ip, :value
         deprecate :ip=, :value=
 
-        identity :name,           :aliases => ['Name']
+        identity :name,             :aliases => ['Name']
 
-        attribute :value,         :aliases => ['ResourceRecords']
-        attribute :ttl,           :aliases => ['TTL']
-        attribute :type,          :aliases => ['Type']
-        attribute :status,        :aliases => ['Status']
-        attribute :created_at,    :aliases => ['SubmittedAt']
-        attribute :alias_target,  :aliases => ['AliasTarget']
-        attribute :change_id,     :aliases => ['Id']
-        attribute :region,        :aliases => ['Region']
-        attribute :weight,        :aliases => ['Weight']
-        attribute :set_identifier,:aliases => ['SetIdentifier']
+        attribute :value,           :aliases => ['ResourceRecords']
+        attribute :ttl,             :aliases => ['TTL']
+        attribute :type,            :aliases => ['Type']
+        attribute :status,          :aliases => ['Status']
+        attribute :created_at,      :aliases => ['SubmittedAt']
+        attribute :alias_target,    :aliases => ['AliasTarget']
+        attribute :change_id,       :aliases => ['Id']
+        attribute :region,          :aliases => ['Region']
+        attribute :weight,          :aliases => ['Weight']
+        attribute :set_identifier,  :aliases => ['SetIdentifier']
+        attribute :failover,        :aliases => ['Failover']
+        attribute :geo_location,    :aliases => ['GeoLocation']
+        attribute :health_check_id, :aliases => ['HealthCheckId']
 
         def initialize(attributes={})
           super
@@ -96,7 +99,10 @@ module Fog
               :type             => type,
               :weight           => weight,
               :set_identifier   => set_identifier,
-              :region           => region
+              :region           => region,
+              :failover         => failover,
+              :geo_location     => geo_location,
+              :health_check_id  => health_check_id
           }
           unless self.alias_target
             requires :ttl

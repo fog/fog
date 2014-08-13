@@ -177,7 +177,7 @@ Watchers      | 3129
 *   Add fog-softlayer module . thanks Matt Eldridge
 *   Update links to DigitalOcean SSH-key docs. thanks Matthew Breeden
 *   remove www subdomain from digital ocean ssh-key links. thanks Matthew Breeden
-*   Support for required EvaluateTargetHealth for ALIAS records. thanks Riordan
+*   Support for required EvaluateTargetHealth for ALIAS records. thanks Matthew O'Riordan
 *   took out os_account_meta_temp_url_key as a required parameter and marked it as deprecated.  this code does not belong in the hp provider. thanks Mike Hagedorn
 *   added exception for using temp urls with no key. thanks Mike Hagedorn
 *   Add basic mock data for vapp/vm. thanks Mike Pountney
