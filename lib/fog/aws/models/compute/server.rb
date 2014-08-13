@@ -14,7 +14,7 @@ module Fog
         attribute :associate_public_ip,      :aliases => 'associatePublicIP'
         attribute :availability_zone,        :aliases => 'availabilityZone'
         attribute :block_device_mapping,     :aliases => 'blockDeviceMapping'
-        attribute :network_interfaces,       :aliases => 'networkInterfaces'
+        attribute :network_interface,        :aliases => 'networkInterface'i
         attribute :client_token,             :aliases => 'clientToken'
         attribute :disable_api_termination,  :aliases => 'disableApiTermination'
         attribute :dns_name,                 :aliases => 'dnsName'
@@ -171,7 +171,7 @@ module Fog
           # subnet & security group cannot co-exist. Attempting to specify
           # both subnet and groups will cause an error.  Instead please make
           # use of Security Group Ids when working in a VPC.
-          if subnet_id
+          if subnet_id or network_interface
             options.delete('SecurityGroup')
             if associate_public_ip
               options['NetworkInterface.0.DeviceIndex'] = 0
