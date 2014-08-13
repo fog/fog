@@ -1,4 +1,3 @@
-require 'fog'
 def test
  connection = Fog::Compute.new({ :provider => "Google" })
 
@@ -35,4 +34,3 @@ def test
   raise "Could not create sshable server." unless server.ssh("whoami")
   raise "Could not delete server." unless server.destroy
 end
-test

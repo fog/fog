@@ -3,6 +3,7 @@ module Fog
     class Google
       class Mock
         def get_region(identity)
+          identity = identity.split('/')[-1]
           regions = Fog::Compute[:google].list_regions
           region = regions.body['items'].select { |region| region['name'] == identity }
 

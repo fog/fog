@@ -3,8 +3,8 @@ module Fog
     class Google
       class Mock
         def get_http_health_check(name)
-          backend_service = self.data[:http_health_checks][name]
-          if backend_service.nil?
+          http_health_check = self.data[:http_health_checks][name]
+          if http_health_check.nil?
             return build_excon_response({
               "error" => {
                 "errors" => [
@@ -19,6 +19,7 @@ module Fog
               }
             })
           end
+          build_excon_response(http_health_check)
         end
       end
 

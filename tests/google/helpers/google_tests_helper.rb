@@ -71,6 +71,18 @@ def create_test_zone_view(connection, zone)
   zone_view
 end
 
+def create_test_target_pool(connection, region)
+  random_string = SecureRandom.hex
+  http_health_check = create_test_http_health_check(connection)
+  instance = create_test_server(connection, 'us-central1-a')
+  target_pool = connection.target_pools.create({
+      :name => "fog-test-target-pool-#{random_string}",
+      :region => region,
+      :healthChecks => [http_health_check.self_link],
+      :instances => [instance.self_link]\
+      })
+end
+
 def wait_operation(connection, response)
   operation = connection.operations.get(response['name'], response['zone'], response['region'])
   operation.wait_for { ready? }

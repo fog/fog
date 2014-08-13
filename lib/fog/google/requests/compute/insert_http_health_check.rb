@@ -15,8 +15,8 @@ module Fog
             "port" => 80,
             "checkIntervalSec" => 5,
             "timeoutSec" => 5,
-            "unhealthythreshold" => 2,
-            "healthythreshold" => 2,
+            "unhealthyThreshold" => 2,
+            "healthyThreshold" => 2,
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/httpHealthChecks/#{name}"
           }
 

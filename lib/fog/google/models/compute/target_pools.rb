@@ -30,6 +30,7 @@ module Fog
               end
             end
           else
+            region = region['name'] if region['name']
             response = service.get_target_pool(identity, region)
           end
           return nil if response.nil?

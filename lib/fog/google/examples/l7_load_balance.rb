@@ -1,6 +1,3 @@
-require 'rubygems'
-require 'fog'
-
 def test
   connection = Fog::Compute.new({:provider => "google"})
 
@@ -27,4 +24,3 @@ def test
     :urlMap => url.self_link
     }) 
 end
-test
