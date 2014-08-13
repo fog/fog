@@ -15,6 +15,8 @@ module Fog
 
         def get(user_name)
           data = retrieve_users.find { |database| database['name'] == user_name }
+          require 'pry'
+          binding.pry
           data && new(data)
         end
 

@@ -8,6 +8,11 @@ module Fog
 
         attribute :password
         attribute :databases
+        attribute :host
+
+        def initialize(params = {})
+          super
+        end
 
         def save
           requires :identity, :instance, :password

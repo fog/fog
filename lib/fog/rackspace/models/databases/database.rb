@@ -23,14 +23,12 @@ module Fog
 
         def grant_access_for(user)
           requires :identity, :instance
-          user_name = user.respond_to?(:name) ? user.name : user
-          service.grant_user_access(instance.identity, user_name, name)
+          service.grant_user_access(instance.identity, user, name)
         end
 
         def revoke_access_for(user)
           requires :identity, :instance
-          user_name = user.respond_to?(:name) ? user.name : user
-          service.revoke_user_access(instance.identity, user_name, name)
+          service.revoke_user_access(instance.identity, user, name)
         end
 
 
