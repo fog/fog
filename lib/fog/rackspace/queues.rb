@@ -54,6 +54,12 @@ module Fog
           unless v2_authentication?
             raise Fog::Errors::NotImplemented.new("V2 authentication required for Queues")
           end
+
+          unless @rackspace_region || @rackspace_queues_cl
+            Fog::Logger.deprecation("Default region support will be removed in an upcoming release. Please switch to manually setting your endpoint. This requires settng the :rackspace_region option.")
+          end
+
+          @rackspace_region ||= :ord
         end
 
         def service_name

@@ -56,6 +56,12 @@ module Fog
           @rackspace_temp_url_key = options[:rackspace_temp_url_key]
           @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}
+
+          unless @rackspace_region || (@rackspace_storage_url && @rackspace_cdn_url)
+            Fog::Logger.deprecation("Default region support will be removed in an upcoming release. Please switch to manually setting your endpoint. This requires settng the :rackspace_region option.")
+          end
+
+          @rackspace_region ||= :dfw
         end
 
         def cdn
