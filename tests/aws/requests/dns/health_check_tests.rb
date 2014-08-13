@@ -1,5 +1,7 @@
 Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
 
+  pending if Fog.mocking?
+
   @r53_connection = Fog::DNS[:aws]
 
   tests('success') do
