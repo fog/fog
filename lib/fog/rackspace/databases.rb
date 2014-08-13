@@ -130,7 +130,7 @@ module Fog
             end
           else
             #if we are using auth1 and the endpoint is not set, default to DFW_ENDPOINT for historical reasons
-             @rackspace_endpoint ||= DFW_ENDPOINT
+            @rackspace_endpoint ||= DFW_ENDPOINT
           end
         end
 
