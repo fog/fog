@@ -129,6 +129,11 @@ module Fog
           @connection.authenticate(@username, @password)
         end
 
+        def is_connected?
+          # TODO: verify connection is authorized
+          true
+        end
+
         def default_template=(name)
           @defaults[:template] = name
         end

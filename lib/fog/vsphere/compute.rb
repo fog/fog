@@ -386,6 +386,10 @@ module Fog
           authenticate
         end
 
+        def is_connected?
+          !!@connection.serviceContent.sessionManager.currentSession
+        end
+
         private
         def negotiate_revision(revision = nil)
           # Negotiate the API revision
