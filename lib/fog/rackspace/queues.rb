@@ -49,7 +49,7 @@ module Fog
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}
-          @rackspace_region = options[:rackspace_region] || :ord
+          @rackspace_region = options[:rackspace_region]
 
           unless v2_authentication?
             raise Fog::Errors::NotImplemented.new("V2 authentication required for Queues")

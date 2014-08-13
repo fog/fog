@@ -52,7 +52,7 @@ module Fog
           @rackspace_auth_token = options[:rackspace_auth_token]
           @rackspace_storage_url = options[:rackspace_storage_url]
           @rackspace_cdn_url = options[:rackspace_cdn_url]
-          @rackspace_region = options[:rackspace_region] || :dfw
+          @rackspace_region = options[:rackspace_region]
           @rackspace_temp_url_key = options[:rackspace_temp_url_key]
           @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}

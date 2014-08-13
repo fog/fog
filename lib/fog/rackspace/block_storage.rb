@@ -139,7 +139,7 @@ module Fog
               @rackspace_endpoint = nil
               @rackspace_region = :lon
             else
-              @rackspace_region = options[:rackspace_region] || :dfw
+              @rackspace_region = options[:rackspace_region]
             end
           else
             #if we are using auth1 and the endpoint is not set, default to DFW_ENDPOINT for historical reasons
