@@ -87,6 +87,11 @@ module Fog
                 'uuid' => mapping[:uuid],
                 'delete_on_termination' => mapping[:delete_on_termination],
                 'boot_index' => mapping[:boot_index],
+                'disk_bus' => mapping[:disk_bus],
+                'device_type' => mapping[:device_type],
+                'guest_format' => mapping[:guest_format],
+                'device_name' => mapping[:device_name],
+                'virtual_name' => mapping[:virtual_name],
                 'source_type' => mapping[:source_type],
                 'destination_type' => mapping[:destination_type]
               }
