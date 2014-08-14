@@ -3,12 +3,12 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
   pending if Fog.mocking?
 
   LOAD_BALANCER_ATTRIBUTES = {
-      :name => 'fog' + Time.now.to_i.to_s,
-      :protocol => 'HTTP',
-      :port => 80,
-      :virtual_ips => [{ :type => 'PUBLIC'}],
-      :nodes => [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED'}]
-    }
+    :name => 'fog' + Time.now.to_i.to_s,
+    :protocol => 'HTTP',
+    :port => 80,
+    :virtual_ips => [{ :type => 'PUBLIC' }],
+    :nodes => [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED' }]
+  }
 
   given_a_load_balancer_service do
     model_tests(@service.load_balancers, LOAD_BALANCER_ATTRIBUTES, false) do
@@ -41,7 +41,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
         returns(false) { @instance.connection_logging }
       end
 
-   @instance.wait_for { ready? }
+      @instance.wait_for { ready? }
       tests('#enable_content_caching').succeeds do
         @instance.enable_content_caching
         returns(true) { @instance.content_caching }
