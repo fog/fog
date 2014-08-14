@@ -3,13 +3,13 @@ module Fog
     class Databases
       class Real
         def revoke_user_access(instance_id, user, database)
-          user  = 
+          user =
             if user.respond_to?(:name) && user.respond_to?(:host) 
-              if user.host == '%'
-                user.name
-              else
-                "#{user.name}@#{user.host}"
-              end
+              host_str = 
+                if user.host && user.host != '' && user.host != '%'
+                  "@#{user.host}"
+                end.to_s
+              user.name + host_str
             else
               user
             end

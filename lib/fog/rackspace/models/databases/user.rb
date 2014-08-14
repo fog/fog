@@ -16,7 +16,7 @@ module Fog
 
         def save
           requires :identity, :instance, :password
-          service.create_user(instance.identity, identity, password, :databases => databases)
+          service.create_user(instance.identity, identity, password, :databases => databases, :host => host)
           true
         end
 

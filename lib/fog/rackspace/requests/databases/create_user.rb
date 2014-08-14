@@ -7,7 +7,8 @@ module Fog
             'users' => [{
               'name' => name,
               'password' => password,
-              'databases' => options[:databases] || []
+              'databases' => options[:databases] || [],
+              'host' => options[:host] || '%'
             }]
           }
 
