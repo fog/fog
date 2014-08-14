@@ -25,13 +25,6 @@ module Fog
             'protocol' => protocol,
             'virtualIps' => virtual_ips
           }
-            'loadBalancer' => {
-              'name' => name,
-              'port' => port,
-              'protocol' => protocol,
-              'virtualIps' => virtual_ips,
-            }
-          }
 
           lb_data['nodes'] = nodes if nodes && !nodes.empty?
           lb_data['port'] = port if port

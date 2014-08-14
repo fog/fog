@@ -17,7 +17,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace'
       end
 
       tests("#create_load_balancer(#{@lb_name}, 'HTTP', 80,...)").formats(LOAD_BALANCER_FORMAT) do
-        data = @service.create_load_balancer(@lb_name, 'HTTP', 80, [{ :type => 'PUBLIC'}], [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED'}]).body
+        data = @service.create_load_balancer(@lb_name, 'HTTP', 80, [{ :type => 'PUBLIC' }], [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED' }]).body
         @lb_ids << data['loadBalancer']['id']
         data
       end
