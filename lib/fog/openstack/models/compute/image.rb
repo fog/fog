@@ -15,6 +15,7 @@ module Fog
         attribute :minDisk
         attribute :minRam
         attribute :server,   :aliases => 'server'
+        attribute :size,     :aliases => 'OS-EXT-IMG-SIZE:size'
         attribute :metadata
         attribute :links
 
