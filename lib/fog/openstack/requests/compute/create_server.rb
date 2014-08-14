@@ -94,7 +94,7 @@ module Fog
                 'virtual_name' => mapping[:virtual_name],
                 'source_type' => mapping[:source_type],
                 'destination_type' => mapping[:destination_type]
-              }
+              }.select { |k,v| v }
             end
           end
 
