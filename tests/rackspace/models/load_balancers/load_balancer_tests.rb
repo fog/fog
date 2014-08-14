@@ -4,12 +4,12 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
 
   MINIMAL_LB_ATTRIBUTES = {
     :name => "fog#{Time.now.to_i}",
-    :protocol => 'HTTP'
+    :protocol => 'HTTP',
+    :virtual_ips => [{ :type => 'PUBLIC' }],
   }
 
   NORMAL_LB_ATTRIBUTES = MINIMAL_LB_ATTRIBUTES.merge({
-    :port => 80,
-    :virtual_ips => [{ :type => 'PUBLIC' }],
+    :port => 8080,
     :nodes => [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED' }]
   })
 
@@ -184,7 +184,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       returns('HTTP') { @lb.protocol }
       returns(80) { @lb.port }
 
-      @lb.waits_for { ready? }
+      @lb.wait_for { ready? }
 
       @lb.destroy
     end
