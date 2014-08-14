@@ -10,10 +10,6 @@ module Fog
         attribute :databases
         attribute :host
 
-        def initialize(params = {})
-          super
-        end
-
         def save
           requires :identity, :instance, :password
           service.create_user(instance.identity, identity, password, :databases => databases, :host => host)
