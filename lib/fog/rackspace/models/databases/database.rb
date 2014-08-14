@@ -21,6 +21,17 @@ module Fog
           true
         end
 
+        def grant_access_for(user)
+          requires :identity, :instance
+          service.grant_user_access(instance.identity, user, name)
+        end
+
+        def revoke_access_for(user)
+          requires :identity, :instance
+          service.revoke_user_access(instance.identity, user, name)
+        end
+
+
         private
 
         def instance
