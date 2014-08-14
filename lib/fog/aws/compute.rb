@@ -294,7 +294,22 @@ module Fog
           @aws_credentials_expire_at = Time::now + 20
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
-          validate_aws_region @region
+
+          if @endpoint = options[:endpoint]
+            endpoint = URI.parse(@endpoint)
+            @host = endpoint.host
+            @path = endpoint.path
+            @port = endpoint.port
+            @scheme = endpoint.scheme
+          else
+            @host = options[:host] || "ec2.#{options[:region]}.amazonaws.com"
+            @path       = options[:path]        || '/'
+            @persistent = options[:persistent]  || false
+            @port       = options[:port]        || 443
+            @scheme     = options[:scheme]      || 'https'
+          end
+
+          validate_aws_region(@host, @region)
         end
 
         def region_data
@@ -443,8 +458,6 @@ module Fog
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
           @version                = options[:version]     ||  '2014-06-15'
 
-          validate_aws_region @region
-
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
@@ -458,6 +471,8 @@ module Fog
             @port       = options[:port]        || 443
             @scheme     = options[:scheme]      || 'https'
           end
+
+          validate_aws_region(@host, @region)
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
