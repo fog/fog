@@ -115,6 +115,8 @@ module Fog
           :corespersocket   => 'config.hardware.numCoresPerSocket',
           :overall_status => 'overallStatus',
           :guest_id => 'config.guestId',
+          :host_memory_usage => 'summary.quickStats.hostMemoryUsage',
+          :overall_cpu_usage => 'summary.quickStats.overallCpuUsage',
         }
 
         def convert_vm_view_to_attr_hash(vms)
