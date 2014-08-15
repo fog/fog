@@ -23,7 +23,7 @@ module Fog
         #     * 'RequestId'<~String> - Id of the request
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_PutUserPolicy.html
+        # http://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAccountPasswordPolicy.html
         #
         def update_account_password_policy(minimum_password_length, max_password_age, password_reuse_prevention,require_symbols,require_numbers,require_uppercase_characters, require_lowercase_characters,allow_users_to_change_password, hard_expiry, expire_passwords)
           request({
