@@ -11,5 +11,10 @@ Shindo.tests('AWS::IAM | account policy requests', ['aws']) do
     tests("#get_account_password_policy()") do
       Fog::AWS[:iam].get_account_password_policy().body['AccountPasswordPolicy']
     end
+
+    tests("#delete_account_password_policy()").formats(AWS::IAM::Formats::BASIC) do
+  
+      Fog::AWS[:iam].delete_account_password_policy().body
+    end    
   end
 end

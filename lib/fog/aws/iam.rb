@@ -25,6 +25,7 @@ module Fog
       request :create_role
       request :create_user
       request :delete_access_key
+      request :delete_account_password_policy      
       request :delete_account_alias
       request :delete_group
       request :delete_group_policy
