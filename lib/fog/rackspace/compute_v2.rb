@@ -214,7 +214,7 @@ module Fog
               @rackspace_region = :lon
             else
               # we are actually using a custom endpoint
-              @rackspace_region = options[:rackspace_region] || :dfw
+              @rackspace_region = options[:rackspace_region]
             end
           else
             #if we are using auth1 and the endpoint is not set, default to DFW_ENDPOINT for historical reasons
@@ -228,10 +228,6 @@ module Fog
           if [DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT].include?(@rackspace_endpoint) && v2_authentication?
             regions = @identity_service.service_catalog.display_service_regions(service_name)
             Fog::Logger.deprecation("Please specify region using :rackspace_region rather than :rackspace_endpoint. Valid regions for :rackspace_region are #{regions}.")
-          end
-
-          unless options[:rackspace_region]
-            Fog::Logger.deprecation("Default region support will be removed in an upcoming release. Please switch to manually setting your endpoint. This requires setting the :rackspace_region option")
           end
         end
 
