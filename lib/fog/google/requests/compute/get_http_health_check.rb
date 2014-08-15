@@ -3,7 +3,23 @@ module Fog
     class Google
       class Mock
         def get_http_health_check(name)
-          Fog::Mock.not_implemented
+          http_health_check = self.data[:http_health_checks][name]
+          if http_health_check.nil?
+            return build_excon_response({
+              "error" => {
+                "errors" => [
+                 {
+                  "domain" => "global",
+                  "reason" => "notFound",
+                  "message" => "The resource 'projects/#{@project}/global/httpHealthChecks/#{name}' was not found"
+                 }
+                ],
+                "code" => 404,
+                "message" => "The resource 'projects/#{@project}/global/httpHealthChecks/#{name}' was not found"
+              }
+            })
+          end
+          build_excon_response(http_health_check)
         end
       end
 

@@ -9,7 +9,9 @@ module Fog
       GOOGLE_COMPUTE_API_VERSION     = 'v1'
       GOOGLE_COMPUTE_BASE_URL        = 'https://www.googleapis.com/compute/'
       GOOGLE_COMPUTE_API_SCOPE_URLS  = %w(https://www.googleapis.com/auth/compute
-                                         https://www.googleapis.com/auth/devstorage.read_write)
+                                         https://www.googleapis.com/auth/devstorage.read_write
+                                         https://www.googleapis.com/auth/ndev.cloudman
+                                         https://www.googleapis.com/auth/cloud-platform)
       GOOGLE_COMPUTE_DEFAULT_NETWORK = 'default'
 
       request_path 'fog/google/requests/compute'
@@ -37,6 +39,14 @@ module Fog
       request :list_forwarding_rules
       request :list_routes
       request :list_backend_services
+      request :list_global_forwarding_rules
+      request :list_url_maps
+      request :list_target_http_proxies
+      request :list_zone_views
+      request :list_region_views
+      request :list_region_view_resources
+      request :list_zone_view_resources
+      request :list_target_instances
 
       request :get_server
       request :get_address
@@ -60,6 +70,12 @@ module Fog
       request :get_route
       request :get_backend_service
       request :get_backend_service_health
+      request :get_url_map
+      request :get_global_forwarding_rule
+      request :get_target_http_proxy
+      request :get_zone_view
+      request :get_region_view
+      request :get_target_instance
 
       request :delete_address
       request :delete_disk
@@ -76,6 +92,12 @@ module Fog
       request :delete_forwarding_rule
       request :delete_route
       request :delete_backend_service
+      request :delete_url_map
+      request :delete_target_http_proxy
+      request :delete_global_forwarding_rule
+      request :delete_zone_view
+      request :delete_region_view
+      request :delete_target_instance
 
       request :insert_address
       request :insert_disk
@@ -89,13 +111,26 @@ module Fog
       request :insert_forwarding_rule
       request :insert_route
       request :insert_backend_service
+      request :insert_url_map
+      request :insert_target_http_proxy
+      request :insert_global_forwarding_rule
+      request :insert_zone_view
+      request :insert_region_view
+      request :insert_target_instance
 
       request :set_metadata
       request :set_tags
       request :set_forwarding_rule_target
+      request :set_global_forwarding_rule_target
+      request :set_target_http_proxy_url_map
 
       request :add_target_pool_instances
       request :add_target_pool_health_checks
+      request :add_backend_service_backends
+      request :add_url_map_host_rules
+      request :add_url_map_path_matchers
+      request :add_zone_view_resources
+      request :add_region_view_resources
 
       request :remove_target_pool_instances
       request :remove_target_pool_health_checks
@@ -109,6 +144,8 @@ module Fog
       request :set_server_scheduling
       request :add_server_access_config
       request :delete_server_access_config
+      request :update_url_map
+      request :validate_url_map
 
       model_path 'fog/google/models/compute'
       model :server
@@ -164,6 +201,21 @@ module Fog
 
       model :backend_service
       collection :backend_services
+
+      model :target_http_proxy
+      collection :target_http_proxies
+
+      model :url_map
+      collection :url_maps
+
+      model :global_forwarding_rule
+      collection :global_forwarding_rules
+
+      model :resource_view
+      collection :resource_views
+
+      model :target_instance
+      collection :target_instances
 
       class Mock
         include Fog::Google::Shared
@@ -258,6 +310,117 @@ module Fog
               }
             else
               hash[key] = {
+                :target_http_proxies => {
+                  "test-target-http-proxy" => {
+                    "kind" => "compute#targetHttpProxy",
+                    "id" => "1361932147851415729",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    "name" => "test-target-http-proxy",
+                    "description" => '',
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/targetHttpProxies/test-target-http-proxy",
+                    "urlMap" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/urlMaps/test-url-map"
+                  }
+                },
+                :url_maps => {
+                  "test-url-map" => {
+                    "kind" => "compute#urlMap",
+                    "id" => "1361932147851415729",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    "name" => 'test-url-map',
+                    "description" => '',
+                    "hostRules" => [],
+                    "pathMatchers" => [],
+                    "tests" => [],
+                    "defaultService" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/backendServices/fog-backend-service-test",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/urlMaps/test-url-map"
+                  }
+                },
+                :target_pools => {
+                  "test-target-pool" => {
+                    'kind' => "compute#targetPool",
+                    "id" => "1361932147851415729",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions/us-central1/targetPools/test-target-pool",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    'name' => "test-target-pool",
+                    "region" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions/us-central1",
+                    "healthChecks" => ["https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/httpHealthChecks/test-check"],
+                    "instances" => ["https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/us-central1-a/instances/test-instance"],
+                  }
+                },
+
+                :http_health_checks => {
+                  "test-http-health-check" => {
+                    "checkIntervalSec" => 5,
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    "healthyThreshold" => 2,
+                    "id" => "1361932147851415729",
+                    "kind" => "compute#httphealthCheck",
+                    "name" => "test-http-health-check",
+                    "port" => 80,
+                    "requestPath" => '/',
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/httpHealthChecks/test-http-health-check",
+                    "timeoutSec" => 5,
+                    "unhealthyThreshold" => 2
+                  }
+                },
+                :global_forwarding_rules => {
+                  "test-global-forwarding-rule" => {
+                    "kind" => "compute#forwardingRule",
+                    "id" => "1361932147851415729",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    "name" => 'test-global-forwarding-rule',
+                    "IPAddress" => '107.178.255.155',
+                    "IPProtocol" => 'TCP',
+                    "portRange" => '80-80',
+                    "target" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/targetHttpProxies/proxy",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/forwardngRules/test-global-forwarding-rule"
+                  }
+                },
+                :forwarding_rules => {
+                  "test-forwarding-rule" => {
+                    "kind" => "compute#forwardingRule",
+                    "id" => "1361932147851415729",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    "name" => 'test-forwarding-rule',
+                    "IPAddress" => '107.178.255.155',
+                    "IPProtocol" => 'TCP',
+                    "portRange" => '80-80',
+                    "target" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions/us-central1/targetPools/target_pool",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions/us-central1/forwardngRules/test-forwarding-rule",
+                    "region" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions/us-central1"
+                  }
+                },
+                :target_instances => {
+                  "test-target-instance" => {
+                    "kind" => "compute#targetInstance",
+                    "name" => "test-target-instance",
+                    "natPolicy" => "NO_NAT",
+                    "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/us-central1-a",
+                    "instance" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/us-central1-a/instances/test-instance",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/us-central1-a/targetInstances/test-target-instance",
+                    "id" => "1361932147851415729",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+
+                  }
+                },
+                :backend_services =>{
+                  "test-backend-service" => {
+                    "kind" => "compute#backend_service",
+                    "id" => "1361932147851415729",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    "name" => "test-backend-service",
+                    "description" => '',
+                    "backends" => [
+                       {
+                      "description" => '',
+                      "group" => "https://www.googleapis.com/resourceviews/v1beta1/projects#{@project}/zones/us-central1-a/zoneViews/name",
+                      "balancingMode" => "RATE",
+                      "capacityScaler" => 1.1,
+                      "maxRate" => 0.5,
+                    }],
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/backendServices/test-backend-service"
+                  }
+                },
                 :servers => {
                   "fog-1" => {
                     "kind" => "compute#instance",
@@ -395,6 +558,71 @@ module Fog
                     "region" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/regions/us-central2"
                   }
                 },
+                :regions => {
+                  "us-central1" => {
+                    "creationTimestamp" => '2014-01-21T10:30:54.895-08:00',
+                    "description" => 'us-central1',
+                    "id" => '18201118976141502843',
+                    "kind" => "compute#region",
+                    "name" =>"us-central1",
+                    "quotas" => [
+                      {"metric" =>"CPUS", "limit" => 1050.0, "usage" => 28.0},
+                      {"metric" =>"DISKS_TOTAL_GB", "limit" => 10000.0, "usage" => 292.0},
+                      {"metric" =>"STATIC_ADDRESSES", "limit" => 10.0, "usage" => 0.0},
+                      {"metric" =>"IN_USE_ADDRESSES", "limit" => 1050.0, "usage" => 30.0},
+                      {"metric" =>"SSD_TOTAL_GB", "limit" => 1024.0, "usage" => 0.0}
+                    ],
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/regions/us-central1",
+                    "status" => "UP",
+                    "zones" =>  [ 
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a",
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-b",
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-f",
+                    ]
+                  },
+                  "europe-west1" => {
+                    "creationTimestamp" => '2014-01-21T10:30:54.891-08:00',
+                    "description" => 'europe-west1',
+                    "id" => '18201118976141502843',
+                    "kind" => "compute#region",
+                    "name" =>"europe-west1",
+                    "quotas" => [
+                      {"metric" =>"CPUS", "limit" => 24.0, "usage" => 0.0},
+                      {"metric" =>"DISKS_TOTAL_GB", "limit" => 2048.0, "usage" => 0.0},
+                      {"metric" =>"STATIC_ADDRESSES", "limit" => 7.0, "usage" => 0.0},
+                      {"metric" =>"IN_USE_ADDRESSES", "limit" => 23.0, "usage" => 0.0},
+                      {"metric" =>"SSD_TOTAL_GB", "limit" => 1024.0, "usage" => 0.0}
+                    ],
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/regions/erope-west1",
+                    "status" => "UP",
+                    "zones" =>  [ 
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/europe-west1-a",
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/europe-west1-b",
+                    ]
+                  },
+                  "asia-east1" => {
+                    "creationTimestamp" => '2014-01-21T10:30:54.895-08:00',
+                    "description" => 'asia-east1',
+                    "id" => '18201118976141502843',
+                    "kind" => "compute#region",
+                    "name" =>"asia-east1",
+                    "quotas" => [
+                      {"metric" =>"CPUS", "limit" => 1050.0, "usage" => 28.0},
+                      {"metric" =>"DISKS_TOTAL_GB", "limit" => 10000.0, "usage" => 292.0},
+                      {"metric" =>"STATIC_ADDRESSES", "limit" => 10.0, "usage" => 0.0},
+                      {"metric" =>"IN_USE_ADDRESSES", "limit" => 1050.0, "usage" => 30.0},
+                      {"metric" =>"SSD_TOTAL_GB", "limit" => 1024.0, "usage" => 0.0}
+                    ],
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/regions/asia-east1",
+                    "status" => "UP",
+                    "zones" =>  [ 
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/asia-east1-a",
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/asia-east1-b",
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/asia-east1-c",
+                    ]
+                  }
+                },
+
                 :machine_types => Hash.new do |machine_types_hash, zone|
                   machine_types_hash[zone] = {
                     "f1-micro" => {
@@ -829,6 +1057,7 @@ module Fog
 
           @client = initialize_google_client(options)
           @compute = @client.discovered_api('compute', api_version)
+          @resourceviews = @client.discovered_api('resourceviews', 'v1beta1')
         end
       end
 

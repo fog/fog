@@ -56,7 +56,6 @@ module Google # deviates from other bin stuff to accomodate gem
       else
         !Gem.source_index.find_name('google-api-client').empty? # legacy
       end
-
       # Then make sure we have all of the requirements
       for service in services
         begin

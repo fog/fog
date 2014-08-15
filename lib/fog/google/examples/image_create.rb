@@ -9,7 +9,7 @@ def test
   # Can't test this unless the 'source' points to a valid URL
   return if rawdisk[:source].nil?
 
-  img = connection.image.create(:name             => 'test-image',
+  img = connection.images.create(:name             => 'test-image',
                                 :description      => 'Test image (via fog)',
                                 :raw_disk         => rawdisk)
 
