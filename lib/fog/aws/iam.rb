@@ -37,6 +37,7 @@ module Fog
       request :delete_user
       request :delete_user_policy
       request :get_account_summary
+      request :get_account_password_policy
       request :get_group
       request :get_group_policy
       request :get_instance_profile
@@ -63,6 +64,7 @@ module Fog
       request :put_group_policy
       request :put_role_policy
       request :put_user_policy
+      request :put_account_password_policy
       request :remove_role_from_instance_profile
       request :remove_user_from_group
       request :update_access_key
