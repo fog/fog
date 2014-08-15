@@ -116,6 +116,7 @@ module Fog
           :overall_status => 'overallStatus',
           :guest_id => 'config.guestId',
           :host_memory_usage => 'summary.quickStats.hostMemoryUsage',
+          :private_memory => 'summary.quickStats.privateMemory',
           :overall_cpu_usage => 'summary.quickStats.overallCpuUsage',
         }
 
