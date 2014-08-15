@@ -51,6 +51,8 @@ module Fog
       request :list_users
       request :create_user
       request :delete_user
+      request :grant_user_access
+      request :revoke_user_access
 
       class Mock < Fog::Rackspace::Service
         def request(params)

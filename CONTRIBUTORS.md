@@ -81,6 +81,7 @@
 * Ben Chadwick <bchadwick@mdsol.com>
 * Ben House <ben@benhouse.io>
 * Ben Hundley <ben.hundley@gmail.com>
+* Ben Sandberg <ben@pdxfixit.com>
 * Ben Turley <ben@scan.me>
 * Benjamin Chadwick <bchadwick@mdsol.com>
 * Benjamin Manns <benmanns@gmail.com>
@@ -182,6 +183,7 @@
 * David Wittman <david@wittman.com>
 * Decklin Foster <decklin@red-bean.com>
 * Dejan Menges <dejan.menges@9cookies.com>
+* Denis Barishev <denz@twiket.com>
 * Diego Desani <diego@newservers.com>
 * Dmitry Dedov <dmitry.dedov@tut.by>
 * Dmitry Gutov <dgutov@yandex.ru>
@@ -225,6 +227,7 @@
 * Evan Petrie <ep873k@att.com>
 * Evan Smith <evans@n2uitive.com>
 * Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+* Fabian Wiesel <fabian.wiesel@gmx.net>
 * Fabio Lessa <flessa@gmail.com>
 * Ferran Rodenas <frodenas@gmail.com>
 * Fletcher Nichol <fnichol@nichol.ca>
@@ -244,6 +247,7 @@
 * Geraud <geraud@cardspring.net>
 * Gerred Dillon <gerred@quickleft.com>
 * Glenn Tweedie <glenn.tweedie@agworld.com.au>
+* Graeme Wilson <graeme.wilson@whitelabelled.com>
 * Greg Blomquist <gblomqui@redhat.com>
 * Greg Burek <greg.burek@gmail.com>
 * Greg Sutcliffe <greg.Sutcliffe@gmail.com>
@@ -263,6 +267,8 @@
 * Hunter Nield <hunternield@gmail.com>
 * Ian Downes <ian@ubalo.com>
 * Igor Bolotin <i@x.com>
+* Igor Rodionov <goruha@gmail.com>
+* Igor Rodionov <rodionov.ig@gmail.com>
 * Ijonas Kisselbach <ijonas.kisselbach@gmail.com>
 * Irio Irineu Musskopf Junior <irio.musskopf@caixadeideias.com.br>
 * Istvan Hoka <istvan.hoka@gmail.com>
@@ -629,6 +635,7 @@
 * Thomas Cate <thomascate@gmail.com>
 * Thomas Kadauke <thomas.kadauke@googlemail.com>
 * Thomas Wright <tfwright@gmail.com>
+* Tim <tim.lawrence1984@gmail.com>
 * Tim Carey-Smith <tim@spork.in>
 * Tim Carey-Smith and Andy Delcambre <tcareysmith@engineyard.com>
 * Timothy Klim <klimtimothy@gmail.com>
@@ -712,6 +719,7 @@
 * dm1try <dmitry.dedov@tut.by>
 * endzyme <nick.huanca@gmail.com>
 * epdejager <eliza.dejager@statpro.com>
+* fbiete@gmail.com <fbiete@gmail.com>
 * fred-secludit <fred@secludit.com>
 * freeformz <emuller@engineyard.com>
 * gavin <gavin@gavin02.(none)>
@@ -763,6 +771,7 @@
 * sawanoboly <sawanoboriyu@higanworks.com>
 * seanhandley <seanhandley@hackmanchester.com>
 * seeingidog <ian@ruby-code.com>
+* snyquist2 <snyquist@google.com>
 * thattommyhall <thattommyhall@gmail.com>
 * tipt0e <topo-2@charter.net>
 * torake.fransson <torake.fransson@klarna.com>
