@@ -27,19 +27,19 @@ module Fog
         #
         def update_account_password_policy(minimum_password_length, max_password_age, password_reuse_prevention,require_symbols,require_numbers,require_uppercase_characters, require_lowercase_characters,allow_users_to_change_password, hard_expiry, expire_passwords)
           request({
-                      'Action'          => 'UpdateAccountPasswordPolicy',
-                      'MinimumPasswordLength' => minimum_password_length,
-                      'MaxPasswordAge'      => max_password_age,
-                      'PasswordReusePrevention'  => password_reuse_prevention,
-                      'RequireSymbols'        => require_symbols,
-                      'RequireNumbers'        => require_numbers,
-                      'RequireUppercaseCharacters'        => require_uppercase_characters,
-                      'RequireLowercaseCharacters'        => require_lowercase_characters,
-                      'AllowUsersToChangePassword'        => allow_users_to_change_password,
-                      'HardExpiry'                        => hard_expiry,
-                      'ExpirePasswords'                   => expire_passwords,
-                      :parser           => Fog::Parsers::AWS::IAM::Basic.new
-                    })
+            'Action'                      => 'UpdateAccountPasswordPolicy',
+            'MinimumPasswordLength'       => minimum_password_length,
+            'MaxPasswordAge'              => max_password_age,
+            'PasswordReusePrevention'     => password_reuse_prevention,
+            'RequireSymbols'              => require_symbols,
+            'RequireNumbers'              => require_numbers,
+            'RequireUppercaseCharacters'  => require_uppercase_characters,
+            'RequireLowercaseCharacters'  => require_lowercase_characters,
+            'AllowUsersToChangePassword'  => allow_users_to_change_password,
+            'HardExpiry'                  => hard_expiry,
+            'ExpirePasswords'             => expire_passwords,
+            :parser                       => Fog::Parsers::AWS::IAM::Basic.new
+          })
         end
       end
 

@@ -15,16 +15,16 @@ module Fog
         # ==== See Also
         # http://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAccountPasswordPolicy.html
         #
-        def delete_account_password_policy()
+        def get_account_password_policy()
           request({
-                      'Action'          => 'DeleteAccountPasswordPolicy',
-                      :parser           => Fog::Parsers::AWS::IAM::Basic.new
-                    })
+            'Action'          => 'DeleteAccountPasswordPolicy',
+            :parser           => Fog::Parsers::AWS::IAM::Basic.new
+          })
         end
       end
 
       class Mock
-        def delete_account_password_policy()
+        def get_account_password_policy()
           Excon::Response.new.tap do |response|
             response.body = { 'RequestId' => Fog::AWS::Mock.request_id }
             response.status = 200
