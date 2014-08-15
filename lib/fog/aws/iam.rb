@@ -64,12 +64,13 @@ module Fog
       request :put_group_policy
       request :put_role_policy
       request :put_user_policy
-      request :put_account_password_policy
+
       request :remove_role_from_instance_profile
       request :remove_user_from_group
       request :update_access_key
       request :update_group
       request :update_login_profile
+      request :update_account_password_policy
       request :update_server_certificate
       request :update_signing_certificate
       request :update_user
