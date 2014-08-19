@@ -8,9 +8,9 @@ username = 'admin@example.net'
 password = 'secret'
 
 keystone = Fog::Identity.new :provider           => 'OpenStack',
-                             :openstack_auth_url => auth_url,
-                             :openstack_username => username,
-                             :openstack_api_key  => password
+                             :auth_url => auth_url,
+                             :username => username,
+                             :api_key  => password
                              # Optional, self-signed certs
                              #:connection_options => { :ssl_verify_peer => false }
 

@@ -52,7 +52,7 @@ module Fog
     service(:orchestration, 'Orchestration')
 
     def self.authenticate(options, connection_options = {})
-      case options[:openstack_auth_uri].path
+      case options[:auth_uri].path
       when /v1(\.\d+)?/
         authenticate_v1(options, connection_options)
       else
@@ -62,16 +62,16 @@ module Fog
 
     # legacy v1.0 style auth
     def self.authenticate_v1(options, connection_options = {})
-      uri = options[:openstack_auth_uri]
+      uri = options[:auth_uri]
       connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
-      @openstack_api_key  = options[:openstack_api_key]
-      @openstack_username = options[:openstack_username]
+      @api_key  = options[:api_key]
+      @username = options[:username]
 
       response = connection.request({
         :expects  => [200, 204],
         :headers  => {
-          'X-Auth-Key'  => @openstack_api_key,
-          'X-Auth-User' => @openstack_username
+          'X-Auth-Key'  => @api_key,
+          'X-Auth-User' => @username
         },
         :method   => 'GET',
         :path     =>  (uri.path and not uri.path.empty?) ? uri.path : 'v1.0'
@@ -86,13 +86,13 @@ module Fog
 
     # Keystone Style Auth
     def self.authenticate_v2(options, connection_options = {})
-      uri                   = options[:openstack_auth_uri]
-      tenant_name           = options[:openstack_tenant]
-      service_type          = options[:openstack_service_type]
-      service_name          = options[:openstack_service_name]
-      identity_service_type = options[:openstack_identity_service_type]
-      endpoint_type         = (options[:openstack_endpoint_type] || 'publicURL').to_s
-      openstack_region      = options[:openstack_region]
+      uri                   = options[:auth_uri]
+      tenant_name           = options[:tenant]
+      service_type          = options[:service_type]
+      service_name          = options[:service_name]
+      identity_service_type = options[:identity_service_type]
+      endpoint_type         = (options[:endpoint_type] || 'publicURL').to_s
+      region      = options[:region]
 
       body = retrieve_tokens_v2(options, connection_options)
       service = get_service(body, service_type, service_name)
@@ -114,7 +114,7 @@ module Fog
           if body['tenants'].empty?
             raise Fog::Errors::NotFound.new('No Tenant Found')
           else
-            options[:openstack_tenant] = body['tenants'].first['name']
+            options[:tenant] = body['tenants'].first['name']
           end
         end
 
@@ -124,12 +124,12 @@ module Fog
       end
 
       service['endpoints'] = service['endpoints'].select do |endpoint|
-        endpoint['region'] == openstack_region
-      end if openstack_region
+        endpoint['region'] == region
+      end if region
 
       if service['endpoints'].empty?
-        raise Fog::Errors::NotFound.new("No endpoints available for region '#{openstack_region}'")
-      end if openstack_region
+        raise Fog::Errors::NotFound.new("No endpoints available for region '#{region}'")
+      end if region
 
       unless service
         available = body['access']['serviceCatalog'].map { |endpoint|
@@ -178,11 +178,11 @@ module Fog
     end
 
     def self.retrieve_tokens_v2(options, connection_options = {})
-      api_key     = options[:openstack_api_key].to_s
-      username    = options[:openstack_username].to_s
-      tenant_name = options[:openstack_tenant].to_s
-      auth_token  = options[:openstack_auth_token] || options[:unscoped_token]
-      uri         = options[:openstack_auth_uri]
+      api_key     = options[:api_key].to_s
+      username    = options[:username].to_s
+      tenant_name = options[:tenant].to_s
+      auth_token  = options[:auth_token] || options[:unscoped_token]
+      uri         = options[:auth_uri]
 
       connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
       request_body = {:auth => Hash.new}

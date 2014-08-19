@@ -28,7 +28,7 @@
 
   See https://github.com/fog/fog/blob/master/lib/fog/openstack/examples/network/network_subnets_routers.rb
 
-* :openstack_endpoint_type parameter was added to the network service
+* :endpoint_type parameter was added to the network service
 
 ## Image
 

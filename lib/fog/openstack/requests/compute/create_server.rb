@@ -90,17 +90,17 @@ module Fog
           response.status = 202
 
           server_id = Fog::Mock.random_numbers(6).to_s
-          identity = Fog::Identity::OpenStack.new :openstack_auth_url => credentials[:openstack_auth_url]
+          identity = Fog::Identity::OpenStack.new :auth_url => credentials[:auth_url]
           user = identity.users.find { |u|
-            u.name == @openstack_username
+            u.name == @username
           }
 
           user_id = if user then
                       user.id
                     else
-                       response = identity.create_user(@openstack_username,
+                       response = identity.create_user(@username,
                          'password',
-                         "#{@openstack_username}@example.com")
+                         "#{@username}@example.com")
                        response.body["user"]["id"]
                     end
 
@@ -119,7 +119,7 @@ module Fog
             'status'       => 'BUILD',
             'created'      => '2012-09-27T00:04:18Z',
             'updated'      => '2012-09-27T00:04:27Z',
-            'user_id'      => @openstack_username,
+            'user_id'      => @username,
             'config_drive' => options['config_drive'] || '',
           }
 

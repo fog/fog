@@ -31,13 +31,13 @@ Next, create a connection to Swift:
 ```ruby
 service = Fog::Storage.new({
   :provider            => 'OpenStack',   # OpenStack Fog provider
-  :openstack_username  => USERNAME,      # Your OpenStack Username
-  :openstack_api_key   => PASSWORD,      # Your OpenStack Password
-  :openstack_auth_url  => 'http://YOUR_OPENSTACK_ENDPOINT:PORT/v2.0/tokens'
+  :username  => USERNAME,      # Your OpenStack Username
+  :api_key   => PASSWORD,      # Your OpenStack Password
+  :auth_url  => 'http://YOUR_OPENSTACK_ENDPOINT:PORT/v2.0/tokens'
 })
 ```
 
-Alternative regions are specified using the key `:openstack_region `. A list of regions available for Swift can be found by executing the following:
+Alternative regions are specified using the key `:region `. A list of regions available for Swift can be found by executing the following:
 
 ### Optional Service Parameters
 
@@ -53,23 +53,23 @@ The Storage service supports the following additional parameters:
 <td>If set to true, the service will use a persistent connection.</td>
 </tr>
 <tr>
-<td>:openstack_service_name</td>
+<td>:service_name</td>
 <td></td>
 </tr>
 <tr>
-<td>:openstack_service_type</td>
+<td>:service_type</td>
 <td></td>
 </tr>
 <tr>
-<td>:openstack_tenant</td>
+<td>:tenant</td>
 <td></td>
 </tr>
 <tr>
-<td>:openstack_region</td>
+<td>:region</td>
 <td></td>
 </tr>
 <tr>
-<td>:openstack_temp_url_key</td>
+<td>:temp_url_key</td>
 <td></td>
 </tr>
 </table>
