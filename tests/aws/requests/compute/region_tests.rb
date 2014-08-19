@@ -34,7 +34,17 @@ Shindo.tests('Fog::Compute[:aws] | region requests', ['aws']) do
                              :aws_secret_access_key => 'dummysecret',
                              :aws_session_token => 'dummytoken',
                              :region => 'world-antarctica-1',
-                             :endpoint => 'aws-clone.example'}).describe_regions.body
+                             :endpoint => 'http://aws-clone.example'}).describe_regions.body
+    end
+
+    tests("#invalid_endpoint") do
+      raises(Fog::Compute::AWS::InvalidURIError) do
+        Fog::Compute::AWS.new({:aws_access_key_id => 'dummykey',
+                             :aws_secret_access_key => 'dummysecret',
+                             :aws_session_token => 'dummytoken',
+                             :region => 'world-antarctica-1',
+                             :endpoint => 'aws-clone.example'})
+      end
     end
 
   end
