@@ -153,6 +153,8 @@ module Fog
       request :monitor_instances
       request :unmonitor_instances
 
+      class InvalidURIError < Exception; end
+
       # deprecation
       class Real
         def modify_image_attributes(*params)
@@ -297,7 +299,7 @@ module Fog
 
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
-            @host = endpoint.host
+            @host = endpoint.host or raise InvalidURIError.new("could not parse endpoint: #{@endpoint}")
             @path = endpoint.path
             @port = endpoint.port
             @scheme = endpoint.scheme
@@ -308,7 +310,6 @@ module Fog
             @port       = options[:port]        || 443
             @scheme     = options[:scheme]      || 'https'
           end
-
           validate_aws_region(@host, @region)
         end
 
@@ -460,7 +461,7 @@ module Fog
 
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
-            @host = endpoint.host
+            @host = endpoint.host or raise InvalidURIError.new("could not parse endpoint: #{@endpoint}")
             @path = endpoint.path
             @port = endpoint.port
             @scheme = endpoint.scheme
