@@ -29,6 +29,20 @@ module Fog
               end
             end
           end
+          unless filters.empty?
+            servers.reject! do |server|
+              filters.map do |key, value|
+                case key
+                when 'image'
+                  server['image'] && server['image']['id'] == value
+                when 'flavor'
+                  server['flavor'] && server['flavor']['id'] == value
+                when 'name', 'status'
+                  server[key] == value
+                end
+              end.none?
+            end
+          end
 
           response.status = [200, 203][rand(1)]
           response.body = { 'servers' => servers }
