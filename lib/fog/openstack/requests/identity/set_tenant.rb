@@ -3,8 +3,8 @@ module Fog
     class OpenStack
       class Real
         def set_tenant(tenant)
-          @openstack_must_reauthenticate = true
-          @openstack_tenant = tenant.to_s
+          @must_reauthenticate = true
+          @tenant = tenant.to_s
           authenticate
         end
       end

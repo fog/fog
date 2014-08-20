@@ -45,10 +45,10 @@ end
 
 image_service = Fog::Image.new({
   :provider => 'OpenStack',
-  :openstack_api_key => ENV['OS_PASSWORD'],
-  :openstack_username => ENV["OS_USERNAME"],
-  :openstack_auth_url => ENV["OS_AUTH_URL"] + "/tokens",
-  :openstack_tenant => ENV["OS_TENANT_NAME"]
+  :api_key => ENV['OS_PASSWORD'],
+  :username => ENV["OS_USERNAME"],
+  :auth_url => ENV["OS_AUTH_URL"] + "/tokens",
+  :tenant => ENV["OS_TENANT_NAME"]
 })
 
 puts "Uploading AKI..."

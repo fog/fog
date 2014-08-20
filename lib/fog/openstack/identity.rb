@@ -3,12 +3,22 @@ require 'fog/openstack/core'
 module Fog
   module Identity
     class OpenStack < Fog::Service
+      # the openstack_* params are all deprecated. remove the
+      # 'openstack_' part of the string from your config parameter names.
       requires :openstack_auth_url
+      recognizes :auth_url
+
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                  :openstack_service_type, :openstack_service_name, :openstack_tenant,
                  :openstack_api_key, :openstack_username, :openstack_current_user_id,
                  :current_user, :current_tenant,
                  :openstack_endpoint_type
+
+      recognizes :auth_token, :management_url, :persistent,
+                 :service_type, :service_name, :tenant,
+                 :api_key, :username, :current_user_id,
+                 :current_user, :current_tenant,
+                 :endpoint_type
 
       model_path 'fog/openstack/models/identity'
       model       :tenant
@@ -94,10 +104,18 @@ module Fog
         end
 
         def initialize(options={})
-          @openstack_username = options[:openstack_username] || 'admin'
-          @openstack_tenant   = options[:openstack_tenant]   || 'admin'
-          @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
-          @openstack_management_url = @openstack_auth_uri.to_s
+          # deprecate namespaced params
+          options.each { |k,v|
+            if k =~ /^openstack_/
+              Fog::Logger.deprecation(":#{k} is deprecated, please use :#{k.to_s.gsub('openstack_','')} instead.")
+            end
+          }
+          options = Hash[options.map { |k, v| [k.to_s.gsub('openstack_','').to_sym, v] }]
+
+          @username = options[:username] || 'admin'
+          @tenant   = options[:tenant]   || 'admin'
+          @auth_uri = URI.parse(options[:auth_url])
+          @management_url = @auth_uri.to_s
 
           @auth_token = Fog::Mock.random_base64(64)
           @auth_token_expiration = (Time.now.utc + 86400).iso8601
@@ -106,16 +124,16 @@ module Fog
             u['name'] == 'admin'
           end
 
-          if @openstack_tenant
+          if @tenant
             @current_tenant = self.data[:tenants].values.find do |u|
-              u['name'] == @openstack_tenant
+              u['name'] == @tenant
             end
 
             unless @current_tenant
               @current_tenant_id = Fog::Mock.random_hex(32)
               @current_tenant = self.data[:tenants][@current_tenant_id] = {
                 'id'   => @current_tenant_id,
-                'name' => @openstack_tenant
+                'name' => @tenant
               }
             else
               @current_tenant_id = @current_tenant['id']
@@ -125,7 +143,7 @@ module Fog
           end
 
           @current_user = self.data[:users].values.find do |u|
-            u['name'] == @openstack_username
+            u['name'] == @username
           end
           @current_tenant_id = Fog::Mock.random_hex(32)
 
@@ -133,8 +151,8 @@ module Fog
             @current_user_id = Fog::Mock.random_hex(32)
             @current_user = self.data[:users][@current_user_id] = {
               'id'       => @current_user_id,
-              'name'     => @openstack_username,
-              'email'    => "#{@openstack_username}@mock.com",
+              'name'     => @username,
+              'email'    => "#{@username}@mock.com",
               'tenantId' => Fog::Mock.random_numbers(6).to_s,
               'enabled'  => true
             }
@@ -144,19 +162,19 @@ module Fog
         end
 
         def data
-          self.class.data[@openstack_username]
+          self.class.data[@username]
         end
 
         def reset_data
-          self.class.data.delete(@openstack_username)
+          self.class.data.delete(@username)
         end
 
         def credentials
           { :provider                  => 'openstack',
-            :openstack_auth_url        => @openstack_auth_uri.to_s,
-            :openstack_auth_token      => @auth_token,
-            :openstack_management_url  => @openstack_management_url,
-            :openstack_current_user_id => @openstack_current_user_id,
+            :auth_url        => @auth_uri.to_s,
+            :auth_token      => @auth_token,
+            :management_url  => @management_url,
+            :current_user_id => @current_user_id,
             :current_user              => @current_user,
             :current_tenant            => @current_tenant}
         end
@@ -168,30 +186,38 @@ module Fog
         attr_reader :unscoped_token
 
         def initialize(options={})
-          @openstack_auth_token = options[:openstack_auth_token]
+          # deprecate namespaced params
+          options.each { |k,v|
+            if k =~ /^openstack_/
+              Fog::Logger.deprecation(":#{k} is deprecated, please use :#{k.to_s.gsub('openstack_','')} instead.")
+            end
+          }
+          options = Hash[options.map { |k, v| [k.to_s.gsub('openstack_','').to_sym, v] }]
 
-          unless @openstack_auth_token
+          @auth_token = options[:auth_token]
+
+          unless @auth_token
             missing_credentials = Array.new
-            @openstack_api_key  = options[:openstack_api_key]
-            @openstack_username = options[:openstack_username]
+            @api_key  = options[:api_key]
+            @username = options[:username]
 
-            missing_credentials << :openstack_api_key  unless @openstack_api_key
-            missing_credentials << :openstack_username unless @openstack_username
+            missing_credentials << :api_key  unless @api_key
+            missing_credentials << :username unless @username
             raise ArgumentError, "Missing required arguments: #{missing_credentials.join(', ')}" unless missing_credentials.empty?
           end
 
-          @openstack_tenant   = options[:openstack_tenant]
-          @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
-          @openstack_management_url       = options[:openstack_management_url]
-          @openstack_must_reauthenticate  = false
-          @openstack_service_type = options[:openstack_service_type] || ['identity']
-          @openstack_service_name = options[:openstack_service_name]
+          @tenant   = options[:tenant]
+          @auth_uri = URI.parse(options[:auth_url])
+          @management_url       = options[:management_url]
+          @must_reauthenticate  = false
+          @service_type = options[:service_type] || ['identity']
+          @service_name = options[:service_name]
 
           @connection_options = options[:connection_options] || {}
 
-          @openstack_current_user_id = options[:openstack_current_user_id]
+          @current_user_id = options[:current_user_id]
 
-          @openstack_endpoint_type = options[:openstack_endpoint_type] || 'adminURL'
+          @endpoint_type = options[:endpoint_type] || 'adminURL'
 
           @current_user = options[:current_user]
           @current_tenant = options[:current_tenant]
@@ -204,10 +230,10 @@ module Fog
 
         def credentials
           { :provider                 => 'openstack',
-            :openstack_auth_url       => @openstack_auth_uri.to_s,
-            :openstack_auth_token     => @auth_token,
-            :openstack_management_url => @openstack_management_url,
-            :openstack_current_user_id => @openstack_current_user_id,
+            :auth_url       => @auth_uri.to_s,
+            :auth_token     => @auth_token,
+            :management_url => @management_url,
+            :current_user_id => @current_user_id,
             :current_user             => @current_user,
             :current_tenant           => @current_tenant }
         end
@@ -231,7 +257,7 @@ module Fog
             raise if retried
             retried = true
 
-            @openstack_must_reauthenticate = true
+            @must_reauthenticate = true
             authenticate
             retry
           rescue Excon::Errors::HTTPStatusError => error
@@ -251,16 +277,16 @@ module Fog
         private
 
         def authenticate
-          if !@openstack_management_url || @openstack_must_reauthenticate
+          if !@management_url || @must_reauthenticate
             options = {
-              :openstack_api_key  => @openstack_api_key,
-              :openstack_username => @openstack_username,
-              :openstack_auth_token => @openstack_auth_token,
-              :openstack_auth_uri => @openstack_auth_uri,
-              :openstack_tenant   => @openstack_tenant,
-              :openstack_service_type => @openstack_service_type,
-              :openstack_service_name => @openstack_service_name,
-              :openstack_endpoint_type => @openstack_endpoint_type
+              :api_key  => @api_key,
+              :username => @username,
+              :auth_token => @auth_token,
+              :auth_uri => @auth_uri,
+              :tenant   => @tenant,
+              :service_type => @service_type,
+              :service_name => @service_name,
+              :endpoint_type => @endpoint_type
             }
 
             credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
@@ -268,15 +294,15 @@ module Fog
             @current_user = credentials[:user]
             @current_tenant = credentials[:tenant]
 
-            @openstack_must_reauthenticate = false
+            @must_reauthenticate = false
             @auth_token = credentials[:token]
-            @openstack_management_url = credentials[:server_management_url]
-            @openstack_current_user_id = credentials[:current_user_id]
+            @management_url = credentials[:server_management_url]
+            @current_user_id = credentials[:current_user_id]
             @unscoped_token = credentials[:unscoped_token]
-            uri = URI.parse(@openstack_management_url)
+            uri = URI.parse(@management_url)
           else
-            @auth_token = @openstack_auth_token
-            uri = URI.parse(@openstack_management_url)
+            @auth_token = @auth_token
+            uri = URI.parse(@management_url)
           end
 
           @host   = uri.host
