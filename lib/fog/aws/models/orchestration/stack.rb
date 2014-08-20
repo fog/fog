@@ -29,7 +29,7 @@ module Fog
         # valid options for stack create and update actions
         ALLOWED_OPTIONS = {
           :create => [
-            :template, :template_url, :disable_rollback, :parameters, :timeout_in_minutes, :capabilities
+            :template, :template_url, :disable_rollback, :parameters, :timeout_in_minutes, :capabilities, :notification_topics
           ],
           :update => [
             :template, :template_url, :parameters
@@ -43,7 +43,7 @@ module Fog
           :capabilities => 'Capabilities',
           :disable_rollback => 'DisableRollback',
           :timeout_in_minutes => 'TimeoutInMinutes',
-          :notification_arns => 'NotificationARNs'
+          :notification_topics => 'NotificationARNs'
         }
 
         # Generate API options hash for action
@@ -101,6 +101,19 @@ module Fog
               body['TemplateBody']
           end
           attributes[:template]
+        end
+
+        # Set stack template
+        #
+        # @param template_body [String, Hash] stack template
+        # @return [String]
+        # @note if data structure provided, it will be dumped to JSON
+        #   content and stored
+        def template=(template_body)
+          unless(template_body.is_a?(String))
+            template_body = Fog::JSON.encode(template_body)
+          end
+          attributes[:template] = template_body
         end
 
         # Validate the template of the stack
