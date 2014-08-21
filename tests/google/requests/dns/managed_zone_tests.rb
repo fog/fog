@@ -20,12 +20,16 @@ Shindo.tests('Fog::DNS[:google] | managed_zone requests', ['google']) do
   tests('success') do
 
     zone_name = 'new-zone-test'
-    # TODO: this will fail in non-mocked mode, since Google requires
-    # confirmation of ownership for created domains in some cases.
-    zone_dns_name = 'fog-test.your-own-domain.com.'
-    # You can comment out this line if you set the above to a verified domain
-    # of yours.
-    tests('Needs a verified domain').pending unless Fog.mocking?
+    DEFAULT_ZONE_DNS_NAME = 'fog-test.your-own-domain.com.'
+    # Google requires confirmation of ownership for created domains in some
+    # cases.  If you want to run tests in non-mocked mode, set the environment
+    # variable to a domain you own.
+    zone_dns_name = ENV['FOG_TEST_GOOGLE_DNS_ZONE'] || DEFAULT_ZONE_DNS_NAME
+    unless Fog.mocking? or zone_dns_name != DEFAULT_ZONE_DNS_NAME
+      tests('Needs a verified domain, set $FOG_TEST_GOOGLE_DNS_ZONE').pending
+    end
+
+    tests("$FOG_TEST_GOOGLE_DNS_ZONE ends with dot").pending unless zone_dns_name.end_with?('.')
 
     tests("#create_managed_zone").data_matches_schema(
         @create_managed_zone_schema, {:allow_extra_keys => false}) do
