@@ -2,7 +2,7 @@ Shindo.tests('Fog::DNS[:google] | managed_zone requests', ['google']) do
 
   @google = Fog::DNS[:google]
 
-  @create_managed_zone_schema = {
+  @managed_zone_schema = {
       'kind' => String,
       'id' => String,
       'creationTime' => String,
@@ -14,7 +14,7 @@ Shindo.tests('Fog::DNS[:google] | managed_zone requests', ['google']) do
 
   @list_managed_zones_schema = {
       'kind' => String,
-      'managedZones' => [@create_managed_zone_schema],
+      'managedZones' => [@managed_zone_schema],
   }
 
   tests('success') do
@@ -32,8 +32,14 @@ Shindo.tests('Fog::DNS[:google] | managed_zone requests', ['google']) do
     tests("$FOG_TEST_GOOGLE_DNS_ZONE ends with dot").pending unless zone_dns_name.end_with?('.')
 
     tests("#create_managed_zone").data_matches_schema(
-        @create_managed_zone_schema, {:allow_extra_keys => false}) do
+        @managed_zone_schema, {:allow_extra_keys => false}) do
       @google.create_managed_zone(zone_name, zone_dns_name).body
+    end
+
+    tests("#get_managed_zone") do
+      response = @google.get_managed_zone(zone_name).body
+      tests('schema').data_matches_schema(@managed_zone_schema, {:allow_extra_keys => false}) { response }
+      tests('test zone present').returns(zone_name) { response['name'] }
     end
 
     tests("#list_managed_zones") do
@@ -43,13 +49,17 @@ Shindo.tests('Fog::DNS[:google] | managed_zone requests', ['google']) do
     end
 
     tests("#delete_managed_zone").returns(nil) do
-     @google.delete_managed_zone(zone_name).body
+      @google.delete_managed_zone(zone_name).body
     end
   end
 
   tests('failure') do
     tests("#delete_managed_zone").raises(Fog::Errors::NotFound) do
-     @google.delete_managed_zone('zone-which-does-not-exist').body
+      @google.delete_managed_zone('zone-which-does-not-exist').body
+    end
+
+    tests("#get_managed_zone").raises(Fog::Errors::NotFound) do
+      @google.get_managed_zone('zone-which-does-not-exist').body
     end
   end
 
