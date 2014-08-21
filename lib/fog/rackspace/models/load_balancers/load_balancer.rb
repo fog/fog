@@ -226,8 +226,9 @@ module Fog
         end
 
         private
+
         def create
-          requires :name, :protocol, :port, :virtual_ips, :nodes
+          requires :name, :protocol, :virtual_ips
 
           options = {}
           options[:algorithm] = algorithm if algorithm
@@ -244,10 +245,12 @@ module Fog
             :algorithm => algorithm,
             :protocol => protocol,
             :port => port,
-            :timeout => timeout }
+            :timeout => timeout
+          }
+
           service.update_load_balancer(identity, options)
 
-          #TODO - Should this bubble down to nodes? Without tracking changes this would be very inefficient.
+          # TODO - Should this bubble down to nodes? Without tracking changes this would be very inefficient.
           # For now, individual nodes will have to be saved individually after saving an LB
         end
 
