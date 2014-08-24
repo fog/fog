@@ -23,7 +23,7 @@ module Fog
           response.body = {
             "ERRORARRAY" => [],
             "ACTION"     => "linode.disk.resize",
-            "DATA"       => { "JobID" => rand(1000..9999) }
+            "DATA"       => { "JobID" => Fog::Mock.random_numbers(4) }
           }
           response
         end

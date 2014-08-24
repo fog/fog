@@ -25,8 +25,8 @@ module Fog
           response.body = {
             "ERRORARRAY" => [],
             "ACTION"     => "linode.disk.createfromimage",
-            "DATA"       => { "JobID" => rand(1000..9999),
-                              "DiskID" => rand(10000..99999) }
+            "DATA"       => { "JobID" => Fog::Mock.random_numbers(4),
+                              "DiskID" => Fog::Mock.random_numbers(5) }
           }
           response
         end

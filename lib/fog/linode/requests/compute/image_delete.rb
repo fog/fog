@@ -31,7 +31,7 @@ module Fog
                               "CREATE_DT" => "2014-06-23 13:45:12.0",
                               "USED" => rand(1..size),
                               "FS_TYPE" => "ext4",
-                              "USERID" => rand(1000..9999),
+                              "USERID" => Fog::Mock.random_numbers(4),
                               "IMAGEID" => image_id }
           }
           response

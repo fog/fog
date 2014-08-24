@@ -24,7 +24,7 @@ module Fog
           response.body = {
             "ERRORARRAY" => [],
             "ACTION"     => "linode.disk.update",
-            "DATA"       => { "DiskID" => rand(1000..99999) }
+            "DATA"       => { "DiskID" => Fog::Mock.random_numbers(5) }
           }
           response
         end

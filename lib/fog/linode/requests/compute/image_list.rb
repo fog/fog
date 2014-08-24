@@ -32,7 +32,7 @@ module Fog
           else
             mock_images = []
             rand(1..3).times do
-              image_id = rand(10000..99999)
+              image_id = Fog::Mock.random_numbers(5)
               mock_images << create_mock_image(image_id)
             end
             response.body = body.merge("DATA" => mock_images)
@@ -54,7 +54,7 @@ module Fog
             "CREATE_DT"  => "2014-06-29 5:39:19.0",
             "USED"       => rand(0...size),
             "FS_TYPE"    => "ext4",
-            "USERID"     => rand(10000..99999),
+            "USERID"     => Fog::Mock.random_numbers(5),
             "IMAGEID"    => image_id
           }
         end
