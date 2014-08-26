@@ -6,11 +6,16 @@ module Fog
         # Attaches an ISO to a virtual machine.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/attachIso.html]
-        def attach_iso(id, virtualmachineid, options={})
+        def attach_iso(options={})
+          request(options)
+        end
+
+
+        def attach_iso(virtualmachineid, id, options={})
           options.merge!(
             'command' => 'attachIso', 
-            'id' => id, 
-            'virtualmachineid' => virtualmachineid  
+            'virtualmachineid' => virtualmachineid, 
+            'id' => id  
           )
           request(options)
         end

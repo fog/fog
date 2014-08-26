@@ -6,15 +6,20 @@ module Fog
         # Creates and automatically starts a virtual machine based on a service offering, disk offering, and template.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createAutoScaleVmGroup.html]
-        def create_auto_scale_vm_group(lbruleid, vmprofileid, scaleuppolicyids, minmembers, scaledownpolicyids, maxmembers, options={})
+        def create_auto_scale_vm_group(options={})
+          request(options)
+        end
+
+
+        def create_auto_scale_vm_group(minmembers, scaleuppolicyids, scaledownpolicyids, maxmembers, vmprofileid, lbruleid, options={})
           options.merge!(
             'command' => 'createAutoScaleVmGroup', 
-            'lbruleid' => lbruleid, 
-            'vmprofileid' => vmprofileid, 
-            'scaleuppolicyids' => scaleuppolicyids, 
             'minmembers' => minmembers, 
+            'scaleuppolicyids' => scaleuppolicyids, 
             'scaledownpolicyids' => scaledownpolicyids, 
-            'maxmembers' => maxmembers  
+            'maxmembers' => maxmembers, 
+            'vmprofileid' => vmprofileid, 
+            'lbruleid' => lbruleid  
           )
           request(options)
         end

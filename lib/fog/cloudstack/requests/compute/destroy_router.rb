@@ -6,6 +6,11 @@ module Fog
         # Destroys a router.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/destroyRouter.html]
+        def destroy_router(options={})
+          request(options)
+        end
+
+
         def destroy_router(id, options={})
           options.merge!(
             'command' => 'destroyRouter', 

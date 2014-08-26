@@ -6,6 +6,11 @@ module Fog
         # Release the dedication for cluster
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/releaseDedicatedCluster.html]
+        def release_dedicated_cluster(options={})
+          request(options)
+        end
+
+
         def release_dedicated_cluster(clusterid, options={})
           options.merge!(
             'command' => 'releaseDedicatedCluster', 

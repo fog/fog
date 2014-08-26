@@ -6,6 +6,11 @@ module Fog
         # Deletes a Network ACL
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteNetworkACL.html]
+        def delete_network_acl(options={})
+          request(options)
+        end
+
+
         def delete_network_acl(id, options={})
           options.merge!(
             'command' => 'deleteNetworkACL', 

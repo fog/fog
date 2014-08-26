@@ -6,6 +6,11 @@ module Fog
         # lists network that are using SRX firewall device
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listSrxFirewallNetworks.html]
+        def list_srx_firewall_networks(options={})
+          request(options)
+        end
+
+
         def list_srx_firewall_networks(lbdeviceid, options={})
           options.merge!(
             'command' => 'listSrxFirewallNetworks', 

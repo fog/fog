@@ -6,11 +6,16 @@ module Fog
         # Creates a condition
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createCondition.html]
-        def create_condition(relationaloperator, threshold, counterid, options={})
+        def create_condition(options={})
+          request(options)
+        end
+
+
+        def create_condition(threshold, relationaloperator, counterid, options={})
           options.merge!(
             'command' => 'createCondition', 
-            'relationaloperator' => relationaloperator, 
             'threshold' => threshold, 
+            'relationaloperator' => relationaloperator, 
             'counterid' => counterid  
           )
           request(options)

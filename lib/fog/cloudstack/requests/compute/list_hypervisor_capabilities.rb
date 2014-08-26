@@ -7,6 +7,11 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listHypervisorCapabilities.html]
         def list_hypervisor_capabilities(options={})
+          request(options)
+        end
+
+
+        def list_hypervisor_capabilities(options={})
           options.merge!(
             'command' => 'listHypervisorCapabilities'  
           )

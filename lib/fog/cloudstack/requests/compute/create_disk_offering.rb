@@ -6,11 +6,16 @@ module Fog
         # Creates a disk offering.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createDiskOffering.html]
-        def create_disk_offering(name, displaytext, options={})
+        def create_disk_offering(options={})
+          request(options)
+        end
+
+
+        def create_disk_offering(displaytext, name, options={})
           options.merge!(
             'command' => 'createDiskOffering', 
-            'name' => name, 
-            'displaytext' => displaytext  
+            'displaytext' => displaytext, 
+            'name' => name  
           )
           request(options)
         end

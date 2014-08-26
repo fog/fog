@@ -6,6 +6,11 @@ module Fog
         # Stops a virtual machine.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/stopVirtualMachine.html]
+        def stop_virtual_machine(options={})
+          request(options)
+        end
+
+
         def stop_virtual_machine(id, options={})
           options.merge!(
             'command' => 'stopVirtualMachine', 

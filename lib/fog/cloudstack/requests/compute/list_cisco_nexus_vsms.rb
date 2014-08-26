@@ -7,6 +7,11 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listCiscoNexusVSMs.html]
         def list_cisco_nexus_vsms(options={})
+          request(options)
+        end
+
+
+        def list_cisco_nexus_vsms(options={})
           options.merge!(
             'command' => 'listCiscoNexusVSMs'  
           )

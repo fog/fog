@@ -6,6 +6,11 @@ module Fog
         # Updates a Zone.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateZone.html]
+        def update_zone(options={})
+          request(options)
+        end
+
+
         def update_zone(id, options={})
           options.merge!(
             'command' => 'updateZone', 

@@ -6,13 +6,18 @@ module Fog
         # Registers an existing ISO into the CloudStack Cloud.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/registerIso.html]
-        def register_iso(url, zoneid, displaytext, name, options={})
+        def register_iso(options={})
+          request(options)
+        end
+
+
+        def register_iso(name, displaytext, url, zoneid, options={})
           options.merge!(
             'command' => 'registerIso', 
-            'url' => url, 
-            'zoneid' => zoneid, 
+            'name' => name, 
             'displaytext' => displaytext, 
-            'name' => name  
+            'url' => url, 
+            'zoneid' => zoneid  
           )
           request(options)
         end

@@ -6,6 +6,11 @@ module Fog
         # Stops a system VM.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/stopSystemVm.html]
+        def stop_system_vm(options={})
+          request(options)
+        end
+
+
         def stop_system_vm(id, options={})
           options.merge!(
             'command' => 'stopSystemVm', 

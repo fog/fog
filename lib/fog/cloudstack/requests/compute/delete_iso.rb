@@ -6,6 +6,11 @@ module Fog
         # Deletes an ISO file.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteIso.html]
+        def delete_iso(options={})
+          request(options)
+        end
+
+
         def delete_iso(id, options={})
           options.merge!(
             'command' => 'deleteIso', 

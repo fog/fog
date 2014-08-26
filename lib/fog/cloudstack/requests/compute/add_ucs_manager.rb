@@ -6,13 +6,18 @@ module Fog
         # Adds a Ucs manager
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addUcsManager.html]
-        def add_ucs_manager(zoneid, url, password, username, options={})
+        def add_ucs_manager(options={})
+          request(options)
+        end
+
+
+        def add_ucs_manager(url, password, username, zoneid, options={})
           options.merge!(
             'command' => 'addUcsManager', 
-            'zoneid' => zoneid, 
             'url' => url, 
             'password' => password, 
-            'username' => username  
+            'username' => username, 
+            'zoneid' => zoneid  
           )
           request(options)
         end

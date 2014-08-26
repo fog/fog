@@ -6,6 +6,11 @@ module Fog
         # Deletes a network
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteNetwork.html]
+        def delete_network(options={})
+          request(options)
+        end
+
+
         def delete_network(id, options={})
           options.merge!(
             'command' => 'deleteNetwork', 

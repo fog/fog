@@ -6,6 +6,11 @@ module Fog
         # Cancels host maintenance.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/cancelHostMaintenance.html]
+        def cancel_host_maintenance(options={})
+          request(options)
+        end
+
+
         def cancel_host_maintenance(id, options={})
           options.merge!(
             'command' => 'cancelHostMaintenance', 

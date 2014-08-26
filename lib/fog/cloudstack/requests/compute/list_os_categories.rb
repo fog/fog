@@ -7,6 +7,11 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listOsCategories.html]
         def list_os_categories(options={})
+          request(options)
+        end
+
+
+        def list_os_categories(options={})
           options.merge!(
             'command' => 'listOsCategories'  
           )

@@ -6,14 +6,19 @@ module Fog
         # Creates site to site vpn customer gateway
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createVpnCustomerGateway.html]
-        def create_vpn_customer_gateway(gateway, cidrlist, ipsecpsk, ikepolicy, esppolicy, options={})
+        def create_vpn_customer_gateway(options={})
+          request(options)
+        end
+
+
+        def create_vpn_customer_gateway(esppolicy, cidrlist, ikepolicy, gateway, ipsecpsk, options={})
           options.merge!(
             'command' => 'createVpnCustomerGateway', 
-            'gateway' => gateway, 
+            'esppolicy' => esppolicy, 
             'cidrlist' => cidrlist, 
-            'ipsecpsk' => ipsecpsk, 
             'ikepolicy' => ikepolicy, 
-            'esppolicy' => esppolicy  
+            'gateway' => gateway, 
+            'ipsecpsk' => ipsecpsk  
           )
           request(options)
         end

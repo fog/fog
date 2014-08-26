@@ -6,14 +6,19 @@ module Fog
         # Creates a port forwarding rule
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createPortForwardingRule.html]
-        def create_port_forwarding_rule(publicport, virtualmachineid, ipaddressid, privateport, protocol, options={})
+        def create_port_forwarding_rule(options={})
+          request(options)
+        end
+
+
+        def create_port_forwarding_rule(virtualmachineid, protocol, privateport, ipaddressid, publicport, options={})
           options.merge!(
             'command' => 'createPortForwardingRule', 
-            'publicport' => publicport, 
             'virtualmachineid' => virtualmachineid, 
-            'ipaddressid' => ipaddressid, 
+            'protocol' => protocol, 
             'privateport' => privateport, 
-            'protocol' => protocol  
+            'ipaddressid' => ipaddressid, 
+            'publicport' => publicport  
           )
           request(options)
         end

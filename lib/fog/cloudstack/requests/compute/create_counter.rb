@@ -6,12 +6,17 @@ module Fog
         # Adds metric counter
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createCounter.html]
-        def create_counter(source, value, name, options={})
+        def create_counter(options={})
+          request(options)
+        end
+
+
+        def create_counter(name, value, source, options={})
           options.merge!(
             'command' => 'createCounter', 
-            'source' => source, 
+            'name' => name, 
             'value' => value, 
-            'name' => name  
+            'source' => source  
           )
           request(options)
         end

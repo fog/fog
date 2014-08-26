@@ -6,6 +6,11 @@ module Fog
         # Adds Traffic Monitor Host for Direct Network Usage
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addTrafficMonitor.html]
+        def add_traffic_monitor(options={})
+          request(options)
+        end
+
+
         def add_traffic_monitor(zoneid, url, options={})
           options.merge!(
             'command' => 'addTrafficMonitor', 

@@ -6,6 +6,11 @@ module Fog
         # List template visibility and all accounts that have permissions to view this template.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listTemplatePermissions.html]
+        def list_template_permissions(options={})
+          request(options)
+        end
+
+
         def list_template_permissions(id, options={})
           options.merge!(
             'command' => 'listTemplatePermissions', 

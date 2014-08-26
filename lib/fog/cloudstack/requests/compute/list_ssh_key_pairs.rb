@@ -7,6 +7,11 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listSSHKeyPairs.html]
         def list_ssh_key_pairs(options={})
+          request(options)
+        end
+
+
+        def list_ssh_key_pairs(options={})
           options.merge!(
             'command' => 'listSSHKeyPairs'  
           )

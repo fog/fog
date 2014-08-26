@@ -7,6 +7,11 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listNetworks.html]
         def list_networks(options={})
+          request(options)
+        end
+
+
+        def list_networks(options={})
           options.merge!(
             'command' => 'listNetworks'  
           )

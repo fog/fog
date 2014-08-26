@@ -6,11 +6,16 @@ module Fog
         # Scales the virtual machine to a new service offering.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/scaleVirtualMachine.html]
-        def scale_virtual_machine(id, serviceofferingid, options={})
+        def scale_virtual_machine(options={})
+          request(options)
+        end
+
+
+        def scale_virtual_machine(serviceofferingid, id, options={})
           options.merge!(
             'command' => 'scaleVirtualMachine', 
-            'id' => id, 
-            'serviceofferingid' => serviceofferingid  
+            'serviceofferingid' => serviceofferingid, 
+            'id' => id  
           )
           request(options)
         end

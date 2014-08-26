@@ -6,16 +6,21 @@ module Fog
         # Registers an existing template into the CloudStack cloud. 
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/registerTemplate.html]
-        def register_template(ostypeid, hypervisor, name, format, zoneid, displaytext, url, options={})
+        def register_template(options={})
+          request(options)
+        end
+
+
+        def register_template(zoneid, format, hypervisor, url, name, ostypeid, displaytext, options={})
           options.merge!(
             'command' => 'registerTemplate', 
-            'ostypeid' => ostypeid, 
-            'hypervisor' => hypervisor, 
-            'name' => name, 
-            'format' => format, 
             'zoneid' => zoneid, 
-            'displaytext' => displaytext, 
-            'url' => url  
+            'format' => format, 
+            'hypervisor' => hypervisor, 
+            'url' => url, 
+            'name' => name, 
+            'ostypeid' => ostypeid, 
+            'displaytext' => displaytext  
           )
           request(options)
         end

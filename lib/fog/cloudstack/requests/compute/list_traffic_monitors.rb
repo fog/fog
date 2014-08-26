@@ -6,6 +6,11 @@ module Fog
         # List traffic monitor Hosts.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listTrafficMonitors.html]
+        def list_traffic_monitors(options={})
+          request(options)
+        end
+
+
         def list_traffic_monitors(zoneid, options={})
           options.merge!(
             'command' => 'listTrafficMonitors', 

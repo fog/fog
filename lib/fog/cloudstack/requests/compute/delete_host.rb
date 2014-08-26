@@ -6,6 +6,11 @@ module Fog
         # Deletes a host.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteHost.html]
+        def delete_host(options={})
+          request(options)
+        end
+
+
         def delete_host(id, options={})
           options.merge!(
             'command' => 'deleteHost', 

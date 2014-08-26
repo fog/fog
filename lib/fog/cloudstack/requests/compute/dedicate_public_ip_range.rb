@@ -6,12 +6,17 @@ module Fog
         # Dedicates a Public IP range to an account
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/dedicatePublicIpRange.html]
-        def dedicate_public_ip_range(domainid, id, account, options={})
+        def dedicate_public_ip_range(options={})
+          request(options)
+        end
+
+
+        def dedicate_public_ip_range(domainid, account, id, options={})
           options.merge!(
             'command' => 'dedicatePublicIpRange', 
             'domainid' => domainid, 
-            'id' => id, 
-            'account' => account  
+            'account' => account, 
+            'id' => id  
           )
           request(options)
         end

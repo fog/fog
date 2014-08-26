@@ -6,12 +6,16 @@ module Fog
         # Copies a template from one zone to another.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/copyTemplate.html]
-        def copy_template(destzoneid, id, sourcezoneid, options={})
+        def copy_template(options={})
+          request(options)
+        end
+
+
+        def copy_template(id, destzoneid, options={})
           options.merge!(
             'command' => 'copyTemplate', 
-            'destzoneid' => destzoneid, 
             'id' => id, 
-            'sourcezoneid' => sourcezoneid  
+            'destzoneid' => destzoneid  
           )
           request(options)
         end

@@ -6,11 +6,16 @@ module Fog
         # Creates a static route
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createStaticRoute.html]
-        def create_static_route(cidr, gatewayid, options={})
+        def create_static_route(options={})
+          request(options)
+        end
+
+
+        def create_static_route(gatewayid, cidr, options={})
           options.merge!(
             'command' => 'createStaticRoute', 
-            'cidr' => cidr, 
-            'gatewayid' => gatewayid  
+            'gatewayid' => gatewayid, 
+            'cidr' => cidr  
           )
           request(options)
         end
