@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listVPCOfferings.html]
         def list_vpc_offerings(options={})
-          request(options)
-        end
-
-
-        def list_vpc_offerings(options={})
           options.merge!(
             'command' => 'listVPCOfferings'  
           )

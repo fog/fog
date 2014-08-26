@@ -6,17 +6,12 @@ module Fog
         # Creates a Load Balancer stickiness policy 
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createLBStickinessPolicy.html]
-        def create_lb_stickiness_policy(options={})
-          request(options)
-        end
-
-
-        def create_lb_stickiness_policy(methodname, name, lbruleid, options={})
+        def create_lb_stickiness_policy(lbruleid, methodname, name, options={})
           options.merge!(
             'command' => 'createLBStickinessPolicy', 
+            'lbruleid' => lbruleid, 
             'methodname' => methodname, 
-            'name' => name, 
-            'lbruleid' => lbruleid  
+            'name' => name  
           )
           request(options)
         end

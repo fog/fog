@@ -6,16 +6,14 @@ module Fog
         # Creates a service offering.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createServiceOffering.html]
-        def create_service_offering(options={})
-          request(options)
-        end
-
-
-        def create_service_offering(name, displaytext, options={})
+        def create_service_offering(displaytext, cpunumber, name, memory, cpuspeed, options={})
           options.merge!(
             'command' => 'createServiceOffering', 
+            'displaytext' => displaytext, 
+            'cpunumber' => cpunumber, 
             'name' => name, 
-            'displaytext' => displaytext  
+            'memory' => memory, 
+            'cpuspeed' => cpuspeed  
           )
           request(options)
         end

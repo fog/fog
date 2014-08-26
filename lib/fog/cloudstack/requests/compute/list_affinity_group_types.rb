@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listAffinityGroupTypes.html]
         def list_affinity_group_types(options={})
-          request(options)
-        end
-
-
-        def list_affinity_group_types(options={})
           options.merge!(
             'command' => 'listAffinityGroupTypes'  
           )

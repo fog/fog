@@ -6,11 +6,6 @@ module Fog
         # Prepares a host for maintenance.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/prepareHostForMaintenance.html]
-        def prepare_host_for_maintenance(options={})
-          request(options)
-        end
-
-
         def prepare_host_for_maintenance(id, options={})
           options.merge!(
             'command' => 'prepareHostForMaintenance', 

@@ -6,11 +6,6 @@ module Fog
         #  delete a netscaler load balancer device
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteNetscalerLoadBalancer.html]
-        def delete_netscaler_load_balancer(options={})
-          request(options)
-        end
-
-
         def delete_netscaler_load_balancer(lbdeviceid, options={})
           options.merge!(
             'command' => 'deleteNetscalerLoadBalancer', 

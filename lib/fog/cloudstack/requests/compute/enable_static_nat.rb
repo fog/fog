@@ -6,11 +6,6 @@ module Fog
         # Enables static nat for given ip address
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/enableStaticNat.html]
-        def enable_static_nat(options={})
-          request(options)
-        end
-
-
         def enable_static_nat(ipaddressid, virtualmachineid, options={})
           options.merge!(
             'command' => 'enableStaticNat', 

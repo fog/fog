@@ -6,11 +6,6 @@ module Fog
         # Reboots a virtual machine.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/rebootVirtualMachine.html]
-        def reboot_virtual_machine(options={})
-          request(options)
-        end
-
-
         def reboot_virtual_machine(id, options={})
           options.merge!(
             'command' => 'rebootVirtualMachine', 

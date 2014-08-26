@@ -6,11 +6,6 @@ module Fog
         # Updates a storage pool.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateStoragePool.html]
-        def update_storage_pool(options={})
-          request(options)
-        end
-
-
         def update_storage_pool(id, options={})
           options.merge!(
             'command' => 'updateStoragePool', 

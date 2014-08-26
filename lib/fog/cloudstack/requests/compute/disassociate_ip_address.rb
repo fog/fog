@@ -6,11 +6,6 @@ module Fog
         # Disassociates an ip address from the account.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/disassociateIpAddress.html]
-        def disassociate_ip_address(options={})
-          request(options)
-        end
-
-
         def disassociate_ip_address(id, options={})
           options.merge!(
             'command' => 'disassociateIpAddress', 

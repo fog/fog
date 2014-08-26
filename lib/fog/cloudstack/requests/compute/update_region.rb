@@ -6,11 +6,6 @@ module Fog
         # Updates a region
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateRegion.html]
-        def update_region(options={})
-          request(options)
-        end
-
-
         def update_region(id, options={})
           options.merge!(
             'command' => 'updateRegion', 

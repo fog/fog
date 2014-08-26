@@ -6,11 +6,6 @@ module Fog
         # Deletes a port forwarding rule
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deletePortForwardingRule.html]
-        def delete_port_forwarding_rule(options={})
-          request(options)
-        end
-
-
         def delete_port_forwarding_rule(id, options={})
           options.merge!(
             'command' => 'deletePortForwardingRule', 

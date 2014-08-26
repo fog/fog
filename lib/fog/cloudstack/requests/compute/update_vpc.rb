@@ -6,15 +6,11 @@ module Fog
         # Updates a VPC
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateVPC.html]
-        def update_vpc(options={})
-          request(options)
-        end
-
-
-        def update_vpc(id, options={})
+        def update_vpc(id, name, options={})
           options.merge!(
             'command' => 'updateVPC', 
-            'id' => id  
+            'id' => id, 
+            'name' => name  
           )
           request(options)
         end

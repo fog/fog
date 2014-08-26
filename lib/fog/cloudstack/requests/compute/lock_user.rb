@@ -6,11 +6,6 @@ module Fog
         # Locks a user account
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/lockUser.html]
-        def lock_user(options={})
-          request(options)
-        end
-
-
         def lock_user(id, options={})
           options.merge!(
             'command' => 'lockUser', 

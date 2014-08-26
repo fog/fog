@@ -6,17 +6,12 @@ module Fog
         # Creates a storage pool.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createStoragePool.html]
-        def create_storage_pool(options={})
-          request(options)
-        end
-
-
-        def create_storage_pool(url, name, zoneid, options={})
+        def create_storage_pool(url, zoneid, name, options={})
           options.merge!(
             'command' => 'createStoragePool', 
             'url' => url, 
-            'name' => name, 
-            'zoneid' => zoneid  
+            'zoneid' => zoneid, 
+            'name' => name  
           )
           request(options)
         end

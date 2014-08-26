@@ -6,11 +6,6 @@ module Fog
         # Reconnects a host.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/reconnectHost.html]
-        def reconnect_host(options={})
-          request(options)
-        end
-
-
         def reconnect_host(id, options={})
           options.merge!(
             'command' => 'reconnectHost', 

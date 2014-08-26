@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listAccounts.html]
         def list_accounts(options={})
-          request(options)
-        end
-
-
-        def list_accounts(options={})
           options.merge!(
             'command' => 'listAccounts'  
           )

@@ -6,11 +6,6 @@ module Fog
         # Release the dedication for the pod
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/releaseDedicatedPod.html]
-        def release_dedicated_pod(options={})
-          request(options)
-        end
-
-
         def release_dedicated_pod(podid, options={})
           options.merge!(
             'command' => 'releaseDedicatedPod', 

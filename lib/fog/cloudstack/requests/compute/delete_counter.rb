@@ -6,11 +6,6 @@ module Fog
         # Deletes a counter
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteCounter.html]
-        def delete_counter(options={})
-          request(options)
-        end
-
-
         def delete_counter(id, options={})
           options.merge!(
             'command' => 'deleteCounter', 

@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listStaticRoutes.html]
         def list_static_routes(options={})
-          request(options)
-        end
-
-
-        def list_static_routes(options={})
           options.merge!(
             'command' => 'listStaticRoutes'  
           )

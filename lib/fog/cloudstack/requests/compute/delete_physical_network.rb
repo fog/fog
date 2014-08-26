@@ -6,11 +6,6 @@ module Fog
         # Deletes a Physical Network.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deletePhysicalNetwork.html]
-        def delete_physical_network(options={})
-          request(options)
-        end
-
-
         def delete_physical_network(id, options={})
           options.merge!(
             'command' => 'deletePhysicalNetwork', 

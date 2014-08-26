@@ -6,11 +6,6 @@ module Fog
         # Deletes a secondary staging store .
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteSecondaryStagingStore.html]
-        def delete_secondary_staging_store(options={})
-          request(options)
-        end
-
-
         def delete_secondary_staging_store(id, options={})
           options.merge!(
             'command' => 'deleteSecondaryStagingStore', 

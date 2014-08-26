@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listCiscoAsa1000vResources.html]
         def list_cisco_asa1000v_resources(options={})
-          request(options)
-        end
-
-
-        def list_cisco_asa1000v_resources(options={})
           options.merge!(
             'command' => 'listCiscoAsa1000vResources'  
           )

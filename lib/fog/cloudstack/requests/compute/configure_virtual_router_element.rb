@@ -6,11 +6,6 @@ module Fog
         # Configures a virtual router element.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/configureVirtualRouterElement.html]
-        def configure_virtual_router_element(options={})
-          request(options)
-        end
-
-
         def configure_virtual_router_element(id, enabled, options={})
           options.merge!(
             'command' => 'configureVirtualRouterElement', 

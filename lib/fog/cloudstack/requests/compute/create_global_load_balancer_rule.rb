@@ -6,16 +6,11 @@ module Fog
         # Creates a global load balancer rule
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createGlobalLoadBalancerRule.html]
-        def create_global_load_balancer_rule(options={})
-          request(options)
-        end
-
-
-        def create_global_load_balancer_rule(gslbdomainname, gslbservicetype, regionid, name, options={})
+        def create_global_load_balancer_rule(gslbservicetype, gslbdomainname, regionid, name, options={})
           options.merge!(
             'command' => 'createGlobalLoadBalancerRule', 
-            'gslbdomainname' => gslbdomainname, 
             'gslbservicetype' => gslbservicetype, 
+            'gslbdomainname' => gslbdomainname, 
             'regionid' => regionid, 
             'name' => name  
           )

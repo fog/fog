@@ -6,18 +6,13 @@ module Fog
         # Creates a Storage network IP range.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createStorageNetworkIpRange.html]
-        def create_storage_network_ip_range(options={})
-          request(options)
-        end
-
-
-        def create_storage_network_ip_range(podid, netmask, gateway, startip, options={})
+        def create_storage_network_ip_range(netmask, gateway, startip, podid, options={})
           options.merge!(
             'command' => 'createStorageNetworkIpRange', 
-            'podid' => podid, 
             'netmask' => netmask, 
             'gateway' => gateway, 
-            'startip' => startip  
+            'startip' => startip, 
+            'podid' => podid  
           )
           request(options)
         end

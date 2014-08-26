@@ -6,11 +6,6 @@ module Fog
         # Removes specified region
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/removeRegion.html]
-        def remove_region(options={})
-          request(options)
-        end
-
-
         def remove_region(id, options={})
           options.merge!(
             'command' => 'removeRegion', 

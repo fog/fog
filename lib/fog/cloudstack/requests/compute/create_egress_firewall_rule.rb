@@ -6,16 +6,11 @@ module Fog
         # Creates a egress firewall rule for a given network 
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createEgressFirewallRule.html]
-        def create_egress_firewall_rule(options={})
-          request(options)
-        end
-
-
-        def create_egress_firewall_rule(networkid, protocol, options={})
+        def create_egress_firewall_rule(protocol, networkid, options={})
           options.merge!(
             'command' => 'createEgressFirewallRule', 
-            'networkid' => networkid, 
-            'protocol' => protocol  
+            'protocol' => protocol, 
+            'networkid' => networkid  
           )
           request(options)
         end

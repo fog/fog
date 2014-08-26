@@ -6,11 +6,6 @@ module Fog
         # Adds a SRX firewall device
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addSrxFirewall.html]
-        def add_srx_firewall(options={})
-          request(options)
-        end
-
-
         def add_srx_firewall(username, networkdevicetype, physicalnetworkid, password, url, options={})
           options.merge!(
             'command' => 'addSrxFirewall', 

@@ -6,17 +6,12 @@ module Fog
         # Creates and automatically starts a virtual machine based on a service offering, disk offering, and template.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deployVirtualMachine.html]
-        def deploy_virtual_machine(options={})
-          request(options)
-        end
-
-
-        def deploy_virtual_machine(templateid, zoneid, serviceofferingid, options={})
+        def deploy_virtual_machine(serviceofferingid, templateid, zoneid, options={})
           options.merge!(
             'command' => 'deployVirtualMachine', 
+            'serviceofferingid' => serviceofferingid, 
             'templateid' => templateid, 
-            'zoneid' => zoneid, 
-            'serviceofferingid' => serviceofferingid  
+            'zoneid' => zoneid  
           )
           request(options)
         end

@@ -6,11 +6,6 @@ module Fog
         # Releases host reservation.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/releaseHostReservation.html]
-        def release_host_reservation(options={})
-          request(options)
-        end
-
-
         def release_host_reservation(id, options={})
           options.merge!(
             'command' => 'releaseHostReservation', 

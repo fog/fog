@@ -6,11 +6,6 @@ module Fog
         # Adds a Region
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addRegion.html]
-        def add_region(options={})
-          request(options)
-        end
-
-
         def add_region(id, name, endpoint, options={})
           options.merge!(
             'command' => 'addRegion', 

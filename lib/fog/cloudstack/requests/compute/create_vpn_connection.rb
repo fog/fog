@@ -6,16 +6,11 @@ module Fog
         # Create site to site vpn connection
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createVpnConnection.html]
-        def create_vpn_connection(options={})
-          request(options)
-        end
-
-
-        def create_vpn_connection(s2svpngatewayid, s2scustomergatewayid, options={})
+        def create_vpn_connection(s2scustomergatewayid, s2svpngatewayid, options={})
           options.merge!(
             'command' => 'createVpnConnection', 
-            's2svpngatewayid' => s2svpngatewayid, 
-            's2scustomergatewayid' => s2scustomergatewayid  
+            's2scustomergatewayid' => s2scustomergatewayid, 
+            's2svpngatewayid' => s2svpngatewayid  
           )
           request(options)
         end

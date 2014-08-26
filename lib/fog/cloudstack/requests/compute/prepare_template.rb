@@ -6,11 +6,6 @@ module Fog
         # load template into primary storage
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/prepareTemplate.html]
-        def prepare_template(options={})
-          request(options)
-        end
-
-
         def prepare_template(templateid, zoneid, options={})
           options.merge!(
             'command' => 'prepareTemplate', 

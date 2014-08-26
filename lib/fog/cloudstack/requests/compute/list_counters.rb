@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listCounters.html]
         def list_counters(options={})
-          request(options)
-        end
-
-
-        def list_counters(options={})
           options.merge!(
             'command' => 'listCounters'  
           )

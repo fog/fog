@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listUsageTypes.html]
         def list_usage_types(options={})
-          request(options)
-        end
-
-
-        def list_usage_types(options={})
           options.merge!(
             'command' => 'listUsageTypes'  
           )

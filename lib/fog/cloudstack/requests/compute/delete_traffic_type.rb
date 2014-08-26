@@ -6,11 +6,6 @@ module Fog
         # Deletes traffic type of a physical network
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteTrafficType.html]
-        def delete_traffic_type(options={})
-          request(options)
-        end
-
-
         def delete_traffic_type(id, options={})
           options.merge!(
             'command' => 'deleteTrafficType', 
