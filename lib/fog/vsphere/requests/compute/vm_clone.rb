@@ -183,25 +183,63 @@ module Fog
             cust_hwclockutc = cust_options['hw_clock_utc']
             cust_timezone = cust_options['time_zone']
             # Start Building objects
-            # Build the CustomizationLinuxPrep Object
-            cust_prep = RbVmomi::VIM::CustomizationLinuxPrep.new(
-              :domain => cust_domain,
-              :hostName => cust_hostname,
-              :hwClockUTC => cust_hwclockutc,
-              :timeZone => cust_timezone)
+            if vm_mob_ref.summary.config.guestId =~ /windows/
+              cust_guiUnattended = RbVmomi::VIM::CustomizationGuiUnattended.new(
+                  :autoLogon => false,
+                  :autoLogonCount => 1,
+                  :password => RbVmomi::VIM::CustomizationPassword.new(:plainText=>true,:value=>options['password']),
+                  :timeZone => 1
+              )
+              cust_identification = RbVmomi::VIM::CustomizationIdentification.new(
+                  :domainAdmin => nil,
+                  :domainAdminPassword => nil,
+                  :joinDomain => nil,
+              )
+              cust_user_data = RbVmomi::VIM::CustomizationUserData.new(
+                  :computerName => cust_hostname,
+                  :fullName => options['name'],
+                  :orgName => options['name'],
+                  :productId => options['win_key'],
+              )
+              cust_prep = RbVmomi::VIM::CustomizationSysprep.new(
+                  :guiUnattended => cust_guiUnattended,
+                  :identification => cust_identification,
+                  :userData => cust_user_data,
+                  :guiRunOnce => RbVmomi::VIM::CustomizationGuiRunOnce.new(
+                    :commandList => ["cmd.exe /c net user administrator /active:yes"]
+                  ),
+              )
+              cust_global_ip_settings = RbVmomi::VIM::CustomizationGlobalIPSettings.new()
+              cust_adapter_mapping = [RbVmomi::VIM::CustomizationAdapterMapping.new(
+                :adapter => RbVmomi::VIM::CustomizationIPSettings.new("ip" => RbVmomi::VIM::CustomizationDhcpIpGenerator.new())
+              )]
+              new_windowsOptions = RbVmomi::VIM::CustomizationWinOptions.new(
+                :changeSID => true,
+                :deleteAccounts => true,
+                # :reboot=>RbVmomi::VIM::CustomizationSysprepRebootOption.new("reboot")
+              )
+              cust_adapter_mapping = [RbVmomi::VIM::CustomizationAdapterMapping.new("adapter" => cust_ip_settings)]
+              # Build the customization Spec
+              customization_spec = RbVmomi::VIM::CustomizationSpec.new(
+                :identity => cust_prep,
+                :globalIPSettings => cust_global_ip_settings,
+                :nicSettingMap => cust_adapter_mapping,
+                :options=>new_windowsOptions
+              )
+            else
+              cust_prep = RbVmomi::VIM::CustomizationLinuxPrep.new(
+                :domain => cust_domain,
+                :hostName => cust_hostname,
+                :hwClockUTC => cust_hwclockutc,
+                :timeZone => cust_timezone)
+              #we use cloud-init to do the settings, if the system is windows, we might need do more work
+              customization_spec = nil
+            end
             # Build the Custom Adapter Mapping Supports only one eth right now
-            cust_adapter_mapping = [RbVmomi::VIM::CustomizationAdapterMapping.new("adapter" => cust_ip_settings)]
-            # Build the customization Spec
-            customization_spec = RbVmomi::VIM::CustomizationSpec.new(
-              :identity => cust_prep,
-              :globalIPSettings => cust_global_ip_settings,
-              :nicSettingMap => cust_adapter_mapping)
           end
-          # we use cloud-init to do the settings, if the system is windows, we might need do more work
-          customization_spec = nil
-          # customization_spec ||= nil
 
-          relocation_spec=nil
+          # customization_spec ||= nil
+          relocation_spec = nil
           if ( options['linked_clone'] )
             # cribbed heavily from the rbvmomi clone_vm.rb
             # this chunk of code reconfigures the disk of the clone source to be read only,
