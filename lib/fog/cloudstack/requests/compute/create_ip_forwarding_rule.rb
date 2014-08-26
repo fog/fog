@@ -6,12 +6,17 @@ module Fog
         # Creates an ip forwarding rule
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createIpForwardingRule.html]
-        def create_ip_forwarding_rule(startport, protocol, ipaddressid, options={})
+        def create_ip_forwarding_rule(options={})
+          request(options)
+        end
+
+
+        def create_ip_forwarding_rule(ipaddressid, protocol, startport, options={})
           options.merge!(
             'command' => 'createIpForwardingRule', 
-            'startport' => startport, 
+            'ipaddressid' => ipaddressid, 
             'protocol' => protocol, 
-            'ipaddressid' => ipaddressid  
+            'startport' => startport  
           )
           request(options)
         end

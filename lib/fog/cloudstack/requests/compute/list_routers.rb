@@ -7,6 +7,11 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listRouters.html]
         def list_routers(options={})
+          request(options)
+        end
+
+
+        def list_routers(options={})
           options.merge!(
             'command' => 'listRouters'  
           )

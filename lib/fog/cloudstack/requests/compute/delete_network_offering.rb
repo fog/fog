@@ -6,6 +6,11 @@ module Fog
         # Deletes a network offering.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteNetworkOffering.html]
+        def delete_network_offering(options={})
+          request(options)
+        end
+
+
         def delete_network_offering(id, options={})
           options.merge!(
             'command' => 'deleteNetworkOffering', 

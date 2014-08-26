@@ -6,14 +6,19 @@ module Fog
         # Creates a snapshot policy for the account.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createSnapshotPolicy.html]
-        def create_snapshot_policy(intervaltype, volumeid, schedule, maxsnaps, timezone, options={})
+        def create_snapshot_policy(options={})
+          request(options)
+        end
+
+
+        def create_snapshot_policy(volumeid, maxsnaps, timezone, intervaltype, schedule, options={})
           options.merge!(
             'command' => 'createSnapshotPolicy', 
-            'intervaltype' => intervaltype, 
             'volumeid' => volumeid, 
-            'schedule' => schedule, 
             'maxsnaps' => maxsnaps, 
-            'timezone' => timezone  
+            'timezone' => timezone, 
+            'intervaltype' => intervaltype, 
+            'schedule' => schedule  
           )
           request(options)
         end

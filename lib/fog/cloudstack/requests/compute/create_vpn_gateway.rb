@@ -6,6 +6,11 @@ module Fog
         # Creates site to site vpn local gateway
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createVpnGateway.html]
+        def create_vpn_gateway(options={})
+          request(options)
+        end
+
+
         def create_vpn_gateway(vpcid, options={})
           options.merge!(
             'command' => 'createVpnGateway', 

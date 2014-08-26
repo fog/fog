@@ -6,6 +6,11 @@ module Fog
         # List external firewall appliances.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listExternalFirewalls.html]
+        def list_external_firewalls(options={})
+          request(options)
+        end
+
+
         def list_external_firewalls(zoneid, options={})
           options.merge!(
             'command' => 'listExternalFirewalls', 

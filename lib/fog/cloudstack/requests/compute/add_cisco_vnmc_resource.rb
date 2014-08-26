@@ -6,13 +6,18 @@ module Fog
         # Adds a Cisco Vnmc Controller
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addCiscoVnmcResource.html]
-        def add_cisco_vnmc_resource(physicalnetworkid, hostname, password, username, options={})
+        def add_cisco_vnmc_resource(options={})
+          request(options)
+        end
+
+
+        def add_cisco_vnmc_resource(username, hostname, password, physicalnetworkid, options={})
           options.merge!(
             'command' => 'addCiscoVnmcResource', 
-            'physicalnetworkid' => physicalnetworkid, 
+            'username' => username, 
             'hostname' => hostname, 
             'password' => password, 
-            'username' => username  
+            'physicalnetworkid' => physicalnetworkid  
           )
           request(options)
         end

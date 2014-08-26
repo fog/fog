@@ -7,6 +7,11 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listDiskOfferings.html]
         def list_disk_offerings(options={})
+          request(options)
+        end
+
+
+        def list_disk_offerings(options={})
           options.merge!(
             'command' => 'listDiskOfferings'  
           )

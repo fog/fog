@@ -6,15 +6,20 @@ module Fog
         # add a baremetal host
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addBaremetalHost.html]
-        def add_baremetal_host(zoneid, password, podid, username, hypervisor, url, options={})
+        def add_baremetal_host(options={})
+          request(options)
+        end
+
+
+        def add_baremetal_host(podid, url, hypervisor, username, zoneid, password, options={})
           options.merge!(
             'command' => 'addBaremetalHost', 
-            'zoneid' => zoneid, 
-            'password' => password, 
             'podid' => podid, 
-            'username' => username, 
+            'url' => url, 
             'hypervisor' => hypervisor, 
-            'url' => url  
+            'username' => username, 
+            'zoneid' => zoneid, 
+            'password' => password  
           )
           request(options)
         end

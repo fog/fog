@@ -7,6 +7,11 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listVMSnapshot.html]
         def list_vm_snapshot(options={})
+          request(options)
+        end
+
+
+        def list_vm_snapshot(options={})
           options.merge!(
             'command' => 'listVMSnapshot'  
           )

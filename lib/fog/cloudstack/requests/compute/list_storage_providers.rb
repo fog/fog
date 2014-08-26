@@ -6,6 +6,11 @@ module Fog
         # Lists storage providers.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listStorageProviders.html]
+        def list_storage_providers(options={})
+          request(options)
+        end
+
+
         def list_storage_providers(type, options={})
           options.merge!(
             'command' => 'listStorageProviders', 

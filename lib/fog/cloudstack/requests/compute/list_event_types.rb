@@ -7,6 +7,11 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listEventTypes.html]
         def list_event_types(options={})
+          request(options)
+        end
+
+
+        def list_event_types(options={})
           options.merge!(
             'command' => 'listEventTypes'  
           )

@@ -6,6 +6,11 @@ module Fog
         # Deletes a user for an account
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteUser.html]
+        def delete_user(options={})
+          request(options)
+        end
+
+
         def delete_user(id, options={})
           options.merge!(
             'command' => 'deleteUser', 

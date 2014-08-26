@@ -6,14 +6,19 @@ module Fog
         # Creates a user for an account that already exists
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createUser.html]
-        def create_user(username, email, firstname, lastname, password, account, options={})
+        def create_user(options={})
+          request(options)
+        end
+
+
+        def create_user(email, username, lastname, password, firstname, account, options={})
           options.merge!(
             'command' => 'createUser', 
-            'username' => username, 
             'email' => email, 
-            'firstname' => firstname, 
+            'username' => username, 
             'lastname' => lastname, 
             'password' => password, 
+            'firstname' => firstname, 
             'account' => account  
           )
           request(options)

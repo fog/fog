@@ -6,6 +6,11 @@ module Fog
         # Destroys a virtual machine. Once destroyed, only the administrator can recover it.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/destroyVirtualMachine.html]
+        def destroy_virtual_machine(options={})
+          request(options)
+        end
+
+
         def destroy_virtual_machine(id, options={})
           options.merge!(
             'command' => 'destroyVirtualMachine', 

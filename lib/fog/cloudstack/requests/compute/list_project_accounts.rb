@@ -6,6 +6,11 @@ module Fog
         # Lists project's accounts
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listProjectAccounts.html]
+        def list_project_accounts(options={})
+          request(options)
+        end
+
+
         def list_project_accounts(projectid, options={})
           options.merge!(
             'command' => 'listProjectAccounts', 

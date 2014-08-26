@@ -6,6 +6,11 @@ module Fog
         # Returns an encrypted password for the VM
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/getVMPassword.html]
+        def get_vm_password(options={})
+          request(options)
+        end
+
+
         def get_vm_password(id, options={})
           options.merge!(
             'command' => 'getVMPassword', 

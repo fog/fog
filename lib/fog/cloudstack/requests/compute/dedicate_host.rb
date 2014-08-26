@@ -6,6 +6,11 @@ module Fog
         # Dedicates a host.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/dedicateHost.html]
+        def dedicate_host(options={})
+          request(options)
+        end
+
+
         def dedicate_host(hostid, domainid, options={})
           options.merge!(
             'command' => 'dedicateHost', 

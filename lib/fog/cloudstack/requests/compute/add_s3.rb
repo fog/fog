@@ -6,11 +6,16 @@ module Fog
         # Adds S3
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addS3.html]
-        def add_s3(bucket, accesskey, secretkey, options={})
+        def add_s3(options={})
+          request(options)
+        end
+
+
+        def add_s3(accesskey, bucket, secretkey, options={})
           options.merge!(
             'command' => 'addS3', 
-            'bucket' => bucket, 
             'accesskey' => accesskey, 
+            'bucket' => bucket, 
             'secretkey' => secretkey  
           )
           request(options)

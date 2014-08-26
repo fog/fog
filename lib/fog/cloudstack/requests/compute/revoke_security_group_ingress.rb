@@ -6,6 +6,11 @@ module Fog
         # Deletes a particular ingress rule from this security group
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/revokeSecurityGroupIngress.html]
+        def revoke_security_group_ingress(options={})
+          request(options)
+        end
+
+
         def revoke_security_group_ingress(id, options={})
           options.merge!(
             'command' => 'revokeSecurityGroupIngress', 

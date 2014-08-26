@@ -6,6 +6,11 @@ module Fog
         # Updates an ISO file.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateIso.html]
+        def update_iso(options={})
+          request(options)
+        end
+
+
         def update_iso(id, options={})
           options.merge!(
             'command' => 'updateIso', 

@@ -6,6 +6,11 @@ module Fog
         # Restarts a VPC
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/restartVPC.html]
+        def restart_vpc(options={})
+          request(options)
+        end
+
+
         def restart_vpc(id, options={})
           options.merge!(
             'command' => 'restartVPC', 

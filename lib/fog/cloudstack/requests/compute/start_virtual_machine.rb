@@ -6,6 +6,11 @@ module Fog
         # Starts a virtual machine.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/startVirtualMachine.html]
+        def start_virtual_machine(options={})
+          request(options)
+        end
+
+
         def start_virtual_machine(id, options={})
           options.merge!(
             'command' => 'startVirtualMachine', 

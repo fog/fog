@@ -6,11 +6,16 @@ module Fog
         # Adds traffic type to a physical network
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addTrafficType.html]
-        def add_traffic_type(physicalnetworkid, traffictype, options={})
+        def add_traffic_type(options={})
+          request(options)
+        end
+
+
+        def add_traffic_type(traffictype, physicalnetworkid, options={})
           options.merge!(
             'command' => 'addTrafficType', 
-            'physicalnetworkid' => physicalnetworkid, 
-            'traffictype' => traffictype  
+            'traffictype' => traffictype, 
+            'physicalnetworkid' => physicalnetworkid  
           )
           request(options)
         end

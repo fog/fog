@@ -6,6 +6,11 @@ module Fog
         # Removes vpn user
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/removeVpnUser.html]
+        def remove_vpn_user(options={})
+          request(options)
+        end
+
+
         def remove_vpn_user(username, options={})
           options.merge!(
             'command' => 'removeVpnUser', 

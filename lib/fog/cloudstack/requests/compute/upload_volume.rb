@@ -6,13 +6,18 @@ module Fog
         # Uploads a data disk.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/uploadVolume.html]
-        def upload_volume(zoneid, name, url, format, options={})
+        def upload_volume(options={})
+          request(options)
+        end
+
+
+        def upload_volume(url, format, zoneid, name, options={})
           options.merge!(
             'command' => 'uploadVolume', 
-            'zoneid' => zoneid, 
-            'name' => name, 
             'url' => url, 
-            'format' => format  
+            'format' => format, 
+            'zoneid' => zoneid, 
+            'name' => name  
           )
           request(options)
         end

@@ -6,6 +6,11 @@ module Fog
         #  delete a Cisco Nexus VSM device
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteCiscoNexusVSM.html]
+        def delete_cisco_nexus_vsm(options={})
+          request(options)
+        end
+
+
         def delete_cisco_nexus_vsm(id, options={})
           options.merge!(
             'command' => 'deleteCiscoNexusVSM', 

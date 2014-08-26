@@ -6,6 +6,11 @@ module Fog
         # Deletes network device.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteNetworkDevice.html]
+        def delete_network_device(options={})
+          request(options)
+        end
+
+
         def delete_network_device(id, options={})
           options.merge!(
             'command' => 'deleteNetworkDevice', 

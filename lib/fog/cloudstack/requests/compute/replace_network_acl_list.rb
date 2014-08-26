@@ -6,6 +6,11 @@ module Fog
         # Replaces ACL associated with a Network or private gateway
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/replaceNetworkACLList.html]
+        def replace_network_acl_list(options={})
+          request(options)
+        end
+
+
         def replace_network_acl_list(aclid, options={})
           options.merge!(
             'command' => 'replaceNetworkACLList', 

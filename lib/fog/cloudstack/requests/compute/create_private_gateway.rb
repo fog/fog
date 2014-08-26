@@ -6,14 +6,19 @@ module Fog
         # Creates a private gateway
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createPrivateGateway.html]
-        def create_private_gateway(vpcid, gateway, ipaddress, vlan, netmask, options={})
+        def create_private_gateway(options={})
+          request(options)
+        end
+
+
+        def create_private_gateway(ipaddress, vlan, netmask, vpcid, gateway, options={})
           options.merge!(
             'command' => 'createPrivateGateway', 
-            'vpcid' => vpcid, 
-            'gateway' => gateway, 
             'ipaddress' => ipaddress, 
             'vlan' => vlan, 
-            'netmask' => netmask  
+            'netmask' => netmask, 
+            'vpcid' => vpcid, 
+            'gateway' => gateway  
           )
           request(options)
         end

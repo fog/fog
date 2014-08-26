@@ -7,6 +7,11 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listVirtualMachines.html]
         def list_virtual_machines(options={})
+          request(options)
+        end
+
+
+        def list_virtual_machines(options={})
           options.merge!(
             'command' => 'listVirtualMachines'  
           )

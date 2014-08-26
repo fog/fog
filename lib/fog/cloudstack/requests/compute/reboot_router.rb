@@ -6,6 +6,11 @@ module Fog
         # Starts a router.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/rebootRouter.html]
+        def reboot_router(options={})
+          request(options)
+        end
+
+
         def reboot_router(id, options={})
           options.merge!(
             'command' => 'rebootRouter', 

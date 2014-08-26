@@ -6,11 +6,16 @@ module Fog
         # Deletes account from the project
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteAccountFromProject.html]
-        def delete_account_from_project(account, projectid, options={})
+        def delete_account_from_project(options={})
+          request(options)
+        end
+
+
+        def delete_account_from_project(projectid, account, options={})
           options.merge!(
             'command' => 'deleteAccountFromProject', 
-            'account' => account, 
-            'projectid' => projectid  
+            'projectid' => projectid, 
+            'account' => account  
           )
           request(options)
         end

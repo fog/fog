@@ -6,10 +6,15 @@ module Fog
         # Find user account by API key
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/getUser.html]
-        def get_user(userapikey, options={})
+        def get_user(options={})
+          request(options)
+        end
+
+
+        def get_user(apikey, options={})
           options.merge!(
             'command' => 'getUser', 
-            'userapikey' => userapikey  
+            'apikey' => apikey  
           )
           request(options)
         end

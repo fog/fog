@@ -6,6 +6,11 @@ module Fog
         # Retrieves a cloud identifier.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/getCloudIdentifier.html]
+        def get_cloud_identifier(options={})
+          request(options)
+        end
+
+
         def get_cloud_identifier(userid, options={})
           options.merge!(
             'command' => 'getCloudIdentifier', 

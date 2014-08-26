@@ -6,6 +6,11 @@ module Fog
         # Adds Swift.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addSwift.html]
+        def add_swift(options={})
+          request(options)
+        end
+
+
         def add_swift(url, options={})
           options.merge!(
             'command' => 'addSwift', 

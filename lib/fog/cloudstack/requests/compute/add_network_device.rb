@@ -7,6 +7,11 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addNetworkDevice.html]
         def add_network_device(options={})
+          request(options)
+        end
+
+
+        def add_network_device(options={})
           options.merge!(
             'command' => 'addNetworkDevice'  
           )

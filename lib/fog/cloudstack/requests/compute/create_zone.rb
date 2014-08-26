@@ -6,13 +6,18 @@ module Fog
         # Creates a Zone.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createZone.html]
-        def create_zone(internaldns1, name, networktype, dns1, options={})
+        def create_zone(options={})
+          request(options)
+        end
+
+
+        def create_zone(dns1, internaldns1, networktype, name, options={})
           options.merge!(
             'command' => 'createZone', 
+            'dns1' => dns1, 
             'internaldns1' => internaldns1, 
-            'name' => name, 
             'networktype' => networktype, 
-            'dns1' => dns1  
+            'name' => name  
           )
           request(options)
         end

@@ -7,6 +7,11 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listBaremetalPxeServers.html]
         def list_baremetal_pxe_servers(options={})
+          request(options)
+        end
+
+
+        def list_baremetal_pxe_servers(options={})
           options.merge!(
             'command' => 'listBaremetalPxeServers'  
           )

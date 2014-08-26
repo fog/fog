@@ -6,15 +6,20 @@ module Fog
         # Creates an account
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createAccount.html]
-        def create_account(password, lastname, accounttype, username, email, firstname, options={})
+        def create_account(options={})
+          request(options)
+        end
+
+
+        def create_account(accounttype, lastname, email, firstname, username, password, options={})
           options.merge!(
             'command' => 'createAccount', 
-            'password' => password, 
-            'lastname' => lastname, 
             'accounttype' => accounttype, 
-            'username' => username, 
+            'lastname' => lastname, 
             'email' => email, 
-            'firstname' => firstname  
+            'firstname' => firstname, 
+            'username' => username, 
+            'password' => password  
           )
           request(options)
         end

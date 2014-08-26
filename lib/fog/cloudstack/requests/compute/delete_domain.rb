@@ -6,6 +6,11 @@ module Fog
         # Deletes a specified domain
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteDomain.html]
+        def delete_domain(options={})
+          request(options)
+        end
+
+
         def delete_domain(id, options={})
           options.merge!(
             'command' => 'deleteDomain', 

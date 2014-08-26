@@ -6,6 +6,11 @@ module Fog
         # List all virtual machine instances that are assigned to a load balancer rule.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listLoadBalancerRuleInstances.html]
+        def list_load_balancer_rule_instances(options={})
+          request(options)
+        end
+
+
         def list_load_balancer_rule_instances(id, options={})
           options.merge!(
             'command' => 'listLoadBalancerRuleInstances', 

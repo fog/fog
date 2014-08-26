@@ -6,10 +6,14 @@ module Fog
         # Lists LBStickiness policies.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listLBStickinessPolicies.html]
-        def list_lb_stickiness_policies(lbruleid, options={})
+        def list_lb_stickiness_policies(options={})
+          request(options)
+        end
+
+
+        def list_lb_stickiness_policies(options={})
           options.merge!(
-            'command' => 'listLBStickinessPolicies', 
-            'lbruleid' => lbruleid  
+            'command' => 'listLBStickinessPolicies'  
           )
           request(options)
         end

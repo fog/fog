@@ -6,6 +6,11 @@ module Fog
         # Updates properties of a virtual machine. The VM has to be stopped and restarted for the new properties to take effect. UpdateVirtualMachine does not first check whether the VM is stopped. Therefore, stop the VM manually before issuing this call.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateVirtualMachine.html]
+        def update_virtual_machine(options={})
+          request(options)
+        end
+
+
         def update_virtual_machine(id, options={})
           options.merge!(
             'command' => 'updateVirtualMachine', 
