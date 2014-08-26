@@ -35,7 +35,7 @@ module Fog
         def create_health_check(ip_address, port, type, options = {})
           version = @version
           builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do
-            CreateHealthCheckRequest(xmlns: "https://route53.amazonaws.com/doc/#{version}/") do
+            CreateHealthCheckRequest(:xmlns => "https://route53.amazonaws.com/doc/#{version}/") do
               CallerReference options[:caller_reference] || "#{Time.now.to_i.to_s}-#{SecureRandom.hex(6)}"
               HealthCheckConfig do
                 IPAddress ip_address unless ip_address.nil?
