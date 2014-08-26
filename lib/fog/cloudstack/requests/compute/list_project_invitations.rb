@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listProjectInvitations.html]
         def list_project_invitations(options={})
-          request(options)
-        end
-
-
-        def list_project_invitations(options={})
           options.merge!(
             'command' => 'listProjectInvitations'  
           )

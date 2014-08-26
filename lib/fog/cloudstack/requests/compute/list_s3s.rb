@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listS3s.html]
         def list_s3s(options={})
-          request(options)
-        end
-
-
-        def list_s3s(options={})
           options.merge!(
             'command' => 'listS3s'  
           )

@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listDedicatedZones.html]
         def list_dedicated_zones(options={})
-          request(options)
-        end
-
-
-        def list_dedicated_zones(options={})
           options.merge!(
             'command' => 'listDedicatedZones'  
           )

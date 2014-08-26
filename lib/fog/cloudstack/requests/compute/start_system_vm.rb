@@ -6,11 +6,6 @@ module Fog
         # Starts a system virtual machine.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/startSystemVm.html]
-        def start_system_vm(options={})
-          request(options)
-        end
-
-
         def start_system_vm(id, options={})
           options.merge!(
             'command' => 'startSystemVm', 

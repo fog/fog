@@ -7,14 +7,8 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listResourceDetails.html]
         def list_resource_details(options={})
-          request(options)
-        end
-
-
-        def list_resource_details(resourcetype, options={})
           options.merge!(
-            'command' => 'listResourceDetails', 
-            'resourcetype' => resourcetype  
+            'command' => 'listResourceDetails'  
           )
           request(options)
         end

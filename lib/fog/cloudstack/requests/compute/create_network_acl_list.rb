@@ -6,16 +6,11 @@ module Fog
         # Creates a Network ACL for the given VPC
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createNetworkACLList.html]
-        def create_network_acl_list(options={})
-          request(options)
-        end
-
-
-        def create_network_acl_list(name, vpcid, options={})
+        def create_network_acl_list(vpcid, name, options={})
           options.merge!(
             'command' => 'createNetworkACLList', 
-            'name' => name, 
-            'vpcid' => vpcid  
+            'vpcid' => vpcid, 
+            'name' => name  
           )
           request(options)
         end

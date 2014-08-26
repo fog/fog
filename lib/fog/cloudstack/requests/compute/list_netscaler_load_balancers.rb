@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listNetscalerLoadBalancers.html]
         def list_netscaler_load_balancers(options={})
-          request(options)
-        end
-
-
-        def list_netscaler_load_balancers(options={})
           options.merge!(
             'command' => 'listNetscalerLoadBalancers'  
           )

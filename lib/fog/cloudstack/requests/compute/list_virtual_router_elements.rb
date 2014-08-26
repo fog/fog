@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listVirtualRouterElements.html]
         def list_virtual_router_elements(options={})
-          request(options)
-        end
-
-
-        def list_virtual_router_elements(options={})
           options.merge!(
             'command' => 'listVirtualRouterElements'  
           )

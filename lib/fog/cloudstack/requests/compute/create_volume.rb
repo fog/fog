@@ -6,11 +6,6 @@ module Fog
         # Creates a disk volume from a disk offering. This disk volume must still be attached to a virtual machine to make use of it.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createVolume.html]
-        def create_volume(options={})
-          request(options)
-        end
-
-
         def create_volume(name, options={})
           options.merge!(
             'command' => 'createVolume', 

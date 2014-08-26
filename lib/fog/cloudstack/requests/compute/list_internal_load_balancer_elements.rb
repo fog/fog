@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listInternalLoadBalancerElements.html]
         def list_internal_load_balancer_elements(options={})
-          request(options)
-        end
-
-
-        def list_internal_load_balancer_elements(options={})
           options.merge!(
             'command' => 'listInternalLoadBalancerElements'  
           )

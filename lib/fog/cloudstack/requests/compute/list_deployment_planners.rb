@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listDeploymentPlanners.html]
         def list_deployment_planners(options={})
-          request(options)
-        end
-
-
-        def list_deployment_planners(options={})
           options.merge!(
             'command' => 'listDeploymentPlanners'  
           )

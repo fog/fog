@@ -6,11 +6,6 @@ module Fog
         # list the vm nics  IP to NIC
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listNics.html]
-        def list_nics(options={})
-          request(options)
-        end
-
-
         def list_nics(virtualmachineid, options={})
           options.merge!(
             'command' => 'listNics', 

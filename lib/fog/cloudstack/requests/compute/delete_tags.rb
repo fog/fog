@@ -6,11 +6,6 @@ module Fog
         # Deleting resource tag(s)
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteTags.html]
-        def delete_tags(options={})
-          request(options)
-        end
-
-
         def delete_tags(resourceids, resourcetype, options={})
           options.merge!(
             'command' => 'deleteTags', 

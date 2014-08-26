@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/archiveEvents.html]
         def archive_events(options={})
-          request(options)
-        end
-
-
-        def archive_events(options={})
           options.merge!(
             'command' => 'archiveEvents'  
           )

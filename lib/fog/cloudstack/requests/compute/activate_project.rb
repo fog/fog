@@ -6,11 +6,6 @@ module Fog
         # Activates a project
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/activateProject.html]
-        def activate_project(options={})
-          request(options)
-        end
-
-
         def activate_project(id, options={})
           options.merge!(
             'command' => 'activateProject', 

@@ -6,11 +6,6 @@ module Fog
         # List all public, private, and privileged templates.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listTemplates.html]
-        def list_templates(options={})
-          request(options)
-        end
-
-
         def list_templates(templatefilter, options={})
           options.merge!(
             'command' => 'listTemplates', 

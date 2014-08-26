@@ -6,11 +6,6 @@ module Fog
         # Deletes a autoscale vm group.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteAutoScaleVmGroup.html]
-        def delete_auto_scale_vm_group(options={})
-          request(options)
-        end
-
-
         def delete_auto_scale_vm_group(id, options={})
           options.merge!(
             'command' => 'deleteAutoScaleVmGroup', 

@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/associateIpAddress.html]
         def associate_ip_address(options={})
-          request(options)
-        end
-
-
-        def associate_ip_address(options={})
           options.merge!(
             'command' => 'associateIpAddress'  
           )

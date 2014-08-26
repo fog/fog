@@ -6,11 +6,6 @@ module Fog
         # Deletes a particular egress rule from this security group
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/revokeSecurityGroupEgress.html]
-        def revoke_security_group_egress(options={})
-          request(options)
-        end
-
-
         def revoke_security_group_egress(id, options={})
           options.merge!(
             'command' => 'revokeSecurityGroupEgress', 

@@ -6,11 +6,6 @@ module Fog
         # Updates a Pod.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updatePod.html]
-        def update_pod(options={})
-          request(options)
-        end
-
-
         def update_pod(id, options={})
           options.merge!(
             'command' => 'updatePod', 

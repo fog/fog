@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listAlerts.html]
         def list_alerts(options={})
-          request(options)
-        end
-
-
-        def list_alerts(options={})
           options.merge!(
             'command' => 'listAlerts'  
           )

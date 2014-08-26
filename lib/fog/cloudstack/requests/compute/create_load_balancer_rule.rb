@@ -6,18 +6,13 @@ module Fog
         # Creates a load balancer rule
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createLoadBalancerRule.html]
-        def create_load_balancer_rule(options={})
-          request(options)
-        end
-
-
-        def create_load_balancer_rule(name, privateport, algorithm, publicport, options={})
+        def create_load_balancer_rule(publicport, algorithm, privateport, name, options={})
           options.merge!(
             'command' => 'createLoadBalancerRule', 
-            'name' => name, 
-            'privateport' => privateport, 
+            'publicport' => publicport, 
             'algorithm' => algorithm, 
-            'publicport' => publicport  
+            'privateport' => privateport, 
+            'name' => name  
           )
           request(options)
         end

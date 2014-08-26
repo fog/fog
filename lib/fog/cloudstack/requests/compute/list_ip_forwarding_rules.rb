@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listIpForwardingRules.html]
         def list_ip_forwarding_rules(options={})
-          request(options)
-        end
-
-
-        def list_ip_forwarding_rules(options={})
           options.merge!(
             'command' => 'listIpForwardingRules'  
           )

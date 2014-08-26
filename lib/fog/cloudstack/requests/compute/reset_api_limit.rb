@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/resetApiLimit.html]
         def reset_api_limit(options={})
-          request(options)
-        end
-
-
-        def reset_api_limit(options={})
           options.merge!(
             'command' => 'resetApiLimit'  
           )

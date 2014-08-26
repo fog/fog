@@ -6,11 +6,6 @@ module Fog
         # Deletes a service offering.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteServiceOffering.html]
-        def delete_service_offering(options={})
-          request(options)
-        end
-
-
         def delete_service_offering(id, options={})
           options.merge!(
             'command' => 'deleteServiceOffering', 

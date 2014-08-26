@@ -6,11 +6,6 @@ module Fog
         # Revert VM from a vmsnapshot.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/revertToVMSnapshot.html]
-        def revert_to_vm_snapshot(options={})
-          request(options)
-        end
-
-
         def revert_to_vm_snapshot(vmsnapshotid, options={})
           options.merge!(
             'command' => 'revertToVMSnapshot', 

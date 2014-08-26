@@ -6,17 +6,12 @@ module Fog
         # Marks a default zone for this account
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/markDefaultZoneForAccount.html]
-        def mark_default_zone_for_account(options={})
-          request(options)
-        end
-
-
-        def mark_default_zone_for_account(zoneid, account, domainid, options={})
+        def mark_default_zone_for_account(zoneid, domainid, account, options={})
           options.merge!(
             'command' => 'markDefaultZoneForAccount', 
             'zoneid' => zoneid, 
-            'account' => account, 
-            'domainid' => domainid  
+            'domainid' => domainid, 
+            'account' => account  
           )
           request(options)
         end

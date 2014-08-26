@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listStoragePools.html]
         def list_storage_pools(options={})
-          request(options)
-        end
-
-
-        def list_storage_pools(options={})
           options.merge!(
             'command' => 'listStoragePools'  
           )

@@ -6,11 +6,6 @@ module Fog
         # Deletes a snapshot of a disk volume.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteSnapshot.html]
-        def delete_snapshot(options={})
-          request(options)
-        end
-
-
         def delete_snapshot(id, options={})
           options.merge!(
             'command' => 'deleteSnapshot', 

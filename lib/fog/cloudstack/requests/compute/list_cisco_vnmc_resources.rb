@@ -7,11 +7,6 @@ module Fog
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listCiscoVnmcResources.html]
         def list_cisco_vnmc_resources(options={})
-          request(options)
-        end
-
-
-        def list_cisco_vnmc_resources(options={})
           options.merge!(
             'command' => 'listCiscoVnmcResources'  
           )

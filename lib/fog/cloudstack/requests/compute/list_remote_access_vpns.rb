@@ -6,14 +6,10 @@ module Fog
         # Lists remote access vpns
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listRemoteAccessVpns.html]
-        def list_remote_access_vpns(options={})
-          request(options)
-        end
-
-
-        def list_remote_access_vpns(options={})
+        def list_remote_access_vpns(publicipid, options={})
           options.merge!(
-            'command' => 'listRemoteAccessVpns'  
+            'command' => 'listRemoteAccessVpns', 
+            'publicipid' => publicipid  
           )
           request(options)
         end

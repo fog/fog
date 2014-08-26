@@ -6,11 +6,6 @@ module Fog
         # Updates a disk offering.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateDiskOffering.html]
-        def update_disk_offering(options={})
-          request(options)
-        end
-
-
         def update_disk_offering(id, options={})
           options.merge!(
             'command' => 'updateDiskOffering', 

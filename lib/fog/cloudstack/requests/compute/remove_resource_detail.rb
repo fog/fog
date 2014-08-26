@@ -6,11 +6,6 @@ module Fog
         # Removes detail for the Resource.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/removeResourceDetail.html]
-        def remove_resource_detail(options={})
-          request(options)
-        end
-
-
         def remove_resource_detail(resourcetype, resourceid, options={})
           options.merge!(
             'command' => 'removeResourceDetail', 
