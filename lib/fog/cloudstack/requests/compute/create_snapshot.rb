@@ -5,12 +5,16 @@ module Fog
       class Real
         # Creates an instant snapshot of a volume.
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createSnapshot.html]
-        def create_snapshot(volumeid, options={})
-          options.merge!(
-            'command' => 'createSnapshot', 
-            'volumeid' => volumeid  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/createSnapshot.html]
+        def create_snapshot(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'createSnapshot') 
+          else
+            options.merge!('command' => 'createSnapshot', 
+            'volumeid' => args[0])
+          end
           request(options)
         end
       end

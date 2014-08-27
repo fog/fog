@@ -5,14 +5,18 @@ module Fog
       class Real
         # Creates and automatically starts a virtual machine based on a service offering, disk offering, and template.
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deployVirtualMachine.html]
-        def deploy_virtual_machine(serviceofferingid, templateid, zoneid, options={})
-          options.merge!(
-            'command' => 'deployVirtualMachine', 
-            'serviceofferingid' => serviceofferingid, 
-            'templateid' => templateid, 
-            'zoneid' => zoneid  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/deployVirtualMachine.html]
+        def deploy_virtual_machine(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'deployVirtualMachine') 
+          else
+            options.merge!('command' => 'deployVirtualMachine', 
+            'templateid' => args[0], 
+            'zoneid' => args[1], 
+            'serviceofferingid' => args[2])
+          end
           request(options)
         end
       end

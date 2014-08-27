@@ -5,11 +5,15 @@ module Fog
       class Real
         # Lists all volumes.
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listVolumes.html]
-        def list_volumes(options={})
-          options.merge!(
-            'command' => 'listVolumes'  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/listVolumes.html]
+        def list_volumes(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'listVolumes') 
+          else
+            options.merge!('command' => 'listVolumes')
+          end
           request(options)
         end
       end

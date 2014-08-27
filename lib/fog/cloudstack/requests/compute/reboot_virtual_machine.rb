@@ -5,12 +5,16 @@ module Fog
       class Real
         # Reboots a virtual machine.
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/rebootVirtualMachine.html]
-        def reboot_virtual_machine(id, options={})
-          options.merge!(
-            'command' => 'rebootVirtualMachine', 
-            'id' => id  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/rebootVirtualMachine.html]
+        def reboot_virtual_machine(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'rebootVirtualMachine') 
+          else
+            options.merge!('command' => 'rebootVirtualMachine', 
+            'id' => args[0])
+          end
           request(options)
         end
       end
