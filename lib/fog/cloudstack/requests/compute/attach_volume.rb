@@ -5,13 +5,17 @@ module Fog
       class Real
         # Attaches a disk volume to a virtual machine.
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/attachVolume.html]
-        def attach_volume(virtualmachineid, id, options={})
-          options.merge!(
-            'command' => 'attachVolume', 
-            'virtualmachineid' => virtualmachineid, 
-            'id' => id  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/attachVolume.html]
+        def attach_volume(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'attachVolume') 
+          else
+            options.merge!('command' => 'attachVolume', 
+            'virtualmachineid' => args[0], 
+            'id' => args[1])
+          end
           request(options)
         end
       end

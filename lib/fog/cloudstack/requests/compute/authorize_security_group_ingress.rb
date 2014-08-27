@@ -5,11 +5,15 @@ module Fog
       class Real
         # Authorizes a particular ingress rule for this security group
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/authorizeSecurityGroupIngress.html]
-        def authorize_security_group_ingress(options={})
-          options.merge!(
-            'command' => 'authorizeSecurityGroupIngress'  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/authorizeSecurityGroupIngress.html]
+        def authorize_security_group_ingress(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'authorizeSecurityGroupIngress') 
+          else
+            options.merge!('command' => 'authorizeSecurityGroupIngress')
+          end
           request(options)
         end
       end

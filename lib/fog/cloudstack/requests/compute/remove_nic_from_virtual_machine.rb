@@ -5,13 +5,17 @@ module Fog
       class Real
         # Removes VM from specified network by deleting a NIC
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/removeNicFromVirtualMachine.html]
-        def remove_nic_from_virtual_machine(virtualmachineid, nicid, options={})
-          options.merge!(
-            'command' => 'removeNicFromVirtualMachine', 
-            'virtualmachineid' => virtualmachineid, 
-            'nicid' => nicid  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/removeNicFromVirtualMachine.html]
+        def remove_nic_from_virtual_machine(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'removeNicFromVirtualMachine') 
+          else
+            options.merge!('command' => 'removeNicFromVirtualMachine', 
+            'virtualmachineid' => args[0], 
+            'nicid' => args[1])
+          end
           request(options)
         end
       end

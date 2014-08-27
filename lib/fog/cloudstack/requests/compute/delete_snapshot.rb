@@ -5,12 +5,16 @@ module Fog
       class Real
         # Deletes a snapshot of a disk volume.
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteSnapshot.html]
-        def delete_snapshot(id, options={})
-          options.merge!(
-            'command' => 'deleteSnapshot', 
-            'id' => id  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/deleteSnapshot.html]
+        def delete_snapshot(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'deleteSnapshot') 
+          else
+            options.merge!('command' => 'deleteSnapshot', 
+            'id' => args[0])
+          end
           request(options)
         end
       end
