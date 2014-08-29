@@ -56,6 +56,7 @@ module Fog
           { "PRICE" => 19.95, "RAM" => 512, "XFER" => 200,
             "PLANID" => linodeplan_id, "LABEL" => "Linode #{linodeplan_id}",
             "DISK" => 20,
+            "CORES" => 1,
             "AVAIL" => {
               "3"=>48, "2"=>207, "7"=>161, "6"=>143, "4"=>108, "8"=>60
             }
