@@ -50,6 +50,7 @@ Gem::Specification.new do |s|
   # Modular providers
   s.add_dependency("fog-brightbox")
   s.add_dependency("fog-softlayer")
+  s.add_dependency("fog-sakuracloud")
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
