@@ -86,29 +86,16 @@ module Fog
                             }.merge!(params[:headers] || {})
                         }))
                     rescue Excon::Errors::Unauthorized => error
-                        #Fog::ProfitBricks.parse_error(error.response.body)
                         raise error
                     rescue Excon::Errors::HTTPStatusError => error
-                        #Fog::ProfitBricks.parse_error(error.response.body)
                         raise error
                     rescue Excon::Errors::InternalServerError => error
-                        #Fog::ProfitBricks.parse_error(error.response.body)
                         raise error
                     end
                     response
                 end
 
                 private
-
-                #def parse(response)
-                #    unless response.body.empty?
-                #        document = Fog::ToHashDocument.new
-                #        parser = Nokogiri::XML::SAX::PushParser.new(document)
-                #        parser << response.body
-                #        parser.finish
-                #        response.body = document.body
-                #    end
-                #end
 
                 def auth_header
                     return Base64.encode64(
