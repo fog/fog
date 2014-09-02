@@ -82,8 +82,8 @@ module Fog
 
           # Options['dest_folder']<~String>
           # Grab the destination folder object if it exists else use cloned mach
-          dest_folder = get_raw_vmfolder(options['dest_folder'], options['datacenter']) if options.key?('dest_folder')
-          dest_folder ||= vm_mob_ref.parent
+          dest_folder_path = options.fetch('dest_folder','/') # default to root path ({dc_name}/vm/)
+          dest_folder = get_raw_vmfolder(dest_folder_path, options['datacenter'])
 
           # Options['resource_pool']<~Array>
           # Now find _a_ resource pool to use for the clone if one is not specified
@@ -264,7 +264,7 @@ module Fog
           # Return hash
           {
             'vm_ref'        => new_vm ? new_vm._ref : nil,
-            'new_vm'        => new_vm ? get_virtual_machine("#{options['dest_folder']}/#{options['name']}", options['datacenter']) : nil,
+            'new_vm'        => new_vm ? convert_vm_mob_ref_to_attr_hash(new_vm) : nil,
             'task_ref'      => task._ref
           }
         end
