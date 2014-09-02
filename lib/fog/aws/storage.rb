@@ -220,6 +220,8 @@ module Fog
 
             if path_style
               path = bucket_to_path bucket_name, path
+            elsif params[:bucket_cname]
+              host = bucket_name
             else
               host = [bucket_name, host].join('.')
             end
