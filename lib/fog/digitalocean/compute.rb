@@ -110,7 +110,7 @@ module Fog
 
         def retry_event_lock
           count   = 0
-          reponse = nil
+          response = nil
           while count < 5
             response = yield
 
