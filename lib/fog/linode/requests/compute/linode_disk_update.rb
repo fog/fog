@@ -7,7 +7,7 @@ module Fog
             :expects  => 200,
             :method   => 'GET',
             :query    => {
-              :api_action => 'linode.disk.resize',
+              :api_action => 'linode.disk.update',
               :linodeId => linode_id,
               :diskId => disk_id,
               :label => label,
