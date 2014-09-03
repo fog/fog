@@ -47,7 +47,7 @@ module Fog
           end
         end
 
-        def create_user(email, name, options = {})
+        def create_user(email, user_id, options = {})
           if invalid_email?(email)
             raise Fog::Radosgw::Provisioning::ServiceUnavailable, "The email address you provided is not a valid."
           end
@@ -58,18 +58,16 @@ module Fog
 
           key_id       = rand(1000).to_s
           key_secret   = rand(1000).to_s
-          data[key_id] = { :email => email, :name => name, :status => 'enabled', :key_secret => key_secret }
+          data[user_id] = { :email => email, :user_id => user_id, :status => 'enabled', :key_secret => key_secret }
 
           Excon::Response.new.tap do |response|
             response.status = 200
             response.headers['Content-Type'] = 'application/json'
             response.body = {
-              "email"        => data[:email],
-              "display_name" => data[:name],
-              "name"         => "user123",
-              "key_id"       => key_id,
+              "email"        => email,
+              "display_name" => user_id,
+              "user_id"      => user_id,
               "key_secret"   => key_secret,
-              "id"           => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
               "status"       => "enabled"
             }
           end
