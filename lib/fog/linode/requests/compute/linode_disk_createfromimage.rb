@@ -9,7 +9,7 @@ module Fog
             :query    => {
               :api_action => 'linode.disk.createfromimage',
               :linodeId => linode_id,
-              :distributionId => distro_id,
+              :imageId => image_id,
               :size => size,
               :rootPass => password,
               :rootSSHKey => sshkey
