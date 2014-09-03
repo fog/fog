@@ -19,7 +19,7 @@ module Fog
       end
 
       class Mock
-        def linode_disk_createfromimage(linode_id, distro_id, name, size, password)
+        def linode_disk_createfromimage(linode_id, image_id, size, password, sshkey)
           response = Excon::Response.new
           response.status = 200
           response.body = {
