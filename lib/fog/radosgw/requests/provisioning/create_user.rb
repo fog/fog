@@ -2,33 +2,36 @@ module Fog
   module Radosgw
     class Provisioning
       class Real
-        def create_user(email, name, options = {})
-          payload = Fog::JSON.encode({ :email => email, :name => name })
-          headers = { 'Content-Type' => 'application/json' }
+        def create_user(email, user_id, options = {})
+          path = "admin/user"
+          user_id = Fog::AWS.escape(user_id)
+          query = "?uid=#{user_id}&display-name=#{user_id}&format=json"
+          expires = Fog::Time.now.to_date_header
+          params = { 
+            :method => 'PUT',
+            :path => path,
+          }
+          auth   =  @s3_connection.signature(params,expires)
+          awskey =  @radosgw_access_key_id
+          headers = {
+            'Date'          => expires,
+            'Authorization' => "AWS #{awskey}:#{auth}"
+          }
 
-          if(options[:anonymous])
-            request(
-              :expects => [201],
-              :method  => 'POST',
-              :path    => 'user',
-              :body    => payload,
-              :headers => headers
-            )
-          else
-            begin
-              response = @s3_connection.put_object('radosgw', 'user', payload, headers)
-              if !response.body.empty?
-                case response.headers['Content-Type']
-                when 'application/json'
-                  response.body = Fog::JSON.decode(response.body)
-                end
+          begin
+            response = Excon.put("#{@scheme}://#{@host}/#{path}#{query}",
+                                 :headers => headers)
+            if !response.body.empty?
+              case response.headers['Content-Type']
+              when 'application/json'
+                response.body = Fog::JSON.decode(response.body)
               end
               response
-            rescue Excon::Errors::Conflict => e
-              raise Fog::Radosgw::Provisioning::UserAlreadyExists.new
-            rescue Excon::Errors::BadRequest => e
-              raise Fog::Radosgw::Provisioning::ServiceUnavailable.new
             end
+          rescue Excon::Errors::Conflict => e
+            raise Fog::Radosgw::Provisioning::UserAlreadyExists.new
+          rescue Excon::Errors::BadRequest => e
+            raise Fog::Radosgw::Provisioning::ServiceUnavailable.new
           end
         end
       end
