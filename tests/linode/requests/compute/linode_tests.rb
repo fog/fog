@@ -53,8 +53,36 @@ Shindo.tests('Fog::Compute[:linode] | linode requests', ['linode']) do
     }]
   })
 
+  @images_format = Linode::Compute::Formats::BASIC.merge({
+    'DATA' => [{
+      "LAST_USED_DT" => String,
+      "DESCRIPTION"  => String,
+      "LABEL"        => String,
+      "STATUS"       => Integer,
+      "SIZE"         => Integer
+      "ISPUBLIC"     => Integer,
+      "CREATE_DT"    => String,
+      "USED"         => Integer,
+      "FS_TYPE"      => String,
+      "USERID"       => Integer,
+      "IMAGEID"      => Integer
+    }]
+  })
+
   @disk_format = Linode::Compute::Formats::BASIC.merge({
     'DATA' => { 'JobID' => Integer, 'DiskID' => Integer }
+  })
+
+  @disk_resize_format = Linode::Compute::Formats::BASIC.merge({
+    'DATA' => { 'JobID' => Integer }
+  })
+
+  @disk_imagize_format = Linode::Compute::Formats::BASIC.merge({
+    'DATA' => { 'JobID' => Integer, 'ImageID' => Integer }
+  })
+
+  @disk_update_format = Linode::Compute::Formats::BASIC.merge({
+    'DATA' => { 'DiskID' => Integer }
   })
 
   tests('success') do
@@ -96,11 +124,45 @@ Shindo.tests('Fog::Compute[:linode] | linode requests', ['linode']) do
       data
     end
 
+    tests('#linode_disk_update').formats(@disk_update_format) do
+      pending if Fog.mocking?
+      Fog::Compute[:linode].linode_disk_update(@linode_id, @disk1_id, 'test1-updated', 1).body
+    end
+
+    tests('#linode_disk_duplicate').formats(@disk_format) do
+      pending if Fog.mocking?
+      Fog::Compute[:linode].linode_disk_duplicate(@linode_id, @disk1_id).body
+    end
+
+    tests('#linode_disk_resize').formats(@disk_resize_format) do
+      pending if Fog.mocking?
+      Fog::Compute[:linode].linode_disk_resize(@linode_id, @disk_id, 2).body
+    end
+
+    tests('#linode_disk_imagize').formats(@disk_imagize_format) do
+      pending if Fog.mocking?
+      data = Fog::Compute[:linode].linode_disk_imagize(@linode_id, @disk1_id, 'test description imageid1', 'test label imageid1').body
+      @image1_id = data['DATA']['ImageID']
+      data
+    end
+
     tests('#linode_disk_createfromdistribution').formats(@disk_format) do
       pending if Fog.mocking?
       data = Fog::Compute[:linode].linode_disk_createfromdistribution(@linode_id, 73, 'test1', 600, 'P@SSW)RD').body
       @disk2_id = data['DATA']['DiskID']
       data
+    end
+
+    tests('#linode_disk_createfromimage').formats(@disk_format) do
+      pending if Fog.mocking?
+      data = Fog::Compute[:linode].linode_disk_createfromimage(@linode_id, @image1_id, 3, 'P@SSW)RD', '').body
+      @disk3_id = data['DATA']['DiskID']
+      data
+    end
+
+    tests('#image_list').formats(@images_format) do
+      pending if Fog.mocking?
+      Fog::Compute[:linode].image_list(@image_id).body
     end
 
     tests('#linode_disk_list').formats(@disks_format) do
@@ -112,10 +174,16 @@ Shindo.tests('Fog::Compute[:linode] | linode requests', ['linode']) do
     #   Fog::Compute[:linode].linode_reboot(@linode_id).body
     # end
 
+    tests('#image_delete').formats(@images_format) do
+      pending if Fog.mocking?
+      Fog::Compute[:linode].image_delete(@image1_id).body
+    end
+
     tests('#linode_disk_delete').formats(@disk_format) do
       pending if Fog.mocking?
       Fog::Compute[:linode].linode_disk_delete(@linode_id, @disk1_id).body
       Fog::Compute[:linode].linode_disk_delete(@linode_id, @disk2_id).body
+      Fog::Compute[:linode].linode_disk_delete(@linode_id, @disk3_id).body
     end
 
     tests('#linode_delete(#{@linode_id})').succeeds do
