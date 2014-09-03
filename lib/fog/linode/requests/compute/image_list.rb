@@ -49,12 +49,12 @@ module Fog
             "DESCRIPTION" => "Fog Mock Linode Image #{image_id}",
             "LABEL"      => "test_#{image_id}_image",
             "STATUS"     => status,
-            "SIZE"       => size,
+            "TYPE"       => "manual",
             "ISPUBLIC"   => rand(0...1),
             "CREATE_DT"  => "2014-06-29 5:39:19.0",
-            "USED"       => rand(0...size),
+            "MINSIZE"    => Fog::Mock.random_numbers(5),
             "FS_TYPE"    => "ext4",
-            "USERID"     => Fog::Mock.random_numbers(5),
+            "CREATOR"    => "test_username",
             "IMAGEID"    => image_id
           }
         end
