@@ -38,10 +38,6 @@ module Fog
       end
 
       class Mock
-        def invalid_email?(email)
-          email && !email.include?('@')
-        end
-
         def user_exists?(user_id)
           data.find do |key, value|
             value[:user_id] == user_id
@@ -49,10 +45,6 @@ module Fog
         end
 
         def create_user(user_id, display_name, email, options = {})
-          if invalid_email?(email)
-            raise Fog::Radosgw::Provisioning::ServiceUnavailable, "The email address you provided is not a valid."
-          end
-
           if user_exists?(user_id)
             raise Fog::Radosgw::Provisioning::UserAlreadyExists, "User with user_id #{user_id} already exists."
           end

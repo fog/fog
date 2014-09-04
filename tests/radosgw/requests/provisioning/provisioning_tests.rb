@@ -36,11 +36,6 @@ Shindo.tests('Radosgw::Provisioning | provisioning requests', ['radosgw']) do
       end
     end
 
-    tests('fails if invalid email').raises(Fog::Radosgw::Provisioning::ServiceUnavailable) do
-      email, name = "failed_duplicate_user_creation_test_#{current_timestamp}", "Fog User 2"
-      user_id      = Fog::Radosgw[:provisioning].create_user(name, name, email).body['user_id']
-    end
-
   end
 
   tests('User disable') do
