@@ -2,23 +2,19 @@ module Fog
   module Compute
     class Tutum
       class Real
-        def image_update(attrs)
-          require_attr(:name, attrs)
-          name = attrs[:name]
-          body = JSON.encode(attrs.reject {|k,v| [:name].include? k })
-
+        def image_update(name, attrs = {})
+          
           request(
             :expects  => [202],
             :method   => 'PATCH',
             :path     => "image/#{name}/",
-            :body     => body
+            :body     => JSON.encode(attrs)
           )
         end
       end
 
       class Mock
-        def image_update(attrs)
-          require_attr(:name, attrs)
+        def image_update(name, attrs = {})
           {
             "base_image" => false,
             "cluster_aware" => false,

@@ -4,11 +4,11 @@ Shindo.tests("Fog::Compute[:tutum] | application_create request", 'tutum') do
   name_base = Time.now.to_i
 
   tests("Create Application") do
-    response = compute.application_create( :image => "tutum/hello-world",
-                                           :name => "my-awesome-app",
-                                           :container_size => "XS",
-                                           :target_num_containers => 2,
-                                           :web_public_dns => "awesome-app.example.com")
+    response = compute.application_create( "tutum/hello-world",
+                                           {:name => "my-awesome-app",
+                                            :container_size => "XS",
+                                            :target_num_containers => 2,
+                                            :web_public_dns => "awesome-app.example.com"})
     test("should be a kind of Hash") { response.kind_of?  Hash}
   end
 

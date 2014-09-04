@@ -2,25 +2,18 @@ module Fog
   module Compute
     class Tutum
       class Real
-        def application_action(attrs = {})
-          require_attr(:uuid, attrs)
-          require_attr(:action, attrs)
-          uuid = attrs[:uuid]
-          action = attrs[:action]
-          body = JSON.encode(attrs.reject {|k,v| [:uuid, :action].include? k })
+        def application_action(uuid, action, attrs = {})
           request(
             :expects  => [202],
             :method   => 'POST',
             :path     => "application/#{uuid}/#{action}/",
-            :body     => body
+            :body     => JSON.encode(attrs)
           )
         end
       end
 
       class Mock
-        def application_action(attrs = {})
-          require_attr(:uuid, attrs)
-          require_attr(:action, attrs)  
+        def application_action(uuid, action, attrs = {})
           {
             "autodestroy" => "OFF",
             "autoreplace" => "ALWAYS",

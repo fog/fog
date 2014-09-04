@@ -2,23 +2,18 @@ module Fog
   module Compute
     class Tutum
       class Real
-        def application_update(attrs)
-          require_attr(:uuid, attrs)
-          uuid = attrs[:uuid]
-          body = JSON.encode(attrs.reject {|k,v| [:uuid].include? k })
-
+        def application_update(uuid, attrs)
           request(
             :expects  => [201],
             :method   => 'POST',
             :path     => "appliation/#{uuid}/",
-            :body     => body
+            :body     => JSON.encode(attrs)
           )
         end
       end
 
       class Mock
-        def application_update(attrs)
-          require_attr(:uuid, attrs)
+        def application_update(uuid, attrs)
           {
             "target_num_containers" => 3,
             "deployed_datetime" => "Sun, 6 Apr 2014 17:59:42 +0000",

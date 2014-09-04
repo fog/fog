@@ -9,17 +9,17 @@ Shindo.tests("Fog::Compute[:tutum] | container_action request", 'tutum') do
   uuid = response['uuid']
 
   tests("Start Container") do
-    response = compute.container_action(:uuid => uuid, :action => 'start' )
+    response = compute.container_action(uuid, 'start' )
     test("should be a kind of Hash") { response.kind_of?  Hash}
   end
 
   tests("Stop Container") do
-    response = compute.container_action(:uuid => uuid, :action => 'stop' )
+    response = compute.container_action(uuid, 'stop' )
     test("should be a kind of Hash") { response.kind_of? Hash}
   end
 
   tests("Redeploy Container") do
-    response = compute.container_action(:uuid => uuid, :action => 'stop', :tag => "v2" )
+    response = compute.container_action(uuid,'stop', {:tag => "v2"} )
     test("should be a kind of Hash") { response.kind_of? Hash}
   end
 end

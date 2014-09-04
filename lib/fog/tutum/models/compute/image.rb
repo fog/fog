@@ -67,13 +67,10 @@ module Fog
         def create(options = {})
           requires :name, :username, :password
           options = {
-            'name'        => name,
-            'username'    => username,
-            'password'    => password,
             'description' => description
           }
           options = options.reject {|key, value| value.nil?}
-          data = service.image_create(options)
+          data = service.image_create(name, username, password, options)
           merge_attributes(data.body)
           true
         end

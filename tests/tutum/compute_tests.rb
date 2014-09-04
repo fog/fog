@@ -16,22 +16,4 @@ Shindo.tests('Fog::Compute[:tutum]', ['tutum']) do
       test("it should respond to #{collection}") { compute.respond_to? collection }
     end
   end
-
-  tests("require_attr") do
-    test("when a required field is missing") do
-      begin
-        compute.require_attr(:foo, {})
-        raise "Should have failed"
-      rescue => e
-        test("it raises an ArgumentError") { e.kind_of?  ArgumentError}
-      end
-    end
-
-    test("when a required field is present") do
-      test("it does not error") {
-        compute.require_attr(:foo, {:foo => :bar})
-        true
-      }
-    end
-  end
 end

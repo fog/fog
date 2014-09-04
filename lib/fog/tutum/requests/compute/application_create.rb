@@ -2,8 +2,8 @@
   module Compute
     class Tutum
       class Real
-        def application_create(attrs)
-          require_attr(:image, attrs)
+        def application_create(image, attrs = {})
+          attrs = { :image => image }.merge(attrs)
           request(
             :expects  => [201],
             :method   => 'POST',
@@ -14,8 +14,7 @@
       end
 
       class Mock
-        def application_create(attrs)
-          require_attr(:image, attrs)
+        def application_create(image, attrs)
           {
             "autodestroy" => "OFF",
             "autoreplace" => "OFF",

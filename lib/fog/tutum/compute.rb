@@ -61,11 +61,6 @@ module Fog
           self.class.data.delete(@tutum_api_key)
           self.class.data.delete(@tutum_username)
         end
-
-        def require_attr(k, attrs)
-          key = k.to_sym
-          raise  ArgumentError, "Missing required argument '#{key}'" unless attrs[key] || attrs[key.to_s]
-        end
       end
 
       class Real
@@ -98,10 +93,6 @@ module Fog
             raise Fog::Errors::Execution.new
           end
           response.body
-        end
-
-        def require_attr(key, attrs)
-          raise  ArgumentError, "Missing required argument '#{key}'" unless attrs[key]
         end
 
         def build_query_string(filters)

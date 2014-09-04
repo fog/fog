@@ -2,10 +2,7 @@ module Fog
   module Compute
     class Tutum
       class Real
-        def image_create(attrs)
-          require_attr(:name, attrs)
-          require_attr(:username, attrs)
-          require_attr(:password, attrs)
+        def image_create(name, username, password, attrs = {})
           request(
             :expects  => [202],
             :method   => 'POST',
@@ -16,10 +13,7 @@ module Fog
       end
 
       class Mock
-        def image_create(attrs)
-          require_attr(:name, attrs)
-          require_attr(:username, attrs)
-          require_attr(:password, attrs)
+        def image_create(name, username, password, attrs = {})
           {
             "base_image" => false,
             "cluster_aware" => false,

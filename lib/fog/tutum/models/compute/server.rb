@@ -46,17 +46,17 @@ module Fog
         end
 
         def start(options = {})
-          service.container_action(:uuid => uuid, :action => :start)
+          service.container_action(uuid, :start)
           reload
         end
 
         def stop(options = {})
-          service.container_action(:uuid => uuid, :action => :stop)
+          service.container_action(uuid, :stop)
           reload
         end
 
         def redeploy(options = {})
-          service.container_action(:uuid => uuid, :action => :redeploy, :tag => options[:tag])
+          service.container_action(uuid, :redeploy, options)
           reload
         end
 

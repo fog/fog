@@ -50,17 +50,17 @@ module Fog
         end
    
         def start(options = {})
-          service.application_action(:uuid => uuid, :action => :start)
+          service.application_action(uuid, :start)
           reload
         end
 
         def stop(options = {})
-          service.application_action(:uuid => uuid, :action => :stop)
+          service.application_action(uuid, :stop)
           reload
         end
 
         def redeploy(options = {})
-          service.application_action(:uuid => uuid, :action => :redeploy, :tag => options[:tag])
+          service.application_action(uuid, :redeploy, options)
           reload
         end
 
@@ -77,9 +77,9 @@ module Fog
 
         def save
           if persisted?
-            service.application_update(attributes)
+            service.application_update(uuid, attributes)
           else
-            self.uuid = service.application_create(attributes)['uuid']
+            self.uuid = service.application_create(image_name, attributes)['uuid']
           end
           reload
         end
