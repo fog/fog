@@ -19,22 +19,12 @@ module Fog
         # base_image (bool) – optional, display only Linux base images
         # starred (bool) – optional, display only jumpstart images
         # docker_registry__host (string) – optional, display only images stored in the specified host, i.e. r.tutum.co
-
-
-        IMAGE_ALL_ALLOWED_FILTERS = [:offset, 
-                                     :limit, 
-                                     :name,
-                                     :is_private_image,
-                                     :base_image,
-                                     :starred,
-                                     :docker_registry_host]
-
         def image_all(filters = {})
-          query_params = build_query_string(limit_filters(IMAGE_ALL_ALLOWED_FILTERS, filters))
           request(
             :expects  => [200],
             :method   => 'GET',
-            :path     => "image/#{query_params}"
+            :path     => "image/",
+            :query    => filters
           )
         end
       end

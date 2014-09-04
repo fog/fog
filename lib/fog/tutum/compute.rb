@@ -94,18 +94,7 @@ module Fog
           end
           response.body
         end
-
-        def build_query_string(filters)
-          str = filters.map {|k,v| "#{k}=#{v}"}.join("&")
-          return str == "" ? str : "?#{str}"
-        end
-
-        def limit_filters(allowed_filters, filters)
-           filters.select {|k,v| allowed_filters.include?(k) &&
-                                 k != nil  &&
-                                 k != "" } 
-        end
-
+        
         private
 
         def parse(response)

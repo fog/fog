@@ -13,10 +13,8 @@ module Fog
         attribute :total_count
 
         def all(filters = {})
-          filters = {
-            'limit'   => limit,
-            'offset'  => offset
-          }.merge!(filters)
+          filters['limit'] ||= (limit || 25)
+          filters['offset'] ||= (offset || 0)
           merge_attributes(filters)
           
           load service.image_all(filters)["objects"]

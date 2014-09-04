@@ -22,24 +22,12 @@ module Fog
         # application__name (string) – optional, filter containers by application name
         # application__uuid (string) – optional, filter containers by application uuid
         # application__state (string) – optional, filter containers by application state
-
-        CONTAINER_ALL_ALLOWED_FILTERS = [:offset, 
-                           :limit, 
-                           :unique_name, 
-                           :uuid, 
-                           :uuid__startswith, 
-                           :state, 
-                           :application__name, 
-                           :application__uuid, 
-                           :application__state]
-
         def container_all(filters = {})
-          query_params = build_query_string(limit_filters(CONTAINER_ALL_ALLOWED_FILTERS, filters))
-
           request(
             :expects  => [200],
             :method   => 'GET',
-            :path     => "container/#{query_params}"
+            :path     => "container/",
+            :query    => filters
           )
         end
       end

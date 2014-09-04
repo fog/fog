@@ -19,21 +19,12 @@ module Fog
         # uuid (string) – optional, filter applications by UUID
         # uuid__startswith (string) – optional, filter applications by UUIDs that start with the given string
         # state (string) – optional, filter applications by state
-
-        APPLICATION_ALL_ALLOWED_FILTERS = [:offset, 
-                           :limit, 
-                           :unique_name, 
-                           :uuid, 
-                           :uuid__startswith, 
-                           :state]
-
         def application_all(filters = {})
-          query_params = build_query_string(limit_filters(IMAGE_ALL_ALLOWED_FILTERS, filters))
-
           request(
             :expects  => [200],
             :method   => 'GET',
-            :path     => "application/#{query_params}"
+            :path     => "application/",
+            :query    => filters
           )
         end
       end
