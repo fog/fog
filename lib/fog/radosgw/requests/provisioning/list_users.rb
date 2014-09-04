@@ -29,8 +29,15 @@ module Fog
                 "email"        => value[:email],
                 "display_name" => value[:user_id],
                 "user_id"      => value[:user_id],
-                "key_secret"   => value[:key_secret],
-                "suspended"    => value[:suspended]
+                "suspended"    => value[:suspended],
+                "keys"         =>
+                [
+                 {
+                   "access_key" => "XXXXXXXXXXXXXXXXXXXX",
+                   "secret_key" => value[:secret_key],
+                   "user"       => value[:user_id],
+                 }
+                ],
               }
             end.compact
           end

@@ -14,16 +14,23 @@ module Fog
 
       class Mock
         def get_user(user_id)
-          if user = data[user_id]
+          if value = data[user_id]
             Excon::Response.new.tap do |response|
               response.status = 200
               response.headers['Content-Type'] = 'application/json'
               response.body = {
-                "email"        => user[:email],
-                "display_name" => user[:user_id],
-                "user_id"      => user[:user_id],
-                "key_secret"   => user[:key_secret],
-                "suspended"       => user[:suspended]
+                "email"        => value[:email],
+                "display_name" => value[:user_id],
+                "user_id"      => value[:user_id],
+                "suspended"    => value[:suspended],
+                "keys"         =>
+                [
+                 {
+                   "access_key" => "XXXXXXXXXXXXXXXXXXXX",
+                   "secret_key" => value[:secret_key],
+                   "user"       => value[:user_id],
+                 }
+                ],
               }
             end
           else

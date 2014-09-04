@@ -6,8 +6,15 @@ Shindo.tests('Radosgw::Provisioning | provisioning requests', ['radosgw']) do
     'email'        => String,
     'display_name' => String,
     'user_id'      => String,
-    'key_secret'   => String,
     'suspended'    => Integer,
+    'keys'         =>
+    [
+     {
+       'access_key' => String,
+       'secret_key' => String,
+       'user'       => String,
+     }
+    ],
   }
 
   tests('User creation') do
@@ -83,16 +90,16 @@ Shindo.tests('Radosgw::Provisioning | provisioning requests', ['radosgw']) do
 
       # Create a user.
       #
-      email, name        = "successful_user_regrant_test_#{current_timestamp}@example.com", "Fog User"
-      user               = Fog::Radosgw[:provisioning].create_user(email, name).body
-      user_id, key_secret = user['user_id'], user['key_secret']
+      email, name         = "successful_user_regrant_test_#{current_timestamp}@example.com", "Fog User"
+      user                = Fog::Radosgw[:provisioning].create_user(email, name).body
+      user_id, secret_key = user['user_id'], user['keys'][0]['secret_key']
 
       Fog::Radosgw[:provisioning].regrant_secret(user_id).status
 
       # Verify new secret.
       #
-      new_key_secret = Fog::Radosgw[:provisioning].get_user(user_id).body['key_secret']
-      new_key_secret != key_secret
+      new_secret_key = Fog::Radosgw[:provisioning].get_user(user_id).body['secret_key']
+      new_secret_key != secret_key
 
     end
 

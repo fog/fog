@@ -56,8 +56,8 @@ module Fog
             raise Fog::Radosgw::Provisioning::UserAlreadyExists, "User with email #{email} already exists."
           end
 
-          key_secret   = rand(1000).to_s
-          data[user_id] = { :email => email, :user_id => user_id, :suspended => 0, :key_secret => key_secret }
+          secret_key   = rand(1000).to_s
+          data[user_id] = { :email => email, :user_id => user_id, :suspended => 0, :secret_key => secret_key }
 
           Excon::Response.new.tap do |response|
             response.status = 200
@@ -66,8 +66,15 @@ module Fog
               "email"        => email,
               "display_name" => user_id,
               "user_id"      => user_id,
-              "key_secret"   => key_secret,
-              "suspended"    => 0
+              "suspended"    => 0,
+              "keys"         =>
+              [
+               {
+                 "access_key" => "XXXXXXXXXXXXXXXXXXXX",
+                 "secret_key" => secret_key,
+                 "user"       => user_id,
+               }
+              ],
             }
           end
         end
