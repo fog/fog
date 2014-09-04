@@ -40,8 +40,8 @@ module Fog
               response.headers['Content-Type'] = 'application/json'
               response.body = {
                 "email"        => value[:email],
-                "display_name" => value[:user_id],
                 "user_id"      => value[:user_id],
+                "display_name" => value[:display_name],
                 "suspended"    => value[:suspended],
                 "keys"         =>
                 [

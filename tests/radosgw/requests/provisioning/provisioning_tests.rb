@@ -24,7 +24,7 @@ Shindo.tests('Radosgw::Provisioning | provisioning requests', ['radosgw']) do
       # Create a user.
       #
       email, name = "successful_user_creation_test_#{current_timestamp}@example.com", "Fog User 0"
-      user_id      = Fog::Radosgw[:provisioning].create_user(email, name).body['user_id']
+      user_id      = Fog::Radosgw[:provisioning].create_user(name, name, email).body['user_id']
       user_id.class
 
     end
@@ -32,13 +32,13 @@ Shindo.tests('Radosgw::Provisioning | provisioning requests', ['radosgw']) do
     tests('fails if duplicate').raises(Fog::Radosgw::Provisioning::UserAlreadyExists) do
       2.times do
         email, name = "failed_duplicate_user_creation_test_#{current_timestamp}@example.com", "Fog User 1"
-        user_id      = Fog::Radosgw[:provisioning].create_user(email, name).body['user_id']
+        user_id      = Fog::Radosgw[:provisioning].create_user(name, name, email).body['user_id']
       end
     end
 
     tests('fails if invalid email').raises(Fog::Radosgw::Provisioning::ServiceUnavailable) do
-      email, name = "failed_duplicate_user_creation_test_#{current_timestamp}", "Fog User 1"
-      user_id      = Fog::Radosgw[:provisioning].create_user(email, name).body['user_id']
+      email, name = "failed_duplicate_user_creation_test_#{current_timestamp}", "Fog User 2"
+      user_id      = Fog::Radosgw[:provisioning].create_user(name, name, email).body['user_id']
     end
 
   end
@@ -49,8 +49,8 @@ Shindo.tests('Radosgw::Provisioning | provisioning requests', ['radosgw']) do
 
       # Create a user.
       #
-      email, name = "successful_user_disable_test_#{current_timestamp}@example.com", "Fog User 2"
-      user_id      = Fog::Radosgw[:provisioning].create_user(email, name).body['user_id']
+      email, name = "successful_user_disable_test_#{current_timestamp}@example.com", "Fog User 3"
+      user_id      = Fog::Radosgw[:provisioning].create_user(name, name, email).body['user_id']
 
       Fog::Radosgw[:provisioning].disable_user(user_id).status
 
@@ -64,8 +64,8 @@ Shindo.tests('Radosgw::Provisioning | provisioning requests', ['radosgw']) do
 
       # Create a user.
       #
-      email, name = "successful_user_disable_enable_test_#{current_timestamp}@example.com", "Fog User 3"
-      user_id      = Fog::Radosgw[:provisioning].create_user(email, name).body['user_id']
+      email, name = "successful_user_disable_enable_test_#{current_timestamp}@example.com", "Fog User 4"
+      user_id      = Fog::Radosgw[:provisioning].create_user(name, name, email).body['user_id']
 
       Fog::Radosgw[:provisioning].disable_user(user_id).status
       Fog::Radosgw[:provisioning].enable_user(user_id).status
@@ -80,8 +80,8 @@ Shindo.tests('Radosgw::Provisioning | provisioning requests', ['radosgw']) do
 
       # Create a user.
       #
-      email, name         = "successful_user_regrant_test_#{current_timestamp}@example.com", "Fog User 4"
-      user                = Fog::Radosgw[:provisioning].create_user(email, name).body
+      email, name         = "successful_user_regrant_test_#{current_timestamp}@example.com", "Fog User 5"
+      user                = Fog::Radosgw[:provisioning].create_user(name, name, email).body
       user_id, secret_key = user['user_id'], user['keys'][0]['secret_key']
 
       Fog::Radosgw[:provisioning].regrant_secret(user_id).status
@@ -101,8 +101,8 @@ Shindo.tests('Radosgw::Provisioning | provisioning requests', ['radosgw']) do
 
       # Create a user.
       #
-      email, name = "user_retrieval_test_#{current_timestamp}@example.com", "Fog User 5"
-      user_id      = Fog::Radosgw[:provisioning].create_user(email, name).body['user_id']
+      email, name = "user_retrieval_test_#{current_timestamp}@example.com", "Fog User 6"
+      user_id      = Fog::Radosgw[:provisioning].create_user(name, name, email).body['user_id']
 
       # Get user details.
       #
@@ -118,8 +118,8 @@ Shindo.tests('Radosgw::Provisioning | provisioning requests', ['radosgw']) do
 
       # Create a user.
       #
-      email, name = "user_listing_test_#{current_timestamp}@example.com", "Fog User 6"
-      user_id      = Fog::Radosgw[:provisioning].create_user(email, name).body['user_id']
+      email, name = "user_listing_test_#{current_timestamp}@example.com", "Fog User 7"
+      user_id      = Fog::Radosgw[:provisioning].create_user(name, name, email).body['user_id']
 
       # Ensure the list users response contains the user that we just
       # created.
@@ -132,8 +132,8 @@ Shindo.tests('Radosgw::Provisioning | provisioning requests', ['radosgw']) do
 
       # Create a user.
       #
-      email, name = "user_listing_without_disabled_users_test_#{current_timestamp}@example.com", "Fog User 7"
-      user_id      = Fog::Radosgw[:provisioning].create_user(email, name).body['user_id']
+      email, name = "user_listing_without_disabled_users_test_#{current_timestamp}@example.com", "Fog User 8"
+      user_id      = Fog::Radosgw[:provisioning].create_user(name, name, email).body['user_id']
 
       # Disable that user.
       #
@@ -150,8 +150,8 @@ Shindo.tests('Radosgw::Provisioning | provisioning requests', ['radosgw']) do
 
       # Create a user.
       #
-      email, name = "user_listing_with_disabled_users_test_#{current_timestamp}@example.com", "Fog User 8"
-      user_id      = Fog::Radosgw[:provisioning].create_user(email, name).body['user_id']
+      email, name = "user_listing_with_disabled_users_test_#{current_timestamp}@example.com", "Fog User 9"
+      user_id      = Fog::Radosgw[:provisioning].create_user(name, name, email).body['user_id']
 
       # Disable that user.
       #

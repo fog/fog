@@ -4,15 +4,17 @@ module Fog
       class Real
         include Utils
 
-        def create_user(email, user_id, options = {})
+        def create_user(user_id, display_name, email, options = {})
           if get_user(user_id).status != 404
             raise Fog::Radosgw::Provisioning::UserAlreadyExists, "User with user_id #{user_id} already exists."
           end
 
-          path = "admin/user"
-          user_id = Fog::AWS.escape(user_id)
-          query = "?uid=#{user_id}&display-name=#{user_id}&format=json"
-          params = { 
+          path         = "admin/user"
+          user_id      = Fog::AWS.escape(user_id)
+          display_name = Fog::AWS.escape(display_name)
+          email        = Fog::AWS.escape(email)
+          query        = "?uid=#{user_id}&display-name=#{display_name}&email=#{email}&format=json"
+          params       = {
             :method => 'PUT',
             :path => path,
           }
@@ -37,7 +39,7 @@ module Fog
 
       class Mock
         def invalid_email?(email)
-          !email.include?('@')
+          email && !email.include?('@')
         end
 
         def user_exists?(user_id)
@@ -46,7 +48,7 @@ module Fog
           end
         end
 
-        def create_user(email, user_id, options = {})
+        def create_user(user_id, display_name, email, options = {})
           if invalid_email?(email)
             raise Fog::Radosgw::Provisioning::ServiceUnavailable, "The email address you provided is not a valid."
           end
@@ -56,15 +58,21 @@ module Fog
           end
 
           secret_key   = rand(1000).to_s
-          data[user_id] = { :email => email, :user_id => user_id, :suspended => 0, :secret_key => secret_key }
+          data[user_id] = {
+            :email        => email, 
+            :user_id      => user_id, 
+            :display_name => display_name,
+            :suspended    => 0, 
+            :secret_key   => secret_key,
+          }
 
           Excon::Response.new.tap do |response|
             response.status = 200
             response.headers['Content-Type'] = 'application/json'
             response.body = {
               "email"        => email,
-              "display_name" => user_id,
               "user_id"      => user_id,
+              "display_name" => display_name,
               "suspended"    => 0,
               "keys"         =>
               [
