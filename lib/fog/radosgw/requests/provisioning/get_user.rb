@@ -23,7 +23,7 @@ module Fog
                 "display_name" => user[:user_id],
                 "user_id"      => user[:user_id],
                 "key_secret"   => user[:key_secret],
-                "status"       => user[:status]
+                "suspended"       => user[:suspended]
               }
             end
           else

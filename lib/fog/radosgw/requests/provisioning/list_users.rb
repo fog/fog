@@ -20,7 +20,7 @@ module Fog
 
       class Mock
         def list_users(options = {})
-          filtered_data = options[:status] ? data.select { |key, value| value[:status] == options[:status] } : data
+          filtered_data = options[:suspended] ? data.select { |key, value| value[:suspended] == options[:suspended] } : data
 
           Excon::Response.new.tap do |response|
             response.status = 200
@@ -30,7 +30,7 @@ module Fog
                 "display_name" => value[:user_id],
                 "user_id"      => value[:user_id],
                 "key_secret"   => value[:key_secret],
-                "status"       => value[:status]
+                "suspended"    => value[:suspended]
               }
             end.compact
           end

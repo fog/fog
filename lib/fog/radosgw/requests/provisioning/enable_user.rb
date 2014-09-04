@@ -6,16 +6,16 @@ module Fog
         include UserUtils
         include MultipartUtils
 
-        def enable_user(key_id)
-          update_radosgw_user(key_id, { :status => 'enabled' })
+        def enable_user(user_id)
+          update_radosgw_user(user_id, { :suspended => 0 })
         end
       end
 
       class Mock
         include UserUtils
 
-        def enable_user(key_id)
-          update_mock_user(key_id, { :status => 'enabled' })
+        def enable_user(user_id)
+          update_mock_user(user_id, { :suspended => 0 })
         end
       end
     end
