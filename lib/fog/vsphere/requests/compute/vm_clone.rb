@@ -175,6 +175,8 @@ module Fog
             cust_ip_settings.ip = RbVmomi::VIM::CustomizationFixedIp("ipAddress" => cust_options["ipsettings"]["ip"]) if cust_options.has_key?("ipsettings")
             cust_ip_settings ||= RbVmomi::VIM::CustomizationIPSettings.new("ip" => RbVmomi::VIM::CustomizationDhcpIpGenerator.new())
             cust_ip_settings.dnsDomain = cust_domain
+            cust_ip_settings.dnsServerList = cust_options["dnsServerList"]
+
             cust_global_ip_settings = RbVmomi::VIM::CustomizationGlobalIPSettings.new
             cust_global_ip_settings.dnsServerList = cust_ip_settings.dnsServerList
             cust_global_ip_settings.dnsSuffixList = [cust_domain]
@@ -191,9 +193,9 @@ module Fog
                   :timeZone => 1
               )
               cust_identification = RbVmomi::VIM::CustomizationIdentification.new(
-                  :domainAdmin => nil,
-                  :domainAdminPassword => nil,
-                  :joinDomain => nil,
+                  :domainAdmin => options["domain_admin"],
+                  :domainAdminPassword => RbVmomi::VIM::CustomizationPassword.new(:plainText=>true,:value=>options['domain_admin_password']),
+                  :joinDomain =>cust_options["domain"],
               )
               cust_user_data = RbVmomi::VIM::CustomizationUserData.new(
                   :computerName => cust_hostname,
@@ -215,7 +217,7 @@ module Fog
               )]
               new_windowsOptions = RbVmomi::VIM::CustomizationWinOptions.new(
                 :changeSID => true,
-                :deleteAccounts => true,
+                :deleteAccounts => false,
                 # :reboot=>RbVmomi::VIM::CustomizationSysprepRebootOption.new("reboot")
               )
               cust_adapter_mapping = [RbVmomi::VIM::CustomizationAdapterMapping.new("adapter" => cust_ip_settings)]
