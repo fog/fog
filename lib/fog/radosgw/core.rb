@@ -111,6 +111,16 @@ module Fog
       def radosgw_uri
         "#{@scheme}://#{@host}:#{@port}"
       end
+
+      def signed_headers(params)
+        expires = Fog::Time.now.to_date_header
+        auth   =  @s3_connection.signature(params,expires)
+        awskey =  @radosgw_access_key_id
+        headers = {
+          'Date'          => expires,
+          'Authorization' => "AWS #{awskey}:#{auth}"
+        }
+      end
     end
 
     extend Fog::Provider

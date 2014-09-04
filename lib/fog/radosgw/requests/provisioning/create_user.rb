@@ -2,32 +2,31 @@ module Fog
   module Radosgw
     class Provisioning
       class Real
+        include Utils
+
         def create_user(email, user_id, options = {})
+          if get_user(user_id).status != 404
+            raise Fog::Radosgw::Provisioning::UserAlreadyExists, "User with user_id #{user_id} already exists."
+          end
+
           path = "admin/user"
           user_id = Fog::AWS.escape(user_id)
           query = "?uid=#{user_id}&display-name=#{user_id}&format=json"
-          expires = Fog::Time.now.to_date_header
           params = { 
             :method => 'PUT',
             :path => path,
           }
-          auth   =  @s3_connection.signature(params,expires)
-          awskey =  @radosgw_access_key_id
-          headers = {
-            'Date'          => expires,
-            'Authorization' => "AWS #{awskey}:#{auth}"
-          }
 
           begin
             response = Excon.put("#{@scheme}://#{@host}/#{path}#{query}",
-                                 :headers => headers)
+                                 :headers => signed_headers(params))
             if !response.body.empty?
               case response.headers['Content-Type']
               when 'application/json'
                 response.body = Fog::JSON.decode(response.body)
               end
-              response
             end
+            response
           rescue Excon::Errors::Conflict => e
             raise Fog::Radosgw::Provisioning::UserAlreadyExists.new
           rescue Excon::Errors::BadRequest => e
@@ -41,9 +40,9 @@ module Fog
           !email.include?('@')
         end
 
-        def user_exists?(email)
+        def user_exists?(user_id)
           data.find do |key, value|
-            value[:email] == email
+            value[:user_id] == user_id
           end
         end
 
@@ -52,8 +51,8 @@ module Fog
             raise Fog::Radosgw::Provisioning::ServiceUnavailable, "The email address you provided is not a valid."
           end
 
-          if user_exists?(email)
-            raise Fog::Radosgw::Provisioning::UserAlreadyExists, "User with email #{email} already exists."
+          if user_exists?(user_id)
+            raise Fog::Radosgw::Provisioning::UserAlreadyExists, "User with user_id #{user_id} already exists."
           end
 
           secret_key   = rand(1000).to_s

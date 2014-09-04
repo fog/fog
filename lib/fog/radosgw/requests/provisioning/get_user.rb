@@ -6,9 +6,29 @@ module Fog
         include MultipartUtils
 
         def get_user(user_id)
-          response = @s3_connection.get_object('radosgw', "user/#{user_id}", { 'Accept' => 'application/json' })
-          response.body = Fog::JSON.decode(response.body)
-          response
+          path = "admin/user"
+          user_id = Fog::AWS.escape(user_id)
+          query = "?uid=#{user_id}&format=json"
+          params = { 
+            :method => 'GET',
+            :path => path,
+          }
+
+          begin
+            response = Excon.get("#{@scheme}://#{@host}/#{path}#{query}",
+                                 :headers => signed_headers(params))
+            if !response.body.empty?
+              case response.headers['Content-Type']
+              when 'application/json'
+                response.body = Fog::JSON.decode(response.body)
+              end
+            end
+            response
+          rescue Excon::Errors::Conflict => e
+            raise Fog::Radosgw::Provisioning::UserAlreadyExists.new
+          rescue Excon::Errors::BadRequest => e
+            raise Fog::Radosgw::Provisioning::ServiceUnavailable.new
+          end
         end
       end
 
