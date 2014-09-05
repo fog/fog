@@ -68,6 +68,18 @@ module Fog
           nodes.load(new_nodes)
         end
 
+        def https_redirect
+          if @https_redirect.nil?
+            requires :identity
+            @https_redirect = begin
+              service.get_load_balancer(identity).body['loadBalancer']['httpsRedirect']
+            rescue => e
+              nil
+            end
+          end
+          @https_redirect
+        end
+
         def ssl_termination
           requires :identity
           ssl_termination = service.get_ssl_termination(identity).body['sslTermination']
