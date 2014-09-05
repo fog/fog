@@ -31,7 +31,7 @@ DATA
 
         string_to_sign.chop!
 
-        signature = derived_hmac(date).sign(string_to_sign)
+        signature = URI.escape(derived_hmac(date).sign(string_to_sign), "+")
 
         "AWS4-HMAC-SHA256 Credential=#{@aws_access_key_id}/#{credential_scope}, SignedHeaders=#{signed_headers(params[:headers])}, Signature=#{signature.unpack('H*').first}"
       end
