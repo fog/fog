@@ -30,6 +30,7 @@ module Fog
           lb_data['port'] = port if port
           lb_data['algorithm'] = options[:algorithm] if options.key? :algorithm
           lb_data['timeout'] = options[:timeout] if options.key? :timeout
+          lb_data['httpsRedirect'] = options[:https_redirect] if options.key? :https_redirect
 
           data = { 'loadBalancer' => lb_data }
 
@@ -59,7 +60,8 @@ module Fog
               "updated" => {"time" => MockData.zulu_time },
               "halfClosed" => false,
               "connectionLogging" => { "enabled" => false },
-              "contentCaching" => { "enabled" => false }
+              "contentCaching" => { "enabled" => false },
+              "httpsRedirect" => false
             }
           }
 
