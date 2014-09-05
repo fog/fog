@@ -70,27 +70,43 @@ module Fog
     end
 
     module UserUtils
-      def update_radosgw_user(key_id, user)
-        response = @s3_connection.put_object('radosgw', "user/#{key_id}", Fog::JSON.encode(user), { 'Content-Type' => 'application/json' })
-        if !response.body.empty?
-          response.body = Fog::JSON.decode(response.body)
+
+      def update_radosgw_user(user_id, user)
+        path         = "admin/user"
+        user_id      = Fog::AWS.escape(user_id)
+        params       = {
+          :method => 'POST',
+          :path => path,
+        }
+        query        = "?uid=#{user_id}&format=json&suspended=#{user[:suspended]}"
+        begin
+          response = Excon.post("#{@scheme}://#{@host}/#{path}#{query}",
+                                :headers => signed_headers(params))
+          if !response.body.empty?
+            case response.headers['Content-Type']
+            when 'application/json'
+              response.body = Fog::JSON.decode(response.body)
+            end
+          end
+          response
+        rescue Excon::Errors::BadRequest => e
+          raise Fog::Radosgw::Provisioning::ServiceUnavailable.new
         end
-        response
       end
 
-      def update_mock_user(key_id, user)
-        if data[key_id]
+      def update_mock_user(user_id, user)
+        if data[user_id]
           if status = user[:status]
-            data[key_id][:status] = status
+            data[user_id][:status] = status
           end
 
           if user[:new_key_secret]
-            data[key_id][:key_secret] = rand(100).to_s
+            data[user_id][:key_secret] = rand(100).to_s
           end
 
           Excon::Response.new.tap do |response|
             response.status = 200
-            response.body   = data[key_id]
+            response.body   = data[user_id]
           end
         else
           Excon::Response.new.tap do |response|
