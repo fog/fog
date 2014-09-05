@@ -5,15 +5,36 @@ module Fog
         include Utils
         include MultipartUtils
 
+        def list_user_ids()
+          path = "admin/metadata/user"
+          query = "?format=json"
+          params = { 
+            :method => 'GET',
+            :path => path,
+          }
+
+          begin
+            response = Excon.get("#{@scheme}://#{@host}/#{path}#{query}",
+                                 :headers => signed_headers(params))
+            if !response.body.empty?
+              case response.headers['Content-Type']
+              when 'application/json'
+                response.body = Fog::JSON.decode(response.body)
+              end
+            else
+              response.body = []
+            end
+            response
+          rescue Excon::Errors::Conflict => e
+            raise Fog::Radosgw::Provisioning::UserAlreadyExists.new
+          rescue Excon::Errors::BadRequest => e
+            raise Fog::Radosgw::Provisioning::ServiceUnavailable.new
+          end
+        end
+
         def list_users(options = {})
-          response      = @s3_connection.get_object('radosgw', 'users', { 'Accept' => 'application/json', 'query' => options })
-
-          boundary      = extract_boundary(response.headers['Content-Type'])
-          parts         = parse(response.body, boundary)
-          decoded       = parts.map { |part| Fog::JSON.decode(part[:body]) }
-
-          response.body = decoded.flatten
-
+          response = list_user_ids
+          response.body = response.body.map { |user_id| get_user(user_id).body }
           response
         end
       end
