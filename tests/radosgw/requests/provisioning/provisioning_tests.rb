@@ -137,7 +137,7 @@ Shindo.tests('Radosgw::Provisioning | provisioning requests', ['radosgw']) do
       # Ensure the list users response does not contain the user that we
       # just created and disabled.
       #
-      Fog::Radosgw[:provisioning].list_users(:suspended => 0).body.select { |x| x['Email'] == email }.first
+      Fog::Radosgw[:provisioning].list_users(:suspended => 0).body.select { |x| x['email'] == email }.first
 
     end
 
