@@ -35,6 +35,9 @@ module Fog
         def list_users(options = {})
           response = list_user_ids
           response.body = response.body.map { |user_id| get_user(user_id).body }
+          if options[:suspended]
+            response.body = response.body.select { |user| user[:suspended] == options[:suspended] }
+          end
           response
         end
       end
