@@ -2,44 +2,44 @@ module Fog
   module Radosgw
     class Usage
       module Utils
-        TYPES_TO_STRING = { :access  => 'a', :storage => 'b' }
-        DEFAULT_TYPES   = TYPES_TO_STRING.keys
-        DEFAULT_FORMAT  = :json
 
         def sanitize_and_convert_time(time)
-          time.utc.iso8601.gsub(/[:-]/, '')
+          fmt = '%Y-%m-%d %H:%M:%S'
+          Fog::AWS.escape(time.strftime(fmt))
         end
 
-        def format_and_types_to_path(format, types)
-          format_character = format.to_s.split('').first
-          type_characters  = types.map { |t| TYPES_TO_STRING[t] }.compact
-
-          [type_characters, format_character].flatten.compact.join
-        end
-
-        def request_uri(access_key_id, options)
-          format        = DEFAULT_FORMAT
-          types         = options[:types]       || DEFAULT_TYPES
-          start_time    = options[:start_time]  || Time.now.utc - 86400
-          end_time      = options[:end_time]    || Time.now.utc
-
-          [access_key_id,
-           format_and_types_to_path(format, types),
-           sanitize_and_convert_time(start_time),
-           sanitize_and_convert_time(end_time)].join('.')
-        end
       end
 
       class Real
         include Utils
 
         def get_usage(access_key_id, options = {})
-          response = @connection.get_object('radosgw', ["usage", request_uri(access_key_id, options)].join("/"))
+          path = "admin/usage"
+          t_now = Fog::Time.now
+          start_time  = sanitize_and_convert_time(options[:start_time] || t_now - 86400)
+          end_time    = sanitize_and_convert_time(options[:end_time]   || t_now)
 
-          if !response.body.empty?
-            response.body = Fog::JSON.decode(response.body)
+          query = "?format=json&start=#{start_time}&end=#{end_time}"
+          params = { 
+            :method => 'GET',
+            :path => path,
+          }
+
+          begin
+            response = Excon.get("#{@scheme}://#{@host}/#{path}#{query}",
+                                 :headers => signed_headers(params))
+            if !response.body.empty?
+              case response.headers['Content-Type']
+              when 'application/json'
+                response.body = Fog::JSON.decode(response.body)
+              end
+            end
+            response
+          rescue Excon::Errors::Conflict => e
+            raise Fog::Radosgw::Provisioning::UserAlreadyExists.new
+          rescue Excon::Errors::BadRequest => e
+            raise Fog::Radosgw::Provisioning::ServiceUnavailable.new
           end
-          response
         end
       end
 
@@ -51,14 +51,8 @@ module Fog
             response.status = 200
             response.headers['Content-Type'] = 'application/json'
             response.body = {
-              'Access' => {
-                'Nodes'   => [],
-                'Errors'  => []
-              },
-              'Storage' => {
-                'Samples' => [],
-                'Errors'  => []
-              }
+              'entries' =>  [],
+              'summary'  => []
             }
           end
         end
