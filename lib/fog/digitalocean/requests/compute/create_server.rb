@@ -24,6 +24,12 @@ module Fog
           end
 
           query_hash[:private_networking] = !!options[:private_networking]
+          query_hash[:ipv6] = !!options[:ipv6]
+          query_hash[:backups] = !!options[:backups]
+
+          if options[:user_data]
+            query_hash[:user_data] = options[:user_data]
+          end
 
           request(
             :expects  => [200],

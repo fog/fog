@@ -103,4 +103,32 @@ Destroying the server:
 server.destroy
 ```
 
+# Running tests
+
+## Mock server
+run the test suite with
+```
+$ rake mock[digitalocean]
+```
+
+Run a specific test with
+```
+$ shindo tests/digitalocean/requests/compute/create_server_tests.rb
+```
+
+
+## Live server
+To run the tests against the live server, create tests/.fog with
+
+```
+:default:
+  :digitalocean_api_key: SDFASDFWQWASDFASDFAS
+  :digitalocean_client_id: SDFASDFWQWASDFASDFAS
+
+```
+
+then start the test suite with
+```
+$ rake live[digitalocean]
+```
 
