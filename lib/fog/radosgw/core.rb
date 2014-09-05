@@ -100,10 +100,6 @@ module Fog
             data[user_id][:suspended] = suspended
           end
 
-          if user[:new_key_secret]
-            data[user_id][:key_secret] = rand(100).to_s
-          end
-
           Excon::Response.new.tap do |response|
             response.status = 200
             response.body   = data[user_id]

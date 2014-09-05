@@ -16,7 +16,6 @@ module Fog
       request :enable_user
       request :list_users
       request :get_user
-      request :regrant_secret
 
       class Mock
         include Utils
