@@ -24,7 +24,8 @@ Shindo.tests('Fog::Compute[:digitalocean] | create_server request', ['digitaloce
         fog_server_name,
         flavor_id,
         image_id,
-        region_id
+        region_id,
+        {private_networking: true}
       )
       data.body
     end
