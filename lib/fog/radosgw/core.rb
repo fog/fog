@@ -96,8 +96,8 @@ module Fog
 
       def update_mock_user(user_id, user)
         if data[user_id]
-          if status = user[:status]
-            data[user_id][:status] = status
+          if suspended = user[:suspended]
+            data[user_id][:suspended] = suspended
           end
 
           if user[:new_key_secret]

@@ -15,7 +15,7 @@ module Fog
         include UserUtils
 
         def disable_user(user_id)
-          update_mock_user(user_id, { :suspended => 0 })
+          update_mock_user(user_id, { :suspended => 1 })
         end
       end
     end
