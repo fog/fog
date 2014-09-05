@@ -1,14 +1,8 @@
 Shindo.tests('Radosgw::Usage | usage requests', ['radosgw']) do
 
   @blank_usage_format = {
-    'Access' => {
-      'Nodes'   => [],
-      'Errors'  => []
-    },
-    'Storage' => {
-      'Samples' => [],
-      'Errors'  => []
-    }
+    'entries' =>  [],
+    'summary'  => []
   }
 
   tests('Statistics retrieval with no data returned') do
