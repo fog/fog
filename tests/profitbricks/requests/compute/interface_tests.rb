@@ -26,8 +26,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
 
         tests('#create_data_center') do
             puts '#create_data_center'
-            data = service.create_data_center({'dataCenterName' => 'FogDataCenter',
-                                               'region' => 'EUROPE'})
+            data = service.create_data_center('FogDataCenter', 'EUROPE')
             @data_center_id = data.body['createDataCenterResponse']['dataCenterId']
             data.body['createDataCenterResponse']
         end

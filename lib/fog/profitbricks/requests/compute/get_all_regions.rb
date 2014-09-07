@@ -2,7 +2,7 @@ module Fog
     module Compute
         class ProfitBricks
             class Real
-                def get_all_regions(options = {})
+                def get_all_regions(options={})
                     response        = Excon::Response.new
                     response.status = 200
                     response.body   = {
@@ -22,7 +22,7 @@ module Fog
             end
 
             class Mock
-                def get_all_regions(options = {})
+                def get_all_regions(options={})
                     data = self.data[:regions]
                     response        = Excon::Response.new
                     response.status = 200

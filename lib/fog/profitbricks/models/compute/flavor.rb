@@ -2,8 +2,8 @@ module Fog
     module Compute
         class ProfitBricks
             class Flavor < Fog::Model
-                identity  :id
-                attribute :name
+                identity  :id,   :aliases => 'flavorId'
+                attribute :name, :aliases => 'flavorName'
                 attribute :cores
                 attribute :ram
                 attribute :disk

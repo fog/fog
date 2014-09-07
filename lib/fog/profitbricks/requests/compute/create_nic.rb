@@ -24,7 +24,7 @@ module Fog
                 #       * nicId<~String> - UUID of the new virtual network interface
                 #
                 # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/CreateNIC.html]
-                def create_nic(server_id, lan_id, options = {})
+                def create_nic(server_id, lan_id, options={})
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createNic {
                         xml.request {
@@ -46,7 +46,7 @@ module Fog
             end
 
             class Mock
-                def create_nic(server_id, lan_id, options = {})
+                def create_nic(server_id, lan_id, options={})
                     response = Excon::Response.new
                     response.status = 200
                     

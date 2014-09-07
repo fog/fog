@@ -24,7 +24,7 @@ module Fog
                 #       * storageId<~String> - UUID of the new virtual storage
                 #
                 # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/CreateStorage.html]
-                def create_storage(data_center_id, size, options = {})
+                def create_storage(data_center_id, size, options={})
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createStorage {
                         xml.request {
@@ -46,7 +46,7 @@ module Fog
             end
 
             class Mock
-                def create_storage(data_center_id, size, options = {})
+                def create_storage(data_center_id, size, options={})
                     response = Excon::Response.new
                     response.status = 200
                     

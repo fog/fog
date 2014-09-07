@@ -23,12 +23,6 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
         'lastModificationTime' => Time,
         'osType'               => String,
         'availabilityZone'     => 'AUTO' || 'ZONE_1' || 'ZONE_2',
-        #'cpuHotPlug'           => String,
-        #'ramHotPlug'           => String,
-        #'nicHotPlug'           => String,
-        #'nicHotUnPlug'         => String,
-        #'discVirtioHotPlug'    => String,
-        #'discVirtioHotUnPlug'  => String
     }
 
     @storage_format = {
@@ -57,7 +51,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
 
         tests('#create_data_center').formats(@minimal_format.merge('region' => String)) do
             puts '#create_data_center'
-            data = service.create_data_center({'dataCenterName' => 'FogDataCenter', 'region' => 'EUROPE'})
+            data = service.create_data_center('FogDataCenter', 'EUROPE')
             @data_center_id = data.body['createDataCenterResponse']['dataCenterId']
             service.datacenters.get(@data_center_id).wait_for { ready? }
             data.body['createDataCenterResponse']

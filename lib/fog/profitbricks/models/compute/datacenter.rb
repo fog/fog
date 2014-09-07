@@ -16,7 +16,9 @@ module Fog
                 end
 
                 def save
-                    data = service.create_data_center(options)
+                    requires :name, :region
+
+                    data = service.create_data_center(name, region)
                     merge_attributes(data.body['createDataCenterResponse'])
                     true
                 end

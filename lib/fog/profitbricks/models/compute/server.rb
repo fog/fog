@@ -30,9 +30,7 @@ module Fog
                 def save
                     requires :data_center_id, :cores, :ram
 
-                    data = service.create_server(
-                        data_center_id, cores, ram, options
-                    )
+                    data = service.create_server(data_center_id, cores, ram, options)
                     merge_attributes(data.body['createServerResponse'])
                     true
                 end

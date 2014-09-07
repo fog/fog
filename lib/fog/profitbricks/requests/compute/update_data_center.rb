@@ -3,7 +3,7 @@ module Fog
         class ProfitBricks
             class Real
                 require 'fog/profitbricks/parsers/compute/update_data_center'
-                def update_data_center(data_center_id, options = {})
+                def update_data_center(data_center_id, options={})
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].updateDataCenter {
                         xml.request { 
@@ -26,7 +26,7 @@ module Fog
             end
 
             class Mock
-                def update_data_center(data_center_id, options = {})
+                def update_data_center(data_center_id, options={})
 
                     if data_center = self.data[:datacenters].find {
                       |attrib| attrib['dataCenterId'] == data_center_id

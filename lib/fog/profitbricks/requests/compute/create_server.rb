@@ -29,7 +29,7 @@ module Fog
                 #       * serverId<~String> - UUID of the new virtual server
                 #
                 # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/CreateServer.html]
-                def create_server(data_center_id, cores, ram, options = {})
+                def create_server(data_center_id, cores, ram, options={})
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createServer {
                         xml.request {
@@ -52,7 +52,7 @@ module Fog
             end
 
             class Mock
-                def create_server(data_center_id, cores, ram, options = {})
+                def create_server(data_center_id, cores, ram, options={})
                     server_id = Fog::UUID.uuid
 
                     server = {

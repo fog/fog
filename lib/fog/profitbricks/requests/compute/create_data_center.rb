@@ -7,9 +7,8 @@ module Fog
                 # Create a new virtual data center
                 #
                 # ==== Parameters
-                # * options<~Hash>:
-                # *   dataCenterName<~String> - Name of the new virtual data center
-                # *   region<~String> - Region to create the new data center (NORTH_AMERICA, EUROPE, or DEFAULT)
+                #   dataCenterName<~String> - Name of the new virtual data center
+                #   region<~String> - Region to create the new data center (NORTH_AMERICA, EUROPE, or DEFAULT)
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:
@@ -21,10 +20,11 @@ module Fog
                 #       * region<~String> - Region of virtual data center
                 #
                 # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/CreateDataCenter.html]
-                def create_data_center(options = {})
+                def create_data_center(data_center_name='', region='')
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createDataCenter {
-                        options.each { |key, value| xml.send(key, value) }
+                        xml.dataCenterName(data_center_name)
+                        xml.region(region)
                       }
                     }
 
@@ -39,7 +39,7 @@ module Fog
             end
 
             class Mock
-                def create_data_center(options = {})
+                def create_data_center(options={})
                     raise NoMethodError unless options.is_a?(Hash)
 
                     data_center = {
