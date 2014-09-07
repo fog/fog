@@ -5,13 +5,17 @@ module Fog
       class Real
         # Creates a disk offering.
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createDiskOffering.html]
-        def create_disk_offering(name, displaytext, options={})
-          options.merge!(
-            'command' => 'createDiskOffering', 
-            'name' => name, 
-            'displaytext' => displaytext  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/createDiskOffering.html]
+        def create_disk_offering(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'createDiskOffering') 
+          else
+            options.merge!('command' => 'createDiskOffering', 
+            'displaytext' => args[0], 
+            'name' => args[1])
+          end
           request(options)
         end
       end

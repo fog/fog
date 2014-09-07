@@ -65,12 +65,13 @@ module Fog
           @dynect_password = options[:dynect_password]
 
           @connection_options = options[:connection_options] || {}
-          @host       = 'api-v4.dynect.net'
-          @port       = options[:port]        || 443
-          @path       = options[:path]        || '/REST'
-          @persistent = options[:persistent]  || false
-          @scheme     = options[:scheme]      || 'https'
-          @version    = options[:version]     || '3.5.2'
+          @host               = 'api-v4.dynect.net'
+          @port               = options[:port]             || 443
+          @path               = options[:path]             || '/REST'
+          @persistent         = options[:persistent]       || false
+          @scheme             = options[:scheme]           || 'https'
+          @version            = options[:version]          || '3.5.2'
+          @job_poll_timeout   = options[:job_poll_timeout] || 10
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
@@ -102,7 +103,7 @@ module Fog
             end
 
             if response.status == 307 && params[:path] !~ %r{^/REST/Job/}
-              response = poll_job(response, params[:expects])
+              response = poll_job(response, params[:expects], @job_poll_timeout)
             end
 
             response
@@ -118,9 +119,9 @@ module Fog
           response
         end
 
-        def poll_job(response, original_expects, time_to_wait = 10)
+        def poll_job(response, original_expects, time_to_wait)
           job_location = response.headers['Location']
-          
+
           begin
             Fog.wait_for(time_to_wait) do
              response = request(
@@ -131,7 +132,7 @@ module Fog
              )
              response.body['status'] != 'incomplete'
             end
-          
+
           rescue Errors::TimeoutError => error
             if response.body['status'] == 'incomplete'
               raise JobIncomplete.new("Job #{response.body['job_id']} is still incomplete")

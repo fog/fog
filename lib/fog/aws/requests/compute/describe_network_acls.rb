@@ -53,6 +53,7 @@ module Fog
           response = Excon::Response.new
 
           network_acls = self.data[:network_acls].values
+          network_acls = apply_tag_filters(network_acls, filters, 'networkAclId')
 
           aliases = {
             'vpc-id'         => 'vpcId',
@@ -88,6 +89,11 @@ module Fog
               aliased_key = aliases[filter_key]
               network_acls = network_acls.reject{|nacl| ![*filter_value].include?(nacl[aliased_key])}
             end
+          end
+
+          network_acls.each do |acl|
+            tags = self.data[:tag_sets][acl['networkAclId']]
+            acl.merge!('tagSet' => tags) if tags
           end
 
           response.status = 200

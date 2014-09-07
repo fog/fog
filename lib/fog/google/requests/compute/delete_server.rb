@@ -45,7 +45,7 @@ module Fog
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/#{operation}"
           }
 
-          build_response(:body => self.data[:operations][operation])
+          build_excon_response(self.data[:operations][operation])
         end
       end
 
@@ -61,8 +61,7 @@ module Fog
             'instance' => server_name
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

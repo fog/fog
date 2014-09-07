@@ -369,7 +369,7 @@ module Fog
         def request(params)
           begin
             do_request(params)
-          rescue Excon::Errors::SocketError::EOFError
+          rescue EOFError
             # This error can occur if Vcloud receives a request from a network
             # it deems to be unauthorized; no HTTP response is sent, but the
             # connection is sent a signal to terminate early.
@@ -497,17 +497,19 @@ module Fog
             vapp1vm1_id = "vm-#{uuid}"
             vapp2vm1_id = "vm-#{uuid}"
             vapp2vm2_id = "vm-#{uuid}"
+            catalog_uuid = uuid
 
             hash[key] = {
               :catalogs => {
-                uuid => {
+                catalog_uuid => {
                   :name => 'Default Catalog'
                 }
               },
               :catalog_items => {
                 uuid => {
-                  :type => 'vAppTemplate',
-                  :name => 'vAppTemplate 1'
+                  :type    => 'vAppTemplate',
+                  :name    => 'vAppTemplate 1',
+                  :catalog => catalog_uuid,
                 }
               },
               :disks => {},
@@ -555,7 +557,7 @@ module Fog
                   }],
                   :IsInherited => false,
                   :Netmask => '255.255.255.0',
-                  :name => 'Default Network',
+                  :name => 'vDC1 Default Network',
                   :SubnetParticipation => {
                       :Gateway => "192.168.1.0",
                       :Netmask => "255.255.0.0",

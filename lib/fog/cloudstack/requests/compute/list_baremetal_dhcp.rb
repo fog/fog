@@ -5,11 +5,15 @@ module Fog
       class Real
         # list baremetal dhcp servers
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listBaremetalDhcp.html]
-        def list_baremetal_dhcp(options={})
-          options.merge!(
-            'command' => 'listBaremetalDhcp'  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/listBaremetalDhcp.html]
+        def list_baremetal_dhcp(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'listBaremetalDhcp') 
+          else
+            options.merge!('command' => 'listBaremetalDhcp')
+          end
           request(options)
         end
       end

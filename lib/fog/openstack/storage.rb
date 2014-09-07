@@ -80,7 +80,7 @@ module Fog
           @openstack_auth_token = options[:openstack_auth_token]
           @openstack_storage_url = options[:openstack_storage_url]
           @openstack_must_reauthenticate = false
-          @openstack_service_type = options[:openstack_service_type] || 'object-store'
+          @openstack_service_type = options[:openstack_service_type] || ['object-store']
           @openstack_service_name = options[:openstack_service_name]
           @openstack_region       = options[:openstack_region]
           @openstack_tenant       = options[:openstack_tenant]

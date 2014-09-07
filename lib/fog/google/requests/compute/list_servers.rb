@@ -6,7 +6,7 @@ module Fog
           get_zone(zone_name)
           zone = self.data[:zones][zone_name]
           servers = self.data[:servers].values.select{|s| s["zone"] == zone["selfLink"]}
-          build_response(:body => {
+          build_excon_response({
             "kind" => "compute#instanceList",
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/instances",
             "id" => "projects/#{@project}/zones/#{zone_name}/instances",
@@ -23,8 +23,7 @@ module Fog
             'zone' => zone_name,
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

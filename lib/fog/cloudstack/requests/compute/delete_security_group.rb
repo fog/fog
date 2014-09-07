@@ -5,11 +5,15 @@ module Fog
       class Real
         # Deletes security group
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteSecurityGroup.html]
-        def delete_security_group(options={})
-          options.merge!(
-            'command' => 'deleteSecurityGroup'  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/deleteSecurityGroup.html]
+        def delete_security_group(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'deleteSecurityGroup') 
+          else
+            options.merge!('command' => 'deleteSecurityGroup')
+          end
           request(options)
         end
       end

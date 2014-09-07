@@ -16,9 +16,9 @@ def test
     :name => "fog-smoke-test-#{Time.now.to_i}",
     :disks => [disk],
     :machine_type => "n1-standard-1",
-    :zone_name => "us-central1-a",
     :private_key_path => File.expand_path("~/.ssh/id_rsa"),
     :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
+    :zone_name => "us-central1-a",
     :user => ENV['USER'],
     :tags => ["fog"]
   })

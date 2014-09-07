@@ -5,12 +5,16 @@ module Fog
       class Real
         # Creates a disk volume from a disk offering. This disk volume must still be attached to a virtual machine to make use of it.
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createVolume.html]
-        def create_volume(name, options={})
-          options.merge!(
-            'command' => 'createVolume', 
-            'name' => name  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/createVolume.html]
+        def create_volume(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'createVolume') 
+          else
+            options.merge!('command' => 'createVolume', 
+            'name' => args[0])
+          end
           request(options)
         end
       end

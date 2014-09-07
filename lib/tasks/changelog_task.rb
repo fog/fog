@@ -104,6 +104,7 @@ Watchers      | #{watchers}
       def former_mvp?(committer)
          [
            'Aaron Suggs',
+           'ller', #"Achim Ledermüller" UTF-8 fail?
            'Ash Wilson',
            'Benson Kalahar',
            'Brian Hartsock',

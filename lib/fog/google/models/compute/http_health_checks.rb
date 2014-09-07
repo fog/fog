@@ -13,8 +13,12 @@ module Fog
         end
 
         def get(identity)
+          resonse = nil
           response = service.get_http_health_check(identity)
-          new(response.body) unless response.nil?
+          return nil if response.nil?
+          new(response.body)
+        rescue Fog::Errors::NotFound
+          nil
         end
       end
     end

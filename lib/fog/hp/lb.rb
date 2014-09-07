@@ -101,7 +101,7 @@ module Fog
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version        = options[:hp_auth_version] || :v2
           ### Pass the service name for object storage to the authentication call
-          options[:hp_service_type] ||= "Load Balancer"
+          options[:hp_service_type] ||= "hpext:lbaas"
           @hp_tenant_id       = options[:hp_tenant_id]
           @hp_avl_zone        = options[:hp_avl_zone]
 

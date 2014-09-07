@@ -5,12 +5,16 @@ module Fog
       class Real
         # Updates a disk offering.
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteDiskOffering.html]
-        def delete_disk_offering(id, options={})
-          options.merge!(
-            'command' => 'deleteDiskOffering', 
-            'id' => id  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/deleteDiskOffering.html]
+        def delete_disk_offering(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'deleteDiskOffering') 
+          else
+            options.merge!('command' => 'deleteDiskOffering', 
+            'id' => args[0])
+          end
           request(options)
         end
       end

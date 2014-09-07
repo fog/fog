@@ -66,6 +66,10 @@ module Fog
           service.linode_delete id
         end
 
+        def ready?
+          status == 1
+        end
+
         private
         def config
           service.linode_config_list(id).body['DATA'].first['ConfigID']
@@ -79,9 +83,9 @@ module Fog
         end
 
         def create_disks
-          @swap = disks.create :type => :swap, :name => @name, :size => @flavor.ram
+          @swap = disks.create :type => :swap, :name => @name, :size => 256
           @disk = disks.create(:type => @type, :image => @image, :stack_script => @stack_script,
-                               :password => @password, :name => @name, :size => (@flavor.disk*1024)-@flavor.ram)
+                               :password => @password, :name => @name, :size => (@flavor.disk*1024)-256)
         end
 
         def create_config

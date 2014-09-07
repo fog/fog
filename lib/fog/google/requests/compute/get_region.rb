@@ -3,11 +3,12 @@ module Fog
     class Google
       class Mock
         def get_region(identity)
+          identity = identity.split('/')[-1]
           regions = Fog::Compute[:google].list_regions
           region = regions.body['items'].select { |region| region['name'] == identity }
 
           raise Fog::Errors::NotFound if region.nil? || region.empty?
-          build_response(:body => region.first)
+          build_excon_response(region.first)
         end
       end
 
@@ -19,8 +20,7 @@ module Fog
             'region' => identity.split('/')[-1],
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

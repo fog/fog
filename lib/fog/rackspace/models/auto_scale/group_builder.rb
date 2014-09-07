@@ -60,6 +60,8 @@ module Fog
             }
 
             server_template["personality"] = attributes[:personality] if attributes[:personality]
+            server_template["user_data"] = [attributes[:user_data]].pack('m') if attributes[:user_data]
+            server_template["config_drive"] = 'true' if attributes[:config_drive]
             server_template["networks"] = networks_to_hash(attributes[:networks]) if attributes[:networks]
             server_template
           end

@@ -133,6 +133,7 @@ module Fog
       request :modify_instance_attribute
       request :modify_network_interface_attribute
       request :modify_snapshot_attribute
+      request :modify_subnet_attribute
       request :modify_volume_attribute
       request :modify_vpc_attribute
       request :purchase_reserved_instances_offering
@@ -152,6 +153,8 @@ module Fog
       request :monitor_instances
       request :unmonitor_instances
 
+      class InvalidURIError < Exception; end
+
       # deprecation
       class Real
         def modify_image_attributes(*params)
@@ -166,6 +169,16 @@ module Fog
       end
 
       class Mock
+        MOCKED_TAG_TYPES = {
+          'ami' => 'image',
+          'i' => 'instance',
+          'snap' => 'snapshot',
+          'vol' => 'volume',
+          'igw' => 'internet_gateway',
+          'acl' => 'network_acl',
+          'vpc' => 'vpc'
+        }
+
         include Fog::AWS::CredentialFetcher::ConnectionMethods
         include Fog::AWS::RegionMethods
 
@@ -283,7 +296,21 @@ module Fog
           @aws_credentials_expire_at = Time::now + 20
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
-          validate_aws_region @region
+
+          if @endpoint = options[:endpoint]
+            endpoint = URI.parse(@endpoint)
+            @host = endpoint.host or raise InvalidURIError.new("could not parse endpoint: #{@endpoint}")
+            @path = endpoint.path
+            @port = endpoint.port
+            @scheme = endpoint.scheme
+          else
+            @host = options[:host] || "ec2.#{options[:region]}.amazonaws.com"
+            @path       = options[:path]        || '/'
+            @persistent = options[:persistent]  || false
+            @port       = options[:port]        || 443
+            @scheme     = options[:scheme]      || 'https'
+          end
+          validate_aws_region(@host, @region)
         end
 
         def region_data
@@ -330,6 +357,39 @@ module Fog
           self.data[:account_attributes].find { |h| h["attributeName"] == "supported-platforms" }["values"] = values
         end
 
+        def tagged_resources(resources)
+          Array(resources).map do |resource_id|
+            if match = resource_id.match(/^(\w+)-[a-z0-9]{8}/i)
+              id = match.captures.first
+            else
+              raise(Fog::Service::NotFound.new("Unknown resource id #{resource_id}"))
+            end
+
+            if MOCKED_TAG_TYPES.has_key? id
+              type = MOCKED_TAG_TYPES[id]
+            else
+              raise(Fog::Service::NotFound.new("Mocking tags of resource #{resource_id} has not been implemented"))
+            end
+
+            case type
+              when 'image'
+                unless visible_images.has_key? resource_id
+                 raise(Fog::Service::NotFound.new("Cannot tag #{resource_id}, the image does not exist"))
+                end
+              when 'vpc'
+                if self.data[:vpcs].select {|v| v['vpcId'] == resource_id }.empty?
+                  raise(Fog::Service::NotFound.new("Cannot tag #{resource_id}, the vpc does not exist"))
+                end
+              else
+                unless self.data[:"#{type}s"][resource_id]
+                 raise(Fog::Service::NotFound.new("Cannot tag #{resource_id}, the #{type} does not exist"))
+                end
+            end
+            { 'resourceId' => resource_id, 'resourceType' => type }
+          end
+        end
+
+
         def apply_tag_filters(resources, filters, resource_id_key)
           tag_set_fetcher = lambda {|resource| self.data[:tag_sets][resource[resource_id_key]] }
 
@@ -351,7 +411,7 @@ module Fog
             tag_filters[key.gsub('tag:', '')] = filters.delete(key) if /^tag:/ =~ key
           end
           for tag_key, tag_value in tag_filters
-            resources = resources.select{|r| tag_value.include?(tag_set_fetcher[r][tag_key])}
+            resources = resources.select{|r| tag_value == tag_set_fetcher[r][tag_key]}
           end
 
           resources
@@ -397,13 +457,11 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
-          @version                = options[:version]     ||  '2014-05-01'
-
-          validate_aws_region @region
+          @version                = options[:version]     ||  '2014-06-15'
 
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
-            @host = endpoint.host
+            @host = endpoint.host or raise InvalidURIError.new("could not parse endpoint: #{@endpoint}")
             @path = endpoint.path
             @port = endpoint.port
             @scheme = endpoint.scheme
@@ -414,6 +472,8 @@ module Fog
             @port       = options[:port]        || 443
             @scheme     = options[:scheme]      || 'https'
           end
+
+          validate_aws_region(@host, @region)
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 

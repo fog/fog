@@ -49,7 +49,8 @@ module Fog
                 'dhcpOptionsId'      => Fog::AWS::Mock.request_id,
                 'tagSet'             => {},
                 'enableDnsSupport'   => true,
-                'enableDnsHostnames' => false
+                'enableDnsHostnames' => false,
+                'mapPublicIpOnLaunch'=> false
               }
               self.data[:vpcs].push(vpc)
 

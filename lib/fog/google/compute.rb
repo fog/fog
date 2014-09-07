@@ -6,6 +6,14 @@ module Fog
       requires :google_project
       recognizes :app_name, :app_version, :google_client_email, :google_key_location, :google_key_string, :google_client
 
+      GOOGLE_COMPUTE_API_VERSION     = 'v1'
+      GOOGLE_COMPUTE_BASE_URL        = 'https://www.googleapis.com/compute/'
+      GOOGLE_COMPUTE_API_SCOPE_URLS  = %w(https://www.googleapis.com/auth/compute
+                                         https://www.googleapis.com/auth/devstorage.read_write
+                                         https://www.googleapis.com/auth/ndev.cloudman
+                                         https://www.googleapis.com/auth/cloud-platform)
+      GOOGLE_COMPUTE_DEFAULT_NETWORK = 'default'
+
       request_path 'fog/google/requests/compute'
       request :list_servers
       request :list_aggregated_servers
@@ -13,6 +21,8 @@ module Fog
       request :list_aggregated_addresses
       request :list_disks
       request :list_aggregated_disks
+      request :list_disk_types
+      request :list_aggregated_disk_types
       request :list_firewalls
       request :list_images
       request :list_machine_types
@@ -28,10 +38,20 @@ module Fog
       request :list_target_pools
       request :list_forwarding_rules
       request :list_routes
+      request :list_backend_services
+      request :list_global_forwarding_rules
+      request :list_url_maps
+      request :list_target_http_proxies
+      request :list_zone_views
+      request :list_region_views
+      request :list_region_view_resources
+      request :list_zone_view_resources
+      request :list_target_instances
 
       request :get_server
       request :get_address
       request :get_disk
+      request :get_disk_type
       request :get_firewall
       request :get_image
       request :get_machine_type
@@ -48,6 +68,14 @@ module Fog
       request :get_forwarding_rule
       request :get_project
       request :get_route
+      request :get_backend_service
+      request :get_backend_service_health
+      request :get_url_map
+      request :get_global_forwarding_rule
+      request :get_target_http_proxy
+      request :get_zone_view
+      request :get_region_view
+      request :get_target_instance
 
       request :delete_address
       request :delete_disk
@@ -63,6 +91,13 @@ module Fog
       request :delete_target_pool
       request :delete_forwarding_rule
       request :delete_route
+      request :delete_backend_service
+      request :delete_url_map
+      request :delete_target_http_proxy
+      request :delete_global_forwarding_rule
+      request :delete_zone_view
+      request :delete_region_view
+      request :delete_target_instance
 
       request :insert_address
       request :insert_disk
@@ -75,13 +110,27 @@ module Fog
       request :insert_target_pool
       request :insert_forwarding_rule
       request :insert_route
+      request :insert_backend_service
+      request :insert_url_map
+      request :insert_target_http_proxy
+      request :insert_global_forwarding_rule
+      request :insert_zone_view
+      request :insert_region_view
+      request :insert_target_instance
 
       request :set_metadata
       request :set_tags
       request :set_forwarding_rule_target
+      request :set_global_forwarding_rule_target
+      request :set_target_http_proxy_url_map
 
       request :add_target_pool_instances
       request :add_target_pool_health_checks
+      request :add_backend_service_backends
+      request :add_url_map_host_rules
+      request :add_url_map_path_matchers
+      request :add_zone_view_resources
+      request :add_region_view_resources
 
       request :remove_target_pool_instances
       request :remove_target_pool_health_checks
@@ -95,6 +144,8 @@ module Fog
       request :set_server_scheduling
       request :add_server_access_config
       request :delete_server_access_config
+      request :update_url_map
+      request :validate_url_map
 
       model_path 'fog/google/models/compute'
       model :server
@@ -108,6 +159,9 @@ module Fog
 
       model :disk
       collection :disks
+
+      model :disk_type
+      collection :disk_types
 
       model :address
       collection :addresses
@@ -145,52 +199,29 @@ module Fog
       model :route
       collection :routes
 
-      module Shared
-        attr_reader :project, :api_version
+      model :backend_service
+      collection :backend_services
 
-        def shared_initialize(options = {})
-          @project = options[:google_project]
-          @api_version = 'v1'
-          base_url = 'https://www.googleapis.com/compute/'
-          @api_url = base_url + api_version + '/projects/'
-          @default_network = 'default'
-        end
+      model :target_http_proxy
+      collection :target_http_proxies
 
-        def build_excon_response(body, status=200)
-          response = Excon::Response.new
-          response.body = body
-          if response.body and response.body["error"]
-            response.status = response.body["error"]["code"]
-            if response.body["error"]["errors"]
-              msg = response.body["error"]["errors"].map{|error| error["message"]}.join(", ")
-            else
-              msg = "Error [#{response.body["error"]["code"]}]: #{response.body["error"]["message"] || "GCE didn't return an error message"}"
-            end
-            case response.status
-            when 404
-              raise Fog::Errors::NotFound.new(msg)
-            else
-              raise Fog::Errors::Error.new(msg)
-            end
-          else
-            response.status = status
-          end
-          response
-        end
+      model :url_map
+      collection :url_maps
 
-      end
+      model :global_forwarding_rule
+      collection :global_forwarding_rules
+
+      model :resource_view
+      collection :resource_views
+
+      model :target_instance
+      collection :target_instances
 
       class Mock
-        include Collections
-        include Shared
+        include Fog::Google::Shared
 
-        def initialize(options={})
-          shared_initialize(options)
-        end
-
-        def build_response(params={})
-          body = params[:body] || {}
-          build_excon_response(body)
+        def initialize(options)
+          shared_initialize(options[:google_project], GOOGLE_COMPUTE_API_VERSION, GOOGLE_COMPUTE_BASE_URL)
         end
 
         def self.data(api_version)
@@ -279,6 +310,117 @@ module Fog
               }
             else
               hash[key] = {
+                :target_http_proxies => {
+                  "test-target-http-proxy" => {
+                    "kind" => "compute#targetHttpProxy",
+                    "id" => "1361932147851415729",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    "name" => "test-target-http-proxy",
+                    "description" => '',
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/targetHttpProxies/test-target-http-proxy",
+                    "urlMap" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/urlMaps/test-url-map"
+                  }
+                },
+                :url_maps => {
+                  "test-url-map" => {
+                    "kind" => "compute#urlMap",
+                    "id" => "1361932147851415729",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    "name" => 'test-url-map',
+                    "description" => '',
+                    "hostRules" => [],
+                    "pathMatchers" => [],
+                    "tests" => [],
+                    "defaultService" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/backendServices/fog-backend-service-test",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/urlMaps/test-url-map"
+                  }
+                },
+                :target_pools => {
+                  "test-target-pool" => {
+                    'kind' => "compute#targetPool",
+                    "id" => "1361932147851415729",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions/us-central1/targetPools/test-target-pool",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    'name' => "test-target-pool",
+                    "region" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions/us-central1",
+                    "healthChecks" => ["https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/httpHealthChecks/test-check"],
+                    "instances" => ["https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/us-central1-a/instances/test-instance"],
+                  }
+                },
+
+                :http_health_checks => {
+                  "test-http-health-check" => {
+                    "checkIntervalSec" => 5,
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    "healthyThreshold" => 2,
+                    "id" => "1361932147851415729",
+                    "kind" => "compute#httphealthCheck",
+                    "name" => "test-http-health-check",
+                    "port" => 80,
+                    "requestPath" => '/',
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/httpHealthChecks/test-http-health-check",
+                    "timeoutSec" => 5,
+                    "unhealthyThreshold" => 2
+                  }
+                },
+                :global_forwarding_rules => {
+                  "test-global-forwarding-rule" => {
+                    "kind" => "compute#forwardingRule",
+                    "id" => "1361932147851415729",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    "name" => 'test-global-forwarding-rule',
+                    "IPAddress" => '107.178.255.155',
+                    "IPProtocol" => 'TCP',
+                    "portRange" => '80-80',
+                    "target" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/targetHttpProxies/proxy",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/forwardngRules/test-global-forwarding-rule"
+                  }
+                },
+                :forwarding_rules => {
+                  "test-forwarding-rule" => {
+                    "kind" => "compute#forwardingRule",
+                    "id" => "1361932147851415729",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    "name" => 'test-forwarding-rule',
+                    "IPAddress" => '107.178.255.155',
+                    "IPProtocol" => 'TCP',
+                    "portRange" => '80-80',
+                    "target" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions/us-central1/targetPools/target_pool",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions/us-central1/forwardngRules/test-forwarding-rule",
+                    "region" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions/us-central1"
+                  }
+                },
+                :target_instances => {
+                  "test-target-instance" => {
+                    "kind" => "compute#targetInstance",
+                    "name" => "test-target-instance",
+                    "natPolicy" => "NO_NAT",
+                    "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/us-central1-a",
+                    "instance" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/us-central1-a/instances/test-instance",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/us-central1-a/targetInstances/test-target-instance",
+                    "id" => "1361932147851415729",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+
+                  }
+                },
+                :backend_services =>{
+                  "test-backend-service" => {
+                    "kind" => "compute#backend_service",
+                    "id" => "1361932147851415729",
+                    "creationTimestamp" => '2014-08-23T10:06:13.951-07:00',
+                    "name" => "test-backend-service",
+                    "description" => '',
+                    "backends" => [
+                       {
+                      "description" => '',
+                      "group" => "https://www.googleapis.com/resourceviews/v1beta1/projects#{@project}/zones/us-central1-a/zoneViews/name",
+                      "balancingMode" => "RATE",
+                      "capacityScaler" => 1.1,
+                      "maxRate" => 0.5,
+                    }],
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/backendServices/test-backend-service"
+                  }
+                },
                 :servers => {
                   "fog-1" => {
                     "kind" => "compute#instance",
@@ -416,6 +558,71 @@ module Fog
                     "region" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/regions/us-central2"
                   }
                 },
+                :regions => {
+                  "us-central1" => {
+                    "creationTimestamp" => '2014-01-21T10:30:54.895-08:00',
+                    "description" => 'us-central1',
+                    "id" => '18201118976141502843',
+                    "kind" => "compute#region",
+                    "name" =>"us-central1",
+                    "quotas" => [
+                      {"metric" =>"CPUS", "limit" => 1050.0, "usage" => 28.0},
+                      {"metric" =>"DISKS_TOTAL_GB", "limit" => 10000.0, "usage" => 292.0},
+                      {"metric" =>"STATIC_ADDRESSES", "limit" => 10.0, "usage" => 0.0},
+                      {"metric" =>"IN_USE_ADDRESSES", "limit" => 1050.0, "usage" => 30.0},
+                      {"metric" =>"SSD_TOTAL_GB", "limit" => 1024.0, "usage" => 0.0}
+                    ],
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/regions/us-central1",
+                    "status" => "UP",
+                    "zones" =>  [ 
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a",
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-b",
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-f",
+                    ]
+                  },
+                  "europe-west1" => {
+                    "creationTimestamp" => '2014-01-21T10:30:54.891-08:00',
+                    "description" => 'europe-west1',
+                    "id" => '18201118976141502843',
+                    "kind" => "compute#region",
+                    "name" =>"europe-west1",
+                    "quotas" => [
+                      {"metric" =>"CPUS", "limit" => 24.0, "usage" => 0.0},
+                      {"metric" =>"DISKS_TOTAL_GB", "limit" => 2048.0, "usage" => 0.0},
+                      {"metric" =>"STATIC_ADDRESSES", "limit" => 7.0, "usage" => 0.0},
+                      {"metric" =>"IN_USE_ADDRESSES", "limit" => 23.0, "usage" => 0.0},
+                      {"metric" =>"SSD_TOTAL_GB", "limit" => 1024.0, "usage" => 0.0}
+                    ],
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/regions/erope-west1",
+                    "status" => "UP",
+                    "zones" =>  [ 
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/europe-west1-a",
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/europe-west1-b",
+                    ]
+                  },
+                  "asia-east1" => {
+                    "creationTimestamp" => '2014-01-21T10:30:54.895-08:00',
+                    "description" => 'asia-east1',
+                    "id" => '18201118976141502843',
+                    "kind" => "compute#region",
+                    "name" =>"asia-east1",
+                    "quotas" => [
+                      {"metric" =>"CPUS", "limit" => 1050.0, "usage" => 28.0},
+                      {"metric" =>"DISKS_TOTAL_GB", "limit" => 10000.0, "usage" => 292.0},
+                      {"metric" =>"STATIC_ADDRESSES", "limit" => 10.0, "usage" => 0.0},
+                      {"metric" =>"IN_USE_ADDRESSES", "limit" => 1050.0, "usage" => 30.0},
+                      {"metric" =>"SSD_TOTAL_GB", "limit" => 1024.0, "usage" => 0.0}
+                    ],
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/regions/asia-east1",
+                    "status" => "UP",
+                    "zones" =>  [ 
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/asia-east1-a",
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/asia-east1-b",
+                      "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/asia-east1-c",
+                    ]
+                  }
+                },
+
                 :machine_types => Hash.new do |machine_types_hash, zone|
                   machine_types_hash[zone] = {
                     "f1-micro" => {
@@ -799,7 +1006,8 @@ module Fog
                     "sizeGb" => "10",
                     "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/disks/fog-1",
                     "sourceImage" => "https://www.googleapis.com/compute/#{api_version}/projects/debian-cloud/global/images/debian-7-wheezy-v20131120",
-                    "sourceImageId" => "17312518942796567788"
+                    "sourceImageId" => "17312518942796567788",
+                    "type" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/diskTypes/pd-standard",
                   },
                   "fog-2" => {
                     "kind" => "compute#disk",
@@ -809,7 +1017,8 @@ module Fog
                     "status" => "READY",
                     "name" => "fog-2",
                     "sizeGb" => "10",
-                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/disks/fog-1"
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/disks/fog-1",
+                    "type" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/diskTypes/pd-ssd",
                   }
                 },
                 :operations => {}
@@ -837,118 +1046,18 @@ module Fog
       end
 
       class Real
-        include Collections
-        include Shared
+        include Fog::Google::Shared
 
         attr_accessor :client
-        attr_reader :compute, :api_url
+        attr_reader :compute
 
         def initialize(options)
-          # NOTE: loaded here to avoid requiring this as a core Fog dependency
-          begin
-            require 'google/api_client'
-          rescue LoadError => error
-            Fog::Logger.warning("Please install the google-api-client gem before using this provider.")
-            raise error
-          end
-          shared_initialize(options)
+          shared_initialize(options[:google_project], GOOGLE_COMPUTE_API_VERSION, GOOGLE_COMPUTE_BASE_URL)
+          options.merge!(:google_api_scope_url => GOOGLE_COMPUTE_API_SCOPE_URLS.join(' '))
 
-          if !options[:google_client].nil?
-            @client = options[:google_client]
-          end
-
-          if @client.nil?
-            if !options[:google_key_location].nil?
-              google_key = File.expand_path(options[:google_key_location])
-            elsif !options[:google_key_string].nil?
-              google_key = options[:google_key_string]
-            end
-
-            if !options[:google_client_email].nil? and !google_key.nil?
-              @client = self.new_pk12_google_client(
-                options[:google_client_email],
-                google_key,
-                options[:app_name],
-                options[:app_verion])
-            else
-              Fog::Logger.debug("Fog::Compute::Google.client has not been initialized nor are the :google_client_email and :google_key_location or :google_key_string options set, so we can not create one for you.")
-              raise ArgumentError.new("No Google API Client has been initialized.")
-            end
-          end
-
-          # We want to always mention we're using Fog.
-          if @client.user_agent.nil? or @client.user_agent.empty?
-            @client.user_agent = ""
-          elsif !@client.user_agent.include? "fog"
-            @client.user_agent += "fog/#{Fog::VERSION}"
-          end
-
+          @client = initialize_google_client(options)
           @compute = @client.discovered_api('compute', api_version)
-        end
-
-        # Public: Create a Google::APIClient with a pkcs12 key and a user email.
-        #
-        # google_client_email - an @developer.gserviceaccount.com email address to use.
-        # google_key - an absolute location to a pkcs12 key file or the content of the file itself.
-        # app_name - an optional string to set as the app name in the user agent.
-        # app_version - an optional string to set as the app version in the user agent.
-        #
-        # Returns a new Google::APIClient
-        def new_pk12_google_client(google_client_email, google_key, app_name=nil, app_version=nil)
-          # The devstorage scope is needed to be able to insert images
-          # devstorage.read_only scope is not sufficient like you'd hope
-          api_scope_url = 'https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/devstorage.read_write'
-
-          user_agent = ""
-          if app_name
-            user_agent = "#{app_name}/#{app_version || '0.0.0'} "
-          end
-          user_agent += "fog/#{Fog::VERSION}"
-
-          api_client_options = {
-            # https://github.com/google/google-api-ruby-client/blob/master/lib/google/api_client.rb#L98
-            :application_name => "suppress warning",
-            # https://github.com/google/google-api-ruby-client/blob/master/lib/google/api_client.rb#L100
-            :user_agent => user_agent
-          }
-          local_client = ::Google::APIClient.new(api_client_options)
-
-          key = ::Google::APIClient::KeyUtils.load_from_pkcs12(google_key, 'notasecret')
-
-          local_client.authorization = Signet::OAuth2::Client.new({
-            :audience => 'https://accounts.google.com/o/oauth2/token',
-            :auth_provider_x509_cert_url => "https://www.googleapis.com/oauth2/v1/certs",
-            :client_x509_cert_url => "https://www.googleapis.com/robot/v1/metadata/x509/#{google_client_email}",
-            :issuer => google_client_email,
-            :scope => api_scope_url,
-            :signing_key => key,
-            :token_credential_uri => 'https://accounts.google.com/o/oauth2/token',
-          })
-
-          local_client.authorization.fetch_access_token!
-
-          return local_client
-        end
-
-        def build_result(api_method, parameters, body_object=nil)
-          if body_object
-            result = @client.execute(
-              :api_method => api_method,
-              :parameters => parameters,
-              :body_object => body_object
-            )
-          else
-            result = @client.execute(
-              :api_method => api_method,
-              :parameters => parameters
-            )
-          end
-        end
-
-        # result = Google::APIClient::Result
-        # returns Excon::Response
-        def build_response(result)
-          build_excon_response(result.body.nil? || result.body.empty? ? nil : Fog::JSON.decode(result.body), result.status)
+          @resourceviews = @client.discovered_api('resourceviews', 'v1beta1')
         end
       end
 

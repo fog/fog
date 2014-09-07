@@ -41,6 +41,7 @@ module Fog
       class Mock
         def describe_vpcs(filters = {})
           vpcs = self.data[:vpcs]
+          vpcs = apply_tag_filters(vpcs, filters, 'vpcId')
 
           # Transition from pending to available
           vpcs.each do |vpc|
@@ -52,6 +53,11 @@ module Fog
 
           if filters['vpc-id']
             vpcs = vpcs.reject {|vpc| vpc['vpcId'] != filters['vpc-id']}
+          end
+
+          vpcs.each do |vpc|
+            tags = self.data[:tag_sets][vpc['vpcId']]
+            vpc.merge!('tagSet' => tags) if tags
           end
 
           Excon::Response.new(

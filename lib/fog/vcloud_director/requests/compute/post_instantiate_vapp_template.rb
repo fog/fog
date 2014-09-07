@@ -128,6 +128,69 @@ module Fog
           end
         end
       end
+
+      class Mock
+
+        def post_instantiate_vapp_template(vdc_id, vapp_template_id, name, options={})
+          unless data[:vdcs][vdc_id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"(com.vmware.vcloud.entity.vdc:#{vdc_id})\"."
+            )
+          end
+
+          type = 'vApp'
+          vapp_id = "vapp-#{uuid}"
+          vm_id = "vm-#{uuid}"
+
+          data[:vapps][vapp_id] = {
+            :name => name,
+            :vdc_id => vdc_id,
+            :description => options.fetch(:description, "vApp created from #{vapp_template_id}"),
+            :networks => [],
+            :metadata => {:'vapp_key' => 'vapp_value'},
+            :status => "0",
+          }
+
+          data[:vms][vm_id] = {
+            :name => 'vm-template-name',
+            :parent_vapp => vapp_id,
+            :memory_in_mb => "1024",
+            :cpu_count => "2",
+            :metadata => {:'vm_key' => 'vm_value'},
+            :nics => [
+              {
+              :network_name => 'Default Network',
+              :mac_address => "00:50:56:00:00:00",
+              :ip_address => "192.168.0.1",
+              }
+            ],
+          }
+
+          owner = {
+            :href => make_href("#{type}/#{vapp_id}"),
+            :type => "application/vnd.vmware.vcloud.#{type}+xml"
+          }
+          task_id = enqueue_task(
+            "Creating Virtual Application #{name}(#{vapp_id})", 'vdcInstantiateVapp', owner,
+            :on_success => lambda do
+              data[:vapps][vapp_id][:status] = "8"
+            end
+          )
+
+          body = get_vapp(vapp_id).body
+
+          body[:Tasks] = {
+            :Task => task_body(task_id)
+          }
+
+          Excon::Response.new(
+            :status => 201,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
+        end
+
+      end
     end
   end
 end

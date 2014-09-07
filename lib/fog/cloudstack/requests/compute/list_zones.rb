@@ -5,11 +5,15 @@ module Fog
       class Real
         # Lists zones
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listZones.html]
-        def list_zones(options={})
-          options.merge!(
-            'command' => 'listZones'  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/listZones.html]
+        def list_zones(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'listZones') 
+          else
+            options.merge!('command' => 'listZones')
+          end
           request(options)
         end
       end
