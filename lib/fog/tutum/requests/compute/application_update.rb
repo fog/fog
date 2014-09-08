@@ -4,9 +4,9 @@ module Fog
       class Real
         def application_update(uuid, attrs)
           request(
-            :expects  => [201],
-            :method   => 'POST',
-            :path     => "appliation/#{uuid}/",
+            :expects  => [202],
+            :method   => 'PATCH',
+            :path     => "application/#{uuid}/",
             :body     => JSON.encode(attrs)
           )
         end

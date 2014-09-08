@@ -34,5 +34,4 @@ Shindo.tests('Fog::Compute[:tutum] | image model', ['tutum']) do
     end
     test('be a kind of Fog::Compute::Tutum::image') { image.kind_of? Fog::Compute::Tutum::Image }
   end
-
 end

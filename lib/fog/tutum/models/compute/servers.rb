@@ -26,7 +26,7 @@ module Fog
         end
 
         def bootstrap(new_attributes = {})
-          server = create(new_attributes)
+          server = create(new_attributes[:image], new_attributes)
           server
         end
 

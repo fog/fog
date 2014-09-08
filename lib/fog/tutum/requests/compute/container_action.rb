@@ -81,7 +81,7 @@ module Fog
             "state" => "Stopping",
             "stopped_datetime" => nil,
             "unique_name" => "my-awesome-app-2",
-            "uuid" => "f5d64083-7698-4aec-b5dc-86a48be0f565"
+            "uuid" => "f5d64083-7698-4aec-b5dc-86a48be0f565#{Time.now}"
           }
         end
       end

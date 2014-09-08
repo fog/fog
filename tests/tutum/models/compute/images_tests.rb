@@ -17,10 +17,13 @@ Shindo.tests('Fog::Compute[:tutum] | images collection', ['tutum']) do
     end
 
     test('calling all returns an array') { images.all.kind_of?(Array) }
-    test('calling all returns data') { images.all.size > 0 }
+    
+    if Fog.mocking? 
+      test('calling all returns data') { images.all.size > 0 }
  
-    test('calling get returns a tutum image') { images.get("foobar").kind_of?(Fog::Compute::Tutum::Image) }
-    test('calling get returns data') { images.get("foobar") != nil }
+      test('calling get returns a tutum image') { images.get("foobar").kind_of?(Fog::Compute::Tutum::Image) }
+      test('calling get returns data') { images.get("foobar") != nil }
+    end
 
     count = 0
     test('calling each does not error') { images.each {|i| count = count + 1 }; true}

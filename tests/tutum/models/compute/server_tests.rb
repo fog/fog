@@ -1,20 +1,40 @@
 Shindo.tests('Fog::Compute[:tutum] | server model', ['tutum']) do
 
   compute = Fog::Compute[:tutum]
-  server = compute.servers.create(:name => "fog-#{Time.now.to_i}", :image => 'ubuntu',:cmd => ['date'])
+  server = create_test_container
 
   tests('The server model should') do
     tests('have the action') do
       test('reload') { server.respond_to? 'reload' }
-      %w{ start restart stop destroy}.each do |action|
+      %w{ start restart reload redeploy stop destroy}.each do |action|
         test(action) { server.respond_to? action }
       end
-      %w{ start restart stop destroy}.each do |action|
-        test("#{action} returns successfully") {
-          server.send(action.to_sym) ? true : false
-        }
-      end
     end
+
+    test("start") do |a|
+      server.start
+      wait_for_container(server.uuid, "Running")
+    end
+
+    test("reload") do |a|
+      !server.reload.nil?
+    end
+
+    test("redeploy") do |a|
+      server.redeploy
+      wait_for_container(server.uuid, "Running")
+    end
+
+    test("stop") do |a|
+      server.stop
+      wait_for_container(server.uuid, "Stopped")
+    end
+
+    test("destroy") do |a|
+      server.destroy
+      wait_for_container(server.uuid, "Terminated")
+    end
+
     tests('have attributes') do
       model_attribute_hash = server.attributes
       attributes = [ :uuid,

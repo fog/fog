@@ -1,20 +1,38 @@
 Shindo.tests('Fog::Compute[:tutum] | application model', ['tutum']) do
 
   compute = Fog::Compute[:tutum]
-  application = compute.applications.create(:name => "fog-#{Time.now.to_i}", 'image' => 'ubuntu','Cmd' => ['date'])
+  application = create_test_app
 
   tests('The application model should') do
     tests('have the action') do
-      test('reload') { application.respond_to? 'reload' }
-      %w{ start restart stop destroy}.each do |action|
+      %w{ start reload stop destroy redeploy }.each do |action|
         test(action) { application.respond_to? action }
       end
-      %w{ start restart stop destroy}.each do |action|
-        test("#{action} returns successfully") {
-          application.send(action.to_sym) ? true : false
-        }
-      end
     end
+    test("start") do |a|
+      application.start
+      wait_for_application(application.uuid, "Running")
+    end
+
+    test("reload") do |a|
+      !application.reload.nil?
+    end
+
+    test("redeploy") do |a|
+      application.redeploy
+      wait_for_application(application.uuid, "Running")
+    end
+
+    test("stop") do |a|
+      application.stop
+      wait_for_application(application.uuid, "Stopped")
+    end
+
+    test("destroy") do |a|
+      application.destroy
+      wait_for_application(application.uuid, "Terminated")
+    end
+
     tests('have attributes') do
       model_attribute_hash = application.attributes
       attributes = [ :uuid,
@@ -37,7 +55,6 @@ Shindo.tests('Fog::Compute[:tutum] | application model', ['tutum']) do
                      :linked_from_container,
                      :linked_to_container,
                      :name,
-                     :public_dns,
                      :resource_uri,
                      :roles,
                      :run_command,

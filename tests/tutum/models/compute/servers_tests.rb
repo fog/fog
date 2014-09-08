@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:tutum] | servers collection', ['tutum']) do
 
   servers = Fog::Compute[:tutum].servers
-
+  server = create_test_container
   tests('The servers collection') do
     test('should not be empty') { not servers.empty? }
     test('should be a kind of Fog::Compute::Tutum::Servers') { servers.kind_of? Fog::Compute::Tutum::Servers }
@@ -19,8 +19,8 @@ Shindo.tests('Fog::Compute[:tutum] | servers collection', ['tutum']) do
     test('calling all returns an array') { servers.all.kind_of?(Array) }
     test('calling all returns data') { servers.all.size > 0 }
  
-    test('calling get returns a tutum server') { servers.get("foobar").kind_of?(Fog::Compute::Tutum::Server) }
-    test('calling get returns data') { servers.get("foobar") != nil }
+    test('calling get returns a tutum server') { servers.get(server.uuid).kind_of?(Fog::Compute::Tutum::Server) }
+    test('calling get returns data') { servers.get(server.uuid) != nil }
 
     count = 0
     test('calling each does not error') { servers.each {|i| count = count + 1 }; true}

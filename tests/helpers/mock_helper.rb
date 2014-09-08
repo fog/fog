@@ -110,6 +110,8 @@ if Fog.mock?
     :docker_username                  => 'docker-fan',
     :docker_password                  => 'i<3docker',
     :docker_email                     => 'dockerfan@gmail.com',
-    :docker_url                       => 'unix://var/run/docker.sock'
+    :docker_url                       => 'unix://var/run/docker.sock',
+    :tutum_username                   => 'tutum_user',
+    :tutum_api_key                    => 'tutum_api_key'
   }.merge(Fog.credentials)
 end

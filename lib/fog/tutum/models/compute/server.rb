@@ -46,18 +46,18 @@ module Fog
         end
 
         def start(options = {})
-          service.container_action(uuid, :start)
-          reload
+          response = service.container_action(uuid, :start)
+          merge_attributes(response)
         end
 
         def stop(options = {})
-          service.container_action(uuid, :stop)
-          reload
+          response = service.container_action(uuid, :stop)
+          merge_attributes(response)
         end
 
         def redeploy(options = {})
-          service.container_action(uuid, :redeploy, options)
-          reload
+          response = service.container_action(uuid, :redeploy, options)
+          merge_attributes(response)
         end
 
         def restart(options = {})
@@ -66,8 +66,7 @@ module Fog
             sleep 1
             reload
           end
-          start options
-          reload
+          response = start options
         end
 
         def wait_for_stop
@@ -86,10 +85,12 @@ module Fog
         end
 
         def save
-          if !persisted?
-            self.uuid = service.container_create(attributes)['uuid']
+          if persisted?
+            response = service.container_update(uuid, attributes)
+          else
+           response = service.container_create(image_name, attributes)
           end
-          reload
+          merge_attributes(response)
         end
 
         def logs
