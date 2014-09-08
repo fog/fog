@@ -3,11 +3,12 @@ require 'fog/radosgw/core'
 module Fog
   module Radosgw
     class Provisioning < Fog::Service
+
       class UserAlreadyExists  < Fog::Radosgw::Provisioning::Error; end
       class ServiceUnavailable < Fog::Radosgw::Provisioning::Error; end
 
       requires :radosgw_access_key_id, :radosgw_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent
+      recognizes :host, :path, :port, :scheme, :persistent, :path_style
 
       request_path 'fog/radosgw/requests/provisioning'
       request :create_user
@@ -50,6 +51,7 @@ module Fog
           @radosgw_secret_access_key = options[:radosgw_secret_access_key]
           @connection_options       = options[:connection_options] || {}
           @persistent               = options[:persistent]         || false
+          @path_style               = options[:path_style]         || false
 
           @raw_connection = Fog::XML::Connection.new(radosgw_uri, @persistent, @connection_options)
 
@@ -60,6 +62,7 @@ module Fog
             :host                  => @host,
             :port                  => @port,
             :scheme                => @scheme,
+            :path_style            => @path_style,
             :connection_options    => @connection_options
           )
         end
@@ -90,6 +93,7 @@ module Fog
           response
         end
       end
+
     end
   end
 end
