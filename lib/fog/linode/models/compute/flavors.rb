@@ -13,7 +13,7 @@ module Fog
 
         def get(id)
           new flavors(id).first
-        rescue Fog::Linode::Compute::NotFound
+        rescue Fog::Compute::Linode::NotFound
           nil
         end
 
