@@ -55,6 +55,16 @@ module Fog
               }
               volume['attachmentSet'] = [data]
               volume['status'] = 'attaching'
+
+              # for hvm based arch device can not have a digit at the end like /dev/sdz1  otherwise we get this error:
+              # "InvalidParameterValue => Value (/dev/sdz1) for parameter device is invalid. /dev/sdz1 is not a valid EBS device name."
+              #
+              # TODO: how to determine hvm?() ie, r3, t2, etc
+              if device.match(/^[a-z\/]*1$/) && hvm?(instance_id)
+                message = "InvalidParameterValue => Value (#{device}) for parameter device is invalid. #{device} is not a valid EBS device name.")
+                raise Fog::Compute::AWS::Error.new(message)
+              end
+
               response.status = 200
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id
