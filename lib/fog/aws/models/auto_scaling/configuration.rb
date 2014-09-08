@@ -10,6 +10,7 @@ module Fog
         attribute :associate_public_ip,   :aliases => 'AssociatePublicIpAddress'
         attribute :block_device_mappings, :aliases => 'BlockDeviceMappings'
         attribute :created_at,            :aliases => 'CreatedTime'
+        attribute :ebs_optimized,         :aliases => 'EbsOptimized'
         attribute :iam_instance_profile,  :aliases => 'IamInstanceProfile'
         attribute :image_id,              :aliases => 'ImageId'
         #attribute :instance_monitoring,   :aliases => 'InstanceMonitoring'
