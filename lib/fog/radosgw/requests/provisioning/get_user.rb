@@ -24,8 +24,8 @@ module Fog
               end
             end
             response
-          rescue Excon::Errors::Conflict => e
-            raise Fog::Radosgw::Provisioning::UserAlreadyExists.new
+          rescue Excon::Errors::NotFound => e
+            raise Fog::Radosgw::Provisioning::NoSuchUser.new
           rescue Excon::Errors::BadRequest => e
             raise Fog::Radosgw::Provisioning::ServiceUnavailable.new
           end

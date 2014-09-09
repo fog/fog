@@ -25,8 +25,6 @@ module Fog
               response.body = []
             end
             response
-          rescue Excon::Errors::Conflict => e
-            raise Fog::Radosgw::Provisioning::UserAlreadyExists.new
           rescue Excon::Errors::BadRequest => e
             raise Fog::Radosgw::Provisioning::ServiceUnavailable.new
           end
