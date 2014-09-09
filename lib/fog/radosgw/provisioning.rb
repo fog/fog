@@ -5,6 +5,7 @@ module Fog
     class Provisioning < Fog::Service
 
       class UserAlreadyExists  < Fog::Radosgw::Provisioning::Error; end
+      class NoSuchUser  < Fog::Radosgw::Provisioning::Error; end
       class ServiceUnavailable < Fog::Radosgw::Provisioning::Error; end
 
       requires :radosgw_access_key_id, :radosgw_secret_access_key
@@ -12,6 +13,7 @@ module Fog
 
       request_path 'fog/radosgw/requests/provisioning'
       request :create_user
+      request :delete_user
       request :update_user
       request :disable_user
       request :enable_user
