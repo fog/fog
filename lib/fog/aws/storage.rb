@@ -527,7 +527,7 @@ DATA
           port   = params.delete(:port) || DEFAULT_SCHEME_PORT[scheme]
 
           params[:headers]['Date'] = expires
-          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
+          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{CGI.escape(signature)}"
           # FIXME: ToHashParser should make this not needed
           original_params = params.dup
 
