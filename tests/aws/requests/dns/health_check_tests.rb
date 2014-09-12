@@ -121,7 +121,7 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
 
     tests('assign a health check to a DNS record') do
       after do
-        @r53_connection.change_resource_record_sets(@zone_id, [@resource_record.merge(action: 'DELETE')])
+        @r53_connection.change_resource_record_sets(@zone_id, [@resource_record.merge(:action => 'DELETE')])
         @r53_connection.delete_hosted_zone(@zone_id)
         @r53_connection.delete_health_check @health_check_id
       end
