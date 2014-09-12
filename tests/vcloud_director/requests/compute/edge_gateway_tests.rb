@@ -157,7 +157,7 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
 
     tests('#check Static Routing service configuration').returns(true) do
       edge_gateway = @service.get_edge_gateway(@edge_gateway_id).body
-      gateway_interface = edge_gateway[:Configuration][:GatewayInterface].first
+      gateway_interface = edge_gateway[:Configuration][:GatewayInterfaces][:GatewayInterface].first
       @routing_service_configuration[:StaticRoutingService][:StaticRoute].first[:GatewayInterface] = {
         :type => gateway_interface[:type],
         :name => gateway_interface[:name],
