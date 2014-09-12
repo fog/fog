@@ -45,6 +45,24 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
       }
   }
 
+  @routing_service_configuration = {
+    :StaticRoutingService => {
+      :IsEnabled => "true",
+      :StaticRoute => [
+        {
+          :Name => "Test static route #1",
+          :Network => "192.168.192.0/24",
+          :NextHopIp => "192.168.0.1",
+          :GatewayServiceInterface => {
+            :name => '',
+            :type => '',
+            :href => ''
+          }
+        }
+      ]
+    }
+  }
+
   @new_edge_gateway_configuration = {
     :FirewallService =>
       {
@@ -71,7 +89,7 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
           }
         ]
       }
-  }.merge!(@vpn_configuration).merge!(@dhcp_configuration)
+  }.merge!(@vpn_configuration).merge!(@dhcp_configuration).merge!(@routing_service_configuration)
 
   @service = Fog::Compute::VcloudDirector.new
   @org = VcloudDirector::Compute::Helper.current_org(@service)
@@ -139,6 +157,14 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
       @service.process_task(response.body)
       edge_gateway = @service.get_edge_gateway(@edge_gateway_id).body
       edge_gateway[:Configuration][:EdgeGatewayServiceConfiguration][:FirewallService][:FirewallRule].find { |rule| rule[:Id] == FIREWALL_RULE_ID }
+    end
+
+    test('#check Static Routing service configuration').returns(true) do
+      response = @service.post_configure_edge_gateway_services(@edge_gateway_id,
+                                                               @original_gateway_conf[:Configuration][:EdgeGatewayServiceConfiguration])
+      @service.process_task(response.body)
+      edge_gateway = @service.get_edge_gateway(@edge_gateway_id).body
+      edge_gateway[:Configuration][:EdgeGatewayServiceConfiguration][:StaticRoutingService][:IsEnabled] == "true"
     end
 
     tests('#check VPN xml from generator').returns(true) do
