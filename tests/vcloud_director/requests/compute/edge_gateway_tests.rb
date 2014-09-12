@@ -155,7 +155,7 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
       edge_gateway[:Configuration][:EdgeGatewayServiceConfiguration][:FirewallService][:FirewallRule].find { |rule| rule[:Id] == FIREWALL_RULE_ID }
     end
 
-    test('#check Static Routing service configuration').returns(true) do
+    tests('#check Static Routing service configuration').returns(true) do
       edge_gateway = @service.get_edge_gateway(@edge_gateway_id).body
       gateway_interface = edge_gateway[:Configuration][:GatewayInterface].first
       @routing_service_configuration[:StaticRoutingService][:StaticRoute].first[:GatewayInterface] = {
