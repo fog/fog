@@ -27,6 +27,7 @@ module Fog
         attribute :state,               :aliases => 'status'
         attribute :timeout
         attribute :nodes
+        attribute :https_redirect,      :aliases => 'httpsRedirect'
 
         def initialize(attributes)
           #HACK - Since we are hacking how sub-collections work, we have to make sure the service is valid first.
@@ -65,6 +66,18 @@ module Fog
 
         def nodes=(new_nodes=[])
           nodes.load(new_nodes)
+        end
+
+        def https_redirect
+          if @https_redirect.nil?
+            requires :identity
+            @https_redirect = begin
+              service.get_load_balancer(identity).body['loadBalancer']['httpsRedirect']
+            rescue => e
+              nil
+            end
+          end
+          @https_redirect
         end
 
         def ssl_termination
@@ -239,13 +252,14 @@ module Fog
         end
 
         def update
-          requires :name, :protocol, :port, :algorithm, :timeout
+          requires :name, :protocol, :port, :algorithm, :timeout, :https_redirect
           options = {
             :name => name,
             :algorithm => algorithm,
             :protocol => protocol,
             :port => port,
-            :timeout => timeout
+            :timeout => timeout,
+            :https_redirect => !!https_redirect
           }
 
           service.update_load_balancer(identity, options)
