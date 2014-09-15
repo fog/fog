@@ -192,11 +192,14 @@ module Fog
                   :password => RbVmomi::VIM::CustomizationPassword.new(:plainText=>true,:value=>options['password']),
                   :timeZone => 1
               )
-              cust_identification = RbVmomi::VIM::CustomizationIdentification.new(
-                  :domainAdmin => options["domain_admin"],
-                  :domainAdminPassword => RbVmomi::VIM::CustomizationPassword.new(:plainText=>true,:value=>options['domain_admin_password']),
-                  :joinDomain =>cust_options["domain"],
-              )
+              cust_identification = RbVmomi::VIM::CustomizationIdentification.new()
+              if options["domain_admin"] then
+                cust_identification[:domainAdmin] = options["domain_admin"]
+                cust_identification[:domainAdminPassword] = RbVmomi::VIM::CustomizationPassword.new(:plainText=>true,:value=>options['domain_admin_password'])
+                cust_identification[:joinDomain] = cust_domain
+              else
+                cust_identification[:joinWorkgroup] = cust_domain
+              end
               cust_user_data = RbVmomi::VIM::CustomizationUserData.new(
                   :computerName => cust_hostname,
                   :fullName => options['name'],
