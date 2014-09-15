@@ -93,10 +93,6 @@ The Storage service supports the following additional parameters:
 		<td>:rackspace_cdn_url</td>
 		<td>The endpoint for the CDN service. By default, Fog::Storage pick the appropriate endpoint for region. This option will typically only be used for Rackspace Private Cloud Access.</td>
 	</tr>
-		<tr>
-		<td>:chunk_size</td>
-		<td>The chunk size in bytes used for block transfers. By default, Fog uses 1 MB chunks.</td>
-	</tr>
 </table>
 
 
@@ -136,6 +132,10 @@ Fog supports passing additional connection parameters to its underlying HTTP lib
 		<td>:ssl_verify_peer</td>
 		<td>SSL verify peer (default: true)</td>
 	</tr>	
+    <tr>
+		<td>:chunk_size</td>
+		<td>The chunk size in bytes used for block transfers. By default, Fog uses 1 MB chunks.</td>
+	</tr>
 </table>
 
 
