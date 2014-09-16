@@ -6,11 +6,19 @@ module Fog
           datacenter_name = filters[:datacenter]
           # default to show all compute_resources
           only_active = filters[:effective] || false
-          compute_resources = raw_compute_resources datacenter_name
+          datacenters = find_datacenters(datacenter_name)
+          hosts = datacenters.map do |dc|
+            @connection.serviceContent.viewManager.CreateContainerView({
+              :container  => dc.hostFolder,
+              :type       =>  ["HostSystem"],
+              :recursive  => true
+            }).view
+          end.flatten
+          # compute_resources = raw_compute_resources datacenter_name
           
-          compute_resources.collect {|cr| cr.host}.flatten.map do |host_system|
-            next if only_active and !is_host_system_active?(host_system)
-            host_system_attributes(host_system, datacenter_name)
+          hosts.map do |host_system|
+             next if only_active and !is_host_system_active?(host_system)
+             host_system_attributes(host_system, datacenter_name)
           end.compact
         end
         
