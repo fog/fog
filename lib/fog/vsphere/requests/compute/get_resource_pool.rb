@@ -23,10 +23,17 @@ module Fog
         end
 
         def get_raw_resource_pool2(host_system_name, datacenter_name)
+          datacenters = find_datacenters(datacenter_name)
+          hosts = datacenters.map do |dc|
+            @connection.serviceContent.viewManager.CreateContainerView({
+              :container  => dc.hostFolder,
+              :type       =>  ["ComputeResource"],
+              :recursive  => true
+            }).view
+          end.flatten
+
           ret = nil
-          dc = find_raw_datacenter(datacenter_name)
-          clusters = dc.find_compute_resource('')
-          clusters.children.each do |cluster|
+          hosts.each do |cluster|
             if cluster.class==RbVmomi::VIM::ClusterComputeResource then
               if cluster.host.find{|h|h.name==host_system_name}
                 ret = cluster.resourcePool
