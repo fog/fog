@@ -23,7 +23,7 @@ module Fog
             raise ArgumentError, "Storage must my instantiated with the :rackspace_temp_url_key option"
           end
 
-          method         = 'GET'
+          method         = options[:method] || 'GET'
           expires        = expires.to_i
           object_path_escaped   = "#{@uri.path}/#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object,"/")}"
           object_path_unescaped = "#{@uri.path}/#{Fog::Rackspace.escape(container)}/#{object}"
