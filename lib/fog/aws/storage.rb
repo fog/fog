@@ -44,7 +44,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :instrumentor, :instrumentor_name
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -411,6 +411,8 @@ module Fog
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
+          @instrumentor       = options[:instrumentor]
+          @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.storage'
           @connection_options     = options[:connection_options] || {}
           @persistent = options.fetch(:persistent, false)
 
@@ -531,16 +533,22 @@ DATA
           # FIXME: ToHashParser should make this not needed
           original_params = params.dup
 
-          begin
-            response = connection(scheme, host, port).request(params, &block)
-          rescue Excon::Errors::TemporaryRedirect => error
-            headers = (error.response.is_a?(Hash) ? error.response[:headers] : error.response.headers)
-            uri = URI.parse(headers['Location'])
-            Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
-            response = Fog::XML::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request(original_params, &block)
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(scheme, host, port, params, original_params, &block)
+            end
+          else
+              _request(scheme, host, port, params, original_params, &block)
           end
+        end
 
-          response
+        def _request(scheme, host, port, params, original_params, &block)
+          connection(scheme, host, port).request(params, &block)
+        rescue Excon::Errors::TemporaryRedirect => error
+          headers = (error.response.is_a?(Hash) ? error.response[:headers] : error.response.headers)
+          uri = URI.parse(headers['Location'])
+          Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
+          Fog::XML::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request(original_params, &block)
         end
       end
     end
