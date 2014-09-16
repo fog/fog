@@ -6,7 +6,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/glacier'
 
@@ -122,6 +122,8 @@ module Fog
 
           setup_credentials(options)
 
+          @instrumentor           = options[:instrumentor]
+          @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.glacier'
           @connection_options     = options[:connection_options] || {}
           @host = options[:host] || "glacier.#{@region}.amazonaws.com"
           @version = '2012-06-01'
@@ -155,6 +157,16 @@ module Fog
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           params[:headers]['Authorization'] = @signer.sign params, date
 
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(params, &block)
+            end
+          else
+            _request(params, &block)
+          end
+        end
+
+        def _request(params, &block)
           response = @connection.request(params, &block)
           if response.headers['Content-Type'] == 'application/json' && response.body.size > 0 #body will be empty if the streaming form has been used
             response.body  = Fog::JSON.decode(response.body)
