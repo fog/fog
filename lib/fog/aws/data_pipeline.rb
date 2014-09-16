@@ -6,7 +6,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/data_pipeline'
       request :activate_pipeline
@@ -53,8 +53,9 @@ module Fog
         # * DataPipeline object with connection to AWS.
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
+          @instrumentor       = options[:instrumentor]
+          @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.data_pipeline'
           @connection_options     = options[:connection_options] || {}
-
           @version    = '2012-10-29'
           @region     = options[:region]      || 'us-east-1'
           @host       = options[:host]        || "datapipeline.#{@region}.amazonaws.com"
@@ -107,8 +108,17 @@ module Fog
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           params[:headers]['Authorization'] = @signer.sign(params, date)
 
-          response = @connection.request(params)
-          response
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(params)
+            end
+          else
+            _request(params)
+          end
+        end
+
+        def _request(params)
+          @connection.request(params)
         end
       end
     end
