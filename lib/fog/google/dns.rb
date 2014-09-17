@@ -10,11 +10,26 @@ module Fog
       GOOGLE_DNS_BASE_URL        = 'https://www.googleapis.com/dns/'
       GOOGLE_DNS_API_SCOPE_URLS  = %w(https://www.googleapis.com/auth/ndev.clouddns.readwrite)
 
+      ##
+      # MODELS
+      model_path 'fog/google/models/dns'
+
+      # Project
+      model :project
+      collection :projects
+
+      ##
+      # REQUESTS
       request_path 'fog/google/requests/dns'
+
+      # Zone
       request :create_managed_zone
       request :delete_managed_zone
       request :get_managed_zone
       request :list_managed_zones
+
+      # Project
+      request :get_project
 
       class Mock
 	include Fog::Google::Shared
