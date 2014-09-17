@@ -461,6 +461,10 @@ module Fog
         def login
           if @vcloud_token = ENV['FOG_VCLOUD_TOKEN']
             response = get_current_session
+            session_org = response.body[:org]
+            session_user = response.body[:user]
+
+            check_session_matches_credentials(session_org, session_user)
           else
             response = post_login_session
             x_vcloud_authorization = response.headers.keys.find do |key|
@@ -477,6 +481,21 @@ module Fog
           delete_logout
           @vcloud_token = nil
           @org_name = nil
+        end
+
+        def check_session_matches_credentials(session_org, session_user)
+          fog_credential_org = @vcloud_director_username.split('@').last
+          fog_credential_user = @vcloud_director_username.split('@')[0...-1].join
+
+          if session_org != fog_credential_org
+            raise Fog::Errors::Error.new "FOG_CREDENTIAL specified is for vCloud organisation '#{fog_credential_org}' but " +
+              "your current session is for '#{session_org}'. You should generate a new FOG_VCLOUD_TOKEN."
+          end
+
+          if session_user != fog_credential_user
+            raise Fog::Errors::Error.new "FOG_CREDENTIAL specified is for user '#{fog_credential_user}' but " +
+              "your current session is for '#{session_user}'. You should generate a new FOG_VCLOUD_TOKEN."
+          end
         end
       end
 
