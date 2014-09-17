@@ -2,7 +2,8 @@ module Fog
   module Compute
     class Google
       class Mock
-        def get_region(region_name)
+        def get_region(identity)
+          region_name = identity.split('/')[-1]
           region = self.data[:regions][region_name] || {
             "error" => {
               "errors" => [
