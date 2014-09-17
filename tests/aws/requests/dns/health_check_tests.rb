@@ -140,9 +140,9 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
         :type => 'A',
         :ttl => 3600,
         :resource_records => ['8.8.4.4'],
-        health_check_id: @health_check_id,
-        set_identifier: SecureRandom.hex(8),
-        weight: 50
+        :health_check_id => @health_check_id,
+        :set_identifier => SecureRandom.hex(8),
+        :weight => 50
       }
       resource_record_set = [@resource_record.merge(:action => 'CREATE')]
       record_response = @r53_connection.change_resource_record_sets @zone_id, resource_record_set
