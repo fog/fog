@@ -1,5 +1,8 @@
 require 'securerandom'
 Shindo.tests("Fog::Compute[:google] | target pool model", ['google']) do
+
+  pending
+
   random_string = SecureRandom.hex
   region = 'us-central1'
   instance = create_test_server(Fog::Compute[:google], 'us-central1-a')
