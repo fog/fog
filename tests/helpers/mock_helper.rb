@@ -79,6 +79,8 @@ if Fog.mock?
     :rackspace_api_key                => 'rackspace_api_key',
     :rackspace_region                 => 'dfw',
     :rackspace_username               => 'rackspace_username',
+    :radosgw_access_key_id            => 'radosgw_access_key_id',
+    :radosgw_secret_access_key        => 'radosgw_secret_access_key',
     :riakcs_access_key_id             => 'riakcs_access_key_id',
     :riakcs_secret_access_key         => 'riakcs_secret_access_key',
     :sakuracloud_api_token            => 'sakuracloud_api_token',
