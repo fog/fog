@@ -1,16 +1,10 @@
 module Fog
   module DNS
     class Google
-      class Mock
-        def list_managed_zones()
-          zones = self.data[:managed_zones][:by_id].values
-          build_excon_response({
-	    "kind" => "dns#managedZonesListResponse",
-	    "managedZones" => zones,
-          })
-        end
-      end
-
+      ##
+      # Enumerates Managed Zones that have been created but not yet deleted.
+      #
+      # @see hhttps://developers.google.com/cloud-dns/api/v1beta1/managedZones/list
       class Real
         def list_managed_zones()
           api_method = @dns.managed_zones.list
@@ -19,6 +13,17 @@ module Fog
           }
 
           request(api_method, parameters)
+        end
+      end
+
+      class Mock
+        def list_managed_zones()
+          body = {
+            'kind' => 'dns#managedZonesListResponse',
+            'managedZones' => self.data[:managed_zones].values,
+          }
+
+          build_excon_response(body)
         end
       end
     end

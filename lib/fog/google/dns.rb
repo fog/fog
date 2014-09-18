@@ -14,6 +14,10 @@ module Fog
       # MODELS
       model_path 'fog/google/models/dns'
 
+      # Zone
+      model :zone
+      collection :zones
+
       # Project
       model :project
       collection :projects
@@ -32,27 +36,24 @@ module Fog
       request :get_project
 
       class Mock
-	include Fog::Google::Shared
+        include Fog::Google::Shared
 
         def initialize(options)
           shared_initialize(options[:google_project], GOOGLE_DNS_API_VERSION, GOOGLE_DNS_BASE_URL)
         end
 
-	def self.data(api_version)
-	  @data ||= {}
-	end
+        def self.data(api_version)
+          @data ||= {}
+        end
 
-	def self.reset
-	  @data = nil
-	end
+        def self.reset
+          @data = nil
+        end
 
         def data(project=@project)
           self.class.data(api_version)[project] ||= {
-              :managed_zones => {
-                  :by_id => {},
-                  :by_name => {},
-              },
-	  }
+            :managed_zones => {},
+          }
         end
 
         def reset_data
