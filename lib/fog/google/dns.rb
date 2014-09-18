@@ -18,6 +18,10 @@ module Fog
       model :zone
       collection :zones
 
+      # Record
+      model :record
+      collection :records
+
       # Project
       model :project
       collection :projects
@@ -31,6 +35,9 @@ module Fog
       request :delete_managed_zone
       request :get_managed_zone
       request :list_managed_zones
+
+      # Record
+      request :list_resource_record_sets
 
       # Project
       request :get_project
@@ -53,6 +60,7 @@ module Fog
         def data(project=@project)
           self.class.data(api_version)[project] ||= {
             :managed_zones => {},
+            :resource_record_sets => {},
           }
         end
 

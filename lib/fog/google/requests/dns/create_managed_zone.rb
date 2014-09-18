@@ -41,6 +41,29 @@ module Fog
             ],
           }
           self.data[:managed_zones][id] = data
+          self.data[:resource_record_sets][id] = [
+            {
+              'kind' => 'dns#resourceRecordSet',
+              'name' => dns_name,
+              'type' => 'NS',
+              'ttl' => 21600,
+              'rrdatas' => [
+                'ns-cloud-c1.googledomains.com.',
+                'ns-cloud-c2.googledomains.com.',
+                'ns-cloud-c3.googledomains.com.',
+                'ns-cloud-c4.googledomains.com.',
+              ]
+            },
+            {
+              'kind' => 'dns#resourceRecordSet',
+              'name' => dns_name,
+              'type' => 'SOA',
+              'ttl' => 21600,
+              'rrdatas' => [
+                'ns-cloud-c1.googledomains.com. dns-admin.google.com. 0 21600 3600 1209600 300',
+              ]
+            },
+          ]
 
           build_excon_response(data)
         end

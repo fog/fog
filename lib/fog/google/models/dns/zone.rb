@@ -29,6 +29,19 @@ module Fog
         end
 
         ##
+        # Enumerates the list of Resource Record Sets for the Managed Zone
+        #
+        # @return Array<Fog::DNS::Google::Record>] List of Resource Record Sets for the Managed Zone
+        def records
+          @records ||= begin
+            Fog::DNS::Google::Records.new(
+              :service => service,
+              :zone => self
+            )
+          end
+        end
+
+        ##
         # Creates a new Managed Zone
         #
         # @return [Fog::DNS::Google::Zone] Managed Zone
