@@ -2,46 +2,47 @@ require 'date'
 module Fog
   module DNS
     class Google
-
-      class Mock
-        def create_managed_zone(zone_name, dns_name, descr='')
-          id = Fog::Mock.random_numbers(19).to_s
-          object = {
-            "kind" => "dns#managedZone",
-            "id" => id,
-            "creationTime" => DateTime.now.strftime('%FT%T.%LZ'),
-            "name" => zone_name,
-            "dnsName" => dns_name,
-            "description" => descr,
-	    "nameServers" => [
-	      "ns-cloud-e1.googledomains.com.",
-	      "ns-cloud-e2.googledomains.com.",
-	      "ns-cloud-e3.googledomains.com.",
-	      "ns-cloud-e4.googledomains.com.",
-	    ],
-	  }
-          self.data[:managed_zones][:by_name][zone_name] = object
-          self.data[:managed_zones][:by_id][id] = object
-
-          build_excon_response(object)
-        end
-
-      end
-
+      ##
+      # Creates a new Managed Zone.
+      #
+      # @see https://developers.google.com/cloud-dns/api/v1beta1/managedZones/create
       class Real
-        def create_managed_zone(zone_name, dns_name, descr='')
+        def create_managed_zone(name, dns_name, description)
           api_method = @dns.managed_zones.create
           parameters = {
             'project' => @project,
           }
 
           body_object = {
-	    'name' => zone_name,
-	    'dnsName' => dns_name,
-	  }
-	  body_object['description'] = descr unless descr.nil?
+            'name' => name,
+            'dnsName' => dns_name,
+            'description' => description,
+          }
 
           request(api_method, parameters, body_object)
+        end
+      end
+
+      class Mock
+        def create_managed_zone(name, dns_name, description)
+          id = Fog::Mock.random_numbers(19).to_s
+          data = {
+            'kind' => 'dns#managedZone',
+            'id' => id,
+            'creationTime' => DateTime.now.strftime('%FT%T.%LZ'),
+            'name' => name,
+            'dnsName' => dns_name,
+            'description' => description,
+            'nameServers' => [
+              'ns-cloud-e1.googledomains.com.',
+              'ns-cloud-e2.googledomains.com.',
+              'ns-cloud-e3.googledomains.com.',
+              'ns-cloud-e4.googledomains.com.',
+            ],
+          }
+          self.data[:managed_zones][id] = data
+
+          build_excon_response(data)
         end
       end
     end
