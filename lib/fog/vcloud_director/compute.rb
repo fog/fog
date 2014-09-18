@@ -472,6 +472,7 @@ module Fog
             end
             @vcloud_token = response.headers[x_vcloud_authorization]
           end
+
           @org_name = response.body[:org]
           @user_name = response.body[:user]
         end
