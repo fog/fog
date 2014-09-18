@@ -11,4 +11,14 @@ Shindo.tests('Fog::DNS[:google] | zone model', ['google']) do
     :description => 'Fog test domain'
   }
   model_tests(Fog::DNS[:google].zones, params)
+
+  tests('success') do
+    @zone = Fog::DNS[:google].zones.create(params)
+
+    tests('#records').succeeds do
+      @zone.records
+    end
+
+    @zone.destroy
+  end
 end
