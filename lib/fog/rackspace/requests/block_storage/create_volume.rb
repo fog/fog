@@ -41,6 +41,7 @@ module Fog
           data['volume']['volume_type'] = options[:volume_type] unless options[:volume_type].nil?
           data['volume']['availability_zone'] = options[:availability_zone] unless options[:availability_zone].nil?
           data['volume']['snapshot_id'] = options[:snapshot_id] unless options[:snapshot_id].nil?
+          data['volume']['source_volid'] = options[:source_volid] unless options[:source_volid].nil?
 
           request(
             :body => Fog::JSON.encode(data),
