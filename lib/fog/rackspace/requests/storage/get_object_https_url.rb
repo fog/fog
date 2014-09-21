@@ -8,6 +8,7 @@ module Fog
         # * container<~String> - Name of container containing object
         # * object<~String> - Name of object to get expiring url for
         # * expires<~Time> - An expiry time for this url
+        # * options<~Hash> - Options to override the method or scheme
         #
         # ==== Returns
         # * response<~Excon::Response>:
