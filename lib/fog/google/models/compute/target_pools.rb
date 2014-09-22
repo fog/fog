@@ -22,15 +22,14 @@ module Fog
         def get(identity, region=nil)
           response = nil
           if region.nil?
-            service.list_regions.body['items'].each do |region|
+            service.regions.all.each do |region|
               begin
-                response = service.get_target_pool(identity, region['name'])
+                response = service.get_target_pool(identity, region.name)
                 break if response.status == 200
               rescue Fog::Errors::Error
               end
             end
           else
-            region = region['name'] if region['name']
             response = service.get_target_pool(identity, region)
           end
           return nil if response.nil?

@@ -18,6 +18,11 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
     :timeout => 60
   })
 
+  HTTPS_REDIRECT_LB_ATTRIBUTES = FULL_LB_ATTRIBUTES.merge({
+    :protocol => 'HTTPS',
+    :https_redirect => true
+  })
+
   given_a_load_balancer_service do
     model_tests(@service.load_balancers, NORMAL_LB_ATTRIBUTES, false) do
 
@@ -198,6 +203,17 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
 
       @lb.destroy
     end
+
+    tests('create with httpsRedirect') do
+      @lb = @service.load_balancers.create HTTPS_REDIRECT_LB_ATTRIBUTES
+      returns('HTTPS') { @lb.protocol }
+      returns(true) { @lb.https_redirect }
+
+      @lb.wait_for { ready? }
+
+      @lb.destroy
+    end
+
 
     tests('failure') do
       @lb = @service.load_balancers.new NORMAL_LB_ATTRIBUTES

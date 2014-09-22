@@ -19,7 +19,11 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       end
 
       test('create a FQDN HTTP based health check') do
-        @response = @r53_connection.create_health_check(nil, '80', 'HTTP', fqdn: 'www.amazon.com', resource_path: '/gp/cart/view.html/ref=nav_cart')
+        @options = {
+          :fqdn => "www.amazon.com",
+          :resource_path => "/gp/cart/view.html/ref=nav_cart"
+        }
+        @response = @r53_connection.create_health_check(nil, '80', 'HTTP', @options)
         @response.status == 201 &&
           @response.body['HealthCheck']['HealthCheckConfig']['IPAddress'].nil? &&
           @response.body['HealthCheck']['HealthCheckConfig']['Port'] == '80' &&
@@ -29,11 +33,11 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
 
     tests('get a health check') do
       @options = {
-        fqdn: 'www.amazon.com',
-        resource_path: '/gp/cart/view.html/ref=nav_cart',
-        search_string: 'Amazon',
-        request_interval: 10,
-        failure_threshold: '7'
+        :fqdn => "www.amazon.com",
+        :resource_path => "/gp/cart/view.html/ref=nav_cart",
+        :search_string => "Amazon",
+        :request_interval => 10,
+        :failure_threshold => "7"
       }
       create_response = @r53_connection.create_health_check('8.8.8.8', '443', 'HTTPS_STR_MATCH', @options)
       @health_check_id = create_response.body['HealthCheck']['Id']
@@ -82,7 +86,11 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       before do
         response_1 = @r53_connection.create_health_check('8.8.8.8', '53', 'TCP')
         @health_check_1_id = response_1.body['HealthCheck']['Id']
-        response_2 = @r53_connection.create_health_check(nil, '80', 'HTTP', fqdn: 'www.amazon.com', resource_path: '/gp/cart/view.html/ref=nav_cart')
+        options = {
+          :fqdn => "www.amazon.com",
+          :resource_path => "/gp/cart/view.html/ref=nav_cart"
+        }
+        response_2 = @r53_connection.create_health_check(nil, '80', 'HTTP', options)
         @health_check_2_id = response_2.body['HealthCheck']['Id']
         @health_check_ids = [@health_check_1_id, @health_check_2_id]
       end
@@ -113,7 +121,7 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
 
     tests('assign a health check to a DNS record') do
       after do
-        @r53_connection.change_resource_record_sets(@zone_id, [@resource_record.merge(action: 'DELETE')])
+        @r53_connection.change_resource_record_sets(@zone_id, [@resource_record.merge(:action => 'DELETE')])
         @r53_connection.delete_hosted_zone(@zone_id)
         @r53_connection.delete_health_check @health_check_id
       end
@@ -132,9 +140,9 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
         :type => 'A',
         :ttl => 3600,
         :resource_records => ['8.8.4.4'],
-        health_check_id: @health_check_id,
-        set_identifier: SecureRandom.hex(8),
-        weight: 50
+        :health_check_id => @health_check_id,
+        :set_identifier => SecureRandom.hex(8),
+        :weight => 50
       }
       resource_record_set = [@resource_record.merge(:action => 'CREATE')]
       record_response = @r53_connection.change_resource_record_sets @zone_id, resource_record_set

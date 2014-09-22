@@ -16,7 +16,7 @@ module Fog
         def get(id)
           requires :server
           new disks(server.id, id).first
-        rescue Fog::Linode::Compute::NotFound
+        rescue Fog::Compute::Linode::NotFound
           nil
         end
 
