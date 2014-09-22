@@ -51,6 +51,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-brightbox")
   s.add_dependency("fog-softlayer")
   s.add_dependency("fog-sakuracloud", ">= 0.0.4")
+  s.add_dependency("fog-radosgw", ">=0.0.2")
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
