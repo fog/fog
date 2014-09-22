@@ -8,6 +8,7 @@ module Fog
         # * container<~String> - Name of container containing object
         # * object<~String> - Name of object to get expiring url for
         # * expires<~Time> - An expiry time for this url
+        # * options<~Hash> - Options to override the method or scheme
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -23,7 +24,7 @@ module Fog
             raise ArgumentError, "Storage must my instantiated with the :rackspace_temp_url_key option"
           end
 
-          method         = 'GET'
+          method         = options[:method] || 'GET'
           expires        = expires.to_i
           object_path_escaped   = "#{@uri.path}/#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object,"/")}"
           object_path_unescaped = "#{@uri.path}/#{Fog::Rackspace.escape(container)}/#{object}"
