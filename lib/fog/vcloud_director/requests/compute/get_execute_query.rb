@@ -357,8 +357,8 @@ module Fog
             data_type = :tasks
             data[data_type].each do |id, dr|
               r = {}
-              if name.nil? || dr[:name] == name
-                r[:name] = dr[:name]
+              if name.nil? || dr[:operation_name] == name
+                r[:name] = dr[:operation_name]
                 r[:href] = make_href("task/#{id}")
                 if dr[:end_time]
                   r[:endDate] = dr[:end_time].strftime('%Y-%m-%dT%H:%M:%S%z')

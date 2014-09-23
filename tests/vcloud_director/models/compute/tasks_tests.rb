@@ -7,7 +7,6 @@ Shindo.tests('Compute::VcloudDirector | tasks', ['vclouddirector']) do
   if Fog.mocking?
     # add a bunch of tasks
     50.times do
-      type = 'bogus'
       task_id = @service.enqueue_task(
         "Bogus Task",
         'BogusTaskName',
@@ -42,13 +41,14 @@ Shindo.tests('Compute::VcloudDirector | tasks', ['vclouddirector']) do
   end
 
   # We should also be able to find tasks via the Query API
+  # NB:  Query name == task.operation_name
   tests("Compute::VcloudDirector | tasks", ['find_by_query']) do
-    tests('we can retrieve :name without lazy loading').returns(task.name) do
-      query_task = tasks.find_by_query(:filter => "name==#{task.name}").first
+    tests('we can retrieve :name without lazy loading').returns(task.operation_name) do
+      query_task = tasks.find_by_query(:filter => "name==#{task.operation_name}").first
       query_task.attributes[:name]
     end
-    tests('by name').returns(task.name) do
-      query_task = tasks.find_by_query(:filter => "name==#{task.name}").first
+    tests('by name').returns(task.operation_name) do
+      query_task = tasks.find_by_query(:filter => "name==#{task.operation_name}").first
       query_task.name
     end
   end
