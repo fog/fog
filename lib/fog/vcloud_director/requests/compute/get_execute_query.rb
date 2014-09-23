@@ -306,6 +306,51 @@ module Fog
             body[:total]    = records.size.to_s
             body[record_type] = records
 
+          elsif type == 'vApp'
+            record_type = :VAppRecord
+            all_records = data[:vapps].map do |vapp_id, vapp|
+              {
+                :vdcName => data.fetch(:vdcs).fetch(vapp[:vdc_id]).fetch(:name),
+                :vdc => make_href("vdc/#{vapp[:vdc_id]}"),
+                :storageProfileName => "*",
+                :ownerName => "system",
+                :name => vapp.fetch(:name),
+                :status => 'POWERED_OFF',
+                :isInMaintenanceMode=> 'false',
+                :isPublic => 'false',
+                :isExpired =>"false",
+                :isEnabled =>"true",
+                :isDeployed =>"false",
+                :isBusy => "false",
+                :pvdcHighestSupportedHardwareVersion => '8',
+                :lowestHardwareVersionInVApp => '8',
+                :creationDate => "2013-09-19T22:55:30.257+01:00",
+                :href => make_href("vApp/#{vapp_id}"),
+                :honorBootOrder => "false",
+                :isVdcEnabled => "true",
+                :cpuAllocationMhz => "8",
+                :cpuAllocationInMhz => "16000",
+                :storageKB => "52428800",
+                :numberOfVMs => "1",
+                :isAutoDeleteNotified => "false",
+                :numberOfCpus => "8",
+                :isAutoUndeployNotified => "false",
+                :memoryAllocationMB => "32768",
+                :task => make_href("task/#{uuid}"),
+                :taskStatusName => 'vdcInstantiateVapp',
+                :taskStatus => 'success',
+                :taskDetails => " ",
+              }
+            end
+            records = all_records.select do |record|
+              record[:name] == name
+            end
+
+            body[:page]     = 1.to_s             # TODO: Support pagination
+            body[:pageSize] = records.size.to_s  # TODO: Support pagination
+            body[:total]    = records.size.to_s
+            body[record_type] = records
+
           elsif type == 'task'
 
             record_type = :TaskRecord
