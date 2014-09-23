@@ -39,6 +39,7 @@ Shindo.tests("Compute::VcloudDirector | vapps", ['vclouddirector', 'all']) do
   end
 
   tests("Compute::VcloudDirector | vapp", ['custom_fields']) do
+    pending if Fog.mocking?
     tests("#set_custom_field").returns('2'){ vapp.custom_fields[:custom_field] = '2' }
 
     tests("#get_custom_field_by_name").returns('2') { vapp.custom_fields[:custom_field].value }
