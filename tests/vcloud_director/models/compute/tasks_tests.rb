@@ -29,8 +29,8 @@ Shindo.tests('Compute::VcloudDirector | tasks', ['vclouddirector']) do
     tests('#id').returns(String) { task.id.class }
     tests('#name').returns(String) { task.name.class }
     tests('#status').returns(String) { task.status.class }
-    tests('#end_time').returns(Fog::Time) { task.end_time.class }
-    tests('#expiry_time').returns(Fog::Time) { task.expiry_time.class }
+    tests('#end_time').returns(Time) { task.end_time.class }
+    tests('#expiry_time').returns(Time) { task.expiry_time.class }
     tests('#operation').returns(String) { task.operation.class }
     tests('#operation_name').returns(String) { task.operation_name.class }
   end
