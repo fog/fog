@@ -76,6 +76,8 @@ module Fog
         request :update_webhook
         request :delete_webhook
 
+        request :delete_server
+
         class Mock < Fog::Rackspace::Service
           def initialize(options)
             @rackspace_api_key = options[:rackspace_api_key]
