@@ -39,12 +39,12 @@ Where `SERVICE-NAME` can be [Compute](https://github.com/fog/fog/blob/master/lib
 
 **Note**: You must use the `:hp_access_key` parameter rather than the now-deprecated `:hp_account_id` parameter you might have used in previous versions of the HP Cloud Services Extensions to Ruby Fog.
 
-You can find the values the access key, secret key, and other values by clicking the [`API Keys`](https://console.hpcloud.com/account/api_keys) button in the [Console Dashboard](https://console.hpcloud.com/dashboard).
+You can find the values the access key, secret key, and other values by clicking the Manage Access Keys drop down in the [Console Dashboard](https://horizon.hpcloud.com/landing).
 
 
 ## Availability Zones
 
-You cannot specify an availability zone if you have not activated it.  To activate an availability zone, go to the [Management Console dashboard](https://console.hpcloud.com/) and click the `**Activate`** button.  You are required to set an availability zone to establish a connection; there is no default availability zone value.
+You cannot specify an availability zone if you have not activated it.  To activate an availability zone, go to the [Management Console dashboard](https://horizon.hpcloud.com/) and click the `**Activate**` button.  You are required to set an availability zone to establish a connection; there is no default availability zone value.
 
 The current usable availability zones for the compute service:
 
