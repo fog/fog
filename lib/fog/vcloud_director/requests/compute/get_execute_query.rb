@@ -376,7 +376,7 @@ module Fog
                 r[:orgName] = data.fetch(:org).fetch(:name)
                 r[:org] = make_href("org/#{data[:org][:uuid]}")
                 r[:objectType] = dr.fetch(:owner).fetch(:type).split(/\./).last.split(/\+/).first
-                r[:objectName] = dr.fetch(:owner).fetch(:name)
+                r[:objectName] = dr.fetch(:owner).fetch(:name, '') # objectName is optional
                 r[:object] = dr.fetch(:owner).fetch(:href)
                 r[:details] = '! []'
 
