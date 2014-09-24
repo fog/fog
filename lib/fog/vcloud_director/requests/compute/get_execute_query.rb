@@ -357,27 +357,27 @@ module Fog
             data_type = :tasks
             data[data_type].each do |id, dr|
               r = {}
-              if name.nil? || dr[:operation_name] == name
-                r[:name] = dr[:operation_name]
+              if name.nil? || dr.fetch(:operation_name) == name
+                r[:name] = dr.fetch(:operation_name)
                 r[:href] = make_href("task/#{id}")
-                if dr[:end_time]
-                  r[:endDate] = dr[:end_time].strftime('%Y-%m-%dT%H:%M:%S%z')
+                if dr.key?(:end_time)
+                  r[:endDate] = dr.fetch(:end_time).strftime('%Y-%m-%dT%H:%M:%S%z')
                 else
                   r[:endDate] = nil
                 end
-                if dr[:start_time]
-                  r[:startDate] = dr[:start_time].strftime('%Y-%m-%dT%H:%M:%S%z')
+                if dr.key?(:start_time)
+                  r[:startDate] = dr.fetch(:start_time).strftime('%Y-%m-%dT%H:%M:%S%z')
                 else
                   r[:startDate] = nil
                 end
-                r[:status] = dr[:status]
+                r[:status] = dr.fetch(:status)
                 r[:serviceNamespace] = 'com.vmware.vcloud'
                 r[:ownerName] = '000.0.000000'
-                r[:orgName] = data[:org][:name]
+                r[:orgName] = data.fetch(:org).fetch(:name)
                 r[:org] = make_href("org/#{data[:org][:uuid]}")
-                r[:objectType] = dr[:owner][:type].split(/\./).last.split(/\+/).first
-                r[:objectName] = dr[:owner][:name]
-                r[:object] = dr[:owner][:href]
+                r[:objectType] = dr.fetch(:owner).fetch(:type).split(/\./).last.split(/\+/).first
+                r[:objectName] = dr.fetch(:owner).fetch(:name)
+                r[:object] = dr.fetch(:owner).fetch(:href)
                 r[:details] = '! []'
 
                 records << r
