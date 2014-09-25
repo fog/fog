@@ -10,7 +10,7 @@ module Fog
             @this_key   = nil
             @this_value = nil
             @tags       = Hash.new
-            @response   = {'DescribeTags' => {'TagDescriptions' => {}}}
+            @response   = { 'DescribeTagsResult' => { 'LoadBalancers' => [] }, 'ResponseMetadata' => {} }
           end
 
           def end_element(name)
@@ -24,7 +24,10 @@ module Fog
               when 'Value'
                 @this_value = value
               when 'TagDescriptions'
-                @response['DescribeTags']['TagDescriptions'] = @tags
+                @response['DescribeTagsResult']['LoadBalancers'] << { 'TagDescriptions' => @tags }
+                @tags = {}
+              when 'RequestId'
+                @response['ResponseMetadata'][name] = value
             end
           end
 
