@@ -14,6 +14,8 @@ module Fog
         def remove_tags(elb_id, keys)
           request(
             { 'Action'                      => 'RemoveTags',
+              # Note: there is a discrepancy in the API docs in the ID parameter name between the write-up and the example.
+              # Who knows which way the fix will go, if any is ever made? In any case, this works.
               'LoadBalancerNames.member.1'  => elb_id,
               :parser => Fog::Parsers::AWS::ELB::Empty.new,
             }.merge(Fog::AWS.indexed_param('Tags.member.%d.Key', keys))
