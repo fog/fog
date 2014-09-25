@@ -19,6 +19,7 @@ module Fog
       recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/elb'
+      request :add_tags
       request :configure_health_check
       request :create_app_cookie_stickiness_policy
       request :create_lb_cookie_stickiness_policy
@@ -34,10 +35,12 @@ module Fog
       request :describe_load_balancer_attributes
       request :describe_load_balancer_policies
       request :describe_load_balancer_policy_types
+      request :describe_tags
       request :disable_availability_zones_for_load_balancer
       request :enable_availability_zones_for_load_balancer
       request :modify_load_balancer_attributes
       request :register_instances_with_load_balancer
+      request :remove_tags
       request :set_load_balancer_listener_ssl_certificate
       request :set_load_balancer_policies_of_listener
       request :attach_load_balancer_to_subnets

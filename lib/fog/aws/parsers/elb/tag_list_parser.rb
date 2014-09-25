@@ -10,7 +10,7 @@ module Fog
             @this_key   = nil
             @this_value = nil
             @tags       = Hash.new
-            @response   = {'DescribeTags' => {'TagList' => {}}}
+            @response   = {'DescribeTags' => {'TagDescriptions' => {}}}
           end
 
           def end_element(name)
@@ -23,8 +23,8 @@ module Fog
                 @this_key = value
               when 'Value'
                 @this_value = value
-              when 'TagList'
-                @response['DescribeTags']['TagList'] = @tags
+              when 'TagDescriptions'
+                @response['DescribeTags']['TagDescriptions'] = @tags
             end
           end
 
