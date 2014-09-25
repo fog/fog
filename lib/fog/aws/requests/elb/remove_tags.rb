@@ -16,7 +16,7 @@ module Fog
             { 'Action'            => 'RemoveTags',
               'LoadBalancerName'  => elb_id,
               :parser             => Fog::Parsers::AWS::ELB::Empty.new,
-            }.merge(Fog::AWS.indexed_param('Tags.member.%d', keys))
+            }.merge(Fog::AWS.indexed_param('Tags.member.%d.Key', keys))
           )
         end
 
