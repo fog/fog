@@ -15,9 +15,9 @@ module Fog
           keys    = tags.keys.sort
           values  = keys.map {|key| tags[key]}
           request({
-              'Action'        => 'AddTags',
+              'Action'                     => 'AddTags',
               'LoadBalancerNames.member.1' => elb_id,
-              :parser         => Fog::Parsers::AWS::ELB::Empty.new,
+              :parser                      => Fog::Parsers::AWS::ELB::Empty.new,
             }.merge(Fog::AWS.indexed_param('Tags.member.%d.Key', keys)).
               merge(Fog::AWS.indexed_param('Tags.member.%d.Value', values)))
         end

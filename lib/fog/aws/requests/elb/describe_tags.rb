@@ -14,8 +14,8 @@ module Fog
         #   * body<~Hash>:
         def describe_tags(elb_ids)
           request({
-              'Action'        => 'DescribeTags',
-              :parser         => Fog::Parsers::AWS::ELB::TagListParser.new
+              'Action' => 'DescribeTags',
+              :parser  => Fog::Parsers::AWS::ELB::TagListParser.new
             }.merge(Fog::AWS.indexed_param('LoadBalancerNames.member.%d', elb_ids))
           )
         end
