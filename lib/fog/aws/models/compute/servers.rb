@@ -175,8 +175,8 @@ module Fog
 
         private
 
-        def _setup_bootstrap(server, new_attributes = {})
-          unless new_attributes[:key_name]
+        def _setup_bootstrap(server)
+          unless server.key_name
             # first or create fog_#{credential} keypair
             name = Fog.respond_to?(:credential) && Fog.credential || :default
             unless server.key_pair = service.key_pairs.get("fog_#{name}")
