@@ -25,14 +25,14 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
         Excon.defaults[:connection_timeout] = 200
 
         tests('#create_data_center') do
-            puts '#create_data_center'
+            #puts '#create_data_center'
             data = service.create_data_center('FogDataCenter', 'us/las')
             @data_center_id = data.body['createDataCenterResponse']['dataCenterId']
             data.body['createDataCenterResponse']
         end
 
         tests('#get_all_images') do
-            puts '#get_all_images'
+            #puts '#get_all_images'
             data = service.get_all_images.body['getAllImagesResponse'].find { |image|
               image['location'] == 'us/las' &&
               image['imageType'] == 'HDD' &&
@@ -42,7 +42,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
         end
 
         tests('#create_server').succeeds do
-            puts '#create_server'
+            #puts '#create_server'
             data = service.create_server(@data_center_id, 1, 512, { 
                                          'serverName' => 'FogServer' })
             @server_id = data.body['createServerResponse']['serverId']
@@ -51,7 +51,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
         end
 
         tests('#create_nic').formats(@minimal_format) do
-            puts '#create_nic'
+            #puts '#create_nic'
             data = service.create_nic(@server_id, 1, { 'nicName' => 'FogNic' })
             @nic_id = data.body['createNicResponse']['nicId']
             service.interfaces.get(@nic_id).wait_for { ready? }
@@ -59,43 +59,43 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
         end
 
         tests('#get_all_nic').formats(@nic_format) do
-            puts '#get_all_nic'
+            #puts '#get_all_nic'
             data = service.get_all_nic
             data.body['getAllNicResponse'].find { |nic| nic['nicId'] == @nic_id }
         end
 
         tests('#get_nic').formats(@nic_format) do
-             puts '#get_nic'
+             #puts '#get_nic'
              service.get_nic(@nic_id).body['getNicResponse']
          end
 
         tests('#update_nic').formats(@minimal_format) do
-            puts '#update_nic'
+            #puts '#update_nic'
             data = service.update_nic(@nic_id, { 'nicName' => 'FogNicRename' })
             data.body['updateNicResponse']
         end
 
         tests('#set_internet_access').formats(@minimal_format) do
-            puts '#set_internet_access'
+            #puts '#set_internet_access'
             data = service.set_internet_access(@data_center_id, @lan_id, true)
             data.body['setInternetAccessResponse']
         end
 
         tests('#delete_nic').formats(@minimal_format) do
-            puts '#delete_nic'
+            #puts '#delete_nic'
             data = service.delete_nic(@nic_id)
             data.body['deleteNicResponse']
         end
 
         tests('#delete_server').formats(@minimal_format) do
-           puts '#delete_server'
-           data = service.delete_server(@server_id)
-           data.body['deleteServerResponse']
+            #puts '#delete_server'
+            data = service.delete_server(@server_id)
+            data.body['deleteServerResponse']
         end
 
         tests('#delete_data_center') do
-           puts '#delete_data_center'
-           service.delete_data_center(@data_center_id)
+            #puts '#delete_data_center'
+            service.delete_data_center(@data_center_id)
         end
     end
 end

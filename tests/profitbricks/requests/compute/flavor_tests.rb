@@ -4,7 +4,6 @@ Shindo.tests('Fog::Compute[:profitbricks] | flavor request', ['profitbricks', 'c
         'flavorId'   => String,
         'flavorName' => String,
         'ram'        => Integer,
-        'disk'       => Integer,
         'cores'      => Integer
     }
 
@@ -15,7 +14,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | flavor request', ['profitbricks', 'c
         # Not yet implemented
         #tests('#create_flavor').formats(@flavor_format) do
         #    puts '#create_flavor'
-        #    data = service.create_flavor('FogFlavorTest', 4096, 50, 2)
+        #    data = service.create_flavor('FogFlavorTest', 4096, 2)
         #    data.body['createFlavorResponse']
         #end
 
