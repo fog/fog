@@ -5,7 +5,7 @@ module Fog
                 require 'fog/profitbricks/parsers/compute/get_all_data_centers'
                 def get_all_data_centers
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
-                      |xml| xml[:ws].getAllDataCenters
+                        |xml| xml[:ws].getAllDataCenters
                     }
 
                     request(
