@@ -15,16 +15,14 @@ module Fog
                         when 'requestId', 'dataCenterId', 'dataCenterName',
                              'serverId', 'serverName', 'internetAccess',
                              'provisioningState', 'virtualMachineState',
-                             'osType', 'availabilityZone', 'ips'
+                             'osType', 'availabilityZone', 'ips', 'cpuHotPlug',
+                             'ramHotPlug', 'nicHotPlug', 'nicHotUnPlug',
+                             'discVirtioHotPlug', 'discVirtioHotUnPlug'
                             @server[name] = value
                         when 'dataCenterVersion', 'cores', 'ram'
                             @server[name] = value.to_i
                         when 'creationTime', 'lastModificationTime'
                             @server[name] = Time.parse(value)
-                        #when 'storageId', 'storageName', 'busType', 'bootDevice'
-                        #    @storage[name] = value
-                        #when 'deviceNumber', 'size'
-                        #    @storage[name] = value.to_i
                         when 'storageId'
                             @storage['id'] = value
                         when 'storageName'

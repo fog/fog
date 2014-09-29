@@ -3,6 +3,7 @@ require 'fog/profitbricks/core'
 module Fog
     module Compute
         class ProfitBricks < Fog::Service
+            API_VERSION = '1.3'
 
             requires    :profitbricks_username, :profitbricks_password
             recognizes  :profitbricks_url
@@ -43,8 +44,8 @@ module Fog
             request      :get_data_center       # getDataCenter
             request      :get_data_center_state # getDataCenterState
 
-            request      :get_all_regions       # getAllRegions
-            request      :get_region            # getRegion
+            request      :get_all_locations     # getAllLocations
+            request      :get_location          # getLocation
 
             request      :get_all_images        # getAllImages
             request      :get_image             # getImage
@@ -73,7 +74,7 @@ module Fog
                     @profitbricks_username = options[:profitbricks_username]
                     @profitbricks_password = options[:profitbricks_password]
                     @profitbricks_url      = options[:profitbricks_url] ||
-                                             'https://api.profitbricks.com/1.2'
+                                             "https://api.profitbricks.com/#{API_VERSION}"
 
                     @connection = Fog::XML::Connection.new(@profitbricks_url, false)
                 end
@@ -82,7 +83,7 @@ module Fog
                     begin
                         response = @connection.request(params.merge({
                             :headers => {
-                              'Authorization' => "Basic #{auth_header}"
+                                'Authorization' => "Basic #{auth_header}"
                             }.merge!(params[:headers] || {})
                         }))
                     rescue Excon::Errors::Unauthorized => error
@@ -110,57 +111,83 @@ module Fog
                         hash[key] = {
                             :servers         => [],
                             :datacenters     => [],
-                            :regions         => [
-                              {
-                                'regionId'   => '8b80d933-d728-438d-8831-e2bd76aa15e0',
-                                'regionName' => 'EUROPE'
-                              },
-                              {
-                                'id'   => 'ba3e3dcf-5bb6-413a-bb96-14998108d1c9',
-                                'name' => 'NORTH_AMERICA'
-                              }
+                            :regions         =>
+                            [
+                                {
+                                    'locationId'   => 'c0420cc0-90e8-4f4b-8860-df0a07d18047',
+                                    'locationName' => 'de/fkb',
+                                    'country'      => 'DEU'
+                                },
+                                {
+                                    'locationId'   => '68c4099a-d9d8-4683-bdc2-12789aacfa2a',
+                                    'locationName' => 'de/fra',
+                                    'country'      => 'DEU'
+                                },
+                                {
+                                    'locationId'   => 'e102ba74-6764-47f3-8896-246141da8ada',
+                                    'locationName' => 'us/las',
+                                    'country'      => 'USA'
+                                }
                             ],
-                            :images => [
-                              { 'imageId'            => 'ece948c0-14f8-4d49-8bdc-b966b746b6f9',
-                                'imageName'          => 'CentOS-6.5-x86_64-netinstall.iso',
-                                'imageType'          => 'CDROM',
-                                'imageSize'          => 244,
-                                'cpuHotpluggable'    => 'false',
-                                'memoryHotpluggable' => 'false',
-                                'serverIds'          => nil,
-                                'osType'             => 'LINUX',
-                                'writeable'          => 'true',
-                                'region'             => 'NORTH_AMERICA',
-                                'public'             => 'true'
-                              },
-                              { 'imageId'            => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
-                                'imageName'          => 'CentOS-6-server',
-                                'imageType'          => 'HDD',
-                                'imageSize'          => 11264,
-                                'cpuHotpluggable'    => 'false',
-                                'memoryHotpluggable' => 'false',
-                                'serverIds'          => nil,
-                                'osType'             => 'LINUX',
-                                'writeable'          => 'true',
-                                'region'             => 'EUROPE',
-                                'public'             => 'true'
-                              }
+                            :images =>
+                            [
+                                {
+                                    'imageId'             => 'ece948c0-14f8-4d49-8bdc-b966b746b6f9',
+                                    'imageName'           => 'CentOS-6.5-x86_64-netinstall.iso',
+                                    'imageType'           => 'CDROM',
+                                    'imageSize'           => 244,
+                                    'bootable'            => 'true',
+                                    'cpuHotPlug'          => 'false',
+                                    'cpuHotUnPlug'        => 'false',
+                                    'ramHotPlug'          => 'false',
+                                    'ramHotUnPlug'        => 'false',
+                                    'discVirtioHotPlug'   => 'false',
+                                    'discVirtioHotUnPlug' => 'false',
+                                    'nicHotPlug'          => 'false',
+                                    'nicHotUnPlug'        => 'false',
+                                    'osType'              => 'LINUX',
+                                    'serverIds'           => nil,
+                                    'writeable'           => 'true',
+                                    'location'            => 'us/las',
+                                    'public'              => 'true'
+                                },
+                                {
+                                    'imageId'             => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
+                                    'imageName'           => 'CentOS-6-server',
+                                    'imageType'           => 'HDD',
+                                    'imageSize'           => 11264,
+                                    'bootable'            => 'true',
+                                    'cpuHotPlug'          => 'false',
+                                    'cpuHotUnPlug'        => 'false',
+                                    'ramHotPlug'          => 'false',
+                                    'ramHotUnPlug'        => 'false',
+                                    'discVirtioHotPlug'   => 'false',
+                                    'discVirtioHotUnPlug' => 'false',
+                                    'nicHotPlug'          => 'false',
+                                    'nicHotUnPlug'        => 'false',
+                                    'osType'              => 'LINUX',
+                                    'serverIds'           => nil,
+                                    'writeable'           => 'true',
+                                    'location'            => 'us/las',
+                                    'public'              => 'true'
+                                }
                             ],
-                            :flavors => [
-                              {
-                                 'flavorId'   => Fog::UUID.uuid,
-                                 'flavorName' => 'Micro',
-                                 'ram'        => 1024,
-                                 'disk'       => 50,
-                                 'cores'      => 1
-                              },
-                              {
-                                 'flavorId'   => Fog::UUID.uuid,
-                                 'flavorName' => 'Small',
-                                 'ram'        => 2048,
-                                 'disk'       => 50,
-                                 'cores'      => 1
-                              }
+                            :flavors =>
+                            [
+                                {
+                                     'flavorId'   => Fog::UUID.uuid,
+                                     'flavorName' => 'Micro',
+                                     'ram'        => 1024,
+                                     'disk'       => 50,
+                                     'cores'      => 1
+                                },
+                                {
+                                     'flavorId'   => Fog::UUID.uuid,
+                                     'flavorName' => 'Small',
+                                     'ram'        => 2048,
+                                     'disk'       => 50,
+                                     'cores'      => 1
+                                }
                             ],
                             :volumes    => [],
                             :interfaces => []

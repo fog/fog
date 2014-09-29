@@ -17,20 +17,35 @@ module Fog
                 attribute :machine_state,       :aliases => 'virtualMachineState'
                 attribute :state,               :aliases => 'provisioningState'
                 attribute :os_type,             :aliases => 'osType'
+                attribute :cpu_hotplug,         :aliases => 'cpuHotPlug'
+                attribute :ram_hotplug,         :aliases => 'ramHotPlug'
+                attribute :nic_hotplug,         :aliases => 'nicHotPlug'
+                attribute :nic_hotunplug,       :aliases => 'nicHotUnPlug'
+                attribute :disc_hotplug,        :aliases => 'discVirtioHotPlug'
+                attribute :disc_hotunplug,      :aliases => 'discVirtioHotUnPlug'
                 attribute :data_center_id,      :aliases => 'dataCenterId'
                 attribute :data_center_version, :aliases => 'dataCenterVersion'
                 attribute :request_id,          :aliases => 'requestId'
 
                 attr_accessor :options
+                attr_accessor :flavor_id
 
                 def initialize(attributes={})
                     super
                 end
 
                 def save
-                    requires :data_center_id, :cores, :ram
+                    requires :data_center_id
 
-                    data = service.create_server(data_center_id, cores, ram, options)
+                    if (cores and ram)
+                        data = service.create_server(data_center_id, cores, ram, options || {})
+                    elsif flavor_id
+                        flavor = service.flavors.get(flavor_id)
+                        data = service.create_server(data_center_id, flavor.cores, flavor.ram, options || {})
+                    else
+                        raise ArgumentError, 'cores/ram or flavor_id is required for this operation'
+                    end
+
                     merge_attributes(data.body['createServerResponse'])
                     true
                 end

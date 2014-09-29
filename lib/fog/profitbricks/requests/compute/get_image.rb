@@ -18,10 +18,17 @@ module Fog
                 #       * imageSize<~Integer> - Size of the image (in MB?)
                 #       * imageType<~String> - Image type HDD or CD-ROM/DVD (ISO) image
                 #       * writeable<~String> - Image is writable (TRUE/FALSE)
-                #       * cpuHotpluggable<~String> - Image supports CPU Hot-Plugging
-                #       * memoryHotpluggable<~String> - Image supports memory Hot-Plugging
+                #       * bootable<~String> - Image is bootable
+                #       * cpuHotplug<~String> -Image supports CPU Hot-Plugging
+                #       * cpuHotUnplug<~String> -
+                #       * ramHotPlug<~String> - Image supports memory Hot-Plugging
+                #       * ramHotUnPlug<~String> -
+                #       * discVirtioHotPlug<~String> -
+                #       * discVirtioHotUnplug<~String> -
+                #       * nicHotPlug<~String> -
+                #       * nicHotUnplug<~String> -
                 #       * serverIds<~String> - List all servers by ID on which the image is used
-                #       * region<~String> - Region where the image has been uploaded
+                #       * location<~String> - Location where the image has been uploaded
                 #       * osType<~String> - OS type of an image (WINDOWS, LINUX, OTHER, UNKNOWN)
                 #       * public<~String> - Shows if image is publicly available or private
                 #

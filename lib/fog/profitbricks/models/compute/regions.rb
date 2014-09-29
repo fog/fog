@@ -8,11 +8,11 @@ module Fog
                 model Fog::Compute::ProfitBricks::Region
 
                 def all()
-                    load (service.get_all_regions.body['getAllRegionsResponse'])
+                    load (service.get_all_locations.body['getAllLocationsResponse'])
                 end
 
                 def get(id)
-                    region = service.get_region(id).body['getRegionResponse']
+                    region = service.get_location(id).body['getLocationResponse']
                     Excon::Errors
                     new(region)
                 rescue Excon::Errors::NotFound

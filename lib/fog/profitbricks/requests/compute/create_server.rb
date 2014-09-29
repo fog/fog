@@ -11,13 +11,19 @@ module Fog
                 # * cores<~Integer> - Required, number of CPU cores allocated to virtual server
                 # * ram<~Integer> - Required, amount of memory in GB allocated to virtual server
                 # * options<~Hash>:
-                #   * serverName<~String> - Name of the new virtual network interface
-                #   * bootFromStorageId<~String> - Optional, 
-                #   * bootFromImageId<~<String> - Optional, 
-                #   * internetAccess<~Boolean> - Optional, 
-                #   * lanId<~String> - Optional, 
+                #   * serverName<~String> - Optional, name of the new virtual network interface
+                #   * bootFromStorageId<~String> - Optional, defines an existing storage device ID to be set as boot device of the server
+                #   * bootFromImageId<~<String> - Optional, defines an existing CD-ROM/DVD image ID to be set as boot device of the server
+                #   * internetAccess<~Boolean> - Optional, set to TRUE to connect the server to the Internet via the specified LAN ID
+                #   * lanId<~String> - Optional, connects the server to the specified LAN ID
                 #   * osType<~String> - Optional, UNKNOWN, WINDOWS, LINUX, OTHER
-                #   * availabilityZone - Optional, AUTO, ZONE_1, ZONE_2
+                #   * availabilityZone<~String> - Optional, AUTO, ZONE_1, ZONE_2
+                #   * cpuHotPlug<~Boolean> - Optional, set the server CPU Hot-Plug capability 
+                #   * ramHotPlug<~Boolean> - Optional, set the server RAM Hot-Plug capability
+                #   * nicHotPlug<~Boolean> - Optional, set the server NIC Hot-Plug capability
+                #   * nicHotUnPlug<~Boolean> - Optional, set the server NIC Hot-UnPlug capability
+                #   * discVirtioHotPlug<~Boolean> - Optional, set the server capabilities to hotplug storages which are connected through VirtIO bustypeSet 
+                #   * discVirtioHotUnPlug<~Boolean> - Optional, set the server capabilities to hotUnplug storages which are connected through VirtIO bustypeSet
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:

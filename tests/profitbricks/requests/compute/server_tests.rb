@@ -6,7 +6,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
         'dataCenterName'    => String,
         'dataCenterVersion' => Integer,
         'provisioningState' => 'AVAILABLE',
-        'region'            => String
+        'location'          => String
     }
 
     @server_format = {
@@ -49,9 +49,9 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
 
         Excon.defaults[:connection_timeout] = 500
 
-        tests('#create_data_center').formats(@minimal_format.merge('region' => String)) do
+        tests('#create_data_center').formats(@minimal_format.merge('location' => String)) do
             puts '#create_data_center'
-            data = service.create_data_center('FogDataCenter', 'EUROPE')
+            data = service.create_data_center('FogDataCenter', 'us/las')
             @data_center_id = data.body['createDataCenterResponse']['dataCenterId']
             service.datacenters.get(@data_center_id).wait_for { ready? }
             data.body['createDataCenterResponse']
@@ -63,7 +63,11 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
             data.body['getDataCenterResponse']
         end
 
-        tests('#get_all_data_centers').formats({ 'dataCenterId' => String, 'dataCenterName' => String, 'dataCenterVersion' => Integer }) do
+        tests('#get_all_data_centers').formats({
+            'dataCenterId' => String,
+            'dataCenterName' => String,
+            'dataCenterVersion' => Integer
+        }) do
             puts '#get_all_data_centers'
             data = service.get_all_data_centers
             data.body['getAllDataCentersResponse'].find { |dc|
@@ -82,7 +86,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
         tests('#get_all_images') do
             puts '#get_all_images'
             data = service.get_all_images.body['getAllImagesResponse'].find { |image|
-                image['region'] == 'EUROPE' &&
+                image['location'] == 'us/las' &&
                 image['imageType'] == 'HDD' &&
                 image['osType'] == 'LINUX'
             }
@@ -92,8 +96,10 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
         tests('#create_storage') do
             puts '#create_storage'
             data = service.create_storage(
-                @data_center_id, 5, { 'storageName' => 'FogVolume',
-                                      'mountImageId' => @image_id }
+                @data_center_id, 5, {
+                    'storageName' => 'FogVolume',
+                    'mountImageId' => @image_id
+                }
             )
             @storage_id = data.body['createStorageResponse']['storageId']
             service.volumes.get(@storage_id).wait_for { ready? }
@@ -121,13 +127,17 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
         tests('#create_server').formats(@minimal_format.merge('serverId' => String)) do
             puts '#create_server'
             data = service.create_server(@data_center_id, 1, 512, { 
-                   'serverName' => 'FogServer','bootFromStorageId' => @storage_id })
+                'serverName' => 'FogServer',
+                'bootFromStorageId' => @storage_id
+            })
             @server_id = data.body['createServerResponse']['serverId']
             service.servers.get(@server_id).wait_for { ready? }
             data.body['createServerResponse']
         end
 
-        tests('#get_all_servers').formats(@server_format.merge('dataCenterId' => String, 'dataCenterVersion' => Integer)) do
+        tests('#get_all_servers').formats(@server_format.merge(
+            'dataCenterId' => String, 'dataCenterVersion' => Integer
+        )) do
             puts '#get_all_servers'
             data = service.get_all_servers
             data.body['getAllServersResponse'].find {
@@ -198,11 +208,6 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
 
     tests('failure') do
 
-        tests('#create_data_center').raises(NoMethodError) do
-            puts '#create_data_center'
-            service.create_data_center('00000000-0000-0000-0000-000000000000')
-        end
-
         tests('#get_data_center').raises(Fog::Errors::NotFound) do
             puts '#get_data_center'
             service.get_data_center('00000000-0000-0000-0000-000000000000')
@@ -237,7 +242,5 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
             puts '#delete_storage'
             service.delete_storage('00000000-0000-0000-0000-000000000000')
         end
-
-        # Add server failure tests
     end
 end

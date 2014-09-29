@@ -12,8 +12,8 @@ module Fog
                 end
 
                 def get(id)
-                    region = service.get_image(id).body['getImageResponse']
-                    new(region)
+                    image = service.get_image(id).body['getImageResponse']
+                    new(image)
                 rescue Fog::Errors::NotFound
                     nil
                 end

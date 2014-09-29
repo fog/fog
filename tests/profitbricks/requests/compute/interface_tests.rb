@@ -26,7 +26,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
 
         tests('#create_data_center') do
             puts '#create_data_center'
-            data = service.create_data_center('FogDataCenter', 'EUROPE')
+            data = service.create_data_center('FogDataCenter', 'us/las')
             @data_center_id = data.body['createDataCenterResponse']['dataCenterId']
             data.body['createDataCenterResponse']
         end
@@ -34,7 +34,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | server request', ['profitbricks', 'c
         tests('#get_all_images') do
             puts '#get_all_images'
             data = service.get_all_images.body['getAllImagesResponse'].find { |image|
-              image['region'] == 'EUROPE' &&
+              image['location'] == 'us/las' &&
               image['imageType'] == 'HDD' &&
               image['osType'] == 'LINUX'
             }

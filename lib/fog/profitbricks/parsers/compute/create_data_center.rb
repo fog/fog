@@ -9,7 +9,7 @@ module Fog
 
                     def end_element(name)
                         case name
-                        when 'requestId', 'dataCenterId', 'region'
+                        when 'requestId', 'dataCenterId', 'location'
                             @response['createDataCenterResponse'][name] = value
                         when 'dataCenterVersion'
                             @response['createDataCenterResponse'][name] = value.to_i

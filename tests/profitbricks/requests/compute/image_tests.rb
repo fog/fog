@@ -1,17 +1,24 @@
 Shindo.tests('Fog::Compute[:profitbricks] | image request', ['profitbricks', 'compute']) do
 
     @image_format = {
-        'imageId'            => String,
-        'imageName'          => String,
-        'imageType'          => String,
-        'imageSize'          => Integer,
-        'cpuHotpluggable'    => String,
-        'memoryHotpluggable' => String,
-        'serverIds'          => Fog::Nullable::String,
-        'osType'             => String,
-        'writeable'          => String,
-        'region'             => String,
-        'public'             => Fog::Nullable::String
+        'imageId'             => String,
+        'imageName'           => String,
+        'imageType'           => String,
+        'imageSize'           => Integer,
+        'bootable'            => String,
+        'cpuHotPlug'          => String,
+        'cpuHotUnPlug'        => String,
+        'ramHotPlug'          => String,
+        'ramHotUnPlug'        => String,
+        'discVirtioHotPlug'   => String,
+        'discVirtioHotUnPlug' => String,
+        'nicHotPlug'          => String,
+        'nicHotUnPlug'        => String,
+        'osType'              => String,
+        'serverIds'           => Fog::Nullable::String,
+        'writeable'           => String,
+        'location'            => String,
+        'public'              => String,
     }
 
     service = Fog::Compute[:profitbricks]

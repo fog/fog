@@ -2,8 +2,9 @@ module Fog
     module Compute
         class ProfitBricks
             class Region < Fog::Model
-                identity  :id,   :aliases => 'regionId'
-                attribute :name, :aliases => 'regionName'
+                identity  :id,      :aliases => 'locationId'
+                attribute :name,    :aliases => 'locationName'
+                attribute :country, :aliases => 'country'
 
                 def initialize(attributes={})
                     super

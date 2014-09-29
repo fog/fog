@@ -11,9 +11,11 @@ module Fog
                     def end_element(name)
                         case name
                         when 'imageId', 'imageName', 'imageType', 'writeable',
-                             'cpuHotpluggable', 'memoryHotpluggable', 'region',
-                             'osType', 'public', 'serverIds'
-                            @image[name] = value
+                             'osType', 'serverIds', 'cpuHotPlug', 'description',
+                             'cpuHotUnPlug', 'ramHotPlug', 'ramHotUnPlug',
+                             'discVirtioHotPlug', 'discVirtioHotUnPlug', 'public',
+                             'nicHotPlug', 'nicHotUnPlug', 'bootable', 'location'
+                             @image[name] = value
                         when 'imageSize'
                             @image[name] = value.to_i
                         when 'return'
