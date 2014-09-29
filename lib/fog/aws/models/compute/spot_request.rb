@@ -27,8 +27,6 @@ module Fog
         attribute :image_id,                   :aliases => 'LaunchSpecification.ImageId'
         attribute :monitoring,                 :aliases => 'LaunchSpecification.Monitoring'
         attribute :block_device_mapping,       :aliases => 'LaunchSpecification.BlockDeviceMapping'
-        attribute :associate_public_ip,        :aliases => 'associatePublicIP'
-        attribute :network_interfaces,         :aliases => 'LaunchSpecification.NetworkInterface'
         attribute :subnet_id,                  :aliases => 'LaunchSpecification.SubnetId'
         attribute :iam_instance_profile,       :aliases => 'LaunchSpecification.IamInstanceProfile'
 
@@ -92,7 +90,6 @@ module Fog
             'InstanceCount'                                  => instance_count,
             'LaunchGroup'                                    => launch_group,
             'LaunchSpecification.BlockDeviceMapping'         => block_device_mapping,
-            'LaunchSpecification.NetworkInterface'           => network_interfaces,
             'LaunchSpecification.KeyName'                    => key_name,
             'LaunchSpecification.Monitoring.Enabled'         => monitoring,
             'LaunchSpecification.Placement.AvailabilityZone' => availability_zone,
@@ -106,30 +103,6 @@ module Fog
             'ValidFrom'                                      => valid_from,
             'ValidUntil'                                     => valid_until }
           options.delete_if {|key, value| value.nil?}
-
-          # If subnet is defined then this is a Virtual Private Cloud.
-          # subnet & security group cannot co-exist. Attempting to specify
-          # both subnet and groups will cause an error.  Instead please make
-          # use of Security Group Ids when working in a VPC.
-          if subnet_id
-            options.delete('LaunchSpecification.SecurityGroup')
-            if associate_public_ip
-              options['LaunchSpecification.NetworkInterface.0.DeviceIndex'] = 0
-              options['LaunchSpecification.NetworkInterface.0.AssociatePublicIpAddress'] = associate_public_ip
-              options['LaunchSpecification.NetworkInterface.0.SubnetId'] = options['SubnetId']
-              options.delete('LaunchSpecification.SubnetId')
-              if options['LaunchSpecification.SecurityGroupId'].kind_of?(Array)
-                options['LaunchSpecification.SecurityGroupId'].each {|id|
-                  options["LaunchSpecification.NetworkInterface.0.SecurityGroupId.#{options['LaunchSpecification.SecurityGroupId'].index(id)}"] = id
-                }
-              else
-                options['LaunchSpecification.NetworkInterface.0.SecurityGroupId.0'] = options['LaunchSpecification.SecurityGroupId']
-              end
-              options.delete('LaunchSpecification.SecurityGroupId')
-            end
-          else
-            options.delete('SubnetId')
-          end
 
           data = service.request_spot_instances(image_id, flavor_id, price, options).body
           spot_instance_request = data['spotInstanceRequestSet'].first

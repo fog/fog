@@ -21,18 +21,6 @@ module Fog
         #     * 'Ebs.NoDevice'<~String> - specifies that no device should be mapped
         #     * 'Ebs.VolumeSize'<~String> - size of volume in GiBs required unless snapshot is specified
         #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
-        #   * 'LaunchSpecification.NetworkInterfaces'<~Array>: array of hashes
-        #     * 'NetworkInterfaceId'<~String> - An existing interface to attach to a single instance
-        #     * 'DeviceIndex'<~String> - The device index. Applies both to attaching an existing network interface and creating a network interface
-        #     * 'SubnetId'<~String> - The subnet ID. Applies only when creating a network interface
-        #     * 'Description'<~String> - A description. Applies only when creating a network interface
-        #     * 'PrivateIpAddress'<~String> - The primary private IP address. Applies only when creating a network interface
-        #     * 'SecurityGroupId'<~Array> or <~String> - ids of security group(s) for network interface. Applies only when creating a network interface.
-        #     * 'DeleteOnTermination'<~String> - Indicates whether to delete the network interface on instance termination.
-        #     * 'PrivateIpAddresses.PrivateIpAddress'<~String> - The private IP address. This parameter can be used multiple times to specify explicit private IP addresses for a network interface, but only one private IP address can be designated as primary.
-        #     * 'PrivateIpAddresses.Primary'<~Bool> - Indicates whether the private IP address is the primary private IP address.
-        #     * 'SecondaryPrivateIpAddressCount'<~Bool> - The number of private IP addresses to assign to the network interface.
-        #     * 'AssociatePublicIpAddress'<~String> - Indicates whether to assign a public IP address to an instance in a VPC. The public IP address is assigned to a specific network interface
         #   * 'LaunchSpecification.KeyName'<~String> - Name of a keypair to add to booting instances
         #   * 'LaunchSpecification.Monitoring.Enabled'<~Boolean> - Enables monitoring, defaults to disabled
         #   * 'LaunchSpecification.SubnetId'<~String> - VPC subnet ID in which to launch the instance
@@ -73,19 +61,6 @@ module Fog
             block_device_mapping.each_with_index do |mapping, index|
               for key, value in mapping
                 options.merge!({ format("LaunchSpecification.BlockDeviceMapping.%d.#{key}", index) => value })
-              end
-            end
-          end
-          if network_interfaces = options.delete('LaunchSpecification.NetworkInterfaces')
-            network_interfaces.each_with_index do |mapping, index|
-              iface = format("LaunchSpecification.NetworkInterface.%d", index)
-              for key, value in mapping
-                case key
-                when "SecurityGroupId"
-                  options.merge!(Fog::AWS.indexed_param("#{iface}.SecurityGroupId", [*value]))
-                else
-                  options.merge!({ "#{iface}.#{key}" => value })
-                end
               end
             end
           end
