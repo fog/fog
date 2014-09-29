@@ -85,6 +85,7 @@ module Fog
       request :get_object_url
       request :get_request_payment
       request :get_service
+      request :head_bucket
       request :head_object
       request :initiate_multipart_upload
       request :list_multipart_uploads
