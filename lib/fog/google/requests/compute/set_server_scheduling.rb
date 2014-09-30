@@ -21,8 +21,7 @@ module Fog
             'automaticRestart'  => automatic_restart,
           }
 
-          result = self.build_result(api_method, parameters, body_object)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object)
         end
       end
     end

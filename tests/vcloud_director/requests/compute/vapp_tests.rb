@@ -61,6 +61,11 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
             @service.get_vapp(@vapp_id).body[:"ovf:StartupSection"].class
           end
 
+          tests("#put_product_sections(#{@vapp_id})").returns(Hash) do
+            pending if Fog.mocking?
+            @service.put_product_sections(@vapp_id, ["a" => "1"]).body.class
+          end
+
           tests("#get_startup_section(#{@vapp_id})").returns(Hash) do
             @service.get_startup_section(@vapp_id).body.class
           end

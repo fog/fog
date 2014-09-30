@@ -30,7 +30,6 @@ module Fog
           if options['disks'].nil? or options['disks'].empty?
             raise ArgumentError.new "Empty value for field 'disks'. Boot disk must be specified"
           end
-
           id = Fog::Mock.random_numbers(19).to_s
           self.data[:servers][server_name] = {
             "kind" => "compute#instance",
@@ -88,7 +87,7 @@ module Fog
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/#{operation}"
           }
 
-          build_response(:body => self.data[:operations][operation])
+          build_excon_response(self.data[:operations][operation])
         end
       end
 
@@ -130,8 +129,8 @@ module Fog
           network = nil
           if options.key? 'network'
             network = options.delete 'network'
-          elsif @default_network
-            network = @default_network
+          else
+            network = GOOGLE_COMPUTE_DEFAULT_NETWORK
           end
 
           # ExternalIP is default value for server creation
@@ -184,9 +183,7 @@ module Fog
 
           body_object.merge!(options) # Adds in all remaining options that weren't explicitly handled.
 
-          result = self.build_result(api_method, parameters,
-                                     body_object=body_object)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object=body_object)
         end
       end
     end

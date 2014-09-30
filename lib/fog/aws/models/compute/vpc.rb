@@ -55,7 +55,18 @@ module Fog
 
           data = service.create_vpc(cidr_block).body['vpcSet'].first
           new_attributes = data.reject {|key,value| key == 'requestId'}
+          new_attributes = data.reject {|key,value| key == 'requestId' || key == 'tagSet' }
           merge_attributes(new_attributes)
+
+          if tags = self.tags
+            # expect eventual consistency
+            Fog.wait_for { self.reload rescue nil }
+            service.create_tags(
+              self.identity,
+              tags
+            )
+          end
+
           true
         end
       end

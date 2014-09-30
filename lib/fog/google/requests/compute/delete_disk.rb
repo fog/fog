@@ -23,7 +23,7 @@ module Fog
           }
           self.data[:disks].delete disk_name
 
-          build_response(:body => self.data[:operations][operation])
+          build_excon_response(self.data[:operations][operation])
         end
       end
 
@@ -40,8 +40,7 @@ module Fog
             'zone' => zone_name
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

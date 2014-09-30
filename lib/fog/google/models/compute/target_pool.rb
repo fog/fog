@@ -32,7 +32,7 @@ module Fog
           }
 
           data = service.insert_target_pool(name, region, options).body
-          operation = Fog::Compute::Google::Operations.new(:service => service).get(data['name'], data['zone'])
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data['name'], nil, data['region'])
           operation.wait_for { !pending? }
           reload
         end
@@ -86,6 +86,10 @@ module Fog
           rescue Fog::Errors::NotFound
             false
           end
+        end
+
+        def region_name
+          region.nil? ? nil : region.split('/')[-1]
         end
 
         def reload

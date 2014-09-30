@@ -160,7 +160,7 @@ LOAD_BALANCER_FORMAT = {
     'timeout' => Integer,
     'cluster' => { 'name' => String },
     'virtualIps' => [VIRTUAL_IP_FORMAT],
-    'nodes' => [SINGLE_NODE_FORMAT],
+    'nodes' => Fog::Nullable::Array,
     'created' => { 'time' => String },
     'updated' => { 'time' => String },
     'contentCaching' => { 'enabled' => Fog::Boolean }

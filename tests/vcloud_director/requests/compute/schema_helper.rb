@@ -615,7 +615,7 @@ class VcloudDirector
         :IpScopes => {
           :IpScope => {
             :IsInherited => String,
-            :Gateway => String,
+            :Gateway => Fog::Nullable::String,
             :Netmask => String,
             :Dns1 => String,
             :Dns2 => String,
@@ -624,7 +624,7 @@ class VcloudDirector
             :IpRanges=> IP_RANGES_TYPE,
           }
         },
-        :FenceMode => String,
+        :FenceMode => Fog::Nullable::String,
         :RetainNetInfoAcrossDeployments => String,
       }
 

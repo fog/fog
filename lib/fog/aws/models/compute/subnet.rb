@@ -11,6 +11,7 @@ module Fog
         attribute :available_ip_address_count,  :aliases => 'availableIpAddressCount'
         attribute :availability_zone,           :aliases => 'availabilityZone'
         attribute :tag_set,                     :aliases => 'tagSet'
+        attribute :map_public_ip_on_launch,     :aliases => 'mapPublicIpOnLaunch'
 
         def ready?
           requires :state

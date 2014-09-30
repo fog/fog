@@ -27,7 +27,7 @@ module Fog
           request(
             :expects => [200, 203],
             :method => 'GET',
-            :path => "images/#{image_id}"
+            :path => "images/#{Fog::Rackspace.escape(image_id)}"
           )
         end
       end

@@ -1,23 +1,25 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
-        # Deletes a specified snapshot.
-        #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.0.0/user/deleteSnapshot.html]
-        def delete_snapshot(options={})
-          options.merge!(
-            'command' => 'deleteSnapshot'
-          )
 
+      class Real
+        # Deletes a snapshot of a disk volume.
+        #
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/deleteSnapshot.html]
+        def delete_snapshot(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'deleteSnapshot') 
+          else
+            options.merge!('command' => 'deleteSnapshot', 
+            'id' => args[0])
+          end
           request(options)
         end
       end
-
-       class Mock
-        # Deletes a specified snapashot.
-        #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.0.0/user/deleteSnapshot.html]
+ 
+      class Mock
         def delete_snapshot(options={})
           snapshot_id = options['id']
           snapshots = self.data[:snapshots]
@@ -51,7 +53,9 @@ module Fog
           self.data[:jobs][job_id] = job
           job_id
         end
-      end
+
+      end 
     end
   end
 end
+

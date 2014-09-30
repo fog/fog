@@ -18,7 +18,7 @@ module Fog
           request(
             :expects => 200,
             :method => 'GET',
-            :path => "/#{collection}/#{obj_id}/metadata/#{key}"
+            :path => "#{collection}/#{obj_id}/metadata/#{key}"
           )
         end
       end

@@ -13,6 +13,8 @@ module Fog
 
     class Connection
       require 'xmlrpc/client'
+      
+      attr_reader :credentials
 
       def initialize(host, timeout)
         @factory = XMLRPC::Client.new(host, '/')

@@ -1,8 +1,5 @@
 source "https://rubygems.org"
 
-# Embedded provider gems
-gem "fog-brightbox", :path => "../providers/brightbox"
-
 # Shared components
 gem "fog-core", :github => "fog/fog-core"
 gem "fog-json", :github => "fog/fog-json"

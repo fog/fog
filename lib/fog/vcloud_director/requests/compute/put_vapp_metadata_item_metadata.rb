@@ -45,6 +45,41 @@ module Fog
           )
         end
       end
+
+      class Mock
+
+        def put_vapp_metadata_item_metadata(id, key, value)
+          unless vm_or_vapp = data[:vapps][id] || vm_or_vapp = data[:vms][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'This operation is denied.'
+            )
+          end
+
+          owner = {
+            :href => make_href("vApp/#{id}"),
+            :type => 'application/vnd.vmware.vcloud.vm+xml'
+          }
+          task_id = enqueue_task(
+            "Updating Virtual Machine #{vm_or_vapp[:name]}(#{id})", 'vappUpdateVm', owner,
+            :on_success => lambda do
+              vm_or_vapp[:metadata][key] = value
+            end
+          )
+          body = {
+            :xmlns => xmlns,
+            :xmlns_xsi => xmlns_xsi,
+            :xsi_schemaLocation => xsi_schema_location,
+          }.merge(task_body(task_id))
+
+          Excon::Response.new(
+            :status => 202,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
+
+        end
+
+      end
     end
   end
 end

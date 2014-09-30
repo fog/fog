@@ -74,9 +74,6 @@ module Fog
           # Added for people still using options['path']
           template_path = options['path'] || options['template_path']
 
-          # Default wait enabled
-          options['wait'] = true
-
           # Options['template_path']<~String>
           # Added for people still using options['path']
           template_path = options['path'] || options['template_path']
@@ -148,6 +145,7 @@ module Fog
           # Build up all the crappy tiered objects like the perl method
           # Collect your variables ifset (writing at 11pm revist me)
           # * domain <~String> - *REQUIRED* - Sets the server's domain for customization
+          # * dnsSuffixList <~Array> - Optional - Sets the dns search paths in resolv - Example: ["dev.example.com", "example.com"]
           # * ipsettings <~Hash> - Optional - If not set defaults to dhcp
           #  * ip <~String> - *REQUIRED* Sets the ip address of the VM - Example: 10.0.0.10
           #  * dnsServerList <~Array> - Optional - Sets the nameservers in resolv - Example: ["10.0.0.2", "10.0.0.3"]
@@ -168,7 +166,7 @@ module Fog
             cust_ip_settings.dnsDomain = cust_domain
             cust_global_ip_settings = RbVmomi::VIM::CustomizationGlobalIPSettings.new
             cust_global_ip_settings.dnsServerList = cust_ip_settings.dnsServerList
-            cust_global_ip_settings.dnsSuffixList = [cust_domain]
+            cust_global_ip_settings.dnsSuffixList = cust_options['dnsSuffixList'] || [cust_domain]
             cust_hostname = RbVmomi::VIM::CustomizationFixedName.new(:name => cust_options['hostname']) if cust_options.key?('hostname')
             cust_hostname ||= RbVmomi::VIM::CustomizationFixedName.new(:name => options['name'])
             cust_hwclockutc = cust_options['hw_clock_utc']
@@ -244,7 +242,7 @@ module Fog
           # to set 'wait' => true if your app wants to wait.  Otherwise, you're
           # going to have to reload the server model over and over which
           # generates a lot of time consuming API calls to vmware.
-          if options['wait'] then
+          if options.fetch('wait', true) then
             # REVISIT: It would be awesome to call a block passed to this
             # request to notify the application how far along in the process we
             # are.  I'm thinking of updating a progress bar, etc...
@@ -253,7 +251,7 @@ module Fog
             tries = 0
             new_vm = begin
               # Try and find the new VM (folder.find is quite efficient)
-              folder.find(options['name'], RbVmomi::VIM::VirtualMachine) or raise Fog::Vsphere::Errors::NotFound
+              dest_folder.find(options['name'], RbVmomi::VIM::VirtualMachine) or raise Fog::Vsphere::Errors::NotFound
             rescue Fog::Vsphere::Errors::NotFound
               tries += 1
               if tries <= 10 then

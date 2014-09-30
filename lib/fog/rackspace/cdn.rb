@@ -29,7 +29,7 @@ module Fog
           @connection_options = options[:connection_options] || {}
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_cdn_url = options[:rackspace_cdn_url]
-          @rackspace_region = options[:rackspace_region] || :dfw
+          @rackspace_region = options[:rackspace_region]
         end
 
         def service_name

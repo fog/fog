@@ -16,12 +16,7 @@ module Fog
             'zone' => zone
           }
           body_object = { "fingerprint" => fingerprint, "items" => tags }
-          result = self.build_result(
-            api_method,
-            parameters,
-            body_object=body_object
-          )
-          response = self.build_response(result)
+          request(api_method, parameters, body_object=body_object)
         end
       end
     end

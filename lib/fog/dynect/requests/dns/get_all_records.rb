@@ -15,7 +15,8 @@ module Fog
             :expects  => 200,
             :idempotent => true,
             :method   => :get,
-            :path     => ['AllRecord', zone, requested_fqdn].compact.join('/')
+            :path     => ['AllRecord', zone, requested_fqdn].compact.join('/'),
+            :query    => {'detail' => 'Y'} # return full records, instead of just resource URLs
           )
         end
       end

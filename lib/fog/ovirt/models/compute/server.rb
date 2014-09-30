@@ -26,6 +26,7 @@ module Fog
         attribute :volumes
         attribute :raw
         attribute :quota
+        attribute :ips
 
         def ready?
           !(status =~ /down/i)
