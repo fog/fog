@@ -65,6 +65,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('pry')
   s.add_development_dependency('opennebula', '>=4.4.0')
   s.add_development_dependency('google-api-client', '~> 0.6', '>= 0.6.2')
+  s.add_development_dependency('docker-api', '>= 1.8.0')
   s.add_development_dependency('rubocop') if RUBY_VERSION > "1.9"
 
   if ENV["FOG_USE_LIBVIRT"]
