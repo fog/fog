@@ -1,4 +1,4 @@
-require '/Users/ethand/Projects/SPC/git/gems/fog/lib/fog'
+require 'fog'
 
 Excon.defaults[:connection_timeout] = 200
 
@@ -47,7 +47,7 @@ nic = compute.interfaces.create(:server_id => server.id, :lan_id => 1, :options 
 nic.set_internet_access(:data_center_id => datacenter.id, :lan_id => 1, :internet_access => true)
 
 # Clear data center (WARNING - this will remove all items under a data center)
-datacenter.clear
+datacenter.clear(true)
 
 # Delete data center
 datacenter.destroy
