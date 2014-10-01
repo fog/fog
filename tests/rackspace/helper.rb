@@ -60,6 +60,19 @@ module Shindo
       sleep 30 unless Fog.mocking?
     end
 
+    def wait_for_volume_state(service, volume_id, state)
+      current_state = nil
+      until current_state == state
+        current_state = service.get_volume(volume_id).body['volume']['status']
+        if current_state == 'error'
+          Fog::Logger.warning caller
+          Fog::Logger.warning "Volume is in an error state!"
+          return
+        end
+        sleep 10 unless Fog.mocking?
+      end
+    end
+
     def rackspace_test_image_id(service)
       image_id  = Fog.credentials[:rackspace_image_id]
       # I chose to use the first Ubuntu because it will work with the smallest flavor and it doesn't require a license
