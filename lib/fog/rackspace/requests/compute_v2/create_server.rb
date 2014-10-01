@@ -92,6 +92,10 @@ module Fog
             data['server']['block_device_mapping_v2'] = options[:block_device_mapping]
           else
             if options[:boot_volume_id]
+              if options[:boot_image_id]
+                Fog::Logger.warning(":boot_volume_id overrides :boot_image_id!")
+              end
+
               data['server']['block_device_mapping_v2'] = [{
                 'boot_index' => '0',
                 'uuid' => options[:boot_volume_id],
