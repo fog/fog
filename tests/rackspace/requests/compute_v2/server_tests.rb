@@ -86,7 +86,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
     end
 
     tests("#create_server(#{server_name}_bfv_2, '', #{flavor_id}, 1, 1, :boot_image_id => #{image_id})").succeeds do
-      body = service.create_server(server_name + "_bfv_2", '', bootable_flavor_id, 1, 1, :boot_image_id => image_id)
+      body = service.create_server(server_name + "_bfv_2", '', bootable_flavor_id, 1, 1, :boot_image_id => image_id).body
       bfv_server_id = body['server']['id']
       wait_for_server_state(service, bfv_server_id, 'ACTIVE', 'ERROR')
       service.delete_server(bfv_server_id)
