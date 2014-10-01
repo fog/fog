@@ -148,6 +148,16 @@ module Fog
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Images-d1e4435.html
         attribute :image_id, :aliases => 'image', :squash => 'id'
 
+        # @!attribute [w] boot_volume_id
+        # @return [String] The ID of a bootable volume from the BlockStorage service.
+        # @see http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot
+        attribute :boot_volume_id
+
+        # @!attribute [w] boot_image_id
+        # @return [String] The ID of an image to create a bootable volume from.
+        # @see http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot
+        attribute :boot_image_id
+
         # @!attribute [rw] password
         # @return [String] Password for system adminstrator account.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Passwords-d1e2510.html
@@ -221,7 +231,8 @@ module Fog
 
         # Creates server
         # * requires attributes: service:, :name, :image_id, and :flavor_id
-        # * optional attributes :disk_config, :metadata, :personality, :config_drive
+        # * optional attributes :disk_config, :metadata, :personality, :config_drive, :boot_volume_id, :boot_image_id
+        # * :image_id should be "" if :boot_volume_id or :boot_image_id are provided.
         # @return [Boolean] returns true if server is being created
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
@@ -251,10 +262,13 @@ module Fog
           modified_options[:config_drive] = config_drive unless config_drive.nil?
           modified_options[:user_data] = user_data_encoded unless user_data_encoded.nil?
           modified_options[:key_name] ||= attributes[:key_name]
+          modified_options[:boot_volume_id] ||= attributes[:boot_volume_id]
+          modified_options[:boot_image_id] ||= attributes[:boot_image_id]
 
           if modified_options[:networks]
             modified_options[:networks].map! { |id| { :uuid => id } }
           end
+
           data = service.create_server(name, image_id, flavor_id, 1, 1, modified_options)
           merge_attributes(data.body['server'])
           true
