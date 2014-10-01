@@ -61,6 +61,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
     server_name = "fog#{Time.now.to_i.to_s}"
     image_id = rackspace_test_image_id(service)
     flavor_id = rackspace_test_flavor_id(service)
+    bootable_flavor_id = service.flavors.find { |f| f.name =~ /Performance/ }.id
 
     tests("#create_server(#{server_name}, #{image_id}, #{flavor_id}, 1, 1)").formats(create_server_format) do
       body = service.create_server(server_name, image_id, flavor_id, 1, 1).body
@@ -75,15 +76,17 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
       bootable_volume_id = volume_service.create_volume(100, :image_id => image_id).body['volume']['id']
       wait_for_volume_state(volume_service, bootable_volume_id, 'available')
 
-      body = service.create_server(server_name + "_bfv_1", '', flavor_id, 1, 1, :boot_volume_id => bootable_volume_id).body
+      body = service.create_server(server_name + "_bfv_1", '', bootable_flavor_id, 1, 1, :boot_volume_id => bootable_volume_id).body
       bfv_server_id = body['server']['id']
       wait_for_server_state(service, bfv_server_id, 'ACTIVE', 'ERROR')
       service.delete_server(bfv_server_id)
+
+      wait_for_volume_state(volume_service, bootable_volume_id, 'available')
       volume_service.delete_volume(bootable_volume_id)
     end
 
     tests("#create_server(#{server_name}_bfv_2, '', #{flavor_id}, 1, 1, :boot_image_id => #{image_id})").succeeds do
-      body = service.create_server(server_name + "_bfv_2", '', flavor_id, 1, 1, :boot_image_id => image_id)
+      body = service.create_server(server_name + "_bfv_2", '', bootable_flavor_id, 1, 1, :boot_image_id => image_id)
       bfv_server_id = body['server']['id']
       wait_for_server_state(service, bfv_server_id, 'ACTIVE', 'ERROR')
       service.delete_server(bfv_server_id)
