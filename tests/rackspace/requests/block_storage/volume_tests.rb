@@ -56,6 +56,8 @@ Shindo.tests('Fog::Rackspace::BlockStorage | volume_tests', ['rackspace']) do
 
     ids.each do |id|
       tests("#delete_volume(#{id})").succeeds do
+        wait_for_volume_state(service, id, 'available')
+
         service.delete_volume(id)
       end
     end
