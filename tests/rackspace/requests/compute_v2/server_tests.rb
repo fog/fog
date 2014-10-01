@@ -69,6 +69,18 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
     end
     wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
 
+    tests("#create_server(#{server_name}, '', #{flavor_id}, 1, 1, :volume_id => bootable_volume_id)").succeeds do
+      volume_service = Fog::Rackspace::BlockStorage.new
+      bootable_volume_id = volume_service.create_volume(100, :image_id => image_id)
+      wait_for_volume_state(volume_service, bootable_volume_id, 'available')
+
+      body = service.create_server(server_name, '', flavor_id, 1, 1, :volume_id => bootable_volume_id).body
+      bfv_server_id = body['server']['id']
+      wait_for_server_state(service, bfv_server_id, 'ACTIVE', 'ERROR')
+      service.delete_server(bfv_server_id)
+      volume_service.delete_volume(bootable_volume_id)
+    end
+
     tests('#list_servers').formats(list_servers_format, false) do
       service.list_servers.body
     end

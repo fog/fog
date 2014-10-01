@@ -14,6 +14,7 @@ module Fog
         # @option options [Hash] personality Hash containing data to inject into the file system of the cloud server instance during server creation.
         # @option options [Boolean] config_drive whether to attach a read-only configuration drive
         # @option options [String] keypair  Name of the kay-pair to associate with this server.
+        # @option options [String] volume_id Id of a pre-created bootable volume to use for this server. If provided, leave image_id as "".
         # @return [Excon::Response] response:
         #   * body [Hash]:
         #     * server [Hash]:
@@ -72,6 +73,14 @@ module Fog
           end
 
           data['server']['key_name'] = options[:key_name] unless options[:key_name].nil?
+
+          if options[:volume_id]
+            data['server']['block_device_mapping'] = {
+              'volume_id' => options[:volume_id],
+              'delete_on_termination' => 0,
+              'device_name' => 'vda'
+            }
+          end
 
           request(
             :body    => Fog::JSON.encode(data),
