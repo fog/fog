@@ -14,7 +14,7 @@ module Fog
         # @option options [Hash] personality Hash containing data to inject into the file system of the cloud server instance during server creation.
         # @option options [Boolean] config_drive whether to attach a read-only configuration drive
         # @option options [String] keypair  Name of the kay-pair to associate with this server.
-        # @option options [Hash] block_device_mapping A manually specified block device mapping to fully control the creation and
+        # @option options [Array<Hash>] block_device_mapping A manually specified block device mapping to fully control the creation and
         #   attachment of volumes to this server. Mutually exclusive with :volume_id or :volume_image_id. If provided, leave image_id
         #   as "". See http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot for details.
         # @option options [String] boot_volume_id Id of a pre-created bootable volume to use for this server. If provided, leave image_id as "".
@@ -92,21 +92,23 @@ module Fog
             data['server']['block_device_mapping_v2'] = options[:block_device_mapping]
           else
             if options[:boot_volume_id]
-              data['server']['block_device_mapping_v2'] = {
+              data['server']['block_device_mapping_v2'] = [{
                 'boot_index' => '0',
                 'uuid' => options[:boot_volume_id],
                 'source_type' => 'volume',
-                'destination_type' => 'volume'
-              }
+                'destination_type' => 'volume',
+                'volume_size' => 100
+              }]
             end
 
             if options[:boot_image_id]
-              data['server']['block_device_mapping_v2'] = {
+              data['server']['block_device_mapping_v2'] = [{
                 'boot_index' => '0',
                 'uuid' => options[:boot_image_id],
                 'source_type' => 'image',
-                'destination_type' => 'volume'
-              }
+                'destination_type' => 'volume',
+                'volume_size' => 100
+              }]
             end
         end
 
