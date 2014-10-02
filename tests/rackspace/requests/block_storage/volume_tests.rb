@@ -10,6 +10,7 @@ Shindo.tests('Fog::Rackspace::BlockStorage | volume_tests', ['rackspace']) do
     'volume_type' => String,
     'availability_zone' => String,
     'snapshot_id' => Fog::Nullable::String,
+    'image_id' => Fog::Nullable::String,
     'attachments' => Array,
     'metadata' => Hash
   }
@@ -25,12 +26,23 @@ Shindo.tests('Fog::Rackspace::BlockStorage | volume_tests', ['rackspace']) do
   service = Fog::Rackspace::BlockStorage.new
 
   tests('success') do
-    id = nil
+    ids = []
     size = 100
 
     tests("#create_volume(#{size})").formats(get_volume_format) do
       data = service.create_volume(size).body
-      id = data['volume']['id']
+      ids << data['volume']['id']
+      data
+    end
+
+    tests("#create_volume for a bootable volume").formats(get_volume_format) do
+      # Find a suitable image.
+      image_id = rackspace_test_image_id(Fog::Compute.new(:provider => 'rackspace'))
+      data = service.create_volume(size, :image_id => image_id).body
+      tests("assigned an image id").returns(image_id) do
+        data['volume']['image_id']
+      end
+      ids << data['volume']['id']
       data
     end
 
@@ -38,12 +50,16 @@ Shindo.tests('Fog::Rackspace::BlockStorage | volume_tests', ['rackspace']) do
       service.list_volumes.body
     end
 
-    tests("#get_volume(#{id})").formats(get_volume_format) do
-      service.get_volume(id).body
+    tests("#get_volume(#{ids.first})").formats(get_volume_format) do
+      service.get_volume(ids.first).body
     end
 
-    tests("#delete_volume(#{id})").succeeds do
-      service.delete_volume(id)
+    ids.each do |id|
+      tests("#delete_volume(#{id})").succeeds do
+        wait_for_volume_state(service, id, 'available')
+
+        service.delete_volume(id)
+      end
     end
   end
 
