@@ -83,6 +83,7 @@ module Fog
               snapshot = self.data[:snapshots][snapshot_id]
               volume.merge!("size" => snapshot["size"])
             end
+            volume["image_id"] = options[:image_id] if options[:image_id]
 
             self.data[:volumes][volume_id] = volume
 
