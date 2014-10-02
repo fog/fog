@@ -61,7 +61,11 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
     server_name = "fog#{Time.now.to_i.to_s}"
     image_id = rackspace_test_image_id(service)
     flavor_id = rackspace_test_flavor_id(service)
-    bootable_flavor_id = service.flavors.find { |f| f.name =~ /Performance/ }.id
+    bootable_flavor_id = if Fog.mocking?
+      flavor_id
+    else
+      service.flavors.find { |f| f.name =~ /Performance/ }.id
+    end
 
     tests("#create_server(#{server_name}, #{image_id}, #{flavor_id}, 1, 1)").formats(create_server_format) do
       body = service.create_server(server_name, image_id, flavor_id, 1, 1).body
