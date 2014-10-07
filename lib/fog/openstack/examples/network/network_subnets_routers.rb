@@ -59,5 +59,5 @@ public_subnet = network.subnets.create :name => 'floating_ips_net',
 
 
 # Create tenant networks
-create_tenant_network, 'admin@example.net', public_net
-create_tenant_network, 'demo@example.net', public_net
+create_tenant_network 'admin@example.net', public_net
+create_tenant_network 'demo@example.net', public_net

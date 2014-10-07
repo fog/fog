@@ -35,7 +35,7 @@ module Fog
           body_object = { 'name' => snap_name }
 
           # Merge in any remaining options (description)
-          body_object.merge(opts)
+          body_object.merge!(opts)
 
           result = self.build_result(api_method, parameters,
                                      body_object)

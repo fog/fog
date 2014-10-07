@@ -47,7 +47,7 @@ module Fog
 
 
           server = create(defaults.merge(new_attributes))
-          server.wait_for { sshable? }
+          server.wait_for { sshable? } unless server.private_key_file.nil?
 
           server
         end

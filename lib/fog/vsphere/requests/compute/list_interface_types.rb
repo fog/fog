@@ -15,8 +15,7 @@ module Fog
             :id => nic,
             :name => nic,
             :datacenter => datacenter,
-            :servertype => servertype,
-#            :class => Fog.class_from_string(nic)
+            :servertype => servertype
           }
         end
       end

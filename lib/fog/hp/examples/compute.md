@@ -764,9 +764,9 @@ This page discusses the following topics:
 1. List all available floating ip addresses:
 
         response = conn.list_addresses
-        response.body['addresses']                  # returns an array of address hashes
-        response.headers                            # returns the headers
-        response.body['addresses'][0]['id']         # returns the id of the address
+        response.body['floating_ips']                 # returns an array of address hashes
+        response.headers                              # returns the headers
+        response.body['floating_ips'][0]['id']        # returns the id of the address
 
 2. Obtain the details of a particular address:
 

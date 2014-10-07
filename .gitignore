@@ -19,9 +19,12 @@ doc/*
 docs/_site/*
 docs/about/supported_services.markdown
 Gemfile.lock
+gemfiles/*.lock
 yardoc
 pkg
 spec/credentials.yml
 vendor/*
 tags
 tests/digitalocean/fixtures/
+
+providers/*/doc

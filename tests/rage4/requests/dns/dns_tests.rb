@@ -167,6 +167,23 @@ Shindo.tests('Fog::DNS[:rage4] | DNS requests', ['rage4', 'dns']) do
       response.body['status'] && !@record_id.nil?
     end
 
+    test("create_record with options") do
+      pending if Fog.mocking?
+
+      name = "www." + @domain
+      type = 2 #"A"
+      data = "1.2.3.5"
+      options = { :udplimit => true }
+      response = Fog::DNS[:rage4].create_record(@domain_id, name , data, type, options)
+
+      if response.status == 200
+        @record_id = response.body['id']
+      end
+
+      response.status == 200 && response.body['error'] == "" &&
+      response.body['status'] && !@record_id.nil?
+    end
+
     test("update_record") do
       pending if Fog.mocking?
 
@@ -174,6 +191,21 @@ Shindo.tests('Fog::DNS[:rage4] | DNS requests', ['rage4', 'dns']) do
       type = 2 #"A"
       data = "4.3.2.1"
       response = Fog::DNS[:rage4].update_record(@record_id, name, data, type)
+
+      returns(@record_id) { response.body['id'] }
+
+      response.status == 200 && response.body['error'] == "" &&
+      response.body['status']
+    end
+
+    test("update_record with options") do
+      pending if Fog.mocking?
+
+      name = "www." + @domain
+      type = 2 #"A"
+      data = "4.3.2.1"
+      options = { :udplimit => true }
+      response = Fog::DNS[:rage4].update_record(@record_id, name, data, type, options)
 
       returns(@record_id) { response.body['id'] }
 

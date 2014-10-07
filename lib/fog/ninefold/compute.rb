@@ -71,9 +71,9 @@ module Fog
       class Mock
 
         def initialize(options)
-          @api_url = options[:ninefold_api_url] || Fog.credentials[:ninefold_api_url] || API_URL
-          @ninefold_compute_key = options[:ninefold_compute_key] || Fog.credentials[:ninefold_compute_key]
-          @ninefold_compute_secret = options[:ninefold_compute_secret] || Fog.credentials[:ninefold_compute_secret]
+          @api_url = options[:ninefold_api_url] || API_URL
+          @ninefold_compute_key = options[:ninefold_compute_key]
+          @ninefold_compute_secret = options[:ninefold_compute_secret]
         end
 
         def request(options)
@@ -84,9 +84,9 @@ module Fog
       class Real
 
         def initialize(options)
-          @api_url                  = options[:ninefold_api_url] || Fog.credentials[:ninefold_api_url] || API_URL
-          @ninefold_compute_key     = options[:ninefold_compute_key] || Fog.credentials[:ninefold_compute_key]
-          @ninefold_compute_secret  = options[:ninefold_compute_secret] || Fog.credentials[:ninefold_compute_secret]
+          @api_url                  = options[:ninefold_api_url] || API_URL
+          @ninefold_compute_key     = options[:ninefold_compute_key]
+          @ninefold_compute_secret  = options[:ninefold_compute_secret]
           @connection_options       = options[:connection_options] || {}
           @persistent               = options[:persistent] || false
           @connection = Fog::XML::Connection.new(@api_url, @persistent, @connection_options)

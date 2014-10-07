@@ -45,21 +45,21 @@ module Fog
         #
         def initialize(options)
           # Currently authentication and api endpoints are the same but may change
-          @auth_url            = options[:brightbox_auth_url]  || Fog.credentials[:brightbox_auth_url] || API_URL
+          @auth_url            = options[:brightbox_auth_url]  || API_URL
           @auth_connection     = Fog::Core::Connection.new(@auth_url)
 
-          @api_url             = options[:brightbox_api_url]   || Fog.credentials[:brightbox_api_url]  || API_URL
+          @api_url             = options[:brightbox_api_url]   || API_URL
           @connection_options  = options[:connection_options]  || {}
           @persistent          = options[:persistent]          || false
           @connection          = Fog::Core::Connection.new(@api_url, @persistent, @connection_options)
 
           # Authentication options
-          client_id            = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
-          client_secret        = options[:brightbox_secret]    || Fog.credentials[:brightbox_secret]
+          client_id            = options[:brightbox_client_id]
+          client_secret        = options[:brightbox_secret]
 
-          username             = options[:brightbox_username]  || Fog.credentials[:brightbox_username]
-          password             = options[:brightbox_password]  || Fog.credentials[:brightbox_password]
-          @configured_account  = options[:brightbox_account]   || Fog.credentials[:brightbox_account]
+          username             = options[:brightbox_username]
+          password             = options[:brightbox_password]
+          @configured_account  = options[:brightbox_account]
           # Request account can be changed at anytime and changes behaviour of future requests
           @scoped_account      = @configured_account
 

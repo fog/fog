@@ -21,7 +21,7 @@ To request a new release please raise an issue.
 services)
 * Ensure working on **master**
 * Update the version number (`lib/fog/version.rb`)
-* Run `rake changelog` to update `changelog.txt`
+* Run `rake changelog` to update `CHANGELOG.md`
 * Run `rake release` to prepare the release which does:
   * Prepares the release (`rake release:prepare`)
     * Builds the gem
@@ -30,6 +30,7 @@ services)
   * Publishes the release (`rake release:publish`)
     * Pushes commit and tag to Github (Requires Credentials)
     * Pushes gem to Rubygems (Requires Credentials)
+* Run `rake github_release` to add release to [github release feed](https://github.com/fog/fog/releases.atom) (Requires Credentials)
 
 ## Announce the release
 

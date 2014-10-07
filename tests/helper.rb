@@ -61,7 +61,7 @@ end
 
 # mark libvirt tests pending if not setup
 begin
-  require('ruby-libvirt')
+  require('libvirt')
 rescue LoadError
   Formatador.display_line("[yellow]Skipping tests for [bold]libvirt[/] [yellow]due to missing `ruby-libvirt` gem.[/]")
   Thread.current[:tags] << '-libvirt'
