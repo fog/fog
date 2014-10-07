@@ -1,6 +1,5 @@
 class DigitalOcean < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -26,6 +25,5 @@ class DigitalOcean < Fog::Bin
     def services
       Fog::DigitalOcean.services
     end
-
   end
 end

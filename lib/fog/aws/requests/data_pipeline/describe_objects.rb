@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class DataPipeline
-
       class Real
-
         # Queries a pipeline for the names of objects that match a specified set of conditions.
         # http://docs.aws.amazon.com/datapipeline/latest/APIReference/API_DescribeObjects.html
         # ==== Parameters
@@ -28,7 +26,6 @@ module Fog
 
           Fog::JSON.decode(response.body)
         end
-
       end
 
       class Mock
@@ -36,7 +33,6 @@ module Fog
           Fog::Mock.not_implemented
         end
       end
-
     end
   end
 end

@@ -4,9 +4,7 @@ require 'fog/hp/models/compute_v2/image'
 module Fog
   module Compute
     class HPV2
-
       class Images < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::HPV2::Image
@@ -35,9 +33,7 @@ module Fog
         rescue Fog::Compute::HPV2::NotFound
           nil
         end
-
       end
-
     end
   end
 end

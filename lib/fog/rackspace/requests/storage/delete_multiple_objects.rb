@@ -1,9 +1,7 @@
 module Fog
   module Storage
     class Rackspace
-
       class Real
-
         # Deletes multiple objects or containers with a single request.
         #
         # To delete objects from a single container, +container+ may be provided
@@ -69,7 +67,6 @@ module Fog
           response.body = Fog::JSON.decode(response.body)
           response
         end
-
       end
 
       class Mock
@@ -126,7 +123,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

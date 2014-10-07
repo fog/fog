@@ -4,7 +4,6 @@ module Fog
   module Joyent
     class Analytics
       class Fields < Fog::Collection
-
         model Fog::Joyent::Analytics::Field
 
         def all
@@ -19,7 +18,6 @@ module Fog
           name, other_attributes = attributes
           super(other_attributes.merge('name' => name))
         end
-
       end
     end
   end

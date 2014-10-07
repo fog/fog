@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class StartStopInstances < Fog::Parsers::Base
-
           def reset
             @instance = { 'currentState' => {}, 'previousState' => {} }
             @response = { 'instancesSet' => [] }
@@ -32,9 +30,7 @@ module Fog
               @instance[@state][name] = value
             end
           end
-
         end
-
       end
     end
   end

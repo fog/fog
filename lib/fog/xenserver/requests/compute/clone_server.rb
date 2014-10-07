@@ -2,7 +2,6 @@ module Fog
   module Compute
     class XenServer
       class Real
-
         def clone_server( server_name, template_ref )
           # Clone the VM template
           if template_ref.kind_of? Fog::Compute::XenServer::Server
@@ -16,16 +15,13 @@ module Fog
             template_ref, server_name
           )
         end
-
       end
 
       class Mock
-
         def clone_server( server_name, template_ref )
           Fog::Mock.not_implemented
         end
       end
-
     end
   end
 end

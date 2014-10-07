@@ -8,6 +8,7 @@ module Fog
           vm_cfg        = {
             :name         => attributes[:name],
             :guestId      => attributes[:guest_id],
+            :version      => attributes[:hardware_version],
             :files        => { :vmPathName => vm_path_name(attributes) },
             :numCPUs      => attributes[:cpus],
             :numCoresPerSocket => attributes[:corespersocket],
@@ -106,7 +107,7 @@ module Fog
         end
 
         def controller_get_shared_from_options options
-          if (options.has_key? :shared and options[:shared]==false) or not options.has_key? :shared then
+          if (options.key? :shared and options[:shared]==false) or not options.key? :shared then
             :noSharing
           elsif options[:shared]==true then
             :virtualSharing
@@ -149,13 +150,11 @@ module Fog
             }
           ]
         end
-
       end
 
       class Mock
         def create_vm attributes = { }
         end
-
       end
     end
   end

@@ -6,7 +6,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/sqs'
       request :change_message_visibility
@@ -81,6 +81,8 @@ module Fog
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
+          @instrumentor           = options[:instrumentor]
+          @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.sqs'
           @connection_options     = options[:connection_options] || {}
           options[:region] ||= 'us-east-1'
           @host = options[:host] || "sqs.#{options[:region]}.amazonaws.com"
@@ -130,21 +132,28 @@ module Fog
             }
           )
 
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser, path)
+            end
+          else
+            _request(body, idempotent, parser, path)
+          end
+        end
+
+        def _request(body, idempotent, parser, path)
           args = {
             :body       => body,
             :expects    => 200,
             :idempotent => idempotent,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
             :method     => 'POST',
-            :parser     => parser
-          }
-          args.merge!(:path => path) if path
+            :parser     => parser,
+            :path => path
+          }.reject{|_,v| v.nil? }
 
-          response = @connection.request(args)
-
-          response
+          @connection.request(args)
         end
-
       end
     end
   end

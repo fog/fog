@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class LoadBalancers
       class LoadBalancer < Fog::Model
-
         #States
         ACTIVE = 'ACTIVE'
         ERROR = 'ERROR'
@@ -28,6 +27,7 @@ module Fog
         attribute :state,               :aliases => 'status'
         attribute :timeout
         attribute :nodes
+        attribute :https_redirect,      :aliases => 'httpsRedirect'
 
         def initialize(attributes)
           #HACK - Since we are hacking how sub-collections work, we have to make sure the service is valid first.
@@ -37,11 +37,15 @@ module Fog
         end
 
         def access_rules
-          @access_rules ||= begin
-            Fog::Rackspace::LoadBalancers::AccessRules.new({
+          unless @access_rules
+            @access_rules = Fog::Rackspace::LoadBalancers::AccessRules.new({
               :service => service,
               :load_balancer => self})
+
+             # prevents loading access rules from non-existent load balancers
+            @access_rules.clear unless persisted?
           end
+          @access_rules
         end
 
         def access_rules=(new_access_rules=[])
@@ -49,15 +53,31 @@ module Fog
         end
 
         def nodes
-          @nodes ||= begin
-            Fog::Rackspace::LoadBalancers::Nodes.new({
-              :service => service,
-              :load_balancer => self})
+          if @nodes.nil?
+            @nodes = Fog::Rackspace::LoadBalancers::Nodes.new({
+                :service => service,
+                :load_balancer => self})
+
+            # prevents loading nodes from non-existent load balancers
+            @nodes.clear unless persisted?
           end
+          @nodes
         end
 
         def nodes=(new_nodes=[])
           nodes.load(new_nodes)
+        end
+
+        def https_redirect
+          if @https_redirect.nil?
+            requires :identity
+            @https_redirect = begin
+              service.get_load_balancer(identity).body['loadBalancer']['httpsRedirect']
+            rescue => e
+              nil
+            end
+          end
+          @https_redirect
         end
 
         def ssl_termination
@@ -78,11 +98,13 @@ module Fog
         end
 
         def virtual_ips
-          @virtual_ips ||= begin
-            Fog::Rackspace::LoadBalancers::VirtualIps.new({
+          if @virtual_ips.nil?
+            @virtual_ips = Fog::Rackspace::LoadBalancers::VirtualIps.new({
               :service => service,
               :load_balancer => self})
+            @virtual_ips.clear unless persisted?
           end
+          @virtual_ips
         end
 
         def virtual_ips=(new_virtual_ips=[])
@@ -217,42 +239,33 @@ module Fog
         end
 
         private
+
         def create
-          requires :name, :protocol, :port, :virtual_ips, :nodes
+          requires :name, :protocol, :virtual_ips
 
           options = {}
           options[:algorithm] = algorithm if algorithm
           options[:timeout] = timeout if timeout
 
-          data = service.create_load_balancer(name, protocol, port, virtual_ips_hash, nodes_hash, options)
+          data = service.create_load_balancer(name, protocol, port, virtual_ips, nodes, options)
           merge_attributes(data.body['loadBalancer'])
         end
 
         def update
-          requires :name, :protocol, :port, :algorithm, :timeout
+          requires :name, :protocol, :port, :algorithm, :timeout, :https_redirect
           options = {
             :name => name,
             :algorithm => algorithm,
             :protocol => protocol,
             :port => port,
-            :timeout => timeout }
+            :timeout => timeout,
+            :https_redirect => !!https_redirect
+          }
+
           service.update_load_balancer(identity, options)
 
-          #TODO - Should this bubble down to nodes? Without tracking changes this would be very inefficient.
+          # TODO - Should this bubble down to nodes? Without tracking changes this would be very inefficient.
           # For now, individual nodes will have to be saved individually after saving an LB
-        end
-
-        def virtual_ips_hash
-          virtual_ips.collect do |virtual_ip|
-            { :type => virtual_ip.type }
-          end
-
-        end
-
-        def nodes_hash
-          nodes.collect do |node|
-            { :address => node.address, :port => node.port, :condition => node.condition, :weight => node.weight }
-          end
         end
 
         def connection_logging=(new_value)

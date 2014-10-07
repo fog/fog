@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/update_user'
 
         # Update a user
@@ -32,7 +31,6 @@ module Fog
             :parser       => Fog::Parsers::AWS::IAM::UpdateUser.new
           }.merge!(options))
         end
-
       end
     end
   end

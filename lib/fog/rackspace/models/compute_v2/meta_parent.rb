@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       module MetaParent
-
         # Parent of metadata
         # @return [#parent] parent of metadata
         def parent
@@ -35,7 +34,6 @@ module Fog
           metas.each { |meta| hash[meta.key] = meta.value }
           hash
         end
-
       end
     end
   end

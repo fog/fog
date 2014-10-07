@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Remove a user from a group
@@ -27,14 +26,12 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::Basic.new
           )
         end
-
       end
 
       class Mock
-
         def remove_user_from_group(group_name, user_name)
-          if data[:groups].has_key? group_name
-            if data[:users].has_key? user_name
+          if data[:groups].key? group_name
+            if data[:users].key? user_name
               data[:groups][group_name][:members].delete_if { |item| item == user_name }
               Excon::Response.new.tap do |response|
                 response.status = 200

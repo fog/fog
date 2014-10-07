@@ -1,21 +1,25 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
+      class Real
         # Returns an encrypted password for the VM
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/getVMPassword.html]
-        def get_vm_password(id)
-          options = {
-            'command' => 'getVMPassword',
-            'id' => id
-          }
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/getVMPassword.html]
+        def get_vm_password(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'getVMPassword') 
+          else
+            options.merge!('command' => 'getVMPassword', 
+            'id' => args[0])
+          end
           request(options)
         end
-
       end
+
     end
   end
 end
+

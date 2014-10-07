@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class TargetPool < Fog::Model
-
         identity :name
 
         attribute :kind, :aliases => 'kind'
@@ -20,7 +18,6 @@ module Fog
         attribute :failover_ratio, :aliases => "failoverRatio"
         attribute :backup_pool, :aliases => "backupPool"
 
-
         def save
           requires :name, :region
 
@@ -34,10 +31,10 @@ module Fog
             'backupPool' => backup_pool
           }
 
-          service.insert_target_pool(name, region, options).body
-          data = service.backoff_if_unfound {service.get_target_pool(name, region).body}
-          merge_attributes(data)
-          self
+          data = service.insert_target_pool(name, region, options).body
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data['name'], nil, data['region'])
+          operation.wait_for { !pending? }
+          reload
         end
 
         def destroy(async=true)
@@ -89,6 +86,10 @@ module Fog
           rescue Fog::Errors::NotFound
             false
           end
+        end
+
+        def region_name
+          region.nil? ? nil : region.split('/')[-1]
         end
 
         def reload

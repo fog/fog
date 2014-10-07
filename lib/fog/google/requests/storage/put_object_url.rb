@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Google
       class Real
-
         # Get an expiring object url from Google Storage for putting an object
         #
         # ==== Parameters
@@ -28,11 +27,9 @@ module Fog
             :path     => "#{bucket_name}/#{object_name}"
           }, expires)
         end
-
       end
 
       class Mock
-
         def put_object_url(bucket_name, object_name, expires, headers = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -47,7 +44,6 @@ module Fog
             :path     => "#{bucket_name}/#{object_name}"
           }, expires)
         end
-
       end
     end
   end

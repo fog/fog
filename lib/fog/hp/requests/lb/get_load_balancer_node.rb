@@ -2,7 +2,6 @@ module Fog
   module HP
     class LB
       class Real
-
       # Get details for an existing load balancer node
       #
       # ==== Parameters
@@ -40,14 +39,12 @@ module Fog
           else
             raise Fog::HP::LB::NotFound
           end
-
         end
 
         def find_node(load_balancer_id, node_id)
           nodes = list_load_balancer_nodes(load_balancer_id).body['nodes']
-          nodes.detect {|n| n['id'] == node_id}
+          nodes.find {|n| n['id'] == node_id}
         end
-
       end
     end
   end

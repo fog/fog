@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module ELB
-
         class DeleteLoadBalancer < Fog::Parsers::Base
-
           def reset
             @response = { 'DeleteLoadBalancerResult' => nil, 'ResponseMetadata' => {} }
           end
@@ -15,9 +13,7 @@ module Fog
               @response['ResponseMetadata'][name] = value
             end
           end
-
         end
-
       end
     end
   end

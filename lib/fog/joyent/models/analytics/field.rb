@@ -7,7 +7,6 @@ module Fog
         attribute :name
         attribute :label
         attribute :type
-
       end
     end
   end

@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Policies < Fog::Collection
-
         model Fog::Rackspace::AutoScale::Policy
 
         attr_accessor :group
@@ -60,7 +59,6 @@ module Fog
         def new(attributes = {})
           super({:group => group}.merge(attributes))
         end
-
       end
     end
   end

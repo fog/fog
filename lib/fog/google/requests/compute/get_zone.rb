@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def get_zone(zone_name)
           zone = self.data[:zones][zone_name] || {
             "error" => {
@@ -18,13 +16,11 @@ module Fog
               "message" => "The resource 'projects/#{project}/zones/#{zone_name}' was not found"
             }
           }
-          build_response(:body => zone)
+          build_excon_response(zone)
         end
-
       end
 
       class Real
-
         def get_zone(zone_name)
           api_method = @compute.zones.get
           parameters = {
@@ -32,12 +28,9 @@ module Fog
             'zone' => zone_name
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
-
       end
-
     end
   end
 end

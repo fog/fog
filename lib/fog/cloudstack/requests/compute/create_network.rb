@@ -1,20 +1,28 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Creates an network.
+        # Creates a network
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/createNetwork.html]
-        def create_network(options={})
-          options.merge!(
-            'command' => 'createNetwork'
-          )
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/createNetwork.html]
+        def create_network(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'createNetwork') 
+          else
+            options.merge!('command' => 'createNetwork', 
+            'displaytext' => args[0], 
+            'zoneid' => args[1], 
+            'name' => args[2], 
+            'networkofferingid' => args[3])
+          end
           request(options)
         end
-
       end
+
     end
   end
 end
+

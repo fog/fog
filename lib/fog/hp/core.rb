@@ -4,7 +4,6 @@ require 'fog/hp/simple_http_instrumentor'
 
 module Fog
   module HP
-
     # define a specific version for the HP Provider
     unless const_defined?(:VERSION)
       VERSION = '0.0.22'
@@ -255,21 +254,22 @@ module Fog
       raise "Unable to parse service catalog." unless body
       service_catalog = {}
       body.each do |s|
-        name = s["name"]
-        next if name.nil?
-        name = name.to_sym
+        type = s["type"]
+        next if type.nil?
+        type = type.to_sym
         next if s['endpoints'].nil?
-        service_catalog[name] = {}
+        service_catalog[type] = {}
+        service_catalog[type]['name'] = s['name']
         s['endpoints'].each do |ep|
           next if ep['region'].nil?
           next if ep['publicURL'].nil?
           next if ep['publicURL'].empty?
-          service_catalog[name][ep['region'].to_sym] = ep['publicURL']
+          service_catalog[type][ep['region'].to_sym] = ep['publicURL']
         end
       end
       return service_catalog
     end
-
+    #//http://10.23.67.66:9696/
     def self.get_endpoint_url(service_catalog, service_type, avl_zone)
       return nil if service_type.nil?
       service_type = service_type.to_sym
@@ -279,6 +279,7 @@ module Fog
           return service_catalog[service_type][avl_zone]
         end
       end
+
       raise "Unable to retrieve endpoint service url for availability zone '#{avl_zone}' from service catalog. "
     end
 
@@ -346,8 +347,6 @@ module Fog
         end
         mac_add.join(':')
       end
-
     end
-
   end
 end

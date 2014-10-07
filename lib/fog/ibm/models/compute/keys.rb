@@ -4,9 +4,7 @@ require 'fog/ibm/models/compute/key'
 module Fog
   module Compute
     class IBM
-
       class Keys < Fog::Collection
-
         model Fog::Compute::IBM::Key
 
         def all
@@ -28,7 +26,6 @@ module Fog
         def default=(key_name)
           service.modify_key(key_name, 'default' => true)
         end
-
       end
     end
   end

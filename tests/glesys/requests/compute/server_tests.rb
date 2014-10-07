@@ -5,11 +5,11 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
 
     @create = ":hostname => #@hostname, :rootpassword => 'pw#{Time.now.to_i}', "+
     ":datacenter => 'Falkenberg', :platform => 'Xen', :templatename => 'Debian-6 x64', "+
-    ":disksize => '10', :memorysize => '512', :cpucores => '1', :transfer => '500'"
+    ":disksize => '10', :memorysize => '512', :cpucores => '1', :transfer => '500', :bandwidth => '10'"
 
     @create_vz = ":hostname => #@hostname, :rootpassword => 'pw#{Time.now.to_i}', "+
     ":datacenter => 'Stockholm', :platform => 'OpenVZ', :templatename => 'Debian 6.0 64-bit', "+
-    ":disksize => '10', :memorysize => '256', :cpucores => '2', :transfer => '500'"
+    ":disksize => '10', :memorysize => '256', :cpucores => '2', :transfer => '500', :bandwidth => '10'"
 
   tests('success') do
 
@@ -29,7 +29,8 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
               :disksize     => "10",
               :memorysize   => "512",
               :cpucores     => "1",
-              :transfer     => "500"
+              :transfer     => "500",
+              :bandwidth    => "10"
             )
 
       @serverid = vm.body['response']['server']['serverid']
@@ -89,7 +90,8 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
               :disksize     => "10",
               :memorysize   => "256",
               :cpucores     => "2",
-              :transfer     => "500"
+              :transfer     => "500",
+              :bandwidth    => "10"
             )
 
       @serverid = vm.body['response']['server']['serverid']
@@ -109,7 +111,6 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
       pending if Fog.mocking?
       Fog::Compute[:glesys].destroy(:serverid => @serverid).body['response']
     end
-
 
   end
 

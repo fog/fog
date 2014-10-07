@@ -1,9 +1,7 @@
 module Fog
   module Rackspace
     class AutoScale
-
       class Real
-
         def get_group_state(group_id)
           request(
             :expects => [200],
@@ -15,7 +13,6 @@ module Fog
 
       class Mock
         def get_group_state(group_id)
-
           instance_id_1 = Fog::Rackspace::AutoScale::MockData.uuid
           instance_id_2 = Fog::Rackspace::AutoScale::MockData.uuid
 
@@ -56,7 +53,6 @@ module Fog
           response(:body => {'group' => state})
         end
       end
-
     end
   end
 end

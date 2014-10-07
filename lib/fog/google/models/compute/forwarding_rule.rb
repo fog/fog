@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class ForwardingRule < Fog::Model
-
         identity :name
 
         attribute :kind, :aliases => 'kind'
@@ -31,10 +29,10 @@ module Fog
             'target' => target
           }
 
-          service.insert_forwarding_rule(name, region, options).body
-          data = service.backoff_if_unfound {service.get_forwarding_rule(name, region).body}
-          merge_attributes(data)
-          self
+          data = service.insert_forwarding_rule(name, region, options).body
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data['name'], nil, data['region'])
+          operation.wait_for { !pending? }
+          reload
         end
 
         def set_target new_target

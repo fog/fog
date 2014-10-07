@@ -9,10 +9,7 @@ module Fog
         attribute :name
         attribute :ram
         attribute :price
-
-        def cores
-          4 # linode always has 4 cores
-        end
+        attribute :cores
 
         def bits
           0 # these are determined by images you select not the hardware

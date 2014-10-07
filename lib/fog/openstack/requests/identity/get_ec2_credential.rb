@@ -2,7 +2,6 @@ module Fog
   module Identity
     class OpenStack
       class Real
-
         ##
         # Retrieves an EC2 credential for a user.  Requires administrator
         # credentials.

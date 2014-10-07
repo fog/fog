@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def create_alarm(entity_id, options = {})
           data = options.dup
           request(
@@ -16,7 +15,6 @@ module Fog
 
       class Mock
         def create_alarm(entity_id, options = {})
-
           alarm_id = Fog::Mock.random_letters(10)
           account_id = Fog::Mock.random_numbers(6).to_s
 
@@ -42,10 +40,8 @@ module Fog
           }
           response.remote_ip = Fog::Rackspace::MockData.ipv4_address
           response
-
         end
       end
     end
   end
 end
-

@@ -4,9 +4,7 @@ require 'fog/bluebox/models/compute/server'
 module Fog
   module Compute
     class Bluebox
-
       class Servers < Fog::Collection
-
         model Fog::Compute::Bluebox::Server
 
         def all
@@ -28,9 +26,7 @@ module Fog
         rescue Fog::Compute::Bluebox::NotFound
           nil
         end
-
       end
-
     end
   end
 end

@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def delete_lb_pool(pool_id)
           request(
@@ -24,7 +23,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module CloudFormation
-
         class DescribeStackEvents < Fog::Parsers::Base
-
           def reset
             @event = {}
             @response = { 'StackEvents' => [] }
@@ -23,7 +21,6 @@ module Fog
               @event[name] = Time.parse(value)
             end
           end
-
         end
       end
     end

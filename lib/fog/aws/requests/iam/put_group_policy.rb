@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Add or update a policy for a group
@@ -29,13 +28,12 @@ module Fog
             :parser           => Fog::Parsers::AWS::IAM::Basic.new
           )
         end
-
       end
       class Mock
         #FIXME: You can't actually use the credentials for anything elsewhere in Fog
         #FIXME: Doesn't do any validation on the policy
         def put_group_policy(group_name, policy_name, policy_document)
-          if data[:groups].has_key? group_name
+          if data[:groups].key? group_name
             data[:groups][group_name][:policies][policy_name] = policy_document
 
             Excon::Response.new.tap do |response|

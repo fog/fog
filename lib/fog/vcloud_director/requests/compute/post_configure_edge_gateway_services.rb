@@ -2,7 +2,6 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-
         require 'fog/vcloud_director/generators/compute/edge_gateway_service_configuration'
 
         # Configure edge gateway services like firewall, nat and load balancer.
@@ -32,7 +31,6 @@ module Fog
               :path => "admin/edgeGateway/#{id}/action/configureServices"
           )
         end
-
       end
 
       class Mock
@@ -43,7 +41,10 @@ module Fog
                   )
           end
 
-          owner = {:href => '', :name => nil, :type => nil} #known-bug: admin-api does not return owner.
+          owner = {
+            :href => make_href("admin/edgeGateway/#{id}"),
+            :type => 'application/vnd.vmware.vcloud.gateway+xml'
+          }
           task_id = enqueue_task(
               "Configuring edgegateway(#{id})", 'networkConfigureEdgeGatewayServices', owner,
               :on_success => lambda do
@@ -51,11 +52,14 @@ module Fog
               end
           )
 
+          task = task_body(task_id)
+          task.delete(:Owner)  # known bug - admin tasks do not return Owner
+
           body = {
               :xmlns => xmlns,
               :xmlns_xsi => xmlns_xsi,
               :xsi_schemaLocation => xsi_schema_location,
-          }.merge(task_body(task_id))
+          }.merge(task)
 
           Excon::Response.new(
               :status => 202,
@@ -67,4 +71,3 @@ module Fog
     end
   end
 end
-

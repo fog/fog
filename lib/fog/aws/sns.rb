@@ -6,7 +6,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/sns'
       request :add_permission
@@ -24,10 +24,8 @@ module Fog
       request :unsubscribe
 
       class Mock
-
         def initialize(options={})
         end
-
       end
 
       class Real
@@ -53,6 +51,8 @@ module Fog
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
+          @instrumentor       = options[:instrumentor]
+          @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.sns'
 
           options[:region] ||= 'us-east-1'
           @host = options[:host] || "sns.#{options[:region]}.amazonaws.com"
@@ -97,7 +97,17 @@ module Fog
             }
           )
 
-          response = @connection.request({
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser)
+            end
+          else
+            _request(body, idempotent, parser)
+          end
+        end
+
+        def _request(body, idempotent, parser)
+          @connection.request({
             :body       => body,
             :expects    => 200,
             :idempotent => idempotent,
@@ -105,10 +115,7 @@ module Fog
             :method     => 'POST',
             :parser     => parser
           })
-
-          response
         end
-
       end
     end
   end

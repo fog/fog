@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSMadeEasy
       class Real
-
         # Get the details for a specific domain in your account.
         #
         # ==== Parameters
@@ -22,7 +21,6 @@ module Fog
             :path     => "/V1.2/domains/#{domain}"
           )
         end
-
       end
     end
   end

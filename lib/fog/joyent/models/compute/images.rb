@@ -3,10 +3,8 @@ require 'fog/joyent/models/compute/image'
 
 module Fog
   module Compute
-
     class Joyent
       class Images < Fog::Collection
-
         model Fog::Compute::Joyent::Image
 
         def all
@@ -26,9 +24,7 @@ module Fog
           end
           new(data)
         end
-
       end # Images
     end # Joyent
-
   end # Compute
 end # Fog

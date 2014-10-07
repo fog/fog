@@ -49,7 +49,7 @@ module Fog
           href.scan(/\d+/)[0]
         end
 
-        alias destroy delete
+        alias_method :destroy, :delete
       end
     end
   end

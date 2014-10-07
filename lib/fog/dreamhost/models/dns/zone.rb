@@ -4,7 +4,6 @@ require 'fog/dreamhost/models/dns/records'
 module Fog
   module DNS
     class Dreamhost
-
       #
       # Dreamhost API has no concept of 'Zone', but we
       # can emulate it.
@@ -12,7 +11,6 @@ module Fog
       # http://wiki.dreamhost.com/API/Dns_commands
       #
       class Zone < Fog::Model
-
         identity :id
         attribute :domain,     :aliases => 'name'
 
@@ -51,9 +49,7 @@ module Fog
         def save
           raise NotImplementedError.new
         end
-
       end
-
     end
   end
 end

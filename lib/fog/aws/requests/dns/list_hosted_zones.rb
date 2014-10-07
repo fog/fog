@@ -2,7 +2,6 @@ module Fog
   module DNS
     class AWS
       class Real
-
         require 'fog/aws/parsers/dns/list_hosted_zones'
 
         # Describe all or specified instances
@@ -24,10 +23,9 @@ module Fog
         #     * 'Marker'<~String> -
         #     * 'MaxItems'<~Integer> -
         #     * 'IsTruncated'<~String> -
-        #     * 'NextMarket'<~String>
+        #     * 'NextMarker'<~String>
         #   * status<~Integer> - 200 when successful
         def list_hosted_zones(options = {})
-
           parameters = {}
           options.each do |option, value|
             case option
@@ -45,13 +43,10 @@ module Fog
             :method  => 'GET',
             :path    => "hostedzone"
           })
-
         end
-
       end
 
       class Mock
-
         def list_hosted_zones(options = {})
           maxitems = [options[:max_items]||100,100].min
 
@@ -87,7 +82,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

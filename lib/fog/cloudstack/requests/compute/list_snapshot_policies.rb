@@ -1,20 +1,25 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Lists domains and provides detailed information for listed domains.
+        # Lists snapshot policies.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listDomains.html]
-        def list_snapshot_policies(options={})
-          options.merge!(
-            'command' => 'listSnapshotPolicies'
-          )
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/listSnapshotPolicies.html]
+        def list_snapshot_policies(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'listSnapshotPolicies') 
+          else
+            options.merge!('command' => 'listSnapshotPolicies', 
+            'volumeid' => args[0])
+          end
           request(options)
         end
-
       end
+
     end
   end
 end
+

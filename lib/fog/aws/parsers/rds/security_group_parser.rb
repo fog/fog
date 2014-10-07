@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         class SecurityGroupParser < Fog::Parsers::Base
-
           def reset
             @security_group = fresh_security_group
           end
@@ -18,7 +16,6 @@ module Fog
             case name
             when 'EC2SecurityGroup', 'IPRange'; then @ingress = {}
             end
-
           end
 
           def end_element(name)

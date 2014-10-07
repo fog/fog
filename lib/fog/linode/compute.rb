@@ -3,7 +3,6 @@ require 'fog/linode/core'
 module Fog
   module Compute
     class Linode < Fog::Service
-
       requires :linode_api_key
       recognizes :port, :scheme, :persistent
 
@@ -40,6 +39,8 @@ module Fog
       request :linode_ip_addprivate
       request :linode_config_list
       request :linode_config_create
+      request :linode_config_delete
+      request :linode_config_update
       request :linode_create
       request :linode_delete
       request :linode_list
@@ -51,7 +52,6 @@ module Fog
       # request :linode_resize
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
@@ -73,11 +73,9 @@ module Fog
         def reset_data
           self.class.data.delete(@linode_api_key)
         end
-
       end
 
       class Real
-
         def initialize(options={})
           @linode_api_key = options[:linode_api_key]
           @host   = options[:host]    || "api.linode.com"
@@ -110,7 +108,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

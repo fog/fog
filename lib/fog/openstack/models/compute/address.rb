@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class OpenStack
-
       class Address < Fog::Model
-
         identity  :id
 
         attribute :ip
@@ -63,9 +61,7 @@ module Fog
           end
           self.instance_id = nil
         end
-
       end
-
     end
   end
 end

@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class StormOnDemand
-
       class Notification < Fog::Model
         identity :id
         attribute :category
@@ -26,9 +25,7 @@ module Fog
           requires :identity
           service.resolve_notification(:id => identity).body
         end
-
       end
-
     end
   end
 end

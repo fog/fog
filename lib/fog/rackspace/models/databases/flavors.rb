@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Databases
       class Flavors < Fog::Collection
-
         model Fog::Rackspace::Databases::Flavor
 
         def all

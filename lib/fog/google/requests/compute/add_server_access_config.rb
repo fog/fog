@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def add_server_access_config(identity, zone, nic, options = {})
           Fog::Mock.not_implemented
@@ -25,11 +24,9 @@ module Fog
           body_object['name'] = options[:name] ? options[:name] : 'External NAT'
           body_object['natIP'] = options[:address] if options[:address]
 
-          result = self.build_result(api_method, parameters, body_object)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object)
         end
       end
-
     end
   end
 end

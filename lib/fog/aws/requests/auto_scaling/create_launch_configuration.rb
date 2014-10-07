@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Creates a new launch configuration. When created, the new launch
@@ -41,6 +39,8 @@ module Fog
         #     market price.
         #   * 'UserData'<~String> - The user data available to the launched
         #     Amazon EC2 instances.
+        #   * 'EbsOptimized'<~Boolean> - Whether the instance is optimized for
+        #     EBS I/O. Not required, default false.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -73,19 +73,18 @@ module Fog
             :parser                   => Fog::Parsers::AWS::AutoScaling::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def create_launch_configuration(image_id, instance_type, launch_configuration_name, options = {})
-          if self.data[:launch_configurations].has_key?(launch_configuration_name)
+          if self.data[:launch_configurations].key?(launch_configuration_name)
             raise Fog::AWS::AutoScaling::IdentifierTaken.new("Launch Configuration by this name already exists - A launch configuration already exists with the name #{launch_configuration_name}")
           end
           self.data[:launch_configurations][launch_configuration_name] = {
             'AssociatePublicIpAddress' => nil,
             'BlockDeviceMappings'     => [],
             'CreatedTime'             => Time.now.utc,
+            'EbsOptimized'            => false,
             'IamInstanceProfile'      => nil,
             'ImageId'                 => image_id,
             'InstanceMonitoring'      => {'Enabled' => true},
@@ -106,9 +105,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

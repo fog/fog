@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Libvirt
-
       class Pool < Fog::Model
         attr_reader :xml
 
@@ -79,10 +78,7 @@ module Fog
         def volumes
           service.list_pool_volumes uuid
         end
-
       end
-
     end
   end
-
 end

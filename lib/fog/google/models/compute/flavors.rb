@@ -4,9 +4,7 @@ require 'fog/google/models/compute/flavor'
 module Fog
   module Compute
     class Google
-
       class Flavors < Fog::Collection
-
         model Fog::Compute::Google::Flavor
 
         def all(filters = {})
@@ -27,9 +25,7 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

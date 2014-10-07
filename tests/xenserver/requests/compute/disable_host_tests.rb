@@ -2,7 +2,7 @@ Shindo.tests('Fog::Compute[:xenserver] | disable_host request', ['xenserver']) d
 
   compute = Fog::Compute[:xenserver]
   host = compute.hosts.first
-  
+
   tests('#disable_host') do
     test('disables the host') do
       compute.disable_host host.reference
@@ -11,6 +11,6 @@ Shindo.tests('Fog::Compute[:xenserver] | disable_host request', ['xenserver']) d
     end
   end
 
-  # Cleanup 
+  # Cleanup
   host.enable
 end

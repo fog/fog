@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/describe_db_parameters'
 
         # Describe  parameters from a parameter group
@@ -31,11 +30,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::DescribeDBParameters.new
           }.merge(params))
         end
-
       end
 
       class Mock
-
         def describe_db_parameters(name, opts={})
           Fog::Mock.not_implemented
         end

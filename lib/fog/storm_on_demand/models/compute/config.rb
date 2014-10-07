@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class StormOnDemand
-
       class Config < Fog::Model
         identity :id
 
@@ -32,7 +31,6 @@ module Fog
         def initialize(attributes={})
           super
         end
-
       end
     end
   end

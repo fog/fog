@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/get_bucket_website'
 
         # Get website configuration for an S3 bucket
@@ -33,7 +32,6 @@ module Fog
             :query      => {'website' => nil}
           })
         end
-
       end
     end
   end

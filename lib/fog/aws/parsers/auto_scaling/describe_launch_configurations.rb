@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class DescribeLaunchConfigurations < Fog::Parsers::Base
-
           def reset
             reset_launch_configuration
             reset_block_device_mapping
@@ -92,7 +90,6 @@ module Fog
               @response['DescribeLaunchConfigurationsResult'] = @results
             end
           end
-
         end
       end
     end

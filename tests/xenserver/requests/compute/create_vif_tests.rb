@@ -6,7 +6,7 @@ Shindo.tests('Fog::Compute[:xenserver] | create_vif request', ['xenserver']) do
   (servers.all :name_matches => test_ephemeral_vm_name).each do |s|
     s.destroy
   end
-  
+
   tests('create_vif should') do
     vm_ref = compute.create_server test_ephemeral_vm_name, test_template_name
     ref = compute.create_vif vm_ref, compute.networks.first.reference
@@ -34,7 +34,7 @@ Shindo.tests('Fog::Compute[:xenserver] | create_vif request', ['xenserver']) do
         !(s.vifs.find { |vif| vif.reference == ref }).nil?
     end
   end
-  
+
   tests('create_vif_custom should') do
     vm_ref = compute.create_server test_ephemeral_vm_name, test_template_name
     network_ref = compute.networks.first.reference
@@ -81,7 +81,7 @@ Shindo.tests('Fog::Compute[:xenserver] | create_vif request', ['xenserver']) do
       vif.mac == '11:22:33:44:55:66'
     end
   end
-  
+
   tests('The expected options') do
     raises(ArgumentError, 'raises ArgumentError when vm_ref,net_ref missing') { compute.create_vif }
   end

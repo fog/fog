@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
         #Deletes an Internet gateway from your AWS account. The gateway must not be attached to a VPC
         #

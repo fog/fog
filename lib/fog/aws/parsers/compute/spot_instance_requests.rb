@@ -2,13 +2,11 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class SpotInstanceRequests < Fog::Parsers::Base
-
           def reset
             @block_device_mapping = {}
             @context = []
-            @contexts = ['blockDeviceMapping', 'groupSet', 'iamInstanceProfile']
+            @contexts = ['blockDeviceMapping', 'groupSet', 'iamInstanceProfile', 'networkInterfaceSet']
             @spot_instance_request = { 'launchSpecification' => { 'iamInstanceProfile' => {}, 'blockDeviceMapping' => [], 'groupSet' => [] } }
             @response = { 'spotInstanceRequestSet' => [] }
           end
@@ -36,7 +34,9 @@ module Fog
             when 'deviceName', 'status', 'volumeId'
               @block_device_mapping[name] = value
             when 'groupId'
-              @spot_instance_request['launchSpecification']['groupSet'] << value
+              if !@context.include?('networkInterfaceSet')
+                @spot_instance_request['launchSpecification']['groupSet'] << value
+              end
             when 'arn', 'name'
               @spot_instance_request['launchSpecification']['iamInstanceProfile'][name] = value
             when 'instanceId', 'launchedAvailabilityZone', 'productDescription', 'spotInstanceRequestId', 'state', 'type'
@@ -62,9 +62,7 @@ module Fog
               @spot_instance_request[name] = value.to_f
             end
           end
-
         end
-
       end
     end
   end

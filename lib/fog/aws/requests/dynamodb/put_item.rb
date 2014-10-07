@@ -2,7 +2,6 @@ module Fog
   module AWS
     class DynamoDB
       class Real
-
         # Update DynamoDB item
         #
         # ==== Parameters
@@ -34,7 +33,6 @@ module Fog
             :headers    => {'x-amz-target' => 'DynamoDB_20111205.PutItem'}
           )
         end
-
       end
     end
   end

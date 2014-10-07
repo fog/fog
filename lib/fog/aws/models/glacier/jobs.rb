@@ -4,9 +4,7 @@ require 'fog/aws/models/glacier/job'
 module Fog
   module AWS
     class Glacier
-
       class Jobs < Fog::Collection
-
         model Fog::AWS::Glacier::Job
         attribute :vault
         attribute :filters
@@ -36,10 +34,7 @@ module Fog
           requires :vault
           super({ :vault => vault }.merge!(attributes))
         end
-
-
       end
-
     end
   end
 end

@@ -12,7 +12,7 @@ def valid_ref?(ref)
 end
 
 def create_ephemeral_vm
-  Fog::Compute[:xenserver].servers.create(:name => test_ephemeral_vm_name, 
+  Fog::Compute[:xenserver].servers.create(:name => test_ephemeral_vm_name,
                                           :template_name => test_template_name)
 end
 
@@ -26,7 +26,7 @@ def destroy_ephemeral_servers
   (servers.all :name_matches => test_ephemeral_vm_name).each do |s|
     s.destroy
   end
-  (servers.templates.find_all { |t| t.name == test_ephemeral_vm_name}).each do |s|
+  (servers.templates.select { |t| t.name == test_ephemeral_vm_name}).each do |s|
     s.destroy
   end
 end

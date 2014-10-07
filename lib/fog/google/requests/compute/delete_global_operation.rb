@@ -1,13 +1,10 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def delete_global_operation(operation)
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
@@ -20,8 +17,7 @@ module Fog
             'operation' => operation
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

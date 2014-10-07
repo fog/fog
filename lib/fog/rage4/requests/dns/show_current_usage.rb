@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Shows current usage for a single domain
         # ==== Parameters
         # * id<~Integer> - domain name numeric ID
@@ -15,11 +14,8 @@ module Fog
                   :expects  => 200,
                   :method   => 'GET',
                   :path     => "/rapi/showcurrentusage/#{id}" )
-
         end
-
       end
-
     end
   end
 end

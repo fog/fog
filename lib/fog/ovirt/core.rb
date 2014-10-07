@@ -3,7 +3,6 @@ require 'fog/xml'
 
 module Fog
   module Ovirt
-
     extend Fog::Provider
 
     module Errors
@@ -13,6 +12,5 @@ module Fog
     end
 
     service(:compute, 'Compute')
-
   end
 end

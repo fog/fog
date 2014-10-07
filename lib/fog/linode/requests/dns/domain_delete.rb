@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Linode
       class Real
-
         # Delete the given domain from the list Linode hosts
         #
         # ==== Parameters
@@ -20,7 +19,6 @@ module Fog
             :query    => { :api_action => 'domain.delete', :domainId => domain_id }
           )
         end
-
       end
     end
   end

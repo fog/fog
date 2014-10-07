@@ -3,12 +3,12 @@ require 'fog/openstack/core'
 module Fog
   module Storage
     class OpenStack < Fog::Service
-
       requires   :openstack_auth_url, :openstack_username,
                  :openstack_api_key
       recognizes :persistent, :openstack_service_name,
                  :openstack_service_type, :openstack_tenant,
-                 :openstack_region, :openstack_temp_url_key
+                 :openstack_region, :openstack_temp_url_key,
+                 :openstack_endpoint_type
 
       model_path 'fog/openstack/models/storage'
       model       :directory
@@ -38,7 +38,6 @@ module Fog
       request :post_set_meta_temp_url_key
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
@@ -72,11 +71,9 @@ module Fog
         def reset_account_name
           @path = @original_path
         end
-
       end
 
       class Real
-
         def initialize(options={})
           @openstack_api_key = options[:openstack_api_key]
           @openstack_username = options[:openstack_username]
@@ -84,12 +81,13 @@ module Fog
           @openstack_auth_token = options[:openstack_auth_token]
           @openstack_storage_url = options[:openstack_storage_url]
           @openstack_must_reauthenticate = false
-          @openstack_service_type = options[:openstack_service_type] || 'object-store'
+          @openstack_service_type = options[:openstack_service_type] || ['object-store']
           @openstack_service_name = options[:openstack_service_name]
           @openstack_region       = options[:openstack_region]
           @openstack_tenant       = options[:openstack_tenant]
           @connection_options     = options[:connection_options] || {}
           @openstack_temp_url_key = options[:openstack_temp_url_key]
+          @openstack_endpoint_type = options[:openstack_endpoint_type] || 'publicURL'
           authenticate
           @persistent = options[:persistent] || false
           @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
@@ -189,7 +187,7 @@ module Fog
               :openstack_service_name => @openstack_service_name,
               :openstack_region => @openstack_region,
               :openstack_tenant => @openstack_tenant,
-              :openstack_endpoint_type => 'publicURL'
+              :openstack_endpoint_type => @openstack_endpoint_type
             }
 
             credentials = Fog::OpenStack.authenticate(options, @connection_options)
@@ -213,7 +211,6 @@ module Fog
           @scheme = uri.scheme
           true
         end
-
       end
     end
   end

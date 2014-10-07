@@ -2,10 +2,9 @@ module Fog
   module Compute
     class Ecloud
       module Shared
-
         def validate_import_server_options(template_uri, options)
           required_opts = [:name, :cpus, :memory, :row, :group, :network_uri, :catalog_network_name]
-          unless required_opts.all? { |opt| options.has_key?(opt) }
+          unless required_opts.all? { |opt| options.key?(opt) }
             raise ArgumentError.new("Required data missing: #{(required_opts - options.keys).map(&:inspect).join(", ")}")
           end
 
@@ -48,7 +47,6 @@ module Fog
       end
 
       class Real
-
         def virtual_machine_import(template_uri, options)
           options = validate_import_server_options(template_uri, options)
 

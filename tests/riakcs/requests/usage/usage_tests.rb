@@ -1,17 +1,17 @@
 Shindo.tests('RiakCS::Usage | usage requests', ['riakcs']) do
 
   @blank_usage_format = {
-    'Access' => { 
+    'Access' => {
       'Nodes'   => [],
-      'Errors'  => [] 
+      'Errors'  => []
     },
-    'Storage' => { 
+    'Storage' => {
       'Samples' => [],
-      'Errors'  => [] 
+      'Errors'  => []
     }
   }
 
-  tests('Statistics retrieval with no data returned') do 
+  tests('Statistics retrieval with no data returned') do
 
     start_time = Time.now.utc + 86400
     end_time   = start_time   + 86400

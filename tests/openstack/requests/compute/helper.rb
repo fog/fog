@@ -1,19 +1,13 @@
 class OpenStack
-
   module Compute
-
     module Formats
-
       SUMMARY = {
         'id'    => String,
         'name'  => String,
         'links'  => Array
       }
-
     end
-
   end
-
 end
 
 def get_flavor_ref

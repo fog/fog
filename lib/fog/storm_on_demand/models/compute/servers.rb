@@ -4,9 +4,7 @@ require 'fog/storm_on_demand/models/compute/server'
 module Fog
   module Compute
     class StormOnDemand
-
       class Servers < Fog::Collection
-
         model Fog::Compute::StormOnDemand::Server
 
         def all(options={})
@@ -23,9 +21,7 @@ module Fog
           server = service.create_server(options).body
           new(server)
         end
-
       end
-
     end
   end
 end

@@ -5,9 +5,7 @@ require 'fog/internet_archive/models/storage/ia_attributes.rb'
 module Fog
   module Storage
     class InternetArchive
-
       class Directory < Fog::Model
-
         extend Fog::Storage::IAAttributes::ClassMethods
         include Fog::Storage::IAAttributes::InstanceMethods
 
@@ -101,9 +99,7 @@ module Fog
           data = service.get_bucket_location(key)
           data.body['LocationConstraint']
         end
-
       end
-
     end
   end
 end

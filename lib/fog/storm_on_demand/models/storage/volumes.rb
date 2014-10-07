@@ -4,7 +4,6 @@ require 'fog/storm_on_demand/models/storage/volume'
 module Fog
   module Storage
     class StormOnDemand
-
       class Volumes < Fog::Collection
         model Fog::Storage::StormOnDemand::Volume
 
@@ -22,9 +21,7 @@ module Fog
           vols = service.list_volumes(options).body['items']
           load(vols)
         end
-
       end
-
     end
   end
 end

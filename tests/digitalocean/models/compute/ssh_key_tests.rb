@@ -41,4 +41,3 @@ Shindo.tests("Fog::Compute[:digitalocean] | ssh_key model", ['digitalocean', 'co
   end
 
 end
-

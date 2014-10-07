@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Get the list of records for the specific domain.
         #
         # ==== Parameters
@@ -23,9 +22,7 @@ module Fog
                    :method   => "GET",
                    :path     => "/rapi/getrecords/#{id}" )
         end
-
       end
-
     end
   end
 end

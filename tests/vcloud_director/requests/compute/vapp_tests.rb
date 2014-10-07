@@ -15,29 +15,58 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
           @vapp_id = v[:href].split('/').last
 
           #tests("#get_vapp(#{@vapp_id})").data_matches_schema(VcloudDirector::Compute::Schema::VAPP_TYPE) do
-          tests("#get_vapp(#{@vapp_id})").returns(Hash) do
-            pending if Fog.mocking?
+          tests("#get_vapp(#{@vapp_id}).body").returns(Hash) do
             @service.get_vapp(@vapp_id).body.class
           end
 
+          tests("#get_vapp(#{@vapp_id}).body[:name]").returns(String) do
+            @service.get_vapp(@vapp_id).body[:name].class
+          end
+
+          tests("#get_vapp(#{@vapp_id}).body[:href]").returns(v[:href]) do
+            @service.get_vapp(@vapp_id).body[:href]
+          end
+
           tests("#get_lease_settings_section_vapp(#{@vapp_id})").returns(Hash) do
-            pending if Fog.mocking?
             @service.get_lease_settings_section_vapp(@vapp_id).body.class
           end
+
+          tests("#get_lease_settings_section_vapp(#{@vapp_id}).body[:DeploymentLeaseInSeconds] is >= 0").returns(true) do
+            Integer(@service.get_lease_settings_section_vapp(@vapp_id).body[:DeploymentLeaseInSeconds]) >= 0
+          end
+
+          tests("#get_vapp(#{@vapp_id}).body[:LeaseSettingsSection[:DeploymentLeaseInSeconds] is >= 0").returns(true) do
+            Integer(@service.get_vapp(@vapp_id).body[:LeaseSettingsSection][:DeploymentLeaseInSeconds]) >= 0
+          end
+
+          tests("#get_vapp(#{@vapp_id}).body[:NetworkConfigSection]").returns(Hash) do
+            @service.get_vapp(@vapp_id).body[:NetworkConfigSection].class
+          end
+
           tests("#get_network_config_section_vapp(#{@vapp_id})").returns(Hash) do
-            pending if Fog.mocking?
             @service.get_network_config_section_vapp(@vapp_id).body.class
           end
+
           tests("#get_network_section_vapp(#{@vapp_id})").returns(Hash) do
             pending if Fog.mocking?
             @service.get_network_section_vapp(@vapp_id).body.class
           end
+
           tests("#get_product_sections_vapp(#{@vapp_id})").returns(Hash) do
             pending if Fog.mocking?
             @service.get_product_sections_vapp(@vapp_id).body.class
           end
-          tests("#get_startup_section(#{@vapp_id})").returns(Hash) do
+
+          tests("#get_vapp(#{@vapp_id}).body[:'ovf:StartupSection']").returns(Hash) do
+            @service.get_vapp(@vapp_id).body[:"ovf:StartupSection"].class
+          end
+
+          tests("#put_product_sections(#{@vapp_id})").returns(Hash) do
             pending if Fog.mocking?
+            @service.put_product_sections(@vapp_id, ["a" => "1"]).body.class
+          end
+
+          tests("#get_startup_section(#{@vapp_id})").returns(Hash) do
             @service.get_startup_section(@vapp_id).body.class
           end
 
@@ -47,14 +76,18 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
           end
 
           tests("#get_vapp_owner(#{@vapp_id})").data_matches_schema(VcloudDirector::Compute::Schema::OWNER_TYPE) do
-            pending if Fog.mocking?
             @service.get_vapp_owner(@vapp_id).body
+          end
+
+          tests("#get_vapp(#{@vapp_id}).body[:Owner]").data_matches_schema(VcloudDirector::Compute::Schema::OWNER_TYPE) do
+            @service.get_vapp(@vapp_id).body[:Owner]
           end
 
           tests("#get_control_access_params_vapp(#{@vapp_id})").data_matches_schema(VcloudDirector::Compute::Schema::CONTROL_ACCESS_PARAMS_TYPE) do
             pending if Fog.mocking?
             @service.get_control_access_params_vapp(@vapp_id).body
           end
+
         end
       end
     end
@@ -79,7 +112,6 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
   end
 
   tests('Retrieve owner of non-existent vApp').raises(Fog::Compute::VcloudDirector::Forbidden) do
-    pending if Fog.mocking?
     @service.get_vapp_owner('00000000-0000-0000-0000-000000000000')
   end
 

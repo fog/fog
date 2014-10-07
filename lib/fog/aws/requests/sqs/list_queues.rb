@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SQS
       class Real
-
         require 'fog/aws/parsers/sqs/list_queues'
 
         # List queues

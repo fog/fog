@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def set_server_scheduling(identity, zone, on_host_maintenance, automatic_restart)
           Fog::Mock.not_implemented
@@ -22,11 +21,9 @@ module Fog
             'automaticRestart'  => automatic_restart,
           }
 
-          result = self.build_result(api_method, parameters, body_object)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object)
         end
       end
-
     end
   end
 end

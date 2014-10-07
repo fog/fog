@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Get torrent for an S3 object
         #
         # @param bucket_name [String] name of bucket containing object
@@ -40,7 +39,6 @@ module Fog
             :query      => {'torrent' => nil}
           })
         end
-
       end
     end
   end

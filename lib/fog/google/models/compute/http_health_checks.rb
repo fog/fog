@@ -4,9 +4,7 @@ require 'fog/google/models/compute/http_health_check'
 module Fog
   module Compute
     class Google
-
       class HttpHealthChecks < Fog::Collection
-
         model Fog::Compute::Google::HttpHealthCheck
 
         def all(filters={})
@@ -15,12 +13,14 @@ module Fog
         end
 
         def get(identity)
+          resonse = nil
           response = service.get_http_health_check(identity)
-          new(response.body) unless response.nil?
+          return nil if response.nil?
+          new(response.body)
+        rescue Fog::Errors::NotFound
+          nil
         end
-
       end
-
     end
   end
 end

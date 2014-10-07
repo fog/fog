@@ -4,11 +4,9 @@ module Fog
   module Compute
     class RackspaceV2
       class Flavor < Fog::Model
-
         # @!attribute [r] id
         # @return [String] The flavor id
         identity :id
-
 
         # @!attribute [r] name
         # @return [String] flavor name

@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def delete_agent_token(token_id)
           request(
             :expects  => [204],
@@ -14,7 +13,6 @@ module Fog
 
       class Mock
         def delete_agent_token(options = {})
-
           account_id = Fog::Mock.random_numbers(6).to_s
           token = Fog::Mock.random_letters(50).to_s
 
@@ -42,8 +40,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end
-

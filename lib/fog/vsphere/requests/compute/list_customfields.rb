@@ -11,7 +11,6 @@ module Fog
             }
           end
         end
-
       end
       class Mock
         def list_vm_customfields()

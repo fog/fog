@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         require 'fog/internet_archive/requests/storage/acl_utils'
 
         # Change access control list for an S3 object
@@ -69,7 +68,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

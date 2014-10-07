@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get details of a vapp template
         #
         # ==== Parameters
@@ -28,7 +27,6 @@ module Fog
             :path     => "vAppTemplate/#{vapp_template_id}"
           )
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class BlockStorage
       class Real
-
         # Create volume
         #
         # @param [Integer] size size of volume in GB. Minimum size is 100
@@ -11,6 +10,8 @@ module Fog
         # @option options [String] :display_description display description for volume
         # @option options [String] :volume_type type of volume
         # @option options [String] :snapshot_id The optional snapshot from which to create a volume.
+        # @option options [String] :image_id The ID of an image from the compute service. If provided, a bootable volume will be
+        #    created.
         # @return [Excon::Response] response:
         #   * body [Hash]:
         #     * 'volume' [Hash]:
@@ -42,6 +43,7 @@ module Fog
           data['volume']['volume_type'] = options[:volume_type] unless options[:volume_type].nil?
           data['volume']['availability_zone'] = options[:availability_zone] unless options[:availability_zone].nil?
           data['volume']['snapshot_id'] = options[:snapshot_id] unless options[:snapshot_id].nil?
+          data['volume']['imageRef'] = options[:image_id] unless options[:image_id].nil?
 
           request(
             :body => Fog::JSON.encode(data),
@@ -81,6 +83,7 @@ module Fog
               snapshot = self.data[:snapshots][snapshot_id]
               volume.merge!("size" => snapshot["size"])
             end
+            volume["image_id"] = options[:image_id] if options[:image_id]
 
             self.data[:volumes][volume_id] = volume
 

@@ -2,9 +2,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class ELB
-
       class LoadBalancer < Fog::Model
-
         identity  :id,                    :aliases => 'LoadBalancerName'
         attribute :availability_zones,    :aliases => 'AvailabilityZones'
         attribute :created_at,            :aliases => 'CreatedTime'
@@ -33,6 +31,23 @@ module Fog
             }]
           end
           super
+        end
+
+        def connection_draining?
+          requires :id
+          service.describe_load_balancer_attributes(id).body['DescribeLoadBalancerAttributesResult']['LoadBalancerAttributes']['ConnectionDraining']['Enabled']
+        end
+
+        def connection_draining_timeout
+          requires :id
+          service.describe_load_balancer_attributes(id).body['DescribeLoadBalancerAttributesResult']['LoadBalancerAttributes']['ConnectionDraining']['Timeout']
+        end
+
+        def set_connection_draining(enabled, timeout=nil)
+          requires :id
+          attrs = {'Enabled' => enabled}
+          attrs['Timeout'] = timeout if timeout
+          service.modify_load_balancer_attributes(id, 'ConnectionDraining' => attrs)
         end
 
         def cross_zone_load_balancing?
@@ -189,7 +204,6 @@ module Fog
           requires :id
           service.delete_load_balancer(id)
         end
-
       end
     end
   end

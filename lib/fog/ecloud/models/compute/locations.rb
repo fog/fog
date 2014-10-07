@@ -3,9 +3,7 @@ require 'fog/ecloud/models/compute/location'
 module Fog
   module Compute
     class Ecloud
-
       class Locations < Fog::Ecloud::Collection
-
         model Fog::Compute::Ecloud::Location
 
         undef_method :create
@@ -24,7 +22,6 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
     end
   end

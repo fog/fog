@@ -9,7 +9,7 @@ Shindo.tests('Fog::Compute[:xenserver] | Pool model', ['xenserver']) do
     end
     tests('have attributes') do
       model_attribute_hash = pool.attributes
-      attributes = [ 
+      attributes = [
         :reference,
         :uuid,
         :name,
@@ -29,7 +29,7 @@ Shindo.tests('Fog::Compute[:xenserver] | Pool model', ['xenserver']) do
       end
       tests("The attributes hash should have key") do
         attributes.each do |attribute|
-          test("#{attribute}") { model_attribute_hash.has_key? attribute }
+          test("#{attribute}") { model_attribute_hash.key? attribute }
         end
       end
     end

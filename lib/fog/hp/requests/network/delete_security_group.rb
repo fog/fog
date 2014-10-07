@@ -2,7 +2,6 @@ module Fog
   module HP
     class Network
       class Real
-
         # Delete a security group
         #
         # ==== Parameters
@@ -14,11 +13,9 @@ module Fog
             :path     => "security-groups/#{security_group_id}"
           )
         end
-
       end
 
       class Mock
-
         def delete_security_group(security_group_id)
           response = Excon::Response.new
           if self.data[:security_groups][security_group_id]
@@ -29,7 +26,6 @@ module Fog
             raise Fog::HP::Network::NotFound
           end
         end
-
       end
     end
   end

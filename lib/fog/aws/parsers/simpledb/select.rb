@@ -4,9 +4,7 @@ module Fog
   module Parsers
     module AWS
       module SimpleDB
-
         class Select < Fog::Parsers::AWS::SimpleDB::Basic
-
           def reset
             @item_name = @attribute_name = nil
             @response = { 'Items' => {} }
@@ -32,9 +30,7 @@ module Fog
               response['Items'][@item_name][@attribute_name] << sdb_decode(value)
             end
           end
-
         end
-
       end
     end
   end

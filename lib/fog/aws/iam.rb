@@ -25,6 +25,7 @@ module Fog
       request :create_role
       request :create_user
       request :delete_access_key
+      request :delete_account_password_policy      
       request :delete_account_alias
       request :delete_group
       request :delete_group_policy
@@ -37,6 +38,7 @@ module Fog
       request :delete_user
       request :delete_user_policy
       request :get_account_summary
+      request :get_account_password_policy
       request :get_group
       request :get_group_policy
       request :get_instance_profile
@@ -68,6 +70,7 @@ module Fog
       request :update_access_key
       request :update_group
       request :update_login_profile
+      request :update_account_password_policy
       request :update_server_certificate
       request :update_signing_certificate
       request :update_user
@@ -83,7 +86,6 @@ module Fog
       collection  :access_keys
       model       :role
       collection  :roles
-
 
       class Mock
         def self.data
@@ -249,7 +251,6 @@ module Fog
                   Fog::AWS::IAM::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                 end
         end
-
       end
     end
   end

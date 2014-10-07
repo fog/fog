@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Rackspace
       class Real
-
         # Confirm resizing
         #
         # ==== Parameters
@@ -12,11 +11,9 @@ module Fog
           body = { 'confirmResize' => nil }
           server_action(server_id, body, 204)
         end
-
       end
 
       class Mock
-
         def confirm_resized_server(server_id)
           response = Excon::Response.new
           response.status = 204
@@ -27,7 +24,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

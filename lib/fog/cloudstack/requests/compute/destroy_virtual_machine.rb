@@ -1,23 +1,25 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Updates account information for the authenticated user.
+        # Destroys a virtual machine. Once destroyed, only the administrator can recover it.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/destroyVirtualMachine.html]
-        def destroy_virtual_machine(options={})
-          options.merge!(
-            'command' => 'destroyVirtualMachine'
-          )
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/destroyVirtualMachine.html]
+        def destroy_virtual_machine(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'destroyVirtualMachine') 
+          else
+            options.merge!('command' => 'destroyVirtualMachine', 
+            'id' => args[0])
+          end
           request(options)
         end
-
-      end # Real
-
+      end
+ 
       class Mock
-
         def destroy_virtual_machine(options={})
           identity = options["id"]
 
@@ -45,7 +47,8 @@ module Fog
 
           {"destroyvirtualmachineresponse" => {"jobid" => job_id}}
         end
-      end
-    end # Cloudstack
-  end # Compute
-end # Fog
+      end 
+    end
+  end
+end
+

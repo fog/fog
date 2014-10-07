@@ -3,7 +3,6 @@ require 'fog/hp/core'
 module Fog
   module HP
     class DNS < Fog::Service
-
       requires   :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
       recognizes :hp_auth_uri, :credentials, :hp_service_type
       recognizes :persistent, :connection_options
@@ -31,7 +30,6 @@ module Fog
       request :update_record
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -56,7 +54,6 @@ module Fog
         def reset_data
           self.class.data.delete(@hp_access_key)
         end
-
       end
 
       class Real
@@ -70,7 +67,7 @@ module Fog
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version        = options[:hp_auth_version] || :v2
           ### Pass the service name for object storage to the authentication call
-          options[:hp_service_type] ||= "DNS"
+          options[:hp_service_type] ||= "hpext:dns"
           @hp_tenant_id       = options[:hp_tenant_id]
           @hp_avl_zone        = options[:hp_avl_zone]
 
@@ -127,9 +124,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

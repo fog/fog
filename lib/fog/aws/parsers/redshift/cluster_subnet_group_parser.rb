@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Redshift
       module AWS
-
         class ClusterSubnetGroupParser < Fog::Parsers::Base
           # :cluster_subnet_group_name - (String)
           # :description - (String)

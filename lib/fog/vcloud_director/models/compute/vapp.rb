@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class VcloudDirector
-
       class Vapp < Model
-
         identity  :id
 
         attribute :name
@@ -28,6 +26,11 @@ module Fog
         def tags
           requires :id
           service.tags(:vm => self)
+        end
+
+        def custom_fields
+          requires :id
+          service.custom_fields( :vapp => self)
         end
 
         # @param [String] action The specified action is applied to all virtual
@@ -135,7 +138,6 @@ module Fog
           end
           service.process_task(response.body)
         end
-
       end
     end
   end

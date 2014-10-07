@@ -5,18 +5,18 @@ module Excon
 
       def instrument(name, params = {}, &block)
         params = params.dup
-        if params.has_key?(:headers) && params[:headers].has_key?('Authorization')
+        if params.key?(:headers) && params[:headers].key?('Authorization')
           params[:headers] = params[:headers].dup
           params[:headers]['Authorization'] = REDACTED
         end
-        if params.has_key?(:password)
+        if params.key?(:password)
           params[:password] = REDACTED
         end
         $stderr.puts("--- #{name} ---")
         if name.include?('.request')
           query = ''
           tmp_query = ''
-          if params.has_key?(:query) && !params[:query].nil?
+          if params.key?(:query) && !params[:query].nil?
             params[:query].each do |key, value|
               tmp_query += "#{key}=#{value}&"
             end
@@ -53,7 +53,6 @@ module Excon
           yield
         end
       end
-
     end
   end
 end

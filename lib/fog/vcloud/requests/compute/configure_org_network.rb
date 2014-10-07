@@ -3,7 +3,6 @@ module Fog
   module Vcloud
     class Compute
       class Real
-
         def generate_outbound_rule()
           outbound_rule = <<EOF
             <ns0:FirewallRule>
@@ -23,6 +22,7 @@ module Fog
 EOF
         outbound_rule
         end
+
         def generate_tcp_rules(tcp_ports)
           firewall_rules = ""
           tcp_ports.each do |port|
@@ -70,7 +70,6 @@ EOF
         end
 
         def generate_configure_org_network_request(vapp_id, vapp_network, vapp_network_uri, org_network, org_network_uri, enable_firewall=false, portmap=nil)
-
           firewall_body = ""
           if not enable_firewall
             firewall_body = "<ns0:IsEnabled>false</ns0:IsEnabled>"
@@ -138,4 +137,3 @@ EOF
     end
   end
 end
-

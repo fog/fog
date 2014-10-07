@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Change website configuration for an S3 bucket
         #
         # @param bucket_name [String] name of bucket to modify
@@ -40,11 +39,9 @@ DATA
             :query    => {'website' => nil}
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def put_bucket_website(bucket_name, suffix, options = {})
           response = Excon::Response.new
           if self.data[:buckets][bucket_name]
@@ -56,9 +53,7 @@ DATA
 
           response
         end
-
       end
-
     end
   end
 end

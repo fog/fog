@@ -1,9 +1,7 @@
 module Fog
   module Storage
     class Rackspace
-
       class Real
-
         # Create a new static large object manifest.
         #
         # A static large object is similar to a dynamic large object. Whereas a GET for a dynamic large object manifest
@@ -52,7 +50,6 @@ module Fog
             :query    => { 'multipart-manifest' => 'put' }
           )
         end
-
       end
 
       class Mock
@@ -100,9 +97,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end
-
-

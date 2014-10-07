@@ -4,9 +4,7 @@ require 'fog/digitalocean/models/compute/server'
 module Fog
   module Compute
     class DigitalOcean
-
       class Servers < Fog::Collection
-
         model Fog::Compute::DigitalOcean::Server
 
         def all(filters = {})
@@ -21,7 +19,7 @@ module Fog
 
           credential = Fog.respond_to?(:credential) && Fog.credential || :default
           name       = "fog_#{credential}"
-          ssh_key    = service.ssh_keys.detect { |key| key.name == name }
+          ssh_key    = service.ssh_keys.find { |key| key.name == name }
           if ssh_key.nil?
             ssh_key = service.ssh_keys.create(
               :name        => name,
@@ -61,9 +59,7 @@ module Fog
             raise ArgumentError, "either #{name}_key or #{name}_key_path is required to configure the server"
           end
         end
-
       end
-
     end
   end
 end

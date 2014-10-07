@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module CloudWatch
-
         class DescribeAlarms < Fog::Parsers::Base
-
           def reset
             @response = { 'DescribeAlarmsResult' => {'MetricAlarms' => []}, 'ResponseMetadata' => {} }
             reset_metric_alarms
@@ -20,7 +18,7 @@ module Fog
 
           def start_element(name, attrs = [])
             super
-            case name  
+            case name
             when 'Dimensions'
               @in_dimensions = true
             when 'member'
@@ -55,7 +53,7 @@ module Fog
               @response['ResponseMetadata'][name] = value
             when 'member'
               if !@in_dimensions
-                if @metric_alarms.has_key?('AlarmName')
+                if @metric_alarms.key?('AlarmName')
                   @response['DescribeAlarmsResult']['MetricAlarms']  << @metric_alarms
                   reset_metric_alarms
                 elsif @response['DescribeAlarmsResult']['MetricAlarms'].last != nil

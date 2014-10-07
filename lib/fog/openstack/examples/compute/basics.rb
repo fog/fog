@@ -32,30 +32,8 @@ floating_ips.each do |address|
 end
 vm.destroy
 
-# Power operations helper
-
-# vm.start / vm.stop / vm.pause should work after this
-class Server < Fog::Compute::Server
-  def start
-    if state.downcase == 'paused'
-      service.unpause_server(id) # resumes from frozen VM state
-    else
-      service.resume_server(id)  # resumes from hibernation
-    end
-  end
-
-  def stop
-    service.suspend_server(id) # hibernates the VM at hypervisor-level
-  end
-
-  def pause
-    service.pause_server(id)   # stores VM state in RAM
-  end
-end
-
 # Images available at tenant
 image_names = compute_client.images.map { |image| image['name'] }
-
 
 # Floating IP address pools available at tenant
 compute_client.addresses.get_address_pools
@@ -68,7 +46,3 @@ vm.console.body # returns VNC url
 #                "url"  => "http://vmvncserver:6080/vnc_auto.html?token=231",
 #                "type" => "novnc"
 #              }
-
-
-
-

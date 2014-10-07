@@ -1,21 +1,24 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Creates a new SSH key pair..
+        # Create a new keypair and returns the private key
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/createSSHKeyPair.html]
-        def create_ssh_key_pair(name,options={})
-          options.merge!(
-            'command' => 'createSSHKeyPair',
-            'name' => name
-          )
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/createSSHKeyPair.html]
+        def create_ssh_key_pair(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'createSSHKeyPair') 
+          else
+            options.merge!('command' => 'createSSHKeyPair', 
+            'name' => args[0])
+          end
           request(options)
         end
-
       end
+
     end
   end
 end

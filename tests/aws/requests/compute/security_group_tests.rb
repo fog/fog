@@ -1,4 +1,7 @@
 Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
+  # See https://github.com/fog/fog/issues/2932hj0
+  pending
+
   @create_security_group_format = {
     'requestId' => String,
     'groupId'   => String,

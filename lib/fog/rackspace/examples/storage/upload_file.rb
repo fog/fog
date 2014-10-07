@@ -42,4 +42,3 @@ file = directory.files.create :key => 'sample.txt', :body => File.open(upload_fi
 
 puts "You should be able to view this file via CDN at #{file.public_url}"
 puts "To delete the container and associated file please execute the delete_directory.rb script\n\n"
-

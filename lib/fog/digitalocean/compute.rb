@@ -3,7 +3,6 @@ require 'fog/digitalocean/core'
 module Fog
   module Compute
     class DigitalOcean < Fog::Service
-
       requires     :digitalocean_api_key
       requires     :digitalocean_client_id
 
@@ -42,7 +41,6 @@ module Fog
       # request :digitalocean_resize
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -67,11 +65,9 @@ module Fog
         def reset_data
           self.class.data.delete(@digitalocean_api_key)
         end
-
       end
 
       class Real
-
         def initialize(options={})
           @digitalocean_api_key   = options[:digitalocean_api_key]
           @digitalocean_client_id = options[:digitalocean_client_id]
@@ -114,7 +110,7 @@ module Fog
 
         def retry_event_lock
           count   = 0
-          reponse = nil
+          response = nil
           while count < 5
             response = yield
 
@@ -128,7 +124,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

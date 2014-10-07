@@ -44,7 +44,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :instrumentor, :instrumentor_name
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -85,6 +85,7 @@ module Fog
       request :get_object_url
       request :get_request_payment
       request :get_service
+      request :head_bucket
       request :head_object
       request :initiate_multipart_upload
       request :list_multipart_uploads
@@ -108,7 +109,6 @@ module Fog
       request :upload_part
 
       module Utils
-
         attr_accessor :region
 
         def cdn
@@ -260,7 +260,6 @@ module Fog
             :query  => query,
           }).to_s
         end
-
       end
 
       class Mock
@@ -385,7 +384,6 @@ module Fog
           @aws_session_token     = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
         end
-
       end
 
       class Real
@@ -414,6 +412,8 @@ module Fog
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
+          @instrumentor       = options[:instrumentor]
+          @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.storage'
           @connection_options     = options[:connection_options] || {}
           @persistent = options.fetch(:persistent, false)
 
@@ -458,7 +458,6 @@ DATA
             canonical_amz_headers << "#{key}:#{value}\n"
           end
           string_to_sign << canonical_amz_headers
-
 
           query_string = ''
           if params[:query]
@@ -535,16 +534,22 @@ DATA
           # FIXME: ToHashParser should make this not needed
           original_params = params.dup
 
-          begin
-            response = connection(scheme, host, port).request(params, &block)
-          rescue Excon::Errors::TemporaryRedirect => error
-            headers = (error.response.is_a?(Hash) ? error.response[:headers] : error.response.headers)
-            uri = URI.parse(headers['Location'])
-            Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
-            response = Fog::XML::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request(original_params, &block)
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(scheme, host, port, params, original_params, &block)
+            end
+          else
+              _request(scheme, host, port, params, original_params, &block)
           end
+        end
 
-          response
+        def _request(scheme, host, port, params, original_params, &block)
+          connection(scheme, host, port).request(params, &block)
+        rescue Excon::Errors::TemporaryRedirect => error
+          headers = (error.response.is_a?(Hash) ? error.response[:headers] : error.response.headers)
+          uri = URI.parse(headers['Location'])
+          Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
+          Fog::XML::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request(original_params, &block)
         end
       end
     end

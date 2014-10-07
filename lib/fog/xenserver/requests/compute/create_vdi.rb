@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class XenServer
-
       class Real
-
         def create_vdi( config )
           raise ArgumentError.new('Invalid config') if config.nil?
           raise ArgumentError.new('Missing virtual_size attribute') if config[:virtual_size].nil?
@@ -21,13 +19,10 @@ module Fog
       end
 
       class Mock
-
         def create_vdi( ref )
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

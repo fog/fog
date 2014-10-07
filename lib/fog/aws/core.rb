@@ -69,7 +69,7 @@ module Fog
 
     def self.indexed_request_param(name, values)
       idx = -1
-      Array(values).inject({}) do |params, value|
+      Array(values).reduce({}) do |params, value|
         params["#{name}.#{idx += 1}"] = value
         params
       end
@@ -121,7 +121,6 @@ module Fog
     end
 
     class Mock
-
       def self.arn(vendor, account_id, path, region = nil)
         "arn:aws:#{vendor}:#{region}:#{account_id}:#{path}"
       end
@@ -219,10 +218,10 @@ module Fog
         request_id.join('-')
       end
       class << self
-        alias :reserved_instances_id :request_id
-        alias :reserved_instances_offering_id :request_id
-        alias :sqs_message_id :request_id
-        alias :sqs_sender_id :request_id
+        alias_method :reserved_instances_id, :request_id
+        alias_method :reserved_instances_offering_id, :request_id
+        alias_method :sqs_message_id, :request_id
+        alias_method :sqs_sender_id, :request_id
       end
 
       def self.reservation_id

@@ -4,9 +4,7 @@ require 'fog/xenserver/models/compute/pool'
 module Fog
   module Compute
     class XenServer
-
       class Pools < Fog::Collection
-
         model Fog::Compute::XenServer::Pool
 
         def initialize(attributes)
@@ -25,9 +23,7 @@ module Fog
             nil
           end
         end
-
       end
-
     end
   end
 end

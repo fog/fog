@@ -39,7 +39,7 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
     'requestId'             => String,
     'imageId'               => String
   }
-  
+
   @image_copy_result = {
     'requestId'   => String,
     'imageId'  => String
@@ -73,7 +73,7 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
       Fog::Compute[:aws].images.get(create_image_response.body['imageId']) != nil
       end
       @server.destroy
-      
+
       tests("#copy_image (#{@image_id}, 'eu-west-1')").formats(@image_copy_result) do
         data = Fog::Compute.new(:provider => :aws, :region => "us-west-1", :version => "2013-02-01").copy_image(@image_id, "eu-east-1").body
         @eu_image_id = data['imageId']
@@ -133,7 +133,7 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
         Fog::Compute[:aws].describe_images('Owner' => @other_image['imageOwnerAlias'], 'image-id' => @image_id).body
       end
     end
-    
+
     #NOTE: waiting for the image to complete can sometimes take up to 1 hour
     # for quicker tests: uncomment the rest of this block
     #Fog.wait_for { Fog::Compute.new(:provider => :aws, :region => "us-west-1").snapshots.get(@eu_image_id) }
@@ -141,7 +141,7 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
     #tests("#delete_snapshots(#{@eu_image_id})").formats(AWS::Compute::Formats::BASIC) do
     #  Fog::Compute.new(:provider => :aws, :region => "us-west-1").delete_snapshot(@eu_image_id).body
     #end
-    
+
   end
 
   tests('failure') do

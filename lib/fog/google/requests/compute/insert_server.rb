@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         include Shared
 
@@ -25,14 +24,12 @@ module Fog
         end
 
         def insert_server(server_name, zone_name, options={}, *deprecated_args)
-
           # check that zone exists
           get_zone(zone_name)
 
           if options['disks'].nil? or options['disks'].empty?
             raise ArgumentError.new "Empty value for field 'disks'. Boot disk must be specified"
           end
-
           id = Fog::Mock.random_numbers(19).to_s
           self.data[:servers][server_name] = {
             "kind" => "compute#instance",
@@ -90,9 +87,8 @@ module Fog
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/#{operation}"
           }
 
-          build_response(:body => self.data[:operations][operation])
+          build_excon_response(self.data[:operations][operation])
         end
-
       end
 
       class Real
@@ -131,23 +127,25 @@ module Fog
 
           body_object['machineType'] = @api_url + @project + "/zones/#{zone_name}/machineTypes/#{options.delete 'machineType'}"
           network = nil
-          if options.has_key? 'network'
+          if options.key? 'network'
             network = options.delete 'network'
-          elsif @default_network
-            network = @default_network
+          else
+            network = GOOGLE_COMPUTE_DEFAULT_NETWORK
           end
 
           # ExternalIP is default value for server creation
           access_config = {'type' => 'ONE_TO_ONE_NAT', 'name' => 'External NAT'}
           # leave natIP undefined to use an IP from a shared ephemeral IP address pool
-          if options.has_key? 'externalIp'
+          if options.key? 'externalIp'
             access_config['natIP'] = options.delete 'externalIp'
+            # If set to 'false', that would mean user does no want to allocate an external IP
+            access_config = nil if access_config['natIP'] == false
           end
 
           networkInterfaces = []
           if ! network.nil?
             networkInterface = { 'network' => @api_url + @project + "/global/networks/#{network}" }
-            networkInterface['accessConfigs'] = [access_config]
+            networkInterface['accessConfigs'] = [access_config] if access_config
             networkInterfaces <<  networkInterface
           end
 
@@ -155,16 +153,21 @@ module Fog
             'automaticRestart' => false,
             'onHostMaintenance' => "MIGRATE"
           }
-          if options.has_key? 'auto_restart'
+          if options.key? 'auto_restart'
             scheduling['automaticRestart'] = options.delete 'auto_restart'
             scheduling['automaticRestart'] = scheduling['automaticRestart'].class == TrueClass
           end
-          if options.has_key? 'on_host_maintenance'
+          if options.key? 'on_host_maintenance'
             ohm = options.delete 'on_host_maintenance'
             scheduling['onHostMaintenance'] = (ohm.respond_to?("upcase") &&
                     ohm.upcase == "MIGRATE" && "MIGRATE") || "TERMINATE"
           end
           body_object['scheduling'] = scheduling
+
+          # @see https://developers.google.com/compute/docs/networking#canipforward
+          if options.key? 'can_ip_forward'
+            body_object['canIpForward'] = options.delete 'can_ip_forward'
+          end
 
           # TODO: add other networks
           body_object['networkInterfaces'] = networkInterfaces
@@ -180,9 +183,7 @@ module Fog
 
           body_object.merge!(options) # Adds in all remaining options that weren't explicitly handled.
 
-          result = self.build_result(api_method, parameters,
-                                     body_object=body_object)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object=body_object)
         end
       end
     end

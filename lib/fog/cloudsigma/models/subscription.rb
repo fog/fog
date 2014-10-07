@@ -46,7 +46,6 @@ module Fog
 
           self.class.new(response.body)
         end
-
       end
     end
   end

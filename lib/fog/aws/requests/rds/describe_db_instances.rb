@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/describe_db_instances'
 
         # Describe all or specified load db instances
@@ -27,11 +26,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::DescribeDBInstances.new
           }.merge(params))
         end
-
       end
 
       class Mock
-
         def describe_db_instances(identifier=nil, opts={})
           response = Excon::Response.new
           server_set = []
@@ -86,8 +83,6 @@ module Fog
           }
           response
         end
-
-
       end
     end
   end

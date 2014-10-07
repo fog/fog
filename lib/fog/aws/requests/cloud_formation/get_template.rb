@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudFormation
       class Real
-
         require 'fog/aws/parsers/cloud_formation/get_template'
 
         # Describe stacks.
@@ -22,7 +21,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::CloudFormation::GetTemplate.new
           )
         end
-
       end
     end
   end

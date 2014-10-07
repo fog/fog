@@ -31,7 +31,6 @@ module Fog
           data = service.describe_auto_scaling_groups('AutoScalingGroupNames' => identity).body['DescribeAutoScalingGroupsResult']['AutoScalingGroups'].first
           new(data) unless data.nil?
         end
-
       end
     end
   end

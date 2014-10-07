@@ -34,14 +34,12 @@ def select_group(groups)
   groups[select_str.to_i]
 end
 
-
 # create auto scaling service
 auto_scale_service = Fog::Rackspace::AutoScale.new({
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord # Use Chicago Region
 })
-
 
 # retrieve list of scaling groups
 groups = auto_scale_service.groups

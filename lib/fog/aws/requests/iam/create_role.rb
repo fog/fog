@@ -49,7 +49,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::SingleRole.new
           )
         end
-
       end
     end
   end

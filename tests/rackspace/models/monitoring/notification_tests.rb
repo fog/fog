@@ -3,7 +3,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | notification', ['rackspace','rackspac
   service = Fog::Rackspace::Monitoring.new
 
   options = { :label => "fog_#{Time.now.to_i.to_s}", :type => "email", :details => {:address => "test@test.com"} }
-  
+
   model_tests(service.notifications, options, false) do
 
     tests('#update').succeeds do

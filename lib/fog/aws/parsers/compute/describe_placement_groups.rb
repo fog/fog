@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribePlacementGroups < Fog::Parsers::Base
-
           def reset
             @placement_group = {}
             @response = { 'placementGroupSet' => [] }
@@ -21,9 +19,7 @@ module Fog
               @response[name] = value
             end
           end
-
         end
-
       end
     end
   end

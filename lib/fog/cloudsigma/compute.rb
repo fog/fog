@@ -79,7 +79,6 @@ module Fog
       model :pricing
       request :get_pricing
 
-
       module CommonMockAndReal
         def initialize(options={})
           @init_options = options
@@ -107,7 +106,6 @@ module Fog
         def currency
           # Cache since currency does not change
           @currency ||= profile.currency
-
         end
 
         def pricing
@@ -135,7 +133,7 @@ module Fog
           current_prices = resp.body['objects']
 
           current_pricing_pairs = current_levels.map do |resource, level|
-            price_for_resource_and_level = current_prices.detect do |price|
+            price_for_resource_and_level = current_prices.find do |price|
               price['resource'] == resource
             end
             price_for_resource_and_level ||= {}
@@ -153,7 +151,7 @@ module Fog
           current_prices = resp.body['objects']
 
           current_pricing_pairs = current_levels.map do |resource, level|
-            price_for_resource_and_level = current_prices.detect do |price|
+            price_for_resource_and_level = current_prices.find do |price|
               price['level'] == level && price['resource'] == resource
             end
             price_for_resource_and_level ||= {}
@@ -171,7 +169,7 @@ module Fog
           current_prices = resp.body['objects']
 
           current_pricing_pairs = current_levels.map do |resource, level|
-            price_for_resource_and_level = current_prices.detect do |price|
+            price_for_resource_and_level = current_prices.find do |price|
               price['level'] == level && price['resource'] == resource
             end
             price_for_resource_and_level ||= {}
@@ -181,7 +179,6 @@ module Fog
 
           Pricing.new(Hash[current_pricing_pairs])
         end
-
       end
 
       class Mock
@@ -216,10 +213,7 @@ module Fog
         include Collections
         include CommonMockAndReal
         include Fog::CloudSigma::CloudSigmaConnection::Real
-
       end
-
     end
   end
-
 end

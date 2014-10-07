@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class BlockStorage
       class Snapshots < Fog::Collection
-
         model Fog::Rackspace::BlockStorage::Snapshot
 
         # Returns list of snapshots

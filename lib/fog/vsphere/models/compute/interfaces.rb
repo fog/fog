@@ -4,15 +4,13 @@ require 'fog/vsphere/models/compute/interface'
 module Fog
   module Compute
     class Vsphere
-
       class Interfaces < Fog::Collection
-
         model Fog::Compute::Vsphere::Interface
 
-        attribute :server
+        attribute :server_id
 
         def all(filters = {})
-          requires :server
+          requires :server_id
 
           case server
             when Fog::Compute::Vsphere::Server
@@ -28,7 +26,7 @@ module Fog
         end
 
         def get(id)
-          requires :server
+          requires :server_id
 
           case server
             when Fog::Compute::Vsphere::Server
@@ -48,13 +46,22 @@ module Fog
         end
 
         def new(attributes = {})
-          if server
-            super({ :server_id => server.id  }.merge(attributes))
+          if server_id
+            super({ :server_id => server_id  }.merge(attributes))
           else
             super
           end
         end
-     end
+
+        def server
+          return nil if server_id.nil?
+          service.servers.get(server_id)
+        end
+
+        def server=(new_server)
+          server_id = new_server.id
+        end
+      end
     end
   end
 end

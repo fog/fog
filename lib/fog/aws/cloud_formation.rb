@@ -6,7 +6,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/cloud_formation'
       request :create_stack
@@ -21,11 +21,9 @@ module Fog
       request :list_stack_resources
 
       class Mock
-
         def initialize(options={})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
@@ -53,6 +51,8 @@ module Fog
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
 
+          @instrumentor       = options[:instrumentor]
+          @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.cloud_formation'
           @connection_options = options[:connection_options] || {}
           options[:region] ||= 'us-east-1'
           @host = options[:host] || "cloudformation.#{options[:region]}.amazonaws.com"
@@ -97,28 +97,34 @@ module Fog
             }
           )
 
-          begin
-            @connection.request({
-              :body       => body,
-              :expects    => 200,
-              :idempotent => idempotent,
-              :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-              :method     => 'POST',
-              :parser     => parser
-            })
-          rescue Excon::Errors::HTTPStatusError => error
-            match = Fog::AWS::Errors.match_error(error)
-            raise if match.empty?
-            raise case match[:code]
-                  when 'NotFound', 'ValidationError'
-                    Fog::AWS::CloudFormation::NotFound.slurp(error, match[:message])
-                  else
-                    Fog::AWS::CloudFormation::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
-                  end
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser)
+            end
+          else
+            _request(body, idempotent, parser)
           end
-
         end
 
+        def _request(body, idempotent, parser)
+          @connection.request({
+            :body       => body,
+            :expects    => 200,
+            :idempotent => idempotent,
+            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :method     => 'POST',
+            :parser     => parser
+          })
+        rescue Excon::Errors::HTTPStatusError => error
+          match = Fog::AWS::Errors.match_error(error)
+          raise if match.empty?
+          raise case match[:code]
+                when 'NotFound', 'ValidationError'
+                  Fog::AWS::CloudFormation::NotFound.slurp(error, match[:message])
+                else
+                  Fog::AWS::CloudFormation::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                end
+        end
       end
     end
   end

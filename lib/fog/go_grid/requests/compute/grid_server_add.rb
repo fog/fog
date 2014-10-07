@@ -2,7 +2,6 @@ module Fog
   module Compute
     class GoGrid
       class Real
-
         # Create a new server
         #
         # ==== Parameters
@@ -29,7 +28,6 @@ module Fog
             }.merge!(options)
           )
         end
-
       end
     end
   end

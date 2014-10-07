@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class RDS
-
       class Server < Fog::Model
-
         identity  :id, :aliases => 'DBInstanceIdentifier'
         attribute :engine, :aliases => 'Engine'
         attribute :engine_version, :aliases => 'EngineVersion'
@@ -79,6 +77,11 @@ module Fog
           requires :id
           service.remove_tags_from_resource(id, tag_keys)
           tags
+        end
+
+        def promote_read_replica
+          requires :id
+          service.promote_read_replica(id)
         end
 
         def modify(immediately, options)

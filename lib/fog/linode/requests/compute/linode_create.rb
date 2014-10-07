@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Linode
       class Real
-
         # Creates a linode and assigns you full privileges
         #
         # ==== Parameters
@@ -26,7 +25,6 @@ module Fog
             }
           )
         end
-
       end
 
       class Mock

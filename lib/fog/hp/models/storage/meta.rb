@@ -5,7 +5,6 @@ module Fog
   module Storage
     class HP
       class Meta < Fog::Model
-
         include Fog::Storage::HP::MetaParent
 
         identity :key
@@ -22,7 +21,6 @@ module Fog
             true
           end
         end
-
       end
     end
   end

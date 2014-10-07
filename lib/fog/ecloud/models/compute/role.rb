@@ -14,7 +14,6 @@ module Fog
         attribute :is_admin, :aliases => :IsAdmin, :type => :boolean
         attribute :business_operations, :aliases => :BusinessOperations
 
-
         def id
           href.scan(/\d+/)[0]
         end

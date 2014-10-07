@@ -3,7 +3,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Vsphere
-
       class Server < Fog::Compute::Server
         extend Fog::Deprecation
         deprecate(:ipaddress, :public_ip_address)
@@ -33,7 +32,6 @@ module Fog
         attribute :connection_state
         attribute :mo_ref
         attribute :path
-        attribute :relative_path
         attribute :memory_mb
         attribute :cpus
         attribute :corespersocket
@@ -46,6 +44,7 @@ module Fog
         attribute :resource_pool
         attribute :instance_uuid # move this --> id
         attribute :guest_id
+        attribute :hardware_version
         attribute :scsi_controller # this is the first scsi controller. Right now no more of them can be used.
 
         def initialize(attributes={} )
@@ -65,7 +64,6 @@ module Fog
           end
         end
         # End Lazy Loaded Attributes
-
 
         def vm_reconfig_memory(options = {})
           requires :instance_uuid, :memory
@@ -123,10 +121,10 @@ module Fog
         #   * See more options in vm_clone request/compute/vm_clone.rb
         #
         def clone(options = {})
-          requires :name, :datacenter, :relative_path
+          requires :name, :datacenter, :path
 
           # Convert symbols to strings
-          req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
+          req_options = options.reduce({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
 
           # Give our path to the request
           req_options['template_path'] ="#{relative_path}/#{name}"
@@ -184,7 +182,7 @@ module Fog
         end
 
         def interfaces
-          attributes[:interfaces] ||= id.nil? ? [] : service.interfaces( :server => self )
+          attributes[:interfaces] ||= id.nil? ? [] : service.interfaces( :server_id => self.id )
         end
 
         def interface_ready? attrs
@@ -209,7 +207,7 @@ module Fog
         end
 
         def volumes
-          attributes[:volumes] ||= id.nil? ? [] : service.volumes(:server => self)
+          attributes[:volumes] ||= id.nil? ? [] : service.volumes(:server_id => self.id)
         end
 
         def customvalues
@@ -248,6 +246,12 @@ module Fog
           super
         end
 
+        def relative_path
+          requires :path, :datacenter
+
+          (path.split('/').reject {|e| e.empty?} - ["Datacenters", datacenter, "vm"]).join("/")
+        end
+
         private
 
         def defaults
@@ -283,9 +287,7 @@ module Fog
             Fog::Compute::Vsphere::SCSIController.new(self.attributes[:scsi_controller])
           end
         end
-
       end
-
     end
   end
 end

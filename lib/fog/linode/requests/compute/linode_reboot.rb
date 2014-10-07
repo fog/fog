@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Linode
       class Real
-
         # Issues a shutdown, and then a boot job for a given linode
         #
         # ==== Parameters
@@ -21,7 +20,6 @@ module Fog
             :query    => { :api_action => 'linode.reboot', :linodeId => linode_id }.merge!(options)
           )
         end
-
       end
 
       class Mock

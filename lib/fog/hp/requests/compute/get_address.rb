@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Get details about an existing floating IP address
         #
         # ==== Parameters
@@ -23,11 +22,9 @@ module Fog
             :path     => "os-floating-ips/#{address_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_address(address_id)
           response = Excon::Response.new
           if address = self.data[:addresses][address_id]
@@ -38,7 +35,6 @@ module Fog
             raise Fog::Compute::HP::NotFound
           end
         end
-
       end
     end
   end

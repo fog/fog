@@ -4,17 +4,18 @@ require 'fog/google/models/compute/image'
 module Fog
   module Compute
     class Google
-
       class Images < Fog::Collection
-
         model Fog::Compute::Google::Image
 
         # NOTE: Not everyone has access to these projects because of the
         # licenses needed to use some of them.
         # https://developers.google.com/compute/docs/premium-operating-systems
         GLOBAL_PROJECTS = [
-          'debian-cloud',
           'centos-cloud',
+          'coreos-cloud',
+          'debian-cloud',
+          'google-containers',
+          'opensuse-cloud',
           'rhel-cloud',
           'suse-cloud'
         ]
@@ -57,14 +58,14 @@ module Fog
           end
 
           # If it wasn't found in any project, raise
-          if data.nil?
-            raise Fog::Errors::NotFound.new(
-              "Unable to find the image #{identity} in the following projects: #{all_projects.join(', ')}")
-          end
+          return nil if data.nil?
 
           new(data)
-        end
+        
+        rescue Fog::Errors::NotFound.new(
+          "Unable to find the image #{identity} in the following projects: #{all_projects.join(', ')}")
 
+        end
       end
     end
   end

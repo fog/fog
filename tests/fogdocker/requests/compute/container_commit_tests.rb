@@ -15,5 +15,4 @@ Shindo.tests("Fog::Compute[:fogdocker] | container_create request", 'fogdocker')
     test("should have a deleted message") {result.include?('Deleted')}
   end
 
-
 end

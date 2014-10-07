@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module ElasticBeanstalk
-
         class BaseParser < Fog::Parsers::Base
-
           def initialize(result_name)
             @result_name = result_name # Set before super, since super calls reset
             super()
@@ -18,7 +16,6 @@ module Fog
             @parse_stack = [ { :type => :object, :value => @response[@result_name]} ]
           end
 
-
           def tag name, *traits
             if traits.delete(:list)
               @list_tags[name] = true
@@ -29,7 +26,6 @@ module Fog
             else
               raise "Too many traits specified, only specify :list or a type"
             end
-
           end
 
           def start_element(name, attrs = [])
@@ -38,7 +34,7 @@ module Fog
               if @parse_stack.last[:type] == :object
                 @parse_stack.last[:value] << {} # Push any empty object
               end
-            elsif @list_tags.has_key?(name)
+            elsif @list_tags.key?(name)
               set_value(name, [], :array) # Set an empty array
               @parse_stack.push({ :type => @tags[name], :value => get_parent[name] })
             elsif @tags[name] == :object
@@ -56,13 +52,12 @@ module Fog
               when 'RequestId'
                 @response['ResponseMetadata'][name] = value
               else
-                if @list_tags.has_key?(name) || @tags[name] == :object
+                if @list_tags.key?(name) || @tags[name] == :object
                   @parse_stack.pop()
-                elsif @tags.has_key?(name)
+                elsif @tags.key?(name)
                   set_value(name, value, @tags[name])
                 end
             end
-
           end
 
           def get_parent
@@ -82,12 +77,8 @@ module Fog
                 get_parent[name] = value
             end
           end
-
         end
       end
     end
   end
 end
-
-
-

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Restore an object from Glacier to its original S3 path
         #
         # @param bucket_name [String] Name of bucket containing object
@@ -37,17 +36,14 @@ module Fog
             :path     => CGI.escape(object_name)
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def post_object_restore(bucket_name, object_name, days = 100000)
           response = get_object(bucket_name, object_name)
           response.body = nil
           response
         end
-
       end
     end
   end

@@ -4,9 +4,7 @@ require 'fog/rage4/models/dns/record'
 module Fog
   module DNS
     class Rage4
-
       class Records < Fog::Collection
-
         attribute :zone
 
         model Fog::DNS::Rage4::Record
@@ -34,9 +32,7 @@ module Fog
           requires :zone
           super({ :zone => zone }.merge!(attributes))
         end
-
       end
-
     end
   end
 end

@@ -23,5 +23,4 @@ Shindo.tests("Fog::Compute[:aws] | key_pair", ['aws']) do
     end
   end
 
-
 end

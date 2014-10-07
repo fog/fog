@@ -3,7 +3,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class XenServer
-
       class Server < Fog::Compute::Server
         # API Reference here:
         # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=VM
@@ -90,7 +89,7 @@ module Fog
         attribute :snapshots
 
         def vbds
-          __vbds.collect {|vbd| service.vbds.get vbd }
+          __vbds.map {|vbd| service.vbds.get vbd }
         end
 
         def affinity
@@ -98,7 +97,7 @@ module Fog
         end
 
         def consoles
-          __consoles.collect {|console| service.consoles.get console }
+          __consoles.map {|console| service.consoles.get console }
         end
 
         def destroy
@@ -131,12 +130,12 @@ module Fog
         end
 
         def vifs
-          __vifs.collect { |vif| service.vifs.get vif }
+          __vifs.map { |vif| service.vifs.get vif }
         end
 
         # associations
         def networks
-          vifs.collect { |v| v.network }
+          vifs.map { |v| v.network }
         end
 
         def resident_on
@@ -244,7 +243,6 @@ module Fog
           service.snapshot_revert(snapshot_ref)
         end
       end
-
     end
   end
 end

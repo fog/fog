@@ -9,7 +9,7 @@ module Fog
       class ValidationError < Fog::AWS::STS::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at
+      recognizes :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/sts'
       request :get_federation_token
@@ -76,6 +76,8 @@ module Fog
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
+          @instrumentor       = options[:instrumentor]
+          @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.sts'
           @connection_options     = options[:connection_options] || {}
 
           @host       = options[:host]        || 'sts.amazonaws.com'
@@ -117,28 +119,34 @@ module Fog
             }
           )
 
-          begin
-            @connection.request({
-              :body       => body,
-              :expects    => 200,
-              :idempotent => idempotent,
-              :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-              :method     => 'POST',
-              :parser     => parser
-            })
-          rescue Excon::Errors::HTTPStatusError => error
-            match = Fog::AWS::Errors.match_error(error)
-            raise if match.empty?
-            raise case match[:code]
-                  when 'EntityAlreadyExists', 'KeyPairMismatch', 'LimitExceeded', 'MalformedCertificate', 'ValidationError'
-                    Fog::AWS::STS.const_get(match[:code]).slurp(error, match[:message])
-                  else
-                    Fog::AWS::STS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
-                  end
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser)
+            end
+          else
+            _request(body, idempotent, parser)
           end
-
         end
 
+        def _request(body, idempotent, parser)
+          @connection.request({
+            :body       => body,
+            :expects    => 200,
+            :idempotent => idempotent,
+            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :method     => 'POST',
+            :parser     => parser
+          })
+        rescue Excon::Errors::HTTPStatusError => error
+          match = Fog::AWS::Errors.match_error(error)
+          raise if match.empty?
+          raise case match[:code]
+                when 'EntityAlreadyExists', 'KeyPairMismatch', 'LimitExceeded', 'MalformedCertificate', 'ValidationError'
+                  Fog::AWS::STS.const_get(match[:code]).slurp(error, match[:message])
+                else
+                  Fog::AWS::STS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                end
+        end
       end
     end
   end

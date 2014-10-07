@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Delete an object from S3
         #
         # @param bucket_name [String] Name of bucket containing object to delete
@@ -30,11 +29,9 @@ module Fog
             :path       => path
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def delete_object(bucket_name, object_name, options = {})
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
@@ -111,7 +108,6 @@ module Fog
             }
           }
         end
-
       end
     end
   end

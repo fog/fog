@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Terremark
     module Shared
-
       class Network < Fog::Model
-
         identity :id
 
         attribute :name
@@ -27,9 +25,7 @@ module Fog
         end
 
         def type=(new_type); end
-
       end
-
     end
   end
 end

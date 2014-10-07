@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Rackspace
       class Real
-
         # List number of objects and total bytes stored
         #
         # ==== Parameters
@@ -25,7 +24,6 @@ module Fog
             :query    => {'format' => 'json'}
           )
         end
-
       end
 
       class Mock
@@ -38,7 +36,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

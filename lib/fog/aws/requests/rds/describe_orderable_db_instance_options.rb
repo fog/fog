@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/describe_orderable_db_instance_options'
 
         # Describe all or specified load db instances
@@ -34,11 +33,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::DescribeOrderableDBInstanceOptions.new
           }.merge(params))
         end
-
       end
 
       class Mock
-
         def describe_orderable_db_instance_options(engine=nil, opts={})
           instance_options = []
           response = Excon::Response.new
@@ -69,7 +66,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

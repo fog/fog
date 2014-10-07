@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class AutoScale
       class GroupConfig < Fog::Model
-
         # @!attribute [r] group
         # @return [Fog::Rackspace::AutoScale::Group] The parent group
         attribute :group
@@ -40,7 +39,6 @@ module Fog
         #
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/PUT_putGroupConfig_v1.0__tenantId__groups__groupId__config_Configurations.html
         def update
-
           options = {}
           options['name'] = name unless name.nil?
           options['cooldown'] = cooldown unless cooldown.nil?
@@ -72,7 +70,6 @@ module Fog
             merge_attributes data.body['groupConfiguration']
           end
         end
-
       end
   	end
   end

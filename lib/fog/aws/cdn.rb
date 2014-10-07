@@ -6,7 +6,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :version, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :host, :path, :port, :scheme, :version, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       model_path 'fog/aws/models/cdn'
       model       :distribution
@@ -30,7 +30,6 @@ module Fog
       request 'put_streaming_distribution_config'
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] =  {
@@ -147,6 +146,8 @@ EOF
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
+          @instrumentor      = options[:instrumentor]
+          @instrumentor_name = options[:instrumentor_name] || 'fog.aws.cdn'
           @connection_options = options[:connection_options] || {}
           @host       = options[:host]      || 'cloudfront.amazonaws.com'
           @path       = options[:path]      || '/'
@@ -180,6 +181,17 @@ EOF
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
           params[:path] = "/#{@version}/#{params[:path]}"
+
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(params, &block)
+            end
+          else
+            _request(params, &block)
+          end
+        end
+
+        def _request(params, &block)
           @connection.request(params, &block)
         end
 

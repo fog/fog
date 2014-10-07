@@ -3,22 +3,21 @@ module Fog
     class Rackspace
       class Real
         def add_records(domain_id, records)
-
           validate_path_fragment :domain_id, domain_id
 
           data = {
-            'records' => records.collect do |record|
+            'records' => records.map do |record|
               record_data = {
                 'name' => record[:name],
                 'type' => record[:type],
                 'data' => record[:data]
               }
 
-              if record.has_key? :ttl
+              if record.key? :ttl
                 record_data['ttl'] = record[:ttl]
               end
 
-              if record.has_key? :priority
+              if record.key? :priority
                 record_data['priority'] = record[:priority]
               end
               record_data

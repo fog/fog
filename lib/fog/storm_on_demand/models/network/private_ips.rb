@@ -4,9 +4,7 @@ require 'fog/storm_on_demand/models/network/private_ip'
 module Fog
   module Network
     class StormOnDemand
-
       class PrivateIps < Fog::Collection
-
         model Fog::Network::StormOnDemand::PrivateIp
 
         def all
@@ -32,9 +30,7 @@ module Fog
           r = service.check_server_attached(:uniq_id => server_id).body
           r['is_attached'].to_i == 1 ? true : false
         end
-
       end
-
     end
   end
 end

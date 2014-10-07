@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         require 'fog/internet_archive/parsers/storage/delete_multiple_objects'
 
         # Delete multiple objects from S3
@@ -56,11 +55,9 @@ module Fog
             :query      => {'delete' => nil}
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def delete_multiple_objects(bucket_name, object_names, options = {})
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
@@ -85,9 +82,7 @@ module Fog
           response['Deleted'] = { 'Key' => object_name }
           response
         end
-
       end
     end
   end
 end
-

@@ -5,7 +5,6 @@ module Fog
         require 'fog/aws/parsers/rds/snapshot_parser'
 
         class CreateDBSnapshot < Fog::Parsers::AWS::RDS::SnapshotParser
-
           def reset
             @response = { 'CreateDBSnapshotResult' => {}, 'ResponseMetadata' => {} }
             super
@@ -26,9 +25,7 @@ module Fog
               super
             end
           end
-
         end
-
       end
     end
   end

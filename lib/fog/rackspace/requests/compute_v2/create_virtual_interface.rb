@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Creates virtual interface for a server
         # @param [String] server_id The server id to create the virtual interface on
         # @param [String] network_id The network id to attach the virtual interface to
@@ -21,12 +20,11 @@ module Fog
           request(
             :expects => [200],
             :method => 'POST',
-            :path => "/servers/#{server_id}/os-virtual-interfacesv2",
+            :path => "servers/#{server_id}/os-virtual-interfacesv2",
             :body => Fog::JSON.encode(data)
           )
         end
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Redshift
       module AWS
-
         class UpdateClusterParameterGroupParser < Fog::Parsers::Base
           # :parameter_group_name - (String)
           # :parameter_group_status - (String)

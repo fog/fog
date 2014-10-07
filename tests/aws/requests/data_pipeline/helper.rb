@@ -1,7 +1,6 @@
 class AWS
   module DataPipeline
     module Formats
-
       BASIC = {
         'pipelineId' => String,
       }
@@ -68,7 +67,6 @@ class AWS
           }
         ]
       }
-
     end
   end
 end

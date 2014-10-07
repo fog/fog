@@ -1,28 +1,26 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Lists usage records for accounts.
+        # Lists usage records for accounts
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listUsageRecords.html]
-        def list_usage_records(options={})
-          options.merge!(
-            'command' => 'listUsageRecords'
-          )
-
-          if startdate = options.delete('startdate')
-            options.merge!('startdate' => startdate.strftime('%Y-%m-%d'))
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/listUsageRecords.html]
+        def list_usage_records(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'listUsageRecords') 
+          else
+            options.merge!('command' => 'listUsageRecords', 
+            'enddate' => args[0], 
+            'startdate' => args[1])
           end
-
-          if enddate = options.delete('enddate')
-            options.merge!('enddate' => enddate.strftime('%Y-%m-%d'))
-          end
-
           request(options)
         end
-
       end
+
     end
   end
 end
+

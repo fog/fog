@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class Glacier
-
       class Archive < Fog::Model
-
         identity  :id
         attribute :description
         attribute :body
@@ -62,9 +60,7 @@ module Fog
           # Complete the upload
           service.complete_multipart_upload(vault.id, upload_id, offset, hash.hexdigest).headers['x-amz-archive-id']
         end
-
       end
-
     end
   end
 end

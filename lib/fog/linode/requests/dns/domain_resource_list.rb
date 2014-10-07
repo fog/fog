@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Linode
       class Real
-
         # List of resource records for a domain
         #
         # ==== Parameters
@@ -36,7 +35,6 @@ module Fog
             :query    => query
           )
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Vcloud
     class Compute
       class CatalogItems < Fog::Vcloud::Collection
-
         undef_method :create
 
         model Fog::Vcloud::Compute::CatalogItem
@@ -29,7 +28,6 @@ module Fog
         def organization_uri
           @organization_uri ||= service.default_organization_uri
         end
-
       end
     end
   end

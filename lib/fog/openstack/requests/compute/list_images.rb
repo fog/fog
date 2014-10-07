@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def list_images
           request(
             :expects  => [200, 203],
@@ -10,11 +9,9 @@ module Fog
             :path     => 'images.json'
           )
         end
-
       end
 
       class Mock
-
         def list_images
           response = Excon::Response.new
           data = list_images_detail.body['images']
@@ -26,7 +23,6 @@ module Fog
           response.body = { 'images' => images }
           response
         end
-
       end
     end
   end

@@ -17,7 +17,6 @@ module Fog
       recognizes :rackspace_queues_url
       recognizes :rackspace_queues_client_id
 
-
       model_path 'fog/rackspace/models/queues'
       model :queue
       collection :queues
@@ -48,13 +47,20 @@ module Fog
           @rackspace_username = options[:rackspace_username]
           @rackspace_queues_client_id = options[:rackspace_queues_client_id] || Fog::UUID.uuid
           @rackspace_auth_url = options[:rackspace_auth_url]
+          @rackspace_queues_url = options[:rackspace_queues_url]
           @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}
-          @rackspace_region = options[:rackspace_region] || :ord
+          @rackspace_region = options[:rackspace_region]
 
           unless v2_authentication?
             raise Fog::Errors::NotImplemented.new("V2 authentication required for Queues")
           end
+
+          unless @rackspace_region || @rackspace_queues_url
+            Fog::Logger.deprecation("Default region support will be removed in an upcoming release. Please switch to manually setting your endpoint. This requires settng the :rackspace_region option.")
+          end
+
+          @rackspace_region ||= :ord
         end
 
         def service_name
@@ -66,7 +72,7 @@ module Fog
         end
 
         def endpoint_uri(service_endpoint_url=nil)
-          @uri = super(@rackspace_endpoint || service_endpoint_url, :rackspace_queues_url)
+          @uri = super(@rackspace_queues_url || service_endpoint_url, :rackspace_queues_url)
         end
 
         def authenticate(options={})
@@ -395,7 +401,6 @@ module Fog
           raise ServiceError.slurp(error, self)
         end
       end
-
     end
   end
 end

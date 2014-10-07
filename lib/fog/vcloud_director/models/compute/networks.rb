@@ -4,11 +4,17 @@ require 'fog/vcloud_director/models/compute/network'
 module Fog
   module Compute
     class VcloudDirector
-
       class Networks < Collection
+
+        include Fog::VcloudDirector::Query
+
         model Fog::Compute::VcloudDirector::Network
 
         attribute :organization
+
+        def query_type
+          "orgVdcNetwork"
+        end
 
         private
 
@@ -45,7 +51,6 @@ module Fog
           items.each{|item| service.add_id_from_href!(item) }
           items
         end
-
       end
     end
   end

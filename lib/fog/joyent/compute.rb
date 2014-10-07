@@ -5,7 +5,6 @@ require 'net/ssh'
 module Fog
   module Compute
     class Joyent < Fog::Service
-
       requires :joyent_username
 
       recognizes :joyent_password
@@ -115,7 +114,6 @@ module Fog
         attr_accessor :joyent_url
 
         def initialize(options = {})
-
           @connection_options = options[:connection_options] || {}
           @persistent = options[:persistent] || false
 
@@ -137,7 +135,7 @@ module Fog
             @header_method = method(:header_for_signature_auth)
 
             if options[:joyent_keyfile]
-              if File.exists?(options[:joyent_keyfile])
+              if File.exist?(options[:joyent_keyfile])
                 @joyent_keyfile = options[:joyent_keyfile]
                 @key_manager.add(@joyent_keyfile)
               else
@@ -175,7 +173,6 @@ module Fog
           if opts[:body]
             opts[:body] = Fog::JSON.encode(opts[:body])
           end
-
 
           response = @connection.request(opts)
           if response.headers["Content-Type"] == "application/json"
@@ -274,7 +271,6 @@ module Fog
             raise Joyent::Errors::ServiceUnavailable.new('Either there\'s no capacity in this datacenter, or we\'re in a maintenance window', request, response)
           end
         end
-
       end # Real
     end
   end

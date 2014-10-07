@@ -5,7 +5,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Flavors < Fog::Collection
-
         model Fog::Compute::RackspaceV2::Flavor
 
         # Retrieves information for all available flavors

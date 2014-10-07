@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # List existing ports
         #
@@ -46,7 +45,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

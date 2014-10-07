@@ -1,11 +1,9 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def get_zone_operation(zone_name, operation)
-          operation = self.data[:operations][operation]
+         operation = self.data[:operations][operation]
           if operation
             case operation["status"]
             when Fog::Compute::Google::Operation::PENDING_STATE
@@ -30,7 +28,7 @@ module Fog
               }
             }
           end
-          build_response(:body => operation)
+          build_excon_response(operation)
         end
       end
 
@@ -49,8 +47,7 @@ module Fog
             'operation' => operation
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
     end

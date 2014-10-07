@@ -4,7 +4,6 @@ require 'fog/storm_on_demand/models/billing/invoice'
 module Fog
   module Billing
     class StormOnDemand
-
       class Invoices < Fog::Collection
         model Fog::Billing::StormOnDemand::Invoice
 
@@ -22,9 +21,7 @@ module Fog
           invoice = service.next_invoice.body
           new(invoice)
         end
-
       end
-
     end
   end
 end

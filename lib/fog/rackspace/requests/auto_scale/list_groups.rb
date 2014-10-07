@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         # Retrieves a list of images
         # @return [Excon::Response] response:
         #   * body [Hash]:

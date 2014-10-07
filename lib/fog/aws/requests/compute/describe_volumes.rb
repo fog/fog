@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_volumes'
 
         # Describe all or specified volumes.
@@ -16,6 +15,7 @@ module Fog
         #     * 'volumeSet'<~Array>:
         #       * 'availabilityZone'<~String> - Availability zone for volume
         #       * 'createTime'<~Time> - Timestamp for creation
+        #       * 'encrypted'<~Boolean> - Indicates whether the volume will be encrypted
         #       * 'iops'<~Integer> - Number of IOPS volume supports
         #       * 'size'<~Integer> - Size in GiBs for volume
         #       * 'snapshotId'<~String> - Snapshot volume was created from, if any
@@ -43,11 +43,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeVolumes.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def describe_volumes(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_volumes with #{filters.class} param is deprecated, use describe_volumes('volume-id' => []) instead [light_black](#{caller.first})[/]")
@@ -62,6 +60,7 @@ module Fog
           aliases = {
             'availability-zone' => 'availabilityZone',
             'create-time' => 'createTime',
+            'encrypted' => 'encrypted',
             'size' => 'size',
             'snapshot-id' => 'snapshotId',
             'status' => 'status',
@@ -78,7 +77,7 @@ module Fog
           for filter_key, filter_value in filters
             if attachment_key = filter_key.split('attachment.')[1]
               aliased_key = attachment_aliases[filter_key]
-              volume_set = volume_set.reject{|volume| !volume['attachmentSet'].detect {|attachment| [*filter_value].include?(attachment[aliased_key])}}
+              volume_set = volume_set.reject{|volume| !volume['attachmentSet'].find {|attachment| [*filter_value].include?(attachment[aliased_key])}}
             else
               aliased_key = aliases[filter_key]
               volume_set = volume_set.reject{|volume| ![*filter_value].include?(volume[aliased_key])}
@@ -113,7 +112,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

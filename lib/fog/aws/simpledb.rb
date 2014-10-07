@@ -6,7 +6,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :nil_string, :path, :port, :scheme, :persistent, :region, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at
+      recognizes :host, :nil_string, :path, :port, :scheme, :persistent, :region, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/simpledb'
       request :batch_put_attributes
@@ -20,7 +20,6 @@ module Fog
       request :select
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -77,6 +76,8 @@ module Fog
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
           @nil_string = options[:nil_string]|| 'nil'
+          @instrumentor       = options[:instrumentor]
+          @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.simpledb'
 
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
@@ -178,7 +179,17 @@ module Fog
             }
           )
 
-          response = @connection.request({
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser)
+            end
+          else
+            _request(body, idempotent, parser)
+          end
+        end
+
+        def _request(body, idempotent, parser)
+          @connection.request({
             :body       => body,
             :expects    => 200,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded; charset=utf-8' },
@@ -186,8 +197,6 @@ module Fog
             :method     => 'POST',
             :parser     => parser
           })
-
-          response
         end
 
         def sdb_encode(value)
@@ -197,7 +206,6 @@ module Fog
             value.to_s
           end
         end
-
       end
     end
   end

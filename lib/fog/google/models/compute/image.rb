@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class Image < Fog::Model
-
         identity :name
 
         attribute :id
@@ -14,6 +12,7 @@ module Fog
         attribute :creation_timestamp, :aliases => 'creationTimestamp'
         attribute :deprecated
         attribute :description
+        attribute :disk_size_gb, :aliases => 'diskSizeGb'
         attribute :self_link, :aliases => 'selfLink'
         attribute :source_type, :aliases => 'sourceType'
         attribute :status
@@ -36,6 +35,7 @@ module Fog
         def preferred_kernel=(args)
           Fog::Logger.deprecation("preferred_kernel= is no longer used [light_black](#{caller.first})[/]")
         end
+
         def preferred_kernel
           Fog::Logger.deprecation("preferred_kernel is no longer used [light_black](#{caller.first})[/]")
           nil
@@ -59,9 +59,9 @@ module Fog
         def reload
           requires :name
 
+          self.project = self.service.project
           data = service.get_image(name, self.project).body
 
-          self.project = self.service.project
           self.merge_attributes(data)
           self
         end
@@ -84,7 +84,6 @@ module Fog
         def resource_url
           "#{self.project}/global/images/#{name}"
         end
-
       end
     end
   end

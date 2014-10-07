@@ -4,11 +4,11 @@ module Fog
   module AWS
     class ElasticBeanstalk < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
-      
+
       class InvalidParameterError < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/beanstalk'
 
@@ -56,11 +56,9 @@ module Fog
       collection  :versions
 
       class Mock
-
         def initialize(options={})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
@@ -79,6 +77,8 @@ module Fog
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @instrumentor       = options[:instrumentor]
+          @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.beanstalk'
         end
 
         def reload
@@ -120,31 +120,35 @@ module Fog
               }
           )
 
-          begin
-            @connection.request({
-                :body       => body,
-                :expects    => 200,
-                :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-                :idempotent => idempotent,
-                :host       => @host,
-                :method     => 'POST',
-                :parser     => parser
-            })
-          rescue Excon::Errors::HTTPStatusError => error
-            match = Fog::AWS::Errors.match_error(error)
-            raise if match.empty?
-            raise case match[:code]
-                  when 'InvalidParameterValue'
-                    Fog::AWS::ElasticBeanstalk::InvalidParameterError.slurp(error, match[:message])
-                  else
-                    Fog::AWS::ElasticBeanstalk::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
-                  end
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser)
+            end
+          else
+            _request(body, idempotent, parser)
           end
+        end
 
+        def _request(body, idempotent, parser)
+          @connection.request({
+              :body       => body,
+              :expects    => 200,
+              :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+              :idempotent => idempotent,
+              :method     => 'POST',
+              :parser     => parser
+          })
+        rescue Excon::Errors::HTTPStatusError => error
+          match = Fog::AWS::Errors.match_error(error)
+          raise if match.empty?
+          raise case match[:code]
+                when 'InvalidParameterValue'
+                  Fog::AWS::ElasticBeanstalk::InvalidParameterError.slurp(error, match[:message])
+                else
+                  Fog::AWS::ElasticBeanstalk::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                end
         end
       end
-
-
     end
   end
 end

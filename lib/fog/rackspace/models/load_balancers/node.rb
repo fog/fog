@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class LoadBalancers
       class Node < Fog::Model
-
         identity :id
 
         attribute :address
@@ -32,6 +31,7 @@ module Fog
         def load_balancer
           collection.load_balancer
         end
+
         def create
           requires :load_balancer, :address, :condition, :port
           options = {}

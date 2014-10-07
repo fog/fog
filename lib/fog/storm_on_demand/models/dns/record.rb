@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module DNS
     class StormOnDemand
-
       class Record < Fog::Model
         identity :id
         attribute :adminEmail
@@ -56,9 +55,7 @@ module Fog
           requires :identity
           service.update_record_region({:record_id => identity}.merge!(options))
         end
-
       end
-
     end
   end
 end

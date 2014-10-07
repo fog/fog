@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class HttpHealthCheck < Fog::Model
-
         identity :name
 
         attribute :kind, :aliases => 'kind'
@@ -35,9 +33,10 @@ module Fog
             'healthyThreshold' => healthy_threshold || 2,
           }
 
-          service.insert_http_health_check(name, options).body
-          data = service.backoff_if_unfound {service.get_http_health_check(name).body}
-          merge_attributes(data)
+          data = service.insert_http_health_check(name, options).body
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data['name'], data['zone'])
+          operation.wait_for { !pending? }
+          reload
         end
 
         def destroy(async=true)

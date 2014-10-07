@@ -2,7 +2,6 @@ module Fog
   module CDN
     class Rackspace
       class Real
-
         # modify CDN properties for a container
         #
         # ==== Parameters
@@ -28,11 +27,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock
-
         def post_container(name, options = {})
           raise Fog::Storage::Rackspace::NotFound.new "#{name} not found" unless name == 'fogcontainertests'
           response = Excon::Response.new
@@ -50,7 +47,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

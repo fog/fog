@@ -5,7 +5,6 @@ module Fog
         require 'fog/aws/parsers/elasticache/security_group_parser'
 
         class DescribeSecurityGroups < SecurityGroupParser
-
           def reset
             super
             @response['CacheSecurityGroups'] = []

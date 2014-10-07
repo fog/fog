@@ -3,9 +3,7 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Rackspace
-
       class Server < Fog::Compute::Server
-
         identity :id
 
         attribute :addresses
@@ -98,10 +96,7 @@ module Fog
         def adminPass=(new_admin_pass)
           @password = new_admin_pass
         end
-
       end
-
     end
   end
-
 end

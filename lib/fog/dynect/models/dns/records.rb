@@ -4,9 +4,7 @@ require 'fog/dynect/models/dns/record'
 module Fog
   module DNS
     class Dynect
-
       class Records < Fog::Collection
-
         attribute :zone
 
         model Fog::DNS::Dynect::Record
@@ -14,22 +12,17 @@ module Fog
         def all(options = {})
           requires :zone
           data = []
-          service.get_all_records(zone.domain, options).body['data'].each do |url|
-            (_, _, t, _, fqdn, id) = url.split('/')
-            type = t.gsub(/Record$/, '')
-
-            # leave out the default, read only records
-            # by putting this here we don't make the secondary request for these records
-            next if ['NS', 'SOA'].include?(type)
-
-            record = service.get_record(type, zone.domain, fqdn, 'record_id' => id).body['data']
-
-            data << {
-              :identity => record['record_id'],
-              :fqdn => record['fqdn'],
-              :type => record['record_type'],
-              :rdata => record['rdata']
-            }
+          service.get_all_records(zone.domain, options).body['data'].each do |records|
+            (type, list) = records
+            next if %w{soa_records ns_records}.include?(type)
+            list.each do |record|
+              data << {
+                :identity => record['record_id'],
+                :fqdn => record['fqdn'],
+                :type => record['record_type'],
+                :rdata => record['rdata']
+              }
+            end
           end
 
           load(data)
@@ -38,28 +31,19 @@ module Fog
         def get(record_id)
           requires :zone
 
-          list = service.get_all_records(zone.domain, {}).body['data']
-          url = list.detect { |e| e =~ /\/#{record_id}$/ }
-          return unless url
-          (_, _, t, _, fqdn, id) = url.split('/')
-          type = t.gsub(/Record$/, '')
-          record = service.get_record(type, zone.domain, fqdn, 'record_id' => id).body['data']
+          # there isn't a way to look up by just id
+          # must have type and domain for 'get_record' request
+          # so we pick it from the list returned by 'all'
 
-          new({
-            :identity => record['record_id'],
-            :fqdn => record['fqdn'],
-            :type => record['record_type'],
-            :rdata => record['rdata']
-          })
+          list = all
+          list.detect {|e| e.id == record_id}
         end
 
         def new(attributes = {})
           requires :zone
           super({:zone => zone}.merge!(attributes))
         end
-
       end
-
     end
   end
 end

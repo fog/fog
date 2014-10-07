@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Linode
       class Real
-
         # List of domains (you have access to)
         #
         # ==== Parameters
@@ -35,7 +34,6 @@ module Fog
             :query    => { :api_action => 'domain.list' }.merge!(options)
           )
         end
-
       end
     end
   end

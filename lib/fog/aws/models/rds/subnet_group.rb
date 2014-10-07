@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class RDS
-
       class SubnetGroup < Fog::Model
-
         identity   :id, :aliases => ['DBSubnetGroupName', :name]
         attribute  :description, :aliases => 'DBSubnetGroupDescription'
         attribute  :status, :aliases => 'SubnetGroupStatus'
@@ -27,7 +25,6 @@ module Fog
           requires :id
           service.delete_db_subnet_group(id)
         end
-
       end
     end
   end

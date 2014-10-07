@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/purchase_reserved_instances_offering'
 
         # Purchases a Reserved Instance for use with your account.
@@ -27,7 +26,6 @@ module Fog
             :parser                       => Fog::Parsers::Compute::AWS::PurchaseReservedInstancesOffering.new
           })
         end
-
       end
 
       class Mock

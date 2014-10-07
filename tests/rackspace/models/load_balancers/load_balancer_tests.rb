@@ -2,16 +2,29 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
 
   pending if Fog.mocking?
 
-  LOAD_BALANCER_ATTRIBUTES = {
-      :name => 'fog' + Time.now.to_i.to_s,
-      :protocol => 'HTTP',
-      :port => 80,
-      :virtual_ips => [{ :type => 'PUBLIC'}],
-      :nodes => [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED'}]
-    }
+  MINIMAL_LB_ATTRIBUTES = {
+    :name => "fog#{Time.now.to_i}",
+    :protocol => 'HTTP',
+    :virtual_ips => [{ :type => 'PUBLIC' }],
+  }
+
+  NORMAL_LB_ATTRIBUTES = MINIMAL_LB_ATTRIBUTES.merge({
+    :port => 8080,
+    :nodes => [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED' }]
+  })
+
+  FULL_LB_ATTRIBUTES = NORMAL_LB_ATTRIBUTES.merge({
+    :algorithm => 'LEAST_CONNECTIONS',
+    :timeout => 60
+  })
+
+  HTTPS_REDIRECT_LB_ATTRIBUTES = FULL_LB_ATTRIBUTES.merge({
+    :protocol => 'HTTPS',
+    :https_redirect => true
+  })
 
   given_a_load_balancer_service do
-    model_tests(@service.load_balancers, LOAD_BALANCER_ATTRIBUTES, false) do
+    model_tests(@service.load_balancers, NORMAL_LB_ATTRIBUTES, false) do
 
       @instance.wait_for { ready? }
       tests('#save => saving existing with port = 88').succeeds do
@@ -41,7 +54,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
         returns(false) { @instance.connection_logging }
       end
 
-   @instance.wait_for { ready? }
+      @instance.wait_for { ready? }
       tests('#enable_content_caching').succeeds do
         @instance.enable_content_caching
         returns(true) { @instance.content_caching }
@@ -169,11 +182,20 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       @instance.wait_for { ready? }
     end
 
-    tests('create(...with algorithm...)') do
-      attributes = LOAD_BALANCER_ATTRIBUTES.clone
-      attributes[:algorithm] = 'LEAST_CONNECTIONS'
-      attributes[:timeout] = 60
-      @lb = @service.load_balancers.create attributes
+    tests('create with minimal attributes') do
+      @lb = @service.load_balancers.create MINIMAL_LB_ATTRIBUTES
+
+      returns(MINIMAL_LB_ATTRIBUTES[:name]) { @lb.name }
+      returns('HTTP') { @lb.protocol }
+      returns(80) { @lb.port }
+
+      @lb.wait_for { ready? }
+
+      @lb.destroy
+    end
+
+    tests('create with full attributes') do
+      @lb = @service.load_balancers.create FULL_LB_ATTRIBUTES
       returns('LEAST_CONNECTIONS') { @lb.algorithm }
       returns(60) { @lb.timeout }
 
@@ -182,9 +204,19 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       @lb.destroy
     end
 
+    tests('create with httpsRedirect') do
+      @lb = @service.load_balancers.create HTTPS_REDIRECT_LB_ATTRIBUTES
+      returns('HTTPS') { @lb.protocol }
+      returns(true) { @lb.https_redirect }
+
+      @lb.wait_for { ready? }
+
+      @lb.destroy
+    end
+
 
     tests('failure') do
-      @lb = @service.load_balancers.new LOAD_BALANCER_ATTRIBUTES
+      @lb = @service.load_balancers.new NORMAL_LB_ATTRIBUTES
       tests('#usage => Requires ID').raises(ArgumentError) do
         @lb.usage
       end

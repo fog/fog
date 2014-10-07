@@ -9,7 +9,7 @@ Shindo.tests("Vcloud::Compute | vapps", ['vcloud']) do
         :connection => Fog::Vcloud::Compute.new(:vcloud_host => 'vcloud.example.com', :vcloud_username => 'username', :vcloud_password => 'password'),
         :href       =>  "https://vcloud.example.com/api#{(version == '1.0') ? '/v1.0' : ''}/vdc/1"
       )
-    
+
       tests("collection") do
         returns(2) { instance.size }
         returns("https://vcloud.example.com/api#{(version == '1.0') ? '/v1.0' : ''}/vApp/vapp-1") { instance.first.href }

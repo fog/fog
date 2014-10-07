@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/tag_list_parser'
 
         # returns a Hash of tags for a database instance
@@ -19,11 +18,9 @@ module Fog
             :parser         => Fog::Parsers::AWS::RDS::TagListParser.new
           )
         end
-
       end
 
       class Mock
-
         def list_tags_for_resource(rds_id)
           response = Excon::Response.new
           if server = self.data[:servers][rds_id]
@@ -37,7 +34,6 @@ module Fog
             raise Fog::AWS::RDS::NotFound.new("DBInstance #{rds_id} not found")
           end
         end
-
       end
     end
   end

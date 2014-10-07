@@ -2,7 +2,6 @@ module Fog
   module CDN
     class Rackspace
       class Real
-
         # enable CDN for a container
         #
         # ==== Parameters
@@ -28,11 +27,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock
-
         def put_container(name, options = {})
           response = Excon::Response.new
           response.status = 201
@@ -50,7 +47,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

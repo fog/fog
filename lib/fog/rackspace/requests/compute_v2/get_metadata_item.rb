@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Retrieves single metadatum item by key.
         # @param [String<images, servers>] collection type of metadata
         # @param [String] obj_id id of the object where the metadata is attached
@@ -19,7 +18,7 @@ module Fog
           request(
             :expects => 200,
             :method => 'GET',
-            :path => "/#{collection}/#{obj_id}/metadata/#{key}"
+            :path => "#{collection}/#{obj_id}/metadata/#{key}"
           )
         end
       end

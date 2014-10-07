@@ -13,5 +13,4 @@ Shindo.tests("HP::LB | versions requests", ['hp', 'lb', 'versions']) do
     end
   end
 
-
 end

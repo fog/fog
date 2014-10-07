@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module IAM
-
         class GetRolePolicy < Fog::Parsers::Base
-
           def reset
             @response = {'Policy' => {}}
           end
@@ -23,9 +21,7 @@ module Fog
               @response[name] = value
             end
           end
-
         end
-
       end
     end
   end

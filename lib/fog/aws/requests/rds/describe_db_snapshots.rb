@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/describe_db_snapshots'
 
         # Describe all or specified db snapshots
@@ -29,11 +28,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::DescribeDBSnapshots.new
           }.merge(params))
         end
-
       end
 
       class Mock
-
         def describe_db_snapshots(opts={})
           response = Excon::Response.new
           snapshots = self.data[:snapshots].values
@@ -62,9 +59,7 @@ module Fog
             "DescribeDBSnapshotsResult" => { "DBSnapshots" => snapshots }
           }
           response
-
         end
-
       end
     end
   end

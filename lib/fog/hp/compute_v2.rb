@@ -3,7 +3,6 @@ require 'fog/hp/core'
 module Fog
   module Compute
     class HPV2 < Fog::Service
-
       requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
       recognizes  :hp_auth_uri, :credentials, :hp_service_type
       recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
@@ -83,7 +82,6 @@ module Fog
       request :update_server
 
       module Utils
-
         # extract windows password from log
         def extract_password_from_log(log_text)
           encrypted_text = ""
@@ -121,7 +119,6 @@ module Fog
           from_base64 = Base64.decode64(encrypted_text)
           private_key.private_decrypt(from_base64).strip
         end
-
       end
 
       class Mock
@@ -226,7 +223,6 @@ module Fog
         def reset_data
           self.class.data.delete(@hp_access_key)
         end
-
       end
 
       class Real
@@ -248,7 +244,7 @@ module Fog
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version = options[:hp_auth_version] || :v2
           ### Pass the service name for compute via the options hash
-          options[:hp_service_type] ||= "Compute"
+          options[:hp_service_type] ||= "compute"
           @hp_tenant_id = options[:hp_tenant_id]
 
           ### Make the authentication call
@@ -304,7 +300,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Get details for flavor by id
         #
         # ==== Parameters
@@ -25,11 +24,9 @@ module Fog
             :path     => "flavors/#{flavor_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_flavor_details(flavor_id)
           response = Excon::Response.new
           flavor = {
@@ -50,7 +47,6 @@ module Fog
             raise Fog::Compute::HPV2::NotFound
           end
         end
-
       end
     end
   end

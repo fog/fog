@@ -1,7 +1,6 @@
 class AWS
   module ELB
     module Formats
-
       BASIC = {
         'ResponseMetadata' => {'RequestId' => String}
       }
@@ -87,7 +86,6 @@ class AWS
       DELETE_LOAD_BALANCER = BASIC.merge({
         'DeleteLoadBalancerResult' =>  NilClass
       })
-
     end
   end
 end

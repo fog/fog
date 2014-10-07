@@ -2,10 +2,8 @@ module Fog
   module Parsers
     module AWS
       module ElasticBeanstalk
-
         require 'fog/aws/parsers/beanstalk/parser'
         class DescribeApplications < Fog::Parsers::AWS::ElasticBeanstalk::BaseParser
-
           def initialize
             super("DescribeApplicationsResult")
             tag 'Applications', :object, :list
@@ -16,7 +14,6 @@ module Fog
             tag 'DateCreated', :datetime
             tag 'DateUpdated', :datetime
           end
-
         end
       end
     end

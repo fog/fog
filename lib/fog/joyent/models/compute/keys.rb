@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Joyent
       class Keys < Fog::Collection
-
         model Fog::Compute::Joyent::Key
 
         def all
@@ -27,7 +26,6 @@ module Fog
 
           service.create_key(params)
         end
-
       end
     end
   end

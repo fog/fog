@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Base < Fog::Model
-
         attribute :created_at
         attribute :updated_at
 

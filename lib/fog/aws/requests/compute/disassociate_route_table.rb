@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Disassociates a subnet from a route table.
@@ -24,11 +23,9 @@ module Fog
             :parser         => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
-
       end
 
       class Mock
-
         def disassociate_route_table(association_id)
           assoc_array = nil
           routetable = self.data[:route_tables].find { |routetable|

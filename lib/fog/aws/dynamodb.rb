@@ -6,7 +6,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :aws_session_token, :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_credentials_expire_at
+      recognizes :aws_session_token, :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/dynamodb'
       request :batch_get_item
@@ -24,7 +24,6 @@ module Fog
       request :update_table
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -81,6 +80,8 @@ module Fog
           setup_credentials(options)
 
           @connection_options     = options[:connection_options] || {}
+          @instrumentor           = options[:instrumentor]
+          @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.dynamodb'
 
           @host       = options[:host]        || "dynamodb.#{@region}.amazonaws.com"
           @path       = options[:path]        || '/'
@@ -126,6 +127,16 @@ module Fog
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           params[:headers]['Authorization'] = @signer.sign(params, date)
 
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(params)
+            end
+          else
+            _request(params)
+          end
+        end
+
+        def _request(params)
           response = @connection.request(params)
 
           unless response.body.empty?

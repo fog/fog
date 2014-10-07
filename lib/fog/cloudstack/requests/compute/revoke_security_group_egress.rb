@@ -1,15 +1,24 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
-        def revoke_security_group_egress(options={})
-          options.merge!(
-            'command' => 'revokeSecurityGroupEgress'
-          )
 
+      class Real
+        # Deletes a particular egress rule from this security group
+        #
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/revokeSecurityGroupEgress.html]
+        def revoke_security_group_egress(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'revokeSecurityGroupEgress') 
+          else
+            options.merge!('command' => 'revokeSecurityGroupEgress', 
+            'id' => args[0])
+          end
           request(options)
         end
-      end # Real
+      end
+ 
       class Mock
         def revoke_security_group_egress(options={})
           unless security_group_rule_id = options['id']
@@ -36,7 +45,8 @@ module Fog
 
           {"revokesecuritygroupegress" => { "jobid" => job_id }}
         end
-      end # Mock
+      end 
     end
   end
 end
+

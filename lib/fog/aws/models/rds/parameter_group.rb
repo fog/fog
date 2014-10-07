@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class RDS
-
       class ParameterGroup < Fog::Model
-
         identity  :id, :aliases => ['DBParameterGroupName', :name]
         attribute  :family, :aliases => 'DBParameterGroupFamily'
         attribute  :description, :aliases => 'Description'
@@ -18,7 +16,7 @@ module Fog
         end
 
         def modify(changes)
-          service.modify_db_parameter_group id, changes.collect {|c| {'ParameterName' => c[:name], 'ParameterValue' => c[:value], 'ApplyMethod' => c[:apply_method]}}
+          service.modify_db_parameter_group id, changes.map {|c| {'ParameterName' => c[:name], 'ParameterValue' => c[:value], 'ApplyMethod' => c[:apply_method]}}
         end
 
         def destroy

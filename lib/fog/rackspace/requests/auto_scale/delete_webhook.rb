@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         def delete_webhook(group_id, policy_id, webhook_id)
           request(
             :expects => [204],
@@ -19,7 +18,7 @@ module Fog
             raise Fog::Rackspace::AutoScale::NotFound
           end
 
-          policy = group['policies'].detect { |p| p["id"] == policy_id }
+          policy = group['policies'].find { |p| p["id"] == policy_id }
           if policy.nil?
             raise Fog::Rackspace::AutoScale::NotFound
           end

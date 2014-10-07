@@ -1,9 +1,7 @@
 module Fog
   module Storage
     class Rackspace
-
       class Metadata
-
         OBJECT_META_PREFIX = "X-Object-Meta-"
         OBJECT_REMOVE_META_PREFIX = "X-Remove-Object-Meta-"
         CONTAINER_META_PREFIX = "X-Container-Meta-"
@@ -14,7 +12,6 @@ module Fog
 
         CONTAINER_KEY_REGEX = /^#{CONTAINER_META_PREFIX}(.*)/
         OBJECT_KEY_REGEX = /^#{OBJECT_META_PREFIX}(.*)/
-
 
         # @!attribute [rw] data
         # @return [Hash] underlying data store for metadata class
@@ -32,7 +29,6 @@ module Fog
           @deleted_hash = {}
           @parent = parent
         end
-
 
         # Delete key value pair from metadata
         # @param [String] key to be deleted
@@ -54,6 +50,30 @@ module Fog
           end
 
           headers
+        end
+
+        # Retrieve specific value for key from Metadata.
+        # * If key is of type String, this method will return the value of the metadatum
+        # @param [#key] key
+        # @return [#value]
+        def [](key)
+          return nil unless key
+          @data[key.to_s] || @data[key.to_sym]
+        end
+
+        # Set value for key.
+        # * If key is of type String, this method will set/add the value to Metadata
+        # @param [#key] key
+        # @return [String]
+        def []=(key, value)
+          return nil unless key
+          if @data[key.to_s]
+            @data[key.to_s] = value
+          elsif @data[key.to_sym]
+            @data[key.to_sym] = value
+          else
+            @data[key] = value
+          end
         end
 
         # Creates metadata object from Cloud File Headers
@@ -130,18 +150,16 @@ module Fog
            return nil unless m && m[1]
 
            a = m[1].split('-')
-           a.collect!(&:downcase)
+           a.map!(&:downcase)
            str = a.join('_')
            str.to_sym
          end
 
         def to_header_key(key, value)
           prefix = value.nil? ?  remove_meta_prefix : meta_prefix
-          prefix + key.to_s.split(/[-_]/).collect(&:capitalize).join('-')
+          prefix + key.to_s.split(/[-_]/).map(&:capitalize).join('-')
         end
-
       end
-
     end
   end
 end

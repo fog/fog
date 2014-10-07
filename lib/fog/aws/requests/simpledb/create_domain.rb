@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SimpleDB
       class Real
-
         # Create a SimpleDB domain
         #
         # ==== Parameters
@@ -22,11 +21,9 @@ module Fog
             :parser       => Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string)
           )
         end
-
       end
 
       class Mock
-
         def create_domain(domain_name)
           response = Excon::Response.new
           self.data[:domains][domain_name] = {}
@@ -37,7 +34,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

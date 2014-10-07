@@ -20,7 +20,6 @@ module Fog
         def all_users(options={})
           service.list_vpn_users(options).body['items']
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ Shindo.tests('Fog::Compute[:ninefold] | server requests', ['ninefold']) do
 
   tests('success') do
 
-
     tests("#deploy_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINE) do
       pending if Fog.mocking?
       networks = Fog::Compute[:ninefold].list_networks

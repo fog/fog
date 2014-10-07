@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Vsphere
-
       class Customfield < Fog::Model
-
         identity :key
 
         attribute :name
@@ -13,7 +11,6 @@ module Fog
           name
         end
       end
-
     end
   end
 end

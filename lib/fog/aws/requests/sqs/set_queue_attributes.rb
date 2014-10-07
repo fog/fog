@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SQS
       class Real
-
         require 'fog/aws/parsers/sqs/basic'
 
         # Get attributes of a queue
@@ -25,7 +24,6 @@ module Fog
             :parser           => Fog::Parsers::AWS::SQS::Basic.new
           })
         end
-
       end
 
       class Mock

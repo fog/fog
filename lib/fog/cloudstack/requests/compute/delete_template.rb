@@ -1,20 +1,25 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Deletes a specified template.
+        # Deletes a template from the system. All virtual machines using the deleted template will not be affected.
         #
-        # {CloudStack API Reference}[http://http://download.cloud.com/releases/3.0.0/api_3.0.0/user/deleteTemplate.html]
-        def delete_template(options={})
-          options.merge!(
-            'command' => 'deleteTemplate'
-          )
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/deleteTemplate.html]
+        def delete_template(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'deleteTemplate') 
+          else
+            options.merge!('command' => 'deleteTemplate', 
+            'id' => args[0])
+          end
           request(options)
         end
-
       end
+
     end
   end
 end
+

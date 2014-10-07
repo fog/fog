@@ -4,9 +4,7 @@ require 'fog/ibm/models/compute/image'
 module Fog
   module Compute
     class IBM
-
       class Images < Fog::Collection
-
         model Fog::Compute::IBM::Image
 
         def all
@@ -20,7 +18,6 @@ module Fog
             nil
           end
         end
-
       end
     end
   end

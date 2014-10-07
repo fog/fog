@@ -1,18 +1,23 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        def authorize_security_group_ingress(options={})
-          options.merge!(
-            'command' => 'authorizeSecurityGroupIngress'
-          )
-
+        # Authorizes a particular ingress rule for this security group
+        #
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/authorizeSecurityGroupIngress.html]
+        def authorize_security_group_ingress(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'authorizeSecurityGroupIngress') 
+          else
+            options.merge!('command' => 'authorizeSecurityGroupIngress')
+          end
           request(options)
         end
-
-      end # Real
-
+      end
+ 
       class Mock
         def authorize_security_group_ingress(options={})
           security_group_id      = options['securitygroupid']
@@ -65,9 +70,9 @@ module Fog
 
           { "authorizesecuritygroupingressresponse" => { "jobid" => job_id } }
         end
-      end # Mock
+      end
+ 
     end
   end
 end
-
 

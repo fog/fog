@@ -38,105 +38,492 @@ module Fog
       collection :snapshots
       model :zone
       collection :zones
-
-      request :acquire_ip_address
+      request :activate_project
+      request :add_account_to_project
+      request :add_baremetal_dhcp
+      request :add_baremetal_host
+      request :add_baremetal_pxe_kick_start_server
+      request :add_baremetal_pxe_ping_server
+      request :add_big_switch_vns_device
+      request :add_cisco_asa1000v_resource
+      request :add_cisco_vnmc_resource
+      request :add_cluster
+      request :add_external_firewall
+      request :add_external_load_balancer
+      request :add_f5_load_balancer
+      request :add_guest_os
+      request :add_guest_os_mapping
+      request :add_host
+      request :add_image_store
+      request :add_ip_to_nic
+      request :add_ldap_configuration
+      request :add_netscaler_load_balancer
+      request :add_network_device
+      request :add_network_service_provider
+      request :add_nic_to_virtual_machine
+      request :add_nicira_nvp_device
+      request :add_open_daylight_controller
+      request :add_palo_alto_firewall
+      request :add_region
+      request :add_resource_detail
+      request :add_s3
+      request :add_secondary_storage
+      request :add_srx_firewall
+      request :add_stratosphere_ssp
+      request :add_swift
+      request :add_traffic_monitor
+      request :add_traffic_type
+      request :add_ucs_manager
+      request :add_vmware_dc
+      request :add_vpn_user
+      request :archive_alerts
+      request :archive_events
+      request :assign_cert_to_load_balancer
+      request :assign_to_global_load_balancer_rule
       request :assign_to_load_balancer_rule
       request :assign_virtual_machine
+      request :associate_ip_address
+      request :associate_ucs_profile_to_blade
+      request :attach_iso
       request :attach_volume
       request :authorize_security_group_egress
       request :authorize_security_group_ingress
+      request :cancel_host_maintenance
+      request :cancel_storage_maintenance
+      request :change_service_for_router
+      request :change_service_for_system_vm
       request :change_service_for_virtual_machine
+      request :clean_vmreservations
+      request :configure_f5_load_balancer
+      request :configure_internal_load_balancer_element
+      request :configure_netscaler_load_balancer
+      request :configure_ovs_element
+      request :configure_palo_alto_firewall
+      request :configure_srx_firewall
+      request :configure_virtual_router_element
+      request :copy_iso
+      request :copy_template
       request :create_account
+      request :create_affinity_group
+      request :create_auto_scale_policy
+      request :create_auto_scale_vm_group
+      request :create_auto_scale_vm_profile
+      request :create_condition
+      request :create_counter
       request :create_disk_offering
       request :create_domain
+      request :create_egress_firewall_rule
+      request :create_firewall_rule
+      request :create_global_load_balancer_rule
+      request :create_instance_group
+      request :create_internal_load_balancer_element
+      request :create_ip_forwarding_rule
+      request :create_lb_health_check_policy
+      request :create_lb_stickiness_policy
+      request :create_load_balancer
       request :create_load_balancer_rule
       request :create_network
+      request :create_network_acl
+      request :create_network_acl_list
+      request :create_network_offering
+      request :create_physical_network
+      request :create_pod
       request :create_port_forwarding_rule
+      request :create_portable_ip_range
+      request :create_private_gateway
+      request :create_project
+      request :create_remote_access_vpn
+      request :create_secondary_staging_store
       request :create_security_group
-      request :create_ssh_key_pair
+      request :create_service_instance
+      request :create_service_offering
       request :create_snapshot
       request :create_snapshot_policy
+      request :create_ssh_key_pair
+      request :create_static_route
+      request :create_storage_network_ip_range
+      request :create_storage_pool
+      request :create_tags
+      request :create_template
       request :create_user
+      request :create_virtual_router_element
+      request :create_vlan_ip_range
+      request :create_vm_snapshot
       request :create_volume
+      request :create_vpc
+      request :create_vpcoffering
+      request :create_vpn_connection
+      request :create_vpn_customer_gateway
+      request :create_vpn_gateway
       request :create_zone
+      request :dedicate_cluster
+      request :dedicate_guest_vlan_range
+      request :dedicate_host
+      request :dedicate_pod
+      request :dedicate_public_ip_range
+      request :dedicate_zone
       request :delete_account
+      request :delete_account_from_project
+      request :delete_affinity_group
+      request :delete_alerts
+      request :delete_auto_scale_policy
+      request :delete_auto_scale_vm_group
+      request :delete_auto_scale_vm_profile
+      request :delete_big_switch_vns_device
+      request :delete_cisco_asa1000v_resource
+      request :delete_cisco_nexus_vsm
+      request :delete_cisco_vnmc_resource
+      request :delete_cluster
+      request :delete_condition
+      request :delete_counter
       request :delete_disk_offering
       request :delete_domain
+      request :delete_egress_firewall_rule
+      request :delete_events
+      request :delete_external_firewall
+      request :delete_external_load_balancer
+      request :delete_f5_load_balancer
+      request :delete_firewall_rule
+      request :delete_global_load_balancer_rule
+      request :delete_host
+      request :delete_image_store
+      request :delete_instance_group
+      request :delete_ip_forwarding_rule
+      request :delete_iso
+      request :delete_lb_health_check_policy
+      request :delete_lb_stickiness_policy
+      request :delete_ldap_configuration
+      request :delete_load_balancer
       request :delete_load_balancer_rule
+      request :delete_netscaler_load_balancer
+      request :delete_network
+      request :delete_network_acl
+      request :delete_network_acl_list
+      request :delete_network_device
+      request :delete_network_offering
+      request :delete_network_service_provider
+      request :delete_nicira_nvp_device
+      request :delete_open_daylight_controller
+      request :delete_palo_alto_firewall
+      request :delete_physical_network
+      request :delete_pod
       request :delete_port_forwarding_rule
+      request :delete_portable_ip_range
+      request :delete_private_gateway
+      request :delete_project
+      request :delete_project_invitation
+      request :delete_remote_access_vpn
+      request :delete_secondary_staging_store
       request :delete_security_group
-      request :delete_ssh_key_pair
+      request :delete_service_offering
       request :delete_snapshot
       request :delete_snapshot_policies
+      request :delete_srx_firewall
+      request :delete_ssh_key_pair
+      request :delete_ssl_cert
+      request :delete_static_route
+      request :delete_storage_network_ip_range
+      request :delete_storage_pool
+      request :delete_tags
       request :delete_template
+      request :delete_traffic_monitor
+      request :delete_traffic_type
       request :delete_user
+      request :delete_vlan_ip_range
+      request :delete_vm_snapshot
       request :delete_volume
-      request :detach_volume
+      request :delete_vpc
+      request :delete_vpcoffering
+      request :delete_vpn_connection
+      request :delete_vpn_customer_gateway
+      request :delete_vpn_gateway
+      request :delete_zone
       request :deploy_virtual_machine
+      request :destroy_router
+      request :destroy_system_vm
       request :destroy_virtual_machine
+      request :detach_iso
+      request :detach_volume
+      request :disable_account
+      request :disable_auto_scale_vm_group
+      request :disable_cisco_nexus_vsm
+      request :disable_static_nat
       request :disable_user
+      request :disassociate_ip_address
+      request :enable_account
+      request :enable_auto_scale_vm_group
+      request :enable_cisco_nexus_vsm
+      request :enable_static_nat
+      request :enable_storage_maintenance
       request :enable_user
+      request :expunge_virtual_machine
+      request :extract_iso
+      request :extract_template
+      request :extract_volume
+      request :find_hosts_for_migration
+      request :find_storage_pools_for_migration
+      request :generate_alert
       request :generate_usage_records
+      request :get_api_limit
+      request :get_cloud_identifier
+      request :get_user
+      request :get_virtual_machine_user_data
       request :get_vm_password
+      request :import_ldap_users
+      request :ldap_create_account
       request :list_accounts
+      request :list_affinity_group_types
+      request :list_affinity_groups
       request :list_alerts
+      request :list_apis
       request :list_async_jobs
-      request :list_capacity
+      request :list_auto_scale_policies
+      request :list_auto_scale_vm_groups
+      request :list_auto_scale_vm_profiles
+      request :list_baremetal_dhcp
+      request :list_baremetal_pxe_servers
+      request :list_big_switch_vns_devices
       request :list_capabilities
-      request :list_clusters
-      request :list_configurations
-      request :list_disk_offerings
       request :list_capacity
-      request :list_domains
+      request :list_cisco_asa1000v_resources
+      request :list_cisco_nexus_vsms
+      request :list_cisco_vnmc_resources
+      request :list_clusters
+      request :list_conditions
+      request :list_configurations
+      request :list_counters
+      request :list_dedicated_clusters
+      request :list_dedicated_guest_vlan_ranges
+      request :list_dedicated_hosts
+      request :list_dedicated_pods
+      request :list_dedicated_zones
+      request :list_deployment_planners
+      request :list_disk_offerings
       request :list_domain_children
+      request :list_domains
+      request :list_egress_firewall_rules
+      request :list_event_types
       request :list_events
       request :list_external_firewalls
       request :list_external_load_balancers
+      request :list_f5_load_balancer_networks
+      request :list_f5_load_balancers
       request :list_firewall_rules
+      request :list_global_load_balancer_rules
+      request :list_guest_os_mapping
       request :list_hosts
+      request :list_hypervisor_capabilities
       request :list_hypervisors
+      request :list_image_stores
       request :list_instance_groups
+      request :list_internal_load_balancer_elements
+      request :list_internal_load_balancer_vms
+      request :list_ip_forwarding_rules
+      request :list_iso_permissions
       request :list_isos
-      request :list_load_balancer_rules
+      request :list_lb_health_check_policies
+      request :list_lb_stickiness_policies
+      request :list_ldap_configurations
+      request :list_ldap_users
       request :list_load_balancer_rule_instances
+      request :list_load_balancer_rules
+      request :list_load_balancers
+      request :list_netscaler_load_balancer_networks
+      request :list_netscaler_load_balancers
+      request :list_network_acl_lists
+      request :list_network_acls
+      request :list_network_device
+      request :list_network_isolation_methods
       request :list_network_offerings
+      request :list_network_service_providers
       request :list_networks
+      request :list_nicira_nvp_device_networks
+      request :list_nicira_nvp_devices
+      request :list_nics
+      request :list_open_daylight_controllers
       request :list_os_categories
       request :list_os_types
+      request :list_ovs_elements
+      request :list_palo_alto_firewall_networks
+      request :list_palo_alto_firewalls
+      request :list_physical_networks
       request :list_pods
       request :list_port_forwarding_rules
+      request :list_portable_ip_ranges
+      request :list_private_gateways
+      request :list_project_accounts
+      request :list_project_invitations
+      request :list_projects
       request :list_public_ip_addresses
+      request :list_regions
+      request :list_remote_access_vpns
+      request :list_resource_details
       request :list_resource_limits
+      request :list_routers
+      request :list_s3s
+      request :list_secondary_staging_stores
       request :list_security_groups
       request :list_service_offerings
-      request :list_snapshots
       request :list_snapshot_policies
+      request :list_snapshots
+      request :list_srx_firewall_networks
+      request :list_srx_firewalls
       request :list_ssh_key_pairs
+      request :list_ssl_certs
+      request :list_static_routes
+      request :list_storage_network_ip_range
       request :list_storage_pools
+      request :list_storage_providers
+      request :list_supported_network_services
+      request :list_swifts
+      request :list_system_vms
+      request :list_tags
+      request :list_template_permissions
       request :list_templates
+      request :list_traffic_monitors
+      request :list_traffic_type_implementors
+      request :list_traffic_types
+      request :list_ucs_blades
+      request :list_ucs_managers
+      request :list_ucs_profiles
       request :list_usage_records
+      request :list_usage_types
       request :list_users
       request :list_virtual_machines
+      request :list_virtual_router_elements
+      request :list_vlan_ip_ranges
+      request :list_vm_snapshot
+      request :list_vmware_dcs
       request :list_volumes
+      request :list_vpc_offerings
+      request :list_vpcs
+      request :list_vpn_connections
+      request :list_vpn_customer_gateways
+      request :list_vpn_gateways
+      request :list_vpn_users
       request :list_zones
+      request :lock_account
+      request :lock_user
+      request :mark_default_zone_for_account
+      request :migrate_system_vm
       request :migrate_virtual_machine
+      request :migrate_virtual_machine_with_volume
+      request :migrate_volume
+      request :prepare_host_for_maintenance
+      request :prepare_template
       request :query_async_job_result
+      request :reboot_router
+      request :reboot_system_vm
       request :reboot_virtual_machine
+      request :reconnect_host
       request :recover_virtual_machine
+      request :register_iso
       request :register_ssh_key_pair
-      request :register_user_keys
       request :register_template
+      request :register_user_keys
+      request :release_dedicated_cluster
+      request :release_dedicated_guest_vlan_range
+      request :release_dedicated_host
+      request :release_dedicated_pod
+      request :release_dedicated_zone
+      request :release_host_reservation
+      request :release_public_ip_range
+      request :remove_cert_from_load_balancer
+      request :remove_from_global_load_balancer_rule
       request :remove_from_load_balancer_rule
+      request :remove_guest_os
+      request :remove_guest_os_mapping
+      request :remove_ip_from_nic
+      request :remove_nic_from_virtual_machine
+      request :remove_region
+      request :remove_resource_detail
+      request :remove_vmware_dc
+      request :remove_vpn_user
+      request :replace_network_acl_list
+      request :reset_api_limit
       request :reset_password_for_virtual_machine
-      request :revoke_security_group_ingress
+      request :reset_ssh_key_for_virtual_machine
+      request :reset_vpn_connection
+      request :resize_volume
+      request :restart_network
+      request :restart_vpc
+      request :restore_virtual_machine
+      request :revert_snapshot
+      request :revert_to_vm_snapshot
       request :revoke_security_group_egress
+      request :revoke_security_group_ingress
+      request :scale_system_vm
+      request :scale_virtual_machine
+      request :start_internal_load_balancer_vm
+      request :start_router
+      request :start_system_vm
       request :start_virtual_machine
+      request :stop_internal_load_balancer_vm
+      request :stop_router
+      request :stop_system_vm
       request :stop_virtual_machine
+      request :suspend_project
       request :update_account
+      request :update_auto_scale_policy
+      request :update_auto_scale_vm_group
+      request :update_auto_scale_vm_profile
+      request :update_cloud_to_use_object_store
+      request :update_cluster
+      request :update_configuration
+      request :update_default_nic_for_virtual_machine
+      request :update_disk_offering
       request :update_domain
-      request :update_user
+      request :update_egress_firewall_rule
+      request :update_firewall_rule
+      request :update_global_load_balancer_rule
+      request :update_guest_os
+      request :update_guest_os_mapping
+      request :update_host
+      request :update_host_password
+      request :update_hypervisor_capabilities
+      request :update_instance_group
+      request :update_ip_address
+      request :update_iso
+      request :update_iso_permissions
+      request :update_lb_health_check_policy
+      request :update_lb_stickiness_policy
+      request :update_load_balancer
+      request :update_load_balancer_rule
+      request :update_network
+      request :update_network_acl_item
+      request :update_network_acl_list
+      request :update_network_offering
+      request :update_network_service_provider
+      request :update_physical_network
+      request :update_pod
+      request :update_port_forwarding_rule
+      request :update_project
+      request :update_project_invitation
+      request :update_region
+      request :update_remote_access_vpn
       request :update_resource_count
+      request :update_resource_limit
+      request :update_service_offering
+      request :update_storage_network_ip_range
+      request :update_storage_pool
+      request :update_template
+      request :update_template_permissions
+      request :update_traffic_type
+      request :update_user
       request :update_virtual_machine
+      request :update_vm_affinity_group
+      request :update_volume
+      request :update_vpc
+      request :update_vpcoffering
+      request :update_vpn_connection
+      request :update_vpn_customer_gateway
+      request :update_vpn_gateway
+      request :update_zone
+      request :upgrade_router_template
+      request :upload_custom_certificate
+      request :upload_ssl_cert
+      request :upload_volume
+      
 
       class Real
 

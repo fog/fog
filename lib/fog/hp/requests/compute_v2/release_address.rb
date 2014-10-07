@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Release an existing floating IP address
         #
         # ==== Parameters
@@ -15,11 +14,9 @@ module Fog
             :path   => "os-floating-ips/#{address_id}"
           )
         end
-
       end
 
       class Mock
-
         def release_address(address_id)
           response = Excon::Response.new
           if self.data[:addresses][address_id]
@@ -31,7 +28,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

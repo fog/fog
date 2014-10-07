@@ -1,18 +1,23 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        def list_security_groups(options={})
-          options.merge!(
-            'command' => 'listSecurityGroups'
-          )
-
+        # Lists security groups
+        #
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/listSecurityGroups.html]
+        def list_security_groups(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'listSecurityGroups') 
+          else
+            options.merge!('command' => 'listSecurityGroups')
+          end
           request(options)
         end
-
-      end # Real
-
+      end
+ 
       class Mock
         def list_security_groups(options={})
           security_groups = []
@@ -32,7 +37,8 @@ module Fog
             }
           }
         end
-      end
+      end 
     end
   end
 end
+

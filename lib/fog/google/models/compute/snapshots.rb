@@ -4,9 +4,7 @@ require 'fog/google/models/compute/snapshot'
 module Fog
   module Compute
     class Google
-
       class Snapshots < Fog::Collection
-
         model Fog::Compute::Google::Snapshot
 
         def all
@@ -22,9 +20,7 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

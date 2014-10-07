@@ -2,7 +2,6 @@ module Fog
   module Compute
     class XenServer
       class Real
-
         def get_vm_by_name(label)
           @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.get_by_name_label' }, label)
         end
@@ -22,7 +21,7 @@ module Fog
             if not config[:affinity]
           config[:affinity] = config[:affinity].reference \
             if config[:affinity].kind_of? Fog::Compute::XenServer::Host
-          config.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
+          config.reduce({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
           %w{ VCPUs_at_startup
               VCPUs_max
               VCPUs_params
@@ -56,8 +55,7 @@ module Fog
             :actions_after_shutdown =>  'Destroy',
             :actions_after_reboot =>    'Restart',
             :actions_after_crash =>     'Restart',
-            :platform =>                { 'nx' => false, 'acpi' => true, 'apic' => 'true', 'pae' => true, 'viridian' => true},
-            :platform =>                {},
+            :platform =>                { :'nx' => 'true', :'acpi' => 'true', :'apic' => 'true', :'pae' => 'true', :'viridian' => 'true' },
             :other_config =>            {},
             :pool_name =>               '',
             :PV_bootloader =>           'pygrub', #pvgrub, eliloader
@@ -110,11 +108,9 @@ module Fog
 
           ref
         end
-
       end
 
       class Mock
-
         def create_server( name_label, template = nil, network = nil, extra_args = {})
           Fog::Mock.not_implemented
         end
@@ -122,9 +118,7 @@ module Fog
         def create_server_raw(config = {})
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

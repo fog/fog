@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Deletes virtual interface from server
         # @param [String] server_id The server id that contains the virtual interface
         # @param [String] interface_id The id of the virtual interface
@@ -15,11 +14,10 @@ module Fog
           request(
             :expects => [200],
             :method => 'DELETE',
-            :path => "/servers/#{server_id}/os-virtual-interfacesv2/#{interface_id}"
+            :path => "servers/#{server_id}/os-virtual-interfacesv2/#{interface_id}"
           )
         end
       end
-
     end
   end
 end

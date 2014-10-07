@@ -1,9 +1,7 @@
 module Fog
   module Rackspace
     class Queues
-
       class Real
-
         # This operation returns queue statistics, including how many messages are in the queue, categorized by status.
         #
         # @param [String] queue_name Specifies the name of the queue.
@@ -20,7 +18,6 @@ module Fog
             :path => "queues/#{queue_name}/stats"
           )
         end
-
       end
 
       class Mock
@@ -55,7 +52,6 @@ module Fog
           }
         end
       end
-
     end
   end
 end

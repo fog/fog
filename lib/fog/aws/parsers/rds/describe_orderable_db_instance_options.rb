@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         class DescribeOrderableDBInstanceOptions < Fog::Parsers::Base
-
           def reset
             @response = { 'DescribeOrderableDBInstanceOptionsResult' => {'OrderableDBInstanceOptions' => []}, 'ResponseMetadata' => {} }
             @db_instance_option = {}

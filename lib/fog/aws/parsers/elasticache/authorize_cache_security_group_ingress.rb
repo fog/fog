@@ -2,11 +2,9 @@ module Fog
   module Parsers
     module AWS
       module Elasticache
-
         require 'fog/aws/parsers/elasticache/security_group_parser'
 
         class AuthorizeCacheSecurityGroupIngress < Fog::Parsers::AWS::Elasticache::SecurityGroupParser
-
           def end_element(name)
             case name
             when 'CacheSecurityGroup' then
@@ -15,11 +13,8 @@ module Fog
             else
               super
             end
-
           end
-
         end
-
       end
     end
   end

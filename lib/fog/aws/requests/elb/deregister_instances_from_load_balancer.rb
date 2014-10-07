@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/deregister_instances_from_load_balancer'
 
         # Deregister an instance from an existing ELB
@@ -28,8 +27,7 @@ module Fog
           }.merge!(params))
         end
 
-        alias :deregister_instances :deregister_instances_from_load_balancer
-
+        alias_method :deregister_instances, :deregister_instances_from_load_balancer
       end
 
       class Mock
@@ -56,7 +54,7 @@ module Fog
 
           response
         end
-        alias :deregister_instances :deregister_instances_from_load_balancer
+        alias_method :deregister_instances, :deregister_instances_from_load_balancer
       end
     end
   end

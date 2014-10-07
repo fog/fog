@@ -2,10 +2,8 @@ module Fog
   module Parsers
     module AWS
       module ElasticBeanstalk
-
         require 'fog/aws/parsers/beanstalk/parser'
         class ValidateConfigurationSettings < Fog::Parsers::AWS::ElasticBeanstalk::BaseParser
-
           def initialize
             super("ValidateConfigurationSettingsResult")
             tag 'Messages', :object, :list
@@ -14,7 +12,6 @@ module Fog
             tag 'OptionName', :string
             tag 'Severity', :string
           end
-
         end
       end
     end

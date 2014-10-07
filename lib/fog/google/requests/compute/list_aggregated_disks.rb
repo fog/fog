@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def list_aggregated_disks(options = {})
           # Create a Hash of unique zones from the disks Array previously filled when disks are created
@@ -15,7 +14,7 @@ module Fog
             # Fill the zones Hash with the disks attached to each zone
             self.data[:disks].values.each { |disk| zones["zones/#{disk['zone'].split('/')[-1]}"]['disks'].concat([disk]) }
           end
-          build_response(:body => {
+          build_excon_response({
             "kind" => "compute#diskAggregatedList",
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/aggregated/disks",
             "id" => "projects/#{@project}/aggregated/disks",
@@ -33,11 +32,9 @@ module Fog
           }
           parameters['filter'] = options[:filter] if options[:filter]
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class GoGrid
       class Real
-
         # Get one or more passwords by id
         #
         # ==== Parameters
@@ -21,7 +20,6 @@ module Fog
             }.merge!(options)
           )
         end
-
       end
     end
   end

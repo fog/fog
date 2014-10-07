@@ -52,7 +52,7 @@ Shindo.tests('Fog::Compute[:google] | firewall requests', ['google']) do
 
   tests('success') do
 
-    firewall_name = 'new-firewall-test'
+    firewall_name = 'fog-test-firewall'
     source_range = [ '10.0.0.0/8' ]
     allowed = [{
       "IPProtocol" => "tcp",
@@ -65,7 +65,9 @@ Shindo.tests('Fog::Compute[:google] | firewall requests', ['google']) do
     }]
 
     tests("#insert_firewall").formats(@insert_firewall_format) do
-      @google.insert_firewall(firewall_name, source_range, allowed).body
+      response = @google.insert_firewall(firewall_name, allowed, 'default', :source_ranges => source_range).body
+      wait_operation(@google, response)
+      response
     end
 
     # TODO: Get better matching for firewall responses.

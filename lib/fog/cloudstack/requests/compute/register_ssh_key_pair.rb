@@ -1,19 +1,25 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
-        # Registers an SSH key pair..
+      class Real
+        # Register a public key in a keypair under a certain name
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/registerSSHKeyPair.html]
-        def register_ssh_key_pair(options={})
-          options.merge!(
-            'command' => 'registerSSHKeyPair'
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/registerSSHKeyPair.html]
+        def register_ssh_key_pair(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'registerSSHKeyPair') 
+          else
+            options.merge!('command' => 'registerSSHKeyPair', 
+            'name' => args[0], 
+            'publickey' => args[1])
+          end
           request(options)
         end
-
       end
+
     end
   end
 end

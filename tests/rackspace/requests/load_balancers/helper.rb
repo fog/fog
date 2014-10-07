@@ -160,7 +160,7 @@ LOAD_BALANCER_FORMAT = {
     'timeout' => Integer,
     'cluster' => { 'name' => String },
     'virtualIps' => [VIRTUAL_IP_FORMAT],
-    'nodes' => [SINGLE_NODE_FORMAT],
+    'nodes' => Fog::Nullable::Array,
     'created' => { 'time' => String },
     'updated' => { 'time' => String },
     'contentCaching' => { 'enabled' => Fog::Boolean }
@@ -227,5 +227,3 @@ YlnFahKZ2j0CpYvg0lJjfN0Lvj7Sm6GBA74n2OrGuB14H27wklD+PtIEFniyxKbq
 5TDO0l4yDgkR7PsckmZqK22GP9c3fQkmXodtpV1wRjcSAxxVWYm+S24XvMFERs3j
 yXEf+VJ0H+voAvxgbAk=
 -----END CERTIFICATE-----'
-
-

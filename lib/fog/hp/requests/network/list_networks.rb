@@ -1,9 +1,7 @@
 module Fog
   module HP
     class Network
-
       class Real
-
         # List existing networks
         #
         # ==== Parameters
@@ -23,12 +21,25 @@ module Fog
         #       * 'admin_state_up'<~Boolean>: - true or false
         #       * 'shared'<~Boolean>: - true or false
         def list_networks(options = {})
-          request(
-            :expects => 200,
-            :method  => 'GET',
-            :path    => 'networks',
-            :query   => options
-          )
+          begin
+            request(
+              :expects => 200,
+              :method  => 'GET',
+              :path    => 'networks',
+              :query   => options
+            )
+          rescue Fog::HP::Network::NotFound
+            begin
+              request(
+                :expects => 200,
+                :method  => 'GET',
+                :path    => 'os-networks',
+                :query   => options
+              )
+            rescue Exception => e
+              throw e
+            end
+          end
         end
       end
 
@@ -42,7 +53,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

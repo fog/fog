@@ -5,12 +5,14 @@ module Fog
   module Rackspace
     class Monitoring
       class AgentTokens < Fog::Collection
+        attribute :marker
 
         model Fog::Rackspace::Monitoring::AgentToken
 
         def all(options={})
           clear
           body = service.list_agent_tokens(options).body
+          self.marker = body['metadata']['next_marker']
 
           load(body['values'])
         end
@@ -21,7 +23,6 @@ module Fog
         rescue Fog::Rackspace::Monitoring::NotFound
           nil
         end
-
       end
     end
   end

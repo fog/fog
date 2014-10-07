@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Ecloud
       class AuthenticationLevels < Fog::Ecloud::Collection
-
         identity :href
 
         model Fog::Compute::Ecloud::AuthenticationLevel

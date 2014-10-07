@@ -1,7 +1,6 @@
 module Fog
   module XML
     class SAXParserConnection < Fog::Core::Connection
-
       # Makes a request using the connection using Excon
       #
       # @param [Hash] params

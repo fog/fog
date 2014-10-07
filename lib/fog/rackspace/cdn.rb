@@ -13,7 +13,6 @@ module Fog
       request :put_container
       request :delete_object
 
-
       module Base
         URI_HEADERS = {
           "X-Cdn-Ios-Uri" => :ios_uri,
@@ -30,7 +29,7 @@ module Fog
           @connection_options = options[:connection_options] || {}
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_cdn_url = options[:rackspace_cdn_url]
-          @rackspace_region = options[:rackspace_region] || :dfw
+          @rackspace_region = options[:rackspace_region]
         end
 
         def service_name
@@ -130,7 +129,6 @@ module Fog
         def reset_data
           self.class.data.delete(@rackspace_username)
         end
-
       end
 
       class Real < Fog::Rackspace::Service

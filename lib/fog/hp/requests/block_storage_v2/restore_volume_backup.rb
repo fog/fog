@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorageV2
       class Real
-
         # Restore an existing block storage volume backup to an existing or new volume
         #
         # If a volume is specified, that volume will be overwritten with the backup data from the backup.
@@ -32,11 +31,9 @@ module Fog
             :path     => "backups/#{backup_id}/restore"
           )
         end
-
       end
 
       class Mock # :nodoc:all
-
         def restore_volume_backup(backup_id, options={})
           volume_id = options['volume_id']
 
@@ -91,7 +88,6 @@ module Fog
           }
         end
       end
-
     end
   end
 end

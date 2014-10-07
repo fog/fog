@@ -1,19 +1,19 @@
 Shindo.tests('Fog::Compute[:xenserver] | Vlans collection', ['xenserver']) do
 
   service = Fog::Compute[:xenserver]
-  
+
   tests('The Vlans collection') do
 
     test('should not be empty') { !service.vlans.empty? }
 
-    test('should be a kind of Fog::Compute::XenServer::Vlans') do 
+    test('should be a kind of Fog::Compute::XenServer::Vlans') do
       service.vlans.kind_of? Fog::Compute::XenServer::Vlans
     end
 
     tests('should be able to reload itself').succeeds { service.vlans.reload }
 
     tests('should be able to get a model') do
-      tests('by reference').succeeds { 
+      tests('by reference').succeeds {
         service.vlans.get(service.vlans.first.reference).is_a? \
           Fog::Compute::XenServer::VLAN
       }

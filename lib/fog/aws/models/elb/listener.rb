@@ -3,7 +3,6 @@ module Fog
   module AWS
     class ELB
       class Listener < Fog::Model
-
         attribute :policy_names,      :aliases => 'PolicyNames'
         attribute :instance_port,     :aliases => 'InstancePort'
         attribute :instance_protocol, :aliases => 'InstanceProtocol'
@@ -51,9 +50,7 @@ module Fog
             'SSLCertificateId' => ssl_id
           }
         end
-
       end
-
     end
   end
 end

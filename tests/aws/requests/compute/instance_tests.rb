@@ -28,6 +28,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'privateDnsName'      => NilClass,
     'productCodes'        => Array,
     'reason'              => Fog::Nullable::String,
+    'rootDeviceName'      => Fog::Nullable::String,
     'rootDeviceType'      => String,
     'sourceDestCheck'     => Fog::Nullable::Boolean,
     'subnetId'            => Fog::Nullable::String,
@@ -79,7 +80,6 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'requestId'    => String,
     'timestamp'    => Time
   }
-
 
   @terminate_instances_format = {
     'instancesSet'  => [{
@@ -176,7 +176,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     key = Fog::Compute[:aws].key_pairs.create(:name => key_name)
 
     tests("#run_instances").formats(@run_instances_format) do
-      data = Fog::Compute[:aws].run_instances(@ami, 1, 1, 'InstanceType' => 't1.micro', 'KeyName' => key_name).body
+      data = Fog::Compute[:aws].run_instances(@ami, 1, 1, 'InstanceType' => 't1.micro', 'KeyName' => key_name, 'BlockDeviceMapping' => [{"DeviceName" => "/dev/sdp1", "VirtualName" => nil, "Ebs.VolumeSize" => 15}]).body
       @instance_id = data['instancesSet'].first['instanceId']
       data
     end
@@ -204,11 +204,15 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
 
     # Test network interface attachment
     tests('#describe_instances networkInterfaces') do
-      data = Fog::Compute[:aws].create_network_interface('subnet-12345678').body
+      vpc = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/16')
+      subnet = Fog::Compute[:aws].subnets.create('vpc_id' => vpc.id, 'cidr_block' => '10.0.10.0/16')
+      data = Fog::Compute[:aws].create_network_interface(subnet.subnet_id).body
       @network_interface_id = data['networkInterface']['networkInterfaceId']
-      Fog::Compute[:aws].attach_network_interface(@network_interface_id, @instance_id, 1)
+      Fog::Compute[:aws].attach_network_interface(@network_interface_id, @instance_id, '1')
       body = Fog::Compute[:aws].describe_instances('instance-id' => "#{@instance_id}").body
       tests("returns 1 attachment").returns(1) { body['reservationSet'].first['instancesSet'].first['networkInterfaces'].size }
+      subnet.destroy
+      vpc.destroy
     end
 
     another_server.destroy
@@ -269,6 +273,9 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
 
   tests('failure') do
 
+    tests("#run_instances(nil, 1, 1, {'SubnetId'=>'subnet-00000000'}").raises(::Fog::Compute::AWS::Error) do
+      Fog::Compute[:aws].run_instances(nil, 1, 1, {'SubnetId' => 'subnet-000000'})
+    end
     tests("#get_console_output('i-00000000')").raises(Fog::Compute::AWS::NotFound) do
       Fog::Compute[:aws].get_console_output('i-00000000')
     end

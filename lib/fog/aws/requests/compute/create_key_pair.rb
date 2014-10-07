@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/create_key_pair'
 
         # Create a new key pair
@@ -26,11 +25,9 @@ module Fog
             :parser   => Fog::Parsers::Compute::AWS::CreateKeyPair.new
           )
         end
-
       end
 
       class Mock
-
         def create_key_pair(key_name)
           response = Excon::Response.new
           unless self.data[:key_pairs][key_name]
@@ -49,7 +46,6 @@ module Fog
             raise Fog::Compute::AWS::Error.new("InvalidKeyPair.Duplicate => The keypair '#{key_name}' already exists.")
           end
         end
-
       end
     end
   end

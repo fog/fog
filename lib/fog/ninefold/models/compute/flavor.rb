@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Ninefold
-
       class Flavor < Fog::Model
-
         identity :id
 
         attribute :cpunumber
@@ -20,10 +18,7 @@ module Fog
         attribute :offerha
         attribute :storagetype
         attribute :tags
-
-
       end
-
     end
   end
 end

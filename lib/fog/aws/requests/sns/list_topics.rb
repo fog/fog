@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SNS
       class Real
-
         require 'fog/aws/parsers/sns/list_topics'
 
         # List topics
@@ -21,9 +20,7 @@ module Fog
             :parser   => Fog::Parsers::AWS::SNS::ListTopics.new
           }.merge!(options))
         end
-
       end
-
     end
   end
 end

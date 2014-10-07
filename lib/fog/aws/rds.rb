@@ -10,7 +10,7 @@ module Fog
       class AuthorizationAlreadyExists < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :version
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :version, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/rds'
       request :describe_events
@@ -57,6 +57,8 @@ module Fog
       request :describe_db_log_files
       request :download_db_logfile_portion
 
+      request :promote_read_replica
+
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
@@ -83,7 +85,6 @@ module Fog
       collection  :log_files
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
@@ -111,14 +112,12 @@ module Fog
         end
 
         def initialize(options={})
-
           @use_iam_profile = options[:use_iam_profile]
           @region = options[:region] || 'us-east-1'
 
           unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
-
         end
 
         def data
@@ -132,7 +131,6 @@ module Fog
         def setup_credentials(options)
           @aws_access_key_id = options[:aws_access_key_id]
         end
-
       end
 
       class Real
@@ -160,6 +158,8 @@ module Fog
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
+          @instrumentor       = options[:instrumentor]
+          @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.rds'
           @connection_options     = options[:connection_options] || {}
 
           @region     = options[:region]      || 'us-east-1'
@@ -210,39 +210,46 @@ module Fog
             }
           )
 
-          begin
-            @connection.request({
-              :body       => body,
-              :expects    => 200,
-              :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-              :idempotent => idempotent,
-              :method     => 'POST',
-              :parser     => parser
-            })
-          rescue Excon::Errors::HTTPStatusError => error
-            match = Fog::AWS::Errors.match_error(error)
-            if match.empty?
-              case error.message
-              when 'Not Found'
-                raise Fog::AWS::RDS::NotFound.slurp(error, 'RDS Instance not found')
-              else
-                raise
-              end
-            else
-              raise case match[:code]
-                    when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound'
-                      Fog::AWS::RDS::NotFound.slurp(error, match[:message])
-                    when 'DBParameterGroupAlreadyExists'
-                      Fog::AWS::RDS::IdentifierTaken.slurp(error, match[:message])
-                    when 'AuthorizationAlreadyExists'
-                      Fog::AWS::RDS::AuthorizationAlreadyExists.slurp(error, match[:message])
-                    else
-                      Fog::AWS::RDS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
-                    end
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser)
             end
+          else
+            _request(body, idempotent, parser)
           end
         end
 
+        def _request(body, idempotent, parser)
+          @connection.request({
+            :body       => body,
+            :expects    => 200,
+            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :idempotent => idempotent,
+            :method     => 'POST',
+            :parser     => parser
+          })
+        rescue Excon::Errors::HTTPStatusError => error
+          match = Fog::AWS::Errors.match_error(error)
+          if match.empty?
+            case error.message
+            when 'Not Found'
+              raise Fog::AWS::RDS::NotFound.slurp(error, 'RDS Instance not found')
+            else
+              raise
+            end
+          else
+            raise case match[:code]
+                  when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound'
+                    Fog::AWS::RDS::NotFound.slurp(error, match[:message])
+                  when 'DBParameterGroupAlreadyExists'
+                    Fog::AWS::RDS::IdentifierTaken.slurp(error, match[:message])
+                  when 'AuthorizationAlreadyExists'
+                    Fog::AWS::RDS::AuthorizationAlreadyExists.slurp(error, match[:message])
+                  else
+                    Fog::AWS::RDS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                  end
+          end
+        end
       end
     end
   end

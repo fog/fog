@@ -1,6 +1,5 @@
 class Bluebox < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -33,6 +32,5 @@ class Bluebox < Fog::Bin
     def services
       Fog::Bluebox.services
     end
-
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def get_usage(tenant_id, date_start, date_end)
           params = Hash.new
           params[:start] = date_start.utc.iso8601.chop!
@@ -14,7 +13,6 @@ module Fog
             :query    => params
           )
         end
-
       end
 
       class Mock

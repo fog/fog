@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/empty'
 
         # Create Elastic Load Balancer Listeners
@@ -48,7 +47,6 @@ module Fog
             :parser            => Fog::Parsers::AWS::ELB::Empty.new
           }.merge!(params))
         end
-
       end
 
       class Mock

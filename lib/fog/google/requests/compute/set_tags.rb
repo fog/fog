@@ -1,17 +1,13 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def set_tags(instance, zone, tags=[])
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
-
         def set_tags(instance, zone, fingerprint, tags=[])
           api_method = @compute.instances.set_tags
           parameters = {
@@ -20,12 +16,7 @@ module Fog
             'zone' => zone
           }
           body_object = { "fingerprint" => fingerprint, "items" => tags }
-          result = self.build_result(
-            api_method,
-            parameters,
-            body_object=body_object
-          )
-          response = self.build_response(result)
+          request(api_method, parameters, body_object=body_object)
         end
       end
     end

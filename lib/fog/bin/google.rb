@@ -1,12 +1,17 @@
 module Google # deviates from other bin stuff to accomodate gem
   class << self
-
     def class_for(key)
       case key
       when :compute
         Fog::Compute::Google
+      when :dns
+        Fog::DNS::Google
+      when :monitoring
+        Fog::Google::Monitoring
       when :storage
         Fog::Storage::Google
+      when :sql
+        Fog::Google::SQL
       else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
@@ -15,12 +20,19 @@ module Google # deviates from other bin stuff to accomodate gem
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
-        when :storage
-          Fog::Logger.warning("Google[:storage] is not recommended, use Storage[:google] for portability")
-          Fog::Storage.new(:provider => 'Google')
         when :compute
           Fog::Logger.warning("Google[:compute] is not recommended, use Compute[:google] for portability")
           Fog::Compute.new(:provider => 'Google')
+        when :dns
+          Fog::Logger.warning("Google[:dns] is not recommended, use DNS[:google] for portability")
+          Fog::DNS.new(:provider => 'Google')
+        when :monitoring
+          Fog::Google::Monitoring.new
+        when :sql
+          Fog::Google::SQL.new
+        when :storage
+          Fog::Logger.warning("Google[:storage] is not recommended, use Storage[:google] for portability")
+          Fog::Storage.new(:provider => 'Google')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
@@ -44,7 +56,6 @@ module Google # deviates from other bin stuff to accomodate gem
       else
         !Gem.source_index.find_name('google-api-client').empty? # legacy
       end
-
       # Then make sure we have all of the requirements
       for service in services
         begin

@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       ##
       # Represents an Address resource
       #
@@ -90,7 +89,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

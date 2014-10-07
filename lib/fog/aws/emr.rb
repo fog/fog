@@ -8,7 +8,7 @@ module Fog
       class IdentifierTaken < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/emr'
 
@@ -35,11 +35,9 @@ module Fog
       # collection  :security_groups
 
       class Mock
-
         def initialize(options={})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
@@ -66,6 +64,8 @@ module Fog
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
+          @instrumentor           = options[:instrumentor]
+          @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.emr'
 
           options[:region] ||= 'us-east-1'
           @host = options[:host] || "elasticmapreduce.#{options[:region]}.amazonaws.com"
@@ -111,20 +111,24 @@ module Fog
             }
           )
 
-          begin
-            response = @connection.request({
-              :body       => body,
-              :expects    => 200,
-              :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-              :idempotent => idempotent,
-              :method     => 'POST',
-              :parser     => parser
-            })
-          rescue Excon::Errors::HTTPStatusError
-            raise
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser)
+            end
+          else
+            _request(body, idempotent, parser)
           end
+        end
 
-          response
+        def _request(body, idempotent, parser)
+          @connection.request({
+            :body       => body,
+            :expects    => 200,
+            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :idempotent => idempotent,
+            :method     => 'POST',
+            :parser     => parser
+          })
         end
 
       end

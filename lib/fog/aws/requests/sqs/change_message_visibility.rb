@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SQS
       class Real
-
         require 'fog/aws/parsers/sqs/basic'
 
         # Change visibility timeout for a message
@@ -25,16 +24,14 @@ module Fog
             :path               => path_from_queue_url(queue_url)
           })
         end
-
       end
 
       class Mock
-
         def change_message_visibility(queue_url, receipt_handle, visibility_timeout)
           Excon::Response.new.tap do |response|
             if (queue = data[:queues][queue_url])
               message_id, _ = queue[:receipt_handles].find { |message_id, receipts|
-                receipts.has_key?(receipt_handle)
+                receipts.key?(receipt_handle)
               }
 
               if message_id
@@ -55,9 +52,7 @@ module Fog
             end
           end
         end
-
       end
-
     end
   end
 end

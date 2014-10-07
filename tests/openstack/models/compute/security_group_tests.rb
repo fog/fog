@@ -17,7 +17,7 @@ Shindo.tests("Fog::Compute[:openstack] | security_group", ['openstack']) do
         returns('my_group') { security_group.name }
         returns('my group') { security_group.description }
         returns([])         { security_group.security_group_rules }
-        returns(true)       { security_group.tenant_id != nil }
+        returns(true, "Tenant Id is not nil")       { security_group.tenant_id != nil }
       end
 
       tests('#rules').succeeds do
@@ -30,9 +30,9 @@ Shindo.tests("Fog::Compute[:openstack] | security_group", ['openstack']) do
             :to_port         => 1234,
             :ip_range        => { "cidr" => "0.0.0.0/0" }
           )
-          returns(true) { security_group.security_group_rules.count == (rules_count + 1) }
-          security_group_rule = security_group.security_group_rules.detect { |r| r.id == rule.id }
-          returns(true) { security_group_rule.attributes == rule.attributes }
+          returns(true, "added security group rule") { security_group.security_group_rules.count == (rules_count + 1) }
+          security_group_rule = security_group.security_group_rules.find { |r| r.id == rule.id }
+          returns(true, "security group rule has rule attributes") { security_group_rule.attributes == rule.attributes }
         end
 
         tests("#destroy").succeeds do
@@ -44,7 +44,7 @@ Shindo.tests("Fog::Compute[:openstack] | security_group", ['openstack']) do
             :ip_range        => { "cidr" => "0.0.0.0/0" }
           )
           rule.destroy
-          returns(true) { rule.reload == nil }
+          returns(true, "successfully destroyed rule") { rule.reload == nil }
         end
       end
     ensure

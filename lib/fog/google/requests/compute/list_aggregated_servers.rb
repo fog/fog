@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def list_aggregated_servers(options = {})
           # Create a Hash of unique zones from the servers Array previously filled when servers are created
@@ -15,7 +14,7 @@ module Fog
             # Fill the zones Hash with the servers attached to each zone
             self.data[:servers].values.each { |server| zones["zones/#{server['zone'].split('/')[-1]}"]['instances'].concat([server]) }
           end
-          build_response(:body => {
+          build_excon_response({
             "kind" => "compute#instanceAggregatedList",
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/aggregated/instances",
             "id" => "projects/#{@project}/aggregated/instances",
@@ -33,11 +32,9 @@ module Fog
           }
           parameters['filter'] = options[:filter] if options[:filter]
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
-
     end
   end
 end

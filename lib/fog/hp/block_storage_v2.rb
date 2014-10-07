@@ -3,7 +3,6 @@ require 'fog/hp/core'
 module Fog
   module HP
     class BlockStorageV2 < Fog::Service
-
       requires    :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
       recognizes  :hp_auth_uri, :credentials, :hp_service_type
       recognizes  :persistent, :connection_options
@@ -40,7 +39,6 @@ module Fog
       request :restore_volume_backup
 
       module Utils
-
         def compute
           @compute ||= Fog::Compute.new(
             :provider       => 'HP',
@@ -54,7 +52,6 @@ module Fog
             :connection_options => @connection_options
           )
         end
-
       end
 
       class Mock
@@ -85,7 +82,6 @@ module Fog
         def reset_data
           self.class.data.delete(@hp_access_key)
         end
-
       end
 
       class Real
@@ -100,7 +96,7 @@ module Fog
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version = options[:hp_auth_version] || :v2
           ### Pass the service name for block storage to the authentication call
-          options[:hp_service_type] ||= "Block Storage"
+          options[:hp_service_type] ||= "volume"
           @hp_tenant_id = options[:hp_tenant_id]
           @hp_avl_zone  = options[:hp_avl_zone]
 
@@ -157,7 +153,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

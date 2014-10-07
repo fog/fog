@@ -4,9 +4,7 @@ require 'fog/google/models/compute/target_pool'
 module Fog
   module Compute
     class Google
-
       class TargetPools < Fog::Collection
-
         model Fog::Compute::Google::TargetPool
 
         def all(filters={})
@@ -24,9 +22,9 @@ module Fog
         def get(identity, region=nil)
           response = nil
           if region.nil?
-            service.list_regions.body['items'].each do |region|
+            service.regions.all.each do |region|
               begin
-                response = service.get_target_pool(identity, region['name'])
+                response = service.get_target_pool(identity, region.name)
                 break if response.status == 200
               rescue Fog::Errors::Error
               end
@@ -37,9 +35,7 @@ module Fog
           return nil if response.nil?
           new(response.body)
         end
-
       end
-
     end
   end
 end

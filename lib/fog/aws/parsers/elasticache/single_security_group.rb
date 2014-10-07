@@ -5,7 +5,6 @@ module Fog
         require 'fog/aws/parsers/elasticache/security_group_parser'
 
         class SingleSecurityGroup < SecurityGroupParser
-
           def reset
             super
             @response = { 'ResponseMetadata' => {} }

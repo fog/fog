@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Lists virtual interfaces for a server
         # @param [String] server_id
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
@@ -14,11 +13,10 @@ module Fog
           request(
             :expects => [200],
             :method => 'GET',
-            :path => "/servers/#{server_id}/os-virtual-interfacesv2"
+            :path => "servers/#{server_id}/os-virtual-interfacesv2"
           )
         end
       end
-
     end
   end
 end

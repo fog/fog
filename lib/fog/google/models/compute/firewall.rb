@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       ##
       # Represents a Firewall resource
       #
@@ -42,7 +41,6 @@ module Fog
           operation
         end
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/delete_load_balancer'
 
         # Delete an existing Elastic Load Balancer
@@ -26,7 +25,6 @@ module Fog
             :parser            => Fog::Parsers::AWS::ELB::DeleteLoadBalancer.new
           })
         end
-
       end
 
       class Mock

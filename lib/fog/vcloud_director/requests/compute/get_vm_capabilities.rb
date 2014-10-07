@@ -25,6 +25,37 @@ module Fog
           )
         end
       end
+
+      class Mock
+
+        def get_vm_capabilities(id)
+
+          type = 'application/vnd.vmware.vcloud.vmCapabilitiesSection+xml'
+
+          unless vm = data[:vms][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'This operation is denied.'
+            )
+          end
+
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{type};version=#{api_version}"},
+            :body => get_vm_capabilities_section_body(id, vm)
+          )
+
+        end
+
+        def get_vm_capabilities_section_body(id, vm)
+          {
+            :type => "application/vnd.vmware.vcloud.vmCapabilitiesSection+xml",
+            :href => make_href("vApp/#{id}/vmCapabilities/"),
+            :MemoryHotAddEnabled => "false",
+            :CpuHotAddEnabled => "false",
+          }
+        end
+
+      end
     end
   end
 end

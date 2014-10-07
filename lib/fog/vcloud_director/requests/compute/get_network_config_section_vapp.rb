@@ -20,6 +20,42 @@ module Fog
           )
         end
       end
+
+      class Mock
+
+        def get_network_config_section_vapp(id)
+
+          type = 'application/vnd.vmware.vcloud.networkConfigSection+xml'
+
+          unless vapp = data[:vapps][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'This operation is denied.'
+            )
+          end
+
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{type};version=#{api_version}"},
+            :body => get_vapp_network_config_section_body(id, vapp)
+          )
+
+        end
+
+        def get_vapp_network_config_section_body(id, vapp)
+          # TODO: This is effectively hardcoding a vAppNetwork configuration
+          #       into here, but this is sufficient for initial testing.
+          #       This network configuration has no networks.
+
+          {
+            :type => "application/vnd.vmware.vcloud.networkConfigSection+xml",
+            :href => make_href("vApp/#{id}/networkConfigSection/"),
+            :ovf_required => "false",
+            :"ovf:Info" => "The configuration parameters for logical networks",
+            :NetworkConfig => [],
+          }
+        end
+
+      end
     end
   end
 end

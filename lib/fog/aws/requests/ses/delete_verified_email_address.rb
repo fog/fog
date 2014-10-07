@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SES
       class Real
-
         require 'fog/aws/parsers/ses/delete_verified_email_address'
 
         # Delete an existing verified email address
@@ -21,7 +20,6 @@ module Fog
             :parser            => Fog::Parsers::AWS::SES::DeleteVerifiedEmailAddress.new
           })
         end
-
       end
     end
   end

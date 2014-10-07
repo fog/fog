@@ -4,9 +4,7 @@ require 'fog/atmos/models/storage/file'
 module Fog
   module Storage
     class Atmos
-
       class Files < Fog::Collection
-
         attribute :directory
         attribute :limit
         attribute :marker
@@ -25,7 +23,7 @@ module Fog
           files = data[:DirectoryEntry].select {|de| de[:FileType] == 'regular'}
           files.each do |s|
             data = service.head_namespace(directory.key + s[:Filename], :parse => false)
-            headers = Hash[data.headers["x-emc-meta"].split(", ").collect{|s|s.split("=")}]
+            headers = Hash[data.headers["x-emc-meta"].split(", ").map{|s|s.split("=")}]
             s[:content_length] = data.headers["Content-Length"]
             s[:content_type] = data.headers["Content-Type"]
             s[:created_at] = headers["ctime"]
@@ -37,7 +35,7 @@ module Fog
 
         def get(key, &block)
           requires :directory
-          data = service.get_namespace(directory.key + key, :parse => false)#, &block)
+          data = service.get_namespace(directory.key + key, :parse => false, &block)
           file_data = data.headers.merge({
             :body => data.body,
             :key  => key
@@ -70,9 +68,7 @@ module Fog
           requires :directory
           super({ :directory => directory }.merge!(attributes))
         end
-
       end
-
     end
   end
 end

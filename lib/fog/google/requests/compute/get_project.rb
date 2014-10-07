@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def get_project(identity)
           Fog::Mock.not_implemented
@@ -15,11 +14,9 @@ module Fog
             :project => identity,
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
       end
-
     end
   end
 end

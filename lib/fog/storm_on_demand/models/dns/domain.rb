@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module DNS
     class StormOnDemand
-
       class Domain < Fog::Model
         identity  :domain
         attribute :admin_handle
@@ -26,9 +25,7 @@ module Fog
           service.renew_domain(:domain => identity, :years => years)
           true
         end
-
       end
-
     end
   end
 end

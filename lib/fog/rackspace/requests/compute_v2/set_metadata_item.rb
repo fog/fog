@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Sets a single metadatum item by key.
         # @param [String<images, servers>] collection type of metadata
         # @param [String] obj_id id of the object where the metadata is attached
@@ -20,7 +19,7 @@ module Fog
           request(
             :expects => 200,
             :method => 'PUT',
-            :path => "/#{collection}/#{obj_id}/metadata/#{key}",
+            :path => "#{collection}/#{obj_id}/metadata/#{key}",
             :body => Fog::JSON.encode('meta' => { key => value })
           )
         end

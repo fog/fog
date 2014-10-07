@@ -3,7 +3,6 @@ module Fog
   module AWS
     class ELB
       class Listeners < Fog::Collection
-
         model Fog::AWS::ELB::Listener
 
         attr_accessor :data, :load_balancer
@@ -13,7 +12,7 @@ module Fog
         end
 
         def get(lb_port)
-          all.detect{|listener| listener.lb_port == lb_port}
+          all.find{|listener| listener.lb_port == lb_port}
         end
 
         private
@@ -25,7 +24,6 @@ module Fog
             description['Listener'].merge('PolicyNames' => description['PolicyNames'])
           }
         end
-
       end
     end
   end

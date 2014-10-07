@@ -50,7 +50,6 @@ module Fog
       request :add_records
 
       class Mock < Fog::Rackspace::Service
-
         def initialize(options={})
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
@@ -74,11 +73,9 @@ module Fog
         def reset_data
           self.class.reset
         end
-
       end
 
       class Real < Fog::Rackspace::Service
-
         def service_name
           :cloudDNS
         end
@@ -128,7 +125,7 @@ module Fog
 
         def array_to_query_string(arr)
           return "" unless arr
-          query_array = arr.collect do | k, v |
+          query_array = arr.map do | k, v |
             val_str = v.is_a?(Array) ? v.join(",") : v.to_s
             "#{k}=#{val_str}"
           end

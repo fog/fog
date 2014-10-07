@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def insert_route(name, network, dest_range, priority, options = {})
           Fog::Mock.not_implemented
@@ -28,11 +27,9 @@ module Fog
           body_object['nextHopGateway'] = options[:next_hop_gateway] if options[:next_hop_gateway]
           body_object['nextHopIp'] = options[:next_hop_ip] if options[:next_hop_ip]
 
-          result = self.build_result(api_method, parameters, body_object)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object)
         end
       end
-
     end
   end
 end

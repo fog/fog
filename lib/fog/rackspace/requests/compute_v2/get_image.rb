@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Retrieves image detail
         # @param [String] image_id
         # @return [Excon::Response] response:
@@ -28,7 +27,7 @@ module Fog
           request(
             :expects => [200, 203],
             :method => 'GET',
-            :path => "images/#{image_id}"
+            :path => "images/#{Fog::Rackspace.escape(image_id)}"
           )
         end
       end

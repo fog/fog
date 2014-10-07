@@ -1,20 +1,28 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Lists zones.
+        # Creates a Zone.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listZones.html]
-        def create_zone(options={})
-          options.merge!(
-            'command' => 'createZone'
-          )
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/createZone.html]
+        def create_zone(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'createZone') 
+          else
+            options.merge!('command' => 'createZone', 
+            'dns1' => args[0], 
+            'internaldns1' => args[1], 
+            'networktype' => args[2], 
+            'name' => args[3])
+          end
           request(options)
         end
+      end
 
-      end # Real
-    end # Cloudstack
-  end # Compute
-end # Fog
+    end
+  end
+end
+

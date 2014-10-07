@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get list of organizations
         #
         # ==== Returns
@@ -24,11 +23,9 @@ module Fog
             :path     => 'login'
           })
         end
-
       end
 
       module Mock
-
         def get_organizations
           response = Excon::Response.new
           org_list = self.data[:organizations].map do |organization|
@@ -42,7 +39,6 @@ module Fog
           response.headers = Fog::Terremark::Shared::Mock.headers(response.body, "application/vnd.vmware.vcloud.orgList+xml")
           response
         end
-
       end
     end
   end

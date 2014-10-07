@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Create a new subnet
         #
@@ -64,7 +63,7 @@ module Fog
 
       class Mock
         def create_subnet(network_id, cidr, ip_version, options = {})
-          if list_networks.body['networks'].detect {|_| _['id'] == network_id}
+          if list_networks.body['networks'].find {|_| _['id'] == network_id}
             response = Excon::Response.new
             response.status = 201
             data = {
@@ -91,7 +90,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Get details for an existing floating ip by id
         #
@@ -31,7 +30,7 @@ module Fog
       class Mock
         def get_floating_ip(floating_ip_id)
           response = Excon::Response.new
-          if floating_ip = list_floating_ips.body['floatingips'].detect {|_| _['id'] == floating_ip_id}
+          if floating_ip = list_floating_ips.body['floatingips'].find {|_| _['id'] == floating_ip_id}
             response.status = 200
             response.body = { 'floatingip' => floating_ip }
             response
@@ -40,8 +39,6 @@ module Fog
           end
         end
       end
-
-
     end
   end
 end

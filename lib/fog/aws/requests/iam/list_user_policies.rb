@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/list_policies'
 
         # List policies for a user
@@ -32,14 +31,12 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::ListPolicies.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def list_user_policies(user_name, options = {})
           #FIXME: doesn't use options atm
-          if data[:users].has_key? user_name
+          if data[:users].key? user_name
             Excon::Response.new.tap do |response|
               response.body = { 'PolicyNames' => data[:users][user_name][:policies].keys,
                                 'IsTruncated' => false,
@@ -50,7 +47,6 @@ module Fog
             raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.")
           end
         end
-
       end
     end
   end

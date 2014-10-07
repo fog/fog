@@ -4,9 +4,7 @@ require 'fog/rackspace/models/dns/record'
 module Fog
   module DNS
     class Rackspace
-
       class Records < Fog::Collection
-
         attribute :zone
         attribute :total_entries, :aliases => 'totalEntries'
 
@@ -18,7 +16,7 @@ module Fog
           load(data.body['records'])
         end
 
-        alias :each_record_this_page :each
+        alias_method :each_record_this_page, :each
         def each
           requires :zone
 

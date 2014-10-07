@@ -4,11 +4,17 @@ require 'fog/vcloud_director/models/compute/vdc'
 module Fog
   module Compute
     class VcloudDirector
-
       class Vdcs < Collection
+
+        include Fog::VcloudDirector::Query
+
         model Fog::Compute::VcloudDirector::Vdc
 
         attribute :organization
+
+        def query_type
+          "orgVdc"
+        end
 
         private
 
@@ -25,7 +31,6 @@ module Fog
           items.each{|item| service.add_id_from_href!(item) }
           items
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Dynect
       class Real
-
         def post_session
           request(
             :expects  => 200,

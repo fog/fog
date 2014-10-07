@@ -1,4 +1,5 @@
 require 'fog/vcloud_director/core'
+require 'fog/vcloud_director/query'
 
 class VcloudDirectorParser < Fog::Parsers::Base
   def extract_attributes(attributes_xml)
@@ -24,7 +25,6 @@ end
 module Fog
   module Compute
     class VcloudDirector < Fog::Service
-
       module Defaults
         PATH        = '/api'
         PORT        = 443
@@ -55,6 +55,8 @@ module Fog
       collection :organizations
       model      :catalog_item
       collection :catalog_items
+      model      :custom_field
+      collection :custom_fields
       model      :vdc
       collection :vdcs
       model      :vapp
@@ -204,6 +206,7 @@ module Fog
       request :post_configure_edge_gateway_services
       request :post_consolidate_vm_vapp
       request :post_consolidate_vm_vapp_template
+      request :post_create_catalog_item
       request :post_create_org_vdc_network
       request :post_deploy_vapp
       request :post_detach_disk
@@ -245,7 +248,9 @@ module Fog
       request :put_media_metadata_item_metadata
       request :put_memory
       request :put_metadata_value # deprecated
+      request :put_network
       request :put_network_connection_system_section_vapp
+      request :put_product_sections
       request :put_vapp_metadata_item_metadata
       request :put_vapp_name_and_description
       request :put_vapp_template_metadata_item_metadata
@@ -305,7 +310,7 @@ module Fog
         end
 
         def get_by_name(item_name)
-          item_found = item_list.detect {|item| item[:name] == item_name}
+          item_found = item_list.find {|item| item[:name] == item_name}
           return nil unless item_found
           get(item_found[:id])
         end
@@ -365,7 +370,7 @@ module Fog
         def request(params)
           begin
             do_request(params)
-          rescue Excon::Errors::SocketError::EOFError
+          rescue EOFError
             # This error can occur if Vcloud receives a request from a network
             # it deems to be unauthorized; no HTTP response is sent, but the
             # connection is sent a signal to terminate early.
@@ -457,13 +462,18 @@ module Fog
         def login
           if @vcloud_token = ENV['FOG_VCLOUD_TOKEN']
             response = get_current_session
+            session_org = response.body[:org]
+            session_user = response.body[:user]
+
+            check_session_matches_credentials(session_org, session_user)
           else
             response = post_login_session
-            x_vcloud_authorization = response.headers.keys.detect do |key|
+            x_vcloud_authorization = response.headers.keys.find do |key|
               key.downcase == 'x-vcloud-authorization'
             end
             @vcloud_token = response.headers[x_vcloud_authorization]
           end
+
           @org_name = response.body[:org]
           @user_name = response.body[:user]
         end
@@ -475,6 +485,20 @@ module Fog
           @org_name = nil
         end
 
+        def check_session_matches_credentials(session_org, session_user)
+          fog_credential_org = @vcloud_director_username.split('@').last
+          fog_credential_user = @vcloud_director_username.split('@')[0...-1].join
+
+          if session_org != fog_credential_org
+            raise Fog::Errors::Error.new "FOG_CREDENTIAL specified is for vCloud organisation '#{fog_credential_org}' but " +
+              "your current session is for '#{session_org}'. You should generate a new FOG_VCLOUD_TOKEN."
+          end
+
+          if session_user != fog_credential_user
+            raise Fog::Errors::Error.new "FOG_CREDENTIAL specified is for user '#{fog_credential_user}' but " +
+              "your current session is for '#{session_user}'. You should generate a new FOG_VCLOUD_TOKEN."
+          end
+        end
       end
 
       class Mock
@@ -489,17 +513,24 @@ module Fog
             uplink_network_uuid  = uuid
             isolated_vdc1_network_uuid = uuid
             isolated_vdc2_network_uuid = uuid
+            vapp1_id = "vapp-#{uuid}"
+            vapp2_id = "vapp-#{uuid}"
+            vapp1vm1_id = "vm-#{uuid}"
+            vapp2vm1_id = "vm-#{uuid}"
+            vapp2vm2_id = "vm-#{uuid}"
+            catalog_uuid = uuid
 
             hash[key] = {
               :catalogs => {
-                uuid => {
+                catalog_uuid => {
                   :name => 'Default Catalog'
                 }
               },
               :catalog_items => {
                 uuid => {
-                  :type => 'vAppTemplate',
-                  :name => 'vAppTemplate 1'
+                  :type    => 'vAppTemplate',
+                  :name    => 'vAppTemplate 1',
+                  :catalog => catalog_uuid,
                 }
               },
               :disks => {},
@@ -547,7 +578,7 @@ module Fog
                   }],
                   :IsInherited => false,
                   :Netmask => '255.255.255.0',
-                  :name => 'Default Network',
+                  :name => 'vDC1 Default Network',
                   :SubnetParticipation => {
                       :Gateway => "192.168.1.0",
                       :Netmask => "255.255.0.0",
@@ -645,6 +676,26 @@ module Fog
                 :uuid => uuid
               },
               :tasks => {},
+
+              :vapps => {
+                vapp1_id => {
+                  :name => 'mock-vapp-1',
+                  :vdc_id => vdc1_uuid,
+                  :description => "Mock vApp 1",
+                  :networks => [
+                    { :parent_id => default_network_uuid, },
+                  ],
+                },
+                vapp2_id => {
+                  :name => 'mock-vapp-2',
+                  :vdc_id => vdc2_uuid,
+                  :description => "Mock vApp 2",
+                  :networks => [
+                    { :parent_id => default_network_uuid },
+                  ]
+                },
+              },
+
               :vdc_storage_classes => {
                 uuid => {
                   :default => true,
@@ -655,6 +706,7 @@ module Fog
                   :vdc => vdc1_uuid,
                 }
               },
+
               :vdcs => {
                 vdc1_uuid => {
                   :description => 'vDC1 for mocking',
@@ -664,7 +716,44 @@ module Fog
                   :description => 'vDC2 for mocking',
                   :name => 'MockVDC 2'
                 },
-              }
+              },
+
+              :vms => {
+                vapp1vm1_id => {
+                  :name => 'mock-vm-1-1',
+                  :parent_vapp => vapp1_id,
+                  :nics => [
+                    {
+                      :network_name => 'Default Network',
+                      :mac_address => "00:50:56:aa:bb:01",
+                      :ip_address => "192.168.1.33",
+                    },
+                  ],
+                },
+                vapp2vm1_id => {
+                  :name => 'mock-vm-2-1',
+                  :parent_vapp => vapp2_id,
+                  :nics => [
+                    {
+                      :network_name => 'Default Network',
+                      :mac_address => "00:50:56:aa:bb:02",
+                      :ip_address => "192.168.1.34",
+                    },
+                  ],
+                },
+                vapp2vm2_id => {
+                  :name => 'mock-vm-2-2',
+                  :parent_vapp => vapp2_id,
+                  :nics => [
+                    {
+                      :network_name => 'Default Network',
+                      :mac_address => "00:50:56:aa:bb:03",
+                      :ip_address => "192.168.1.35",
+                    },
+                  ],
+                },
+              },
+
             }
           end[@vcloud_director_username]
         end
@@ -735,6 +824,7 @@ module Fog
             :progress => 1,
             :service_namespace => 'com.vmware.vcloud',
             :start_time => now,
+            :end_time => now + 86400,
             :status => 'running',
           }.merge(options).merge(
             :operation => operation,
@@ -790,7 +880,6 @@ module Fog
         def xsi_schema_location
           "http://www.vmware.com/vcloud/v1.5 http://#{@host}#{@path}/v1.5/schema/master.xsd"
         end
-
       end
     end
   end

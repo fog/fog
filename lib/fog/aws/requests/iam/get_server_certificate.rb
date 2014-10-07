@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/upload_server_certificate'
 
         # Gets the specified server certificate.
@@ -25,7 +24,6 @@ module Fog
             :parser                 => Fog::Parsers::AWS::IAM::UploadServerCertificate.new
           })
         end
-
       end
 
       class Mock
@@ -45,4 +43,3 @@ module Fog
     end
   end
 end
-

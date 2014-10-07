@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class VcloudDirector
-
       class Network < Model
-
         identity  :id
 
         attribute :name
@@ -21,7 +19,6 @@ module Fog
         attribute :dns2
         attribute :dns_suffix
         attribute :ip_ranges, :type => :array
-
       end
     end
   end

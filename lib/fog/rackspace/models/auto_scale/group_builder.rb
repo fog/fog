@@ -7,7 +7,6 @@ module Fog
   module Rackspace
     class AutoScale
       class GroupBuilder
-
         class << self
           def build(service, attributes)
             service.groups.new :group_config => build_group_config(attributes), :launch_config => build_server_launch_config(attributes)
@@ -35,7 +34,7 @@ module Fog
             return nil unless attributes[:load_balancers]
 
             load_balancers = attributes[:load_balancers].is_a?(Array) ? attributes[:load_balancers] : [attributes[:load_balancers]]
-            load_balancers.collect do |obj|
+            load_balancers.map do |obj|
               obj.is_a?(Hash) ? obj : load_balancer_to_hash(obj)
             end
           end
@@ -61,6 +60,8 @@ module Fog
             }
 
             server_template["personality"] = attributes[:personality] if attributes[:personality]
+            server_template["user_data"] = [attributes[:user_data]].pack('m') if attributes[:user_data]
+            server_template["config_drive"] = 'true' if attributes[:config_drive]
             server_template["networks"] = networks_to_hash(attributes[:networks]) if attributes[:networks]
             server_template
           end
@@ -76,7 +77,7 @@ module Fog
           end
 
           def networks_to_hash(networks)
-            networks.collect {|n| {"uuid" => n}}
+            networks.map {|n| {"uuid" => n}}
           end
         end
       end

@@ -9,7 +9,6 @@ Shindo.tests('Fog::Rackspace::AutoScale | group', ['rackspace', 'rackspace_autos
 		:group_config => GROUP_CONFIG_OPTIONS
 	}
 
-
 	model_tests(service.groups, options, false) do
     pending if Fog.mocking?
 		tests('#policies').succeeds do

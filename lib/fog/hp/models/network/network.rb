@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module HP
     class Network
-
       class Network < Fog::Model
         identity :id
 
@@ -49,7 +48,6 @@ module Fog
           merge_attributes(service.update_network(id, attributes).body['network'])
           true
         end
-
       end
     end
   end

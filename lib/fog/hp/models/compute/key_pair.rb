@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class HP
-
       class KeyPair < Fog::Model
-
         identity  :name
 
         attribute :fingerprint
@@ -45,9 +43,8 @@ module Fog
         end
 
         def writable?
-          !!(private_key && ENV.has_key?('HOME'))
+          !!(private_key && ENV.key?('HOME'))
         end
-
       end
     end
   end

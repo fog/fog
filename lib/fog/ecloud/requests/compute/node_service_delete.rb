@@ -1,14 +1,12 @@
 module Fog
   module Compute
     class Ecloud
-
       class Real
         basic_request :node_service_delete, 202, 'DELETE'
       end
 
       class Mock
         def node_service_delete(uri)
-
           service_id = id_from_uri(uri)
 
           service = self.data[:node_services][service_id].dup

@@ -1,26 +1,30 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
+      class Real
         # List the virtual machines owned by the account.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listVirtualMachines.html]
-        def list_virtual_machines(options={})
-          options.merge!(
-            'command' => 'listVirtualMachines'
-          )
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/listVirtualMachines.html]
+        def list_virtual_machines(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'listVirtualMachines') 
+          else
+            options.merge!('command' => 'listVirtualMachines')
+          end
           request(options)
         end
-      end # Real
-
+      end
+ 
       class Mock
         def list_virtual_machines(options={})
           {"listvirtualmachinesresponse" =>
             {"count" => self.data[:servers].values.size, "virtualmachine" => self.data[:servers].values}}
         end
-      end # Mock
-    end # Cloudstack
-  end # Compute
-end # Fog
+      end 
+    end
+  end
+end
+

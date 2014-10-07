@@ -14,8 +14,6 @@ module Fog
         attribute :subscription
         attribute :gateway, :type => :string
         attribute :resource_uri, :type => :string
-
-
       end
     end
   end

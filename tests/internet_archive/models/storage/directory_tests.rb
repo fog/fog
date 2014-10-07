@@ -39,5 +39,4 @@ Shindo.tests("Storage[:internet_archive] | directory", ["internetarchive"]) do
     end
   end
 
-
 end

@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/get_group'
 
         # Get Group
@@ -37,7 +36,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::GetGroup.new
           }.merge!(options))
         end
-
       end
       class Mock
         def get_group(group_name, options = {})

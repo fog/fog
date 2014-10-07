@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SES
       class Real
-
         require 'fog/aws/parsers/ses/list_verified_email_addresses'
 
         # Returns a list containing all of the email addresses that have been verified
@@ -21,7 +20,6 @@ module Fog
             :parser  => Fog::Parsers::AWS::SES::ListVerifiedEmailAddresses.new
           })
         end
-
       end
     end
   end

@@ -14,6 +14,12 @@ module Fog
         # @option options [Hash] personality Hash containing data to inject into the file system of the cloud server instance during server creation.
         # @option options [Boolean] config_drive whether to attach a read-only configuration drive
         # @option options [String] keypair  Name of the kay-pair to associate with this server.
+        # @option options [Array<Hash>] block_device_mapping A manually specified block device mapping to fully control the creation and
+        #   attachment of volumes to this server. Mutually exclusive with :volume_id or :volume_image_id. If provided, leave image_id
+        #   as "". See http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot for details.
+        # @option options [String] boot_volume_id Id of a pre-created bootable volume to use for this server. If provided, leave image_id as "".
+        # @option options [String] boot_image_id Id of an image to create a bootable volume from and attach to this server. If provided,
+        #   leave image_id as "".
         # @return [Excon::Response] response:
         #   * body [Hash]:
         #     * server [Hash]:
@@ -40,6 +46,7 @@ module Fog
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Metadata-d1e2529.html
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_extensions.html#diskconfig_attribute
+        # @see http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot
         #
         # * State Transitions
         #   * BUILD -> ACTIVE
@@ -72,6 +79,42 @@ module Fog
           end
 
           data['server']['key_name'] = options[:key_name] unless options[:key_name].nil?
+
+          if options[:block_device_mapping]
+            if options[:boot_volume_id]
+              Fog::Logger.warning("Manual :block_device_mapping overrides :boot_volume_id in #create_server!")
+            end
+
+            if options[:boot_image_id]
+              Fog::Logger.warning("Manual :block_device_mapping overrides :boot_image_id in #create_server!")
+            end
+
+            data['server']['block_device_mapping_v2'] = options[:block_device_mapping]
+          else
+            if options[:boot_volume_id]
+              if options[:boot_image_id]
+                Fog::Logger.warning(":boot_volume_id overrides :boot_image_id!")
+              end
+
+              data['server']['block_device_mapping_v2'] = [{
+                'boot_index' => '0',
+                'uuid' => options[:boot_volume_id],
+                'source_type' => 'volume',
+                'destination_type' => 'volume',
+                'volume_size' => 100
+              }]
+            end
+
+            if options[:boot_image_id]
+              data['server']['block_device_mapping_v2'] = [{
+                'boot_index' => '0',
+                'uuid' => options[:boot_image_id],
+                'source_type' => 'image',
+                'destination_type' => 'volume',
+                'volume_size' => 100
+              }]
+            end
+        end
 
           request(
             :body    => Fog::JSON.encode(data),

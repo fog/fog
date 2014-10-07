@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Add permissions to a security group
@@ -76,11 +75,9 @@ module Fog
           end
           params.reject {|k, v| v.nil? }
         end
-
       end
 
       class Mock
-
         def authorize_security_group_ingress(group_name, options = {})
           options = Fog::AWS.parse_security_group_options(group_name, options)
           if options.key?('GroupName')
@@ -141,7 +138,7 @@ module Fog
           if !is_vpc && (options['IpProtocol'] && (!options['FromPort'] || !options['ToPort']))
             raise Fog::Compute::AWS::Error.new("InvalidPermission.Malformed => TCP/UDP port (-1) out of range")
           end
-          if options.has_key?('IpPermissions')
+          if options.key?('IpPermissions')
             if !options['IpPermissions'].is_a?(Array) || options['IpPermissions'].empty?
               raise Fog::Compute::AWS::Error.new("InvalidRequest => The request received was invalid.")
             end
@@ -152,7 +149,12 @@ module Fog
         def normalize_permissions(options)
           normalized_permissions = []
           if options['SourceSecurityGroupName']
-            source_group_id=self.data[:security_groups][options['SourceSecurityGroupName']]['groupId']
+            group_name = if options['SourceSecurityGroupName'] =~ /default_elb/
+                           "default"
+                         else
+                           options['SourceSecurityGroupName']
+                         end
+            source_group_id=self.data[:security_groups][group_name]['groupId']
             ['tcp', 'udp'].each do |protocol|
               normalized_permissions << {
                 'ipProtocol' => protocol,
@@ -188,7 +190,7 @@ module Fog
                     security_group = if group_name = authorized_group['GroupName']
                                        self.data[:security_groups][group_name] || {}
                                      elsif group_id = authorized_group['GroupId']
-                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id }
+                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id } || {}
                                      end
 
                     {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}
@@ -202,7 +204,7 @@ module Fog
                     security_group = if group_name = authorized_group['GroupName']
                                        self.data[:security_groups][group_name] || {}
                                      elsif group_id = authorized_group['GroupId']
-                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id }
+                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id } || {}
                                      end
 
                     {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}
@@ -217,12 +219,11 @@ module Fog
         end
 
         def find_matching_permission(group, permission)
-          group['ipPermissions'].detect {|group_permission|
+          group['ipPermissions'].find {|group_permission|
             permission['ipProtocol'] == group_permission['ipProtocol'] &&
             permission['fromPort'] == group_permission['fromPort'] &&
             permission['toPort'] == group_permission['toPort'] }
         end
-
       end
     end
   end

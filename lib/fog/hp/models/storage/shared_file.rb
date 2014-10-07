@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Storage
     class HP
-
       class SharedFile < Fog::Model
-
         identity  :key,             :aliases => 'name'
         attribute :url
 
@@ -61,7 +59,6 @@ module Fog
           @shared_directory = new_shared_directory
         end
       end
-
     end
   end
 end

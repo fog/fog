@@ -4,9 +4,7 @@ require 'fog/hp/models/compute_v2/metadata'
 module Fog
   module Compute
     class HPV2
-
       class Image < Fog::Model
-
         identity :id
 
         attribute :name
@@ -45,43 +43,40 @@ module Fog
 
         # The following are built-in metadata for each image, exposed as helpers
         def bootable_volume?
-          m = @metadata.detect {|md| md.key == 'com.hp__1__bootable_volume'}
+          m = @metadata.find {|md| md.key == 'com.hp__1__bootable_volume'}
           m.value unless m.nil?
         end
 
         def provider
-          m = @metadata.detect {|md| md.key == 'com.hp__1__provider'}
+          m = @metadata.find {|md| md.key == 'com.hp__1__provider'}
           m.value unless m.nil?
         end
 
         def os_distro
-          m = @metadata.detect {|md| md.key == 'com.hp__1__os_distro'}
+          m = @metadata.find {|md| md.key == 'com.hp__1__os_distro'}
           m.value unless m.nil?
         end
 
         def os_version
-          m = @metadata.detect {|md| md.key == 'com.hp__1__os_version'}
+          m = @metadata.find {|md| md.key == 'com.hp__1__os_version'}
           m.value unless m.nil?
         end
 
         def license
-          m = @metadata.detect {|md| md.key == 'hp_image_license'}
+          m = @metadata.find {|md| md.key == 'hp_image_license'}
           m.value unless m.nil?
         end
 
         def type
-          m = @metadata.detect {|md| md.key == 'com.hp__1__image_type'}
+          m = @metadata.find {|md| md.key == 'com.hp__1__image_type'}
           m.value unless m.nil?
         end
 
         def architecture
-          m = @metadata.detect {|md| md.key == 'architecture'}
+          m = @metadata.find {|md| md.key == 'architecture'}
           m.value unless m.nil?
         end
-
-
       end
-
     end
   end
 end

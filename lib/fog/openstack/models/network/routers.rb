@@ -5,7 +5,6 @@ module Fog
   module Network
     class OpenStack
       class Routers < Fog::Collection
-
         attribute :filters
 
         model Fog::Network::OpenStack::Router
@@ -27,7 +26,6 @@ module Fog
         rescue Fog::Network::OpenStack::NotFound
           nil
         end
-
       end
     end
   end

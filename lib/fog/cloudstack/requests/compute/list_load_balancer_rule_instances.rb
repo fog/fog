@@ -1,23 +1,25 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Lists resource limits.
+        # List all virtual machine instances that are assigned to a load balancer rule.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.12/global_admin/listLoadBalancerRuleInstances.html]
-        def list_load_balancer_rule_instances(load_balancer_rule_id,options={})
-          options.merge!(
-            'command' => 'listLoadBalancerRuleInstances',
-            'id' => load_balancer_rule_id
-          )
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/listLoadBalancerRuleInstances.html]
+        def list_load_balancer_rule_instances(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'listLoadBalancerRuleInstances') 
+          else
+            options.merge!('command' => 'listLoadBalancerRuleInstances', 
+            'id' => args[0])
+          end
           request(options)
         end
-
       end
+
     end
   end
 end
-
 

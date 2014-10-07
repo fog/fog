@@ -4,7 +4,6 @@ module Fog
   module AWS
     class AutoScaling
       class Instance < Fog::Model
-
         identity  :id,                        :aliases => 'InstanceId'
         attribute :auto_scaling_group_name,   :aliases => 'AutoScalingGroupName'
         attribute :availability_zone,         :aliases => 'AvailabilityZone'
@@ -37,7 +36,7 @@ module Fog
         end
 
         def healthy?
-          health_status == 'HEALTHY'
+          health_status == 'Healthy'
         end
 
         def ready?
@@ -53,7 +52,6 @@ module Fog
         #  requires :id
         #  service.delete_auto_scaling_group(id)
         #end
-
       end
     end
   end

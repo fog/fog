@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Get an object from S3
         #
         # @param bucket_name [String] Name of bucket to read from
@@ -61,11 +60,9 @@ module Fog
             :method   => 'GET',
           }))
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_object(bucket_name, object_name, options = {}, &block)
           version_id = options.delete('versionId')
 
@@ -80,7 +77,7 @@ module Fog
           response = Excon::Response.new
           if (bucket = self.data[:buckets][bucket_name])
             object = nil
-            if bucket[:objects].has_key?(object_name)
+            if bucket[:objects].key?(object_name)
               object = version_id ? bucket[:objects][object_name].find { |object| object['VersionId'] == version_id} : bucket[:objects][object_name].first
             end
 

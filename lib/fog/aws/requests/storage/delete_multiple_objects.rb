@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/delete_multiple_objects'
 
         # Delete multiple objects from S3
@@ -61,11 +60,9 @@ module Fog
             :query      => {'delete' => nil}
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def delete_multiple_objects(bucket_name, object_names, options = {})
           headers = options.dup
           headers.delete(:quiet)
@@ -161,9 +158,7 @@ module Fog
             }
           }
         end
-
       end
     end
   end
 end
-

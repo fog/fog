@@ -4,9 +4,7 @@ require 'fog/clodo/models/compute/server'
 module Fog
   module Compute
     class Clodo
-
       class Servers < Fog::Collection
-
         model Fog::Compute::Clodo::Server
 
         def all
@@ -28,9 +26,7 @@ module Fog
         rescue Fog::Compute::Clodo::NotFound
           nil
         end
-
       end
-
     end
   end
 end

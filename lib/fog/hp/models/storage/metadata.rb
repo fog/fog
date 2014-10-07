@@ -5,9 +5,7 @@ require 'fog/hp/models/storage/meta'
 module Fog
   module Storage
     class HP
-
       class Metadata < Fog::Collection
-
         model Fog::Storage::HP::Meta
 
         include Fog::Storage::HP::MetaParent
@@ -59,7 +57,6 @@ module Fog
           end
         end
 
-
         private
         def meta_hash(data=nil)
           if data.nil?
@@ -74,9 +71,7 @@ module Fog
           end
           data
         end
-
       end
-
     end
   end
 end

@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/describe_termination_policy_types'
 
         # Returns a list of all termination policies supported by Auto Scaling.
@@ -27,11 +25,9 @@ module Fog
             :parser     => Fog::Parsers::AWS::AutoScaling::DescribeTerminationPolicyTypes.new
           })
         end
-
       end
 
       class Mock
-
         def describe_termination_policy_types()
           results = { 'TerminationPolicyTypes' => [] }
           self.data[:termination_policy_types].each do |termination_policy_type|
@@ -45,9 +41,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

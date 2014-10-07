@@ -180,8 +180,9 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       # create an ALIAS record
       host = @domain_name
       alias_target = {
-        :hosted_zone_id => hosted_zone_id,
-        :dns_name       => dns_name
+        :hosted_zone_id         => hosted_zone_id,
+        :dns_name               => dns_name,
+        :evaluate_target_health => false
       }
       resource_record = { :name => host, :type => 'A', :alias_target => alias_target }
       resource_record_set = resource_record.merge(:action => 'CREATE')
@@ -239,20 +240,18 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
 
   end
 
-
   tests('failure') do
     tests('create hosted zone using invalid domain name').raises(Excon::Errors::BadRequest) do
       pending if Fog.mocking?
       response = @r53_connection.create_hosted_zone('invalid-domain')
     end
 
-    tests('get hosted zone using invalid ID').raises(Excon::Errors::Forbidden) do
+    tests('get hosted zone using invalid ID').raises(Excon::Errors::NotFound) do
       pending if Fog.mocking?
       zone_id = 'dummy-id'
       response = @r53_connection.get_hosted_zone(zone_id)
     end
 
   end
-
 
 end

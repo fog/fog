@@ -4,9 +4,7 @@ require 'fog/go_grid/models/compute/password'
 module Fog
   module Compute
     class GoGrid
-
       class Passwords < Fog::Collection
-
         model Fog::Compute::GoGrid::Password
 
         def all
@@ -28,9 +26,7 @@ module Fog
         rescue Fog::Compute::GoGrid::NotFound
           nil
         end
-
       end
-
     end
   end
 end

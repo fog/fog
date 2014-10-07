@@ -47,7 +47,7 @@ Shindo.tests('Fog::OpenStack::Storage | file', ['openstack']) do
       tests('#metadata') do
 
         before do
-          @instance.metadata[:foo] = 'bar'  
+          @instance.metadata[:foo] = 'bar'
           @instance.save
         end
 
@@ -88,38 +88,38 @@ Shindo.tests('Fog::OpenStack::Storage | file', ['openstack']) do
       end
 
       tests('#metadata keys') do
-        
+
         after do
           clear_metadata
           @instance.save
         end
 
-        @instance.metadata[:foo_bar] = 'baz'  
+        @instance.metadata[:foo_bar] = 'baz'
         tests("should support compound key names").returns('baz') do
           @instance.save
           object_meta_attributes['X-Object-Meta-Foo-Bar']
         end
 
-        @instance.metadata['foo'] = 'bar'  
+        @instance.metadata['foo'] = 'bar'
         tests("should support string keys").returns('bar') do
           @instance.save
           object_meta_attributes['X-Object-Meta-Foo']
         end
 
-        @instance.metadata['foo_bar'] = 'baz'  
+        @instance.metadata['foo_bar'] = 'baz'
         tests("should support compound string key names").returns('baz') do
           @instance.save
           object_meta_attributes['X-Object-Meta-Foo-Bar']
         end
 
-        @instance.metadata['foo-bar'] = 'baz'  
+        @instance.metadata['foo-bar'] = 'baz'
         tests("should support hyphenated keys").returns('baz') do
           @instance.save
           object_meta_attributes['X-Object-Meta-Foo-Bar']
         end
 
-        @instance.metadata['foo-bar']  = 'baz'  
-        @instance.metadata[:'foo_bar'] = 'bref'  
+        @instance.metadata['foo-bar']  = 'baz'
+        @instance.metadata[:'foo_bar'] = 'bref'
         tests("should only support one value per metadata key").returns('bref') do
           @instance.save
           object_meta_attributes['X-Object-Meta-Foo-Bar']
@@ -136,35 +136,34 @@ Shindo.tests('Fog::OpenStack::Storage | file', ['openstack']) do
       end
 
       @instance.access_control_allow_origin = 'http://example.com'
-      @instance.save              
+      @instance.save
       tests("#access_control_allow_origin should return access control attribute").returns('http://example.com') do
         @instance.access_control_allow_origin
       end
 
       @instance.access_control_allow_origin = 'foo'
-      @instance.save              
+      @instance.save
       tests("#access_control_allow_origin= should update access_control_allow_origin").returns('bar') do
         @instance.access_control_allow_origin = 'bar'
-        @instance.save                
+        @instance.save
         @instance.access_control_allow_origin
       end
 
       tests("#access_control_allow_origin= should not blow up on nil") do
         @instance.access_control_allow_origin = nil
-        @instance.save                        
+        @instance.save
       end
 
     end
 
   end
 
-
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
 
     tests("#origin") do
 
       tests("#origin should default to nil").returns(nil) do
-        @instance.save                        
+        @instance.save
         @instance.origin
       end
 
@@ -176,7 +175,7 @@ Shindo.tests('Fog::OpenStack::Storage | file', ['openstack']) do
       @instance.attributes.delete('Origin')
 
       @instance.origin = 'foo'
-      @instance.save      
+      @instance.save
       tests("#origin= should update origin").returns('bar') do
         @instance.origin = 'bar'
         @instance.save
@@ -185,7 +184,7 @@ Shindo.tests('Fog::OpenStack::Storage | file', ['openstack']) do
 
       tests("#origin= should not blow up on nil") do
         @instance.origin = nil
-        @instance.save        
+        @instance.save
       end
 
     end

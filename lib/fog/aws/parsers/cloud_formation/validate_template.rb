@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module CloudFormation
-
         class ValidateTemplate < Fog::Parsers::Base
-
           def reset
             @parameter = {}
             @response = { 'Parameters' => [] }
@@ -44,7 +42,6 @@ module Fog
               @in_parameters = false
             end
           end
-
         end
       end
     end

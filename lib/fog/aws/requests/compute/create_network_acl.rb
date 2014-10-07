@@ -53,7 +53,7 @@ module Fog
           if vpcId
             id = Fog::AWS::Mock.network_acl_id
 
-            unless self.data[:vpcs].detect { |s| s['vpcId'] == vpcId }
+            unless self.data[:vpcs].find { |s| s['vpcId'] == vpcId }
               raise Fog::Compute::AWS::Error.new("Unknown VPC '#{vpcId}' specified")
             end
 
@@ -82,7 +82,7 @@ module Fog
                 },
               ],
               'associationSet' => [],
-              'tagSet'         => {},
+              'tagSet'         => {}
             }
 
             self.data[:network_acls][id] = data

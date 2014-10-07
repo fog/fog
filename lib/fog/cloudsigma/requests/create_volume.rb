@@ -24,7 +24,6 @@ module Fog
           mock_create(:volumes, 202, data, uuid, defaults)
         end
       end
-
     end
   end
 end

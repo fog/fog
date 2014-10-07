@@ -1,5 +1,4 @@
 def model_tests(collection, params = {}, mocks_implemented = true)
-
   tests('success') do
 
     @instance = collection.new(params)
@@ -10,7 +9,7 @@ def model_tests(collection, params = {}, mocks_implemented = true)
     end
 
     if block_given?
-      yield
+      yield(@instance)
     end
 
     tests("#destroy").succeeds do
@@ -19,7 +18,6 @@ def model_tests(collection, params = {}, mocks_implemented = true)
     end
 
   end
-
 end
 
 # Generates a unique identifier with a random differentiator.
@@ -31,5 +29,3 @@ def uniq_id(base_name = 'fog-test')
   suffix = rand(65536).to_s(16).rjust(4, '0')
   [base_name, suffix] * '-'
 end
-
-

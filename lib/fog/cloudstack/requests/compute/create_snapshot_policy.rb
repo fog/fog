@@ -1,20 +1,29 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Creates an account.
+        # Creates a snapshot policy for the account.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/createSnapshotPolicy.html]
-        def create_snapshot_policy(options={})
-          options.merge!(
-            'command' => 'createSnapshotPolicy'
-          )
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/createSnapshotPolicy.html]
+        def create_snapshot_policy(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'createSnapshotPolicy') 
+          else
+            options.merge!('command' => 'createSnapshotPolicy', 
+            'volumeid' => args[0], 
+            'maxsnaps' => args[1], 
+            'timezone' => args[2], 
+            'intervaltype' => args[3], 
+            'schedule' => args[4])
+          end
           request(options)
         end
-
       end
+
     end
   end
 end
+

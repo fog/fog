@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Linode
       class Real
-
         # Get available plans
         #
         # ==== Parameters
@@ -23,11 +22,8 @@ module Fog
             :query    => { :api_action => 'avail.linodeplans' }.merge!(options)
           )
 
-          #hack for plans not filtering by id like they should above, remove when they fix it.
-          result.body["DATA"] = result.body["DATA"].select { |item| item['PLANID'] == linodeplan_id } if linodeplan_id
           result
         end
-
       end
 
       class Mock
@@ -58,6 +54,7 @@ module Fog
           { "PRICE" => 19.95, "RAM" => 512, "XFER" => 200,
             "PLANID" => linodeplan_id, "LABEL" => "Linode #{linodeplan_id}",
             "DISK" => 20,
+            "CORES" => 1,
             "AVAIL" => {
               "3"=>48, "2"=>207, "7"=>161, "6"=>143, "4"=>108, "8"=>60
             }

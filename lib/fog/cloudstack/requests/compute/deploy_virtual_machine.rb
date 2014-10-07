@@ -1,34 +1,27 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
+      class Real
         # Creates and automatically starts a virtual machine based on a service offering, disk offering, and template.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/deployVirtualMachine.html]
-        def deploy_virtual_machine(options={})
-          options.merge!(
-            'command' => 'deployVirtualMachine'
-          )
-
-          if security_group_ids = options.delete('securitygroupids')
-            options.merge!('securitygroupids' => Array(security_group_ids).join(','))
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/deployVirtualMachine.html]
+        def deploy_virtual_machine(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'deployVirtualMachine') 
+          else
+            options.merge!('command' => 'deployVirtualMachine', 
+            'templateid' => args[0], 
+            'zoneid' => args[1], 
+            'serviceofferingid' => args[2])
           end
-
-          if security_group_names = options.delete('securitygroupnames')
-            options.merge!('securitygroupnames' => Array(security_group_names).join(','))
-          end
-
-          if network_ids = options.delete('networkids')
-            options.merge!('networkids' => Array(network_ids).join(','))
-          end
-
           request(options)
         end
-      end # Real
-
+      end
+ 
       class Mock
-
         def deploy_virtual_machine(options={})
           zone_id = options['zoneid']
           unless zone_id
@@ -123,7 +116,8 @@ module Fog
           self.data[:servers][identity]= virtual_machine
           {'deployvirtualmachineresponse' => virtual_machine}
         end
-      end # Mock
-    end # Cloudstack
-  end # Compute
-end # Fog
+      end 
+    end
+  end
+end
+

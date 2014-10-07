@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class DescribeScheduledActions < Fog::Parsers::Base
-
           def reset
             reset_scheduled_update_group_action
             @results = { 'ScheduledUpdateGroupActions' => [] }
@@ -38,7 +36,6 @@ module Fog
               @response['DescribeScheduledActionsResult'] = @results
             end
           end
-
         end
       end
     end

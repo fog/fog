@@ -12,7 +12,6 @@ module Fog
           mock_get(:servers, 200, server_id)
         end
       end
-
     end
   end
 end

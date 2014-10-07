@@ -13,7 +13,7 @@ Shindo.tests('AWS::Glacier | models', ['aws', 'glacier']) do
       end
 
       tests('all') do
-        tests('contains vault').returns(true) { Fog::AWS[:glacier].vaults.collect {|vault| vault.id}.include?(vault.id)}
+        tests('contains vault').returns(true) { Fog::AWS[:glacier].vaults.map {|vault| vault.id}.include?(vault.id)}
       end
 
       tests('destroy') do

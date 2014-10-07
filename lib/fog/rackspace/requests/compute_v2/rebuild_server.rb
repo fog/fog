@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # The rebuild operation removes all data on the server and replaces it with the specified image.
         # The serverRef and all IP addresses remain the same. If you specify name, metadata, accessIPv4,
         # or accessIPv6 in the rebuild request, new values replace existing values. Otherwise, these values do not change.

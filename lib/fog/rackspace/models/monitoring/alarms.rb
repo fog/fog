@@ -5,15 +5,17 @@ module Fog
   module Rackspace
     class Monitoring
       class Alarms < Fog::Collection
-
         attribute :entity
+        attribute :marker
 
         model Fog::Rackspace::Monitoring::Alarm
 
-        def all
+        def all(options={})
           requires :entity
-          data = service.list_alarms(entity.identity).body['values']
-          load(data)
+          data = service.list_alarms(entity.identity, options).body
+          self.marker = data['metadata']['next_marker']
+
+          load(data['values'])
         end
 
         def get(alarm_id)
@@ -33,7 +35,6 @@ module Fog
           requires :entity
           super({ :entity => entity }.merge!(attributes))
         end
-
       end
     end
   end

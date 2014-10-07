@@ -4,7 +4,6 @@ require 'fog/terremark/models/shared/internetservice'
 module Fog
   module Terremark
     module Shared
-
       module Mock
         def internetservices(options = {})
           Fog::Terremark::Shared::Servers.new(options.merge(:service => self))
@@ -18,7 +17,6 @@ module Fog
       end
 
       class InternetServices < Fog::Collection
-
         model Fog::Terremark::Shared::InternetService
 
         def all
@@ -35,7 +33,6 @@ module Fog
         def vdc_id
           @vdc_id ||= service.default_vdc_id
         end
-
       end
     end
   end

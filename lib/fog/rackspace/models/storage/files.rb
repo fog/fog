@@ -4,9 +4,7 @@ require 'fog/rackspace/models/storage/file'
 module Fog
   module Storage
     class Rackspace
-
       class Files < Fog::Collection
-
         # @!attribute [rw] directory
         # @return [String] The name of the directory
         # @note Methods in this class require this attribute to be set
@@ -68,7 +66,7 @@ module Fog
         # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
         # @raise [Fog::Storage::Rackspace::ServiceError]
         # @note This method retrieves files in pages. Page size is defined by the limit attribute
-        alias :each_file_this_page :each
+        alias_method :each_file_this_page, :each
         def each
           if !block_given?
             self
@@ -197,7 +195,6 @@ module Fog
           return nil unless path
           "#{path}/#{Fog::Rackspace.escape(key, '/')}"
         end
-
       end
     end
   end

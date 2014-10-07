@@ -2,7 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
 Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
   pending if Fog.mocking?
-  vapp = vapps.detect {|v| v.vms.size >= 1}
+  vapp = vapps.find {|v| v.vms.size >= 1}
 
   # we can't run these tests if there is no vapps with a vm in them
   pending unless vapp
@@ -81,6 +81,19 @@ Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
   tests("Compute::VcloudDirector | vm | tags") do
     tags = vm.tags
     tests("#collection").returns(Fog::Compute::VcloudDirector::Tags){ tags.class }
+  end
+
+  # We should also be able to find this VM via Query API
+  #  :name is not unique for VMs though, so let us query by href
+  tests("Compute::VcloudDirector | vm", ['find_by_query']) do
+    tests('we can retrieve :name without lazy loading').returns(vm.name) do
+      query_vm = vms.find_by_query(:filter => "href==#{vm.href}").first
+      query_vm.attributes[:name]
+    end
+    tests('we can retrieve name via model object returned by query').returns(vm.name) do
+      query_vm = vms.find_by_query(:filter => "href==#{vm.href}").first
+      query_vm.name
+    end
   end
 
 end

@@ -57,4 +57,3 @@ Shindo.tests('Fog::Compute[:openstack] | limits requests', ['openstack']) do
     end
   end
 end
-

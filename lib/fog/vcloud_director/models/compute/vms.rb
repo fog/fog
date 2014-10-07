@@ -4,8 +4,10 @@ require 'fog/vcloud_director/models/compute/vm'
 module Fog
   module Compute
     class VcloudDirector
-
       class Vms < Collection
+
+        include Fog::VcloudDirector::Query
+
         model Fog::Compute::VcloudDirector::Vm
 
         attribute :vapp
@@ -22,10 +24,14 @@ module Fog
           new(item[:vm])
         end
 
+        def query_type
+          "vm"
+        end
+
         private
 
         def get_by_id(item_id)
-          item = item_list.detect{ |vm| vm[:id] == item_id }
+          item = item_list.find{ |vm| vm[:id] == item_id }
           item
         end
 
@@ -34,7 +40,6 @@ module Fog
           items = data[:vms]
           items
         end
-
       end
     end
   end

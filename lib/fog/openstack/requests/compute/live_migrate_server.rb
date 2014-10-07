@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def live_migrate_server(server_id, host, block_migration, disk_over_commit)
           body = {
             'os-migrateLive' => {
@@ -12,19 +11,15 @@ module Fog
             }
           }
           server_action(server_id, body)
-
         end
-
       end
 
       class Mock
-
         def live_migrate_server(server_id, host, block_migration, disk_over_commit)
           response = Excon::Response.new
           response.status = 202
           response
         end
-
       end
     end
   end

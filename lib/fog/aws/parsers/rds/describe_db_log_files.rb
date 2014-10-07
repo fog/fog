@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         class DescribeDBLogFiles < Fog::Parsers::Base
-
           attr_reader :rds_id
 
           def initialize(rds_id)

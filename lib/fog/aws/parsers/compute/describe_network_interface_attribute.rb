@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeNetworkInterfaceAttribute < NetworkInterfaceParser
           def reset
             @response             = { }
@@ -76,4 +75,3 @@ module Fog
     end
   end
 end
-

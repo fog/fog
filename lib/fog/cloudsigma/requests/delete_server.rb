@@ -12,7 +12,6 @@ module Fog
           mock_delete(:servers, 204, server_id)
         end
       end
-
     end
   end
 end

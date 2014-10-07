@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Storage
     class HP
-
       class File < Fog::Model
-
         identity  :key,             :aliases => 'name'
 
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
@@ -101,9 +99,7 @@ module Fog
         def directory=(new_directory)
           @directory = new_directory
         end
-
       end
-
     end
   end
 end

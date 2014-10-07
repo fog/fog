@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Delete an existing object
         #
         # ==== Parameters
@@ -17,11 +16,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def delete_object(container_name, object_name, options = {})
           response = Excon::Response.new
           if container = self.data[:containers][container_name]
@@ -36,9 +33,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

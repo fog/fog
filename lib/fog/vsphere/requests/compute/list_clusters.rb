@@ -26,7 +26,6 @@ module Fog
             :datacenter     => datacenter_name || parent_attribute(cluster.path, :datacenter)[1],
           }
         end
-
       end
       class Mock
         def list_clusters(filters = { })

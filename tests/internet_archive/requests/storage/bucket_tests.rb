@@ -23,14 +23,14 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internetarchi
     }
     @bucket_lifecycle_format = {
       'Rules' => [{
-         'ID'         => String, 
+         'ID'         => String,
          'Prefix'     => Fog::Nullable::String,
-         'Enabled'    => Fog::Boolean, 
+         'Enabled'    => Fog::Boolean,
          'Expiration' => Fog::Nullable::Hash,
          'Transition' => Fog::Nullable::Hash
        }]
     }
-      
+
     @service_format = {
       'Buckets' => [{
         'CreationDate'  => Time,

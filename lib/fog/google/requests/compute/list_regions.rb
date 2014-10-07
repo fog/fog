@@ -1,11 +1,9 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def list_regions
-          build_response(:body => {
+          build_excon_response({
             "kind" => "compute#regionList",
             "selfLink" => "https://www.googleapis.com/compute/v1/projects/#{@project}/regions",
             "id" => "projects/#{@project}/regions",
@@ -70,23 +68,18 @@ module Fog
             ]
           })
         end
-
       end
 
       class Real
-
         def list_regions
           api_method = @compute.regions.list
           parameters = {
             'project' => @project
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
-
       end
-
     end
   end
 end

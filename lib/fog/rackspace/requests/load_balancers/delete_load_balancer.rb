@@ -1,7 +1,6 @@
 module Fog
   module Rackspace
     class LoadBalancers
-
       class Real
         def delete_load_balancer(load_balancer_id)
           request(
@@ -19,7 +18,6 @@ module Fog
           response.body = ""
         end
       end
-
     end
   end
 end

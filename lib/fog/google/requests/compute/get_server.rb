@@ -1,15 +1,13 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def get_server(server_name, zone_name)
           server = self.data[:servers][server_name]
           get_zone(zone_name)
           zone = self.data[:zones][zone_name]
           if server.nil? or server["zone"] != zone["selfLink"]
-            return build_response(:body => {
+            return build_excon_response({
               "error" => {
                 "errors" => [
                  {
@@ -50,13 +48,11 @@ module Fog
             end
           end
 
-          build_response(:body => server)
+          build_excon_response(server)
         end
-
       end
 
       class Real
-
         def get_server(server_name, zone_name)
           if zone_name.is_a? Excon::Response
             zone = zone_name.body["name"]
@@ -71,12 +67,9 @@ module Fog
             'instance' => server_name
           }
 
-          result = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          request(api_method, parameters)
         end
-
       end
-
     end
   end
 end

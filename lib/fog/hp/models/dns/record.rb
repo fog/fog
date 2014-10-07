@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module HP
     class DNS
-
       class Record < Fog::Model
         identity :id
 
@@ -52,7 +51,6 @@ module Fog
           merge_attributes(service.update_record(self.domain_id, id, attributes).body)
           true
         end
-
       end
     end
   end

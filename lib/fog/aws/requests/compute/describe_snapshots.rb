@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_snapshots'
 
         # Describe all or specified snapshots
@@ -18,6 +17,7 @@ module Fog
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'snapshotSet'<~Array>:
+        #       * 'encrypted'<~Boolean>: The encryption status of the snapshot.
         #       * 'progress'<~String>: The percentage progress of the snapshot
         #       * 'snapshotId'<~String>: Id of the snapshot
         #       * 'startTime'<~Time>: Timestamp of when snapshot was initiated
@@ -35,7 +35,7 @@ module Fog
           end
 
           for key in ['ExecutableBy', 'ImageId', 'Owner', 'RestorableBy']
-            if filters.has_key?(key)
+            if filters.key?(key)
               options[key] = filters.delete(key)
             end
           end
@@ -47,11 +47,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeSnapshots.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def describe_snapshots(filters = {}, options = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_snapshots with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead [light_black](#{caller.first})[/]")
@@ -76,6 +74,7 @@ module Fog
 
           aliases = {
             'description' => 'description',
+            'encrypted'   => 'encrypted',
             'owner-id'    => 'ownerId',
             'progress'    => 'progress',
             'snapshot-id' => 'snapshotId',
@@ -115,7 +114,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

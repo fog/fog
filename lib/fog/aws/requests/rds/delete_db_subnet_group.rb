@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/delete_db_subnet_group'
 
         # Deletes a db subnet group
@@ -18,11 +17,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::DeleteDBSubnetGroup.new }
           request(params)
         end
-
       end
 
       class Mock
-
         def delete_db_subnet_group(name)
           response = Excon::Response.new
           unless self.data[:subnet_groups] && self.data[:subnet_groups][name]
@@ -35,7 +32,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

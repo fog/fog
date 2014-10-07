@@ -9,7 +9,7 @@ module Fog
       class MessageRejected < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/ses'
       request :delete_verified_email_address
@@ -22,11 +22,9 @@ module Fog
       request :send_raw_email
 
       class Mock
-
         def initialize(options={})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
@@ -55,6 +53,8 @@ module Fog
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
 
+          @instrumentor       = options[:instrumentor]
+          @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.ses'
           @connection_options     = options[:connection_options] || {}
           options[:region] ||= 'us-east-1'
           @host = options[:host] || "email.#{options[:region]}.amazonaws.com"
@@ -86,7 +86,6 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-
           headers = {
             'Content-Type'  => 'application/x-www-form-urlencoded',
             'Date'          => Fog::Time.now.to_date_header,
@@ -106,32 +105,37 @@ module Fog
           end
           body.chop! # remove trailing '&'
 
-          begin
-            response = @connection.request({
-              :body       => body,
-              :expects    => 200,
-              :headers    => headers,
-              :idempotent => idempotent,
-              :host       => @host,
-              :method     => 'POST',
-              :parser     => parser
-            })
-          rescue Excon::Errors::HTTPStatusError => error
-            match = Fog::AWS::Errors.match_error(error)
-            raise if match.empty?
-            raise case match[:code]
-                  when 'MessageRejected'
-                    Fog::AWS::SES::MessageRejected.slurp(error, match[:message])
-                  when 'InvalidParameterValue'
-                    Fog::AWS::SES::InvalidParameterError.slurp(error, match[:message])
-                  else
-                    Fog::AWS::SES::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
-                  end
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, headers, idempotent, parser)
+            end
+          else
+            _request(body, headers, idempotent, parser)
           end
-
-          response
         end
 
+        def _requrest(body, headers, idempotent, parser)
+          @connection.request({
+            :body       => body,
+            :expects    => 200,
+            :headers    => headers,
+            :idempotent => idempotent,
+            :host       => @host,
+            :method     => 'POST',
+            :parser     => parser
+          })
+        rescue Excon::Errors::HTTPStatusError => error
+          match = Fog::AWS::Errors.match_error(error)
+          raise if match.empty?
+          raise case match[:code]
+                when 'MessageRejected'
+                  Fog::AWS::SES::MessageRejected.slurp(error, match[:message])
+                when 'InvalidParameterValue'
+                  Fog::AWS::SES::InvalidParameterError.slurp(error, match[:message])
+                else
+                  Fog::AWS::SES::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                end
+        end
       end
     end
   end

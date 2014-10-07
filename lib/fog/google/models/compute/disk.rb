@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class Disk < Fog::Model
-
         identity :name
 
         attribute :kind
@@ -20,9 +18,10 @@ module Fog
         attribute :source_image_id, :aliases => 'sourceImageId'
         attribute :source_snapshot, :aliases => 'sourceSnapshot'
         attribute :source_snapshot_id, :aliases => 'sourceSnapshotId'
+        attribute :type
 
         def save
-          requires :name, :zone
+          requires :name, :zone, :size_gb
 
           options = {}
           my_description = "Created with fog"
@@ -36,6 +35,7 @@ module Fog
 
           options['sizeGb'] = size_gb
           options['description'] = description || my_description
+          options['type'] = type
 
           data = service.insert_disk(name, zone, source_image, options)
           operation = Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
@@ -114,7 +114,6 @@ module Fog
         end
 
         RUNNING_STATE = "READY"
-
       end
     end
   end
