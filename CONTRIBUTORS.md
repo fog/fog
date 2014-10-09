@@ -11,6 +11,7 @@
 * Adam Tucker <adam.j.tucker@gmail.com>
 * Adan Saenz <asaenz@momentumsi.com>
 * Ahmed Al Hafoudh <alhafoudh@freevision.sk>
+* Ahmed Elsabbahy <aelsabbahy@promnetwork.com>
 * Akira Matsuda <ronnie@dio.jp>
 * Akshay Joshi <me@akshayjoshi.com>
 * Akshay Moghe <amoghe@maginatics.com>
@@ -107,6 +108,7 @@
 * Brian Hartsock <brian.hartsock@gmail.com>
 * Brian Hartsock <brian.hartsock@rackspace.com>
 * Brian Nelson <bnelson@sugarcrm.com>
+* Brian O'Keefe <brianok@linode.com>
 * Brian Palmer <brianp@instructure.com>
 * Brice Figureau <brice-puppet@daysofwonder.com>
 * Bruno Enten <bruno@enten-itc.ch>
@@ -135,6 +137,7 @@
 * Chris Kershaw <ckershaw@6fusion.com>
 * Chris Mague <github@mague.com>
 * Chris Roberts <chrisroberts.code@gmail.com>
+* Chris Thompson <chris.thompson@govdelivery.com>
 * Chris Wuest <chris.wuest@rackspace.com>
 * Chris Wuest <chris@chriswuest.com>
 * Christian Berendt <berendt@b1-systems.de>
@@ -219,6 +222,7 @@
 * Erik Mackdanz <erik@infochimps.com>
 * Erik Michaels-Ober <sferik@gmail.com>
 * Erik Terpstra <erterpstra@gmail.com>
+* Erik van Pienbroek <erik.vanpienbroek@prorail.nl>
 * Eugene Howe & Josh Lane <ehowe@engineyard.com>
 * Eugene Howe <ehowe@engineyard.com>
 * Eugene Howe <eugene@xtreme-computers.net>
@@ -254,6 +258,7 @@
 * Greg Sutcliffe <gsutclif@redhat.com>
 * Grégory Karékinian <greg@karekinian.com>
 * Grzesiek Kolodziejczyk <gkolodziejczyk@gmail.com>
+* Guilherme Souza <guivideojob@gmail.com>
 * Gustavo Villalta <gvillalta99@gmail.com>
 * H. Wade Minter <minter@lunenburg.org>
 * H. Wade Minter <minter@teamsnap.com>
@@ -273,6 +278,7 @@
 * Irio Irineu Musskopf Junior <irio.musskopf@caixadeideias.com.br>
 * Istvan Hoka <istvan.hoka@gmail.com>
 * JD Huntington & Jason Hansen <jdhuntington@engineyard.com>
+* JJ Asghar <jj@getchef.com>
 * Jacob Burkhart & Shai Rosenfeld <jburkhart@engineyard.com>
 * Jacob Mattingley <jem@ubalo.com>
 * Jade Tucker <jadeatucker@gmail.com>
@@ -327,6 +333,7 @@
 * Jon Crosby <jon@joncrosby.me>
 * Jon Frisby <jfrisby@mrjoy.com>
 * Jon Holt <jonmholt@gmail.com>
+* Jon K Hellan <jon.kare.hellan@uninett.no>
 * Jon Palmer <jmpalme4@gmail.com>
 * Jon Palmer <jmpalmer@mitre.org>
 * Jon Topper <jon@scalefactory.com>
@@ -337,6 +344,7 @@
 * Jonathon Scanes <me@jscanes.com>
 * Joonas Reynders <joonas.reynders@iki.fi>
 * Jordan Day <jordan.day@perceptivesoftware.com>
+* Jordan Running <jr@getchef.com>
 * Jose Diaz-Gonzalez <josegonzalez@users.noreply.github.com>
 * Jose Luis Salas <josacar@gmail.com>
 * Josef Stribny <jstribny@redhat.com>
@@ -382,6 +390,7 @@
 * Kevin Menard <nirvdrum@gmail.com>
 * Kevin Moore <kevin@thinkpixellab.com>
 * Kevin Olbrich <kolbrich@6fusion.com>
+* Kieran Pilkington <kieran776@gmail.com>
 * Konstantin Haase <konstantin.mailinglists@googlemail.com>
 * Konstantinos Natsakis <k.natsakis@xe.gr>
 * Kunal Parikh <kunal@techthumb.in>
@@ -426,7 +435,9 @@
 * Mark Phillips <mark.phillips2@bskyb.com>
 * Mark Rushakoff <mark.rushakoff@gmail.com>
 * Mark Turner <mark@amerine.net>
+* Mark Yen <marky@activestate.com>
 * Markus Schwed <maschwed@anynines.com>
+* Marques Johansson <marques@linode.com>
 * Marshall Yount <marshall@yountlabs.com>
 * Martin Emde <martin.emde@gmail.com>
 * Martin Englund <martin@englund.nu>
@@ -435,6 +446,7 @@
 * Mateusz Juraszek <meceo00@gmail.com>
 * Matheus Mina <mfbmina@gmail.com>
 * Mathias Meyer <meyer@paperplanes.de>
+* Matt Bostock <matt@mattbostock.com>
 * Matt Eldridge <matt.eldridge@us.ibm.com>
 * Matt Gillooly <matt@swipely.com>
 * Matt Griffin <matt@griffinonline.org>
@@ -470,6 +482,7 @@
 * Michał Krzyżanowski <michal.krzyzanowski+github@gmail.com>
 * Michiel Sikkes <michiel.sikkes@gmail.com>
 * Mick Pollard <aussielunix@gmail.com>
+* Mike Dillon <mike.dillon@synctree.com>
 * Mike Fiedler <miketheman@gmail.com>
 * Mike Gehard <mgehard@pivotallabs.com>
 * Mike Hagedorn <mike@silverchairsolutions.com>
@@ -479,6 +492,7 @@
 * Mike Pountney <Mike.Pountney@gmail.com>
 * Ming Jin <skyairmj@gmail.com>
 * Mitchell Hashimoto <mitchell.hashimoto@gmail.com>
+* Naoto TAKAHASHI <tnaoto@gmail.com>
 * Nassos Antoniou <nassos.antoniou@gimiscale.com>
 * Nat Welch <nat@natwelch.com>
 * Nathan Sullivan <nsullivan@kixeye.com>
@@ -499,6 +513,7 @@
 * Nick Osborn <nick@osborn.ws>
 * Nick Osborn <nickosborn@redzebraconsulting.com>
 * Nick Osborn <nosborn@users.noreply.github.com>
+* Nico <nico.ritsche@gmail.com>
 * Nik Wakelin <nik@codetocustomer.com>
 * Nikita Pomyashchiy <pomnikita@gmail.com>
 * Niko Felger <niko.felger@gmail.com>
@@ -543,6 +558,7 @@
 * Philip Mark M. Deazeta <pdeazeta@morphlabs.com>
 * Philip Potter <philip.potter@digital.cabinet-office.gov.uk>
 * Pierre Carrier <pierre@gcarrier.fr>
+* Pierre Massat <pierre@dakis.com>
 * Pieter van de Bruggen <pieter@puppetlabs.com>
 * Pieter van de Bruggen <pvande@gmail.com>
 * Piotr Kedziora <piotr.kedziora27@gmail.com>
@@ -631,6 +647,7 @@
 * Thom Mahoney & Eugene Howe <tmahoney@engineyard.com>
 * Thom Mahoney <tmahoney@engineyard.com>
 * Thom May <thom@digital-science.com>
+* Thom May <thom_may@external.mckinsey.com>
 * Thomas Cate <tcate@workstation.rackspace>
 * Thomas Cate <thomascate@gmail.com>
 * Thomas Kadauke <thomas.kadauke@googlemail.com>
@@ -735,6 +752,7 @@
 * heyryanw <ryanw@ryanws-MacBook-Pro.local>
 * howete <thowe@hp.com>
 * irdan <daniel.reichert@rackspace.com>
+* james-lawrence <james-lawrence@users.noreply.github.com>
 * jamiehannaford <jamie@limetree.org>
 * jblancett <josh@firma8.com>
 * jc00ke <jesse@jc00ke.com>

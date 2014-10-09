@@ -122,6 +122,7 @@ Watchers      | #{watchers}
            'Kyle Rames',
            'Lincoln Stoll',
            'Luqman Amjad',
+           'Michael Hale',
            'Michael Zeng',
            'Mike Hagedorn',
            'Mike Pountney',
