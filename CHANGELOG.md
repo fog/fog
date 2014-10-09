@@ -245,7 +245,7 @@ Watchers      | 3232
 *   Added backend services resource to gce compute. thanks snyquist2
 *   Added backend services example and model classes. thanks snyquist2
 *   added 'add backend services backend', global forwarding rules, target http proxies, and url maps. thanks snyquist2
-*   ]fixed bug in global forwarding rules get. thanks snyquist2
+*   fixed bug in global forwarding rules get. thanks snyquist2
 *   fixed whitespace issues. thanks snyquist2
 *   fixed whitespace issues. thanks snyquist2
 *   correct files changes accidentally. thanks snyquist2
