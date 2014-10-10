@@ -1,3 +1,276 @@
+## 1.24.0 10/09/2014
+*Hash* 1bc78346c02294a0aa3e114f02e89143e0f25a4f
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 30
+Downloads     | 6923953
+Forks         | 1302
+Open Issues   | 220
+Watchers      | 3232
+
+**MVP!** Michael Hale
+
+#### [AWS]
+*   Setup a fog keypair only if not supplied. thanks Timur Alperovich
+
+#### [AWS|Beanstalk]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|CDN]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|CloudFormation]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|DNS]
+*   Add  instrumentor. thanks Michael Hale
+
+#### [AWS|DataPipeline]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|DynamoDB]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|EMR]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|Elasticache]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|Glacier]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|RDS]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|Redshift]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|SES]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|SNS]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|SQS]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|STS]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|SimpleDB]
+*   Add instrumentor. thanks Michael Hale
+
+#### [AWS|Storage]
+*   Add instrumentor. thanks Michael Hale
+
+#### [GH-3156]
+*   Fix fog binary dependencies. thanks Paul Thornthwaite
+
+#### [GH-3157]
+*   Replace 1.9 hashes with Hash rockets. thanks Paul Thornthwaite
+*   Fixed additional 1.9 hash. thanks Paul Thornthwaite
+
+#### [aws|compute]
+*   fix mock az filtering. thanks geemus
+
+#### [aws|dns]
+*   Fix some syntax errors. thanks Nat Welch
+*   mark mocked tests as pending. thanks geemus
+*   1.8 compat fix. thanks geemus
+
+#### [aws|iam]
+*   mock fixes. thanks geemus
+
+#### [dynect|dns]
+*   Let job_poll_timeout be specified. thanks Dan Peterson
+
+#### [google|compute]
+*   added centos, opensuse images. thanks Eric Johnson
+*   Refactor Compute to use the new Shared module. thanks Ferran Rodenas
+*   Change how get_region works for mocks. thanks Nat Welch
+*   Make get_region look the same for real and mock. thanks Nat Welch
+*   Change target pool code to be correct and consistent with fog. thanks Nat Welch
+*   mark target pool tests as pending to fix travis. thanks geemus
+
+#### [google|dns]
+*   Add initial support for Google Cloud DNS. thanks Marcin Owsiany
+*   Let non-mocked tests run by setting an env variable. thanks Marcin Owsiany
+*   Add support for get_managed_zone, with tests. thanks Marcin Owsiany
+
+#### [google|monitoring]
+*   Add support for Google Cloud Monitoring. thanks Ferran Rodenas
+
+#### [google|sql]
+*   Initial support for Google Cloud SQL. thanks Ferran Rodenas
+*   Add support for Flags. thanks Ferran Rodenas
+*   Add support for Operations. thanks Ferran Rodenas
+*   Add support for Instances. thanks Ferran Rodenas
+*   Add support for SslCerts. thanks Ferran Rodenas
+*   Add support for BackupRuns. thanks Ferran Rodenas
+*   Add examples. thanks Ferran Rodenas
+*   Use the correct directory for Google Cloud SQL examples. thanks Ferran Rodenas
+
+#### [google|storage]
+*   workaround excon headers issue. thanks geemus
+*   fix for failing mocked object tests. thanks geemus
+
+#### [hp|storage]
+*   workaround excon headers issue. thanks geemus
+*   fix storage tests to use new excon headers stuff. thanks geemus
+
+#### [linode|compute]
+*   Get number of CPU cores from the API. thanks Keefe
+
+#### [misc]
+*   openstack storage: add possibility to set publicity to containers. thanks  Lomoff
+*   make public option of container attr_reader. thanks  Lomoff
+*   fix mistyping in openstack storage directory model. thanks  Lomoff
+*   Adding dnsSuffixList support. thanks Ahmed Elsabbahy
+*   Reworded dnsSuffixList comment. thanks Ahmed Elsabbahy
+*   warning: mismatched indentations at 'end' with 'def'. thanks Akira Matsuda
+*   warning: assigned but unused variable - reponse. thanks Akira Matsuda
+*   Remove region defaults from Rackspace services. thanks Ash Wilson
+*   Remove the deprecation notices. thanks Ash Wilson
+*   :lipstick: Whitespace. thanks Ash Wilson
+*   Test different means of creating load balancers. thanks Ash Wilson
+*   Yard docs and optional parameters for lbs. thanks Ash Wilson
+*   Add deprecation notices to storage and queues. thanks Ash Wilson
+*   Consistently use :rackspace_queues_url. thanks Ash Wilson
+*   The "nodes" element is actually nullable. thanks Ash Wilson
+*   Whitespace touchups. thanks Ash Wilson
+*   Reorganize clb fixtures, add a minimal case. thanks Ash Wilson
+*   Port and nodes are *not* required for LB creation. thanks Ash Wilson
+*   Formatting stick!. thanks Ash Wilson
+*   Test for creating a bootable volume. thanks Ash Wilson
+*   Accept `:image_id` to create bootable volumes. thanks Ash Wilson
+*   Wait for volumes to become available. thanks Ash Wilson
+*   create_server request and test. thanks Ash Wilson
+*   Allow manual specification of :block_device_mapping. thanks Ash Wilson
+*   :block_device_mapping_v2 needs to be an Array. thanks Ash Wilson
+*   Give the BFV servers different names. thanks Ash Wilson
+*   Create bootable volumes from the Volume model. thanks Ash Wilson
+*   Boot-from-volume doesn't work from standard flavors. thanks Ash Wilson
+*   servers.create(:boot_volume_id or :boot_image_id). thanks Ash Wilson
+*   Missed an accessor there. thanks Ash Wilson
+*   Warn if you specify both boot_volume_id and boot_image_id. thanks Ash Wilson
+*   Add an image id to mock volumes when appropriate. thanks Ash Wilson
+*   All flavors are bootable if you're mocking. thanks Ash Wilson
+*   add ebs optimization. thanks Ben Chadwick
+*   remove leading slash from Rackspace compute_v2 request paths. thanks Ben Sandberg
+*   catch invalid uri. thanks Chris Thompson
+*   Require docker-api in Gemfile. thanks Daniel Lobato
+*   added ready? for sshable. thanks Denis Barishev
+*   Add support for granting and revoking DB access to Cloud Databases. thanks Evan Light
+*   Handle host specification on database users. thanks Evan Light
+*   create_user, grant_user_access, and revoke_user_access now support host access restrictions. thanks Evan Light
+*   Oops. Added that initializer just so I could pry inside of it. Don't need it now!. thanks Evan Light
+*   Oops another pry call to remove... thanks Evan Light
+*   Check region against static list, only if host is a subdomain of amazonaws.com. thanks Fabian Wiesel
+*   removing the depreciation warning when calling key_pair from an aws server. thanks Graeme Wilson
+*   adding the get and put methods for the aws amazon password policy commands. thanks Graeme Wilson
+*   rename put_account_password_policy to update_account_password_policy. thanks Graeme Wilson
+*   cleaning up extra spaces. thanks Graeme Wilson
+*   updating to the correct url for reference. thanks Graeme Wilson
+*   adding the delete method for the aws account_password_policy. thanks Graeme Wilson
+*   Show failure for Openstack Storate service_type. thanks Greg Blomquist
+*   Update the Openstack Storage service type. thanks Greg Blomquist
+*   Fix parsing of SpotInstanceRequests responce when we also specify NetworkInterface. thanks Igor Rodionov
+*   Fix to follow ruby code style. thanks Igor Rodionov
+*   Updating the HP connect docs. thanks JJ Asghar
+*   Updated to CloudStack 4.3 and re-added historical function behavior. thanks Jeff Moody
+*   Revert "Updated to CloudStack 4.4 API and re-added historical function behavior.". thanks Jeff Moody
+*   Redux of update to CloudStack 4.4 API and supporting "overloaded" methods to support old and new styles of calling     CloudStack API functions.     This should allow all options to be passed as a single hash or as an ordered list of parameters. thanks Jeff Moody
+*   Depend on fog-radosgw. thanks Jon K Hellan
+*   Fix AWS::AutoScaling::Instance#healthy?. thanks Jordan Running
+*   Allow get_object_https_url to accept a method. thanks Kieran Pilkington
+*   Adjust get_object_https_url method documentation. thanks Kieran Pilkington
+*   Local storage: Always try to create directories, handle already existing. thanks Mark Yen
+*   remove hack for linode not filtering avail.linodeplans by planid. thanks Marques Johansson
+*   rescue with correct Linode::NotFound namespace. thanks Marques Johansson
+*   Error if FOG_CREDENTIAL doesn't match session. thanks Matt Bostock
+*   Add vertical spacing for readability. thanks Matt Bostock
+*   Clean up Excon::Errors::SocketError::EOFError warning in vcloud_directory. thanks Matt Ray
+*   Correct typos. thanks Riordan
+*   Support for core Route53 HealthChecks API calls. thanks Riordan
+*   Add missing fields from DNS server requests. thanks Riordan
+*   Add missing fields to DNS record model. thanks Riordan
+*   change service catalog lookup to be type based. thanks Mike Hagedorn
+*   change to OS type request on failure. thanks Mike Hagedorn
+*   make default lookup key in ServiceCatalog type and not name. thanks Mike Hagedorn
+*   dont run a real test if the mocks are enabled. thanks Mike Hagedorn
+*   vaguely working Query mixin. thanks Mike Pountney
+*   Solid query API mixin, with tests. thanks Mike Pountney
+*   Mock vdc model tests are passing. thanks Mike Pountney
+*   find_by_query support for vdcs collection. thanks Mike Pountney
+*   Fix failing test -- Description is optional. thanks Mike Pountney
+*   Add Query support to Vms. thanks Mike Pountney
+*   Enable model vapp_tests in Mock mode. thanks Mike Pountney
+*   Enable Mock support for Model task tests. thanks Mike Pountney
+*   Add query support to tasks model, inc Mock. thanks Mike Pountney
+*   Fix up tasks_tests; add missing data from Mock. thanks Mike Pountney
+*   no mock for custom_fields. thanks Mike Pountney
+*   vApp get_execute_query 'get by name' mock. thanks Mike Pountney
+*   Fix error in assumption about TaskRecord queries. thanks Mike Pountney
+*   Replace Fog::Time with Time. thanks Mike Pountney
+*   Make task record translation more robust. thanks Mike Pountney
+*   TaskRecord ObjectName is optional. thanks Mike Pountney
+*   Empty commit to prompt Travis run. thanks Mike Pountney
+*   Not specifying Owner details caused issue in Query Mock. thanks Mike Pountney
+*   Whitespace cleanup of #3069. thanks Nat Welch
+*   add missing HEAD Bucket request, with a basic test in there. thanks Nathan Sullivan
+*   adding support for network interfaces and public IP association (non-default VPCs) for EC2 spot instances. thanks Nathan Sullivan
+*   Revert "adding support for network interfaces and public IP association (non-default VPCs) for EC2 spot instances". thanks Nathan Sullivan
+*   added public? and acl method to s3 file and minor refactoring. thanks Nico
+*   adding tests for aws file acl and public? method. thanks Nico
+*   Move chunk_size parameter to the connection_options table. thanks Pierre Massat
+*   Vcloud director: Add static routing support to Edge Gateway. thanks Simas Cepaitis
+*   Improve test a bit. thanks Simas Cepaitis
+*   Fix typo. thanks Simas Cepaitis
+*   :GatewayInterface is located 1 level deeper. thanks Simas Cepaitis
+*   allow userdata to be passed to Rackspace AutoScale. thanks Thom May
+*   Accept Block For Get Requests. thanks Tim
+*   resolve conflicts. thanks Tim
+*   remove Git Markup. thanks Tim
+*   Revert "S3 invalid signature generation". thanks Wesley Beary
+*   Make possible to get credentials value, since it's needed to start a console connection. thanks com
+*   fixes around MVP. thanks geemus
+*   update contributors. thanks geemus
+*   remove files duplicated from fog-core. thanks geemus
+*   fix signature to properly escape. thanks lawrence
+*   Update signaturev4.rb. thanks lawrence
+*   remove sakuracloud libs and add fog sakura-cloud to gem depends. thanks sawanoboly
+*   remove fog/bin/sakuracloud and copy it to fog_sakuracloud. thanks sawanoboly
+*   Added backend services resource to gce compute. thanks snyquist2
+*   Added backend services example and model classes. thanks snyquist2
+*   added 'add backend services backend', global forwarding rules, target http proxies, and url maps. thanks snyquist2
+*   fixed bug in global forwarding rules get. thanks snyquist2
+*   fixed whitespace issues. thanks snyquist2
+*   fixed whitespace issues. thanks snyquist2
+*   correct files changes accidentally. thanks snyquist2
+*   correct issues in previous commit. thanks snyquist2
+*   fixed previous commit. thanks snyquist2
+*   remove excess file. thanks snyquist2
+*   added tests for list requests. thanks snyquist2
+*   corrected naming on tests. thanks snyquist2
+*   fixed image create. thanks snyquist2
+*   added tests for http health checks, images, target pools, and forwarding rules. thanks snyquist2
+*   modified l7 load balancing example. thanks snyquist2
+
+#### [oVirt]
+*   expose ips attribute. thanks Erik van Pienbroek
+
+#### [openstack]
+*   should allow endpoint_type on storage for authentication. thanks Guilherme Souza
+*   fix network.rb. thanks Naoto TAKAHASHI
+
+#### [rackspace]
+*   Add support for httpsRedirect flag. thanks Mike Dillon
+*   Fetch https_redirect on demand if it is nil. thanks Mike Dillon
+*   set default region in mock helper for tests. thanks geemus
+
+
 ## 1.23.0 07/17/2014
 *Hash* 19c712a0b0d449c0e0cceaf94e3ee8703814db32
 
