@@ -7,6 +7,14 @@ module Fog
           raise ArgumentError, "action is a required parameter" unless options.key? :action
           container = Docker::Container.get(options[:id])
           downcase_hash_keys container.send(options[:action]).json
+        rescue Docker::Error::NotFoundError => e
+          raise Fog::Errors::Error::NotFound.new(e.message)
+        rescue Docker::Error::TimeoutError => e
+          raise Fog::Errors::Error::TimeoutError.new(e.message)
+        rescue Docker::Error::UnauthorizedError => e
+          raise Fog::Errors::Fogdocker::ServiceError::AuthenticationError.new(e.message)
+        rescue Docker::Error::DockerError => e
+          raise Fog::Errors::Fogdocker::ServiceError.new(e.message)
         end
       end
 
