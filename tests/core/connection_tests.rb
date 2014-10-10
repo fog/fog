@@ -8,7 +8,7 @@ Shindo.tests('Fog::Core::Connection', ['core']) do
     @instance = Fog::Core::Connection.new("http://example.com")
     responds_to([:request, :reset])
 
-    tests('user agent').returns("fog/#{Fog::VERSION}") do
+    tests('user agent').returns("fog/#{Fog::VERSION} fog-core/#{Fog::Core::VERSION}") do
       @instance.instance_variable_get(:@excon).data[:headers]['User-Agent']
     end
   end
