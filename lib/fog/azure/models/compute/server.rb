@@ -75,6 +75,13 @@ module Fog
           service.delete_virtual_machine(vm_name, cloud_service_name)
         end
 
+        def reboot
+          requires :vm_name
+          requires :cloud_service_name
+
+          service.reboot_server(vm_name, cloud_service_name)
+        end
+
         def save
           requires :vm_name
           requires :vm_user

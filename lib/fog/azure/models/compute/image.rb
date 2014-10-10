@@ -5,12 +5,12 @@ module Fog
     class Azure
 
       class Image < Fog::Model
-        
+
         identity :name
         attribute :os_type
         attribute :category
         attribute :locations
-       
+
       end
     end
   end

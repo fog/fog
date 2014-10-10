@@ -22,17 +22,10 @@ module Fog
           load(servers)
         end
 
-        def get(identity)
-          hash = {}
-          service.list_virtual_machines.each do |vm|
-            if vm.vm_name == identity
-              vm.instance_variables.each do |var|
-                hash[var.to_s.delete("@")] = vm.instance_variable_get(var)
-              end
-              hash[:vm_user] = 'azureuser' if hash[:vm_user].nil?
-            end
-          end
-          new(hash)
+        def get(identity, cloud_service_name)
+          all.find { |f| f.name == identity && f.cloud_service_name == cloud_service_name }
+        rescue Fog::Errors::NotFound
+          nil
         end
 
         def bootstrap(new_attributes = {})
@@ -51,7 +44,7 @@ module Fog
 
           server
         end
-        
+
       end
     end
   end

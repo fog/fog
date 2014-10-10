@@ -37,7 +37,7 @@ module Fog
           }
           super(defaults.merge(new_attributes))
         end
-        
+
       end
     end
   end

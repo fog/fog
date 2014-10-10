@@ -8,4 +8,3 @@ module Fog
     #service(:storage, 'azure/storage', 'Storage')
   end
 end
-
