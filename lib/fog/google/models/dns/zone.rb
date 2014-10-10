@@ -18,6 +18,19 @@ module Fog
         attribute :nameservers, :aliases => 'nameServers'
 
         ##
+        # Enumerates the list of Changes for the Managed Zone
+        #
+        # @return Array<Fog::DNS::Google::Change>] List of Changes for the Managed Zone
+        def changes
+          @changes = begin
+            Fog::DNS::Google::Changes.new(
+              :service => service,
+              :zone => self
+            )
+          end
+        end
+
+        ##
         # Deletes a previously created Managed Zone
         #
         # @return [Boolean] If the Managed Zone has been deleted
@@ -33,7 +46,7 @@ module Fog
         #
         # @return Array<Fog::DNS::Google::Record>] List of Resource Record Sets for the Managed Zone
         def records
-          @records ||= begin
+          @records = begin
             Fog::DNS::Google::Records.new(
               :service => service,
               :zone => self

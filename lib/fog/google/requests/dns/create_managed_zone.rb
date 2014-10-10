@@ -64,6 +64,15 @@ module Fog
               ]
             },
           ]
+          self.data[:changes][id] = [
+            {
+              'kind' => 'dns#change',
+              'id' => '0',
+              'startTime' => DateTime.now.strftime('%FT%T.%LZ'),
+              'status' => 'done',
+              'additions' => self.data[:resource_record_sets][id],
+            },
+          ]
 
           build_excon_response(data)
         end
