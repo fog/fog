@@ -22,6 +22,10 @@ module Fog
       model :record
       collection :records
 
+      # Change
+      model :change
+      collection :changes
+
       # Project
       model :project
       collection :projects
@@ -38,6 +42,11 @@ module Fog
 
       # Record
       request :list_resource_record_sets
+
+      # Change
+      request :create_change
+      request :get_change
+      request :list_changes
 
       # Project
       request :get_project
@@ -61,6 +70,7 @@ module Fog
           self.class.data(api_version)[project] ||= {
             :managed_zones => {},
             :resource_record_sets => {},
+            :changes => {},
           }
         end
 

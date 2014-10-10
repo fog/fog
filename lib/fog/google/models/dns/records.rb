@@ -21,6 +21,16 @@ module Fog
         rescue Fog::Errors::NotFound
           []
         end
+
+        ##
+        # Creates a new instance of a Resource Record Set
+        #
+        # @return [Fog::DNS::Google::Record] Resource Record Set resource
+        def new(attributes = {})
+          requires :zone
+
+          super({ :zone => zone }.merge!(attributes))
+        end
       end
     end
   end
