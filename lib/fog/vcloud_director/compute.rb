@@ -1,4 +1,5 @@
 require 'fog/vcloud_director/core'
+require 'fog/vcloud_director/query'
 
 class VcloudDirectorParser < Fog::Parsers::Base
   def extract_attributes(attributes_xml)
@@ -823,6 +824,7 @@ module Fog
             :progress => 1,
             :service_namespace => 'com.vmware.vcloud',
             :start_time => now,
+            :end_time => now + 86400,
             :status => 'running',
           }.merge(options).merge(
             :operation => operation,

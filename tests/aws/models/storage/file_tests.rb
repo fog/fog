@@ -74,6 +74,16 @@ Shindo.tests("Storage[:aws] | file", ["aws"]) do
 
     end
 
+    acl = Fog::Storage[:aws].get_object_acl(@directory.key, @instance.key).body["AccessControlList"]
+
+    tests("#acl").returns(acl) do
+      @instance.acl
+    end
+
+    tests("#public?").returns(acl.any? {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}) do
+      @instance.public?
+    end
+
   end
 
   @directory.versions.each(&:destroy)

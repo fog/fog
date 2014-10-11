@@ -1,7 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
 Shindo.tests("Compute::VcloudDirector | vdcs", ['vclouddirector', 'all']) do
-  pending if Fog.mocking?
   tests("#There is one or more vdc").returns(true){ organization.vdcs.size >= 1 }
 
   vdcs = organization.vdcs
@@ -37,5 +36,19 @@ Shindo.tests("Compute::VcloudDirector | vdcs", ['vclouddirector', 'all']) do
   tests("Compute::VcloudDirector | vdc", ['get']) do
     tests("#get_by_name").returns(vdc.name) { vdcs.get_by_name(vdc.name).name }
     tests("#get").returns(vdc.id) { vdcs.get(vdc.id).id }
+  end
+
+  pending if Fog.mocking?
+
+  # We should also be able to find this same vdc via Query API
+  tests("Compute::VcloudDirector | vdcs", ['find_by_query']) do
+    tests('we can retrieve :name without lazy loading').returns(vdc.name) do
+      query_vdc = vdcs.find_by_query(:filter => "name==#{vdc.name}").first
+      query_vdc.attributes[:name]
+    end
+    tests('by name').returns(vdc.name) do
+      query_vdc = vdcs.find_by_query(:filter => "name==#{vdc.name}").first
+      query_vdc.name
+    end
   end
 end

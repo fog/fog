@@ -181,6 +181,9 @@ module Fog
             :xsi_schemaLocation=>xsi_schema_location,
           }
 
+          records = []
+          record_type = nil
+
           if type == 'orgVdc'
             record_type = :OrgVdcRecord
             vdc_id = data[:vdcs].keys[0]
@@ -204,10 +207,10 @@ module Fog
             body[:pageSize] = records.size.to_s  # TODO: Support pagination
             body[:total]    = records.size.to_s
             body[record_type] = records
+
           elsif type == 'orgVdcNetwork'
             record_type = :OrgVdcNetworkRecords
             data_type = :networks
-            records = []
             data[data_type].each do |id, dr|
               r = {}
               if name.nil? || dr[:name] == name
@@ -242,6 +245,7 @@ module Fog
             body[:pageSize] = records.size.to_s  # TODO: Support pagination
             body[:total]    = records.size.to_s
             body[record_type] = records
+
           elsif type == 'edgeGateway'
             record_type = :EdgeGatewayRecord
             edge_gateway_id = data[:edge_gateways].keys[0]
@@ -264,6 +268,7 @@ module Fog
             body[:pageSize] = records.size.to_s  # TODO: Support pagination
             body[:total]    = records.size.to_s
             body[record_type] = records
+
           elsif type == 'vAppTemplate'
             record_type = :VAappTemplateRecord
             records = [{
@@ -300,9 +305,93 @@ module Fog
             body[:pageSize] = records.size.to_s  # TODO: Support pagination
             body[:total]    = records.size.to_s
             body[record_type] = records
+
+          elsif type == 'vApp'
+            record_type = :VAppRecord
+            all_records = data[:vapps].map do |vapp_id, vapp|
+              {
+                :vdcName => data.fetch(:vdcs).fetch(vapp[:vdc_id]).fetch(:name),
+                :vdc => make_href("vdc/#{vapp[:vdc_id]}"),
+                :storageProfileName => "*",
+                :ownerName => "system",
+                :name => vapp.fetch(:name),
+                :status => 'POWERED_OFF',
+                :isInMaintenanceMode=> 'false',
+                :isPublic => 'false',
+                :isExpired =>"false",
+                :isEnabled =>"true",
+                :isDeployed =>"false",
+                :isBusy => "false",
+                :pvdcHighestSupportedHardwareVersion => '8',
+                :lowestHardwareVersionInVApp => '8',
+                :creationDate => "2013-09-19T22:55:30.257+01:00",
+                :href => make_href("vApp/#{vapp_id}"),
+                :honorBootOrder => "false",
+                :isVdcEnabled => "true",
+                :cpuAllocationMhz => "8",
+                :cpuAllocationInMhz => "16000",
+                :storageKB => "52428800",
+                :numberOfVMs => "1",
+                :isAutoDeleteNotified => "false",
+                :numberOfCpus => "8",
+                :isAutoUndeployNotified => "false",
+                :memoryAllocationMB => "32768",
+                :task => make_href("task/#{uuid}"),
+                :taskStatusName => 'vdcInstantiateVapp',
+                :taskStatus => 'success',
+                :taskDetails => " ",
+              }
+            end
+            records = all_records.select do |record|
+              record[:name] == name
+            end
+
+            body[:page]     = 1.to_s             # TODO: Support pagination
+            body[:pageSize] = records.size.to_s  # TODO: Support pagination
+            body[:total]    = records.size.to_s
+            body[record_type] = records
+
+          elsif type == 'task'
+
+            record_type = :TaskRecord
+            data_type = :tasks
+            data[data_type].each do |id, dr|
+              r = {}
+              if name.nil? || dr.fetch(:operation_name) == name
+                r[:name] = dr.fetch(:operation_name)
+                r[:href] = make_href("task/#{id}")
+                if dr.key?(:end_time)
+                  r[:endDate] = dr.fetch(:end_time).strftime('%Y-%m-%dT%H:%M:%S%z')
+                else
+                  r[:endDate] = nil
+                end
+                if dr.key?(:start_time)
+                  r[:startDate] = dr.fetch(:start_time).strftime('%Y-%m-%dT%H:%M:%S%z')
+                else
+                  r[:startDate] = nil
+                end
+                r[:status] = dr.fetch(:status)
+                r[:serviceNamespace] = 'com.vmware.vcloud'
+                r[:ownerName] = '000.0.000000'
+                r[:orgName] = data.fetch(:org).fetch(:name)
+                r[:org] = make_href("org/#{data[:org][:uuid]}")
+                r[:objectType] = dr.fetch(:owner).fetch(:type).split(/\./).last.split(/\+/).first
+                r[:objectName] = dr.fetch(:owner).fetch(:name, '') # objectName is optional
+                r[:object] = dr.fetch(:owner).fetch(:href)
+                r[:details] = '! []'
+
+                records << r
+              end
+            end
+
           else
             Fog::Mock.not_implemented("No 'get by name' get_execute_query Mock for #{type} (#{name})")
           end
+
+          body[:page]     = 1.to_s             # TODO: Support pagination
+          body[:pageSize] = records.size.to_s  # TODO: Support pagination
+          body[:total]    = records.size.to_s
+          body[record_type] = records
 
           body
         end
@@ -637,6 +726,7 @@ module Fog
             ]
           }
         end
+
       end
     end
   end

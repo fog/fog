@@ -66,6 +66,10 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       Fog::Storage[:aws].get_bucket(@aws_bucket_name).body
     end
 
+    tests("#head_bucket('#{@aws_bucket_name}')").succeeds do
+      Fog::Storage[:aws].head_bucket(@aws_bucket_name)
+    end 
+
     file.destroy
 
     file1 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'a',    :key => 'a/a1/file1')

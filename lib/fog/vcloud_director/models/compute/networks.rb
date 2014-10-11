@@ -5,9 +5,16 @@ module Fog
   module Compute
     class VcloudDirector
       class Networks < Collection
+
+        include Fog::VcloudDirector::Query
+
         model Fog::Compute::VcloudDirector::Network
 
         attribute :organization
+
+        def query_type
+          "orgVdcNetwork"
+        end
 
         private
 
