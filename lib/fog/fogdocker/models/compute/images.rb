@@ -14,6 +14,10 @@ module Fog
         def get(id)
           new service.image_get(id)
         end
+
+        def image_search(query = {})
+          service.image_search(query)
+        end
       end
     end
   end
