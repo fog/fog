@@ -25,6 +25,7 @@ module Fog
       request :image_create
       request :image_delete
       request :image_get
+      request :image_search
 
       class Mock
         def initialize(options={})
