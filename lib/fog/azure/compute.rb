@@ -1,6 +1,4 @@
-require 'fog/compute'
 require 'fog/azure/core'
-require 'azure'
 
 module Fog
   module Compute
@@ -32,15 +30,19 @@ module Fog
       collection :images
 
       class Mock
-        include Collections
-        def initialize(options)
-          @vm_svc = nil
+        def initialize(options={})
+          Fog::Mock.not_implemented
         end
       end
 
       class Real
-        include Collections
         def initialize(options)
+          begin
+            require 'azure'
+          rescue LoadError => e
+            retry if require('rubygems')
+            raise e.message
+          end
           ::Azure.configure do |cfg|
             cfg.management_certificate = options[:azure_pem]
             cfg.subscription_id = options[:azure_sub_id]
