@@ -115,6 +115,14 @@ module Fog
           service.container_delete(:id => id)
         end
 
+        def logs(options = { :stdout => 1, :stderr => 1 })
+          service.container_action(:id =>id, :action => :logs, :options => options)
+        end
+
+        def top(options = {})
+          service.container_action(:id =>id, :action => :top)
+        end
+
         def save
           if persisted?
             service.container_update(attributes)
