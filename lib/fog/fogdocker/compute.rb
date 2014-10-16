@@ -41,7 +41,7 @@ module Fog
           url      = options[:docker_url]
 
           Docker.url = url
-          Docker.authenticate!('username' => username, 'password' => password, 'email' => email) unless username. nil? || username.empty?
+          Docker.authenticate!('username' => username, 'password' => password, 'email' => email) unless username.nil? || username.empty?
         end
 
         def downcase_hash_keys(hash, k = [])
