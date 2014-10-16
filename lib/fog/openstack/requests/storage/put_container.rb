@@ -10,6 +10,7 @@ module Fog
         def put_container(name, options={})
           headers = options[:headers] || {}
           headers['X-Container-Read'] = '.r:*' if options[:public]
+          headers['X-Remove-Container-Read'] = 'x' if options[:public] == false
           request(
             :expects  => [201, 202],
             :method   => 'PUT',
