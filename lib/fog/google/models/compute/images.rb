@@ -58,12 +58,13 @@ module Fog
           end
 
           # If it wasn't found in any project, raise
-          if data.nil?
-            raise Fog::Errors::NotFound.new(
-              "Unable to find the image #{identity} in the following projects: #{all_projects.join(', ')}")
-          end
+          return nil if data.nil?
 
           new(data)
+        
+        rescue Fog::Errors::NotFound.new(
+          "Unable to find the image #{identity} in the following projects: #{all_projects.join(', ')}")
+
         end
       end
     end

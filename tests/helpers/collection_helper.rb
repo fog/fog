@@ -10,8 +10,8 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
       pending if Fog.mocking? && !mocks_implemented
       @instance = collection.create(params)
     end
-
     # FIXME: work around for timing issue on AWS describe_instances mocks
+
     if Fog.mocking? && @instance.respond_to?(:ready?)
       @instance.wait_for { ready? }
     end

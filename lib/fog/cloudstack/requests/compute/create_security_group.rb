@@ -5,12 +5,16 @@ module Fog
       class Real
         # Creates a security group
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createSecurityGroup.html]
-        def create_security_group(name, options={})
-          options.merge!(
-            'command' => 'createSecurityGroup', 
-            'name' => name  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/createSecurityGroup.html]
+        def create_security_group(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'createSecurityGroup') 
+          else
+            options.merge!('command' => 'createSecurityGroup', 
+            'name' => args[0])
+          end
           request(options)
         end
       end

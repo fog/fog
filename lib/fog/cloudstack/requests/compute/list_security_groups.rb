@@ -5,11 +5,15 @@ module Fog
       class Real
         # Lists security groups
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listSecurityGroups.html]
-        def list_security_groups(options={})
-          options.merge!(
-            'command' => 'listSecurityGroups'  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/listSecurityGroups.html]
+        def list_security_groups(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'listSecurityGroups') 
+          else
+            options.merge!('command' => 'listSecurityGroups')
+          end
           request(options)
         end
       end

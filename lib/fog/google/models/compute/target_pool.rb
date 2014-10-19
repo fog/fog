@@ -88,6 +88,10 @@ module Fog
           end
         end
 
+        def region_name
+          region.nil? ? nil : region.split('/')[-1]
+        end
+
         def reload
           requires :name, :region
 

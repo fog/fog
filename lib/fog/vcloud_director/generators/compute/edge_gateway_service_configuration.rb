@@ -15,6 +15,7 @@ module Fog
                 build_load_balancer_service(xml)
                 build_vpn(xml)
                 build_dhcp(xml)
+                build_static_routing_service(xml)
               }
             end.to_xml
           end
@@ -172,6 +173,27 @@ module Fog
                     xml.TranslatedPort gateway_nat_rule[:TranslatedPort] if gateway_nat_rule.key?(:TranslatedPort)
                     xml.Protocol gateway_nat_rule[:Protocol] if rule[:RuleType] == "DNAT"
                   }
+                }
+              end
+            }
+          end
+
+          def build_static_routing_service(xml)
+            routing_config = @configuration[:StaticRoutingService]
+            return unless routing_config
+
+            xml.StaticRoutingService {
+              xml.IsEnabled routing_config[:IsEnabled]
+              routing_config[:StaticRoute].each do |rule|
+                xml.StaticRoute{
+                  xml.Name rule[:Name]
+                  xml.Network rule[:Network]
+                  xml.NextHopIp rule[:NextHopIp]
+                  xml.GatewayInterface(
+                    :type => rule[:GatewayInterface][:type],
+                    :name => rule[:GatewayInterface][:name],
+                    :href => rule[:GatewayInterface][:href]
+                  )
                 }
               end
             }

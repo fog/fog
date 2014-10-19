@@ -131,19 +131,23 @@ module Fog
             network_body[:FenceMode] = configuration[:FenceMode] if ip_scope.key?(:FenceMode)
           end
 
-          owner = {:href => '', :name => nil, :type => nil} #known-bug: admin-api does not return owner.
+          owner = {
+            :href => make_href("#{type}/#{id}"),
+            :type => "application/vnd.vmware.vcloud.#{type}+xml"
+          }
           task_id = enqueue_task(
             "Updating #{type} #{name} (#{id})", 'networkUpdateNetwork', owner,
             :on_success => lambda do
               data[:networks][id] = network_body
             end
           )
-
+          task = task_body(task_id)
+          task.delete(:Owner) #known-bug: admin-api does not return owner.
           body = {
               :xmlns => xmlns,
               :xmlns_xsi => xmlns_xsi,
               :xsi_schemaLocation => xsi_schema_location,
-          }.merge(task_body(task_id))
+          }.merge(task)
 
           Excon::Response.new(
             :status => 202,

@@ -244,7 +244,7 @@ module Fog
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version = options[:hp_auth_version] || :v2
           ### Pass the service name for compute via the options hash
-          options[:hp_service_type] ||= "Compute"
+          options[:hp_service_type] ||= "compute"
           @hp_tenant_id = options[:hp_tenant_id]
 
           ### Make the authentication call

@@ -77,6 +77,7 @@ if Fog.mock?
     :ovirt_password                   => '123123',
     :libvirt_uri                      => 'qemu://libvirt/system',
     :rackspace_api_key                => 'rackspace_api_key',
+    :rackspace_region                 => 'dfw',
     :rackspace_username               => 'rackspace_username',
     :riakcs_access_key_id             => 'riakcs_access_key_id',
     :riakcs_secret_access_key         => 'riakcs_secret_access_key',

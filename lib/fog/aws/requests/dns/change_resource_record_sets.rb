@@ -17,6 +17,12 @@ module Fog
         #     * name<~String>   - This must be a fully-specified name, ending with a final period
         #     * type<~String>   - A | AAAA | CNAME | MX | NS | PTR | SOA | SPF | SRV | TXT
         #     * ttl<~Integer>   - Time-to-live value - omit if using an alias record
+        #     * weight<~Integer>   - Time-to-live value - omit if using an alias record
+        #     * set_identifier<~String> - An identifier that differentiates among multiple resource record sets that have the same combination of DNS name and type.
+        #     * region<~String> - The Amazon EC2 region where the resource that is specified in this resource record set resides.  (Latency only)
+        #     * failover<~String> - To configure failover, you add the Failover element to two resource record sets. For one resource record set, you specify PRIMARY as the value for Failover; for the other resource record set, you specify SECONDARY.
+        #     * geo_location<~String XML> - A complex type currently requiring XML that lets you control how Amazon Route 53 responds to DNS queries based on the geographic origin of the query.
+        #     * health_check_id<~String> - If you want Amazon Route 53 to return this resource record set in response to a DNS query only when a health check is passing, include the HealthCheckId element and specify the ID of the applicable health check.
         #     * resource_records<~Array> - Omit if using an alias record
         #     * alias_target<~Hash> - Information about the domain to which you are redirecting traffic (Alias record sets only)
         #       * dns_name<~String> - The Elastic Load Balancing domain to which you want to reroute traffic
@@ -92,6 +98,15 @@ module Fog
                   region_tag += %Q{<Region>#{change_item[:region]}</Region>}
                 end
               end
+
+              failover_tag = if change_item[:failover]
+                %Q{<Failover>#{change_item[:failover]}</Failover>}
+              end
+
+              geolocation_tag = if change_item[:geo_location]
+                %Q{<GeoLocation>#{change_item[:geo_location]}</GeoLocation>}
+              end
+
               resource_records = change_item[:resource_records] || []
               resource_record_tags = ''
               resource_records.each do |record|
@@ -112,7 +127,11 @@ module Fog
                 alias_target_tag += %Q{<AliasTarget><HostedZoneId>#{hosted_zone_id}</HostedZoneId><DNSName>#{dns_name}</DNSName>#{evaluate_target_health_xml}</AliasTarget>}
               end
 
-              change_tags = %Q{<Change>#{action_tag}<ResourceRecordSet>#{name_tag}#{type_tag}#{set_identifier_tag}#{weight_tag}#{region_tag}#{ttl_tag}#{resource_tag}#{alias_target_tag}</ResourceRecordSet></Change>}
+              health_check_id_tag = if change_item[:health_check_id]
+                %Q{<HealthCheckId>#{change_item[:health_check_id]}</HealthCheckId>}
+              end
+
+              change_tags = %Q{<Change>#{action_tag}<ResourceRecordSet>#{name_tag}#{type_tag}#{set_identifier_tag}#{weight_tag}#{region_tag}#{failover_tag}#{geolocation_tag}#{ttl_tag}#{resource_tag}#{alias_target_tag}#{health_check_id_tag}</ResourceRecordSet></Change>}
               changes += change_tags
             end
 

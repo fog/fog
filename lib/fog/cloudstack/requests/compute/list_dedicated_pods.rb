@@ -5,11 +5,15 @@ module Fog
       class Real
         # Lists dedicated pods.
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listDedicatedPods.html]
-        def list_dedicated_pods(options={})
-          options.merge!(
-            'command' => 'listDedicatedPods'  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/listDedicatedPods.html]
+        def list_dedicated_pods(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'listDedicatedPods') 
+          else
+            options.merge!('command' => 'listDedicatedPods')
+          end
           request(options)
         end
       end

@@ -23,7 +23,7 @@ module Fog
         #     * 'Marker'<~String> -
         #     * 'MaxItems'<~Integer> -
         #     * 'IsTruncated'<~String> -
-        #     * 'NextMarket'<~String>
+        #     * 'NextMarker'<~String>
         #   * status<~Integer> - 200 when successful
         def list_hosted_zones(options = {})
           parameters = {}

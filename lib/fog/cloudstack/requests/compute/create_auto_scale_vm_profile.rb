@@ -5,14 +5,18 @@ module Fog
       class Real
         # Creates a profile that contains information about the virtual machine which will be provisioned automatically by autoscale feature.
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createAutoScaleVmProfile.html]
-        def create_auto_scale_vm_profile(serviceofferingid, templateid, zoneid, options={})
-          options.merge!(
-            'command' => 'createAutoScaleVmProfile', 
-            'serviceofferingid' => serviceofferingid, 
-            'templateid' => templateid, 
-            'zoneid' => zoneid  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/createAutoScaleVmProfile.html]
+        def create_auto_scale_vm_profile(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'createAutoScaleVmProfile') 
+          else
+            options.merge!('command' => 'createAutoScaleVmProfile', 
+            'templateid' => args[0], 
+            'zoneid' => args[1], 
+            'serviceofferingid' => args[2])
+          end
           request(options)
         end
       end

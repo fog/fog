@@ -3,7 +3,7 @@ module Fog
     class Google
       class Mock
         def get_zone_operation(zone_name, operation)
-          operation = self.data[:operations][operation]
+         operation = self.data[:operations][operation]
           if operation
             case operation["status"]
             when Fog::Compute::Google::Operation::PENDING_STATE

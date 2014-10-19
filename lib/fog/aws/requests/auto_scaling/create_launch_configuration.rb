@@ -39,6 +39,8 @@ module Fog
         #     market price.
         #   * 'UserData'<~String> - The user data available to the launched
         #     Amazon EC2 instances.
+        #   * 'EbsOptimized'<~Boolean> - Whether the instance is optimized for
+        #     EBS I/O. Not required, default false.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -82,6 +84,7 @@ module Fog
             'AssociatePublicIpAddress' => nil,
             'BlockDeviceMappings'     => [],
             'CreatedTime'             => Time.now.utc,
+            'EbsOptimized'            => false,
             'IamInstanceProfile'      => nil,
             'ImageId'                 => image_id,
             'InstanceMonitoring'      => {'Enabled' => true},

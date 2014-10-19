@@ -1,5 +1,5 @@
 def test
-  connection = Fog::Compute.new({ :provider => "Google" })
+ connection = Fog::Compute.new({ :provider => "Google" })
 
   name = "fog-smoke-test-#{Time.now.to_i}"
   zone = "us-central1-a"

@@ -3,11 +3,21 @@ module Fog
     class Google
       class Mock
         def get_region(identity)
-          regions = Fog::Compute[:google].list_regions
-          region = regions.body['items'].select { |region| region['name'] == identity }
-
-          raise Fog::Errors::NotFound if region.nil? || region.empty?
-          build_excon_response(region.first)
+          rname = identity.split('/')[-1]
+          region = self.data[:regions][rname] || {
+            "error" => {
+              "errors" => [
+               {
+                "domain" => "global",
+                "reason" => "notFound",
+                "message" => "The resource 'projects/#{project}/regions/#{rname}' was not found"
+               }
+              ],
+              "code" => 404,
+              "message" => "The resource 'projects/#{project}/regions/#{rname}' was not found"
+            }
+          }
+          build_excon_response(region)
         end
       end
 

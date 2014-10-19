@@ -5,11 +5,15 @@ module Fog
       class Real
         # Detaches a disk volume from a virtual machine.
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/detachVolume.html]
-        def detach_volume(options={})
-          options.merge!(
-            'command' => 'detachVolume'  
-          )
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/detachVolume.html]
+        def detach_volume(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'detachVolume') 
+          else
+            options.merge!('command' => 'detachVolume')
+          end
           request(options)
         end
       end

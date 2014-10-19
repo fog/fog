@@ -15,7 +15,8 @@ Shindo.tests('Fog::Compute[:linode] | linodeplans requests', ['linode']) do
       'PRICE'   => Float,
       'RAM'     => Integer,
       'LABEL'   => String,
-      'XFER'    => Integer
+      'XFER'    => Integer,
+      'CORES'   => Integer
     }]
   })
 

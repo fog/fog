@@ -6,6 +6,7 @@ module Fog
     extend Fog::Provider
 
     service(:compute,    'Compute')
+    service(:dns,        'DNS')
     service(:monitoring, 'Monitoring')
     service(:storage,    'Storage')
     service(:sql,        'SQL')

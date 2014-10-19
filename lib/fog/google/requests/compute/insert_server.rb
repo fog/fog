@@ -30,7 +30,6 @@ module Fog
           if options['disks'].nil? or options['disks'].empty?
             raise ArgumentError.new "Empty value for field 'disks'. Boot disk must be specified"
           end
-
           id = Fog::Mock.random_numbers(19).to_s
           self.data[:servers][server_name] = {
             "kind" => "compute#instance",
