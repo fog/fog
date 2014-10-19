@@ -4,7 +4,7 @@ module Fog
   module Storage
     class Google
       class File < Fog::Model
-        identity  :key,             :aliases => 'Key'
+        identity  :key,                 :aliases => 'Key'
 
         attribute :cache_control,       :aliases => 'Cache-Control'
         attribute :content_disposition, :aliases => 'Content-Disposition'
