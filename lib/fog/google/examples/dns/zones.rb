@@ -21,6 +21,10 @@ def test
   puts '------------------------------------'
   zone.records
 
+  puts 'Get the Record...'
+  puts '-----------------'
+  record = connection.records(zone: zone).get(name: 'test.example.org.', type: 'A')
+
   puts 'Modify the "A" Record...'
   puts '------------------------'
   record.modify(ttl: 2600)

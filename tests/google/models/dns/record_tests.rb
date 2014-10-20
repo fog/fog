@@ -28,6 +28,10 @@ Shindo.tests('Fog::DNS[:google] | record model', ['google']) do
       @record.modify({ :ttl => 2600 })
     end
 
+    tests('#reload').succeeds do
+      @record.reload
+    end
+
     tests('#destroy').succeeds do
       @record.destroy
     end
