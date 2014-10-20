@@ -52,6 +52,18 @@ module Fog
         end
 
         ##
+        # Reloads a Resource Record Sets resource
+        #
+        # @return [Fog::DNS::Google::Record] Resource Record Sets resource
+        def reload
+          requires :name, :type
+
+          data = collection.get(self.name, self.type)
+          merge_attributes(data.attributes)
+          self
+        end
+
+        ##
         # Creates a new Resource Record Sets resource
         #
         # @return [Fog::DNS::Google::Record] Resource Record Sets resource
