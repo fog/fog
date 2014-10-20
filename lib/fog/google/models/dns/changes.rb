@@ -36,6 +36,16 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
+
+        ##
+        # Creates a new instance of a Change
+        #
+        # @return [Fog::DNS::Google::Change] Change resource
+        def new(attributes = {})
+          requires :zone
+
+          super({ :zone => zone }.merge!(attributes))
+        end
       end
     end
   end
