@@ -18,17 +18,23 @@ module Fog
         ##
         # Deletes a previously created Resource Record Sets resource
         #
+        # @param [Boolean] async If the operation must be asyncronous (true by default)
         # @return [Boolean] If the Resource Record Set has been deleted
-        def destroy
+        def destroy(async = true)
           requires :name, :type, :ttl, :rrdatas
 
-          service.create_change(self.zone.id, [], [resource_record_set_format])
+          data = service.create_change(self.zone.id, [], [resource_record_set_format])
+          change = Fog::DNS::Google::Changes.new(:service => service, :zone => zone).get(data.body['id'])
+          unless async
+            change.wait_for { ready? }
+          end
           true
         end
 
         ##
         # Modifies a previously created Resource Record Sets resource
         #
+        # @param [Hash] new_attributes Resource Record Set new attributes
         # @return [Fog::DNS::Google::Record] Resource Record Sets resource
         def modify(new_attributes)
           requires :name, :type, :ttl, :rrdatas
@@ -36,7 +42,12 @@ module Fog
           deletions = resource_record_set_format
           merge_attributes(new_attributes)
 
-          service.create_change(self.zone.id, [resource_record_set_format], [deletions])
+          data = service.create_change(self.zone.id, [resource_record_set_format], [deletions])
+          change = Fog::DNS::Google::Changes.new(:service => service, :zone => zone).get(data.body['id'])
+          async = new_attributes.has_key?(:async) ? new_attributes[:async] : true
+          unless async
+            change.wait_for { ready? }
+          end
           self
         end
 
@@ -47,7 +58,9 @@ module Fog
         def save
           requires :name, :type, :ttl, :rrdatas
 
-          service.create_change(self.zone.id, [resource_record_set_format], [])
+          data = service.create_change(self.zone.id, [resource_record_set_format], [])
+          change = Fog::DNS::Google::Changes.new(:service => service, :zone => zone).get(data.body['id'])
+          change.wait_for { !pending? }
           self
         end
 
