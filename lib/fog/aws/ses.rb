@@ -114,7 +114,7 @@ module Fog
           end
         end
 
-        def _requrest(body, headers, idempotent, parser)
+        def _request(body, headers, idempotent, parser)
           @connection.request({
             :body       => body,
             :expects    => 200,
