@@ -63,6 +63,9 @@ module Fog
             {"messageSet" => [], "regionName" => "eu-west-1", "zoneName" => "eu-west-1b", "zoneState" => "available"},
             {"messageSet" => [], "regionName" => "eu-west-1", "zoneName" => "eu-west-1c", "zoneState" => "available"},
 
+            {"messageSet" => [], "regionName" => "eu-central-1", "zoneName" => "eu-central-1a", "zoneState" => "available"},
+            {"messageSet" => [], "regionName" => "eu-central-1", "zoneName" => "eu-central-1b", "zoneState" => "available"},
+
             {"messageSet" => [], "regionName" => "ap-northeast-1", "zoneName" => "ap-northeast-1a", "zoneState" => "available"},
             {"messageSet" => [], "regionName" => "ap-northeast-1", "zoneName" => "ap-northeast-1b", "zoneState" => "available"},
 

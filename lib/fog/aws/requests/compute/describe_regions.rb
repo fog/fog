@@ -41,8 +41,11 @@ module Fog
 
           response = Excon::Response.new
           region_info = [
+            {"regionName"=>"eu-central-1", "regionEndpoint"=>"eu-central-1.ec2.amazonaws.com"},
             {"regionName"=>"eu-west-1", "regionEndpoint"=>"eu-west-1.ec2.amazonaws.com"},
-            {"regionName"=>"us-east-1", "regionEndpoint"=>"us-east-1.ec2.amazonaws.com"}
+            {"regionName"=>"us-east-1", "regionEndpoint"=>"us-east-1.ec2.amazonaws.com"},
+            {"regionName"=>"us-west-1", "regionEndpoint"=>"eu-west-1.ec2.amazonaws.com"},
+            {"regionName"=>"us-west-2", "regionEndpoint"=>"eu-west-2.ec2.amazonaws.com"}
           ]
 
           aliases = {'region-name' => 'regionName', 'endpoint' => 'regionEndpoint'}
