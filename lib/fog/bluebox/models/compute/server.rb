@@ -20,6 +20,7 @@ module Fog
         attribute :storage
         attribute :template
         attribute :ipv6_only
+        attribute :vsh_id
 
         attr_accessor :hostname, :password, :lb_applications, :lb_services, :lb_backends
 
