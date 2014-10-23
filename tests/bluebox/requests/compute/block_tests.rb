@@ -11,7 +11,8 @@ Shindo.tests('Fog::Compute[:bluebox] | block requests', ['bluebox']) do
     'product'         => {'cost' => String, 'description' => String, 'id' => String},
     'status'          => String,
     'storage'         => Integer,
-    'location_id'     => String
+    'location_id'     => String,
+    'vsh_id'          => String
   }
 
   tests('success') do
