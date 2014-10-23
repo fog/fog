@@ -8,7 +8,7 @@ class AWS < Fog::Bin
         Fog::AWS::ElasticBeanstalk
       when :cdn
         Fog::CDN::AWS
-      when :cloud_formation
+      when :cloud_formation, :orchestration
         Fog::AWS::CloudFormation
       when :cloud_watch
         Fog::AWS::CloudWatch
@@ -64,7 +64,7 @@ class AWS < Fog::Bin
         when :cdn
           Fog::Logger.warning("AWS[:cdn] is not recommended, use CDN[:aws] for portability")
           Fog::CDN.new(:provider => 'AWS')
-        when :cloud_formation
+        when :cloud_formation, :orchestration
           Fog::AWS::CloudFormation.new
         when :cloud_watch
           Fog::AWS::CloudWatch.new

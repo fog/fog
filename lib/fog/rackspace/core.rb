@@ -97,6 +97,7 @@ module Fog
     service(:databases,        'Databases')
     service(:monitoring,       'Monitoring')
     service(:queues,           'Queues')
+    service(:orchestration,    'Orchestration')
 
     def self.authenticate(options, connection_options = {})
       rackspace_auth_url = options[:rackspace_auth_url]
