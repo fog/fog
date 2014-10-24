@@ -173,6 +173,11 @@ module Fog
           power_state == "Halted"
         end
 
+        def suspended?
+          reload
+          power_state == "Suspended"
+        end
+
         # operations
         def start
           return false if running?
@@ -242,6 +247,19 @@ module Fog
         def revert(snapshot_ref)
           service.snapshot_revert(snapshot_ref)
         end
+
+        # Suspend the specified VM to disk. This can only be called when the
+        # specified VM is in the Running state.
+        def suspend
+          service.suspend_server reference
+        end
+
+        # Awaken the specified VM and resume it. This can only be called when
+        # the specified VM is in the Suspended state.
+        def resume(start_paused = false, force = false)
+          service.resume_server(reference, start_paused, force)
+        end
+
       end
     end
   end

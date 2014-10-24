@@ -111,6 +111,8 @@ module Fog
       request :destroy_vlan
       request :snapshot_server
       request :snapshot_revert
+      request :suspend_server
+      request :resume_server
 
       class Real
           
