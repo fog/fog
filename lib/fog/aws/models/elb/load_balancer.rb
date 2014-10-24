@@ -16,6 +16,7 @@ module Fog
         attribute :security_groups,       :aliases => 'SecurityGroups'
         attribute :scheme,                :aliases => 'Scheme'
         attribute :vpc_id,                :aliases => 'VPCId'
+        attribute :tags,                  :aliases => 'tagSet'
 
         def initialize(attributes={})
           if attributes[:subnet_ids] ||= attributes['Subnets']
@@ -173,6 +174,25 @@ module Fog
           # ELB requests are synchronous
           true
         end
+
+        def tags
+          requires :id
+          service.describe_tags(id).
+            body['DescribeTagsResult']["LoadBalancers"][0]["Tags"]
+
+        end
+        def add_tags(new_tags)
+          requires :id
+          service.add_tags(id, new_tags)
+          tags
+        end
+
+        def remove_tags(tag_keys)
+          requires :id
+          service.remove_tags(id, tag_keys)
+          tags
+        end
+        
 
         def save
           requires :id
