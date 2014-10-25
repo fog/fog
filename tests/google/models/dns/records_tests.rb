@@ -6,19 +6,31 @@ Shindo.tests('Fog::DNS[:google] | records model', ['google']) do
   end
 
   @dns = Fog::DNS[:google]
+  @zone = @dns.zones.create(
+    :name => Fog::Mock.random_letters(16),
+    :domain => ENV['FOG_TEST_GOOGLE_DNS_ZONE'] || generate_unique_domain,
+    :description => 'Fog test domain'
+  )
 
   tests('success') do
-    @zone = @dns.zones.create(
-      :name => Fog::Mock.random_letters(16),
-      :domain => ENV['FOG_TEST_GOOGLE_DNS_ZONE'] || generate_unique_domain,
-      :description => 'Fog test domain'
-    )
 
     tests('#all').succeeds do
       @dns.records(:service => @dns, :zone => @zone).all
     end
 
-    @zone.destroy
+    tests('#get').succeeds do
+      @dns.records(:service => @dns, :zone => @zone).get(@zone.domain, 'NS')
+    end
+
   end
 
+  tests('failure') do
+
+    tests('#get').returns(nil) do
+      @dns.records(:service => @dns, :zone => @zone).get(@zone.domain, 'A')
+    end
+
+  end
+
+  @zone.destroy
 end

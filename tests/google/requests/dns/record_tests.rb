@@ -31,6 +31,10 @@ Shindo.tests('Fog::DNS[:google] | record requests', ['google']) do
       @dns.list_resource_record_sets(@zone.identity).body
     end
 
+    tests('#list_resource_record_sets (with name and type)').formats(@list_resource_record_sets_format) do
+      @dns.list_resource_record_sets(@zone.identity, { :name => @zone.domain, :type => 'NS' }).body
+    end
+
     @zone.destroy
   end
 
