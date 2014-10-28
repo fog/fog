@@ -39,7 +39,7 @@ module Fog
               "OS-DCF:diskConfig" => "AUTO",
               "created" => "2012-02-28T19:38:57Z",
               "id" => image_id,
-              "name" => "Ubuntu",
+              "name" => image_name,
               "links" => [
                 {
                   "href" => "https://dfw.servers.api.rackspacecloud.com/v2/010101/images/#{image_id}",
@@ -77,7 +77,6 @@ module Fog
               },
               "minDisk"  => 10,
               "minRam"   => 256,
-              "name"     => image_name,
               "progress" => 100,
               "status"   => "ACTIVE",
               "updated"  => "2012-02-28T19:39:05Z"
