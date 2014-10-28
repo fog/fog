@@ -131,6 +131,7 @@ module Fog
               1
             else 0 end
           }
+          all_floating.empty? ? manual : all_floating
         end
 
         alias_method :public_ip_addresses, :floating_ip_addresses
