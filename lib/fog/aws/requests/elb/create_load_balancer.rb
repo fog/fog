@@ -146,6 +146,8 @@ module Fog
 
                              default_sg
                            end
+          self.data[:tags] ||= {}
+          self.data[:tags][lb_name] = {}
 
           self.data[:load_balancers][lb_name] = {
             'AvailabilityZones' => availability_zones,

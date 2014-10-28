@@ -44,6 +44,9 @@ module Fog
       request :detach_load_balancer_from_subnets
       request :apply_security_groups_to_load_balancer
       request :set_load_balancer_policies_for_backend_server
+      request :add_tags
+      request :describe_tags
+      request :remove_tags
 
       model_path 'fog/aws/models/elb'
       model      :load_balancer
