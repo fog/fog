@@ -65,6 +65,10 @@ namespace :test do
   task :openvz do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/openvz")
   end
+  task :ovirt do
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/ovirt")
+  end
+
 end
 
 desc 'Run mocked tests for a specific provider'
