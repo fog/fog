@@ -75,6 +75,8 @@ if Fog.mock?
     :ovirt_url                        => 'http://ovirt:8080/api',
     :ovirt_username                   => 'admin@internal',
     :ovirt_password                   => '123123',
+    :profitbricks_username            => 'profitbricks_username',
+    :profitbricks_password            => 'profitbricks_password',
     :libvirt_uri                      => 'qemu://libvirt/system',
     :rackspace_api_key                => 'rackspace_api_key',
     :rackspace_region                 => 'dfw',
