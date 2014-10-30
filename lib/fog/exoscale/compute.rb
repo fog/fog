@@ -20,8 +20,7 @@ module Fog
 
       model_path 'fog/exoscale/models/compute'
       model :address
-      model :disk_offering
-      collection :disk_offerings
+
       model :flavor
       collection :flavors
       model :job
@@ -34,10 +33,6 @@ module Fog
       collection :security_groups
       model :security_group_rule
       collection :security_group_rules
-      model :volume
-      collection :volumes
-      model :snapshot
-      collection :snapshots
       model :zone
       collection :zones
       
