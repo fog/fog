@@ -80,6 +80,24 @@ def compute_providers
       :disk_offering_attributes => { :name => "new disk offering", :display_text => 'New Disk Offering' },
       :mocked => true
     },
+    :exoscale => {
+      :server_attributes => {}.tap do |hash|
+        [:zone_id, :network_ids, :template_id, :service_offering_id].each do |k|
+          key = "exoscale_#{k}".to_sym
+          if Fog.credentials[key]
+            hash[k]= Fog.credentials[key]
+          end
+        end
+      end,
+      :security_group_attributes => {:name => "exoscale.sg.#{Time.now.to_i}"},
+      :security_group_rule_attributes => {
+        :cidr => '0.0.0.0/0',
+        :start_port => 123,
+        :end_port => 456,
+        :protocol => 'tcp'
+      },
+      :mocked => true
+    },
     :glesys   => {
       :server_attributes => {
         :rootpassword  => "secret_password_#{Time.now.to_i}",
