@@ -79,6 +79,11 @@ module Fog
           service.add_volume(id, attrs)
         end
 
+        def update_volume attrs
+          wait_for { stopped? } if attrs[:blocking]
+          service.update_volume(id, attrs)
+        end
+
         def destroy_volume attrs
           wait_for { stopped? } if attrs[:blocking]
           service.destroy_volume(id, attrs)
