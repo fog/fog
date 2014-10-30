@@ -9,7 +9,7 @@ module Fog
 
         attribute :bytes, :aliases => 'X-Container-Bytes-Used'
         attribute :count, :aliases => 'X-Container-Object-Count'
-        
+
         attr_writer :public
 
         def destroy
@@ -30,7 +30,15 @@ module Fog
         end
 
         def public_url
-          raise NotImplementedError
+          requires :key
+          @public_url ||= begin
+            begin response = service.head_container(key)
+              # escape the key to cover for special char. in container names
+              url = service.public_url(key)
+            rescue Fog::Storage::OpenStack::NotFound => err
+              nil
+            end
+          end
         end
 
         def save
