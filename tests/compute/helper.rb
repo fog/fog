@@ -81,27 +81,8 @@ def compute_providers
       :mocked => true
     },
     :exoscale => {
-      :provider_attributes => {
-        :exoscale_host => 'http://host.foo'
-      },
       :server_attributes => {}.tap do |hash|
         [:zone_id, :network_ids, :template_id, :service_offering_id].each do |k|
-          key = "exoscale_#{k}".to_sym
-          if Fog.credentials[key]
-            hash[k]= Fog.credentials[key]
-          end
-        end
-      end,
-      :volume_attributes => {:name => "somevolume"}.tap do |hash|
-        [:zone_id, :disk_offering_id].each do |k|
-          key = "exoscale_#{k}".to_sym
-          if Fog.credentials[key]
-            hash[k]= Fog.credentials[key]
-          end
-        end
-      end,
-      :snapshot_attributes => {:volume_id => "89198f7c-0245-aa1d-136a-c5f479ef9db7"}.tap do |hash|
-        [:volume_id, :domain_id, :policy_id].each do |k|
           key = "exoscale_#{k}".to_sym
           if Fog.credentials[key]
             hash[k]= Fog.credentials[key]
@@ -115,7 +96,6 @@ def compute_providers
         :end_port => 456,
         :protocol => 'tcp'
       },
-      :disk_offering_attributes => { :name => "new disk offering", :display_text => 'New Disk Offering' },
       :mocked => true
     },
     :glesys   => {
