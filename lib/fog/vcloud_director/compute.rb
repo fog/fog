@@ -487,7 +487,7 @@ module Fog
 
         def check_session_matches_credentials(session_org, session_user)
           fog_credential_org = @vcloud_director_username.split('@').last
-          fog_credential_user = @vcloud_director_username.split('@')[0...-1].join
+          fog_credential_user = @vcloud_director_username.split('@')[0...-1].join('@')
 
           if session_org != fog_credential_org
             raise Fog::Errors::Error.new "FOG_CREDENTIAL specified is for vCloud organisation '#{fog_credential_org}' but " +
