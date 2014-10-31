@@ -91,7 +91,7 @@ module Fog
 
           if claim
             message = claim.messages.first
-            yield message
+            yield message if block_given?
             message.destroy
             true
           else
