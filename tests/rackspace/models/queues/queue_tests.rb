@@ -24,5 +24,14 @@ Shindo.tests('Fog::Rackspace::Queues | queue', ['rackspace']) do
       @instance.dequeue(60, 60) do |message|
       end
     end
+
+    tests('#dequeue(60, 60) => not passing block').returns(true) do
+      @instance.enqueue("msg", 60)
+      @instance.dequeue(60, 60)
+    end
+
+    tests('#dequeue(60, 60) => with not messages and not passing block').returns(false) do
+      @instance.dequeue(60, 60)
+    end
   end
 end
