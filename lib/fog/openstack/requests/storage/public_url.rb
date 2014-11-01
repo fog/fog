@@ -3,10 +3,6 @@ module Fog
     class OpenStack
       class Real
 
-        def url
-          "#{@scheme}://#{@host}:#{@port}#{@path}"
-        end
-
         # Get public_url for an object
         #
         # ==== Parameters
@@ -14,18 +10,18 @@ module Fog
         # * object<~String> - Name of object to look for
         #
         def public_url(container=nil, object=nil)
-          public_url = nil
-          unless container.nil?
-            if object.nil?
-              # return container public url
-              public_url = "#{url}/#{Fog::OpenStack.escape(container)}"
-            else
-              # return object public url
-              public_url = "#{url}/#{Fog::OpenStack.escape(container)}/#{Fog::OpenStack.escape(object)}"
-            end
-          end
-          public_url
+          return nil if container.nil?
+          u = "#{url}/#{Fog::OpenStack.escape(container)}"
+          u << "/#{Fog::OpenStack.escape(object)}" unless object.nil?
+          u
         end
+
+        private
+
+        def url
+          "#{@scheme}://#{@host}:#{@port}#{@path}"
+        end
+
       end
     end
   end

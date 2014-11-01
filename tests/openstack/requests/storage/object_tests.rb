@@ -31,6 +31,16 @@ Shindo.tests('Fog::Storage[:openstack] | object requests', ["openstack"]) do
       data == lorem_file.read
     end
 
+    tests("#public_url('fogobjectests', 'fog_object')").succeeds do
+      pending if Fog.mocking?
+      Fog::Storage[:openstack].directories.first.files.first.public_url
+    end
+
+    tests("#public_url('fogobjectests')").succeeds do
+      pending if Fog.mocking?
+      Fog::Storage[:openstack].directories.first.public_url
+    end
+
     tests("#head_object('fogobjectests', 'fog_object')").succeeds do
       pending if Fog.mocking?
       Fog::Storage[:openstack].head_object('fogobjecttests', 'fog_object')

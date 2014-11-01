@@ -268,6 +268,15 @@ directory.destroy
 
 **Note**: Directory must be empty before it can be deleted.
 
+
+## Directory URL
+
+To get a directory's URL:
+
+```ruby
+directory.public_url
+```
+
 ## List Files
 
 To list files in a directory:
@@ -384,6 +393,14 @@ File.open('germany.jpg', 'w') {|f| f.write(file_object.body) }
 **Note**: This method is more memory intensive as the entire object is loaded into memory before saving the file as in the example above.
 
 
+## File URL
+
+To get a file's URL:
+
+```ruby
+file.public_url
+```
+
 ## Metadata
 
 You can access metadata as an attribute on `Fog::Storage::Rackspace::File`.
@@ -439,3 +456,4 @@ file.destroy
 ## Support and Feedback
 
 Your feedback is appreciated! If you have specific issues with the **fog** SDK, you should file an [issue via Github](https://github.com/fog/fog/issues).
+

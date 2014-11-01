@@ -31,13 +31,11 @@ module Fog
 
         def public_url
           requires :key
+
           @public_url ||= begin
-            begin response = service.head_container(key)
-              # escape the key to cover for special char. in container names
-              url = service.public_url(key)
-            rescue Fog::Storage::OpenStack::NotFound => err
-              nil
-            end
+            service.public_url(key)
+          rescue Fog::Storage::OpenStack::NotFound => err
+            nil
           end
         end
 
