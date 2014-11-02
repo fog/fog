@@ -217,7 +217,9 @@ module Fog
             if !path_style && COMPLIANT_BUCKET_NAMES !~ bucket_name
               Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) is not a valid dns name, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
               path_style = true
-            end
+            elsif scheme == 'https' && bucket_name =~ /\./
+              path_style = true
+            end  
 
             if path_style
               path = bucket_to_path bucket_name, path
