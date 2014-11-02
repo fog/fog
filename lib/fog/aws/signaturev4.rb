@@ -11,7 +11,21 @@ module Fog
         @hmac = Fog::HMAC.new('sha256', 'AWS4' + secret_key)
       end
 
-      def sign(params, date)
+      def signature_parameters(params, date)
+        signature_components(params, date)
+      end
+
+      def signature_header(params, date)
+        components = signature_components(params, date)
+        "#{components['X-Amz-Algorithm']} Credential=#{components['X-Amz-Credential']}, SignedHeaders=#{components['X-Amz-SignedHeaders']}, Signature=#{components['X-Amz-Signature']}" 
+      end
+
+      def sign(params, date) #legacy method name
+        signature_header(params, date)
+      end
+
+      protected
+      def signature_components(params, date)
         canonical_request = <<-DATA
 #{params[:method].to_s.upcase}
 #{params[:path]}
@@ -33,7 +47,12 @@ DATA
 
         signature = derived_hmac(date).sign(string_to_sign)
 
-        "AWS4-HMAC-SHA256 Credential=#{@aws_access_key_id}/#{credential_scope}, SignedHeaders=#{signed_headers(params[:headers])}, Signature=#{signature.unpack('H*').first}"
+        {
+          'X-Amz-Algorithm' => 'AWS4-HMAC-SHA256',
+          'X-Amz-Credential' => "#{@aws_access_key_id}/#{credential_scope}",
+          'X-Amz-SignedHeaders' => signed_headers(params[:headers]),
+          'X-Amz-Signature' => signature.unpack('H*').first
+        }
       end
 
       protected

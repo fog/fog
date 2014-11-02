@@ -37,5 +37,17 @@ Shindo.tests('AWS | signaturev4', ['aws']) do
       'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=content-type;date;host, Signature=b105eb10c6d318d2294de9d49dd8b031b55e3c3fe139f2e637da70511e9e7b71'
     end
   end
+
+  tests('get signature as components') do 
+    returns(@signer.signature_parameters({:query => {'a' => 'foo', 'b' => 'foo'}, :headers => {'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '/'}, @now)) do
+      {
+        'X-Amz-Algorithm' => 'AWS4-HMAC-SHA256',
+        'X-Amz-Credential' => 'AKIDEXAMPLE/20110909/us-east-1/host/aws4_request',
+        'X-Amz-SignedHeaders' => 'date;host',
+        'X-Amz-Signature' => '0dc122f3b28b831ab48ba65cb47300de53fbe91b577fe113edac383730254a3b'
+      }
+    end
+  end
+
   Fog::Time.now = ::Time.now
 end
