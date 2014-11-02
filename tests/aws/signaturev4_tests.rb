@@ -44,7 +44,18 @@ Shindo.tests('AWS | signaturev4', ['aws']) do
         'X-Amz-Algorithm' => 'AWS4-HMAC-SHA256',
         'X-Amz-Credential' => 'AKIDEXAMPLE/20110909/us-east-1/host/aws4_request',
         'X-Amz-SignedHeaders' => 'date;host',
-        'X-Amz-Signature' => '0dc122f3b28b831ab48ba65cb47300de53fbe91b577fe113edac383730254a3b'
+        'X-Amz-Signature' => 'a6c6304682c74bcaebeeab2fdfb8041bbb39c6976300791a283057bccf333fb2'
+      }
+    end
+  end
+
+  tests("inject body sha") do
+    returns(@signer.signature_parameters({:query => {'a' => 'foo', 'b' => 'foo'}, :headers => {'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '/'}, @now, 'STREAMING-AWS4-HMAC-SHA256-PAYLOAD')) do
+      {
+        'X-Amz-Algorithm' => 'AWS4-HMAC-SHA256',
+        'X-Amz-Credential' => 'AKIDEXAMPLE/20110909/us-east-1/host/aws4_request',
+        'X-Amz-SignedHeaders' => 'date;host',
+        'X-Amz-Signature' => '22c32bb0d0b859b94839de4e9360bca1806e73d853f5f97ae0d849f0bdf42fb0'
       }
     end
   end
