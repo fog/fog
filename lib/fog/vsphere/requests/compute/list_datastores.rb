@@ -31,6 +31,8 @@ module Fog
             :hosts       => datastore.host.map{ |h|
                               {
                                 :host=>h.key.name,
+                                :host_name=>h.key.name,
+                                :host_id=>managed_obj_id(h.key),
                                 :mounted=>h.mountInfo.mounted,
                                 :path=>h.mountInfo.path
                               }
