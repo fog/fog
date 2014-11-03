@@ -472,7 +472,7 @@ module Fog
           date = Fog::Time.now
 
           params = params.dup
-          params[:headers] = params[:headers].dup
+          params[:headers] = (params[:headers] || {}).dup
 
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
 
