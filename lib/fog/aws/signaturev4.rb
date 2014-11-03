@@ -79,7 +79,7 @@ DATA
       protected
 
       def canonical_path(path)
-        components = path.split('/')
+        components = path.split(%r{/+}, -1)
         path = components.inject([]) do |acc, component|
           case component
           when '.'   #canonicalize by removing .
