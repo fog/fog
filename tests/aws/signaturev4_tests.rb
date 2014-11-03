@@ -38,6 +38,18 @@ Shindo.tests('AWS | signaturev4', ['aws']) do
     end
   end
 
+  tests('get with relative path') do
+    returns(@signer.sign({:query => {}, :headers => {'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '/foo/bar/../..'}, @now)) do
+      'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=date;host, Signature=b27ccfbfa7df52a200ff74193ca6e32d4b48b8856fab7ebf1c595d0670a7e470'
+    end
+  end
+
+  tests('get with pointless .') do
+    returns(@signer.sign({:query => {}, :headers => {'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '/./foo'}, @now)) do
+      'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=date;host, Signature=910e4d6c9abafaf87898e1eb4c929135782ea25bb0279703146455745391e63a'
+    end
+  end
+
   tests('get signature as components') do 
     returns(@signer.signature_parameters({:query => {'a' => 'foo', 'b' => 'foo'}, :headers => {'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '/'}, @now)) do
       {

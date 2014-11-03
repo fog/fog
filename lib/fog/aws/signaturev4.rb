@@ -36,7 +36,7 @@ module Fog
       def signature_components(params, date, body_sha)
         canonical_request = <<-DATA
 #{params[:method].to_s.upcase}
-#{params[:path]}
+#{canonical_path(params[:path])}
 #{canonical_query_string(params[:query])}
 #{canonical_headers(params[:headers])}
 #{signed_headers(params[:headers])}
@@ -77,6 +77,20 @@ DATA
       end
 
       protected
+
+      def canonical_path(path)
+        components = path.split('/')
+        path = components.inject([]) do |acc, component|
+          case component
+          when '.'   #canonicalize by removing .
+          when '..' then acc.pop#canonicalize by reducing ..
+          else
+            acc << component
+          end
+          acc
+        end.join('/')
+        path.empty? ? '/' : path
+      end
 
       def canonical_query_string(query)
         canonical_query_string = []
