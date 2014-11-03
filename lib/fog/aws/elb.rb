@@ -84,9 +84,9 @@ module Fog
 
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
-          setup_credentials(options)
 
           @region = options[:region] || 'us-east-1'
+          setup_credentials(options)
 
           unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
@@ -96,6 +96,9 @@ module Fog
         def setup_credentials(options)
           @aws_access_key_id     = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
+
+          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key,@region,'elasticloadbalancing')
+
         end
 
         def data
@@ -131,18 +134,21 @@ module Fog
           require 'fog/core/parser'
 
           @use_iam_profile = options[:use_iam_profile]
-          setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.elb'
 
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || "elasticloadbalancing.#{options[:region]}.amazonaws.com"
+          @region = options[:region]
+          @host = options[:host] || "elasticloadbalancing.#{@region}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+
+          setup_credentials(options)
+
         end
 
         def reload
@@ -157,7 +163,7 @@ module Fog
           @aws_session_token      = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key,@region,'elasticloadbalancing')
         end
 
         def request(params)
@@ -166,33 +172,34 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-          body = Fog::AWS.signed_params(
+          body, headers = Fog::AWS.signed_params_v4(
             params,
+            { 'Content-Type' => 'application/x-www-form-urlencoded' },
             {
-              :aws_access_key_id  => @aws_access_key_id,
               :aws_session_token  => @aws_session_token,
-              :hmac               => @hmac,
+              :signer             => @signer,
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2012-06-01'
+              :version            => '2012-06-01',
+              :method             => 'POST'
           }
           )
 
           if @instrumentor
             @instrumentor.instrument("#{@instrumentor_name}.request", params) do
-              _request(body, idempotent, parser)
+              _request(body, headers, idempotent, parser)
             end
           else
-            _request(body, idempotent, parser)
+            _request(body, headers, idempotent, parser)
           end
         end
 
-        def _request(body, idempotent, parser)
+        def _request(body, headers, idempotent, parser)
           @connection.request({
             :body       => body,
             :expects    => 200,
-            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :headers    => headers,
             :idempotent => idempotent,
             :method     => 'POST',
             :parser     => parser
