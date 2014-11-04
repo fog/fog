@@ -54,6 +54,9 @@ module Fog
           unless weight.nil?
             options[:weight] = weight
           end
+          unless ntype.nil?
+            options[:type] = ntype
+          end
           service.update_node(load_balancer.id, identity, options)
         end
       end
