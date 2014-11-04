@@ -99,19 +99,21 @@ module Fog
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @aws_session_token      = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+
+          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, 'us-east-1', 'sts')
         end
 
         def request(params)
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-          body = Fog::AWS.signed_params(
+          body, headers = Fog::AWS.signed_params_v4(
             params,
+            { 'Content-Type' => 'application/x-www-form-urlencoded' },
             {
-              :aws_access_key_id  => @aws_access_key_id,
+              :method             => 'POST',
               :aws_session_token  => @aws_session_token,
-              :hmac               => @hmac,
+              :signer             => @signer,
               :host               => @host,
               :path               => @path,
               :port               => @port,
@@ -121,19 +123,19 @@ module Fog
 
           if @instrumentor
             @instrumentor.instrument("#{@instrumentor_name}.request", params) do
-              _request(body, idempotent, parser)
+              _request(body, headers, idempotent, parser)
             end
           else
-            _request(body, idempotent, parser)
+            _request(body, headers, idempotent, parser)
           end
         end
 
-        def _request(body, idempotent, parser)
+        def _request(body, headers, idempotent, parser)
           @connection.request({
             :body       => body,
             :expects    => 200,
             :idempotent => idempotent,
-            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :headers    => headers,
             :method     => 'POST',
             :parser     => parser
           })

@@ -451,13 +451,14 @@ module Fog
         def initialize(options={})
           require 'fog/core/parser'
 
-          @use_iam_profile = options[:use_iam_profile]
-          setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
           @version                = options[:version]     ||  '2014-06-15'
+
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
 
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
@@ -488,7 +489,7 @@ module Fog
           @aws_session_token      = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @hmac                   = Fog::HMAC.new('sha256', @aws_secret_access_key)
+          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key,@region,'ec2')
         end
 
         def request(params)
@@ -496,33 +497,33 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-          body = Fog::AWS.signed_params(
-            params,
-            {
-              :aws_access_key_id  => @aws_access_key_id,
-              :aws_session_token  => @aws_session_token,
-              :hmac               => @hmac,
-              :host               => @host,
-              :path               => @path,
-              :port               => @port,
-              :version            => @version
+          body, headers = Fog::AWS.signed_params_v4(
+             params,
+             {'Content-Type' => 'application/x-www-form-urlencoded'},
+             {
+               :host               => @host,
+               :path               => @path,
+               :port               => @port,
+               :version            => @version,
+               :signer             => @signer,
+               :aws_session_token  => @aws_session_token,
+               :method             => "POST"
             }
           )
-
           if @instrumentor
             @instrumentor.instrument("#{@instrumentor_name}.request", params) do
-              _request(body, idempotent, parser)
+              _request(body, headers, idempotent, parser)
             end
           else
-            _request(body, idempotent, parser)
+            _request(body, headers, idempotent, parser)
           end
         end
 
-        def _request(body, idempotent, parser)
+        def _request(body, headers, idempotent, parser)
           @connection.request({
               :body       => body,
               :expects    => 200,
-              :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+              :headers    => headers,
               :idempotent => idempotent,
               :method     => 'POST',
               :parser     => parser

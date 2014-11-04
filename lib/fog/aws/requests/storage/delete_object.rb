@@ -14,9 +14,9 @@ module Fog
 
         def delete_object(bucket_name, object_name, options = {})
           if version_id = options.delete('versionId')
-            path = "#{CGI.escape(object_name)}?versionId=#{CGI.escape(version_id)}"
+            query = {'versionId' => version_id}
           else
-            path = CGI.escape(object_name)
+            query = {}
           end
 
           headers = options
@@ -24,9 +24,10 @@ module Fog
             :expects    => 204,
             :headers    => headers,
             :bucket_name => bucket_name,
+            :object_name => object_name,
             :idempotent => true,
             :method     => 'DELETE',
-            :path       => path
+            :query      => query
           })
         end
       end
