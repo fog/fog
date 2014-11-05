@@ -1,3 +1,8 @@
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'fog/version'
+
 Gem::Specification.new do |s|
   s.specification_version = 2 if s.respond_to? :specification_version=
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -7,7 +12,7 @@ Gem::Specification.new do |s|
   ## the sub! line in the Rakefile
   s.name              = 'fog'
   s.version           = '1.24.0'
-  s.date              = '2014-10-09'
+  s.date              = '2014-10-24'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -41,17 +46,19 @@ Gem::Specification.new do |s|
 
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
-  s.add_dependency("fog-core", "~> 1.23")
+  s.add_dependency("fog-core", "~> 1.24")
   s.add_dependency("fog-json")
+  s.add_dependency("fog-xml")
 
   s.add_dependency('nokogiri', '~> 1.5', '>= 1.5.11')
   s.add_dependency('ipaddress', '~>0.5')
 
   # Modular providers
-  s.add_dependency("fog-brightbox")
+  s.add_dependency("fog-brightbox", "~> 0.4")
   s.add_dependency("fog-softlayer")
   s.add_dependency("fog-sakuracloud", ">= 0.0.4")
   s.add_dependency("fog-radosgw", ">=0.0.2")
+  s.add_dependency("fog-profitbricks")
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
@@ -67,7 +74,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('pry')
   s.add_development_dependency('opennebula', '>=4.4.0')
   s.add_development_dependency('google-api-client', '~> 0.6', '>= 0.6.2')
-  s.add_development_dependency('docker-api', '>= 1.8.0')
+  s.add_development_dependency('docker-api', '>= 1.13.6')
   s.add_development_dependency('rubocop') if RUBY_VERSION > "1.9"
 
   if ENV["FOG_USE_LIBVIRT"]

@@ -4,7 +4,7 @@ module Fog
   module DNS
     class Dynect < Fog::Service
       requires :dynect_customer, :dynect_username, :dynect_password
-      recognizes :timeout, :persistent
+      recognizes :timeout, :persistent, :job_poll_timeout
       recognizes :provider # remove post deprecation
 
       model_path 'fog/dynect/models/dns'

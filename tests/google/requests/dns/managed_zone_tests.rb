@@ -33,7 +33,7 @@ Shindo.tests('Fog::DNS[:google] | managed_zone requests', ['google']) do
 
     tests("#create_managed_zone").data_matches_schema(
         @managed_zone_schema, {:allow_extra_keys => false}) do
-      @google.create_managed_zone(zone_name, zone_dns_name).body
+      @google.create_managed_zone(zone_name, zone_dns_name, 'Fog test domain').body
     end
 
     tests("#get_managed_zone") do

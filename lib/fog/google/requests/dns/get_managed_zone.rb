@@ -1,29 +1,35 @@
 module Fog
   module DNS
     class Google
-
-      class Mock
-        def get_managed_zone(zone_name_or_id)
-	  if self.data[:managed_zones][:by_name].has_key?(zone_name_or_id)
-            build_excon_response(self.data[:managed_zones][:by_name][zone_name_or_id])
-	  elsif self.data[:managed_zones][:by_id].has_key?(zone_name_or_id)
-            build_excon_response(self.data[:managed_zones][:by_id][zone_name_or_id])
-	  else
-	    raise Fog::Errors::NotFound, "The 'parameters.managedZone' resource named '#{zone_name_or_id}' does not exist."
-	  end
-        end
-
-      end
-
+      ##
+      # Fetches the representation of an existing Managed Zone.
+      #
+      # @see https://developers.google.com/cloud-dns/api/v1beta1/managedZones/get
       class Real
-        def get_managed_zone(zone_name_or_id)
+        def get_managed_zone(name_or_id)
           api_method = @dns.managed_zones.get
           parameters = {
             'project' => @project,
-	    'managedZone' => zone_name_or_id,
+            'managedZone' => name_or_id,
           }
 
           request(api_method, parameters)
+        end
+      end
+
+      class Mock
+        def get_managed_zone(name_or_id)
+          if self.data[:managed_zones].has_key?(name_or_id)
+            data = self.data[:managed_zones][name_or_id]
+          else
+            data = self.data[:managed_zones].values.find { |zone| zone['name'] = name_or_id }
+          end
+
+          unless data
+            raise Fog::Errors::NotFound, "The 'parameters.managedZone' resource named '#{name_or_id}' does not exist."
+          end
+
+          build_excon_response(data)
         end
       end
     end

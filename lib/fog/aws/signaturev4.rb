@@ -4,6 +4,7 @@ require 'fog/aws/core'
 module Fog
   module AWS
     class SignatureV4
+      ALGORITHM = 'AWS4-HMAC-SHA256'
       def initialize(aws_access_key_id, secret_key, region,service)
         @region = region
         @service = service
@@ -11,32 +12,85 @@ module Fog
         @hmac = Fog::HMAC.new('sha256', 'AWS4' + secret_key)
       end
 
-      def sign(params, date)
+      def signature_parameters(params, date, body_sha = nil)
+        params = params.dup.merge(:query => params[:query].merge(
+          'X-Amz-Algorithm' => ALGORITHM,
+          'X-Amz-Credential' => "#{@aws_access_key_id}/#{credential_scope(date)}",
+          'X-Amz-SignedHeaders' => signed_headers(params[:headers])
+        ))
+        signature_components(params, date, body_sha)
+      end
+
+      def signature_header(params, date, body_sha = nil)
+        components_to_header(signature_components(params, date, body_sha))
+      end
+
+      def sign(params, date) #legacy method name
+        signature_header(params, date)
+      end
+
+      def components_to_header components
+        "#{components['X-Amz-Algorithm']} Credential=#{components['X-Amz-Credential']}, SignedHeaders=#{components['X-Amz-SignedHeaders']}, Signature=#{components['X-Amz-Signature']}" 
+      end
+
+      def signature_components(params, date, body_sha)
         canonical_request = <<-DATA
 #{params[:method].to_s.upcase}
-#{params[:path]}
+#{canonical_path(params[:path])}
 #{canonical_query_string(params[:query])}
 #{canonical_headers(params[:headers])}
 #{signed_headers(params[:headers])}
-#{Digest::SHA256.hexdigest(params[:body] || '')}
+#{body_sha || Digest::SHA256.hexdigest(params[:body] || '')}
 DATA
         canonical_request.chop!
-        credential_scope = "#{date.utc.strftime('%Y%m%d')}/#{@region}/#{@service}/aws4_request"
+        
         string_to_sign = <<-DATA
-AWS4-HMAC-SHA256
+#{ALGORITHM}
 #{date.to_iso8601_basic}
-#{credential_scope}
+#{credential_scope(date)}
 #{Digest::SHA256.hexdigest(canonical_request)}
 DATA
 
         string_to_sign.chop!
-
+        
         signature = derived_hmac(date).sign(string_to_sign)
 
-        "AWS4-HMAC-SHA256 Credential=#{@aws_access_key_id}/#{credential_scope}, SignedHeaders=#{signed_headers(params[:headers])}, Signature=#{signature.unpack('H*').first}"
+        {
+          'X-Amz-Algorithm' => ALGORITHM,
+          'X-Amz-Credential' => "#{@aws_access_key_id}/#{credential_scope(date)}",
+          'X-Amz-SignedHeaders' => signed_headers(params[:headers]),
+          'X-Amz-Signature' => signature.unpack('H*').first
+        }
+      end
+
+      def derived_hmac(date)
+        kDate = @hmac.sign(date.utc.strftime('%Y%m%d'))
+        kRegion = Fog::HMAC.new('sha256', kDate).sign(@region)
+        kService = Fog::HMAC.new('sha256', kRegion).sign(@service)
+        kSigning = Fog::HMAC.new('sha256', kService).sign('aws4_request')
+        Fog::HMAC.new('sha256', kSigning)
+      end
+
+
+      def credential_scope(date)
+        "#{date.utc.strftime('%Y%m%d')}/#{@region}/#{@service}/aws4_request"
       end
 
       protected
+
+      def canonical_path(path)
+        components = path.split(%r{/+}, -1)
+        path = components.inject([]) do |acc, component|
+          case component
+          when '.'   #canonicalize by removing .
+          when '..' then acc.pop#canonicalize by reducing ..
+          else
+            acc << component
+          end
+          acc
+        end.join('/')
+        path.empty? ? '/' : path
+      end
 
       def canonical_query_string(query)
         canonical_query_string = []
@@ -60,13 +114,6 @@ DATA
         headers.keys.map {|key| key.to_s}.sort.map {|key| key.downcase}.join(';')
       end
 
-      def derived_hmac(date)
-        kDate = @hmac.sign(date.utc.strftime('%Y%m%d'))
-        kRegion = Fog::HMAC.new('sha256', kDate).sign(@region)
-        kService = Fog::HMAC.new('sha256', kRegion).sign(@service)
-        kSigning = Fog::HMAC.new('sha256', kService).sign('aws4_request')
-        Fog::HMAC.new('sha256', kSigning)
-      end
     end
   end
 end

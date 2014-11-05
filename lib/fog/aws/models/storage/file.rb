@@ -149,7 +149,7 @@ module Fog
           new_public
         end
 
-        # Get pubically acessible url via http GET.
+        # Get publicly accessible url via http GET.
         # Checks permissions before creating.
         # Defaults to s3 subdomain or compliant bucket name
         #

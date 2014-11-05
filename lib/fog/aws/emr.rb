@@ -62,7 +62,6 @@ module Fog
         # * EMR object with connection to AWS.
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
-          setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.emr'
@@ -74,7 +73,9 @@ module Fog
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+
           @region = options[:region]
+          setup_credentials(options)
         end
 
         def reload
@@ -89,7 +90,7 @@ module Fog
           @aws_session_token      = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region, 'elasticmapreduce')
         end
 
         def request(params)
@@ -98,12 +99,13 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-          body = Fog::AWS.signed_params(
+          body, headers = Fog::AWS.signed_params_v4(
             params,
+            { 'Content-Type' => 'application/x-www-form-urlencoded' },
             {
-              :aws_access_key_id  => @aws_access_key_id,
+              :signer             => @signer,
               :aws_session_token  => @aws_session_token,
-              :hmac               => @hmac,
+              :method             => 'POST',
               :host               => @host,
               :path               => @path,
               :port               => @port,
@@ -113,18 +115,18 @@ module Fog
 
           if @instrumentor
             @instrumentor.instrument("#{@instrumentor_name}.request", params) do
-              _request(body, idempotent, parser)
+              _request(body, headers, idempotent, parser)
             end
           else
-            _request(body, idempotent, parser)
+            _request(body, headers, idempotent, parser)
           end
         end
 
-        def _request(body, idempotent, parser)
+        def _request(body, headers, idempotent, parser)
           @connection.request({
             :body       => body,
             :expects    => 200,
-            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :headers    => headers,
             :idempotent => idempotent,
             :method     => 'POST',
             :parser     => parser

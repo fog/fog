@@ -11,6 +11,7 @@ module Fog
         attribute :ip_permissions_egress,  :aliases => 'ipPermissionsEgress'
         attribute :owner_id,        :aliases => 'ownerId'
         attribute :vpc_id,          :aliases => 'vpcId'
+        attribute :tags,            :aliases => 'tagSet'
 
         # Authorize access by another security group
         #
@@ -236,6 +237,16 @@ module Fog
           data = service.create_security_group(name, description, vpc_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
+
+          if tags = self.tags
+            # expect eventual consistency
+            Fog.wait_for { self.reload rescue nil }
+            service.create_tags(
+              self.group_id,
+              tags
+            )
+          end
+
           true
         end
 
