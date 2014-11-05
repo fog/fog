@@ -23,12 +23,17 @@ module Azure # deviates from other bin stuff to accomodate gem
     end
 
     def available?
-      begin
-        availability=true unless Gem::Specification::find_by_name("azure").nil?
-      rescue Gem::LoadError
-        availability=false
-      rescue
-        Gem.available?("azure")
+      availability = true
+      for service in services
+        begin
+          service = self.class_for(service)
+          availability &&= service.requirements.all? { |requirement| Fog.credentials.include?(requirement) }
+        rescue ArgumentError => e
+          Fog::Logger.warning(e.message)
+          availability = false
+        rescue => e
+          availability = false
+        end
       end
 
       if availability
