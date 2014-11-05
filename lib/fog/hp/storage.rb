@@ -326,7 +326,7 @@ module Fog
           auth_version = auth_version.to_s.downcase.to_sym
 
           ### Pass the service name for object storage to the authentication call
-          options[:hp_service_type] ||= " object-store"
+          options[:hp_service_type] ||= "object-store"
           @hp_tenant_id = options[:hp_tenant_id]
           @hp_avl_zone  = options[:hp_avl_zone]
 
