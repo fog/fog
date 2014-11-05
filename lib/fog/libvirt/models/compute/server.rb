@@ -66,9 +66,9 @@ module Fog
 
         def start
           return true if active?
-          service.vm_action(uuid, :create)
+          action_status = service.vm_action(uuid, :create)
           reload
-          true
+          action_status
         end
 
         def mac
@@ -87,23 +87,33 @@ module Fog
         end
 
         def reboot
-          service.vm_action(uuid, :reboot)
+          action_status = service.vm_action(uuid, :reboot)
+          reload
+          action_status
         end
 
         def poweroff
-          service.vm_action(uuid, :destroy)
+          action_status = service.vm_action(uuid, :destroy)
+          reload
+          action_status
         end
 
         def shutdown
-          service.vm_action(uuid, :shutdown)
+          action_status = service.vm_action(uuid, :shutdown)
+          reload
+          action_status
         end
 
         def resume
-          service.vm_action(uuid, :resume)
+          action_status = service.vm_action(uuid, :resume)
+          reload
+          action_status
         end
 
         def suspend
-          service.vm_action(uuid, :suspend)
+          action_status = service.vm_action(uuid, :suspend)
+          reload
+          action_status
         end
 
         def stopped?
