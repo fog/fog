@@ -1,11 +1,10 @@
-require 'fog/compute/models/server'
-require 'net/ssh/proxy/command'
-require 'tempfile'
+require "fog/compute/models/server"
+require "net/ssh/proxy/command"
+require "tempfile"
 
 module Fog
   module Compute
     class Azure
-
       class StorageAccount < Fog::Model
         identity :name
         attribute :url
@@ -45,7 +44,6 @@ module Fog
           requires :name
           service.delete_storage_account(name)
         end
-
       end
     end
   end

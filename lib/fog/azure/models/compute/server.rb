@@ -1,11 +1,10 @@
-require 'fog/compute/models/server'
-require 'net/ssh/proxy/command'
-require 'tempfile'
+require "fog/compute/models/server"
+require "net/ssh/proxy/command"
+require "tempfile"
 
 module Fog
   module Compute
     class Azure
-
       class Server < Fog::Compute::Server
         # attr names are from azure
         identity :vm_name
@@ -25,7 +24,7 @@ module Fog
         attribute :vm_user
         attribute :location
         attribute :private_key_file
-        attribute :vm_size, :aliases => 'role_size'
+        attribute :vm_size, :aliases => "role_size"
         attribute :storage_account_name, :type => :string
         attribute :password
         attribute :winrm_transport
@@ -64,7 +63,7 @@ module Fog
         end
 
         def ready?
-          state == 'Running'
+          state == "Running"
         end
 
 
@@ -108,7 +107,7 @@ module Fog
             cert.add_extension(ef.create_extension("authorityKeyIdentifier","keyid:always",false))
             cert.sign(key, OpenSSL::Digest::SHA256.new)
 
-            cert_file = Tempfile.new(['cert', '.pem'])
+            cert_file = Tempfile.new(["cert", ".pem"])
             cert_file.chmod(0600)
             cert_file.write(cert.to_pem)
             cert_file.close
@@ -154,7 +153,6 @@ module Fog
           service.create_virtual_machine(params, options)
           cert_file.unlink unless cert_file.nil?
         end
-
       end
     end
   end

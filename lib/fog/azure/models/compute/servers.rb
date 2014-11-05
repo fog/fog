@@ -1,12 +1,10 @@
-require 'fog/core/collection'
-require 'fog/azure/models/compute/server'
+require "fog/core/collection"
+require "fog/azure/models/compute/server"
 
 module Fog
   module Compute
     class Azure
-
       class Servers < Fog::Collection
-
         model Fog::Compute::Azure::Server
 
         def all()
@@ -16,7 +14,7 @@ module Fog
             vm.instance_variables.each do |var|
               hash[var.to_s.delete("@")] = vm.instance_variable_get(var)
             end
-            hash[:vm_user] = 'azureuser' if hash[:vm_user].nil?
+            hash[:vm_user] = "azureuser" if hash[:vm_user].nil?
             servers << hash
           end
           load(servers)
@@ -31,7 +29,7 @@ module Fog
         def bootstrap(new_attributes = {})
           defaults = {
             :vm_name => "fog-#{Time.now.to_i}",
-            :vm_user => 'azureuser',
+            :vm_user => "azureuser",
             :image => "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-12_04_3-LTS-amd64-server-20131205-en-us-30GB",
             :location => "Central US",
             :private_key_file => File.expand_path("~/.ssh/id_rsa"),
@@ -44,7 +42,6 @@ module Fog
 
           server
         end
-
       end
     end
   end

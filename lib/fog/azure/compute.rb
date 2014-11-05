@@ -1,15 +1,14 @@
-require 'fog/azure/core'
+require "fog/azure/core"
 
 module Fog
   module Compute
     class Azure < Fog::Service
-
       requires  :azure_sub_id
       requires  :azure_pem
 
       recognizes  :azure_api_url
 
-      request_path 'fog/azure/requests/compute'
+      request_path "fog/azure/requests/compute"
       request :list_virtual_machines
       request :create_virtual_machine
       request :delete_virtual_machine
@@ -21,7 +20,7 @@ module Fog
       request :list_images
 
 
-      model_path 'fog/azure/models/compute'
+      model_path "fog/azure/models/compute"
       model :server
       collection :servers
       model :storage_account
@@ -31,16 +30,15 @@ module Fog
 
       class Mock
         def initialize(options={})
-          
         end
       end
 
       class Real
         def initialize(options)
           begin
-            require 'azure'
+            require "azure"
           rescue LoadError => e
-            retry if require('rubygems')
+            retry if require("rubygems")
             raise e.message
           end
           ::Azure.configure do |cfg|
@@ -54,7 +52,6 @@ module Fog
           @image_svc = ::Azure::VirtualMachineImageManagementService.new
         end
       end
-
     end
   end
 end

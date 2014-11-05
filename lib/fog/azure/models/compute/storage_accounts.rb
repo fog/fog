@@ -1,12 +1,10 @@
-require 'fog/core/collection'
-require 'fog/azure/models/compute/storage_account'
+require "fog/core/collection"
+require "fog/azure/models/compute/storage_account"
 
 module Fog
   module Compute
     class Azure
-
       class StorageAccounts < Fog::Collection
-
         model Fog::Compute::Azure::StorageAccount
 
         def all()
@@ -37,7 +35,6 @@ module Fog
           }
           super(defaults.merge(new_attributes))
         end
-
       end
     end
   end
