@@ -33,7 +33,7 @@ module Fog
             :body     => data,
             :method   => 'POST',
             :query    => {'restore' => nil},
-            :path     => CGI.escape(object_name)
+            :object_name  => object_name
           })
         end
       end
