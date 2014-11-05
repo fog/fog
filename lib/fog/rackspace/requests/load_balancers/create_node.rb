@@ -14,6 +14,9 @@ module Fog
           if options.key?(:weight)
             data['nodes'][0]['weight'] = options[:weight]
           end
+          if options.key?(:type)
+            data['nodes'][0]['type'] = options[:type]
+          end
           request(
             :body     => Fog::JSON.encode(data),
             :expects  => [200, 202],

@@ -252,7 +252,7 @@ module Fog
         end
 
         def update
-          requires :name, :protocol, :port, :algorithm, :timeout, :https_redirect
+          requires :name, :protocol, :port, :algorithm, :timeout #, :https_redirect
           options = {
             :name => name,
             :algorithm => algorithm,
