@@ -9,6 +9,7 @@ module Fog
         attribute :address
         attribute :status
         attribute :weight
+        attribute :type
         attribute :port
         attribute :condition
 
@@ -38,6 +39,9 @@ module Fog
           unless weight.nil?
             options[:weight] = weight
           end
+          unless type.nil?
+            options[:type] = type
+          end
           data = service.create_node(load_balancer.id, address, port, condition, options)
           merge_attributes(data.body['nodes'][0])
         end
@@ -49,6 +53,9 @@ module Fog
           }
           unless weight.nil?
             options[:weight] = weight
+          end
+          unless type.nil?
+            options[:type] = type
           end
           service.update_node(load_balancer.id, identity, options)
         end

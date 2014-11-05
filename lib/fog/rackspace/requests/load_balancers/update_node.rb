@@ -12,6 +12,9 @@ module Fog
           if options.key? :condition
             data['node']['condition'] = options[:condition]
           end
+          if options.key? :type
+            data['node']['type'] = options[:type]
+          end
           #TODO - Do anything if no valid options are passed in?
           request(
             :body     => Fog::JSON.encode(data),

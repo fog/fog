@@ -4,6 +4,7 @@ module Fog
   module Rackspace
     class LoadBalancers
       class LoadBalancer < Fog::Model
+
         #States
         ACTIVE = 'ACTIVE'
         ERROR = 'ERROR'
@@ -25,9 +26,7 @@ module Fog
         attribute :updated
         attribute :name
         attribute :state,               :aliases => 'status'
-        attribute :timeout
         attribute :nodes
-        attribute :https_redirect,      :aliases => 'httpsRedirect'
 
         def initialize(attributes)
           #HACK - Since we are hacking how sub-collections work, we have to make sure the service is valid first.
@@ -37,15 +36,11 @@ module Fog
         end
 
         def access_rules
-          unless @access_rules
-            @access_rules = Fog::Rackspace::LoadBalancers::AccessRules.new({
+          @access_rules ||= begin
+            Fog::Rackspace::LoadBalancers::AccessRules.new({
               :service => service,
               :load_balancer => self})
-
-             # prevents loading access rules from non-existent load balancers
-            @access_rules.clear unless persisted?
           end
-          @access_rules
         end
 
         def access_rules=(new_access_rules=[])
@@ -53,31 +48,15 @@ module Fog
         end
 
         def nodes
-          if @nodes.nil?
-            @nodes = Fog::Rackspace::LoadBalancers::Nodes.new({
-                :service => service,
-                :load_balancer => self})
-
-            # prevents loading nodes from non-existent load balancers
-            @nodes.clear unless persisted?
+          @nodes ||= begin
+            Fog::Rackspace::LoadBalancers::Nodes.new({
+              :service => service,
+              :load_balancer => self})
           end
-          @nodes
         end
 
         def nodes=(new_nodes=[])
           nodes.load(new_nodes)
-        end
-
-        def https_redirect
-          if @https_redirect.nil?
-            requires :identity
-            @https_redirect = begin
-              service.get_load_balancer(identity).body['loadBalancer']['httpsRedirect']
-            rescue => e
-              nil
-            end
-          end
-          @https_redirect
         end
 
         def ssl_termination
@@ -98,13 +77,11 @@ module Fog
         end
 
         def virtual_ips
-          if @virtual_ips.nil?
-            @virtual_ips = Fog::Rackspace::LoadBalancers::VirtualIps.new({
+          @virtual_ips ||= begin
+            Fog::Rackspace::LoadBalancers::VirtualIps.new({
               :service => service,
               :load_balancer => self})
-            @virtual_ips.clear unless persisted?
           end
-          @virtual_ips
         end
 
         def virtual_ips=(new_virtual_ips=[])
@@ -113,19 +90,19 @@ module Fog
 
         def enable_content_caching
           requires :identity
-          service.set_content_caching identity, true
+          connection.set_content_caching identity, true
           true
         end
 
         def disable_content_caching
           requires :identity
-          service.set_content_caching identity, false
+          connection.set_content_caching identity, false
           true
         end
 
         def content_caching
           requires :identity
-          service.get_content_caching(identity).body['contentCaching']['enabled']
+          connection.get_content_caching(identity).body['contentCaching']['enabled']
         end
 
         def enable_connection_logging
@@ -218,11 +195,6 @@ module Fog
           service.get_load_balancer_usage(identity, options).body
         end
 
-        def stats
-          requires :identity
-          service.get_stats(identity).body
-        end
-
         def error_page
           requires :identity
           service.get_error_page(identity).body['errorpage']['content']
@@ -239,33 +211,43 @@ module Fog
         end
 
         private
-
         def create
-          requires :name, :protocol, :virtual_ips
+          requires :name, :protocol, :port, :virtual_ips, :nodes
 
-          options = {}
-          options[:algorithm] = algorithm if algorithm
-          options[:timeout] = timeout if timeout
+          if algorithm
+            options = { :algorithm => algorithm }
+          else
+            options = {}
+          end
 
-          data = service.create_load_balancer(name, protocol, port, virtual_ips, nodes, options)
+          data = service.create_load_balancer(name, protocol, port, virtual_ips_hash, nodes_hash, options)
           merge_attributes(data.body['loadBalancer'])
         end
 
         def update
-          requires :name, :protocol, :port, :algorithm, :timeout, :https_redirect
+          requires :name, :protocol, :port, :algorithm
           options = {
             :name => name,
             :algorithm => algorithm,
             :protocol => protocol,
-            :port => port,
-            :timeout => timeout,
-            :https_redirect => !!https_redirect
-          }
-
+            :port => port}
           service.update_load_balancer(identity, options)
 
-          # TODO - Should this bubble down to nodes? Without tracking changes this would be very inefficient.
+          #TODO - Should this bubble down to nodes? Without tracking changes this would be very inefficient.
           # For now, individual nodes will have to be saved individually after saving an LB
+        end
+
+        def virtual_ips_hash
+          virtual_ips.collect do |virtual_ip|
+            { :type => virtual_ip.type }
+          end
+
+        end
+
+        def nodes_hash
+          nodes.collect do |node|
+            { :address => node.address, :port => node.port, :condition => node.condition, :weight => node.weight }
+          end
         end
 
         def connection_logging=(new_value)
