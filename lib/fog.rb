@@ -10,7 +10,6 @@ require 'fog/core'
 # data exchange specific (to be extracted and used on a per provider basis)
 require 'fog/xml'
 require 'fog/json'
-require 'fog/core/parser'
 
 # deprecation wrappers (XML wrapped version)
 require 'fog/core/deprecated/connection'

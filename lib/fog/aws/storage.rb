@@ -415,7 +415,6 @@ module Fog
         # ==== Returns
         # * S3 object with connection to aws.
         def initialize(options={})
-          require 'fog/core/parser'
 
           @use_iam_profile = options[:use_iam_profile]
           @instrumentor       = options[:instrumentor]

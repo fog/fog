@@ -45,7 +45,6 @@ module Fog
 
       class Real
         def initialize(options={})
-          require 'fog/core/parser'
 
           @bare_metal_cloud_password = options[:bare_metal_cloud_password]
           @bare_metal_cloud_username = options[:bare_metal_cloud_username]

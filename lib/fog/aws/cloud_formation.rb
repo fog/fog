@@ -46,7 +46,6 @@ module Fog
         # ==== Returns
         # * CloudFormation object with connection to AWS.
         def initialize(options={})
-          require 'fog/core/parser'
 
           @use_iam_profile = options[:use_iam_profile]
 

@@ -284,7 +284,6 @@ module Fog
         end
 
         def initialize(options = {})
-          require 'fog/core/parser'
           @base_path               = options[:base_path] || '/cloudapi/ecloud'
           @connections             = {}
           @connection_options      = options[:connection_options] || {}

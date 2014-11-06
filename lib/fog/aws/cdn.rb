@@ -142,7 +142,6 @@ EOF
         # ==== Returns
         # * cdn object with connection to aws.
         def initialize(options={})
-          require 'fog/core/parser'
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
