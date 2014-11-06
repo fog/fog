@@ -50,6 +50,7 @@ module Fog
       request :get_api_version
       request :list_quotas
       request :get_quota
+      request :list_disk_profiles
 
       module Shared
         # converts an OVIRT object into an hash for fog to consume.
