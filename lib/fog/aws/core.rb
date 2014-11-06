@@ -1,4 +1,5 @@
 require 'fog/core'
+require 'fog/core/parser'
 require 'fog/xml'
 require 'fog/json'
 require 'fog/aws/credential_fetcher'
