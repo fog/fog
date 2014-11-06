@@ -17,7 +17,8 @@ module Fog
           'google-containers',
           'opensuse-cloud',
           'rhel-cloud',
-          'suse-cloud'
+          'suse-cloud',
+          'ubuntu-os-cloud'
         ]
 
         def all
