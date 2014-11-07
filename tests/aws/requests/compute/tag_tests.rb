@@ -1,4 +1,6 @@
 Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
+  Fog::Compute::AWS::Mock.reset if Fog.mocking?
+
   @tags_format = {
     'tagSet'    => [{
       'key'          => String,
