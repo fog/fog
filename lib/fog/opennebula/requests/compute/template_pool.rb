@@ -41,7 +41,13 @@ module Fog
             # filtering by name
             # done here, because OpenNebula:TemplatePool does not support something like .delete_if
             if filter[:name] && filter[:name].is_a?(String) && !filter[:name].empty?
-                next if t.to_hash["VMTEMPLATE"]["NAME"] != filter[:name]
+              next if t.to_hash["VMTEMPLATE"]["NAME"] != filter[:name]
+            end
+            if filter[:uname] && filter[:uname].is_a?(String) && !filter[:uname].empty?
+              next if t.to_hash["VMTEMPLATE"]["UNAME"] != filter[:uname]
+            end
+            if filter[:uid] && filter[:uid].is_a?(String) && !filter[:uid].empty?
+              next if t.to_hash["VMTEMPLATE"]["UID"] != filter[:uid]
             end
 
             h = Hash[
@@ -62,8 +68,14 @@ module Fog
               end
             elsif nics.is_a? Hash
               nics["model"] = "virtio" if nics["model"].nil?
-              nics["uuid"] = "0" if nics["uuid"].nil? # is it better is to remove this NIC?
-              h["NIC"] << interfaces.new({ :vnet => networks.get(nics["uuid"]), :model => nics["model"]})
+              #nics["uuid"] = "0" if nics["uuid"].nil? # is it better is to remove this NIC?
+              n = networks.get_by_filter({
+                :id => nics["NETWORK_ID"],
+                :network => nics["NETWORK"],
+                :network_uname => nics["NETWORK_UNAME"],
+                :network_uid => nics["NETWORK_UID"]
+              })
+              h["NIC"] << interfaces.new({ :vnet => n })
             else
               # should i break?
             end

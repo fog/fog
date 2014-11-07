@@ -7,6 +7,7 @@ module Fog
 
         identity :id
         attribute :name
+        attribute :uname
         attribute :uid
         attribute :gid
         attribute :description

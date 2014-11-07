@@ -59,6 +59,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-sakuracloud", ">= 0.0.4")
   s.add_dependency("fog-radosgw", ">=0.0.2")
   s.add_dependency("fog-profitbricks")
+  s.add_dependency('opennebula', '>=4.4.0')
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
