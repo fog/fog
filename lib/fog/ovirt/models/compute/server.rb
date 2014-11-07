@@ -79,19 +79,26 @@ module Fog
           service.add_volume(id, attrs)
         end
 
-        def update_volume attrs
-          wait_for { stopped? } if attrs[:blocking]
-          service.update_volume(id, attrs)
-        end
-
         def destroy_volume attrs
           wait_for { stopped? } if attrs[:blocking]
           service.destroy_volume(id, attrs)
         end
 
+        def update_volume attrs
+          wait_for { stopped? } if attrs[:blocking]
+          service.update_volume(id, attrs)
+        end
+
         def start(options = {})
           wait_for { !locked? } if options[:blocking]
           service.vm_action(:id =>id, :action => :start)
+          reload
+        end
+
+        def start_with_cloudinit(options = {})
+          wait_for { !locked? } if options[:blocking]
+          user_data = Hash[YAML.load(options[:user_data]).map{|a| [a.first.to_sym, a.last]}]
+          service.vm_start_with_cloudinit(:id =>id, :user_data =>user_data)
           reload
         end
 
