@@ -23,7 +23,14 @@ module Fog
 
         def get_by_name(flavor_name)
           data = service.template_pool({:name => flavor_name})
-          load(data)
+          load(data).first
+        rescue Fog::Compute::OpenNebula::NotFound
+          nil
+        end
+
+        def get_by_filter(flavor_filter)
+          data = service.template_pool(flavor_filter)
+          load(data).first
         rescue Fog::Compute::OpenNebula::NotFound
           nil
         end
