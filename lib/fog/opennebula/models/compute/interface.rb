@@ -16,7 +16,7 @@ module Fog
         end
  
         def vnetid
-          return ""
+          return vnet
         end
 
         def persisted?

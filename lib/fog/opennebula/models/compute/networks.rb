@@ -15,6 +15,10 @@ module Fog
           self.all({:id => id}).first
         end
 
+        def get_by_filter(filter)
+          self.all(filter)
+        end
+
       end
     end
   end
