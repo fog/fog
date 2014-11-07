@@ -203,7 +203,7 @@ module Fog
               :servers => {},
               :key_pairs => {},
               :security_groups => {
-                0 => {
+                '0' => {
                   "id"          => 0,
                   "tenant_id"   => Fog::Mock.random_hex(8),
                   "name"        => "default",
