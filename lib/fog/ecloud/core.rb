@@ -1,5 +1,5 @@
 require 'fog/core'
-
+require 'fog/xml'
 module Fog
   module Ecloud
     ECLOUD_OPTIONS = [:ecloud_authentication_method]

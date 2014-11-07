@@ -179,7 +179,6 @@ module Fog
 
         def initialize(options = {})
           require 'builder'
-          require 'fog/core/parser'
 
           @connections = {}
           @connection_options = options[:connection_options] || {}

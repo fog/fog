@@ -2,7 +2,6 @@ require 'nokogiri'
 
 require 'fog/core'
 require 'fog/xml'
-require 'fog/core/parser'
 
 module Fog
   module Dynect

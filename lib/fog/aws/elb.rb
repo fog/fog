@@ -131,7 +131,6 @@ module Fog
         # ==== Returns
         # * ELB object with connection to AWS.
         def initialize(options={})
-          require 'fog/core/parser'
 
           @use_iam_profile = options[:use_iam_profile]
           @connection_options     = options[:connection_options] || {}

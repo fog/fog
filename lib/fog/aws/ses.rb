@@ -48,7 +48,6 @@ module Fog
         # ==== Returns
         # * SES object with connection to AWS.
         def initialize(options={})
-          require 'fog/core/parser'
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)

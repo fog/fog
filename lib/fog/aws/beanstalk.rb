@@ -64,7 +64,6 @@ module Fog
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
         def initialize(options={})
-          require 'fog/core/parser'
 
           @use_iam_profile = options[:use_iam_profile]
 

@@ -240,7 +240,6 @@ module Fog
         # ==== Returns
         # * S3 object with connection to aws.
         def initialize(options={})
-          require 'fog/core/parser'
 
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}

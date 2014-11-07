@@ -48,7 +48,7 @@ Gem::Specification.new do |s|
   ## that are needed for an end user to actually USE your code.
   s.add_dependency("fog-core", "~> 1.24")
   s.add_dependency("fog-json")
-  s.add_dependency("fog-xml")
+  s.add_dependency("fog-xml", "~> 0.1.1")
 
   s.add_dependency('nokogiri', '~> 1.5', '>= 1.5.11')
   s.add_dependency('ipaddress', '~>0.5')

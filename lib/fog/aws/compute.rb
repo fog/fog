@@ -449,7 +449,6 @@ module Fog
         attr_accessor :region
 
         def initialize(options={})
-          require 'fog/core/parser'
 
           @connection_options     = options[:connection_options] || {}
           @region                 = options[:region] ||= 'us-east-1'
