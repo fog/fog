@@ -58,6 +58,12 @@ module Fog
           service.volumes.all('virtualmachineid' => id)
         end
 
+        def reset_password
+          requires :id
+          data = service.reset_password_for_virtual_machine(id)
+          service.jobs.new(data['resetpasswordforvirtualmachineresponse'])
+        end
+
         def public_ip_addresses
           if public_ip_address.nil? then [public_ip_address] else [] end
         end
