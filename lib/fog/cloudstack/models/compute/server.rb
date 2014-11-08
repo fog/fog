@@ -50,7 +50,12 @@ module Fog
         end
 
         def ip_addresses
-          addresses.map{|a| a.ip_address}
+          addresses.map(&:ip_address)
+        end
+
+        def volumes
+          requires :id
+          service.volumes.all('virtualmachineid' => id)
         end
 
         def public_ip_addresses
