@@ -21,6 +21,9 @@ module Fog
         #           * 'Timeout'<~Integer> - max time (in seconds) to keep existing conns open before deregistering instances.
         #         * 'CrossZoneLoadBalancing'<~Hash>
         #           * 'Enabled'<~Boolean> - whether crosszone load balancing is enabled
+        #         * 'ConnectionSettings'<~Hash>
+        #           * 'IdleTimeout'<~Integer> - time (in seconds) the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
+
         def describe_load_balancer_attributes(lb_name)
           request({
             'Action'  => 'DescribeLoadBalancerAttributes',

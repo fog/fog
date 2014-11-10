@@ -39,7 +39,8 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
     tests("modify_load_balancer_attributes") do
       attributes = {
         'ConnectionDraining' => {'Enabled' => true, 'Timeout' => 600},
-        'CrossZoneLoadBalancing' => {'Enabled' => true}
+        'CrossZoneLoadBalancing' => {'Enabled' => true},
+        'ConnectionSettings' => {'IdleTimeout' => 180}
       }
       Fog::AWS[:elb].modify_load_balancer_attributes(@load_balancer_id, attributes).body
       response = Fog::AWS[:elb].describe_load_balancer_attributes(@load_balancer_id).
@@ -50,6 +51,9 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       end
       tests("ConnectionDraining has a 600 second Timeout").returns(600) do
         response['ConnectionDraining']['Timeout']
+      end
+      tests("ConnectionSettings has a 180 second IdleTimeout").returns(180) do
+        response['ConnectionSettings']['IdleTimeout']
       end
       tests("CrossZoneLoadBalancing is enabled") do
         response['CrossZoneLoadBalancing']['Enabled'] == true
