@@ -174,7 +174,8 @@ module Fog
             'ListenerDescriptions' => listeners,
             'LoadBalancerAttributes' => {
               'ConnectionDraining' => {'Enabled' => false, 'Timeout' => 300},
-              'CrossZoneLoadBalancing' => {'Enabled' => false}
+              'CrossZoneLoadBalancing' => {'Enabled' => false},
+              'ConnectionSettings' => {'IdleTimeout' => 60}
             },
             'LoadBalancerName' => lb_name,
             'Policies' => {

@@ -221,6 +221,12 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       returns(true) {elb.cross_zone_load_balancing?}
     end
 
+    tests('idle_connection_settings') do
+      returns(60) { elb.connection_settings_idle_timeout }
+      elb.set_connection_settings_idle_timeout(180)
+      returns(180) { elb.connection_settings_idle_timeout }
+    end
+
     tests('default health check') do
       default_health_check = {
         "HealthyThreshold"=>10,

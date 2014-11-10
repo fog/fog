@@ -15,6 +15,8 @@ module Fog
               @connection_draining = {}
             when 'CrossZoneLoadBalancing'
               @cross_zone_load_balancing = {}
+            when 'ConnectionSettings'
+              @connection_settings = {}
             end
           end
 
@@ -26,6 +28,8 @@ module Fog
               elsif @connection_draining
                 @connection_draining['Enabled'] = value == 'true' ? true : false
               end
+            when 'IdleTimeout'
+              @connection_settings['IdleTimeout'] = value.to_i
             when 'Timeout'
               if @connection_draining
                 @connection_draining['Timeout'] = value.to_i
@@ -36,6 +40,9 @@ module Fog
             when 'CrossZoneLoadBalancing'
               @response['DescribeLoadBalancerAttributesResult']['LoadBalancerAttributes']['CrossZoneLoadBalancing'] = @cross_zone_load_balancing
               @cross_zone_load_balancing = nil
+            when 'ConnectionSettings'
+              @response['DescribeLoadBalancerAttributesResult']['LoadBalancerAttributes']['ConnectionSettings'] = @connection_settings
+              @connection_settings = nil
             when 'RequestId'
               @response['ResponseMetadata'][name] = value
             end

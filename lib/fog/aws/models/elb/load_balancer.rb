@@ -61,6 +61,17 @@ module Fog
           service.modify_load_balancer_attributes(id, 'CrossZoneLoadBalancing' => {'Enabled' => value})
         end
 
+        def connection_settings_idle_timeout
+          requires :id
+          service.describe_load_balancer_attributes(id).body['DescribeLoadBalancerAttributesResult']['LoadBalancerAttributes']['ConnectionSettings']['IdleTimeout']
+        end
+
+        def set_connection_settings_idle_timeout(timeout=60)
+          requires :id
+          attrs = {'IdleTimeout' => timeout}
+          service.modify_load_balancer_attributes(id,'ConnectionSettings' => attrs)
+        end
+
         def register_instances(instances)
           requires :id
           data = service.register_instances_with_load_balancer(instances, id).body['RegisterInstancesWithLoadBalancerResult']
