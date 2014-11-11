@@ -17,6 +17,8 @@ module Fog
       request :list_storage_accounts
       request :delete_storage_account
       request :reboot_server
+      request :shutdown_server
+      request :start_server
       request :list_images
 
 

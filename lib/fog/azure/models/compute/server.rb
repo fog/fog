@@ -13,7 +13,6 @@ module Fog
         attribute :status
         attribute :hostname
         attribute :cloud_service_name
-        attribute :deployment_name
         attribute :tcp_endpoints
         attribute :udp_endpoints
         attribute :virtual_network_name
@@ -66,7 +65,6 @@ module Fog
           state == "Running"
         end
 
-
         def destroy
           requires :vm_name
           requires :cloud_service_name
@@ -81,12 +79,26 @@ module Fog
           service.reboot_server(vm_name, cloud_service_name)
         end
 
+        def shutdown
+          requires :vm_name
+          requires :cloud_service_name
+
+          service.shutdown_server(vm_name, cloud_service_name)
+        end
+
+        def start
+          requires :vm_name
+          requires :cloud_service_name
+
+          service.start_server(vm_name, cloud_service_name)
+        end
+
         def save
           requires :vm_name
           requires :vm_user
           requires :image
           requires_one :location, :affinity_group_name
-          requires :vm_size
+          #requires :vm_size
 
           if ! private_key_file.nil? && certificate_file.nil?
             key = OpenSSL::PKey.read File.read(private_key_file)
