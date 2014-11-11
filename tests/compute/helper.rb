@@ -129,16 +129,6 @@ def compute_providers
         :name     => "fog_#{Time.now.to_i}"
       },
       :mocked => true
-    },
-    :voxel      => {
-      :server_attributes => {
-        :name => "fog.#{Time.now.to_i}",
-        :disk_size => 10,
-        :processing_cores => 1,
-        :image_id => 55, # image 55 = Ubuntu 10.04 (Lucid), 64-bit, base install
-        :facility => "LDJ1"
-      },
-      :mocked => false
     }
   }
 end

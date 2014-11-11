@@ -93,8 +93,6 @@ if Fog.mock?
     :vcloud_director_host             => 'vcloud-director-host',
     :vcloud_director_password         => 'vcloud_director_password',
     :vcloud_director_username         => 'vcd_user@vcd_org_name',
-    :voxel_api_key                    => 'voxel_api_key',
-    :voxel_api_secret                 => 'voxel_api_secret',
     :zerigo_email                     => 'zerigo_email',
     :zerigo_token                     => 'zerigo_token',
     :dynect_customer                  => 'dynect_customer',
