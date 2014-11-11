@@ -44,7 +44,9 @@ module Fog
 
           hash = Fog::AWS::Glacier::TreeHash.new
 
-          body.rewind if body.respond_to?(:rewind)
+          if body.respond_to?(:rewind)
+            body.rewind  rescue nil
+          end
           offset = 0
           while (chunk = body.read(multipart_chunk_size)) do
             part_hash = hash.add_part(chunk)
