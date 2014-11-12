@@ -20,7 +20,7 @@ module Fog
           role = nil
           begin
             role = service.roles.new( service.get_role( identity ).data[:body]["Role"] )
-          rescue Excon::Errors::NotFound # ignore not found error
+          rescue Excon::Errors::NotFound, Fog::AWS::IAM::NotFound # ignore not found error
           end
           role
         end
