@@ -17,7 +17,7 @@ module Fog
           requires :rolename
           requires :assume_role_policy_document
 
-          data = service.create_role(rolename, assume_role_policy_document).body["Role"]
+          data = service.create_role(rolename, assume_role_policy_document, path).body["Role"]
           merge_attributes(data)
           true
         end
