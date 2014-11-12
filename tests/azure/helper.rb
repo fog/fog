@@ -4,14 +4,14 @@ def service
 end
 
 def fog_test_server_attributes
-  image = service.images.select{|image| image.os_type == 'Linux'}.first
-  location = image.locations.split(';').first
+  image = service.images.select{|image| image.os_type == "Linux"}.first
+  location = image.locations.split(";").first
   {
     :image  => image.name,
     :location => location,
     :vm_name => vm_name,
-    :vm_user => 'foguser',
-    :password =>  'ComplexPassword!123'
+    :vm_user => "foguser",
+    :password =>  "ComplexPassword!123"
   }
 end
 

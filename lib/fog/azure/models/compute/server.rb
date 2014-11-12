@@ -10,6 +10,7 @@ module Fog
         identity :vm_name
         attribute :ipaddress
         attribute :deployment_status
+        attribute :deployment_name
         attribute :status
         attribute :hostname
         attribute :cloud_service_name
@@ -27,13 +28,9 @@ module Fog
         attribute :storage_account_name, :type => :string
         attribute :password
         attribute :winrm_transport
-        attribute :deployment_name
-        attribute :tcp_endpoints
         attribute :ssh_port
         attribute :affinity_group_name
-        attribute :virtual_network_name
         attribute :subnet_name
-        attribute :availability_set_name
         attribute :certificate_file
 
         #helper functions for more common fog names
