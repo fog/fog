@@ -19,7 +19,7 @@ module Fog
 
         def get_raw_clusters_from_folder(folder)
           folder.childEntity.map do |child_entity|
-            if child_entity.is_a? RbVmomi::VIM::ClusterComputeResource
+            if child_entity.is_a? RbVmomi::VIM::ComputeResource
               child_entity
             elsif child_entity.is_a? RbVmomi::VIM::Folder
               get_raw_clusters_from_folder(child_entity)
