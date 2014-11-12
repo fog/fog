@@ -29,7 +29,7 @@ end
 all_providers = Fog.registered_providers.map {|provider| provider.downcase}
 
 # Manually remove these providers since they are local applications, not lacking credentials
-all_providers = all_providers - ["libvirt", "vmfusion", "openvz"]
+all_providers = all_providers - ["libvirt", "openvz"]
 
 available_providers = Fog.available_providers.map {|provider| provider.downcase}
 

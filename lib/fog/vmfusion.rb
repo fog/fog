@@ -1,1 +1,0 @@
-require 'fog/vmfusion/compute'
