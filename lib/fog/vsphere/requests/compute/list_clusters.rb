@@ -11,10 +11,21 @@ module Fog
         end
 
         def raw_clusters(datacenter)
-          find_raw_datacenter(datacenter).hostFolder.childEntity.grep(RbVmomi::VIM::ClusterComputeResource)
+          folder ||= find_raw_datacenter(datacenter).hostFolder
+          @raw_clusters = get_raw_clusters_from_folder(folder)
         end
 
         protected
+
+        def get_raw_clusters_from_folder(folder)
+          folder.childEntity.map do |child_entity|
+            if child_entity.is_a? RbVmomi::VIM::ClusterComputeResource
+              child_entity
+            elsif child_entity.is_a? RbVmomi::VIM::Folder
+              get_raw_clusters_from_folder(child_entity)
+            end
+          end.flatten
+        end
 
         def cluster_attributes cluster, datacenter_name
           {
