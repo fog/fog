@@ -1,6 +1,6 @@
 Shindo.tests("Fog::Compute[:azure] | server model", ["azure", "compute"]) do
 
-  server  = fog_test_server
+  server  = fog_server
 
   tests("The server model should") do
     pending if Fog.mocking?
@@ -36,25 +36,26 @@ Shindo.tests("Fog::Compute[:azure] | server model", ["azure", "compute"]) do
 
     test("#reboot") do
       server.reboot
-      server = fog_test_server
+      server = fog_server
       %w(ReadyRole Provisioning RoleStateUnknown).include?  server.status
     end
 
     test("#start") do
       server.start
+      server = fog_server
       status = %w(ReadyRole Provisioning RoleStateUnknown)
       status.include?  server.status
     end
 
     test("#shutdown") do
       server.shutdown
-      server = fog_test_server
+      server = fog_server
       %w(StoppedVM StoppedDeallocated).include?  server.status
     end
 
     test("#destroy") do
       server.destroy
-      server = service.servers.select { |s| s.vm_name == vm_name }.first
+      server = azure_service.servers.select { |s| s.vm_name == vm_name }.first
       server.nil?
     end
   end
