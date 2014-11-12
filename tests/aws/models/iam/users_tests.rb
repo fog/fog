@@ -1,6 +1,5 @@
 Shindo.tests("Fog::Compute[:iam] | users", ['aws','iam']) do
 
-  Fog.mock!
   @iam = Fog::AWS[:iam]
   @user_one_name = 'fake_user_one'
   @user_two_name = 'fake_user_two'
