@@ -4,10 +4,16 @@ def azure_service
 end
 
 def vm_attributes
-  image = azure_service.images.select{|image| image.os_type == "Linux"}.first
-  location = image.locations.split(";").first
+  if Fog.mocking?
+    image_name = 'ImageName'
+    location = 'West US'
+  else
+    image = azure_service.images.select{|image| image.os_type == "Linux"}.first
+    image_name = image.name
+    location = image.locations.split(";").first
+  end  
   {
-    :image  => image.name,
+    :image  => image_name,
     :location => location,
     :vm_name => vm_name,
     :vm_user => "foguser",

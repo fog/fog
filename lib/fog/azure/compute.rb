@@ -21,7 +21,6 @@ module Fog
       request :start_server
       request :list_images
 
-
       model_path "fog/azure/models/compute"
       model :server
       collection :servers
@@ -32,6 +31,12 @@ module Fog
 
       class Mock
         def initialize(options={})
+          begin
+            require "azure"
+          rescue LoadError => e
+            retry if require("rubygems")
+            raise e.message
+          end
         end
       end
 

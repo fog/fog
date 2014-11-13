@@ -9,6 +9,7 @@ module Fog
 
       class Mock
         def list_storage_accounts
+          []
         end
       end
     end

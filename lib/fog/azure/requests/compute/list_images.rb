@@ -8,6 +8,9 @@ module Fog
       end
 
       class Mock
+        def list_images
+         []
+        end
       end
     end
   end
