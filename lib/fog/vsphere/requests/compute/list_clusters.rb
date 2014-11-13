@@ -38,8 +38,27 @@ module Fog
           }
         end
       end
+
       class Mock
         def list_clusters(filters = { })
+          raw_clusters.map do |cluster|
+            cluster
+          end
+        end
+
+        def raw_clusters
+          folder = self.data[:clusters]
+          @raw_clusters = get_raw_clusters_from_folder(folder)
+        end
+
+        def get_raw_clusters_from_folder(folder)
+          folder.map do |child|
+            if child[:klass] == "RbVmomi::VIM::ComputeResource"
+               child
+            elsif child[:klass] == "RbVmomi::VIM::Folder"
+              get_raw_clusters_from_folder(child[:clusters])
+            end
+          end.flatten
         end
       end
     end
