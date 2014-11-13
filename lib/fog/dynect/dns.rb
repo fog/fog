@@ -102,8 +102,16 @@ module Fog
               raise Error, response.body['msgs'].first['INFO']
             end
 
-            if response.status == 307 && params[:path] !~ %r{^/REST/Job/}
-              response = poll_job(response, params[:expects], @job_poll_timeout)
+            if params[:path] !~ %r{^/REST/Job/}
+              if response.status == 307
+                response = poll_job(response, params[:expects], @job_poll_timeout)
+
+              # Dynect intermittently returns 200 with an incomplete status.  When this
+              # happens, the job should still be polled.
+              elsif response.status == 200 && response.body['status'].eql?('incomplete')
+                response.headers['Location'] = "/REST/Job/#{ response.body['job_id'] }"
+                response = poll_job(response, params[:expects], @job_poll_timeout)
+              end
             end
 
             response
