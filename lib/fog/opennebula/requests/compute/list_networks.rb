@@ -60,7 +60,10 @@ module Fog
             :id    	     => "5",
             :name  	     => name,
             :uid   	     => "5",
+<<<<<<< HEAD
             :uname       => "mock",
+=======
+>>>>>>> ad708b85e5fe5a0cf6115321d078bed54a077073
             :gid   	     => "5",
             :description => "netDescription",
             :vlan	       => "5"
