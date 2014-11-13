@@ -1,6 +1,5 @@
 Shindo.tests("Fog::Compute[:iam] | policies", ['aws','iam']) do
 
-  Fog.mock!
   iam = Fog::AWS[:iam]
 
   @username = 'fake_user'
@@ -50,6 +49,8 @@ Shindo.tests("Fog::Compute[:iam] | policies", ['aws','iam']) do
   end
 
   # clean up
+  @user.access_keys.map(&:destroy)
+  @user.policies.map(&:destroy)
   @user.destroy
 
 

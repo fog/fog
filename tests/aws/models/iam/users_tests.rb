@@ -1,6 +1,5 @@
 Shindo.tests("Fog::Compute[:iam] | users", ['aws','iam']) do
 
-  Fog.mock!
   @iam = Fog::AWS[:iam]
   @user_one_name = 'fake_user_one'
   @user_two_name = 'fake_user_two'
@@ -9,17 +8,21 @@ Shindo.tests("Fog::Compute[:iam] | users", ['aws','iam']) do
   @user_three_path = '/path/to/fake_user_three/'
   @user_four_name = 'fake_user_four'
 
+  def all_users
+    @iam.users.all.select{|user| user.id =~ /^fake_user/ }
+  end
+
   tests('#create').succeeds do
     @user_one = @iam.users.create(:id => @user_one_name)
     @user_one.id == @user_one_name
   end
 
   tests('#all','there is only one user').succeeds do
-    @iam.users.size == 1
+    all_users.size == 1
   end
 
   tests('#all','the only user should match').succeeds do
-    @iam.users.first.id == @user_one_name
+    all_users.first.id == @user_one_name
   end
 
   tests('#create','a second user').succeeds do
@@ -28,7 +31,7 @@ Shindo.tests("Fog::Compute[:iam] | users", ['aws','iam']) do
   end
 
   tests('#all','there are two users').succeeds do
-    @iam.users.size == 2
+    all_users.size == 2
   end
 
   tests('#get','an existing user').succeeds do
