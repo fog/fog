@@ -53,7 +53,8 @@ module Fog
             h = Hash[
               :id => t.to_hash["VMTEMPLATE"]["ID"], 
               :name => t.to_hash["VMTEMPLATE"]["NAME"], 
-              :content => t.template_str
+              :content => t.template_str,
+              :USER_VARIABLES => "" # Default if not set in template
             ]
             h.merge! t.to_hash["VMTEMPLATE"]["TEMPLATE"]
 
@@ -99,7 +100,34 @@ module Fog
 
       class Mock
         def template_pool(filter = { })
-          [ {}, {} ]
+          [ 
+            {
+              :content => %Q{
+                NAME = mock-vm
+                MEMORY = 512
+                VCPU = 1
+                CPU = 1
+              },
+              :id => 1,
+              :name => 'mock',
+              :cpu => 1,
+              :vcpu => 1,
+              :memory => 512,
+              :sched_requirements => 'CPUSPEED > 1000',
+              :sched_rank => 'FREECPU',
+              :sched_ds_requirements => "NAME=mock",
+              :sched_ds_rank => "FREE_MB",
+              :disk => {},
+              :nic => {},
+              :os => {
+                'ARCH' => 'x86_64'
+              },
+              :graphics => {},
+              :raw => {},
+              :context => {},
+              :user_variables => {}
+            }
+          ]
         end
       end #class Mock
     end #class OpenNebula

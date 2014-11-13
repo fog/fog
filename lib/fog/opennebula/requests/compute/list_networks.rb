@@ -33,10 +33,11 @@ module Fog
         def network_to_attributes(net)
           return if net.nil?
           h = {
-            :id   => net["VNET"]["ID"],
-            :name => net["VNET"]["NAME"],
-            :uid  => net["VNET"]["UID"],
-            :gid  => net["VNET"]["GID"],
+            :id    => net["VNET"]["ID"],
+            :name  => net["VNET"]["NAME"],
+            :uid   => net["VNET"]["UID"],
+            :uname => net["VNET"]["UNAME"],
+            :gid   => net["VNET"]["GID"],
           }
 
           h[:description] = net["VNET"]["TEMPLATE"]["DESCRIPTION"] unless net["VNET"]["TEMPLATE"]["DESCRIPTION"].nil?
@@ -59,6 +60,7 @@ module Fog
             :id    	     => "5",
             :name  	     => name,
             :uid   	     => "5",
+            :uname       => "mock",
             :gid   	     => "5",
             :description => "netDescription",
             :vlan	       => "5"

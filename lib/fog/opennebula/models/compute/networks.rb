@@ -8,7 +8,7 @@ module Fog
         model Fog::Compute::OpenNebula::Network
 
         def all(filter={})
-          load(service.list_networks(filter))
+          self.get_by_filter(filter)
         end
 
         def get(id)
@@ -16,7 +16,7 @@ module Fog
         end
 
         def get_by_filter(filter)
-          self.all(filter)
+          load(service.list_networks(filter))
         end
 
       end
