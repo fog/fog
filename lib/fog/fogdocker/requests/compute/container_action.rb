@@ -17,7 +17,7 @@ module Fog
         rescue Docker::Error::TimeoutError => e
           raise Fog::Errors::Error::TimeoutError.new(e.message)
         rescue Docker::Error::UnauthorizedError => e
-          raise Fog::Errors::Fogdocker::ServiceError::AuthenticationError.new(e.message)
+          raise Fog::Errors::Fogdocker::AuthenticationError.new(e.message)
         rescue Docker::Error::DockerError => e
           raise Fog::Errors::Fogdocker::ServiceError.new(e.message)
         end

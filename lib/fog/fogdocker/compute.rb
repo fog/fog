@@ -42,6 +42,8 @@ module Fog
 
           Docker.url = url
           Docker.authenticate!('username' => username, 'password' => password, 'email' => email) unless username.nil? || username.empty?
+        rescue Docker::Error::AuthenticationError => e
+          raise Fog::Errors::Fogdocker::AuthenticationError.new(e.message)
         end
 
         def downcase_hash_keys(hash, k = [])
