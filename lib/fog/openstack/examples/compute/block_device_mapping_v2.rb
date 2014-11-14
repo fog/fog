@@ -16,7 +16,7 @@ compute_client ||= ::Fog::Compute.new(:provider           => :openstack,
 
 vm = compute_client.servers.create(:name => name,
                                    :flavor_ref => flavor,
-                                   :block_device_mapping => [
+                                   :block_device_mapping_v2 => [
                                    :device_name => "/dev/sda1",
                                    :source_type => "volume",
                                    :destination_type => "volume",
