@@ -4,7 +4,7 @@ module Fog
       class Real
         require 'fog/aws/parsers/compute/basic'
 
-        # Remove permissions from a security group
+        # Remove ingress permissions from a security group
         #
         # ==== Parameters
         # * group_name<~String> - Name of group, optional (can also be specifed as GroupName in options)

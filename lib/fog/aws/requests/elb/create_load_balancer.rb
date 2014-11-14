@@ -22,6 +22,8 @@ module Fog
         #       * 'RequestId'<~String> - Id of request
         #     * 'CreateLoadBalancerResult'<~Hash>:
         #       * 'DNSName'<~String> - DNS name for the newly created ELB
+        #
+        # {Amazon API Reference}[http://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_CreateLoadBalancer.html]
         def create_load_balancer(availability_zones, lb_name, listeners, options = {})
           params = Fog::AWS.indexed_param('AvailabilityZones.member', [*availability_zones])
           params.merge!(Fog::AWS.indexed_param('Subnets.member.%d', options[:subnet_ids]))

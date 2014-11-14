@@ -56,6 +56,7 @@ module Fog
       request :attach_internet_gateway
       request :attach_volume
       request :authorize_security_group_ingress
+      request :authorize_security_group_egress
       request :cancel_spot_instance_requests
       request :create_dhcp_options
       request :create_internet_gateway
@@ -146,6 +147,7 @@ module Fog
       request :request_spot_instances
       request :reset_network_interface_attribute
       request :revoke_security_group_ingress
+      request :revoke_security_group_egress
       request :run_instances
       request :terminate_instances
       request :start_instances

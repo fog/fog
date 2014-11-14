@@ -2,35 +2,24 @@ module Fog
   module Compute
     class AWS
       class Real
+
         require 'fog/aws/parsers/compute/basic'
 
-        # Add ingress permissions to a security group
+        # Remove egress permissions from a security group. This only works with VPC
         #
         # ==== Parameters
-        # * group_name<~String> - Name of group, optional (can also be specifed as GroupName in options)
-        # * options<~Hash>:
-        #   * 'GroupName'<~String> - Name of security group to modify
-        #   * 'GroupId'<~String> - Id of security group to modify
-        #   * 'SourceSecurityGroupName'<~String> - Name of security group to authorize
-        #   * 'SourceSecurityGroupOwnerId'<~String> - Name of owner to authorize
-        #   or
-        #   * 'CidrIp'<~String> - CIDR range
-        #   * 'FromPort'<~Integer> - Start of port range (or -1 for ICMP wildcard)
-        #   * 'IpProtocol'<~String> - Ip protocol, must be in ['tcp', 'udp', 'icmp']
-        #   * 'ToPort'<~Integer> - End of port range (or -1 for ICMP wildcard)
-        #   or
-        #   * 'IpPermissions'<~Array>:
-        #     * permission<~Hash>:
-        #       * 'FromPort'<~Integer> - Start of port range (or -1 for ICMP wildcard)
-        #       * 'Groups'<~Array>:
-        #         * group<~Hash>:
-        #           * 'GroupName'<~String> - Name of security group to authorize
-        #           * 'UserId'<~String> - Name of owner to authorize
-        #       * 'IpProtocol'<~String> - Ip protocol, must be in ['tcp', 'udp', 'icmp']
-        #       * 'IpRanges'<~Array>:
-        #         * ip_range<~Hash>:
-        #           * 'CidrIp'<~String> - CIDR range
-        #       * 'ToPort'<~Integer> - End of port range (or -1 for ICMP wildcard)
+        # * group_id<~String> - Id of security group to modify
+        # * 'ip_permissions'<~Array>:
+        #   * permission<~Hash>:
+        #     * 'IpProtocol'<~String> - Ip protocol, must be in ['tcp', 'udp', 'icmp']
+        #     * 'FromPort'<~Integer> - Start of port range (or -1 for ICMP wildcard)
+        #     * 'ToPort'<~Integer> - End of port range (or -1 for ICMP wildcard)
+        #     * 'Groups'<~Array>:
+        #       * group<~Hash>:
+        #         * 'GroupId'<~String> - ID of destination security group
+        #     * 'IpRanges'<~Array>:
+        #       * ip_range<~Hash>:
+        #         * 'CidrIp'<~String> - CIDR range
         #
         # === Returns
         # * response<~Excon::Response>:
@@ -38,16 +27,13 @@ module Fog
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-AuthorizeSecurityGroupIngress.html]
-        def authorize_security_group_ingress(group_name, options = {})
-          options = Fog::AWS.parse_security_group_options(group_name, options)
-
-          if ip_permissions = options.delete('IpPermissions')
-            options.merge!(indexed_ip_permissions_params(ip_permissions))
-          end
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-RevokeSecurityGroupEgress.html]
+        def revoke_security_group_egress(group_id, ip_permissions, options = {})
+          options['GroupId'] = group_id
+          options.merge!(indexed_ip_permissions_params(ip_permissions))
 
           request({
-            'Action'    => 'AuthorizeSecurityGroupIngress',
+            'Action'    => 'RevokeSecurityGroupEgress',
             :idempotent => true,
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(options))
@@ -64,8 +50,6 @@ module Fog
             params[format('IpPermissions.%d.ToPort', key_index)] = permission['ToPort']
             (permission['Groups'] || []).each_with_index do |group, group_index|
               group_index += 1
-              params[format('IpPermissions.%d.Groups.%d.UserId', key_index, group_index)] = group['UserId']
-              params[format('IpPermissions.%d.Groups.%d.GroupName', key_index, group_index)] = group['GroupName']
               params[format('IpPermissions.%d.Groups.%d.GroupId', key_index, group_index)] = group['GroupId']
             end
             (permission['IpRanges'] || []).each_with_index do |ip_range, range_index|
@@ -75,10 +59,12 @@ module Fog
           end
           params.reject {|k, v| v.nil? }
         end
+
       end
 
       class Mock
-        def authorize_security_group_ingress(group_name, options = {})
+
+        def revoke_security_group_egress(group_id, ip_permissions, options = {})
           options = Fog::AWS.parse_security_group_options(group_name, options)
           if options.key?('GroupName')
             group_name = options['GroupName']
@@ -138,7 +124,7 @@ module Fog
           if !is_vpc && (options['IpProtocol'] && (!options['FromPort'] || !options['ToPort']))
             raise Fog::Compute::AWS::Error.new("InvalidPermission.Malformed => TCP/UDP port (-1) out of range")
           end
-          if options.key?('IpPermissions')
+          if options.has_key?('IpPermissions')
             if !options['IpPermissions'].is_a?(Array) || options['IpPermissions'].empty?
               raise Fog::Compute::AWS::Error.new("InvalidRequest => The request received was invalid.")
             end
@@ -149,12 +135,7 @@ module Fog
         def normalize_permissions(options)
           normalized_permissions = []
           if options['SourceSecurityGroupName']
-            group_name = if options['SourceSecurityGroupName'] =~ /default_elb/
-                           "default"
-                         else
-                           options['SourceSecurityGroupName']
-                         end
-            source_group_id=self.data[:security_groups][group_name]['groupId']
+            source_group_id=self.data[:security_groups][options['SourceSecurityGroupName']]['groupId']
             ['tcp', 'udp'].each do |protocol|
               normalized_permissions << {
                 'ipProtocol' => protocol,
@@ -186,29 +167,13 @@ module Fog
                   'ipProtocol' => permission['IpProtocol'],
                   'fromPort' => Integer(permission['FromPort']),
                   'toPort' => Integer(permission['ToPort']),
-                  'groups' => (permission['Groups'] || []).map do |authorized_group|
-                    security_group = if group_name = authorized_group['GroupName']
-                                       self.data[:security_groups][group_name] || {}
-                                     elsif group_id = authorized_group['GroupId']
-                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id } || {}
-                                     end
-
-                    {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}
-                  end,
+                  'groups' => (permission['Groups'] || []).map {|g| {'groupName' => g['GroupName'], 'userId' => g['UserId'] || self.data[:owner_id], 'groupId' => self.data[:security_groups][g['GroupName']] && self.data[:security_groups][g['GroupName']]['groupId']} },
                   'ipRanges' => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
                 }
               else
                 normalized_permissions << {
                   'ipProtocol' => permission['IpProtocol'],
-                  'groups' => (permission['Groups'] || []).map do |authorized_group|
-                    security_group = if group_name = authorized_group['GroupName']
-                                       self.data[:security_groups][group_name] || {}
-                                     elsif group_id = authorized_group['GroupId']
-                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id } || {}
-                                     end
-
-                    {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}
-                  end,
+                  'groups' => (permission['Groups'] || []).map {|g| {'groupName' => g['GroupName'], 'userId' => g['UserId'] || self.data[:owner_id], 'groupId' => self.data[:security_groups][g['GroupName']]['groupId']} },
                   'ipRanges' => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
                 }
               end
@@ -219,11 +184,12 @@ module Fog
         end
 
         def find_matching_permission(group, permission)
-          group['ipPermissions'].find {|group_permission|
+          group['ipPermissions'].detect {|group_permission|
             permission['ipProtocol'] == group_permission['ipProtocol'] &&
             permission['fromPort'] == group_permission['fromPort'] &&
             permission['toPort'] == group_permission['toPort'] }
         end
+
       end
     end
   end
