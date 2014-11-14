@@ -28,6 +28,13 @@ module Fog
           nil
         end
 
+        def get_by_filter(flavor_filter)
+          data = service.template_pool(flavor_filter)
+          load(data)
+        rescue Fog::Compute::OpenNebula::NotFound
+          nil
+        end
+
       end
 
     end

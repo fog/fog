@@ -19,6 +19,8 @@ module Fog
         attribute :os
         attribute :graphics
         attribute :raw
+        attribute :context
+        attribute :user_variables
 
 
         def to_label
@@ -37,20 +39,24 @@ module Fog
             + get_sched_requirements \
             + get_sched_ds_requirements \
             + get_sched_rank \
-            + get_sched_ds_rank
+            + get_sched_ds_rank \
+            + get_context \
+            + get_user_variables
         end
 
         def get_cpu
-          "CPU=#{vcpu.to_f/10}\n"
+          return "CPU=#{vcpu.to_f/10}\n" unless cpu
+          return "CPU=#{vcpu}\n" if cpu.to_i > vcpu.to_i
+          "CPU=#{cpu}\n"
         end  
 
         def get_vcpu
-          vcpu = 1 unless vcpu
+          return "VCPU=1\n" unless vcpu
           "VCPU=#{vcpu}\n"
         end  
 
         def get_memory
-          memory = 128 unless memory
+          return "MEMORY=128\n" unless memory
           "MEMORY=#{memory}\n"
         end  
 
@@ -95,11 +101,12 @@ module Fog
 
         def get_nic
           # NIC=[MODEL="virtio",NETWORK="vlan17",NETWORK_UNAME="oneadmin"]
-          return "" if( nic.nil? || !(nic.is_a? Array))
+          return "" if nic.nil?
           ret = ""
-
-          nic.each do |n|
-            ret += %Q|NIC=[MODEL="#{n.model}",NETWORK_ID="#{n.vnet.id}"]\n|
+          if nic.is_a? Array
+            nic.each do |n|
+              ret += %Q|NIC=[MODEL="#{n.model}",NETWORK_ID="#{n.vnet.id}"]\n| unless n.vnet.nil?
+            end
           end
           #ret.gsub!(/\{/, '[')
           #ret.gsub!(/\}/, ']')
@@ -125,6 +132,37 @@ module Fog
         def get_sched_rank
           return "" unless sched_rank 
           %Q|SCHED_RANK="#{sched_rank}"\n|
+        end
+
+        def get_context
+          return "" unless context
+          if context.is_a? String
+            return %Q|CONTEXT= [ #{context} ]\n|
+          elsif context.is_a? Hash
+            ret = ""
+            context.each do |key, value|
+              ret << %Q|"#{key}"="#{value}",|
+            end
+            ret.chop! if ret.end_with?(',')
+            return %Q|CONTEXT=[ #{ret} ]\n|
+          else
+            return ""
+          end
+        end
+
+        def get_user_variables
+          return "" unless user_variables
+          if user_variables.is_a? String
+            return %Q|#{user_variables}\n|
+          elsif user_variables.is_a? Hash
+            ret = ""
+            user_variables.each do |key, value|
+              ret << %Q|#{key}="#{value}"\n|
+            end
+            return ret
+          else
+            return ""
+          end
         end
 
       end

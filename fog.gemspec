@@ -61,6 +61,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-profitbricks")
   s.add_dependency("fog-voxel")
   s.add_dependency("fog-vmfusion")
+  s.add_dependency("opennebula")
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
