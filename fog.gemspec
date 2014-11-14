@@ -61,6 +61,9 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-profitbricks")
   s.add_dependency("fog-voxel")
   s.add_dependency("fog-vmfusion")
+  s.add_dependency("fog-terremark")
+
+  # Extra Dependencies
   s.add_dependency("opennebula")
 
   ## List your development dependencies here. Development dependencies are
@@ -74,7 +77,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('shindo', '~> 0.3.4')
   s.add_development_dependency('fission')
   s.add_development_dependency('pry')
-  s.add_development_dependency('opennebula', '>=4.4.0')
   s.add_development_dependency('google-api-client', '~> 0.6', '>= 0.6.2')
   s.add_development_dependency('docker-api', '>= 1.13.6')
   s.add_development_dependency('rubocop') if RUBY_VERSION > "1.9"
