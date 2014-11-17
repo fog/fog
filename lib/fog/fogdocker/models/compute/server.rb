@@ -14,15 +14,24 @@ module Fog
         attribute :path
         attribute :args
         attribute :hostname
+        attribute :links,                       :aliases => 'hostconfig_links'
+        attribute :privileged,                  :aliases => 'hostconfig_privileged'
+        attribute :port_bindings,               :aliases => 'hostconfig_port_bindings'
         attribute :ipaddress,                   :aliases => 'network_settings_ipaddress'
         attribute :bridge,                      :aliases => 'network_settings_bridge'
         attribute :state_running
         attribute :state_pid
-        attribute :cores,                       :aliases => 'config_cpu_shares'
+        attribute :state_exit_code
+        attribute :cores,                       :aliases => 'config_cpu_sets'
+        attribute :cpu_shares,                  :aliases => 'config_cpu_shares'
         attribute :memory,                      :aliases => 'config_memory'
         attribute :hostname,                    :aliases => 'config_hostname'
         attribute :cmd,                         :aliases => 'config_cmd'
         attribute :entrypoint,                  :aliases => 'config_entrypoint'
+        attribute :tty,                         :aliases => 'config_tty'
+        attribute :attach_stdin,                :aliases => 'config_attach_stdin'
+        attribute :attach_stdout,               :aliases => 'config_attach_stdout'
+        attribute :attach_stderr,               :aliases => 'config_attach_stderr'
         attribute :host
         attribute :image
         attribute :exposed_ports,               :aliases => 'config_exposed_ports'

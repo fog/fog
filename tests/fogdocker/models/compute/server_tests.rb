@@ -22,12 +22,22 @@ Shindo.tests('Fog::Compute[:fogdocker] | server model', ['fogdocker']) do
                      :created,
                      :ipaddress,
                      :state_running,
-                     :cores,
                      :memory,
+                     :cores,
+                     :cpu_shares,
                      :hostname,
                      :image,
-                     #:exposed_ports,
-                     #:volumes
+                     :attach_stdin,
+                     :attach_stdout,
+                     :attach_stderr,
+                     :state_exit_code,
+                     :state_pid,
+                     :port_bindings,
+                     :links,
+                     :privileged,
+                     :tty,
+                     :exposed_ports,
+                     :volumes
       ]
       tests("The server model should respond to") do
         attributes.each do |attribute|
