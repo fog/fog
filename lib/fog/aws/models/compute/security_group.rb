@@ -221,6 +221,36 @@ module Fog
           )
         end
 
+        # Reload a security group
+        #
+        #  >> g = AWS.security_groups.get(:name => "some_name")
+        #  >> g.reload
+        #
+        #  == Returns:
+        #
+        #  Up to date model or an exception
+
+        def reload
+          if group_id.nil?
+            super
+            service.delete_security_group(name)
+          else
+            requires :group_id
+
+            data = begin
+              collection.get_by_id(group_id)
+            rescue Excon::Errors::SocketError
+              nil
+            end
+
+            return unless data
+
+            merge_attributes(data.attributes)
+            self
+          end
+        end
+
+
         # Create a security group
         #
         #  >> g = AWS.security_groups.new(:name => "some_name", :description => "something")
