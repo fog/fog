@@ -16,12 +16,15 @@ compute_client ||= ::Fog::Compute.new(:provider           => :openstack,
 
 vm = compute_client.servers.create(:name => name,
                                    :flavor_ref => flavor,
-                                   :block_device_mapping_v2 => [
-                                   :device_name => "/dev/sda1",
-                                   :source_type => "volume",
-                                   :destination_type => "volume",
-                                   :delete_on_termination => false,
-                                   :uuid => cinder_uddi,
-                                   :boot_index => 0
+                                   :block_device_mapping => [
+                                     {
+                                       :api_ver => "v2",
+                                       :device_name => "/dev/vda1",
+                                       :source_type => "volume",
+                                       :destination_type => "volume",
+                                       :delete_on_termination => false,
+                                       :uuid => cinder_uddi,
+                                       :boot_index => 0
+                                     }
                                    ]
                                    )

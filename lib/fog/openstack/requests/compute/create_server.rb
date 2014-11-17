@@ -58,28 +58,28 @@ module Fog
           end
 
           if options['block_device_mapping']
-            data['server']['block_device_mapping'] =
             [options['block_device_mapping']].flatten.map do |mapping|
-              {
-                'volume_size' => mapping[:volume_size],
-                'volume_id' => mapping[:volume_id],
-                'delete_on_termination' => mapping[:delete_on_termination],
-                'device_name' => mapping[:device_name]
-              }
-            end
-          end
-
-          if options['block_device_mapping_v2']
-            data['server']['block_device_mapping_v2'] =
-            [options['block_device_mapping']].flatten.map do |mapping|
-              {
-                'device_name' => mapping[:device_name],
-                'source_type' => mapping[:source_type],
-                'destination_type' => mapping[:destination_type],
-                'delete_on_termination' => mapping[:delete_on_termination],
-                'uuid' => mapping[:uuid],
-                'boot_index' => mapping[:boot_index]
-              }
+              if mapping[:api_ver] == "v2"
+                data['server']['block_device_mapping_v2'] =
+                [
+                  {
+                    'device_name' => mapping[:device_name],
+                    'source_type' => mapping[:source_type],
+                    'destination_type' => mapping[:destination_type],
+                    'delete_on_termination' => mapping[:delete_on_termination],
+                    'uuid' => mapping[:uuid],
+                    'boot_index' => mapping[:boot_index]
+                  }
+                ]
+              else
+                data['server']['block_device_mapping'] =
+                  {
+                    'volume_size' => mapping[:volume_size],
+                    'volume_id' => mapping[:volume_id],
+                    'delete_on_termination' => mapping[:delete_on_termination],
+                    'device_name' => mapping[:device_name]
+                  }
+              end
             end
           end
 
