@@ -93,7 +93,8 @@ module Fog
                 'device_name' => mapping[:device_name],
                 'virtual_name' => mapping[:virtual_name],
                 'source_type' => mapping[:source_type],
-                'destination_type' => mapping[:destination_type]
+                'destination_type' => mapping[:destination_type],
+                'volume_size' => mapping[:volume_size]
               }.select { |k,v| v }
             end
           end
