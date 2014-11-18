@@ -523,7 +523,20 @@ module Fog
           headers = (error.response.is_a?(Hash) ? error.response[:headers] : error.response.headers)
           uri = URI.parse(headers['Location'])
           Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
-          Fog::XML::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request(original_params, &block)
+          region = case uri.host
+          when 's3.amazonaws.com'
+            DEFAULT_REGION
+          else
+            %r{s3-([^\.]*).amazonaws.com}.match(uri.host).captures.first
+          end
+          Fog::XML::Connection.new(
+            "#{uri.scheme}://#{uri.host}:#{uri.port}",
+            false,
+            @connection_options
+          ).request(
+            original_params.merge(:region => region),
+            &block
+          )
         end
 
         # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
