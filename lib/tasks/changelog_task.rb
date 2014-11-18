@@ -114,6 +114,7 @@ Watchers      | #{watchers}
            'Decklin Foster',
            'Dylan Egan',
            'Erik Michaels-Ober',
+           'Frederick Cheung',
            'geemus',
            'Henry Addison',
            'James Bence',
