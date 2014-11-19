@@ -8,13 +8,13 @@ module Fog
       class EntityAlreadyExists < Fog::AWS::STS::Error; end
       class ValidationError < Fog::AWS::STS::Error; end
 
-      requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
+      recognizes :aws_access_key_id, :aws_secret_access_key, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/sts'
       request :get_federation_token
       request :get_session_token
       request :assume_role
+      request :assume_role_with_saml
 
       class Mock
         def self.data
@@ -99,7 +99,9 @@ module Fog
           @aws_session_token      = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, 'us-east-1', 'sts')
+          if (@aws_access_key_id && @aws_secret_access_key)
+            @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, 'us-east-1', 'sts')
+          end
         end
 
         def request(params)
