@@ -519,24 +519,31 @@ module Fog
 
         def _request(scheme, host, port, params, original_params, &block)
           connection(scheme, host, port).request(params, &block)
-        rescue Excon::Errors::TemporaryRedirect => error
+        rescue Excon::Errors::MovedPermanently, Excon::Errors::TemporaryRedirect => error
           headers = (error.response.is_a?(Hash) ? error.response[:headers] : error.response.headers)
-          uri = URI.parse(headers['Location'])
-          Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
-          region = case uri.host
+          host = if headers.has_key?('Location')
+            URI.parse(headers['Location']).host
+          else
+            body = error.response.is_a?(Hash) ? error.response[:body] : error.response.body
+            %r{<Endpoint>([^<]*)</Endpoint>}.match(body).captures.first
+          end
+          Fog::Logger.warning("fog: followed redirect to #{host}, connecting to the matching region will be more performant")
+          region = case host
           when 's3.amazonaws.com'
             DEFAULT_REGION
           else
-            %r{s3-([^\.]*).amazonaws.com}.match(uri.host).captures.first
+            %r{s3-([^\.]*).amazonaws.com}.match(host).captures.first
           end
-          Fog::XML::Connection.new(
-            "#{uri.scheme}://#{uri.host}:#{uri.port}",
-            false,
-            @connection_options
-          ).request(
-            original_params.merge(:region => region),
-            &block
+          original_signer = @signer
+          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, region, 's3')
+          params[:headers].delete('Authorization')
+          response = request(
+            original_params.merge(
+              :host   => host
+            ), &block
           )
+          @signer = original_signer
+          response
         end
 
         # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
