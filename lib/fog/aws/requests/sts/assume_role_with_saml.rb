@@ -23,7 +23,7 @@ module Fog
         #     * 'Expiration'<~Time>: The expiration time of the temporary credentials for the assumed role
         #
         # ==== See Also
-        # http://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
+        # http://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithSAML.html
         #
 
         def assume_role_with_saml(role_arn, principalArn, saml_assertion, policy=nil, duration=3600)
