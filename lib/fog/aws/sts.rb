@@ -7,6 +7,7 @@ module Fog
 
       class EntityAlreadyExists < Fog::AWS::STS::Error; end
       class ValidationError < Fog::AWS::STS::Error; end
+      class AwsAccessKeysMissing < Fog::AWS::STS::Error; end
 
       recognizes :aws_access_key_id, :aws_secret_access_key, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
@@ -105,6 +106,10 @@ module Fog
         end
 
         def request(params)
+          if (@signer == nil)
+            raise AwsAccessKeysMissing.new("Can't make unsigned requests, need aws_access_key_id and aws_secret_access_key")
+          end
+
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
