@@ -54,6 +54,7 @@ Watchers      | 3271
 *   Vhost buckets don't work if bucket name has a . in it. thanks Frederick Cheung
 *   switch to signature v4. thanks Frederick Cheung
 *   use request_params to normalize/escape paths properly for delete/copy object. thanks Frederick Cheung
+*   NOTE: v4 signatures mean that signed URLs can now only have up to 7 day expiry
 
 #### [AWS|SNS]
 *   Use Signature v4. thanks Frederick Cheung
