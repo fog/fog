@@ -40,6 +40,7 @@ module Fog
            'config_exposed_ports'       => { "29321/tcp" => {}, "39212/tcp" => {} },
            'sizerw'                     => 0,
            'sizerootfs'                 => 0,
+           'environment_variables'      => ["HOME=/mydir", "SAMPLEENV=samplevalue"],
            'name'                       => '123123123',
            'names'                      =>  ['/boring_engelbert']}
         end

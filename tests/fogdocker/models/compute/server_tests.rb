@@ -37,7 +37,8 @@ Shindo.tests('Fog::Compute[:fogdocker] | server model', ['fogdocker']) do
                      :privileged,
                      :tty,
                      :exposed_ports,
-                     :volumes
+                     :volumes,
+                     :environment_variables
       ]
       tests("The server model should respond to") do
         attributes.each do |attribute|
