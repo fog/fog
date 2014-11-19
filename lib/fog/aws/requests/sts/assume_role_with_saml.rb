@@ -26,14 +26,14 @@ module Fog
         # http://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithSAML.html
         #
 
-        def assume_role_with_saml(role_arn, principalArn, saml_assertion, policy=nil, duration=3600)
+        def assume_role_with_saml(role_arn, principal_arn, saml_assertion, policy=nil, duration=3600)
           idempotent = true
           parser = Fog::Parsers::AWS::STS::AssumeRoleWithSAML.new
           headers = { 'Content-Type' => 'application/x-www-form-urlencoded', 'Host' => @host }
           params = {
             'Action'          => 'AssumeRoleWithSAML',
             'RoleArn'         => role_arn,  
-            'PrincipalArn'    => principalArn,
+            'PrincipalArn'    => principal_arn,
             'SAMLAssertion'   => saml_assertion,
             'Policy'          => policy && Fog::JSON.encode(policy),
             'DurationSeconds' => duration,
