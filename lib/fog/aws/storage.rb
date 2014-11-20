@@ -521,27 +521,25 @@ module Fog
           connection(scheme, host, port).request(params, &block)
         rescue Excon::Errors::MovedPermanently, Excon::Errors::TemporaryRedirect => error
           headers = (error.response.is_a?(Hash) ? error.response[:headers] : error.response.headers)
-          host = if headers.has_key?('Location')
-            URI.parse(headers['Location']).host
+          new_params = {}
+          if headers.has_key?('Location')
+            new_params[:host] = URI.parse(headers['Location']).host
           else
             body = error.response.is_a?(Hash) ? error.response[:body] : error.response.body
-            %r{<Endpoint>([^<]*)</Endpoint>}.match(body).captures.first
+            new_params[:bucket_name] =  %r{<Bucket>([^<]*)</Bucket>}.match(body).captures.first
+            new_params[:host] = %r{<Endpoint>([^<]*)</Endpoint>}.match(body).captures.first
           end
           Fog::Logger.warning("fog: followed redirect to #{host}, connecting to the matching region will be more performant")
-          region = case host
+          region = case new_params[:host]
           when 's3.amazonaws.com'
             DEFAULT_REGION
           else
-            %r{s3-([^\.]*).amazonaws.com}.match(host).captures.first
+            %r{s3-([^\.]*).amazonaws.com}.match(new_params[:host]).captures.first
           end
           original_signer = @signer
-          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, region, 's3')
-          params[:headers].delete('Authorization')
-          response = request(
-            original_params.merge(
-              :host   => host
-            ), &block
-          )
+          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, region, 's3')
+          original_params[:headers].delete('Authorization')
+          response = request(original_params.merge(new_params), &block)
           @signer = original_signer
           response
         end
