@@ -53,19 +53,6 @@ Gem::Specification.new do |s|
   s.add_dependency('nokogiri', '~> 1.5', '>= 1.5.11')
   s.add_dependency('ipaddress', '~>0.5')
 
-  # Modular providers
-  s.add_dependency("fog-brightbox", "~> 0.4")
-  s.add_dependency("fog-softlayer")
-  s.add_dependency("fog-sakuracloud", ">= 0.0.4")
-  s.add_dependency("fog-radosgw", ">=0.0.2")
-  s.add_dependency("fog-profitbricks")
-  s.add_dependency("fog-voxel")
-  s.add_dependency("fog-vmfusion")
-  s.add_dependency("fog-terremark")
-
-  # Extra Dependencies
-  s.add_dependency("opennebula")
-
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
   s.add_development_dependency('minitest')
