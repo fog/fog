@@ -123,8 +123,8 @@ module Fog
         def owner=(new_owner)
           if new_owner
             attributes[:owner] = {
-              :display_name => new_owner['DisplayName'],
-              :id           => new_owner['ID']
+              :display_name => new_owner['DisplayName'] || new_owner[:display_name],
+              :id           => new_owner['ID'] || new_owner[:id]
             }
           end
         end
