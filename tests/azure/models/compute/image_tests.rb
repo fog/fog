@@ -3,7 +3,6 @@ Shindo.tests("Fog::Compute[:azure] | image model", ["azure", "compute"]) do
   service = Fog::Compute[:azure]
 
   tests("The image model should") do
-    pending if Fog.mocking?
     image  = service.images.first
     tests("have the action") do
       test("reload") { image.respond_to? "reload" }

@@ -26,7 +26,7 @@ module Fog
 
         def save
           requires :name
-          requires :location
+          requires_one :location, :affinity_group
 
           options = {
             :label => label,

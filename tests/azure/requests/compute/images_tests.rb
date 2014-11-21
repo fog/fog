@@ -1,7 +1,6 @@
 Shindo.tests("Fog::Compute[:azure] | images request", ["azure", "compute"]) do
 
   tests("#list_images") do
-    pending if Fog.mocking?
     images = Fog::Compute[:azure].images
 
     test "returns a Array" do

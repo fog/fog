@@ -1,6 +1,6 @@
 Shindo.tests("Fog::Compute[:azure] | server model", ["azure", "compute"]) do
 
-  server  = fog_server
+  server = fog_server
 
   tests("The server model should") do
     pending if Fog.mocking?

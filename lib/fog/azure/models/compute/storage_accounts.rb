@@ -20,21 +20,11 @@ module Fog
         end
 
         def get(identity)
-          account = service.get_storage_account(identity)
-          hash = {}
-          account.instance_variables.each do |var|
-            hash[var.to_s.delete("@")] = account.instance_variable_get(var)
-          end
-          new(hash)
+          all.find { |f| f.name == identity }
+        rescue Fog::Errors::NotFound
+          nil
         end
 
-        def create(new_attributes = {})
-          defaults = {
-            :name => "fog#{Time.now.to_i}",
-            :location => "Central US",
-          }
-          super(defaults.merge(new_attributes))
-        end
       end
     end
   end

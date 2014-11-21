@@ -9,6 +9,12 @@ module Fog
 
       class Mock
         def create_storage_account(name, options)
+          storage = ::Azure::StorageManagement::StorageAccount.new
+          storage.name = name
+          storage.status = "Created"
+          storage.label = name
+          storage.location = options[:location]
+          storage
         end
       end
     end

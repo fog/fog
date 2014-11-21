@@ -26,9 +26,8 @@ module Fog
           vm.os_type = "Linux"
           vm.disk_name = "cool-vm-cool-vm-0-20130207005053"
           vm.virtual_network_name = ""
-          vm.image = nil
-          #vm.virtual_network = nil
-          list = [vm]
+          vm.image = "ImageName"
+          [vm]
         end
       end
     end
