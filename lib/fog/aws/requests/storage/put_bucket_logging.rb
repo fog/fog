@@ -6,18 +6,19 @@ module Fog
         #
         # @param bucket_name [String] name of bucket to modify
         # @param logging_status [Hash]:
-        #   * Owner [Hash]:
-        #     * ID [String]: id of owner
-        #     * DisplayName [String]: display name of owner
-        #   * AccessControlList [Array]:
-        #     * Grantee [Hash]:
-        #       * DisplayName [String] Display name of grantee
-        #       * ID [String] Id of grantee
-        #       or
-        #       * EmailAddress [String] Email address of grantee
-        #       or
-        #       * URI [String] URI of group to grant access for
-        #     * Permission [String] Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
+        #   * LoggingEnabled [Hash]: logging options or {} to disable
+        #     * Owner [Hash]:
+        #       * ID [String]: id of owner
+        #       * DisplayName [String]: display name of owner
+        #     * AccessControlList [Array]:
+        #       * Grantee [Hash]:
+        #         * DisplayName [String] Display name of grantee
+        #         * ID [String] Id of grantee
+        #         or
+        #         * EmailAddress [String] Email address of grantee
+        #         or
+        #         * URI [String] URI of group to grant access for
+        #       * Permission [String] Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTlogging.html
 
@@ -37,7 +38,7 @@ DATA
     <TargetGrants>
 DATA
 
-            acl['AccessControlList'].each do |grant|
+            logging_status['AccessControlList'].each do |grant|
               data << "      <Grant>"
               type = case grant['Grantee'].keys.sort
               when ['DisplayName', 'ID']
