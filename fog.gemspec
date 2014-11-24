@@ -64,6 +64,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-terremark")
   s.add_dependency("fog-ecloud")
   s.add_dependency("fog-storm_on_demand")
+  s.add_dependency("fog-rackspace")
 
   # Extra Dependencies
   s.add_dependency("opennebula")
