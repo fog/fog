@@ -18,7 +18,8 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
   tests('The server model should') do
     tests('have the action') do
       test('reload') { server.respond_to? 'reload' }
-      %w{ affinity set_attribute refresh stop clean_shutdown hard_shutdown start destroy reboot hard_reboot clean_reboot }.each do |action|
+      %w{ affinity set_attribute refresh stop clean_shutdown hard_shutdown
+          start destroy reboot hard_reboot clean_reboot suspend resume}.each do |action|
         test(action) { server.respond_to? action }
         #test("#{action} returns successfully") { server.send(action.to_sym) ? true : false }
       end
@@ -28,6 +29,8 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
       attributes = [
         :reference,
         :uuid,
+        :name,
+        :description,
         :is_a_template,
         :__affinity,
         :allowed_operations,
@@ -43,8 +46,6 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
         :memory_static_max,
         :memory_static_min,
         :memory_target,
-        :metrics,
-        :name_description,
         :other_config,
         :power_state,
         :pv_args,
@@ -172,6 +173,16 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
         servers.get(snap_ref).reference == snap_ref
       end
       test("and destroy it afterwards") { servers.get(snap_ref).destroy }
+    end
+
+    test ("be able to suspend") do
+      server.suspend
+      server.suspended?
+    end
+
+    test ("be able to resume") do
+      server.resume
+      server.running?
     end
 
     test("be able to be destroyed!") do
