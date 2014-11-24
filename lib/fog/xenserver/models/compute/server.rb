@@ -151,6 +151,15 @@ module Fog
           Fog::Compute::XenServer::GuestMetrics.new(rec)
         end
 
+        # Returns the public ip address. Only available if XenTools is installed on guest.
+        def public_ip_address
+          if tools_installed?
+            network = guest_metrics.networks.first
+            return network[1] if network
+          end
+          return nil
+        end
+
         def tools_installed?
           !guest_metrics.nil?
         end
