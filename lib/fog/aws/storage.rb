@@ -547,18 +547,28 @@ module Fog
         # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
 
         class S3Streamer
-          attr_accessor :body, :signature, :signer, :finished, :date
+          attr_accessor :body, :signature, :signer, :finished, :date, :initial_signature
           def initialize(body, signature, signer, date)
             self.body = body
             self.date = date
             self.signature = signature
+            self.initial_signature = signature
             self.signer = signer
             if body.respond_to?(:binmode)
               body.binmode
             end
+            
             if body.respond_to?(:pos=)
               body.pos = 0
             end
+
+          end
+
+          #called if excon wants to retry the request. As well as rewinding the body
+          #we must also reset the signature
+          def rewind
+            self.signature = initial_signature
+            body.rewind
           end
 
           def call
