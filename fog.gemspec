@@ -63,6 +63,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-vmfusion")
   s.add_dependency("fog-terremark")
   s.add_dependency("fog-ecloud")
+  s.add_dependency("fog-storm_on_demand")
 
   # Extra Dependencies
   s.add_dependency("opennebula")
