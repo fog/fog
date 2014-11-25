@@ -98,3 +98,42 @@ Destroying the server:
 ```ruby
 server.destroy
 ```
+
+## Storage accounts creation and life-cycle management
+
+Creating a new storage account:
+
+```ruby
+  azure.storage_accounts.create(
+    :name => 'storageaccountname',
+    :location => 'West US'
+)
+```
+
+## Listing storage accounts
+
+Listing storage accounts and attributes:
+
+```ruby
+azure.storage_accounts.each do |storage_acc|
+  storage_acc.name
+  storage_acc.location
+end
+```
+
+## Retrieve a single record
+
+Get a single storage account record:
+
+```ruby
+storage_acc = azure.storage_accounts.get('storageaccountname')
+server.name
+server.location
+server.endpoints
+```
+
+Destroying the storage account:
+
+```ruby
+storage_acc.destroy
+```
