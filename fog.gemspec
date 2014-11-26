@@ -64,7 +64,9 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-terremark")
   s.add_dependency("fog-ecloud")
   s.add_dependency("fog-storm_on_demand")
-  s.add_dependency("fog-rackspace")
+  
+  # Disabled until Rackspace isn't broken, see fog-rackspace#10
+  #s.add_dependency("fog-rackspace")
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
