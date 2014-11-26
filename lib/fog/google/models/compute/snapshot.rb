@@ -7,16 +7,17 @@ module Fog
         identity :name
 
         attribute :kind
-        attribute :self_link         , :aliases => 'selfLink'
+        attribute :id
+        attribute :self_link, :aliases => 'selfLink'
         attribute :creation_timestamp, :aliases => 'creationTimestamp'
-        attribute :disk_size_gb      , :aliases => 'diskSizeGb'
-        attribute :source_disk       , :aliases => 'sourceDisk'
-        attribute :source_disk_id    , :aliases => 'sourceDiskId'
+        attribute :disk_size_gb, :aliases => 'diskSizeGb'
+        attribute :source_disk, :aliases => 'sourceDisk'
+        attribute :source_disk_id, :aliases => 'sourceDiskId'
         attribute :description
         attribute :status
         attribute :id
-        attribute :storage_bytes        , :aliases => 'storageBytes'
-        attribute :storage_bytes_status , :aliases => 'storageBytesStatus'
+        attribute :storage_bytes, :aliases => 'storageBytes'
+        attribute :storage_bytes_status, :aliases => 'storageBytesStatus'
 
         CREATING_STATE  = 'CREATING'
         DELETING_STATE  = 'DELETING'
@@ -37,6 +38,15 @@ module Fog
 
         def ready?
           self.status == READY_STATE
+        end
+
+        def reload
+          requires :name
+
+          data = service.get_snapshot(name).body
+
+          self.merge_attributes(data)
+          self
         end
 
         def resource_url

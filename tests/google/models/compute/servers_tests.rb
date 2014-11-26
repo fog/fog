@@ -10,5 +10,4 @@ Shindo.tests("Fog::Compute[:google] | servers", ['google']) do
                                                    :zone_name => @zone,
                                                    :machine_type => 'n1-standard-1',
                                                    :disks => [@disk]})
-
 end

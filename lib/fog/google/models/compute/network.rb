@@ -37,6 +37,18 @@ module Fog
           end
           operation
         end
+
+        def reload
+          requires :name
+          response  = service.get_network(name)
+          attributes = response.body
+          self.merge_attributes(attributes)
+          self
+        end
+
+        def url
+          "https://www.googleapis.com/compute/v1/projects/#{service.project}/global/networks/#{name}"
+        end
       end
     end
   end

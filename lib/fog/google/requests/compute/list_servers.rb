@@ -16,13 +16,9 @@ module Fog
       end
 
       class Real
-        def list_servers(zone_name)
+        def list_servers(zone_name_or_url)
           api_method = @compute.instances.list
-          parameters = {
-            'project' => @project,
-            'zone' => zone_name,
-          }
-
+          parameters = zone_request_parameters(zone_name_or_url)
           request(api_method, parameters)
         end
       end

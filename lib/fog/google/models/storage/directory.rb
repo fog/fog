@@ -9,13 +9,22 @@ module Fog
 
         attribute :creation_date, :aliases => 'CreationDate'
 
+        def add_acl(scope_type, permission)
+          requires :key
+          current_acl = service.get_bucket_acl(key).body
+          new_acl = current_acl.dup
+          new_acl['AccessControlList'] = (current_acl['AccessControlList'] + [{"Scope" => {"type" => scope_type}, "Permission"=> permission}])
+          current_acl = service.put_bucket_acl(key, new_acl)
+        end
+
         def acl=(new_acl)
-          valid_acls = ['private', 'public-read', 'public-read-write', 'authenticated-read']
+          valid_acls = %w(project-private private public-read public-read-write authenticated-read bucket-owner-read bucket-owner-full-control)
           unless valid_acls.include?(new_acl)
             raise ArgumentError.new("acl must be one of [#{valid_acls.join(', ')}]")
           end
           @acl = new_acl
         end
+
 
         def destroy
           requires :key

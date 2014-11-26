@@ -2,7 +2,7 @@ module Fog
   module Compute
     class Google
       class Mock
-        def insert_snapshot(snap_name)
+        def insert_snapshot(disk_name, zone_name, project=@project, opts={})
           Fog::Mock.not_implemented
         end
       end
@@ -19,15 +19,12 @@ module Fog
 
           api_method = @compute.disks.create_snapshot
 
-          parameters = {
-            'disk'    => disk_name,
-            'zone'    => zone_name,
-            'project' => @project,
-          }
+          parameters = disk_request_parameters(disk_name, zone_name_or_url)
 
-          snap_name = opts.delete('name')
-          raise ArgumentError.new('Must specify snapshot name') unless snap_name
-          body_object = { 'name' => snap_name }
+          snapshot_name = options.delete('name')
+          raise ArgumentError.new('Must specify snapshot name') unless snapshot_name
+          raise ArgumentError.new('Snapshot name should be 63 letters long.') if snapshot_name.size > 63
+          body_object = { 'name' => snapshot_name }
 
           # Merge in any remaining options (description)
           body_object.merge!(opts)

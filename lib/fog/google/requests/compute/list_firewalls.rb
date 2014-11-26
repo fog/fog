@@ -11,7 +11,7 @@ module Fog
         def list_firewalls
           api_method = @compute.firewalls.list
           parameters = {
-            'project' => @project
+            'project' => project
           }
 
           request(api_method, parameters)

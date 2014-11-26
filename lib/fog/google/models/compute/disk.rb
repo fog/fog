@@ -37,7 +37,7 @@ module Fog
           options['description'] = description || my_description
           options['type'] = type
 
-          data = service.insert_disk(name, zone, source_image, options)
+          data = service.insert_disk(name, zone_name, source_image, options)
           operation = Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
           operation.wait_for { !pending? }
           reload
@@ -53,6 +53,7 @@ module Fog
           end
           operation
         end
+        alias_method :delete, :destroy
 
         def zone_name
           zone.nil? ? nil : zone.split('/')[-1]
@@ -104,7 +105,7 @@ module Fog
 
           options = {
             'name'        => snapshot_name,
-            'description' => snapshot_description,
+            'description' => snapshot_description
           }
 
           data = service.insert_snapshot(name, zone_name, service.project, options)

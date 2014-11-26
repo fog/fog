@@ -2,7 +2,7 @@ module Fog
   module Compute
     class Google
       class Mock
-        def list_images(project=@project)
+        def list_images(project=nil)
           images = data(project)[:images].values
           build_excon_response({
             "kind" => "compute#imageList",
@@ -16,7 +16,6 @@ module Fog
       class Real
         def list_images(project=nil)
           api_method = @compute.images.list
-          project=@project if project.nil?
           parameters = {
             'project' => project
           }

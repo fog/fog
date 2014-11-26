@@ -29,10 +29,12 @@ module Fog
         attribute :zone
 
         def ready?
+          requires :status
           self.status == DONE_STATE
         end
 
         def pending?
+          requires :status
           self.status == PENDING_STATE
         end
 
@@ -57,12 +59,17 @@ module Fog
           true
         end
 
+        def failed?
+          !self.error.nil?
+        end
+
         def reload
           requires :identity
 
-          data = collection.get(identity, zone, region)
+          data = collection.get(identity, zone_name, region)
           new_attributes = data.attributes
-          merge_attributes(new_attributes)
+
+          self.merge_attributes(new_attributes)
           self
         end
 

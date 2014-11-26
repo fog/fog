@@ -3,6 +3,8 @@ require 'fog/google/core'
 module Fog
   module Compute
     class Google < Fog::Service
+      require 'fog/google/helpers/requests_helper'
+
       requires :google_project
       recognizes :app_name, :app_version, :google_client_email, :google_key_location, :google_key_string, :google_client
 
@@ -84,6 +86,7 @@ module Fog
       request :delete_image
       request :delete_network
       request :delete_server
+      request :delete_snapshot      
       request :delete_global_operation
       request :delete_region_operation
       request :delete_zone_operation
@@ -147,6 +150,10 @@ module Fog
       request :update_url_map
       request :validate_url_map
 
+      request :reset_server
+      request :attach_disk
+      request :detach_disk
+
       model_path 'fog/google/models/compute'
       model :server
       collection :servers
@@ -174,6 +181,9 @@ module Fog
 
       model :zone
       collection :zones
+      
+      model :network
+      collection :networks
 
       model :region
       collection :regions

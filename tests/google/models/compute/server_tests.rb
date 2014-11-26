@@ -11,10 +11,10 @@ Shindo.tests("Fog::Compute[:google] | server model", ['google']) do
                                               :machine_type => 'n1-standard-1',
                                               :disks => [@disk]})
 
-  tests('servers') do
     @instance = nil
     test('#bootstrap') do
       attributes = Fog.mocking? ? {:public_key_path => nil, :private_key_path => nil} : {}
+      # :private_key_path
       @instance = Fog::Compute[:google].servers.bootstrap(attributes)
       @instance.ready?
     end

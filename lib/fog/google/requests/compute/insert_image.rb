@@ -44,13 +44,10 @@ module Fog
         def insert_image(image_name, options={})
           api_method = @compute.images.insert
 
-          parameters = {
-            'project' => @project,
-          }
+          parameters = {'project' => @project}
 
           body_object = {
-            'sourceType'      => 'RAW',
-            'name'            => image_name,
+            'name' => image_name,
           }
 
           # Merge in the remaining params 

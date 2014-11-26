@@ -49,7 +49,7 @@ Shindo.tests('Fog::Compute[:google] | disk requests', ['google']) do
 
   tests('success') do
 
-    disk_name = 'new-disk-test'
+    disk_name = 'fog-test-disk-' + Time.now.to_i.to_s
     disk_size = '2'
     zone_name = 'us-central1-a'
     image_name = 'debian-7-wheezy-v20140408'
@@ -68,7 +68,5 @@ Shindo.tests('Fog::Compute[:google] | disk requests', ['google']) do
     tests("#delete_disk").formats(@delete_disk_format) do
       @google.delete_disk(disk_name, zone_name).body
     end
-
   end
-
 end

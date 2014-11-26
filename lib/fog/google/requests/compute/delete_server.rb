@@ -2,28 +2,24 @@ module Fog
   module Compute
     class Google
       module Shared
-        def find_zone(zone_name)
-          if zone_name.nil?
-            list_zones.body['items'].each do |zone|
-              if get_server(server_name, zone['name']).status == 200
-                return zone['name']
-              end
-            end
-          else
-            if zone_name.is_a? Excon::Response
-              return zone_name.body["name"]
+        def find_zone(server_name)
+          list_zones.body['items'].each do |zone|
+            if get_server(server_name, zone['name']).status == 200
+              return zone['name']
             end
           end
-          return zone_name
+          return nil
         end
       end
 
       class Mock
         include Shared
 
-        def delete_server(server_name, zone_name=nil)
-          zone_name = find_zone(zone_name)
+        def delete_server(server_name, zone_name_or_url = nil)
+          zone_name = zone_name_or_url.nil? ? find_zone(server_name) : get_zone_name(zone_name_or_url)
+          
           get_server(server_name, zone_name)
+
           server = self.data[:servers][server_name]
           server["status"] = "STOPPED"
           server["mock-deletionTimestamp"] = Time.now.iso8601
@@ -52,14 +48,11 @@ module Fog
       class Real
         include Shared
 
-        def delete_server(server_name, zone_name=nil)
-          zone_name = find_zone(zone_name)
+        def delete_server(instance_name, zone_name_or_url = nil)
+          zone_name = zone_name_or_url.nil? ? find_zone(server_name) : get_zone_name(zone_name_or_url)
+
           api_method = @compute.instances.delete
-          parameters = {
-            'project' => @project,
-            'zone' => zone_name,
-            'instance' => server_name
-          }
+          parameters = instance_request_parameters(instance_name, zone_name_or_url)
 
           request(api_method, parameters)
         end
