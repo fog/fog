@@ -530,17 +530,17 @@ module Fog
             new_params[:host] = %r{<Endpoint>([^<]*)</Endpoint>}.match(body).captures.first
           end
           Fog::Logger.warning("fog: followed redirect to #{host}, connecting to the matching region will be more performant")
-          region = case new_params[:host]
+          original_region, original_signer = @region, @signer
+          @region = case new_params[:host]
           when 's3.amazonaws.com'
             DEFAULT_REGION
           else
             %r{s3-([^\.]*).amazonaws.com}.match(new_params[:host]).captures.first
           end
-          original_signer = @signer
-          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, region, 's3')
+          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 's3')
           original_params[:headers].delete('Authorization')
           response = request(original_params.merge(new_params), &block)
-          @signer = original_signer
+          @region, @signer = original_region, original_signer
           response
         end
 
