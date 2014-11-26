@@ -178,9 +178,6 @@ module Fog
 
       model :zone
       collection :zones
-      
-      model :network
-      collection :networks
 
       model :region
       collection :regions
