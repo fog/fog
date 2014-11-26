@@ -41,6 +41,8 @@ module Fog
         #     Amazon EC2 instances.
         #   * 'EbsOptimized'<~Boolean> - Whether the instance is optimized for
         #     EBS I/O. Not required, default false.
+        #   * 'PlacementTenancy'<~String> - The tenancy of the instance. Valid
+        #     values: default | dedicated.  Default: default
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -93,6 +95,7 @@ module Fog
             'KeyName'                 => nil,
             'LaunchConfigurationARN'  => Fog::AWS::Mock.arn('autoscaling', self.data[:owner_id], "launchConfiguration:00000000-0000-0000-0000-000000000000:launchConfigurationName/#{launch_configuration_name}", @region),
             'LaunchConfigurationName' => launch_configuration_name,
+            'PlacementTenancy'        => nil,
             'RamdiskId'               => nil,
             'SecurityGroups'          => [],
             'UserData'                => nil
