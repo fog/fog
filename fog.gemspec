@@ -65,9 +65,6 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-ecloud")
   s.add_dependency("fog-storm_on_demand")
 
-  # Extra Dependencies
-  s.add_dependency("opennebula")
-
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
   s.add_development_dependency('minitest')
@@ -78,6 +75,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rbovirt', '0.0.24')
   s.add_development_dependency('shindo', '~> 0.3.4')
   s.add_development_dependency('fission')
+  s.add_development_dependency('opennebula')
   s.add_development_dependency('pry')
   s.add_development_dependency('google-api-client', '~> 0.6', '>= 0.6.2')
   s.add_development_dependency('docker-api', '>= 1.13.6')
