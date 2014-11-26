@@ -25,7 +25,6 @@ module Fog
           @acl = new_acl
         end
 
-
         def destroy
           requires :key
           service.delete_bucket(key)

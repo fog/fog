@@ -70,8 +70,7 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
     end
 
     tests("#list_images").formats(@list_images_format) do
-      pending
-      # @google.list_images.body
+      @google.list_images.body
     end
 
     tests("#delete_image").formats(@delete_image_format) do

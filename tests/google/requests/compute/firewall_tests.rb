@@ -72,11 +72,7 @@ Shindo.tests('Fog::Compute[:google] | firewall requests', ['google']) do
 
     # TODO: Get better matching for firewall responses.
     tests("#get_firewall").succeeds do
-      operation = @google.get_firewall(firewall_name).body
-      Fog.wait_for do
-        operation = @google.get_global_operation(operation['name']).body
-        operation['status'] == 'DONE'
-      end      
+      @google.get_firewall(firewall_name).body
     end
 
     tests("#list_firewalls").succeeds do

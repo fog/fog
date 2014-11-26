@@ -48,7 +48,7 @@ module Fog
             "canIpForward" => false,
             "networkInterfaces" => [
               {
-                "network" => "/global/networks/default",
+                "network" => "#{url_prefix}/global/networks/default",
                 "networkIP" => Fog::Mock.random_ip,
                 "name" => "nic0",
                 "accessConfigs" => [

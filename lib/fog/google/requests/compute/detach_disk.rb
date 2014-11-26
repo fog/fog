@@ -2,11 +2,9 @@ module Fog
   module Compute
     class Google
       class Mock
-
-        def detach_disk(instance_name, device_name, zone_name, options = {})
+        def detach_disk(instance_name, zone_name_or_url, device_name)
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real

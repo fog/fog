@@ -23,7 +23,6 @@ module Fog
 
           snapshot_name = options.delete('name')
           raise ArgumentError.new('Must specify snapshot name') unless snapshot_name
-          raise ArgumentError.new('Snapshot name should be 63 letters long.') if snapshot_name.size > 63
           body_object = { 'name' => snapshot_name }
 
           # Merge in any remaining options (description)

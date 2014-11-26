@@ -47,6 +47,7 @@ module Fog
           parameters = {'project' => @project}
 
           body_object = {
+            'sourceType' => 'RAW',
             'name' => image_name,
           }
 
