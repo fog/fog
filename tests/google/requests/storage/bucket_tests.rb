@@ -30,7 +30,7 @@ Shindo.tests('Fog::Storage[:google] | bucket requests', ["google"]) do
       }
     }
 
-    fog_bucket_name = 'fog-bucket-tests-' + Time.now.to_i.to_s
+    fog_bucket_name = 'fogbuckettests'
 
     tests("#put_bucket('#{fog_bucket_name}')").succeeds do
       Fog::Storage[:google].put_bucket(fog_bucket_name)
