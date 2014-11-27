@@ -137,3 +137,28 @@ Destroying the storage account:
 ```ruby
 storage_acc.destroy
 ```
+
+## Listing images
+
+Listing images and attributes:
+
+```ruby
+azure.images.each do |image|
+  image.name
+  image.os_type
+  image.category
+  image.locations
+end
+```
+
+## Retrieve a single record
+
+Get a single image record:
+
+```ruby
+image = azure.image.get('image_name')
+image.name
+image.locations
+image.category
+image.os_type
+```
