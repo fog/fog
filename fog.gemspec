@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
   s.require_paths = %w[lib]
 
   ## If your gem includes any executables, list them here.
-  s.executables = ["fog"]
+  # s.executables = ["fog"]
 
   ## Specify any RDoc options here. You'll want to add your README and
   ## LICENSE files to the extra_rdoc_files list.
@@ -64,7 +64,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-terremark")
   s.add_dependency("fog-ecloud")
   s.add_dependency("fog-storm_on_demand")
-  
+
   # Disabled until Rackspace isn't broken, see fog-rackspace#10
   #s.add_dependency("fog-rackspace")
 
