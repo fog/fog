@@ -24,6 +24,8 @@ module Fog
           end
 
           query_hash[:private_networking] = !!options[:private_networking]
+          # backups are enabled using backups_enabled query parameter!
+          query_hash[:backups_enabled] = !!options[:backups_active]
 
           request(
             :expects  => [200],
