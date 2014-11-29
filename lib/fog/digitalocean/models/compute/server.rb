@@ -16,7 +16,7 @@ module Fog
         # available nevertheless
         attribute :public_ip_address, :aliases => 'ip_address'
         attribute :private_ip_address
-        attribute :backups_active
+        attribute :backups_active, :aliases => 'backups_enabled'
         attribute :created_at
 
         attr_writer :ssh_keys
@@ -125,7 +125,8 @@ module Fog
             options[:ssh_key_ids] = @ssh_keys.map(&:id)
           end
 
-          options[:private_networking] = !!attributes[:private_networking]
+          options[:private_networking] = private_networking
+          options[:backups_active] =  backups_active
 
           data = service.create_server name,
                                        flavor_id,
