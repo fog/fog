@@ -136,6 +136,30 @@ module Fog
           end
         end
 
+        def request_unsigned(params)
+          idempotent  = params.delete(:idempotent)
+          parser      = params.delete(:parser)
+
+          params['Version'] = '2011-06-15'
+
+          headers = { 'Content-Type' => 'application/x-www-form-urlencoded', 'Host' => @host }
+          body = ''
+          for key in params.keys.sort
+            unless (value = params[key]).nil?
+              body << "#{key}=#{Fog::AWS.escape(value.to_s)}&"
+            end
+          end
+          body.chop!
+
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, headers, idempotent, parser)
+            end
+          else
+            _request(body, headers, idempotent, parser)
+          end
+        end
+
         def _request(body, headers, idempotent, parser)
           @connection.request({
             :body       => body,

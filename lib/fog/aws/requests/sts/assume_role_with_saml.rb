@@ -27,34 +27,16 @@ module Fog
         #
 
         def assume_role_with_saml(role_arn, principal_arn, saml_assertion, policy=nil, duration=3600)
-          idempotent = true
-          parser = Fog::Parsers::AWS::STS::AssumeRoleWithSAML.new
-          headers = { 'Content-Type' => 'application/x-www-form-urlencoded', 'Host' => @host }
-          params = {
+          request_unsigned({
             'Action'          => 'AssumeRoleWithSAML',
             'RoleArn'         => role_arn,  
             'PrincipalArn'    => principal_arn,
             'SAMLAssertion'   => saml_assertion,
             'Policy'          => policy && Fog::JSON.encode(policy),
             'DurationSeconds' => duration,
-            'Version'         => '2011-06-15'
-          }
-
-          body = ''
-          for key in params.keys.sort
-            unless (value = params[key]).nil?
-              body << "#{key}=#{Fog::AWS.escape(value.to_s)}&"
-            end
-          end
-          body.chop!
-
-          if @instrumentor
-            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
-              _request(body, headers, idempotent, parser)
-            end
-          else
-            _request(body, headers, idempotent, parser)
-          end
+            :idempotent       => true,
+            :parser           => Fog::Parsers::AWS::STS::AssumeRoleWithSAML.new
+          })
         end
       end
     end
