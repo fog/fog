@@ -174,6 +174,29 @@ module Fog
           msg = 'DigitalOcean servers do not support updates'
           raise NotImplementedError.new(msg)
         end
+
+        # Helper method to get the flavor name
+        def flavor
+          requires :flavor_id
+          @flavor ||= service.flavors.get(flavor_id.to_i)
+        end
+
+        # Helper method to get the image name
+        def image
+          requires :image_id
+          @image ||= service.images.get(image_id.to_i)
+        end
+
+        # Helper method to get the region name
+        def region
+          requires :region_id
+          @region ||= service.regions.get(region_id.to_i)
+        end
+
+        # Helper method to get an array with all available IP addresses
+        def ip_addresses
+          [public_ip_address, private_ip_address].flatten.select(&:present?)
+        end
       end
     end
   end
