@@ -488,10 +488,11 @@ module Fog
           params[:headers] = (params[:headers] || {}).dup
 
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
-          params[:headers]['x-amz-date'] = date.to_iso8601_basic
 
           if @signature_version == 2
-            params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature_v2(params)}"
+            expires = date.to_date_header
+            params[:headers]['Date'] = expires
+            params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature_v2(params, expires)}"
           end
 
           params = request_params(params)
@@ -502,6 +503,7 @@ module Fog
 
 
           if @signature_version == 4
+            params[:headers]['x-amz-date'] = date.to_iso8601_basic
             if params[:body].respond_to?(:read)
               # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
               params[:headers]['x-amz-content-sha256'] = 'STREAMING-AWS4-HMAC-SHA256-PAYLOAD'
@@ -623,7 +625,7 @@ DATA
           end
         end
 
-        def signature_v2(params)
+        def signature_v2(params, expires)
           headers = params[:headers] || {}
 
           string_to_sign =
@@ -631,7 +633,7 @@ DATA
 #{params[:method].to_s.upcase}
 #{headers['Content-MD5']}
 #{headers['Content-Type']}
-
+#{expires}
 DATA
 
           amz_headers, canonical_amz_headers = {}, ''
