@@ -462,7 +462,7 @@ module Fog
             @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region, 's3')
           elsif @signature_version == 2
             @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
-          end            
+          end
         end
 
         def connection(scheme, host, port)
@@ -551,8 +551,10 @@ module Fog
           Fog::Logger.warning("fog: followed redirect to #{host}, connecting to the matching region will be more performant")
           original_region, original_signer = @region, @signer
           @region = case new_params[:host]
-          when 's3.amazonaws.com'
+          when 's3.amazonaws.com', 's3-external-1.amazonaws.com'
             DEFAULT_REGION
+          when 's3.eu-central-1.amazonaws.com'
+            'eu-central-1.amazonaws.com'
           else
             %r{s3-([^\.]*).amazonaws.com}.match(new_params[:host]).captures.first
           end
