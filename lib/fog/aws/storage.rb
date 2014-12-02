@@ -44,7 +44,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :instrumentor, :instrumentor_name
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :instrumentor, :instrumentor_name, :aws_signature_version
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -421,7 +421,8 @@ module Fog
           @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.storage'
           @connection_options     = options[:connection_options] || {}
           @persistent = options.fetch(:persistent, false)
-
+          @signature_version = options.fetch(:aws_signature_version, 4)
+          validate_signature_version!
           @path_style = options[:path_style]  || false
 
           if @endpoint = options[:endpoint]
@@ -445,13 +446,23 @@ module Fog
 
         private
 
+        def validate_signature_version!
+          unless @signature_version == 2 || @signature_version == 4
+            raise "Unknown signature version #{@signature_version}; valid versions are 2 or 4"
+          end
+        end
+
         def setup_credentials(options)
           @aws_access_key_id     = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
           @aws_session_token     = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region, 's3')
+          if @signature_version == 4
+            @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region, 's3')
+          elsif @signature_version == 2
+            @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
+          end            
         end
 
         def connection(scheme, host, port)
@@ -478,19 +489,11 @@ module Fog
 
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
 
-          if params[:body].respond_to?(:read)
-            # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
-            params[:headers]['x-amz-content-sha256'] = 'STREAMING-AWS4-HMAC-SHA256-PAYLOAD'
-            params[:headers]['x-amz-decoded-content-length'] = params[:headers].delete 'Content-Length'
-
-            encoding = "aws-chunked"
-
-            encoding += ", #{params[:headers]['Content-Encoding']}" if params[:headers]['Content-Encoding']
-            params[:headers]['Content-Encoding']  = encoding
-          else
-            params[:headers]['x-amz-content-sha256'] ||= Digest::SHA256.hexdigest(params[:body] || '')
+          if @signature_version == 2
+            expires = date.to_date_header
+            params[:headers]['Date'] = expires
+            params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature_v2(params, expires)}"
           end
-          params[:headers]['x-amz-date'] = date.to_iso8601_basic
 
           params = request_params(params)
           scheme = params.delete(:scheme)
@@ -498,15 +501,31 @@ module Fog
           port   = params.delete(:port) || DEFAULT_SCHEME_PORT[scheme]
           params[:headers]['Host'] = host
 
-          signature_components = @signer.signature_components(params, date, params[:headers]['x-amz-content-sha256'])
-          params[:headers]['Authorization'] = @signer.components_to_header(signature_components)
+
+          if @signature_version == 4
+            params[:headers]['x-amz-date'] = date.to_iso8601_basic
+            if params[:body].respond_to?(:read)
+              # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
+              params[:headers]['x-amz-content-sha256'] = 'STREAMING-AWS4-HMAC-SHA256-PAYLOAD'
+              params[:headers]['x-amz-decoded-content-length'] = params[:headers].delete 'Content-Length'
+
+              encoding = "aws-chunked"
+
+              encoding += ", #{params[:headers]['Content-Encoding']}" if params[:headers]['Content-Encoding']
+              params[:headers]['Content-Encoding']  = encoding
+            else
+              params[:headers]['x-amz-content-sha256'] ||= Digest::SHA256.hexdigest(params[:body] || '')
+            end
+            signature_components = @signer.signature_components(params, date, params[:headers]['x-amz-content-sha256'])
+            params[:headers]['Authorization'] = @signer.components_to_header(signature_components)
+            
+            if params[:body].respond_to?(:read)
+              body = params.delete :body
+              params[:request_block] = S3Streamer.new(body, signature_components['X-Amz-Signature'], @signer, date)
+            end
+          end
           # FIXME: ToHashParser should make this not needed
           original_params = params.dup
-
-          if params[:body].respond_to?(:read)
-            body = params.delete :body
-            params[:request_block] = S3Streamer.new(body, signature_components['X-Amz-Signature'], @signer, date)
-          end
 
           if @instrumentor
             @instrumentor.instrument("#{@instrumentor_name}.request", params) do
@@ -537,8 +556,10 @@ module Fog
           else
             %r{s3-([^\.]*).amazonaws.com}.match(new_params[:host]).captures.first
           end
-          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 's3')
-          original_params[:headers].delete('Authorization')
+          if @signature_version == 4
+            @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 's3')
+            original_params[:headers].delete('Authorization')
+          end
           response = request(original_params.merge(new_params), &block)
           @region, @signer = original_region, original_signer
           response
@@ -602,6 +623,61 @@ DATA
             hmac = signer.derived_hmac(date)
             hmac.sign(string_to_sign.strip).unpack('H*').first
           end
+        end
+
+        def signature_v2(params, expires)
+          headers = params[:headers] || {}
+
+          string_to_sign =
+<<-DATA
+#{params[:method].to_s.upcase}
+#{headers['Content-MD5']}
+#{headers['Content-Type']}
+#{expires}
+DATA
+
+          amz_headers, canonical_amz_headers = {}, ''
+          for key, value in headers
+            if key[0..5] == 'x-amz-'
+              amz_headers[key] = value
+            end
+          end
+          amz_headers = amz_headers.sort {|x, y| x[0] <=> y[0]}
+          for key, value in amz_headers
+            canonical_amz_headers << "#{key}:#{value}\n"
+          end
+          string_to_sign << canonical_amz_headers
+
+          query_string = ''
+          if params[:query]
+            query_args = []
+            for key in params[:query].keys.sort
+              if VALID_QUERY_KEYS.include?(key)
+                value = params[:query][key]
+                if value
+                  query_args << "#{key}=#{value}"
+                else
+                  query_args << key
+                end
+              end
+            end
+            if query_args.any?
+              query_string = '?' + query_args.join('&')
+            end
+          end
+
+          canonical_path = (params[:path] || object_to_path(params[:object_name])).to_s
+          canonical_path = '/' + canonical_path if canonical_path[0..0] != '/'
+
+          if params[:bucket_name]
+            canonical_resource = "/#{params[:bucket_name]}#{canonical_path}"
+          else
+            canonical_resource = canonical_path
+          end
+          canonical_resource << query_string
+          string_to_sign << canonical_resource
+          signed_string = @hmac.sign(string_to_sign)
+          Base64.encode64(signed_string).chomp!
         end
       end
     end
