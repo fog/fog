@@ -12,7 +12,7 @@ module Fog
       requires :ninefold_storage_token, :ninefold_storage_secret
       recognizes :persistent
 
-      model_path 'fog/atmos/models/storage'
+      model_path 'fog/storage/atmos/models'
       model       :directory
       collection  :directories
       model       :file
