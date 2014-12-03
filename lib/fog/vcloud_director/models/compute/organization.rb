@@ -31,6 +31,11 @@ module Fog
           requires :id
           service.tasks(:organization => self)
         end
+
+        def create_catalog(name, description = nil)
+          response = service.post_create_catalog(name, id, description)
+          service.process_task(response.body[:Tasks][:Task])
+        end
       end
     end
   end
