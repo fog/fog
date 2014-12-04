@@ -30,7 +30,7 @@ module Fog
         attribute :domain_id,               :aliases => 'domainid'
         attribute :domain,                  :aliases => 'domain'
 
-        # attribute :service,                 :aliases => 'service'
+        attribute :service,                 :aliases => 'service'
         attribute :network_domain,          :aliases => 'domain'
         attribute :physical_network_id,     :aliases => 'physicalnetworkid'
         attribute :restart_required,        :aliases => 'restartrequired'
