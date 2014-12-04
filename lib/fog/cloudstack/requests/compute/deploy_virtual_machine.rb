@@ -10,17 +10,19 @@ module Fog
           options = {}
           if args[0].is_a? Hash
             options = args[0]
-            options.merge!('command' => 'deployVirtualMachine') 
+            options.merge!('command' => 'deployVirtualMachine')
           else
-            options.merge!('command' => 'deployVirtualMachine', 
-            'templateid' => args[0], 
-            'zoneid' => args[1], 
+            options.merge!('command' => 'deployVirtualMachine',
+            'templateid' => args[0],
+            'zoneid' => args[1],
             'serviceofferingid' => args[2])
           end
+          # add project id if we have one
+          @cloudstack_project_id ? options.merge!('projectid' => @cloudstack_project_id) : nil
           request(options)
         end
       end
- 
+
       class Mock
         def deploy_virtual_machine(options={})
           zone_id = options['zoneid']
@@ -116,7 +118,7 @@ module Fog
           self.data[:servers][identity]= virtual_machine
           {'deployvirtualmachineresponse' => virtual_machine}
         end
-      end 
+      end
     end
   end
 end

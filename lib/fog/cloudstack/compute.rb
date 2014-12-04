@@ -11,33 +11,45 @@ module Fog
       requires :cloudstack_host
 
       recognizes :cloudstack_api_key, :cloudstack_secret_access_key, :cloudstack_session_key, :cloudstack_session_id,
-                 :cloudstack_port, :cloudstack_path, :cloudstack_scheme, :cloudstack_persistent
-
-      request_path 'fog/cloudstack/requests/compute'
-
+                 :cloudstack_port, :cloudstack_path, :cloudstack_scheme, :cloudstack_persistent, :cloudstack_project_id
 
       model_path 'fog/cloudstack/models/compute'
+      request_path 'fog/cloudstack/requests/compute'
+
       model :address
       model :disk_offering
       collection :disk_offerings
+      model :egress_firewall_rule
+      collection :egress_firewall_rules
+      model :firewall_rule
+      collection :firewall_rules
       model :flavor
       collection :flavors
-      model :job
-      collection :jobs
-      model :server
-      collection :servers
       model :image
       collection :images
+      model :job
+      collection :jobs
+      model :network
+      collection :networks
+      model :public_ip_address
+      collection :public_ip_addresses
+      model :port_forwarding_rule
+      collection :port_forwarding_rules
+      model :project
+      collection :projects
       model :security_group
       collection :security_groups
       model :security_group_rule
       collection :security_group_rules
+      model :server
+      collection :servers
       model :volume
       collection :volumes
       model :snapshot
       collection :snapshots
       model :zone
       collection :zones
+
       request :activate_project
       request :add_account_to_project
       request :add_baremetal_dhcp
@@ -523,7 +535,7 @@ module Fog
       request :upload_custom_certificate
       request :upload_ssl_cert
       request :upload_volume
-      
+
 
       class Real
 
@@ -532,6 +544,7 @@ module Fog
           @cloudstack_secret_access_key = options[:cloudstack_secret_access_key]
           @cloudstack_session_id        = options[:cloudstack_session_id]
           @cloudstack_session_key       = options[:cloudstack_session_key]
+          @cloudstack_project_id        = options[:cloudstack_project_id]
           @host                         = options[:cloudstack_host]
           @path                         = options[:cloudstack_path]    || '/client/api'
           @port                         = options[:cloudstack_port]    || 443
