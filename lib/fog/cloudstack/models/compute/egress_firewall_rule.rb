@@ -32,7 +32,6 @@ module Fog
           success_status == 'true'
         end
 
-
       end
     end
   end
