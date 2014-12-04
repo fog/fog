@@ -8,6 +8,7 @@ module Fog
         model Fog::Compute::Cloudstack::Server
 
         def all(attributes={})
+          # add project id if we have one
           response = service.list_virtual_machines(attributes)
           data = response["listvirtualmachinesresponse"]["virtualmachine"] || []
           load(data)
@@ -20,7 +21,9 @@ module Fog
         end
 
         def get(server_id)
-          servers = service.list_virtual_machines('id' => server_id)["listvirtualmachinesresponse"]["virtualmachine"]
+          attributes = {'id' => server_id}
+          # add project id if we have one
+          servers = service.list_virtual_machines(attributes)["listvirtualmachinesresponse"]["virtualmachine"]
           if servers.nil? || servers.empty?
             servers = service.list_virtual_machines('id' => server_id, 'projectid' => '-1')["listvirtualmachinesresponse"]["virtualmachine"]
           end

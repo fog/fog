@@ -10,11 +10,13 @@ module Fog
           options = {}
           if args[0].is_a? Hash
             options = args[0]
-            options.merge!('command' => 'deleteSSHKeyPair') 
+            options.merge!('command' => 'deleteSSHKeyPair')
           else
-            options.merge!('command' => 'deleteSSHKeyPair', 
+            options.merge!('command' => 'deleteSSHKeyPair',
             'name' => args[0])
           end
+          # add project id if we have one
+          @cloudstack_project_id ? options.merge!('projectid' => @cloudstack_project_id) : nil
           request(options)
         end
       end

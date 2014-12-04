@@ -10,10 +10,14 @@ module Fog
           options = {}
           if args[0].is_a? Hash
             options = args[0]
-            options.merge!('command' => 'listFirewallRules') 
+            options.merge!('command' => 'listFirewallRules')
           else
             options.merge!('command' => 'listFirewallRules')
           end
+
+          # add project id if we have one
+          @cloudstack_project_id ? options.merge!('projectid' => @cloudstack_project_id) : nil
+
           request(options)
         end
       end

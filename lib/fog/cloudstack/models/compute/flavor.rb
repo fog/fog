@@ -5,12 +5,14 @@ module Fog
         identity  :id,              :aliases => 'id'
         attribute :cpu_number,      :aliases => 'cpunumber'
         attribute :cpu_speed,       :aliases => 'cpuspeed'
-        attribute :created
+        attribute :created,         :type => :time
         attribute :default_use,     :aliases => 'defaultuse'
         attribute :display_text,    :aliases => 'display_text'
         attribute :domain
         attribute :host_tags,       :aliases => 'host_tags'
-        attribute :is_system,       :aliases => 'is_system'
+        attribute :is_system,       :aliases => 'issystem', :type => :boolean
+        attribute :is_volatile,     :aliases => 'isvolatile', :type => :boolean
+        attribute :is_customized,   :aliases => 'iscustomized', :type => :boolean
         attribute :limit_cpu_use,   :aliases => 'limitcpuuse'
         attribute :tags
         attribute :system_vm_type,  :aliases => 'systemvm'
@@ -27,7 +29,8 @@ module Fog
         def destroy
           raise Fog::Errors::Error.new('Destroying a flavor is not supported')
         end
-      end # Server
+
+      end # Flavor
     end # Cloudstack
   end # Compute
 end # Fog
