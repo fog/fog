@@ -398,6 +398,9 @@ module Fog
       class Real
         include Utils
         include Fog::AWS::CredentialFetcher::ConnectionMethods
+
+        attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_session_token, :aws_credentials_expire_at, :host
+
         # Initialize connection to S3
         #
         # ==== Notes
