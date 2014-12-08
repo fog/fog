@@ -1,0 +1,5 @@
+<disk_profiles><disk_profile href="/api/diskprofiles/0fdb2f81-d9da-4efd-8b71-9d6af579eac9" id="0fdb2f81-d9da-4efd-8b71-9d6af579eac9">
+<name>test</name>
+<link href="/api/diskprofiles/0fdb2f81-d9da-4efd-8b71-9d6af579eac9/permissions" rel="permissions"/>
+<storage_domain href="/api/storagedomains/bec48a8c-0e8a-428e-a39d-94e99406a0f2" id="bec48a8c-0e8a-428e-a39d-94e99406a0f2"/></disk_profile>
+</disk_profiles>
