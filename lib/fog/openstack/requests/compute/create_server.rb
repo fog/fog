@@ -156,7 +156,9 @@ module Fog
             }
           end
 
-          if block_device = options["block_device_mapping"]
+          if block_devices = options["block_device_mapping_v2"]
+            block_devices.each { |bd| compute.volumes.get(bd[:uuid]).attach(server_id, bd[:device_name]) }
+          elsif block_device = options["block_device_mapping"]
             compute.volumes.get(block_device[:volume_id]).attach(server_id, block_device[:device_name])
           end
 
