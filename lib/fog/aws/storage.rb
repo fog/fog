@@ -441,7 +441,7 @@ module Fog
 
           Fog::Logger.warning("fog: path_style #{options[:path_style]}")
           # no pathstyle given and signature version 4
-          if !options[:path_style] && @signature_version == 4
+          if options[:path_style].nil? && @signature_version == 4
             Fog::Logger.warning("fog: setting path_style to true for signature_version 4")
             @path_style = true
           end
