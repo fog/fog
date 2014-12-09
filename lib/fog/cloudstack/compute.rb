@@ -31,6 +31,8 @@ module Fog
       collection :jobs
       model :network
       collection :networks
+      model :network_offering
+      collection :network_offerings
       model :public_ip_address
       collection :public_ip_addresses
       model :port_forwarding_rule
