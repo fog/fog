@@ -11,8 +11,8 @@ module Fog
           load(service.list_public_images_detailed.body['images'])
         end
 
-        def details
-          load(service.list_public_images_detailed.body['images'])
+        def details(attribute=nil, query=nil)
+          load(service.list_public_images_detailed(attribute, query).body['images'])
         end
 
         def find_by_id(id)
