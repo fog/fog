@@ -74,6 +74,37 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
       compute.servers.get(@server_id).volumes.first.id == @volume1_id
     end
 
+    #CREATE_SERVER_WITH_BLOCK_DEVICE_MAPPING_V2
+    tests('#create_server("test", nil , #{@flavor_id}) with multiple block_device_mapping_v2').formats(@create_format, false) do
+      @volume2_id = compute.create_volume('test', 'this is a test volume', 1).body["volume"]["id"]
+      volume_data = [{
+        :boot_index            => 0,
+        :uuid                  => @volume1_id,
+        :device_name           => "vda",
+        :source_type           => "volume",
+        :destination_type      => "volume",
+        :delete_on_termination => true,
+      }, {
+        :boot_index            => 1,
+        :uuid                  => @volume2_id,
+        :device_name           => "vdb",
+        :source_type           => "volume",
+        :destination_type      => "volume",
+        :delete_on_termination => true,
+      }]
+      data = compute.create_server("test", nil, @flavor_id, "block_device_mapping_v2" => volume_data).body['server']
+      @server_id = data['id']
+      data
+    end
+
+    tests("#get_server_details(#{@server_id})").formats(@base_server_format, false) do
+      compute.get_server_details(@server_id).body['server']
+    end
+
+    tests("#block_device_mapping_v2").succeeds do
+      compute.servers.get(@server_id).volumes.collect(&:id).sort == [@volume1_id, @volume2_id].sort
+    end
+
     #CREATE_SINGLE_FROM_IMAGE
     tests('#create_server("test", #{@image_id} , 19)').formats(@create_format, false) do
       data = Fog::Compute[:openstack].create_server("test", @image_id, @flavor_id).body['server']
