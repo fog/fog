@@ -55,6 +55,7 @@ def compute_providers
         :protocol => 'tcp'
       },
       :disk_offering_attributes => { :name => "new disk offering", :display_text => 'New Disk Offering' },
+      :egress_firewall_rule_attributes => {:network_id => '89198f7c-0245-aa1d-136a-c5f479ef9db7', :protocol => 'tcp'},
       :mocked => true
     },
     :glesys   => {

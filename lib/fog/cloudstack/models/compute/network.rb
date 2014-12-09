@@ -30,7 +30,7 @@ module Fog
         attribute :domain_id,               :aliases => 'domainid'
         attribute :domain,                  :aliases => 'domain'
 
-        attribute :service,                 :aliases => 'service'
+        # attribute :service,                 :aliases => 'service'
         attribute :network_domain,          :aliases => 'domain'
         attribute :physical_network_id,     :aliases => 'physicalnetworkid'
         attribute :restart_required,        :aliases => 'restartrequired'
@@ -39,22 +39,31 @@ module Fog
         attribute :is_persistent,           :aliases => 'ispersistent', :type => :boolean
         attribute :display_network,         :aliases => 'displaynetwork'
 
-        def restart
-            # AN - need to test
-            response = @connection.restart_network( self.id)
-            # there are a bunch of fields
-            # should be mapped back to attributes
+        # restart network - will return a job
+        def restart(options={})
+            response = service.restart_network( options.merge({'id'=> self.id}))
+            service.jobs.new(response['restartnetworkresponse'])
         end
 
+        # create a new network
         def save
-          raise Fog::Errors::Error.new('Creating a network is not supported')
+          requires :display_text, :name, :network_offering_id, :zone_id
+
+          options = {
+            'displaytext'           => display_text,
+            'name'                  => name,
+            'zoneid'                => zone_id,
+            'networkofferingid'     => network_offering_id
+          }
+
+          response = service.create_network(options)
+          merge_attributes(response['createnetworkresponse']['network'])
         end
 
-        def destroy
-          raise Fog::Errors::Error.new('Destroying a network is not supported')
-
-          # response = @connection.delete_network( {'id' => @self.id })
-          # returns success & displaytext
+        # delete given network - will return a job
+        def destroy(options={})
+          response = service.delete_network(options.merge({'id'=> self.id}))
+          service.jobs.new(response["deletenetworkresponse"])
         end
 
       end # Network

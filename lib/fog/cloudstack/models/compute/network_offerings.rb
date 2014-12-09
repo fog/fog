@@ -1,23 +1,24 @@
 
+
 require 'fog/core/collection'
-require 'fog/cloudstack/models/compute/network'
+require 'fog/cloudstack/models/compute/network_offering'
 
 module Fog
   module Compute
     class Cloudstack
-      class Networks < Fog::Collection
-        model Fog::Compute::Cloudstack::Network
+      class NetworkOfferings < Fog::Collection
+        model Fog::Compute::Cloudstack::NetworkOffering
 
         def all(filters={})
           options = get_filter_options(filters)
-          data = service.list_networks(options)["listnetworksresponse"]["network"] || []
+          data = service.list_network_offerings(options)["listnetworkofferingsresponse"]["networkoffering"] || []
           load(data)
         end
 
-        def get(network_id, filters={})
+        def get(network_offering_id, filters={})
           filter_option = get_filter_options(filters)
-          options = filter_option.merge('id' => network_id)
-          if data = service.list_networks(options)["listnetworksresponse"]["network"].first
+          options = filter_option.merge('id' => network_offering_id)
+          if data = service.list_network_offerings(options)["listnetworkofferingsresponse"]["networkoffering"].first
             new(data)
           end
         rescue Fog::Compute::Cloudstack::BadRequest
