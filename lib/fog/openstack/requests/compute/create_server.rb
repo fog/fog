@@ -156,6 +156,10 @@ module Fog
             }
           end
 
+          if block_device = options["block_device_mapping"]
+            compute.volumes.get(block_device[:volume_id]).attach(server_id, block_device[:device_name])
+          end
+
           self.data[:last_modified][:servers][server_id] = Time.now
           self.data[:servers][server_id] = mock_data
           if security_groups = options['security_groups'] then
