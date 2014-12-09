@@ -39,7 +39,6 @@ module Fog
         def attach(server_id, name)
           requires :id
           data = service.attach_volume(id, server_id, name)
-          merge_attributes(:attachments => attachments << data.body['volumeAttachment'])
           true
         end
 
