@@ -30,6 +30,12 @@ def dns_providers
     :zerigo       => {
       :mocked => false
     },
+    :rackspace    => {
+      :mocked => false,
+      :zone_attributes => {
+        :email => 'fog@example.com'
+      }
+    },
     :rage4 => {
       :mocked => false
     }
