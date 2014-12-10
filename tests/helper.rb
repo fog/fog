@@ -53,8 +53,3 @@ rescue LoadError
   Formatador.display_line("[yellow]Skipping tests for [bold]libvirt[/] [yellow]due to missing `ruby-libvirt` gem.[/]")
   Thread.current[:tags] << '-libvirt'
 end
-
-# This disables all DigitalOcean tests since the test server code is broken and fails in every case
-# See https://github.com/fog/fog/pull/3304
-Formatador.display_line("[yellow]Skipping tests for [bold]digitialocean[/] [yellow]due to test helper being broken.[/]")
-Thread.current[:tags] << "-digitalocean"
