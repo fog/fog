@@ -1,7 +1,5 @@
 Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'compute']) do
 
-  pending # See https://github.com/fog/fog/pull/3304
-
   server  = fog_test_server
 
   tests('The server model should') do
