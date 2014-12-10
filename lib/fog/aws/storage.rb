@@ -44,7 +44,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :instrumentor, :instrumentor_name
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :instrumentor, :instrumentor_name, :aws_signature_version
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -220,13 +220,15 @@ module Fog
             bucket_name = params[:bucket_name]
 
             path_style = params.fetch(:path_style, @path_style)
-            if !path_style && COMPLIANT_BUCKET_NAMES !~ bucket_name
-              Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) is not a valid dns name, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
-              path_style = true
-            elsif scheme == 'https' && bucket_name =~ /\./
-              Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) contains a '.' so is not accessible over https as a virtual hosted bucket, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
-              path_style = true
-            end  
+            if !path_style
+              if COMPLIANT_BUCKET_NAMES !~ bucket_name
+                Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) is not a valid dns name, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
+                path_style = true
+              elsif scheme == 'https' && bucket_name =~ /\./
+                Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) contains a '.' so is not accessible over https as a virtual hosted bucket, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
+                path_style = true
+              end  
+            end
 
             if path_style
               path = bucket_to_path bucket_name, path
@@ -421,7 +423,8 @@ module Fog
           @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.storage'
           @connection_options     = options[:connection_options] || {}
           @persistent = options.fetch(:persistent, false)
-
+          @signature_version = options.fetch(:aws_signature_version, 4)
+          validate_signature_version!
           @path_style = options[:path_style]  || false
 
           if @endpoint = options[:endpoint]
@@ -445,13 +448,23 @@ module Fog
 
         private
 
+        def validate_signature_version!
+          unless @signature_version == 2 || @signature_version == 4
+            raise "Unknown signature version #{@signature_version}; valid versions are 2 or 4"
+          end
+        end
+
         def setup_credentials(options)
           @aws_access_key_id     = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
           @aws_session_token     = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region, 's3')
+          if @signature_version == 4
+            @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region, 's3')
+          elsif @signature_version == 2
+            @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
+          end
         end
 
         def connection(scheme, host, port)
@@ -478,19 +491,11 @@ module Fog
 
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
 
-          if params[:body].respond_to?(:read)
-            # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
-            params[:headers]['x-amz-content-sha256'] = 'STREAMING-AWS4-HMAC-SHA256-PAYLOAD'
-            params[:headers]['x-amz-decoded-content-length'] = params[:headers].delete 'Content-Length'
-
-            encoding = "aws-chunked"
-
-            encoding += ", #{params[:headers]['Content-Encoding']}" if params[:headers]['Content-Encoding']
-            params[:headers]['Content-Encoding']  = encoding
-          else
-            params[:headers]['x-amz-content-sha256'] ||= Digest::SHA256.hexdigest(params[:body] || '')
+          if @signature_version == 2
+            expires = date.to_date_header
+            params[:headers]['Date'] = expires
+            params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature_v2(params, expires)}"
           end
-          params[:headers]['x-amz-date'] = date.to_iso8601_basic
 
           params = request_params(params)
           scheme = params.delete(:scheme)
@@ -498,15 +503,31 @@ module Fog
           port   = params.delete(:port) || DEFAULT_SCHEME_PORT[scheme]
           params[:headers]['Host'] = host
 
-          signature_components = @signer.signature_components(params, date, params[:headers]['x-amz-content-sha256'])
-          params[:headers]['Authorization'] = @signer.components_to_header(signature_components)
+
+          if @signature_version == 4
+            params[:headers]['x-amz-date'] = date.to_iso8601_basic
+            if params[:body].respond_to?(:read)
+              # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
+              params[:headers]['x-amz-content-sha256'] = 'STREAMING-AWS4-HMAC-SHA256-PAYLOAD'
+              params[:headers]['x-amz-decoded-content-length'] = params[:headers].delete 'Content-Length'
+
+              encoding = "aws-chunked"
+
+              encoding += ", #{params[:headers]['Content-Encoding']}" if params[:headers]['Content-Encoding']
+              params[:headers]['Content-Encoding']  = encoding
+            else
+              params[:headers]['x-amz-content-sha256'] ||= Digest::SHA256.hexdigest(params[:body] || '')
+            end
+            signature_components = @signer.signature_components(params, date, params[:headers]['x-amz-content-sha256'])
+            params[:headers]['Authorization'] = @signer.components_to_header(signature_components)
+            
+            if params[:body].respond_to?(:read)
+              body = params.delete :body
+              params[:request_block] = S3Streamer.new(body, signature_components['X-Amz-Signature'], @signer, date)
+            end
+          end
           # FIXME: ToHashParser should make this not needed
           original_params = params.dup
-
-          if params[:body].respond_to?(:read)
-            body = params.delete :body
-            params[:request_block] = S3Streamer.new(body, signature_components['X-Amz-Signature'], @signer, date)
-          end
 
           if @instrumentor
             @instrumentor.instrument("#{@instrumentor_name}.request", params) do
@@ -519,28 +540,60 @@ module Fog
 
         def _request(scheme, host, port, params, original_params, &block)
           connection(scheme, host, port).request(params, &block)
-        rescue Excon::Errors::TemporaryRedirect => error
+        rescue Excon::Errors::MovedPermanently, Excon::Errors::TemporaryRedirect => error
           headers = (error.response.is_a?(Hash) ? error.response[:headers] : error.response.headers)
-          uri = URI.parse(headers['Location'])
-          Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
-          Fog::XML::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request(original_params, &block)
+          new_params = {}
+          if headers.has_key?('Location')
+            new_params[:host] = URI.parse(headers['Location']).host
+          else
+            body = error.response.is_a?(Hash) ? error.response[:body] : error.response.body
+            new_params[:bucket_name] =  %r{<Bucket>([^<]*)</Bucket>}.match(body).captures.first
+            new_params[:host] = %r{<Endpoint>([^<]*)</Endpoint>}.match(body).captures.first
+          end
+          Fog::Logger.warning("fog: followed redirect to #{host}, connecting to the matching region will be more performant")
+          original_region, original_signer = @region, @signer
+          @region = case new_params[:host]
+          when 's3.amazonaws.com', 's3-external-1.amazonaws.com'
+            DEFAULT_REGION
+          when 's3.eu-central-1.amazonaws.com'
+            'eu-central-1.amazonaws.com'
+          else
+            %r{s3-([^\.]*).amazonaws.com}.match(new_params[:host]).captures.first
+          end
+          if @signature_version == 4
+            @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 's3')
+            original_params[:headers].delete('Authorization')
+          end
+          response = request(original_params.merge(new_params), &block)
+          @region, @signer = original_region, original_signer
+          response
         end
 
         # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
 
         class S3Streamer
-          attr_accessor :body, :signature, :signer, :finished, :date
+          attr_accessor :body, :signature, :signer, :finished, :date, :initial_signature
           def initialize(body, signature, signer, date)
             self.body = body
             self.date = date
             self.signature = signature
+            self.initial_signature = signature
             self.signer = signer
             if body.respond_to?(:binmode)
               body.binmode
             end
+            
             if body.respond_to?(:pos=)
               body.pos = 0
             end
+
+          end
+
+          #called if excon wants to retry the request. As well as rewinding the body
+          #we must also reset the signature
+          def rewind
+            self.signature = initial_signature
+            body.rewind
           end
 
           def call
@@ -574,6 +627,61 @@ DATA
             hmac = signer.derived_hmac(date)
             hmac.sign(string_to_sign.strip).unpack('H*').first
           end
+        end
+
+        def signature_v2(params, expires)
+          headers = params[:headers] || {}
+
+          string_to_sign =
+<<-DATA
+#{params[:method].to_s.upcase}
+#{headers['Content-MD5']}
+#{headers['Content-Type']}
+#{expires}
+DATA
+
+          amz_headers, canonical_amz_headers = {}, ''
+          for key, value in headers
+            if key[0..5] == 'x-amz-'
+              amz_headers[key] = value
+            end
+          end
+          amz_headers = amz_headers.sort {|x, y| x[0] <=> y[0]}
+          for key, value in amz_headers
+            canonical_amz_headers << "#{key}:#{value}\n"
+          end
+          string_to_sign << canonical_amz_headers
+
+          query_string = ''
+          if params[:query]
+            query_args = []
+            for key in params[:query].keys.sort
+              if VALID_QUERY_KEYS.include?(key)
+                value = params[:query][key]
+                if value
+                  query_args << "#{key}=#{value}"
+                else
+                  query_args << key
+                end
+              end
+            end
+            if query_args.any?
+              query_string = '?' + query_args.join('&')
+            end
+          end
+
+          canonical_path = (params[:path] || object_to_path(params[:object_name])).to_s
+          canonical_path = '/' + canonical_path if canonical_path[0..0] != '/'
+
+          if params[:bucket_name]
+            canonical_resource = "/#{params[:bucket_name]}#{canonical_path}"
+          else
+            canonical_resource = canonical_path
+          end
+          canonical_resource << query_string
+          string_to_sign << canonical_resource
+          signed_string = @hmac.sign(string_to_sign)
+          Base64.encode64(signed_string).chomp!
         end
       end
     end

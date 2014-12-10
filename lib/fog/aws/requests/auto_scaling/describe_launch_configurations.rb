@@ -57,6 +57,7 @@ module Fog
         #             of the launch configuration.
         #           * 'RamdiskId'<~String> - Provides ID of the RAM disk
         #             associated with the EC2 AMI.
+        #           * 'PlacementTenancy'<~String> - The tenancy of the instance.
         #           * 'SecurityGroups'<~Array> - A description of the security
         #             groups to associate with the EC2 instances.
         #           * 'UserData'<~String> - The user data available to the

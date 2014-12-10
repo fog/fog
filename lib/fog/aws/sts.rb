@@ -7,14 +7,15 @@ module Fog
 
       class EntityAlreadyExists < Fog::AWS::STS::Error; end
       class ValidationError < Fog::AWS::STS::Error; end
+      class AwsAccessKeysMissing < Fog::AWS::STS::Error; end
 
-      requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
+      recognizes :aws_access_key_id, :aws_secret_access_key, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/sts'
       request :get_federation_token
       request :get_session_token
       request :assume_role
+      request :assume_role_with_saml
 
       class Mock
         def self.data
@@ -99,10 +100,16 @@ module Fog
           @aws_session_token      = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, 'us-east-1', 'sts')
+          if (@aws_access_key_id && @aws_secret_access_key)
+            @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, 'us-east-1', 'sts')
+          end
         end
 
         def request(params)
+          if (@signer == nil)
+            raise AwsAccessKeysMissing.new("Can't make unsigned requests, need aws_access_key_id and aws_secret_access_key")
+          end
+
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
@@ -119,6 +126,30 @@ module Fog
               :version            => '2011-06-15'
             }
           )
+
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, headers, idempotent, parser)
+            end
+          else
+            _request(body, headers, idempotent, parser)
+          end
+        end
+
+        def request_unsigned(params)
+          idempotent  = params.delete(:idempotent)
+          parser      = params.delete(:parser)
+
+          params['Version'] = '2011-06-15'
+
+          headers = { 'Content-Type' => 'application/x-www-form-urlencoded', 'Host' => @host }
+          body = ''
+          for key in params.keys.sort
+            unless (value = params[key]).nil?
+              body << "#{key}=#{Fog::AWS.escape(value.to_s)}&"
+            end
+          end
+          body.chop!
 
           if @instrumentor
             @instrumentor.instrument("#{@instrumentor_name}.request", params) do

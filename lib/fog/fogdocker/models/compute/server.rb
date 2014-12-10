@@ -36,6 +36,7 @@ module Fog
         attribute :image
         attribute :exposed_ports,               :aliases => 'config_exposed_ports'
         attribute :volumes
+        attribute :environment_variables,       :aliases => 'config_env'
 
         #raw = {"ID"=>"2ce79789656e4f7474624be6496dc6d988899af30d556574389a19aade2f9650",
         # "Created"=>"2014-01-16T12:42:38.081665295Z",
@@ -53,6 +54,9 @@ module Fog
         #     "AttachStderr"=>true,
         #     "PortSpecs"=>nil,
         #     "ExposedPorts"=>{},
+        #     "Env": [
+        #         "HOME=/mydir",
+        #     ],
         # "State"=>{
         #     "Running"=>true,
         #     "Pid"=>1505,

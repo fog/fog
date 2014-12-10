@@ -20,7 +20,7 @@ module Fog
         end
 
         def get(floating_network_id)
-          if floating_ip = connection.get_floating_ip(floating_network_id).body['floatingip']
+          if floating_ip = service.get_floating_ip(floating_network_id).body['floatingip']
             new(floating_ip)
           end
         rescue Fog::Network::OpenStack::NotFound

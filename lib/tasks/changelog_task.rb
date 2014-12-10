@@ -18,6 +18,7 @@ module Fog
 
           add_commits_to_changelog
           save_changelog
+          Rake::Task[:github_release].invoke
         end
       end
 

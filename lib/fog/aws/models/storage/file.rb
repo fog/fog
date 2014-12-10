@@ -123,8 +123,8 @@ module Fog
         def owner=(new_owner)
           if new_owner
             attributes[:owner] = {
-              :display_name => new_owner['DisplayName'],
-              :id           => new_owner['ID']
+              :display_name => new_owner['DisplayName'] || new_owner[:display_name],
+              :id           => new_owner['ID'] || new_owner[:id]
             }
           end
         end
@@ -257,7 +257,9 @@ module Fog
           # TODO: optionally upload chunks in parallel using threads
           # (may cause network performance problems with many small chunks)
           # TODO: Support large chunk sizes without reading the chunk into memory
-          body.rewind if body.respond_to?(:rewind)
+          if body.respond_to?(:rewind)
+            body.rewind  rescue nil
+          end
           while (chunk = body.read(multipart_chunk_size)) do
             md5 = Base64.encode64(Digest::MD5.digest(chunk)).strip
             part_upload = service.upload_part(directory.key, key, upload_id, part_tags.size + 1, chunk, 'Content-MD5' => md5 )

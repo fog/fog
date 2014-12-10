@@ -5,7 +5,7 @@ module Fog
   module AWS
     class SignatureV4
       ALGORITHM = 'AWS4-HMAC-SHA256'
-      def initialize(aws_access_key_id, secret_key, region,service)
+      def initialize(aws_access_key_id, secret_key, region, service)
         @region = region
         @service = service
         @aws_access_key_id  = aws_access_key_id
@@ -43,7 +43,7 @@ module Fog
 #{body_sha || Digest::SHA256.hexdigest(params[:body] || '')}
 DATA
         canonical_request.chop!
-        
+
         string_to_sign = <<-DATA
 #{ALGORITHM}
 #{date.to_iso8601_basic}
@@ -52,7 +52,7 @@ DATA
 DATA
 
         string_to_sign.chop!
-        
+
         signature = derived_hmac(date).sign(string_to_sign)
 
         {

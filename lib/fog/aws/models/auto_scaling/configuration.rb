@@ -21,6 +21,7 @@ module Fog
         attribute :security_groups,       :aliases => 'SecurityGroups'
         attribute :user_data,             :aliases => 'UserData'
         attribute :spot_price,            :aliases => 'SpotPrice'
+        attribute :placement_tenancy,     :aliases => 'PlacementTenancy'
 
 
         def initialize(attributes={})

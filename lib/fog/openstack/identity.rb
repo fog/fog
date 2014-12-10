@@ -8,7 +8,7 @@ module Fog
                  :openstack_service_type, :openstack_service_name, :openstack_tenant,
                  :openstack_api_key, :openstack_username, :openstack_current_user_id,
                  :current_user, :current_tenant,
-                 :openstack_endpoint_type
+                 :openstack_endpoint_type, :openstack_region
 
       model_path 'fog/openstack/models/identity'
       model       :tenant
@@ -174,6 +174,7 @@ module Fog
             missing_credentials = Array.new
             @openstack_api_key  = options[:openstack_api_key]
             @openstack_username = options[:openstack_username]
+            @openstack_region   = options[:openstack_region]
 
             missing_credentials << :openstack_api_key  unless @openstack_api_key
             missing_credentials << :openstack_username unless @openstack_username
@@ -260,7 +261,8 @@ module Fog
               :openstack_tenant   => @openstack_tenant,
               :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
-              :openstack_endpoint_type => @openstack_endpoint_type
+              :openstack_endpoint_type => @openstack_endpoint_type,
+              :openstack_region => @openstack_region
             }
 
             credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
