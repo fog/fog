@@ -1,5 +1,7 @@
 Shindo.tests('Fog::Compute[:digitalocean] | reboot_server request', ['digitalocean', 'compute']) do
 
+  pending # See https://github.com/fog/fog/pull/3304
+
   server = fog_test_server
 
   tests('success') do
