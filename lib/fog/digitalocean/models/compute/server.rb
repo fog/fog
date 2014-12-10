@@ -16,6 +16,7 @@ module Fog
         # available nevertheless
         attribute :public_ip_address, :aliases => 'ip_address'
         attribute :private_ip_address
+        attribute :private_networking
         attribute :backups_active, :aliases => 'backups_enabled'
         attribute :created_at
 
