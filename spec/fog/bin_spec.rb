@@ -36,6 +36,7 @@ describe Fog do
       assert_equal "Openvz", Fog.providers[:openvz]
       assert_equal "Ovirt", Fog.providers[:ovirt]
       assert_equal "ProfitBricks", Fog.providers[:profitbricks]
+      assert_equal "Rackspace", Fog.providers[:rackspace]
       assert_equal "Rage4", Fog.providers[:rage4]
       assert_equal "RiakCS", Fog.providers[:riakcs]
       assert_equal "SakuraCloud", Fog.providers[:sakuracloud]
@@ -85,6 +86,7 @@ describe Fog do
       assert_includes Fog.registered_providers, "Openvz"
       assert_includes Fog.registered_providers, "Ovirt"
       assert_includes Fog.registered_providers, "ProfitBricks"
+      assert_includes Fog.registered_providers, "Rackspace"
       assert_includes Fog.registered_providers, "Rage4"
       assert_includes Fog.registered_providers, "RiakCS"
       assert_includes Fog.registered_providers, "SakuraCloud"
@@ -134,6 +136,7 @@ describe Fog do
       assert_includes Fog.available_providers, "Openvz" if Openvz.available?
       assert_includes Fog.available_providers, "Ovirt" if Ovirt.available?
       assert_includes Fog.available_providers, "ProfitBricks" if ProfitBricks.available?
+      assert_includes Fog.available_providers, "Rackspace" if Rackspace.available?
       assert_includes Fog.available_providers, "Rage4" if Rage4.available?
       assert_includes Fog.available_providers, "RiakCS" if RiakCS.available?
       assert_includes Fog.available_providers, "SakuraCloud" if SakuraCloud.available?
