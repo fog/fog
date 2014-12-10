@@ -107,6 +107,12 @@ def compute_providers
         :name     => "fog_#{Time.now.to_i}"
       },
       :mocked => true
+    },
+    :serverlove => {
+      :mocked => false
+    },
+    :xenserver => {
+      :mocked => false
     }
   }
 end
