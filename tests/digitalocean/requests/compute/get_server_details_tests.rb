@@ -1,5 +1,7 @@
 Shindo.tests('Fog::Compute[:digitalocean] | get_server_details request', ['digitalocean', 'compute']) do
 
+  pending # See https://github.com/fog/fog/pull/3304
+
   tests('success') do
 
     test('#get_server_details') do
