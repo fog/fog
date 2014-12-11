@@ -34,18 +34,18 @@ module Fog
 
         def create_health_check(ip_address, port, type, options = {})
           version = @version
-          builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do
-            CreateHealthCheckRequest(:xmlns => "https://route53.amazonaws.com/doc/#{version}/") do
-              CallerReference options[:caller_reference] || "#{Time.now.to_i.to_s}-#{SecureRandom.hex(6)}"
-              HealthCheckConfig do
-                IPAddress ip_address unless ip_address.nil?
-                Port port
-                Type type
-                ResourcePath options[:resource_path] if options.has_key?(:resource_path)
-                FullyQualifiedDomainName options[:fqdn] if options.has_key?(:fqdn)
-                SearchString options[:search_string] if options.has_key?(:search_string)
-                RequestInterval options[:request_interval] if options.has_key?(:request_interval)
-                FailureThreshold options[:failure_threshold] if options.has_key?(:failure_threshold)
+          builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
+            xml.CreateHealthCheckRequest(:xmlns => "https://route53.amazonaws.com/doc/#{version}/") do
+              xml.CallerReference options[:caller_reference] || "#{Time.now.to_i.to_s}-#{SecureRandom.hex(6)}"
+              xml.HealthCheckConfig do
+                xml.IPAddress ip_address unless ip_address.nil?
+                xml.Port port
+                xml.Type type
+                xml.ResourcePath options[:resource_path] if options.has_key?(:resource_path)
+                xml.FullyQualifiedDomainName options[:fqdn] if options.has_key?(:fqdn)
+                xml.SearchString options[:search_string] if options.has_key?(:search_string)
+                xml.RequestInterval options[:request_interval] if options.has_key?(:request_interval)
+                xml.FailureThreshold options[:failure_threshold] if options.has_key?(:failure_threshold)
               end
             end
           end
