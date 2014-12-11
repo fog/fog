@@ -28,6 +28,8 @@ class Rackspace < Fog::Bin
         Fog::Rackspace::Queues
       when :networking
         Fog::Rackspace::Networking
+      when :networking_v2
+        Fog::Rackspace::NetworkingV2
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -67,6 +69,8 @@ class Rackspace < Fog::Bin
           Fog::Rackspace::Queues.new
         when :networking
           Fog::Rackspace::Networking.new
+        when :networking_v2
+          Fog::Rackspace::NetworkingV2.new
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end

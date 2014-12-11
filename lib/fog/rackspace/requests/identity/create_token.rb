@@ -118,6 +118,9 @@ module Fog
             service_catalog_entry("cloudOrchestration", "orchestration", compute_tenant,
               :rackspace_api_name => 'orchestration', :rackspace_api_version => '1'),
 
+            service_catalog_entry("cloudNetworks", "network", compute_tenant,
+              :rackspace_api_name => 'networks', :rackspace_api_version => '2.0'),
+
             service_catalog_entry("cloudQueues", "rax:queues", compute_tenant,
               :internal_url_snet => true,
               :rackspace_api_name => 'queues', :rackspace_api_version => '1'),
