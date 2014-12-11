@@ -84,7 +84,7 @@ Collections share basic CRUD type operations, such as:
 As an example, we'll try initializing and persisting a Rackspace Cloud server:
 
 ```ruby
-require 'fog/rackspace'
+require 'fog'
 
 compute = Fog::Compute.new(
   :provider           => 'Rackspace',
