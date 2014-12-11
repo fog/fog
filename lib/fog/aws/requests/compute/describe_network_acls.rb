@@ -70,8 +70,7 @@ module Fog
             'egress'      => 'egress',
             'rule-action' => 'ruleAction',
             'rule-number' => 'ruleNumber',
-            'protocol'    => 'protocol',
-            'egress'      => 'egress',
+            'protocol'    => 'protocol'
           }
           for filter_key, filter_value in filters
             filter_key = filter_key.to_s
