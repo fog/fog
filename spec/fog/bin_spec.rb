@@ -149,4 +149,14 @@ describe Fog do
       assert_includes Fog.available_providers, "Zerigo" if Zerigo.available?
     end
   end
+
+  describe "#services" do
+    it "returns Hash of services" do
+      assert_kind_of Hash, Fog.services
+      assert_includes Fog.services, :cdn
+      assert_includes Fog.services, :compute
+      assert_includes Fog.services, :dns
+      assert_includes Fog.services, :storage
+    end
+  end
 end
