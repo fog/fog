@@ -3,16 +3,18 @@ module Fog
     class OpenStack
       class Real
         def list_public_images_detailed(attribute=nil, query=nil)
+          path = 'images/detail'
           if attribute
-            path = "images/detail?#{attribute}=#{URI::encode(query)}"
+            query = { attribute => URI::encode(query) }
           else
-            path = 'images/detail'
+            query = {}
           end
 
           request(
             :expects => [200, 204],
             :method  => 'GET',
-            :path    => path
+            :path    => path,
+            :query   => query
           )
         end
       end # class Real
@@ -23,8 +25,8 @@ module Fog
           response.status = [200, 204][rand(1)]
           response.body = {'images' => self.data[:images].values}
           response
-        end # def list_tenants
+        end # def list_public_images_detailed
       end # class Mock
     end # class OpenStack
-  end # module Identity
+  end # module Image
 end # module Fog
