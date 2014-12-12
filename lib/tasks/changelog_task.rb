@@ -18,7 +18,7 @@ module Fog
 
           add_commits_to_changelog
           save_changelog
-          Rake::Task[:github_release].invoke
+          ::Rake::Task[:github_release].invoke
         end
       end
 
@@ -111,6 +111,7 @@ Watchers      | #{watchers}
            'Brian Hartsock',
            'Chris Roberts',
            'Christopher Oliver',
+           'Colin Hebert',
            'Daniel Reichert',
            'Decklin Foster',
            'Dylan Egan',

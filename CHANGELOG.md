@@ -1,3 +1,115 @@
+## 1.26.0 12/12/2014
+*Hash* 54dde02c11225c2fa63fa82e08bffcc0ad31a719
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Downloads     | 7729418
+Forks         | 1364
+Open Issues   | 148
+Watchers      | 3299
+
+**MVP!** Colin Hebert
+
+#### [AWS|Storage]
+*   make s3 IO based uploads retryable again. thanks Frederick Cheung
+*   allow signature version to be set to 2 (WIP). thanks Frederick Cheung
+
+#### [DigitalOcean]
+*   Helper methods for flavor,image,region,ips. thanks Daniel Lobato
+
+#### [Docker]
+*   Environment variables support. thanks Daniel Lobato
+
+#### [Openstack|Compute|Server]
+*   Add test boot from block_device_mapping. thanks Brandon Dunne
+*   Add test boot from block_device_mapping_v2. thanks Brandon Dunne
+*   Rewrite block_device_mapping to support. thanks Brandon Dunne
+
+#### [Openstack|Tests]
+*   Add rake subtask for testing only Openstack. thanks Brandon Dunne
+
+#### [aws|auto_scaling]
+*   Add PlacementTenancy attribute for launch configuration. thanks Benjamin Pillet
+
+#### [aws|dns]
+*   Namespace xml to fix create_health_check. thanks James Findley
+
+#### [aws|s3]
+*   add changelog note about 7 day expiry. thanks geemus
+
+#### [aws|storage]
+*   redirect fixes to match latest and v4 sigs. thanks geemus
+*   catch edge cases around redirect region/host. thanks geemus
+
+#### [digitalocean]
+*   reenable tests. thanks geemus
+
+#### [digitalocean|compute]
+*   add private_networking attribute. thanks geemus
+
+#### [google|storage]
+*   Reintroduce workaround for excon headers issue while keeping fix where file_data was not being saved. thanks Antonio
+
+#### [misc]
+*   Accept any 2xx status from head_containers. thanks Ash Wilson
+*   Update describe_network_acls.rb. thanks Bryan Paxton
+*   Add AssumeRoleWithSAML support for AWS. thanks Colin Hebert
+*   Ensure that if the aws credentials requests requiring the signature fail. thanks Colin Hebert
+*   Fix link to documentation. thanks Colin Hebert
+*   Fix code style. thanks Colin Hebert
+*   Add simple test. thanks Colin Hebert
+*   Fix style. thanks Colin Hebert
+*   fixed backups in DigitalOcean. thanks Denis Barishev
+*   Do not throw a warning about falling back to path_style     ... if the user has already explicitly specified path_style (dots are, after all, a perfectly valid thing to have in a bucket name). thanks Eric Herot
+*   Fix typo: Fog::Connection is deprecated, not Fog::XML::Connection. thanks Joe Rafaniello
+*   recognize aws_signature_version option. thanks Jon K Hellan
+*   Use old style date header for signature v2. thanks Jon K Hellan
+*   Use the new build env on Travis. thanks Josh Kalderimis
+*   Enhance images details call by query. thanks Ladislav Smola
+*   Fix path with contained query. thanks Ladislav Smola
+*   Moving Rackspace logic to fog-rackspace. thanks Matt Darby
+*   Moved to Fog::Core. thanks Matt Darby
+*   Revert "Moving Rackspace logic to fog-rackspace". thanks Matt Darby
+*   Rackspace Orchestration Support. thanks Matt Darby
+*   add block_device_mapping_v2. thanks Naoto TAKAHASHI
+*   fixup! example block_device_mapping_v2. thanks Naoto TAKAHASHI
+*   fixup!. thanks Naoto TAKAHASHI
+*   Disable rackspace until fog-rackspace#10 is fixed. thanks Nat Welch
+*   Rescue "Illegal Seek" exception in case body is a pipe or socket. thanks Paul Gideon Dann
+*   Specs for existing `Fog::Bin` interface. thanks Paul Thornthwaite
+*   Detailed checks for `Brightbox` class. thanks Paul Thornthwaite
+*   Revert "Moved to Fog::Core". thanks Paul Thornthwaite
+*   Mark broken DigitalOcean tests as pending. thanks Paul Thornthwaite
+*   Mark additional DigitalOcean test as pending. thanks Paul Thornthwaite
+*   Disable ALL DigitalOcean tests until fixed. thanks Paul Thornthwaite
+*   Remove Rackspace references until reinstated. thanks Paul Thornthwaite
+*   Reinstate Rackspace "bin" checks. thanks Paul Thornthwaite
+*   More specs to cover `Fog` methods. thanks Paul Thornthwaite
+*   Moved Ecloud to a modular gem. thanks Paulo Henrique Lopes Ribeiro
+*   Moved StormOnDemand to its own gem. thanks Paulo Henrique Lopes Ribeiro
+*   Removing Atmos. thanks Paulo Henrique Lopes Ribeiro
+*   Adds openstack_region parameter to OpenStack Identity Service. thanks Renato Furter
+*   Fix deprecation warning. thanks Sean Handley
+*   Require fog/version for User-Agent header. thanks Terry Howe
+*   ensure version is required. thanks geemus
+*   add github release to changelog task. thanks geemus
+*   bump fog-core dep. thanks geemus
+*   Revert "bump fog-core dep". thanks geemus
+*   bump fog-core dep. thanks geemus
+
+#### [opennebula]
+*   lazily require opennebula gem. thanks geemus
+
+#### [storage|aws]
+*   fix redirect follower + v4 sig regression. thanks geemus
+*   further fixes around region redirecting. thanks geemus
+*   make owner setter on file idempotent. thanks geemus
+*   fix docs/code for put_bucket_logging. thanks geemus
+*   more redirect tweaks. thanks geemus
+*   tweak region redirecting. thanks geemus
+
+
 ## 1.25.0 11/18/2014
 *Hash* 4728432a087f6d9661af0f18a660a27b68b3d947
 
