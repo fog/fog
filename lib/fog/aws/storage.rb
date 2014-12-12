@@ -555,10 +555,8 @@ module Fog
           @region = case new_params[:host]
           when 's3.amazonaws.com', 's3-external-1.amazonaws.com'
             DEFAULT_REGION
-          when 's3.eu-central-1.amazonaws.com'
-            'eu-central-1.amazonaws.com'
           else
-            %r{s3-([^\.]*).amazonaws.com}.match(new_params[:host]).captures.first
+            %r{s3[\.\-]([^\.]*).amazonaws.com}.match(new_params[:host]).captures.first
           end
           if @signature_version == 4
             @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 's3')
