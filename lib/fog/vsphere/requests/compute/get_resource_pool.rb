@@ -9,6 +9,17 @@ module Fog
         end
 
         protected
+        def get_host_system(name, datacenter_name)
+          datacenters = find_datacenters(datacenter_name)
+          hosts = datacenters.map do |dc|
+            @connection.serviceContent.viewManager.CreateContainerView({
+              :container  => dc.hostFolder,
+              :type       =>  ["HostSystem"],
+              :recursive  => true
+            }).view
+          end.flatten
+          return hosts.select{|h| h.name == name}.first
+        end
 
         def get_raw_resource_pool(name, cluster_name, datacenter_name)
           dc = find_raw_datacenter(datacenter_name)
