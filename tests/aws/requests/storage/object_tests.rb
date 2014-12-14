@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 Shindo.tests('AWS::Storage | object requests', ['aws']) do
   @directory = Fog::Storage[:aws].directories.create(:key => 'fogobjecttests-' + Time.now.to_i.to_s(32))
   @aws_owner = Fog::Storage[:aws].get_bucket_acl(@directory.key).body['Owner']
@@ -122,6 +124,10 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
 
     tests("#put_object('#{fognonbucket}', 'fog_non_object', lorem_file)").raises(Excon::Errors::NotFound) do
       Fog::Storage[:aws].put_object(fognonbucket, 'fog_non_object', lorem_file)
+    end
+
+    tests("#put_object('#{@directory.identity}', 'fog_object', lorem_file, {'x-amz-meta-json' => 'ä'}").raises(Excon::Errors::BadRequest) do
+      Fog::Storage[:aws].put_object(@directory.identity, 'fog_object', lorem_file, {'x-amz-meta-json' => 'ä'})
     end
 
     tests("#copy_object('#{fognonbucket}', 'fog_object', '#{@directory.identity}', 'fog_other_object')").raises(Excon::Errors::NotFound) do
