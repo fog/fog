@@ -24,6 +24,7 @@ module Fog
       request_path 'fog/ovirt/requests/compute'
 
       request :vm_action
+      request :vm_start_with_cloudinit
       request :destroy_vm
       request :create_vm
       request :update_vm
