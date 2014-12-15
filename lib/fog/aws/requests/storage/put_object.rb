@@ -26,6 +26,7 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPUT.html
 
         def self.conforming_to_us_ascii!(keys, hash)
+          return if RUBY_VERSION =~ /^1\.8\./
           keys.each do |k|
             v = hash[k]
             if !v.encode(::Encoding::US_ASCII, :undef => :replace).eql?(v)
