@@ -282,12 +282,14 @@ module Fog
             if (transform.empty?) 
               # if the option transform explicitly set as '', then we skip this to use the same format as template
               host_system = get_host_system(options['host_system'], options['datacenter']) if options['host_system'] &&  options['datacenter']
-              relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => datastore_obj,
-                                                                        :host=>host_system,
-                                                                        :pool => resource_pool)
-
-              relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => datastore_obj,
-                                                                        :pool => resource_pool)
+              if host_system then
+                relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => datastore_obj,
+                                                                          :host=>host_system,
+                                                                          :pool => resource_pool)
+              else
+                relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => datastore_obj,
+                                                                          :pool => resource_pool)
+              end
             else
               # Otherwise, we'll use the specified provisioning format
               # 'flat' is for thick provisioning format, 'sparse' is for thin provisioning format
