@@ -21,6 +21,16 @@ module Fog
           })
         end
       end
+
+      class Mock
+        def get_topic_attributes(arn)
+          response   = Excon::Response.new
+          attributes = self.data[:topics][arn]
+
+          response.body = {"Attributes" => attributes, "RequestId" => Fog::AWS::Mock.request_id}
+          response
+        end
+      end
     end
   end
 end

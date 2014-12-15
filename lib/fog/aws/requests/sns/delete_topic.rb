@@ -21,6 +21,16 @@ module Fog
           })
         end
       end
+
+      class Mock
+        def delete_topic(arn)
+          self.data[:topics].delete(arn)
+
+          response = Excon::Response.new
+          response.body = {"RequestId" => Fog::AWS::Mock.request_id}
+          response
+        end
+      end
     end
   end
 end
