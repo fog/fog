@@ -17,7 +17,7 @@ module Fog
         # @option options Expires [String] Cache expiry
         # @option options x-amz-acl [String] Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
         # @option options x-amz-storage-class [String] Default is 'STANDARD', set to 'REDUCED_REDUNDANCY' for non-critical, reproducable data
-        # @option options x-amz-meta-#{name} Headers to be returned with object, note total size of request without body must be less than 8 KB.
+        # @option options x-amz-meta-#{name} Headers to be returned with object, note total size of request without body must be less than 8 KB. Each name, value pair must conform to US-ASCII.
         #
         # @return [Excon::Response] response:
         #   * headers [Hash]:
@@ -25,9 +25,21 @@ module Fog
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPUT.html
 
+        def self.conforming_to_us_ascii!(keys, hash)
+          return if RUBY_VERSION =~ /^1\.8\./
+          keys.each do |k|
+            v = hash[k]
+            if !v.encode(::Encoding::US_ASCII, :undef => :replace).eql?(v)
+              raise Excon::Errors::BadRequest.new("invalid #{k} header: value must be us-ascii")
+            end
+          end
+        end
+
         def put_object(bucket_name, object_name, data, options = {})
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
+          self.class.conforming_to_us_ascii! headers.keys.grep(/^x-amz-meta-/), headers
+
           request({
             :body       => data[:body],
             :expects    => 200,
@@ -48,6 +60,8 @@ module Fog
           define_mock_acl(bucket_name, object_name, options)
 
           data = parse_mock_data(data)
+          headers = data[:headers].merge!(options)
+          Fog::Storage::AWS::Real.conforming_to_us_ascii! headers.keys.grep(/^x-amz-meta-/), headers
           bucket = verify_mock_bucket_exists(bucket_name)
 
           options['Content-Type'] ||= data[:headers]['Content-Type']
