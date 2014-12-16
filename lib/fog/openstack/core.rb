@@ -50,6 +50,7 @@ module Fog
     service(:volume,        'Volume')
     service(:metering,      'Metering')
     service(:orchestration, 'Orchestration')
+    service(:baremetal,     'Baremetal')
 
     def self.authenticate(options, connection_options = {})
       case options[:openstack_auth_uri].path
