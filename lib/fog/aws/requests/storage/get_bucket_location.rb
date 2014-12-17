@@ -22,7 +22,8 @@ module Fog
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::AWS::GetBucketLocation.new,
-            :query    => {'location' => nil}
+            :query    => {'location' => nil},
+            :path_style => true
           })
         end
       end
