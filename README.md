@@ -36,15 +36,20 @@ ArgumentError: image_id is required for this operation
 true
 ```
 
-## Ruby 1.8.7
+## Ruby 1.8.7, 1.9.2, 1.9.3
 
 The maintainers of this project, in concert with the maintainers of Ruby,
-**strongly** recommend using the latest patchlevel of Ruby 1.9.2 or later.
-[As of July 1, 2013, Ruby 1.8.7 is no longer officially maintained.][retired]
+**strongly** recommend using the latest patchlevel of Ruby 2.0.0 or later.
+As of July 31, 2014, both Ruby 1.8.7 and 1.9.2 are no longer officially maintained.[retired]
 This means fixes will no longer be provided, even for known security
 vulnerabilities.
 
-[retired]: http://www.ruby-lang.org/en/news/2013/06/30/we-retire-1-8-7/
+[retired]: https://www.ruby-lang.org/en/news/2014/07/01/eol-for-1-8-7-and-1-9-2/
+
+Additionally, [Ruby 1.9.3 is in security maintenance phase] until February 2015, when it
+is also officially unsupported.
+
+[Ruby 1.9.3 is in security maintenance phase]: https://www.ruby-lang.org/en/news/2014/10/27/ruby-1-9-3-p550-is-released/
 
 With this caveat, if you wish to bundle `fog` into your application on Ruby
 1.8.7, you must add the following line to your `Gemfile`.
