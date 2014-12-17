@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   ## the sub! line in the Rakefile
   s.name              = 'fog'
   s.version           = '1.26.0'
-  s.date              = '2014-12-12'
+  s.date              = '2014-12-17'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -43,6 +43,9 @@ Gem::Specification.new do |s|
   ## LICENSE files to the extra_rdoc_files list.
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.md]
+
+  ## Ruby version
+  s.required_ruby_version = ">= 1.9.0"
 
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.

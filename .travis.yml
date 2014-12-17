@@ -7,8 +7,6 @@ script: bundle exec rake travis
 matrix:
   fast_finish: true
   include:
-    - rvm: 1.8.7
-      gemfile: gemfiles/Gemfile-ruby-1.8.7
     - rvm: 1.9.3
       gemfile: Gemfile
     - rvm: 2.0.0
@@ -19,8 +17,6 @@ matrix:
       gemfile: Gemfile
     - rvm: 2.1.1
       gemfile: gemfiles/Gemfile-edge
-    - rvm: jruby-18mode
-      gemfile: gemfiles/Gemfile-ruby-1.8.7
     - rvm: jruby-19mode
       gemfile: Gemfile
     - rvm: jruby-head
