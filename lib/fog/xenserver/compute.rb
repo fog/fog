@@ -123,6 +123,11 @@ module Fog
           @defaults    = options[:xenserver_defaults] || {}
           @timeout     = options[:xenserver_timeout] || 30
           @connection  = Fog::XenServer::Connection.new(@host, @timeout)
+	  host_master  = @connection.find_pool_master(@username, @password)
+	  if host_master!= @host
+		@host = host_master;
+	        @connection  = Fog::XenServer::Connection.new(@host, @timeout)
+	  end
           @connection.authenticate(@username, @password)
         end
 

@@ -22,6 +22,19 @@ module Fog
         @factory.timeout = timeout
       end
 
+      def find_pool_master( username, password )
+        response = @factory.call('session.login_with_password', username.to_s, password.to_s)
+        raise Fog::XenServer::InvalidLogin.new unless response["Status"] =~ /Success/
+        @credentials = response["Value"]
+	response = @factory.call('host.get_all_records', @credentials)
+	if response['Status'] == "Failure" 
+		if response['ErrorDescription'][0] == "HOST_IS_SLAVE" 
+			response['ErrorDescription'][1]
+		end
+	end
+      end
+
+
       def authenticate( username, password )
         response = @factory.call('session.login_with_password', username.to_s, password.to_s)
         raise Fog::XenServer::InvalidLogin.new unless response["Status"] =~ /Success/
