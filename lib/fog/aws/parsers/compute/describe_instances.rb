@@ -92,11 +92,9 @@ module Fog
               @instance[name] = Time.parse(value)
             when 'name'
               @instance[@context.last][name] = value
-            when 'nextToken'
-              @response[name] = value
             when 'ownerId', 'reservationId'
               @reservation[name] = value
-            when 'requestId'
+            when 'requestId', 'nextToken'
               @response[name] = value
             when 'productCode'
               @instance['productCodes'] << value
