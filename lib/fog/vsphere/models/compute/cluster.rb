@@ -9,6 +9,7 @@ module Fog
         attribute :num_host
         attribute :num_cpu_cores
         attribute :overall_status
+        attribute :full_path
 
         def resource_pools(filters = { })
           self.attributes[:resource_pools] ||= id.nil? ? [] : service.resource_pools({
