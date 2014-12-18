@@ -8,7 +8,9 @@ module Fog
         #
         # ==== Parameters
         # * filters<~Hash> - List of filters to limit results with
-        #
+        #   * Also allows for passing of optional parameters to fetch instances in batches:
+        #     * 'maxResults' - The number of instances to return for the request
+        #     * 'nextToken' - The token to fetch the next set of items. This is returned by a previous request.
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
