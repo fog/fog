@@ -31,11 +31,17 @@ module Fog
           {
             :id             => managed_obj_id(cluster),
             :name           => cluster.name,
+            :full_path      => cluster_path(cluster, datacenter_name),
             :num_host       => cluster.summary.numHosts,
             :num_cpu_cores  => cluster.summary.numCpuCores,
             :overall_status => cluster.summary.overallStatus,
             :datacenter     => datacenter_name || parent_attribute(cluster.path, :datacenter)[1],
           }
+        end
+
+        def cluster_path(cluster, datacenter_name)
+          datacenter = find_raw_datacenter(datacenter_name)
+          cluster.pretty_path.gsub(/(#{datacenter.name}|#{datacenter.hostFolder.name})\//,'')
         end
       end
 
