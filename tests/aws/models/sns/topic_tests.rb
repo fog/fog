@@ -1,5 +1,3 @@
-require 'pry'
-
 Shindo.tests("AWS::SNS | topic", ['aws', 'sns']) do
   params = {:id => 'fog'}
 
