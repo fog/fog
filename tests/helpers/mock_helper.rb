@@ -23,6 +23,7 @@ if Fog.mock?
     :cloudstack_service_offering_id   => '4437ac6c-9fe3-477a-57ec-60a5a45896a4',
     :cloudstack_template_id           => '8a31cf9c-f248-0588-256e-9dbf58785216',
     :cloudstack_zone_id               => 'c554c592-e09c-9df5-7688-4a32754a4305',
+    :cloudstack_project_id            => 'f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1',
     :clodo_api_key                    => 'clodo_api_key',
     :clodo_username                   => 'clodo_username',
     :digitalocean_api_key             => 'digitalocean_api_key',
