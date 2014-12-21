@@ -660,6 +660,7 @@ module Fog
       class Mock
         def initialize(options={})
           @cloudstack_api_key = options[:cloudstack_api_key]
+          @cloudstack_project_id = Fog.credentials[:cloudstack_project_id] || Fog::Cloudstack.uuid
         end
 
         def self.data
@@ -878,6 +879,16 @@ module Fog
                   "created"      => "2013-02-21T03:12:520300",
                   "iscustomized" => false,
                   "storagetype"  => "shared"
+                }
+              },
+              :egress_firewall_rules => {
+                "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1" => {
+                  "id"=>"f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                  "protocol"=>"tcp",
+                  "networkid"=> network_id,
+                  "state"=>"Active",
+                  "cidrlist"=>"10.2.1.0/24",
+                  "tags"=>[]
                 }
               },
               :os_types  => {

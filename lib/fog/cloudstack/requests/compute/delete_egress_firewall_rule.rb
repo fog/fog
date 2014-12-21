@@ -10,12 +10,21 @@ module Fog
           options = {}
           if args[0].is_a? Hash
             options = args[0]
-            options.merge!('command' => 'deleteEgressFirewallRule') 
+            options.merge!('command' => 'deleteEgressFirewallRule')
           else
-            options.merge!('command' => 'deleteEgressFirewallRule', 
+            options.merge!('command' => 'deleteEgressFirewallRule',
             'id' => args[0])
           end
           request(options)
+        end
+      end
+
+      class Mock
+        def delete_egress_firewall_rule(options={})
+          egress_firewall_rule_id = options['id']
+          data[:egress_firewall_rules].delete(egress_firewall_rule_id) if data[:egress_firewall_rules][egress_firewall_rule_id]
+
+          { 'deleteegressfirewallruleresponse' => { 'success' => 'true' } }
         end
       end
 
