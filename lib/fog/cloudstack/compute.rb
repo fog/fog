@@ -989,6 +989,7 @@ module Fog
         def reset_data
           self.class.data.delete(@cloudstack_api_key)
         end
+
       end
     end # Cloudstack
   end # Compute
