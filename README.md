@@ -38,10 +38,10 @@ true
 
 ## Ruby version
 
-Fog requires Ruby 1.9 or later.
+Fog requires Ruby `1.9.3` or later.
 
-Ruby 1.8.7 support was dropped in `fog-v2.0.0` as a backwards incompatible
-change. Please use the later fog `1.x` versions if you require `1.8.7` support.
+Ruby `1.8.7` and `1.9.2` support was dropped in `fog-v2.0.0` as a backwards incompatible
+change. Please use the later fog `1.x` versions if you require `1.8.7` or `1.9.2` support.
 
 ## Collections
 
