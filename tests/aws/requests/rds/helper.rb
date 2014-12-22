@@ -269,6 +269,28 @@ class AWS
           'TagList' => Fog::Nullable::Hash
         }
       }
+
+      EVENT_SUBSCRIPTION = {
+        'CustSubscriptionId' => String,
+        'EventCategories'    => Array,
+        'SourceType'         => Fog::Nullable::String,
+        'Enabled'            => String,
+        'Status'             => String,
+        'CreationTime'       => Time,
+        'SnsTopicArn'        => String
+      }
+
+      CREATE_EVENT_SUBSCRIPTION = {
+        'CreateEventSubscriptionResult' => {
+          'EventSubscription' => EVENT_SUBSCRIPTION
+        }
+      }
+
+      DESCRIBE_EVENT_SUBSCRIPTIONS = {
+        'DescribeEventSubscriptionsResult' => {
+          'EventSubscriptionsList' => [EVENT_SUBSCRIPTION]
+        }
+      }
     end
   end
 end

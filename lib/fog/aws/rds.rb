@@ -59,6 +59,10 @@ module Fog
 
       request :promote_read_replica
 
+      request :describe_event_subscriptions
+      request :create_event_subscription
+      request :delete_event_subscription
+
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
@@ -84,25 +88,32 @@ module Fog
       model       :log_file
       collection  :log_files
 
+      model       :event_subscription
+      collection  :event_subscriptions
+
       class Mock
         def self.data
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
-                :servers => {},
-                :security_groups => {},
-                :subnet_groups => {},
-                :snapshots => {},
-                :parameter_groups => {"default.mysql5.1" => { "DBParameterGroupFamily"=>"mysql5.1",
-                                                              "Description"=>"Default parameter group for mysql5.1",
-                                                              "DBParameterGroupName"=>"default.mysql5.1"
-                                                            },
-                                      "default.mysql5.5" => {"DBParameterGroupFamily"=>"mysql5.5",
-                                                            "Description"=>"Default parameter group for mysql5.5",
-                                                            "DBParameterGroupName"=>"default.mysql5.5"
-                                                            }
-                                      }
-                                 }
+                :servers             => {},
+                :security_groups     => {},
+                :subnet_groups       => {},
+                :snapshots           => {},
+                :event_subscriptions => {},
+                :parameter_groups    => {
+                  "default.mysql5.1" => {
+                    "DBParameterGroupFamily" => "mysql5.1",
+                    "Description"            => "Default parameter group for mysql5.1",
+                    "DBParameterGroupName"   => "default.mysql5.1"
+                  },
+                  "default.mysql5.5" => {
+                    "DBParameterGroupFamily" => "mysql5.5",
+                    "Description"            => "Default parameter group for mysql5.5",
+                    "DBParameterGroupName"   => "default.mysql5.5"
+                  }
+                }
+              }
             end
           end
         end
@@ -241,7 +252,7 @@ module Fog
             end
           else
             raise case match[:code]
-                  when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound'
+                  when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound', 'SubscriptionNotFound'
                     Fog::AWS::RDS::NotFound.slurp(error, match[:message])
                   when 'DBParameterGroupAlreadyExists'
                     Fog::AWS::RDS::IdentifierTaken.slurp(error, match[:message])
