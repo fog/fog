@@ -4,27 +4,27 @@ Shindo.tests('Fog::Compute[:cloudstack] | volume requests', ['cloudstack']) do
     'listvolumesresponse'  => {
       'count' => Integer,
       'volume' => [
-        'id' => Integer,
+        'id' => String,
         'name' => String,
-        'zoneid' => Integer,
+        'zoneid' => String,
         'zonename' => String,
         'type' => String,
         'size' => Integer,
         'created' => String,
         'account' => String,
-        'domainid' => Integer,
+        'domainid' => String,
         'domain' => String,
         'state' => String,
         'storagetype' => String,
         'hypervisor' => String,
-        'diskofferingid' => Fog::Nullable::Integer,
+        'diskofferingid' => Fog::Nullable::String,
         'diskofferingname' => Fog::Nullable::String,
         'diskofferingdisplaytext' => Fog::Nullable::String,
         'storage' => String,
         'destroyed' => Fog::Boolean,
         'isextractable' => Fog::Boolean,
         'deviceid' => Fog::Nullable::Integer,
-        'virtualmachineid' => Fog::Nullable::Integer,
+        'virtualmachineid' => Fog::Nullable::String,
         'vmname' => Fog::Nullable::String,
         'vmdisplayname' => Fog::Nullable::String,
         'vmstate' => Fog::Nullable::String,
@@ -39,7 +39,6 @@ Shindo.tests('Fog::Compute[:cloudstack] | volume requests', ['cloudstack']) do
   tests('success') do
 
     tests('#list_volumes').formats(@volumes_format) do
-      pending if Fog.mocking?
       Fog::Compute[:cloudstack].list_volumes('zoneid' => 1)
     end
 

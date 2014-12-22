@@ -10,12 +10,22 @@ module Fog
           options = {}
           if args[0].is_a? Hash
             options = args[0]
-            options.merge!('command' => 'disassociateIpAddress') 
+            options.merge!('command' => 'disassociateIpAddress')
           else
-            options.merge!('command' => 'disassociateIpAddress', 
+            options.merge!('command' => 'disassociateIpAddress',
             'id' => args[0])
           end
           request(options)
+        end
+      end
+
+      class Mock
+        def disassociate_ip_address(*args)
+          public_ip_address_id = options['id']
+          if self.data[:public_ip_addresses][public_ip_address_id]
+            self.data[:public_ip_addresses].delete(public_ip_address_id)
+            { "disassociateipaddressresponse" => { "success" => "true" }}
+          end
         end
       end
 
