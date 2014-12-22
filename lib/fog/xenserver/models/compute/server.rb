@@ -124,6 +124,9 @@ module Fog
         end
 
         def refresh
+          Fog::Logger.deprecation(
+              'This method is deprecated. Use #reload instead.'
+          )
           data = service.get_record( reference, 'VM' )
           merge_attributes( data )
           true

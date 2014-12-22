@@ -24,6 +24,9 @@ module Fog
         attribute :blobs
 
         def refresh
+          Fog::Logger.deprecation(
+              'This method is deprecated. Use #reload instead.'
+          )
           data = service.get_record( reference, 'network' )
           merge_attributes( data )
           true
