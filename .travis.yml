@@ -8,19 +8,13 @@ matrix:
   fast_finish: true
   include:
     - rvm: 1.9.3
-      gemfile: Gemfile
     - rvm: 2.0.0
-      gemfile: Gemfile
     - rvm: 2.1.0
-      gemfile: Gemfile
-    - rvm: 2.1.1
-      gemfile: Gemfile
-    - rvm: 2.1.1
+    - rvm: 2.1.5
+    - rvm: 2.1.5
       gemfile: gemfiles/Gemfile-edge
     - rvm: jruby-19mode
-      gemfile: Gemfile
     - rvm: jruby-head
-      gemfile: Gemfile
 
   allow_failures:
     - rvm: jruby-head
