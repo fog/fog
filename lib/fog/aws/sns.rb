@@ -23,8 +23,38 @@ module Fog
       request :subscribe
       request :unsubscribe
 
+      model_path 'fog/aws/models/sns'
+      model :topic
+      collection :topics
+
       class Mock
+        def self.data
+          @data ||= Hash.new do |hash, region|
+            hash[region] = Hash.new do |region_hash, key|
+              region_hash[key] = {
+                :topics => {},
+              }
+            end
+          end
+        end
+
         def initialize(options={})
+          @region            = options[:region] || 'us-east-1'
+          @aws_access_key_id = options[:aws_access_key_id]
+          @account_id        = "12345678910"
+          @module            = "sns"
+
+          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-central-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
+            raise ArgumentError, "Unknown region: #{@region.inspect}"
+          end
+        end
+
+        def data
+          self.class.data[@region][@aws_access_key_id]
+        end
+
+        def reset_data
+          self.class.data[@region].delete(@aws_access_key_id)
         end
       end
 

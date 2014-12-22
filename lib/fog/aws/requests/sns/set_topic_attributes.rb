@@ -25,6 +25,21 @@ module Fog
           })
         end
       end
+
+      class Mock
+        def set_topic_attributes(arn, attribute_name, attribute_value)
+          attributes = self.data[:topics][arn]
+
+          if %w(Policy DisplayName DeliveryPolicy).include?(attribute_name)
+            attributes[attribute_name] = attribute_value
+            self.data[:topics][arn] = attributes
+          end
+
+          response = Excon::Response.new
+          response.body = {"RequestId" => Fog::AWS::Mock.request_id}
+          response
+        end
+      end
     end
   end
 end

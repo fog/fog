@@ -21,6 +21,15 @@ module Fog
           }.merge!(options))
         end
       end
+
+      class Mock
+        def list_topics(options={})
+          response = Excon::Response.new
+
+          response.body = {'Topics' => self.data[:topics].keys, 'RequestId' => Fog::AWS::Mock.request_id}
+          response
+        end
+      end
     end
   end
 end
