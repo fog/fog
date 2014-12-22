@@ -22,6 +22,18 @@ module Fog
         end
       end
 
+      class Mock
+        def list_port_forwarding_rules(*args)
+          port_forwarding_rules = self.data[:port_forwarding_rules]
+          {
+            'listportforwardingrulesresponse' => {
+              'count' => port_forwarding_rules.size,
+              'portforwardingrule' => port_forwarding_rules.values
+            }
+          }
+        end
+      end
+
     end
   end
 end

@@ -741,6 +741,27 @@ module Fog
                 "restartrequired"   => false,
                 "specifyipranges"   => true}
               },
+              :public_ip_addresses => { "0e276270-7950-4483-bf21-3dc897dbe08a" => {
+                "id"                => "0e276270-7950-4483-bf21-3dc897dbe08a",
+                "ipaddress"         => "192.168.200.2",
+                "allocated"         => "2014-11-26T22:32:39+0000",
+                "zoneid"            => "0e276270-7950-4483-bf21-3dc897dbe08a",
+                "zonename"          => "Toronto",
+                "issourcenat"       => false,
+                "projectid"         => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                "project"           => "TestProject",
+                "domainid"          => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                "domain"            => "TestDomain",
+                "forvirtualnetwork" => true,
+                "isstaticnat"       => false,
+                "issystem"          => false,
+                "associatednetworkid" => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                "associatednetworkname" => "TestNetwork",
+                "networkid"         => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                "state"             => "Allocated",
+                "physicalnetworkid" => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                "tags"              => []
+              }},
               :zones => { zone_id => {
                 "id"                    => zone_id,
                 "name"                  => "zone-00",
@@ -788,7 +809,8 @@ module Fog
                 "offerha"     => false,
                 "limitcpuuse" => false,
                 "issystem"    => false,
-                "defaultuse"  => false}},
+                "defaultuse"  => false
+              }},
               :accounts => { account_id => {
                 "id"                => account_id,
                 "name"              => "accountname",
@@ -881,6 +903,37 @@ module Fog
                   "storagetype"  => "shared"
                 }
               },
+              :network_offerings  => {
+                "cc4de87d-672d-4353-abb5-6a8a4c0abf59" => {
+                  "id"                => "cc4de87d-672d-4353-abb5-6a8a4c0abf59",
+                  "name"              => "Shared Network With Security Groups",
+                  "displaytext"       => "Shared Network With Security Groups",
+                  "traffictype"       => "Guest",
+                  "isdefault"         => true,
+                  "specifyvlan"       => true,
+                  "conservemode"      => true,
+                  "specifyipranges"   => true,
+                  "availability"      =>  "Optional",
+                  "networkrate"       =>  200,
+                  "state"             =>  "Enabled",
+                  "guestiptype"       =>  "Shared",
+                  "serviceofferingid" =>  "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1"
+                }
+              },
+              :firewall_rules => {
+                "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1" => {
+                  "id"=> "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                  "protocol"=> "tcp",
+                  "startport" => "443",
+                  "endport" => "443",
+                  "ipaddressid" => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                  "networkid"=> network_id,
+                  "ipaddress" => "192.168.200.1",
+                  "state" => "Active",
+                  "cidrlist" => "255.255.255.0/24",
+                  "tags" => []
+                }
+              },
               :egress_firewall_rules => {
                 "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1" => {
                   "id"=>"f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
@@ -889,6 +942,24 @@ module Fog
                   "state"=>"Active",
                   "cidrlist"=>"10.2.1.0/24",
                   "tags"=>[]
+                }
+              },
+              :port_forwarding_rules => {
+                "8f4627c5-1fdd-4504-8a92-f61b4e9cb3e3" => {
+                  'id' => "8f4627c5-1fdd-4504-8a92-f61b4e9cb3e3",
+                  'privateport' => "25",
+                  'privateendport' => "25",
+                  'protocol' => "tcp",
+                  'publicport' => "25",
+                  'publicendport' => "25",
+                  'virtualmachineid' => "8f4627c5-1fdd-4504-8a92-f61b4e9cb3e3",
+                  'virtualmachinename' => "LoadBalancer",
+                  'virtualmachinedisplayname' => "LoadBalancer",
+                  'ipaddressid' => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                  'ipaddress' => "192.168.200.200",
+                  'state' => "Active",
+                  'cidrlist' => "",
+                  'tags' => []
                 }
               },
               :os_types  => {

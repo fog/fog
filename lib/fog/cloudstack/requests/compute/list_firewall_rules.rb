@@ -22,6 +22,13 @@ module Fog
         end
       end
 
+      class Mock
+        def list_firewall_rules(*arg)
+          firewall_rules = self.data[:firewall_rules]
+          { "listfirewallrulesresponse" => { "count"=> firewall_rules.count, "firewallrule"=> firewall_rules.values } }
+        end
+      end
+
     end
   end
 end

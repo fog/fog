@@ -34,15 +34,15 @@ module Fog
             'tags'        => tags
           }
 
-          response = service.create_disk_offering(options)
-          merge_attributes(response['creatediskofferingresponse'])
+          response = service.associate_ip_address(options)
+          merge_attributes(response['associateipaddressresponse'])
         end
 
         def destroy
           requires :id
 
           response = service.disassociate_ip_address('id' => id )
-          success_status = response['deletediskofferingresponse']['success']
+          success_status = response['disassociateipaddressresponse']['success']
 
           success_status == 'true'
         end
