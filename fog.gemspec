@@ -65,6 +65,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-ecloud")
   s.add_dependency("fog-storm_on_demand")
   s.add_dependency("fog-atmos")
+  s.add_dependency("fog-serverlove")
 
   # Disabled until Rackspace isn't broken, see fog-rackspace#10
   #s.add_dependency("fog-rackspace")
