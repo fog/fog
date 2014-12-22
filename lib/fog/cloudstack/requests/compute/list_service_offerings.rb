@@ -21,9 +21,21 @@ module Fog
       class Mock
 
         def list_service_offerings(options={})
-          flavors = self.data[:flavors]
+          id = options['id']
+          if id && self.data[:flavors][id].nil?
+            # received 'id' filter for element that does not exist
+            response = { "listserviceofferingsresponse" => { "count" => 0, "serviceoffering" => []}}
+          elsif self.data[:flavors][id]
+            # received 'id' filter for a specific element
+            flavors =  { id => self.data[:flavors][id] }
+            response = { "listserviceofferingsresponse" => { "count" => flavors.size, "serviceoffering"=> flavors.values}}
+          else
+            # no filter specified
+            flavors = self.data[:flavors]
+            response = { "listserviceofferingsresponse" => { "count" => flavors.size, "serviceoffering"=> flavors.values}}
+          end
 
-          { "listserviceofferingsresponse" => { "count" => flavors.size, "serviceoffering"=> flavors.values}}
+          return response
         end
       end
     end
