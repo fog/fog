@@ -88,6 +88,7 @@ module Fog
     service(:auto_scale,       'AutoScale')
     service(:block_storage,    'BlockStorage')
     service(:cdn,              'CDN')
+    service(:cdn_v2,           'CDN v2')
     service(:compute,          'Compute')
     service(:compute_v2,       'Compute v2')
     service(:dns,              'DNS')
