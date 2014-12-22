@@ -25,14 +25,14 @@ module Fog
         @credentials = authenticate( username, password )
         response = @factory.call('host.get_all_records', @credentials)
         if response['Status'] == "Failure" 
-			if response['ErrorDescription'][0] == "HOST_IS_SLAVE" 
-				ip_address 	= 	response['ErrorDescription'][1]
-				ip_address	=	ip_address.chomp
-				valid = !(IPAddr.new(ip_address) rescue nil).nil?
-				if valid 
-					response['ErrorDescription'][1]
-				end
-			end
+          if response['ErrorDescription'][0] == "HOST_IS_SLAVE"
+            ip_address  = response['ErrorDescription'][1]
+            ip_address  = ip_address.chomp
+            valid = !(IPAddr.new(ip_address) rescue nil).nil?
+            if valid
+              response['ErrorDescription'][1]
+            end
+          end
         end
       end
 
