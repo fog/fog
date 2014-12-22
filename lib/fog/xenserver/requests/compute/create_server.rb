@@ -16,14 +16,6 @@ module Fog
           @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.get_by_uuid' }, uuid)
         end
 
-        def get_by_name(name, provider_class)
-          @connection.request({ :parser => Fog::Parsers::XenServer::Base.new, :method => "#{provider_class}.get_by_name_label" }, name)
-        end
-
-        def get_by_uuid(uuid, provider_class)
-          @connection.request({ :parser => Fog::Parsers::XenServer::Base.new, :method => "#{provider_class}.get_by_uuid" }, uuid)
-        end
-
         def create_server_raw(config = {})
           Fog::Logger.deprecation(
               'This method is deprecated. To create a server from scratch, use #create_server.'
