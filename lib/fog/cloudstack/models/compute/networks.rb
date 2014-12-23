@@ -1,4 +1,3 @@
-
 require 'fog/core/collection'
 require 'fog/cloudstack/models/compute/network'
 
@@ -32,6 +31,17 @@ module Fog
           }
           default_filter.merge(filters)
         end
+      end
+
+      class Networks < Fog::Collection
+
+        model Fog::Compute::Cloudstack::Network
+
+        def all
+          data = service.list_networks["listnetworksresponse"]["network"] || []
+          load(data)
+        end
+
       end
     end
   end

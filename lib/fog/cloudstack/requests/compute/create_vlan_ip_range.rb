@@ -17,6 +17,16 @@ module Fog
           request(options)
         end
       end
+      class Mock
+        def create_vlan_ip_range(options={})
+          vlan_ip_ranges = self.data[:vlan_ip_ranges]
+          { 'createvlaniprangeresponse' =>
+                { 'count' => vlan_ip_ranges.count,
+                  'vlan_ip_ranges' => vlan_ip_ranges
+                }
+          }
+        end
+      end
 
     end
   end
