@@ -5,7 +5,7 @@ module Fog
     class Ovirt < Fog::Service
       requires   :ovirt_username, :ovirt_password
       recognizes :ovirt_url,      :ovirt_server,  :ovirt_port, :ovirt_api_path, :ovirt_datacenter,
-                 :ovirt_ca_cert_store, :ovirt_ca_cert_file
+                 :ovirt_ca_cert_store, :ovirt_ca_cert_file, :ovirt_ca_no_verify
 
       model_path 'fog/ovirt/models/compute'
       model      :server
@@ -113,6 +113,7 @@ module Fog
           connection_opts[:datacenter_id] = options[:ovirt_datacenter]
           connection_opts[:ca_cert_store] = options[:ovirt_ca_cert_store]
           connection_opts[:ca_cert_file]  = options[:ovirt_ca_cert_file]
+          connection_opts[:ca_no_verify]  = options[:ovirt_ca_no_verify]
 
           @client = OVIRT::Client.new(username, password, url, connection_opts)
         end
