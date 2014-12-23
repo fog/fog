@@ -10,15 +10,17 @@ module Fog
           options = {}
           if args[0].is_a? Hash
             options = args[0]
-            options.merge!('command' => 'createVolume') 
+            options.merge!('command' => 'createVolume')
           else
-            options.merge!('command' => 'createVolume', 
+            options.merge!('command' => 'createVolume',
             'name' => args[0])
           end
+          # add project id if we have one
+          @cloudstack_project_id ? options.merge!('projectid' => @cloudstack_project_id) : nil
           request(options)
         end
       end
- 
+
       class Mock
         def create_volume(options={})
           volume_id = Fog::Cloudstack.uuid
@@ -60,7 +62,7 @@ module Fog
           self.data[:volumes][volume_id]= volume
           {'createvolumeresponse' => volume}
         end
-      end 
+      end
     end
   end
 end

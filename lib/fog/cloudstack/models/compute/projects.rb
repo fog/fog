@@ -1,22 +1,24 @@
 require 'fog/core/collection'
-require 'fog/cloudstack/models/compute/image'
+require 'fog/cloudstack/models/compute/project'
 
 module Fog
   module Compute
     class Cloudstack
-      class Images < Fog::Collection
-        model Fog::Compute::Cloudstack::Image
+      class Projects < Fog::Collection
+        model Fog::Compute::Cloudstack::Project
 
         def all(filters={})
           options = get_filter_options(filters)
-          data = service.list_templates(options)["listtemplatesresponse"]["template"] || []
+
+          data = service.list_projects(options)["listprojectsresponse"]["project"] || []
           load(data)
         end
 
-        def get(template_id, filters={})
+        def get(project_id, filters={})
           filter_option = get_filter_options(filters)
-          options = filter_option.merge('id' => template_id)
-          if template = service.list_templates(options)["listtemplatesresponse"]["template"].first
+          options = filter_option.merge('id' => project_id)
+
+          if template = service.list_projects(options)["listprojectsresponse"]["project"].first
             new(template)
           end
         rescue Fog::Compute::Cloudstack::BadRequest
@@ -27,7 +29,7 @@ module Fog
 
         def get_filter_options(filters)
           default_filter = {
-              'templatefilter' => 'self'
+              'projectfilter' => 'self'
           }
           default_filter.merge(filters)
         end

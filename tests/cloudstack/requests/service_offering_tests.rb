@@ -4,24 +4,18 @@ Shindo.tests('Fog::Compute[:cloudstack] | service offering requests', ['cloudsta
     'listserviceofferingsresponse'  => {
       'count' => Integer,
       'serviceoffering' => [
-        'id' => Integer,
+        'id' => String,
+        'name' => String,
+        'displaytext' => String,
         'cpuspeed' => Integer,
         'cpunumber' => Integer,
-        'created' => String,
-        'defaultuse' => Fog::Boolean,
-        'displaytext' => String,
-        'domain' => Fog::Nullable::String,
-        'domainid' => Fog::Nullable::Integer,
-        'hosttags' => Fog::Nullable::String,
-        'issystem' => Fog::Boolean,
-        'limitcpuuse' => Fog::Boolean,
         'memory' => Integer,
-        'name' => String,
-        'networkrate' => Integer,
-        'offerha' => Fog::Boolean,
+        'created' => String,
         'storagetype' => String,
-        'systemvmtype' => Fog::Nullable::String,
-        'tags' => Fog::Nullable::String
+        'offerha' => Fog::Boolean,
+        'limitcpuuse' => Fog::Boolean,
+        'issystem' => Fog::Boolean,
+        'defaultuse' => Fog::Boolean
       ]
     }
   }
@@ -29,7 +23,6 @@ Shindo.tests('Fog::Compute[:cloudstack] | service offering requests', ['cloudsta
   tests('success') do
 
     tests('#list_service_offerings').formats(@service_offerings_format) do
-      pending if Fog.mocking?
       Fog::Compute[:cloudstack].list_service_offerings
     end
 
