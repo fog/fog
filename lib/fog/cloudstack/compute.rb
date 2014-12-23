@@ -927,7 +927,7 @@ module Fog
                   "startport" => "443",
                   "endport" => "443",
                   "ipaddressid" => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
-                  "networkid"=> network_id,
+                  "networkid"=> "31c4b26e-4be9-11e4-8304-00163e5b5f54",
                   "ipaddress" => "192.168.200.1",
                   "state" => "Active",
                   "cidrlist" => "255.255.255.0/24",
@@ -938,7 +938,7 @@ module Fog
                 "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1" => {
                   "id"=>"f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
                   "protocol"=>"tcp",
-                  "networkid"=> network_id,
+                  "networkid"=> "31c4b26e-4be9-11e4-8304-00163e5b5f54",
                   "state"=>"Active",
                   "cidrlist"=>"10.2.1.0/24",
                   "tags"=>[]
