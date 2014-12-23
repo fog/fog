@@ -115,6 +115,11 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
     @service.get_vapp_owner('00000000-0000-0000-0000-000000000000')
   end
 
+  tests('Snapshot non-existent vApp').raises(Fog::Compute::VcloudDirector::Forbidden) do
+    pending if Fog.mocking?
+    @service.post_create_snapshot('00000000-0000-0000-0000-000000000000')
+  end
+
   tests('Delete non-existent vApp').raises(Fog::Compute::VcloudDirector::Forbidden) do
     pending if Fog.mocking?
     @service.delete_vapp('00000000-0000-0000-0000-000000000000')
