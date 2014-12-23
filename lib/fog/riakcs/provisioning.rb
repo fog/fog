@@ -7,7 +7,7 @@ module Fog
       class ServiceUnavailable < Fog::RiakCS::Provisioning::Error; end
 
       requires :riakcs_access_key_id, :riakcs_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent
+      recognizes :host, :path, :port, :scheme, :persistent, :path_style
 
       request_path 'fog/riakcs/requests/provisioning'
       request :create_user
@@ -51,6 +51,7 @@ module Fog
           @riakcs_secret_access_key = options[:riakcs_secret_access_key]
           @connection_options       = options[:connection_options] || {}
           @persistent               = options[:persistent]         || false
+          @path_style               = options[:path_style]         || false
 
           @raw_connection = Fog::XML::Connection.new(riakcs_uri, @persistent, @connection_options)
 
@@ -61,6 +62,7 @@ module Fog
             :host                  => @host,
             :port                  => @port,
             :scheme                => @scheme,
+            :path_style            => @path_style,
             :connection_options    => @connection_options
           )
         end
