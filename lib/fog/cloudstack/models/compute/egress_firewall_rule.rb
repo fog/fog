@@ -27,9 +27,11 @@ module Fog
           requires :id
 
           response = service.delete_egress_firewall_rule('id' => id )
-          success_status = response['deleteegressfirewallruleresponse']['success']
+          # success_status = response['deleteegressfirewallruleresponse']['success']
+          job_id = response['deleteegressfirewallruleresponse']['jobid']
+          job = service.jobs.new('id' => job_id)
 
-          success_status == 'true'
+          return job
         end
 
       end
