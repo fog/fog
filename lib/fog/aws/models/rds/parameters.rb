@@ -17,8 +17,8 @@ module Fog
           super
         end
 
-        def all(filters = filters)
-          self.filters = filters
+        def all(filters_arg = filters)
+          filters = filters_arg
           result = []
           marker = nil
           finished = false
