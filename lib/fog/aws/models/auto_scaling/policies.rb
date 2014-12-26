@@ -14,10 +14,10 @@ module Fog
           super(attributes)
         end
 
-        def all(filters = filters)
+        def all(filters_arg = filters)
           data = []
           next_token = nil
-          self.filters = filters
+          self.filters = filters_arg
           loop do
             result = service.describe_policies(filters.merge('NextToken' => next_token)).body['DescribePoliciesResult']
             data += result['ScalingPolicies']

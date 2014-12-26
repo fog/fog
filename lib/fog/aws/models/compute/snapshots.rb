@@ -15,12 +15,12 @@ module Fog
           super
         end
 
-        def all(filters = filters, options = {})
-          unless filters.is_a?(Hash)
-            Fog::Logger.deprecation("all with #{filters.class} param is deprecated, use all('snapshot-id' => []) instead [light_black](#{caller.first})[/]")
-            filters = {'snapshot-id' => [*filters]}
+        def all(filters_arg = filters, options = {})
+          unless filters_arg.is_a?(Hash)
+            Fog::Logger.deprecation("all with #{filters_arg.class} param is deprecated, use all('snapshot-id' => []) instead [light_black](#{caller.first})[/]")
+            filters_arg = {'snapshot-id' => [*filters_arg]}
           end
-          self.filters = filters
+          filters = filters_arg
           data = service.describe_snapshots(filters.merge!(options)).body
           load(data['snapshotSet'])
           if volume

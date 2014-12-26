@@ -17,8 +17,8 @@ module Fog
           super
         end
 
-        def all(filters = filters)
-          self.filters = filters
+        def all(filters_arg = filters)
+          filters = filters_arg
           data = service.describe_db_security_groups(filters).body['DescribeDBSecurityGroupsResult']['DBSecurityGroups']
           load(data) # data is an array of attribute hashes
         end

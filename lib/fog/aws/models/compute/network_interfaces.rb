@@ -84,8 +84,8 @@ module Fog
         #  >
         #
 
-        def all(filters = filters)
-          self.filters = filters
+        def all(filters_arg = filters)
+          filters = filters_arg
           data = service.describe_network_interfaces(filters).body
           load(data['networkInterfaceSet'])
         end

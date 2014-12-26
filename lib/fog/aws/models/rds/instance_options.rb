@@ -15,11 +15,11 @@ module Fog
         end
 
         # This method deliberately returns only a single page of results
-        def all(filters=filters)
-          self.filters.merge!(filters)
+        def all(filters_arg = filters)
+          filters.merge!(filters_arg)
 
-          result = service.describe_orderable_db_instance_options(engine, self.filters).body['DescribeOrderableDBInstanceOptionsResult']
-          self.filters[:marker] = result['Marker']
+          result = service.describe_orderable_db_instance_options(engine, filters).body['DescribeOrderableDBInstanceOptionsResult']
+          filters[:marker] = result['Marker']
           load(result['OrderableDBInstanceOptions'])
         end
       end

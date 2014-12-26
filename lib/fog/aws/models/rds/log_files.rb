@@ -15,18 +15,18 @@ module Fog
         end
 
         # This method deliberately returns only a single page of results
-        def all(filters=filters)
-          self.filters.merge!(filters)
+        def all(filters_arg = filters)
+          filters.merge!(filters_arg)
 
-          result = service.describe_db_log_files(rds_id, self.filters).body['DescribeDBLogFilesResult']
-          self.filters[:marker] = result['Marker']
+          result = service.describe_db_log_files(rds_id, filters).body['DescribeDBLogFilesResult']
+          filters[:marker] = result['Marker']
           load(result['DBLogFiles'])
         end
 
-        def each(filters=filters)
+        def each(filters_arg = filters)
           if block_given?
             begin
-              page = self.all(filters)
+              page = self.all(filters_arg)
               # We need to explicitly use the base 'each' method here on the page, otherwise we get infinite recursion
               base_each = Fog::Collection.instance_method(:each)
               base_each.bind(page).call { |log_file| yield log_file }
