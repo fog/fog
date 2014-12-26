@@ -222,32 +222,32 @@ module Fog
         # It returns an array of public and private ip addresses
         # Currently only one ip address is returned, but in the future this could be multiple
         # if the server has multiple network interface
-        def addresses(service=service, options={})
+        def addresses(service_arg=service, options={})
           mac=self.mac
 
           # Aug 24 17:34:41 juno arpwatch: new station 10.247.4.137 52:54:00:88:5a:0a eth0.4
           # Aug 24 17:37:19 juno arpwatch: changed ethernet address 10.247.4.137 52:54:00:27:33:00 (52:54:00:88:5a:0a) eth0.4
           # Check if another ip_command string was provided
-          ip_command_global=service.ip_command.nil? ? 'grep $mac /var/log/arpwatch.log|sed -e "s/new station//"|sed -e "s/changed ethernet address//g" |sed -e "s/reused old ethernet //" |tail -1 |cut -d ":" -f 4-| cut -d " " -f 3' : service.ip_command
+          ip_command_global=service_arg.ip_command.nil? ? 'grep $mac /var/log/arpwatch.log|sed -e "s/new station//"|sed -e "s/changed ethernet address//g" |sed -e "s/reused old ethernet //" |tail -1 |cut -d ":" -f 4-| cut -d " " -f 3' : service_arg.ip_command
           ip_command_local=options[:ip_command].nil? ? ip_command_global : options[:ip_command]
 
           ip_command="mac=#{mac}; server_name=#{name}; "+ip_command_local
 
           ip_address=nil
 
-          if service.uri.ssh_enabled?
+          if service_arg.uri.ssh_enabled?
 
             # Retrieve the parts we need from the service to setup our ssh options
-            user=service.uri.user #could be nil
-            host=service.uri.host
-            keyfile=service.uri.keyfile
-            port=service.uri.port
+            user=service_arg.uri.user #could be nil
+            host=service_arg.uri.host
+            keyfile=service_arg.uri.keyfile
+            port=service_arg.uri.port
 
             # Setup the options
             ssh_options={}
             ssh_options[:keys]=[ keyfile ] unless keyfile.nil?
             ssh_options[:port]=port unless keyfile.nil?
-            ssh_options[:paranoid]=true if service.uri.no_verify?
+            ssh_options[:paranoid]=true if service_arg.uri.no_verify?
 
             begin
               result=Fog::SSH.new(host, user, ssh_options).run(ip_command)
@@ -267,7 +267,7 @@ module Fog
 
           else
             # It's not ssh enabled, so we assume it is
-            if service.uri.transport=="tls"
+            if service_arg.uri.transport=="tls"
               raise Fog::Errors::Error.new("TlS remote transport is not currently supported, only ssh")
             end
 

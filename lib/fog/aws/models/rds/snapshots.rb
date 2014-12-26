@@ -28,19 +28,19 @@ module Fog
         # It is arguably incorrect for the method not to return all snapshots, particularly considering the
         # implementation in the corresponding 'elb' files. But this implementation has been released, and
         # backwards-compatibility requires leaving it as implemented.
-        def all(filters = filters)
-          self.filters.merge!(filters)
+        def all(filters_arg = filters)
+          filters.merge!(filters_arg)
 
-          page = service.describe_db_snapshots(self.filters).body['DescribeDBSnapshotsResult']
-          self.filters[:marker] = page['Marker']
+          page = service.describe_db_snapshots(filters).body['DescribeDBSnapshotsResult']
+          filters[:marker] = page['Marker']
           load(page['DBSnapshots'])
         end
 
         # This will execute a block for each snapshot, fetching new pages of snapshots as required.
-        def each(filters = filters)
+        def each(filters_arg = filters)
           if block_given?
             begin
-              page = self.all(filters)
+              page = self.all(filters_arg)
               # We need to explicitly use the base 'each' method here on the page, otherwise we get infinite recursion
               base_each = Fog::Collection.instance_method(:each)
               base_each.bind(page).call { |snapshot| yield snapshot }

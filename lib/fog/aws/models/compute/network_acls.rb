@@ -79,8 +79,8 @@ module Fog
         #    ]
         #  >
         #
-        def all(filters = filters)
-          self.filters = filters
+        def all(filters_arg = filters)
+          filters = filters_arg
           data = service.describe_network_acls(filters).body
           load(data['networkAclSet'])
         end
