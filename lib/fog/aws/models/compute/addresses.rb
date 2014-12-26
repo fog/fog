@@ -52,12 +52,12 @@ module Fog
         #  >
         #>>
 
-        def all(filters = filters)
-          unless filters.is_a?(Hash)
-            Fog::Logger.deprecation("all with #{filters.class} param is deprecated, use all('public-ip' => []) instead [light_black](#{caller.first})[/]")
-            filters = {'public-ip' => [*filters]}
+        def all(filters_arg = filters)
+          unless filters_arg.is_a?(Hash)
+            Fog::Logger.deprecation("all with #{filters_arg.class} param is deprecated, use all('public-ip' => []) instead [light_black](#{caller.first})[/]")
+            filters_arg = {'public-ip' => [*filters_arg]}
           end
-          self.filters = filters
+          self.filters = filters_arg
           data = service.describe_addresses(filters).body
           load(
             data['addressesSet'].map do |address|

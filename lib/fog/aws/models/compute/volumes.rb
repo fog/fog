@@ -60,12 +60,12 @@ module Fog
         # The volume can be retrieved by running AWS.volumes.get("vol-1e2028b9").  See get method below.
         #
 
-        def all(filters = filters)
-          unless filters.is_a?(Hash)
-            Fog::Logger.deprecation("all with #{filters.class} param is deprecated, use all('volume-id' => []) instead [light_black](#{caller.first})[/]")
-            filters = {'volume-id' => [*filters]}
+        def all(filters_arg = filters)
+          unless filters_arg.is_a?(Hash)
+            Fog::Logger.deprecation("all with #{filters_arg.class} param is deprecated, use all('volume-id' => []) instead [light_black](#{caller.first})[/]")
+            filters_arg = {'volume-id' => [*filters_arg]}
           end
-          self.filters = filters
+          filters = filters_arg
           data = service.describe_volumes(filters).body
           load(data['volumeSet'])
           if server

@@ -14,8 +14,8 @@ module Fog
           super
         end
 
-        def all(filters = filters)
-          self.filters = filters
+        def all(filters_arg = filters)
+          filters = filters_arg
           load(service.list_routers(filters).body['routers'])
         end
 

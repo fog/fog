@@ -16,8 +16,8 @@ module Fog
           super
         end
 
-        def all(filters = filters)
-          self.filters = filters
+        def all(filters_arg = filters)
+          filters = filters_arg
           data = service.list_images_detail(filters).body['images']
           images = load(data)
           if server

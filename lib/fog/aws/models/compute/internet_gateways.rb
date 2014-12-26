@@ -51,12 +51,12 @@ module Fog
         #>
         #
 
-        def all(filters = filters)
-          unless filters.is_a?(Hash)
-            Fog::Logger.warning("all with #{filters.class} param is deprecated, use all('internet-gateway-id' => []) instead [light_black](#{caller.first})[/]")
-            filters = {'internet-gateway-id' => [*filters]}
+        def all(filters_arg = filters)
+          unless filters_arg.is_a?(Hash)
+            Fog::Logger.warning("all with #{filters_arg.class} param is deprecated, use all('internet-gateway-id' => []) instead [light_black](#{caller.first})[/]")
+            filters_arg = {'internet-gateway-id' => [*filters_arg]}
           end
-          self.filters = filters
+          filters = filters_arg
           data = service.describe_internet_gateways(filters).body
           load(data['internetGatewaySet'])
         end
