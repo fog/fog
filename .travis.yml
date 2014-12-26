@@ -19,6 +19,10 @@ matrix:
       gemfile: Gemfile
     - rvm: 2.1.1
       gemfile: gemfiles/Gemfile-edge
+    - rvm: 2.2.0
+      gemfile: Gemfile
+    - rvm: 2.2.0
+      gemfile: gemfiles/Gemfile-edge
     - rvm: jruby-18mode
       gemfile: gemfiles/Gemfile-ruby-1.8.7
     - rvm: jruby-19mode
