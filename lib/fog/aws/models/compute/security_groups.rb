@@ -55,12 +55,12 @@ module Fog
         #  >
         #
 
-        def all(filters = filters)
-          unless filters.is_a?(Hash)
-            Fog::Logger.deprecation("all with #{filters.class} param is deprecated, use all('group-name' => []) instead [light_black](#{caller.first})[/]")
-            filters = {'group-name' => [*filters]}
+        def all(filters_arg = filters)
+          unless filters_arg.is_a?(Hash)
+            Fog::Logger.deprecation("all with #{filters_arg.class} param is deprecated, use all('group-name' => []) instead [light_black](#{caller.first})[/]")
+            filters_arg = {'group-name' => [*filters_arg]}
           end
-          self.filters = filters
+          self.filters = filters_arg
           data = service.describe_security_groups(filters).body
           load(data['securityGroupInfo'])
         end
