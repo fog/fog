@@ -14,10 +14,10 @@ module Fog
           super
         end
 
-        def all(filters = filters)
+        def all(filters_arg = filters)
           data = []
           next_token = nil
-          self.filters = filters
+          filters = filters_arg
           loop do
             result = service.describe_auto_scaling_groups(filters.merge('NextToken' => next_token)).body['DescribeAutoScalingGroupsResult']
             data += result['AutoScalingGroups']

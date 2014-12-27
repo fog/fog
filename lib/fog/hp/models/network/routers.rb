@@ -14,8 +14,8 @@ module Fog
           super
         end
 
-        def all(filters = filters)
-          self.filters = filters
+        def all(filters_arg = filters)
+          filters = filters_arg
           non_aliased_filters = Fog::HP.convert_aliased_attributes_to_original(self.model, filters)
           load(service.list_routers(non_aliased_filters).body['routers'])
         end
