@@ -32,7 +32,8 @@ module Fog
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
-                :topics => {},
+                :topics        => {},
+                :subscriptions => {},
               }
             end
           end

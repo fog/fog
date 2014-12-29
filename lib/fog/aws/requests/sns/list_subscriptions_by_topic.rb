@@ -23,6 +23,17 @@ module Fog
           }.merge!(options))
         end
       end
+
+      class Mock
+        def list_subscriptions_by_topic(arn, options={})
+          response = Excon::Response.new
+
+          subscriptions = self.data[:subscriptions].values.select { |s| s["TopicArn"] == arn }
+
+          response.body = {'Subscriptions' => subscriptions, 'RequestId' => Fog::AWS::Mock.request_id}
+          response
+        end
+      end
     end
   end
 end
