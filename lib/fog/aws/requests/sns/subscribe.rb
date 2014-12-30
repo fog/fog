@@ -25,6 +25,36 @@ module Fog
           })
         end
       end
+
+      class Mock
+        def subscribe(arn, endpoint, protocol)
+          response = Excon::Response.new
+
+          unless topic = self.data[:topics][arn]
+            response.status = 400
+            response.body = {
+              'Code'    => 'InvalidParameterValue',
+              'Message' => 'Invalid parameter: TopicArn',
+              'Type'    => 'Sender',
+            }
+
+            return response
+          end
+
+          subscription_arn = Fog::AWS::Mock.arn(@module, @account_id, "#{topic["DisplayName"]}:#{Fog::AWS::Mock.request_id}", @region)
+
+          self.data[:subscriptions][subscription_arn] = {
+            "Protocol"        => protocol,
+            "Owner"           => @account_id.to_s,
+            "TopicArn"        => arn,
+            "SubscriptionArn" => subscription_arn,
+            "Endpoint"        => endpoint,
+          }
+
+          response.body = { 'SubscriptionArn' => 'pending confirmation', 'RequestId' => Fog::AWS::Mock.request_id }
+          response
+        end
+      end
     end
   end
 end
