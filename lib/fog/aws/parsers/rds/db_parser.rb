@@ -43,10 +43,10 @@ module Fog
 
             when 'LatestRestorableTime', 'InstanceCreateTime'
               @db_instance[name] = Time.parse value
-            when 'Engine', 'DBInstanceStatus', 'DBInstanceIdentifier', 
+            when 'Engine', 'DBInstanceStatus', 'DBInstanceIdentifier',
               'PreferredBackupWindow', 'PreferredMaintenanceWindow',
               'AvailabilityZone', 'MasterUsername', 'DBName', 'LicenseModel',
-              'DBSubnetGroupName'
+              'DBSubnetGroupName', 'StorageType'
               @db_instance[name] = value
             when 'MultiAZ', 'AutoMinorVersionUpgrade', 'PubliclyAccessible'
               if value == 'false'
@@ -71,7 +71,7 @@ module Fog
               else
                 @db_instance[name] = value.to_i
               end
-            when 'DBInstanceClass', 'EngineVersion', 'MasterUserPassword', 
+            when 'DBInstanceClass', 'EngineVersion', 'MasterUserPassword',
                 'MultiAZ', 'Iops', 'AllocatedStorage'
               if @in_pending_modified_values
                 @pending_modified_values[name] = value
