@@ -16,10 +16,10 @@ module Fog
               when 'SubscriptionsConfirmed', 'SubscriptionsDeleted', 'SubscriptionsPending'
                 @response['Attributes'][@key] = @value.rstrip.to_i
               else
-                @response['Attributes'][@key] = @value.rstrip
+                @response['Attributes'][@key] = (@value && @value.rstrip) || nil
               end
             when 'RequestId'
-              @response[name] = @value
+              @response[name] = @value.rstrip
             end
           end
         end
