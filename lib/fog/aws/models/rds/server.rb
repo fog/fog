@@ -31,6 +31,7 @@ module Fog
         attribute :db_subnet_group_name, :aliases => 'DBSubnetGroupName'
         attribute :publicly_accessible, :aliases => 'PubliclyAccessible'
         attribute :vpc_security_groups, :aliases => 'VpcSecurityGroups', :type => :array
+        attribute :storage_type, :aliases => 'StorageType'
 
         attr_accessor :password, :parameter_group_name, :security_group_names, :port
 
@@ -130,6 +131,7 @@ module Fog
             'DBSubnetGroupName'             => db_subnet_group_name,
             'PubliclyAccessible'            => publicly_accessible,
             'VpcSecurityGroups'             => vpc_security_groups,
+            'StorageType'                   => storage_type,
           }
 
           options.delete_if {|key, value| value.nil?}

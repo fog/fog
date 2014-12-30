@@ -27,6 +27,7 @@ module Fog
         # @param DBSubnetGroupName [String] The name, if any, of the VPC subnet for this RDS instance
         # @param PubliclyAcccesible [Boolean] Whether an RDS instance inside of the VPC subnet should have a public-facing endpoint
         # @param VpcSecurityGroups [Array] A list of VPC Security Groups to authorize on this DB instance
+        # @param StorageType [string] Specifies storage type to be associated with the DB Instance.  Valid values: standard | gp2 | io1
         #
         # @return [Excon::Response]:
         #   * body [Hash]:
@@ -110,6 +111,7 @@ module Fog
                  "DBSubnetGroupName" => options["DBSubnetGroupName"],
                  "PubliclyAccessible" => options["PubliclyAccessible"],
                  "VpcSecurityGroups" => options["VpcSecurityGroups"],
+                 "StorageType" => options["StorageType"],
              }
 
           self.data[:servers][db_name] = data
