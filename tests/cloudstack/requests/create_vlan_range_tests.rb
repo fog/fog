@@ -10,7 +10,7 @@ Shindo.tests('Fog::Compute[:cloudstack] | create vlan ip range requests', ['clou
               'domain'            => Hash,
               'domainid'          => String,
               'forvirtualnetwork' => Fog::Boolean,
-              'networkid'         => String,
+              'networkid'         => Fog::Nullable::String,
               'physicalnetworkid' => String,
               'poid'              => String,
               'podname'           => String,
