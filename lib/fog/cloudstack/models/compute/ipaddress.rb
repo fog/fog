@@ -10,14 +10,14 @@ module Fog
         def associate
           requires :network_id
 
-          data = service.associate_ip_address(options={'networkid' => self.associated_network_id})
+          data = service.associate_ip_address({'networkid' => self.associated_network_id})
           merge_attributes(data['associateipaddressresponse'])
           service.jobs.new(data["associateipaddressresponse"])
          end
 
         def disassociate
           requires :id
-          data = service.disassociate_ip_address(options={'id' => self.id}) if (id != nil)
+          data = service.disassociate_ip_address({'id' => self.id}) if (id != nil)
         end
 
         end # Ipaddress

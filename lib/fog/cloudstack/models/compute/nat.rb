@@ -21,7 +21,7 @@ module Fog
 
         def disable
           requires :ip_address_id
-          data = service.disable_static_nat(options={'ipaddressid' => self.ip_address_id})
+          data = service.disable_static_nat({'ipaddressid' => self.ip_address_id})
           service.jobs.new(data["disablestaticnatresponse"])
         end
 

@@ -37,13 +37,13 @@ module Fog
 
         def delete_vlan_ip_range
           requires :id
-          data = service.delete_vlan_ip_range(options={'id' => self.id})
+          data = service.delete_vlan_ip_range({'id' => self.id})
         end
 
         def list_vlan_ip_ranges
           requires :zone_id
 
-          data = service.list_vlan_ip_ranges(options={'zoneid' => self.zone_id})
+          data = service.list_vlan_ip_ranges({'zoneid' => self.zone_id})
           merge_attributes(data['listvlaniprangesresponse'])
         end
 
