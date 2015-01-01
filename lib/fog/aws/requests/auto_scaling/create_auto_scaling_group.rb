@@ -32,19 +32,11 @@ module Fog
         #   * 'LoadBalancerNames'<~Array> - A list of LoadBalancers to use.
         #   * 'PlacementGroup'<~String> - Physical location of your cluster
         #      placement group created in Amazon EC2.
-        #   * 'Tags'<~Array>:
-        #     * tag<~Hash>:
-        #       * 'Key'<~String> - The key of the tag.
-        #       * 'PropagateAtLaunch'<~Boolean> - Specifies whether the new tag
-        #         will be applied to instances launched after the tag is
-        #         created. The same behavior applies to updates: If you change
-        #         a tag, the changed tag will be applied to all instances
-        #         launched after you made the change.
-        #       * 'ResourceId'<~String>: The name of the AutoScaling group.
-        #       * 'ResourceType'<~String>: The kind of resource to which the
-        #         tag is applied. Currently, Auto Scaling supports the
-        #         auto-scaling-group resource type.
-        #       * 'Value'<~String>: The value of the tag.
+        #   * 'Tags'<~Hash>:
+        #     * 'Name'<~String>  The name tag with a string value set to the
+        #        name.
+        #     * 'custom_Tag'<~String> - Key of the hash is the tag key, value
+        #       of the hash is the value of the tag.
         #   * 'TerminationPolicies'<~Array> - A standalone termination policy
         #     or a list of termination policies used to select the instance to
         #     terminate. The policies are executed in the order that they are
