@@ -54,6 +54,7 @@ Gem::Specification.new do |s|
   s.add_dependency('ipaddress', '~>0.5')
 
   # Modular providers
+  s.add_dependency("fog-aws", "~> 0.0")
   s.add_dependency("fog-brightbox", "~> 0.4")
   s.add_dependency("fog-softlayer")
   s.add_dependency("fog-sakuracloud", ">= 0.0.4")
