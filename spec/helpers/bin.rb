@@ -23,6 +23,10 @@ module Fog
       assert_respond_to subject, :[]
     end
 
+    it "#[] when unknown service is passed raises ArgumentError" do
+      assert_raises(ArgumentError) { subject[:bad_service] }
+    end
+
     it "responds to services" do
       assert_respond_to subject, :services
     end
