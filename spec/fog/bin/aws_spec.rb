@@ -83,8 +83,8 @@ describe AWS do
     describe "when service is recognised" do
       it "returns correct instance" do
         KEY_CLASS_MAPPING.each do |key, klass|
-          klass.stub(:new, true) do
-            assert klass, AWS[key]
+          klass.stub(:new, "#{klass} instance") do
+            assert_equal "#{klass} instance", AWS[key]
           end
         end
       end

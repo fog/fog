@@ -79,7 +79,7 @@ module Fog
                         Fog::Logger.warning("AWS[:compute] is not recommended, use Compute[:aws] for portability")
                         Fog::Compute.new(:provider => 'AWS')
                       when :data_pipeline
-                        Fog::AWS::DataPipeline
+                        Fog::AWS::DataPipeline.new
                       when :ddb, :dynamodb
                         Fog::AWS::DynamoDB.new
                       when :dns
