@@ -1,3 +1,4 @@
+require 'fog/aws/service_mapper'
 require 'fog/aws/auto_scaling'
 require 'fog/aws/beanstalk'
 require 'fog/aws/cdn'
