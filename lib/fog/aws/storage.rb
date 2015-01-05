@@ -77,6 +77,7 @@ module Fog
       request :get_bucket_tagging
       request :get_bucket_versioning
       request :get_bucket_website
+      request :get_bucket_notification
       request :get_object
       request :get_object_acl
       request :get_object_torrent
@@ -101,6 +102,7 @@ module Fog
       request :put_bucket_tagging
       request :put_bucket_versioning
       request :put_bucket_website
+      request :put_bucket_notification
       request :put_object
       request :put_object_acl
       request :put_object_url
@@ -349,6 +351,7 @@ module Fog
                 :cors => {
                   :bucket => {}
                 },
+                :bucket_notifications => {},
                 :bucket_tagging => {},
                 :multipart_uploads => {}
               }

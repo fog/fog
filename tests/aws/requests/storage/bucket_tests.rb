@@ -312,10 +312,26 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       end
     end
 
+    tests("bucket notification") do
+      @topic_arn = Fog::AWS[:sns].create_topic('fog_notifications_tests').body['TopicArn']
+
+      tests("#put_bucket_notification('#{@aws_bucket_name}')").succeeds do
+        Fog::Storage[:aws].put_bucket_notification(@aws_bucket_name, { 'Topics' => [{
+          'Topic' => @topic_arn, 'Event' => 's3:ObjectCreated:CompleteMultipartUpload'
+        }]})
+      end
+
+      tests("#get_bucket_notification('#{@aws_bucket_name}')").
+        returns({'Topics' => [{ 'Topic' => @topic_arn, 'Event' => 's3:ObjectCreated:CompleteMultipartUpload' }]}) do
+        Fog::Storage[:aws].get_bucket_notification(@aws_bucket_name).body
+      end
+
+      Fog::AWS[:sns].delete_topic(@topic_arn)
+    end
+
     tests("#delete_bucket('#{@aws_bucket_name}')").succeeds do
       Fog::Storage[:aws].delete_bucket(@aws_bucket_name)
     end
-
   end
 
   tests('failure') do
@@ -340,6 +356,10 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
 
     tests("#get_bucket_location('fognonbucket')").raises(Excon::Errors::NotFound) do
       Fog::Storage[:aws].get_bucket_location('fognonbucket')
+    end
+
+    tests("#get_bucket_notification('fognonbucket')").raises(Excon::Errors::NotFound) do
+      Fog::Storage[:aws].get_bucket_notification('fognonbucket')
     end
 
     tests("#get_request_payment('fognonbucket')").raises(Excon::Errors::NotFound) do
