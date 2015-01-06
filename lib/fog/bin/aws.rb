@@ -1,3 +1,5 @@
+require 'fog/aws/service_mapper'
+
 class AWS < Fog::Bin
   def self.services
     Fog::AWS::ServiceMapper.services
