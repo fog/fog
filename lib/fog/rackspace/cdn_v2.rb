@@ -6,8 +6,6 @@ module Fog
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :persistent, :rackspace_cdn_ssl, :rackspace_region, :rackspace_cdn_url
 
-      PREVIEW_API_URL = "preview.cdn.api.rackspacecloud.com"
-
       model_path 'fog/rackspace/models/cdn_v2'
       model :service
       collection :services
@@ -70,10 +68,6 @@ module Fog
         end
 
         def request(params, parse_json = true)
-          # TODO: This MUST be removed when CDNV2 is live
-          rewrite_cdn_v2_host!
-          # TODO: This MUST be removed when CDNV2 is live
-
           super
         rescue Excon::Errors::NotFound => error
           raise NotFound.slurp(error, self)
@@ -84,18 +78,6 @@ module Fog
         rescue Excon::Errors::HTTPStatusError => error
           raise ServiceError.slurp(error, self)
         end
-
-        # TODO: This MUST be removed when CDNV2 is live
-        def rewrite_cdn_v2_host!
-          conn = @connection.instance_variable_get("@excon")
-          conn.data[:host] = PREVIEW_API_URL
-          conn.instance_variable_set("@socket_key", PREVIEW_API_URL)
-
-          if conn.data.has_key?(:__construction_args)
-            conn.data[:__construction_args][:host] = PREVIEW_API_URL
-          end
-        end
-        # TODO: This MUST be removed when CDNV2 is live
 
         def request_uri(path, options={})
           return path if options == {}
