@@ -7,6 +7,7 @@ module Fog
           default_options = {
             'force'        => false,
             'linked_clone' => false,
+            'nic_type' => 'VirtualE1000',
           }
           options = default_options.merge(options)
           # Backwards compat for "path" option
@@ -124,11 +125,11 @@ module Fog
               :allowGuestControl => true,
               :connected => true,
               :startConnected => true)
-            device = RbVmomi::VIM::VirtualE1000(
+            device = RbVmomi::VIM.public_send "#{options['nic_type']}",
               :backing => nic_backing_info,
               :deviceInfo => RbVmomi::VIM::Description(:label => "Network adapter 1", :summary => options['network_label']),
               :key => options['network_adapter_device_key'],
-              :connectable => connectable)
+              :connectable => connectable
             device_spec = RbVmomi::VIM::VirtualDeviceConfigSpec(
               :operation => config_spec_operation,
               :device => device)
