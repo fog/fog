@@ -6,12 +6,13 @@ module Fog
       class File < Fog::Model
         identity  :key,             :aliases => 'name'
 
+        attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
         attribute :content_disposition, :aliases => ['content_disposition', 'Content-Disposition']
         attribute :etag,            :aliases => ['hash', 'Etag']
         attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
-        attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
+        attribute :metadata
         attribute :origin,          :aliases => ['Origin']
 
         def body
@@ -47,7 +48,7 @@ module Fog
         end
 
         def metadata
-          @metadata ||= headers_to_metadata
+          attributes[:metadata] ||= headers_to_metadata
         end
 
         def owner=(new_owner)
