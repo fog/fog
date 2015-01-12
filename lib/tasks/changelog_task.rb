@@ -134,6 +134,7 @@ Watchers      | #{watchers}
            'nightshade427',
            'Patrick Debois',
            'Paul Thornthwaite',
+           'Paulo Henrique Lopes Ribeiro',
            'Rodrigo Estebanez',
            'Rupak Ganguly',
            'Stepan G. Fedorov',

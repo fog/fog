@@ -1,3 +1,102 @@
+## 1.27.0 01/12/2015
+*Hash* 8a8f9a366be09de646536f06e2bcc84eb9229087
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Downloads     | 8014597
+Forks         | 1382
+Open Issues   | 133
+Watchers      | 3336
+
+**MVP!** Paulo Henrique Lopes Ribeiro
+
+#### [AWS]
+*   Tests covering "bin" interface. thanks Paul Thornthwaite
+*   Extract service mapping. thanks Paul Thornthwaite
+*   Fix test and data pipeline issue. thanks Paul Thornthwaite
+*   Tests covering "bin" interface. thanks Paul Thornthwaite
+*   Extract service mapping. thanks Paul Thornthwaite
+*   Fix test and data pipeline issue. thanks Paul Thornthwaite
+
+#### [GH-3378]
+*   Reinstate JRuby CI runs. thanks Paul Thornthwaite
+
+#### [Openstack]
+*   Update example for Servers.create with :block_device_mapping_v2. thanks Brandon Dunne
+
+#### [aws]
+*   mocks and models for SNS. thanks Eugene Howe
+
+#### [aws/sns]
+*   basic subscription mock. thanks Josh Lane
+
+#### [aws|put_object]
+*   guard against non-us_ascii x-amz-meta-* values. thanks Jan Raasch
+*   do not check user meta data encoding for ruby-1.8.7. thanks Jan Raasch
+
+#### [misc]
+*   add storage_type to rds server. thanks Adam Reese
+*   add models for firewall, egress_firewall, networks, port_forwarding, projects, public_ip_addresses.  Also fix 3015 (support project_id in key calls). thanks Athir Nuaimi
+*   add network offerings model and add functionality to egress_firewall_rule model. thanks Athir Nuaimi
+*   add initial extra testing for cloudstack enhancements. thanks Athir Nuaimi
+*   add a number of tests for cloudstack requests. thanks Athir Nuaimi
+*   add models for firewall, egress_firewall, networks, port_forwarding, projects, public_ip_addresses.  Also fix 3015 (support project_id in key calls). thanks Athir Nuaimi
+*   add network offerings model and add functionality to egress_firewall_rule model. thanks Athir Nuaimi
+*   add initial extra testing for cloudstack enhancements. thanks Athir Nuaimi
+*   fix failing test for cloudstack flavors. thanks Athir Nuaimi
+*   fix failed travis test with cloudstack on ruby 1.8.7. thanks Athir Nuaimi
+*   issue #3275, setting path_style to true for signature_version 4. thanks Christian Ott
+*   path_style debugging. thanks Christian Ott
+*   check path_style for nil. thanks Christian Ott
+*   remove debug msg. thanks Christian Ott
+*   issue #3275, set path_style for get_bucket_location only, remove larger scope. thanks Christian Ott
+*   Add configuration for path_style to RiakCS Provisioning client. Defaults the false if no user input is given (following the style for the s3client default settings). thanks Derek Richard and Karen Wang
+*   rds event subscriptions. thanks Eugene Howe
+*   All I want for Christmas are logs clean of warnings about HTTPS access to my     bucket... thanks Frederic Jean
+*   Revert "Revert "Run Fog tests for Ruby 2.2.0"". thanks Frederick Cheung
+*   Add ovirt_ca_no_verify option for ovirt provider. thanks Ilja Bobkevic
+*   get_topic_attributes handle nil values. thanks Josh Lane
+*   fog-aws module. thanks Josh Lane
+*   fix aws bin. thanks Josh Lane
+*   Rackspace Neutron (Networking) Support. thanks Matt Darby
+*   Rackspace's new CDN (V2). thanks Matt Darby
+*   Launch. thanks Matt Darby
+*   Fix [excon][WARNING] Invalid Excon request keys: :host exception. thanks Mevan Samaratunga
+*   Test service abstraction code loading. thanks Paul Thornthwaite
+*   This limits 1.8.7 to use `activesupport-v3.2.21`. thanks Paul Thornthwaite
+*   Ignore JRuby failures until investigated. thanks Paul Thornthwaite
+*   First batch of deprecation of requests in Xenserver. thanks Paulo Henrique Lopes Ribeiro
+*   Fix build in ruby 1.8.7. thanks Paulo Henrique Lopes Ribeiro
+*   Remove command gem update from travis build. thanks Paulo Henrique Lopes Ribeiro
+*   Added more deprecations. thanks Paulo Henrique Lopes Ribeiro
+*   Added deprecation notice to destroy requests. thanks Paulo Henrique Lopes Ribeiro
+*   Deprecated all requests. thanks Paulo Henrique Lopes Ribeiro
+*   Deprecating methods in models. thanks Paulo Henrique Lopes Ribeiro
+*   Fix indentation. thanks Paulo Henrique Lopes Ribeiro
+*   Removed Serverlove code. thanks Paulo Henrique Lopes Ribeiro
+*   Removed Serverlove tests. thanks Paulo Henrique Lopes Ribeiro
+*   Removed Serverlove bin. thanks Paulo Henrique Lopes Ribeiro
+*   Added modular Serverlove provider as dependency. thanks Paulo Henrique Lopes Ribeiro
+*   Allowing users to fetch ec2 instances in batches. thanks Richard Hall
+*   Grouping requestId, and nextToken together in DescribeInstances#end_element as they perform the same action. thanks Richard Hall
+*   Improving docs for fetching EC2 instances in batches. thanks Richard Hall
+*   Run Fog tests for Ruby 2.2.0. thanks Sean Handley
+*   Revert "Run Fog tests for Ruby 2.2.0". thanks Sean Handley
+*   [vSphere]: Add full path to cluster. thanks Shlomi Zadok
+*   Add support for bucket notification configuration. thanks e Peignier
+*   cleanup leftover files (now in fog-aws). thanks geemus
+*   start_with_cloudinit function  (rbovirt). thanks karmab
+*   Fix misbehavior around connection to slave node in pool. thanks ooVoo LLC
+*   Fixed the issue according pool request #3356. thanks ooVoo LLC
+*   Fix circular argument reference warnings for ruby 2.2. thanks starbelly
+*   应俊 (1):. thanks starbelly
+*   need region param. thanks starbelly
+
+#### [openstack|storage]
+*   fixes around file metadata. thanks geemus
+
+
 ## 1.26.0 12/12/2014
 *Hash* 54dde02c11225c2fa63fa82e08bffcc0ad31a719
 
