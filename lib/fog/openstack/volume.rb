@@ -193,7 +193,6 @@ module Fog
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
               :openstack_auth_uri => @openstack_auth_uri,
-              :openstack_region   => @openstack_region,
               :openstack_auth_token => @openstack_must_reauthenticate ? nil : @openstack_auth_token,
               :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
