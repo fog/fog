@@ -65,6 +65,8 @@ module Fog
             opts[key] = case value
                         when OVIRT::Link
                           value.id
+                        when OVIRT::TemplateVersion
+                          value
                         when Array
                           value
                         when Hash
