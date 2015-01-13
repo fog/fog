@@ -114,6 +114,7 @@ module Fog
           connection_opts[:ca_cert_store] = options[:ovirt_ca_cert_store]
           connection_opts[:ca_cert_file]  = options[:ovirt_ca_cert_file]
           connection_opts[:ca_no_verify]  = options[:ovirt_ca_no_verify]
+          connection_opts[:filtered_api]  = options[:ovirt_filtered_api]
 
           @client = OVIRT::Client.new(username, password, url, connection_opts)
         end
