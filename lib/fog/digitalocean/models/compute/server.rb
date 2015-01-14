@@ -94,7 +94,7 @@ module Fog
             commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}
           end
 
-          # wait for aws to be ready
+          # wait for DigitalOcean to be ready
           wait_for { sshable?(credentials) }
 
           Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
