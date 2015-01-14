@@ -2,10 +2,7 @@
 
 You'll need a DigitalOcean account and API key to use this provider.
 
-Get one from http://www.digitalocean.com.
-
-To generate the API key, login to the DigitalOcean web panel and go to
-'My Settings -> API Access -> Generate a new API key'.
+Get one from https://cloud.digitalocean.com/api_access (fog currently uses the v1 API)
 
 Write down the Client Key and API Key, you'll need both to use the service.
 
