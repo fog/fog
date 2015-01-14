@@ -26,6 +26,34 @@ docean = Fog::Compute.new({
 })
 ```
 
+## SSH Key Management
+
+Access to DigitalOcean servers can be managed with SSH keys. These can be assigned to servers at creation time so you can access them without having to use a password.
+
+Creating a key:
+
+```ruby
+docean.ssh_keys.create(
+  :name        => 'Default SSH Key',
+  :ssh_pub_key => File.read('~/.ssh/id_rsa.pub'))
+)
+```
+
+Listing all keys:
+
+```ruby
+docean.ssh_keys.each do | key |
+   key.name
+   key.ssh_pub_key
+end
+```
+
+Destroying a key:
+
+```ruby
+docean.ssh_keys.destroy(:id => '27100')
+```
+
 ## Listing servers
 
 Listing servers and attributes:
