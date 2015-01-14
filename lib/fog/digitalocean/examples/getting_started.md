@@ -54,6 +54,23 @@ Destroying a key:
 docean.ssh_keys.destroy(:id => '27100')
 ```
 
+## Boostrapping a server
+
+Fog can be used to bootstrap a server, which will create an SSH key to be assigned to a server at boot.
+
+```ruby
+server = connection.servers.bootstrap({
+  :name => 'test',
+  :image_id => 1505447,
+  :size_id => 33,
+  :region_id => 4,
+  :flavor_id => 66,
+  :public_key_path => File.expand_path('~/.ssh/id_rsa.pub'),
+  :private_key_path => File.expand_path('~/.ssh/id_rsa'),
+})
+server.wait_for { ready? }
+```
+
 ## Listing servers
 
 Listing servers and attributes:
