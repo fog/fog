@@ -51,8 +51,7 @@ module Fog
                 config[:shared], config[:sm_config])
           else
             Fog::Logger.deprecation(
-                'This api is deprecated. The expected params are two hashes of attributes.' + "\n" +
-                    'To create a server from a template, use #clone_server instead.'
+                'This api is deprecated. The expected params are two hashes of attributes.'
             )
 
             @connection.request(
