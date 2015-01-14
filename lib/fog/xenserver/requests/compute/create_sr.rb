@@ -37,11 +37,11 @@ module Fog
             config = host_ref
             extra_params = name_label
 
-            %i(physical_size name description type content_type shared sm_config).each do |attribute|
+            [:physical_size, :name, :description, :type, :content_type, :shared, :sm_config].each do |attribute|
               raise "Missing Argument in first param: #{attribute}" if config[attribute].nil?
             end
 
-            %i(host_ref device_config).each do |attribute|
+            [:host_ref, :device_config].each do |attribute|
               raise "Missing Argument in second param: #{attribute}" if extra_params[attribute].nil?
             end
 
