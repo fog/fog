@@ -12,8 +12,6 @@ module Fog
         attribute :image_id
         attribute :region_id
         attribute :flavor_id, :aliases => 'size_id'
-        # Not documented in their API, but
-        # available nevertheless
         attribute :public_ip_address, :aliases => 'ip_address'
         attribute :private_ip_address
         attribute :private_networking
