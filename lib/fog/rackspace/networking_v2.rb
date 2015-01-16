@@ -31,9 +31,9 @@ module Fog
       end
 
       class InvalidImageStateException < InvalidStateException
-         def to_s
-           "Image should have transitioned to '#{desired_state}' not '#{current_state}'"
-         end
+        def to_s
+          "Image should have transitioned to '#{desired_state}' not '#{current_state}'"
+        end
       end
 
       requires :rackspace_username, :rackspace_api_key
@@ -54,6 +54,12 @@ module Fog
       model :port
       collection :ports
 
+      model :security_group
+      collection :security_groups
+
+      model :security_group_rule
+      collection :security_group_rules
+
       request_path 'fog/rackspace/requests/networking_v2'
       request :list_networks
       request :create_network
@@ -72,6 +78,17 @@ module Fog
       request :show_port
       request :update_port
       request :delete_port
+
+      request :list_security_groups
+      request :create_security_group
+      request :show_security_group
+      request :update_security_group
+      request :delete_security_group
+
+      request :list_security_group_rules
+      request :create_security_group_rule
+      request :show_security_group_rule
+      request :delete_security_group_rule
 
       class Mock < Fog::Rackspace::Service
         include Fog::Rackspace::MockData
@@ -128,10 +145,10 @@ module Fog
 
         def authenticate(options={})
           super({
-            :rackspace_api_key => @rackspace_api_key,
-            :rackspace_username => @rackspace_username,
-            :rackspace_auth_url => @rackspace_auth_url,
-            :connection_options => @connection_options
+                  :rackspace_api_key => @rackspace_api_key,
+                  :rackspace_username => @rackspace_username,
+                  :rackspace_auth_url => @rackspace_auth_url,
+                  :connection_options => @connection_options
           })
         end
 
