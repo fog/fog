@@ -6,16 +6,14 @@ module Fog
         def vm_snapshot_revert(options = {})
           options = { 'force' => false }.merge(options)
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
+          raise ArgumentError, "name is a required parameter" unless options.has_key? 'name'
 
-          # "502957e9-2a75-b1e6-0b10-423eecd6418a"
           options = { 'force' => false }.merge(options)
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
 
           search_filter = { :uuid => options['instance_uuid'], 'vmSearch' => true, 'instanceUuid' => true }
           vm_mob_ref = @connection.searchIndex.FindAllByUuid(search_filter).first
-          vm_mob_ref.snapshot.rootSnapshotList.each{|rootSnapshot|
-            
-          }
+          raise "vm_snapshot_revert is not implemented"
 
         end
 

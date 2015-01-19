@@ -10,9 +10,11 @@ module Fog
           vm_mob_ref.snapshot.rootSnapshotList.each{|tree|
             get_snapshots(snapshots,tree)
           }
+          snapshots
         end
       end
 
+private:
       def get_snapshots(snapshots,tree)
         tree.childSnapshotList.each{|sub_tree|
           snapshots.append(get_snapshots(sub_tree))
