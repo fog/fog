@@ -86,6 +86,10 @@ module Fog
       request :get_vm_first_scsi_controller
       request :set_vm_customvalue
       request :list_host_systems
+      request :list_snapshots
+      request :vm_snapshot_create
+      request :vm_snapshot_revert
+      request :vm_snapshot_destroy
 
       module Shared
 
