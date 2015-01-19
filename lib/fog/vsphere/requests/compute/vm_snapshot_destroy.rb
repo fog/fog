@@ -21,7 +21,8 @@ module Fog
           task = snapshot_ref.RemoveSnapshot_Task(:removeChildren=>true)
           task.wait_for_completion
         end
-private:
+
+private
         def get_snapshots(snapshots,tree)
           snapshots.append(tree)
           tree.childSnapshotList.each{|sub_tree|

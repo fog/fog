@@ -14,7 +14,7 @@ module Fog
         end
       end
 
-private:
+private
       def get_snapshots(snapshots,tree)
         tree.childSnapshotList.each{|sub_tree|
           snapshots.append(get_snapshots(sub_tree))
