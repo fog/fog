@@ -13,11 +13,11 @@ module Fog
         end
       end
 
-      def get_snapshots(snapshots,tree){
+      def get_snapshots(snapshots,tree)
         tree.childSnapshotList.each{|sub_tree|
           snapshots.append(get_snapshots(sub_tree))
         }
-      }
+      end
 
       class Mock
         def list_snapshots(filters = { })
