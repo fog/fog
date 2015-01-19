@@ -9,7 +9,6 @@ module Fog
 
         def all(filters={})
           options = get_filter_options(filters)
-
           data = service.list_templates(options)["listtemplatesresponse"]["template"] || []
           load(data)
         end
@@ -17,7 +16,6 @@ module Fog
         def get(template_id, filters={})
           filter_option = get_filter_options(filters)
           options = filter_option.merge('id' => template_id)
-
           if template = service.list_templates(options)["listtemplatesresponse"]["template"].first
             new(template)
           end

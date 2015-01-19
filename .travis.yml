@@ -1,5 +1,7 @@
 language: ruby
 
+sudo: false
+
 script: bundle exec rake travis
 
 matrix:
@@ -16,6 +18,10 @@ matrix:
     - rvm: 2.1.1
       gemfile: Gemfile
     - rvm: 2.1.1
+      gemfile: gemfiles/Gemfile-edge
+    - rvm: 2.2.0
+      gemfile: Gemfile
+    - rvm: 2.2.0
       gemfile: gemfiles/Gemfile-edge
     - rvm: jruby-18mode
       gemfile: gemfiles/Gemfile-ruby-1.8.7
@@ -39,6 +45,3 @@ notifications:
     on_success: always
     on_failure: always
     use_notice: false
-
-before_install:
-  - gem update --system #  todo: workaround for https://github.com/rubygems/rubygems/pull/763

@@ -13,13 +13,27 @@ module Fog
 
     class Connection
       require 'xmlrpc/client'
-      
       attr_reader :credentials
 
       def initialize(host, timeout)
         @factory = XMLRPC::Client.new(host, '/')
         @factory.set_parser(NokogiriStreamParser.new)
         @factory.timeout = timeout
+      end
+
+      def find_pool_master( username, password )
+        @credentials = authenticate( username, password )
+        response = @factory.call('host.get_all_records', @credentials)
+        if response['Status'] == "Failure" 
+          if response['ErrorDescription'][0] == "HOST_IS_SLAVE"
+            ip_address  = response['ErrorDescription'][1]
+            ip_address  = ip_address.chomp
+            valid = !(IPAddr.new(ip_address) rescue nil).nil?
+            if valid
+              response['ErrorDescription'][1]
+            end
+          end
+        end
       end
 
       def authenticate( username, password )

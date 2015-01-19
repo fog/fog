@@ -14,19 +14,27 @@ fog is the Ruby cloud services library, top to bottom:
 
 ## Getting Started
 
-    sudo gem install fog
-
-Now type `fog` to try stuff, confident that fog will let you know what to do.
+The easiest way to learn fog is to install the gem and use the interactive console.
 Here is an example of wading through server creation for Amazon Elastic Compute Cloud:
 
-    >> server = Compute[:aws].servers.create
-    ArgumentError: image_id is required for this operation
+```
+$ sudo gem install fog
+[...]
 
-    >> server = Compute[:aws].servers.create(:image_id => 'ami-5ee70037')
-    <Fog::AWS::EC2::Server [...]>
+$ fog
 
-    >> server.destroy # cleanup after yourself or regret it, trust me
-    true
+  Welcome to fog interactive!
+  :default provides [...]
+
+>> server = Compute[:aws].servers.create
+ArgumentError: image_id is required for this operation
+
+>> server = Compute[:aws].servers.create(:image_id => 'ami-5ee70037')
+<Fog::AWS::EC2::Server [...]>
+
+>> server.destroy # cleanup after yourself or regret it, trust me
+true
+```
 
 ## Ruby 1.8.7
 

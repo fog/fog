@@ -14,19 +14,29 @@ module Fog
         attribute :path
         attribute :args
         attribute :hostname
+        attribute :links,                       :aliases => 'hostconfig_links'
+        attribute :privileged,                  :aliases => 'hostconfig_privileged'
+        attribute :port_bindings,               :aliases => 'hostconfig_port_bindings'
         attribute :ipaddress,                   :aliases => 'network_settings_ipaddress'
         attribute :bridge,                      :aliases => 'network_settings_bridge'
         attribute :state_running
         attribute :state_pid
-        attribute :cores,                       :aliases => 'config_cpu_shares'
+        attribute :state_exit_code
+        attribute :cores,                       :aliases => 'config_cpu_sets'
+        attribute :cpu_shares,                  :aliases => 'config_cpu_shares'
         attribute :memory,                      :aliases => 'config_memory'
         attribute :hostname,                    :aliases => 'config_hostname'
         attribute :cmd,                         :aliases => 'config_cmd'
         attribute :entrypoint,                  :aliases => 'config_entrypoint'
+        attribute :tty,                         :aliases => 'config_tty'
+        attribute :attach_stdin,                :aliases => 'config_attach_stdin'
+        attribute :attach_stdout,               :aliases => 'config_attach_stdout'
+        attribute :attach_stderr,               :aliases => 'config_attach_stderr'
         attribute :host
         attribute :image
         attribute :exposed_ports,               :aliases => 'config_exposed_ports'
         attribute :volumes
+        attribute :environment_variables,       :aliases => 'config_env'
 
         #raw = {"ID"=>"2ce79789656e4f7474624be6496dc6d988899af30d556574389a19aade2f9650",
         # "Created"=>"2014-01-16T12:42:38.081665295Z",
@@ -44,6 +54,9 @@ module Fog
         #     "AttachStderr"=>true,
         #     "PortSpecs"=>nil,
         #     "ExposedPorts"=>{},
+        #     "Env": [
+        #         "HOME=/mydir",
+        #     ],
         # "State"=>{
         #     "Running"=>true,
         #     "Pid"=>1505,

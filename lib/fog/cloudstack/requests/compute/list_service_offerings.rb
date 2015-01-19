@@ -10,35 +10,34 @@ module Fog
           options = {}
           if args[0].is_a? Hash
             options = args[0]
-            options.merge!('command' => 'listServiceOfferings') 
+            options.merge!('command' => 'listServiceOfferings')
           else
             options.merge!('command' => 'listServiceOfferings')
           end
           request(options)
         end
       end
- 
+
       class Mock
 
         def list_service_offerings(options={})
-          flavors = []
-          if service_offering_id = options['id']
-            flavor = self.data[:flavors][service_offering_id]
-            raise Fog::Compute::Cloudstack::BadRequest unless flavor
-            flavors = [flavor]
+          id = options['id']
+          if id && self.data[:flavors][id].nil?
+            # received 'id' filter for element that does not exist
+            response = { "listserviceofferingsresponse" => { "count" => 0, "serviceoffering" => []}}
+          elsif self.data[:flavors][id]
+            # received 'id' filter for a specific element
+            flavors =  { id => self.data[:flavors][id] }
+            response = { "listserviceofferingsresponse" => { "count" => flavors.size, "serviceoffering"=> flavors.values}}
           else
-            flavors = self.data[:flavors].values
+            # no filter specified
+            flavors = self.data[:flavors]
+            response = { "listserviceofferingsresponse" => { "count" => flavors.size, "serviceoffering"=> flavors.values}}
           end
 
-          {
-            "listserviceofferingsresponse" =>
-            {
-              "count" => flavors.size,
-              "serviceoffering"=> flavors
-            }
-          }
+          return response
         end
-      end 
+      end
     end
   end
 end

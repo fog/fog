@@ -76,7 +76,6 @@ module Fog
         # ==== Returns
         # * dns object with connection to aws.
         def initialize(options={})
-          require 'fog/core/parser'
 
           @dnsmadeeasy_api_key = options[:dnsmadeeasy_api_key]
           @dnsmadeeasy_secret_key = options[:dnsmadeeasy_secret_key]

@@ -45,7 +45,6 @@ module Fog
 
       class Real
         def initialize(options={})
-          require 'fog/core/parser'
 
           @bare_metal_cloud_password = options[:bare_metal_cloud_password]
           @bare_metal_cloud_username = options[:bare_metal_cloud_username]
@@ -76,7 +75,7 @@ module Fog
           end
 
           begin
-            response = @connection.request(params.merge!({:host => @host}))
+            response = @connection.request(params)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound

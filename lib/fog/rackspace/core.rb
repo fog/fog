@@ -88,6 +88,7 @@ module Fog
     service(:auto_scale,       'AutoScale')
     service(:block_storage,    'BlockStorage')
     service(:cdn,              'CDN')
+    service(:cdn_v2,           'CDN v2')
     service(:compute,          'Compute')
     service(:compute_v2,       'Compute v2')
     service(:dns,              'DNS')
@@ -98,6 +99,8 @@ module Fog
     service(:monitoring,       'Monitoring')
     service(:queues,           'Queues')
     service(:networking,       'Networking')
+    service(:orchestration,    'Orchestration')
+    service(:networkingV2,     'NetworkingV2')
 
     def self.authenticate(options, connection_options = {})
       rackspace_auth_url = options[:rackspace_auth_url]

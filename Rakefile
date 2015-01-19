@@ -52,6 +52,7 @@ task :travis  => ['test', 'test:travis']
 
 Rake::TestTask.new do |t|
   t.pattern = File.join("spec", "**", "*_spec.rb")
+  t.libs << "spec"
 end
 
 namespace :test do
@@ -67,6 +68,12 @@ namespace :test do
   end
   task :ovirt do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/ovirt")
+  end
+  task :openstack do
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/openstack")
+  end
+  task :cloudstack do
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/cloudstack")
   end
 
 end

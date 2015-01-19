@@ -8,6 +8,9 @@ module Fog
         # http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=SR
         #
         def destroy_sr( sr_ref )
+          Fog::Logger.deprecation(
+              'This method is deprecated. Use #destroy_record instead.'
+          )
           @connection.request(
             {:parser => Fog::Parsers::XenServer::Base.new, :method => 'SR.destroy'},
             sr_ref

@@ -2,10 +2,7 @@
 
 You'll need a DigitalOcean account and API key to use this provider.
 
-Get one from http://www.digitalocean.com.
-
-To generate the API key, login to the DigitalOcean web panel and go to
-'My Settings -> API Access -> Generate a new API key'.
+Get one from https://cloud.digitalocean.com/api_access (fog currently uses the v1 API)
 
 Write down the Client Key and API Key, you'll need both to use the service.
 
@@ -27,6 +24,51 @@ docean = Fog::Compute.new({
   :digitalocean_api_key   => 'poiuweoruwoeiuroiwuer', # your API key here
   :digitalocean_client_id => 'lkjasoidfuoiu'          # your client key here
 })
+```
+
+## SSH Key Management
+
+Access to DigitalOcean servers can be managed with SSH keys. These can be assigned to servers at creation time so you can access them without having to use a password.
+
+Creating a key:
+
+```ruby
+docean.ssh_keys.create(
+  :name        => 'Default SSH Key',
+  :ssh_pub_key => File.read('~/.ssh/id_rsa.pub'))
+)
+```
+
+Listing all keys:
+
+```ruby
+docean.ssh_keys.each do | key |
+   key.name
+   key.ssh_pub_key
+end
+```
+
+Destroying a key:
+
+```ruby
+docean.ssh_keys.destroy(:id => '27100')
+```
+
+## Boostrapping a server
+
+Fog can be used to bootstrap a server, which will create an SSH key to be assigned to a server at boot.
+
+```ruby
+server = connection.servers.bootstrap({
+  :name => 'test',
+  :image_id => 1505447,
+  :size_id => 33,
+  :region_id => 4,
+  :flavor_id => 66,
+  :public_key_path => File.expand_path('~/.ssh/id_rsa.pub'),
+  :private_key_path => File.expand_path('~/.ssh/id_rsa'),
+})
+server.wait_for { ready? }
 ```
 
 ## Listing servers

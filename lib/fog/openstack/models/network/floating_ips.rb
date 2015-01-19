@@ -14,13 +14,13 @@ module Fog
           super
         end
 
-        def all(filters = filters)
-          self.filters = filters
+        def all(filters_arg = filters)
+          filters = filters_arg
           load(service.list_floating_ips(filters).body['floatingips'])
         end
 
         def get(floating_network_id)
-          if floating_ip = connection.get_floating_ip(floating_network_id).body['floatingip']
+          if floating_ip = service.get_floating_ip(floating_network_id).body['floatingip']
             new(floating_ip)
           end
         rescue Fog::Network::OpenStack::NotFound

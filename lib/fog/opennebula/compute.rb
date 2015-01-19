@@ -17,7 +17,7 @@ module Fog
       collection  :interfaces
       model       :group
       collection  :groups
-      
+
       request_path 'fog/opennebula/requests/compute'
       request :list_vms
       request :list_groups

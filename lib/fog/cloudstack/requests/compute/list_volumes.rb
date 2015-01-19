@@ -10,14 +10,16 @@ module Fog
           options = {}
           if args[0].is_a? Hash
             options = args[0]
-            options.merge!('command' => 'listVolumes') 
+            options.merge!('command' => 'listVolumes')
           else
             options.merge!('command' => 'listVolumes')
           end
+          # add project id if we have one
+          @cloudstack_project_id ? options.merge!('projectid' => @cloudstack_project_id) : nil
           request(options)
         end
       end
- 
+
       class Mock
         def list_volumes(options={})
           volume_id = options.delete('id')
@@ -34,7 +36,7 @@ module Fog
             }
           }
         end
-      end 
+      end
     end
   end
 end

@@ -47,7 +47,8 @@ module Fog
           data = service.list_domain_details(zone_id).body
           new(data)
         rescue Fog::DNS::Rackspace::NotFound
-          nil
+          # if we can't find it by id, go back and find it via domain
+          find{|z| z.domain == zone_id}
         #Accessing a valid (but other customer's) id returns a 503 error
         rescue Fog::Rackspace::Errors::ServiceUnavailable
           nil

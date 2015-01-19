@@ -7,7 +7,7 @@ module Fog
         attribute :account_id,         :aliases => 'accountid'
         attribute :bootable
         attribute :checksum
-        attribute :created
+        attribute :created,            :type => :time
         attribute :cross_zones,        :aliases => 'crossZones'
         attribute :details
         attribute :display_text,       :aliases => 'displaytext'
@@ -19,10 +19,10 @@ module Fog
         attribute :hypervisor
         attribute :job_id,             :aliases => 'jobid'
         attribute :job_status,         :aliases => 'jobstatus'
-        attribute :is_extractable,     :aliases => 'isextractable'
-        attribute :is_featured,        :aliases => 'isfeatured'
-        attribute :is_public,          :aliases => 'ispublic'
-        attribute :is_ready,           :aliases => 'isready'
+        attribute :is_extractable,     :aliases => 'isextractable', :type => :boolean
+        attribute :is_featured,        :aliases => 'isfeatured', :type => :boolean
+        attribute :is_public,          :aliases => 'ispublic', :type => :boolean
+        attribute :is_ready,           :aliases => 'isready', :type => :boolean
         attribute :name
         attribute :os_type_id,         :aliases => 'ostypeid'
         attribute :os_type_name,       :aliases => 'ostypename'

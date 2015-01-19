@@ -7,8 +7,9 @@ module Fog
       class Snapshots < Fog::Collection
         model Fog::Compute::Cloudstack::Snapshot
 
-        def all
-          data = service.list_snapshots["listsnapshotsresponse"]["snapshot"] || []
+        def all(attributes = {})
+          response = service.list_snapshots(attributes)
+          data = response["listsnapshotsresponse"]["snapshot"] || []
           load(data)
         end
 

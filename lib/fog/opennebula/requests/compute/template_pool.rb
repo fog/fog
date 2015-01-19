@@ -41,13 +41,20 @@ module Fog
             # filtering by name
             # done here, because OpenNebula:TemplatePool does not support something like .delete_if
             if filter[:name] && filter[:name].is_a?(String) && !filter[:name].empty?
-                next if t.to_hash["VMTEMPLATE"]["NAME"] != filter[:name]
+              next if t.to_hash["VMTEMPLATE"]["NAME"] != filter[:name]
+            end
+            if filter[:uname] && filter[:uname].is_a?(String) && !filter[:uname].empty?
+              next if t.to_hash["VMTEMPLATE"]["UNAME"] != filter[:uname]
+            end
+            if filter[:uid] && filter[:uid].is_a?(String) && !filter[:uid].empty?
+              next if t.to_hash["VMTEMPLATE"]["UID"] != filter[:uid]
             end
 
             h = Hash[
               :id => t.to_hash["VMTEMPLATE"]["ID"], 
               :name => t.to_hash["VMTEMPLATE"]["NAME"], 
-              :content => t.template_str
+              :content => t.template_str,
+              :USER_VARIABLES => "" # Default if not set in template
             ]
             h.merge! t.to_hash["VMTEMPLATE"]["TEMPLATE"]
 
@@ -62,8 +69,16 @@ module Fog
               end
             elsif nics.is_a? Hash
               nics["model"] = "virtio" if nics["model"].nil?
-              nics["uuid"] = "0" if nics["uuid"].nil? # is it better is to remove this NIC?
-              h["NIC"] << interfaces.new({ :vnet => networks.get(nics["uuid"]), :model => nics["model"]})
+              #nics["uuid"] = "0" if nics["uuid"].nil? # is it better is to remove this NIC?
+              n = networks.get_by_filter({
+                :id => nics["NETWORK_ID"],
+                :network => nics["NETWORK"],
+                :network_uname => nics["NETWORK_UNAME"],
+                :network_uid => nics["NETWORK_UID"]
+              })
+              n.each do |i|
+                h["NIC"] << interfaces.new({ :vnet => i })
+              end
             else
               # should i break?
             end
@@ -85,7 +100,34 @@ module Fog
 
       class Mock
         def template_pool(filter = { })
-          [ {}, {} ]
+          [ 
+            {
+              :content => %Q{
+                NAME = mock-vm
+                MEMORY = 512
+                VCPU = 1
+                CPU = 1
+              },
+              :id => 1,
+              :name => 'mock',
+              :cpu => 1,
+              :vcpu => 1,
+              :memory => 512,
+              :sched_requirements => 'CPUSPEED > 1000',
+              :sched_rank => 'FREECPU',
+              :sched_ds_requirements => "NAME=mock",
+              :sched_ds_rank => "FREE_MB",
+              :disk => {},
+              :nic => {},
+              :os => {
+                'ARCH' => 'x86_64'
+              },
+              :graphics => {},
+              :raw => {},
+              :context => {},
+              :user_variables => {}
+            }
+          ]
         end
       end #class Mock
     end #class OpenNebula

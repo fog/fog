@@ -304,7 +304,44 @@ module Fog
               },
               :datacenters => {
                 "Solutions" => {:name => "Solutions", :status => "grey"}
-              }
+              },
+              :clusters =>
+                [{:id => "1d4d9a3f-e4e8-4c40-b7fc-263850068fa4",
+                  :name => "Solutionscluster",
+                  :num_host => "4",
+                  :num_cpu_cores => "16",
+                  :overall_status => "green",
+                  :datacenter => "Solutions",
+                  :klass => "RbVmomi::VIM::ComputeResource"
+                 },
+                 {:id => "e4195973-102b-4096-bbd6-5429ff0b35c9",
+                  :name => "Problemscluster",
+                  :num_host => "4",
+                  :num_cpu_cores => "32",
+                  :overall_status => "green",
+                  :datacenter => "Solutions",
+                  :klass => "RbVmomi::VIM::ComputeResource"
+                 },
+                 {
+                   :klass => "RbVmomi::VIM::Folder",
+                   :clusters => [{:id => "03616b8d-b707-41fd-b3b5-The first",
+                                  :name => "Problemscluster",
+                                  :num_host => "4",
+                                  :num_cpu_cores => "32",
+                                  :overall_status => "green",
+                                  :datacenter => "Solutions",
+                                  :klass => "RbVmomi::VIM::ComputeResource"
+                                 },
+                                 {:id => "03616b8d-b707-41fd-b3b5-the Second",
+                                  :name => "Lastcluster",
+                                  :num_host => "8",
+                                  :num_cpu_cores => "32",
+                                  :overall_status => "green",
+                                  :datacenter => "Solutions",
+                                  :klass => "RbVmomi::VIM::ComputeResource"}
+                   ]
+                 }
+                ]
             }
           end
         end

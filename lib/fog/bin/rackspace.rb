@@ -8,6 +8,8 @@ class Rackspace < Fog::Bin
         Fog::Rackspace::BlockStorage
       when :cdn
         Fog::CDN::Rackspace
+      when :cdn_v2
+        Fog::Rackspace::CDNV2
       when :compute
         Fog::Compute::Rackspace
       when :compute_v2
@@ -28,6 +30,8 @@ class Rackspace < Fog::Bin
         Fog::Rackspace::Queues
       when :networking
         Fog::Rackspace::Networking
+      when :networking_v2
+        Fog::Rackspace::NetworkingV2
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -41,6 +45,8 @@ class Rackspace < Fog::Bin
         when :cdn
           Fog::Logger.warning("Rackspace[:cdn] is not recommended, use CDN[:rackspace] for portability")
           Fog::CDN.new(:provider => 'Rackspace')
+        when :cdn_v2
+          Fog::Rackspace::CDNV2.new
         when :compute
           Fog::Logger.warning("Rackspace[:compute] is not recommended, use Compute[:rackspace] for portability")
           Fog::Compute.new(:provider => 'Rackspace')
@@ -67,6 +73,8 @@ class Rackspace < Fog::Bin
           Fog::Rackspace::Queues.new
         when :networking
           Fog::Rackspace::Networking.new
+        when :networking_v2
+          Fog::Rackspace::NetworkingV2.new
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end

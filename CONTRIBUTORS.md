@@ -1,5 +1,7 @@
 * A.S. Lomoff <lomov.as@gmail.com>
 * Aaron Bell <aarontbell@gmail.com>
+* Aaron Donovan <donovan_aaron@bah.com>
+* Aaron Huber <aaron.m.huber@intel.com>
 * Aaron Suggs <aaron@ktheory.com>
 * Abhishek Chanda <abhishek.becs@gmail.com>
 * Achim Ledermüller <achim.ledermueller@netways.de>
@@ -44,6 +46,7 @@
 * Andreas Gerauer <helle@fraggaz.de>
 * Andreas Josephson <andreas.josephson@teyrow.se>
 * Andrei Serdeliuc <andrei@serdeliuc.ro>
+* Andrew Brown <anbrown@blackberry.com>
 * Andrew Bruce <andrew@camelpunch.com>
 * Andrew Donald Kennedy <andrew.kennedy@cloudsoftcorp.com>
 * Andrew Hodges <betawaffle@gmail.com>
@@ -89,6 +92,7 @@
 * Benson Kalahar <bensonk42@gmail.com>
 * Benton Roberts <benton@bentonroberts.com>
 * Benton Roberts <broberts@mdsol.com>
+* Bert Hajee <hajee@moretIA.com>
 * Blake Gentry <blakesgentry@gmail.com>
 * Blake Irvin and Eric Saxby <pair+blake+sax@wanelo.com>
 * Bob Briski <rbriski@gmail.com>
@@ -112,6 +116,7 @@
 * Brian Palmer <brianp@instructure.com>
 * Brice Figureau <brice-puppet@daysofwonder.com>
 * Bruno Enten <bruno@enten-itc.ch>
+* Bruz Marzolf <bruz@bruzilla.com>
 * Bulat Shakirzyanov <mallluhuct@gmail.com>
 * Caius Durling <dev@caius.name>
 * Caleb Tennis <caleb.tennis@gmail.com>
@@ -130,12 +135,15 @@
 * Chirag Jog <cheezo@static-19.7.97.14.tataidc.co.in>
 * Chirag Jog <chirag.jog@gmail.com>
 * Chmouel Boudjnah <chmouel@chmouel.com>
+* Chris Chalstrom <cchalstr@nsidc-chalstrom.ad.int.nsidc.org>
 * Chris Chiodo <chris@viximo.com>
 * Chris Frederick <chris@maginatics.com>
+* Chris Gianelloni <wolf31o2@gmail.com>
 * Chris Hasenpflug <github@chris.hasenpflug.us>
 * Chris Howe <howech@infochimps.com>
 * Chris Kershaw <ckershaw@6fusion.com>
 * Chris Mague <github@mague.com>
+* Chris McClimans <chris@hippiehacker.org>
 * Chris Roberts <chrisroberts.code@gmail.com>
 * Chris Thompson <chris.thompson@govdelivery.com>
 * Chris Wuest <chris.wuest@rackspace.com>
@@ -188,6 +196,7 @@
 * Dejan Menges <dejan.menges@9cookies.com>
 * Denis Barishev <denz@twiket.com>
 * Diego Desani <diego@newservers.com>
+* Dmitri Dolguikh <dmitri@appliedlogic.ca>
 * Dmitry Dedov <dmitry.dedov@tut.by>
 * Dmitry Gutov <dgutov@yandex.ru>
 * Dominic Cleal <dcleal@redhat.com>
@@ -215,6 +224,7 @@
 * Eric Hodel <drbrain@segment7.net>
 * Eric Johnson <erjohnso@google.com>
 * Eric Lindvall <eric@5stops.com>
+* Eric Sakowski <sakowski@gmail.com>
 * Eric Stonfer <ericstonfer@yahoo.com>
 * Eric Stonfer <estonfer@gmail.com>
 * Eric Stonfer <estonfer_ldap@ccppup-ae-a001-p.ae.ccp.cable.comcast.com>
@@ -223,6 +233,7 @@
 * Erik Michaels-Ober <sferik@gmail.com>
 * Erik Terpstra <erterpstra@gmail.com>
 * Erik van Pienbroek <erik.vanpienbroek@prorail.nl>
+* Ethan Devenport <ethand@stackpointcloud.com>
 * Eugene Howe & Josh Lane <ehowe@engineyard.com>
 * Eugene Howe <ehowe@engineyard.com>
 * Eugene Howe <eugene@xtreme-computers.net>
@@ -249,6 +260,7 @@
 * Geoff Pado <geoffpado@gmail.com>
 * George Scott <gscott@rumbleware.com>
 * Geraud <geraud@cardspring.net>
+* German Germanovich <herman.hermanovich@gmail.com>
 * Gerred Dillon <gerred@quickleft.com>
 * Glenn Tweedie <glenn.tweedie@agworld.com.au>
 * Graeme Wilson <graeme.wilson@whitelabelled.com>
@@ -267,6 +279,7 @@
 * Hemant Kumar <gethemant@gmail.com>
 * Hendrik Volkmer <hvolkmer@gmail.com>
 * Henry Addison <hja22@me.com>
+* Hiro Asari <asari.ruby@gmail.com>
 * Hongbin Lu <hongbin034@gmail.com>
 * Hunter Haugen <h.haugen@gmail.com>
 * Hunter Nield <hunternield@gmail.com>
@@ -367,6 +380,7 @@
 * Joshua Napoli <jnapoli@swipely-napoli.local>
 * Joshua Nichols <josh@technicalpickles.com>
 * Joshua Schairbaum <joshua.schairbaum@gmail.com>
+* Josué Lima <josuedsi@gmail.com>
 * Julian Fischer <fischer@enterprise-rails.de>
 * Julian Weber <jweber@anynines.com>
 * Julian Weber <jweber@avarteq.de>
@@ -447,6 +461,7 @@
 * Matheus Mina <mfbmina@gmail.com>
 * Mathias Meyer <meyer@paperplanes.de>
 * Matt Bostock <matt@mattbostock.com>
+* Matt Darby <matt.darby@rackspace.com>
 * Matt Eldridge <matt.eldridge@us.ibm.com>
 * Matt Gillooly <matt@swipely.com>
 * Matt Griffin <matt@griffinonline.org>
@@ -505,6 +520,7 @@
 * Nelvin Driz <nelvindriz@outlook.com>
 * Nicholas Ricketts <nightshade427@gmail.com>
 * Nick Huanca <nhuanca@pingidentity.com>
+* Nick Huanca <nick.huanca@gmail.com>
 * Nick Huanuca <nhuanca@pingidentity.com>
 * Nick Janus <nickjanus@gmail.com>
 * Nick Merwin <nick@lemurheavy.com>
@@ -534,9 +550,11 @@
 * Patrick Debois <Patrick.Debois@jedi.be>
 * Patrick McKenzie <patrick@kalzumeus.com>
 * Paul <paul@propanestudio.com>
+* Paul Gideon Dann <pdgiddie@gmail.com>
 * Paul Thornthwaite <paul@brightbox.co.uk>
 * Paul Thornthwaite <tokengeek@gmail.com>
 * Paul Vudmaska <Paul.Vudmaska@Rackspace.com>
+* Paulo Henrique Lopes Ribeiro <paulo@majority.co>
 * Paulo Henrique Lopes Ribeiro <plribeiro3000@gmail.com>
 * Pavel Repin <prepin@gmail.com>
 * Pedro Belo <pedro@heroku.com>
@@ -616,6 +634,7 @@
 * Shaun Davis <davissp14@gmail.com>
 * Shawn Catanzarite <me@shawncatz.com>
 * Shay Bergmann <shayb@panaya.com>
+* Shlomi Zadok <shlomi@ben-hanna.com>
 * Simas Cepaitis <simas.cepaitis@pearson.com>
 * Simas Cepaitis <simas.cepaitis@snc.lt>
 * Simon Gate <simon@smgt.me>
@@ -629,6 +648,7 @@
 * Stepan G Fedorov <me@nomadrain.com>
 * Stepan G. Fedorov <sf@clodo.ru>
 * Stephan Kaag <stephan@ka.ag>
+* Stephen Augenstein <perl.programmer@gmail.com>
 * Stephen Bannasch <stephen.bannasch@gmail.com>
 * Stephen von Takach <steve@advancedcontrol.com.au>
 * Steve Agalloco <steve.agalloco@gmail.com>
@@ -700,6 +720,7 @@
 * Yauheni Kryudziuk <yauheni.kryudziuk@xing.com>
 * Your Name <seanhart@funzio.com>
 * Yousef Ourabi <yourabi@gmail.com>
+* Yury Tsarev <yury.tsarev@gooddata.com>
 * Zachary Danger Campbell <zacharydangercampbell@gmail.com>
 * Ziyad Mir <ziyadm@google.com>
 * Ziyad Mir <ziyadmir@gmail.com>
@@ -722,6 +743,7 @@
 * bigfleet <jim@jimvanfleet.com>
 * bmiller <bmiller@handson.com>
 * bonkydog <bonkydog@bonkydog.com>
+* brettcave <brett@cave.za.net>
 * brookemckim <brooke.mckim@gmail.com>
 * bugagazavr <kirik910@gmail.com>
 * caryp <cary@rightscale.com>
@@ -734,6 +756,7 @@
 * deepj <deepjungle.maca@gmail.com>
 * dennis-sig <d.bijlsma@sig.eu>
 * dm1try <dmitry.dedov@tut.by>
+* elkelk <danielshaneupton@gmail.com>
 * endzyme <nick.huanca@gmail.com>
 * epdejager <eliza.dejager@statpro.com>
 * fbiete@gmail.com <fbiete@gmail.com>

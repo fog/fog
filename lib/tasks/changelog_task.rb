@@ -18,6 +18,7 @@ module Fog
 
           add_commits_to_changelog
           save_changelog
+          ::Rake::Task[:github_release].invoke
         end
       end
 
@@ -110,10 +111,12 @@ Watchers      | #{watchers}
            'Brian Hartsock',
            'Chris Roberts',
            'Christopher Oliver',
+           'Colin Hebert',
            'Daniel Reichert',
            'Decklin Foster',
            'Dylan Egan',
            'Erik Michaels-Ober',
+           'Frederick Cheung',
            'geemus',
            'Henry Addison',
            'James Bence',
@@ -131,6 +134,7 @@ Watchers      | #{watchers}
            'nightshade427',
            'Patrick Debois',
            'Paul Thornthwaite',
+           'Paulo Henrique Lopes Ribeiro',
            'Rodrigo Estebanez',
            'Rupak Ganguly',
            'Stepan G. Fedorov',
