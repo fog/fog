@@ -22,14 +22,6 @@ module Fog
           task.wait_for_completion
         end
 
-private
-        def get_snapshots(snapshots,tree)
-          snapshots.append(tree)
-          tree.childSnapshotList.each{|sub_tree|
-            get_snapshots(snapshots,sub_tree)
-          }
-        end
-
       end
 
       class Mock

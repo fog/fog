@@ -7,18 +7,26 @@ module Fog
           search_filter = { :uuid => options['instance_uuid'], 'vmSearch' => true, 'instanceUuid' => true }
           vm_mob_ref = @connection.searchIndex.FindAllByUuid(search_filter).first
           snapshots = []
-          vm_mob_ref.snapshot.rootSnapshotList.each{|tree|
-            get_snapshots(snapshots,tree)
-          }
+          if vm_mob_ref.snapshot
+            vm_mob_ref.snapshot.rootSnapshotList.each{|tree|
+              get_snapshots(snapshots,tree)
+            }
+          end
           snapshots
         end
-      end
 
-private
-      def get_snapshots(snapshots,tree)
-        tree.childSnapshotList.each{|sub_tree|
-          snapshots.append(get_snapshots(sub_tree))
-        }
+      private
+        def get_snapshots(snapshots,tree)
+          snapshots.append({'createTime'=>tree.createTime,
+                            'id'=>tree.id,
+                            'name'=>tree.name,
+                            'description'=>tree.description,
+                            'snapshot'=>tree.snapshot
+                            })
+          tree.childSnapshotList.each{|sub_tree|
+            get_snapshots(snapshots,sub_tree)
+          }
+        end
       end
 
       class Mock
