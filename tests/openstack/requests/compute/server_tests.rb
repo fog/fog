@@ -84,6 +84,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
         :source_type           => "volume",
         :destination_type      => "volume",
         :delete_on_termination => true,
+        :volume_size           => 20
       }, {
         :boot_index            => 1,
         :uuid                  => @volume2_id,
@@ -91,6 +92,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
         :source_type           => "volume",
         :destination_type      => "volume",
         :delete_on_termination => true,
+        :volume_size           => 10
       }]
       data = compute.create_server("test", nil, @flavor_id, "block_device_mapping_v2" => volume_data).body['server']
       @server_id = data['id']

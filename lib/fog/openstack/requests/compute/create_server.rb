@@ -66,6 +66,7 @@ module Fog
                 'device_name'           => mapping[:device_name],
                 'source_type'           => mapping[:source_type],
                 'uuid'                  => mapping[:uuid],
+                'volume_size'           => mapping[:volume_size],
               }
             end
           elsif (block_device_mapping = options['block_device_mapping'])
