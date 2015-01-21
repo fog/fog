@@ -2,12 +2,12 @@ module Fog
   module Orchestration
     class OpenStack
       class Real
-        def update_stack(stack, options = {})
+        def validate_template(options = {})
           request(
             :body     => Fog::JSON.encode(options),
-            :expects  => [202],
-            :method   => 'PUT',
-            :path     => "stacks/#{stack.stack_name}/#{stack.id}"
+            :expects  => [200],
+            :method   => 'POST',
+            :path     => 'validate'
           )
         end
       end

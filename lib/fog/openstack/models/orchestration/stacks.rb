@@ -1,4 +1,3 @@
-require 'fog/core/collection'
 require 'fog/openstack/models/orchestration/stack'
 
 module Fog
@@ -7,14 +6,34 @@ module Fog
       class Stacks < Fog::Collection
         model Fog::Orchestration::OpenStack::Stack
 
-        def all
-          load(service.list_stacks.body['stacks'])
+        def all(options={})
+          data = service.list_stack_data(options).body['stacks']
+          load(data)
         end
 
-        def find_by_id(id)
-          self.find {|stack| stack.id == id}
+        def get(name, id)
+          data = service.show_stack_details(name, id).body['stack']
+          new(data)
+        rescue Fog::Compute::OpenStack::NotFound
+          nil
         end
-        alias_method :get, :find_by_id
+
+        def adopt(options={})
+          service.create_stack(options)
+        end
+
+        def create(options={})
+          service.create_stack(options).body['stack']
+        end
+
+        def preview(options={})
+          data = service.preview_stack(options).body['stack']
+          new(data)
+        end
+
+        def build_info
+          service.build_info.body
+        end
       end
     end
   end

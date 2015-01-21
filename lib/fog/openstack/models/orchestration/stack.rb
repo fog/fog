@@ -1,50 +1,46 @@
-require 'fog/core/model'
-
 module Fog
   module Orchestration
     class OpenStack
       class Stack < Fog::Model
+
         identity :id
 
-        attribute :stack_name
-        attribute :stack_status
-        attribute :stack_status_reason
-        attribute :creation_time
-        attribute :updated_time
-        attribute :id
-
-        attribute :template_url
-        attribute :template
-        attribute :parameters
-        attribute :timeout_in_minutes
-
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
+        %w{description links stack_status_reason stack_name creation_time updated_time}.each do |a|
+          attribute a.to_sym
         end
 
-        def save
-          requires :stack_name
-          identity ? update : create
+        def details
+          service.show_stack_details(self.stack_name, self.id).body['stack']
+        rescue Fog::Service::NotFound
+          nil
         end
 
-        def create
-          requires :stack_name
-          service.create_stack(stack_name, self.attributes)
-          self
+        def resources
+          @resources ||= service.resources.all(self)
         end
 
-        def update
-          requires :stack_name
-          service.update_stack(stack_name, self.attributes)
-          self
+        def events(options={})
+          @events ||= service.events.all(self, options)
         end
 
-        def destroy
-          requires :id
-          service.delete_stack(self.stack_name, self.id)
-          true
+        def template
+          @template ||= service.templates.get(self)
+        end
+
+        def save(options={})
+          if persisted?
+            service.update_stack(self, options).body['stack']
+          else
+            service.stacks.create(options)
+          end
+        end
+
+        def abandon
+          service.abandon_stack(self)
+        end
+
+        def delete
+          service.delete_stack(self)
         end
       end
     end

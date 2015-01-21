@@ -2,11 +2,11 @@ module Fog
   module Orchestration
     class OpenStack
       class Real
-        def delete_stack(stack)
+        def abandon_stack(stack)
           request(
-            :expects => [204],
+            :expects => [200],
             :method  => 'DELETE',
-            :path    => "stacks/#{stack.stack_name}/#{stack.id}"
+            :path    => "stacks/#{stack.stack_name}/#{stack.id}/abandon"
           )
         end
       end
