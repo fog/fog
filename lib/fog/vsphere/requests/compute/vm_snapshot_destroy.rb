@@ -16,7 +16,7 @@ module Fog
           vm_mob_ref.snapshot.rootSnapshotList.each{|tree|
             get_snapshots(snapshots,tree)
           }
-          snapshot_ref = snapshots.find{|sp|sp.name == options["name"]}.snapshot
+          snapshot_ref = snapshots.find{|sp|sp['name'] == options["name"]}['snapshot']
           raise "Instance #{options['instance_uuid']} has no snapshots named #{options["name"]}" unless snapshot_ref
           task = snapshot_ref.RemoveSnapshot_Task(:removeChildren=>true)
           task.wait_for_completion

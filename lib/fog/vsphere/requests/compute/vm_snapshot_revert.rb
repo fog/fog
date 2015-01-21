@@ -13,8 +13,14 @@ module Fog
 
           search_filter = { :uuid => options['instance_uuid'], 'vmSearch' => true, 'instanceUuid' => true }
           vm_mob_ref = @connection.searchIndex.FindAllByUuid(search_filter).first
-          raise "vm_snapshot_revert is not implemented"
-
+          snapshots = []
+          vm_mob_ref.snapshot.rootSnapshotList.each{|tree|
+            get_snapshots(snapshots,tree)
+          }
+          snapshot_ref = snapshots.find{|sp|sp['name'] == options["name"]}['snapshot']
+          raise "Instance #{options['instance_uuid']} has no snapshots named #{options["name"]}" unless snapshot_ref
+          task = snapshot_ref.RevertToSnapshot_Task
+          task.wait_for_completion
         end
 
       end

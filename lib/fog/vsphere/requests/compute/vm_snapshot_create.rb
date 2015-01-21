@@ -7,11 +7,11 @@ module Fog
           options = { 'force' => false }.merge(options)
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
           raise ArgumentError, "name is a required parameter" unless options.has_key? 'name'
-
+          memory = options['memory']||false
           search_filter = { :uuid => options['instance_uuid'], 'vmSearch' => true, 'instanceUuid' => true }
           vm_mob_ref = @connection.searchIndex.FindAllByUuid(search_filter).first
 
-          task = vm_mob_ref.CreateSnapshot_Task(:name=>options['name'],:memory=>false,:quiesce=>true)
+          task = vm_mob_ref.CreateSnapshot_Task(:name=>options['name'],:memory=>memory,:quiesce=>true)
           task.wait_for_completion
         end
 
