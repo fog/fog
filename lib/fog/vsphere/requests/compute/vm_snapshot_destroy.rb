@@ -6,7 +6,7 @@ module Fog
         def vm_snapshot_destroy(options = {})
           options = { 'force' => false }.merge(options)
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
-          raise ArgumentError, "name is a required parameter" unless options.has_key? 'name'
+          raise ArgumentError, "snapshot_id is a required parameter" unless options.has_key? 'snapshot_id'
 
           search_filter = { :uuid => options['instance_uuid'], 'vmSearch' => true, 'instanceUuid' => true }
           vm_mob_ref = @connection.searchIndex.FindAllByUuid(search_filter).first
@@ -16,8 +16,8 @@ module Fog
           vm_mob_ref.snapshot.rootSnapshotList.each{|tree|
             get_snapshots(snapshots,tree)
           }
-          snapshot_ref = snapshots.find{|sp|sp['name'] == options["name"]}['snapshot']
-          raise "Instance #{options['instance_uuid']} has no snapshots named #{options["name"]}" unless snapshot_ref
+          snapshot_ref = snapshots.find{|sp|sp['id'] == options["snapshot_id"]}['snapshot']
+          raise "Instance #{options['instance_uuid']} has no snapshots snapshot_id #{options["snapshot_id"]}" unless snapshot_ref
           task = snapshot_ref.RemoveSnapshot_Task(:removeChildren=>true)
           task.wait_for_completion
         end
