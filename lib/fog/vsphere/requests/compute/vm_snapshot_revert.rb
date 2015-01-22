@@ -17,8 +17,9 @@ module Fog
           vm_mob_ref.snapshot.rootSnapshotList.each{|tree|
             get_snapshots(snapshots,tree)
           }
-          snapshot_ref = snapshots.find{|sp|sp['id'] == options["snapshot_id"]}['snapshot']
-          raise "Instance #{options['instance_uuid']} has no snapshots snapshot_id #{options["snapshot_id"]}" unless snapshot_ref
+          snapshot_id = options["snapshot_id"].to_i
+          snapshot_ref = snapshots.find{|sp|sp['id'] == snapshot_id}['snapshot']
+          raise "Instance #{options['instance_uuid']} has no snapshots snapshot_id #{snapshot_id}" unless snapshot_ref
           task = snapshot_ref.RevertToSnapshot_Task
           task.wait_for_completion
         end
