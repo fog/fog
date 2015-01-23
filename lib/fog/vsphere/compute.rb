@@ -90,6 +90,7 @@ module Fog
       request :vm_snapshot_create
       request :vm_snapshot_revert
       request :vm_snapshot_destroy
+      request :vm_relocate
 
       module Shared
 
