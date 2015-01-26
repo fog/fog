@@ -19,6 +19,7 @@ module Fog
         attribute :cluster
         attribute :interfaces
         attribute :volumes
+        attribute :version
 
         def interfaces
           attributes[:interfaces] ||= id.nil? ? [] : Fog::Compute::Ovirt::Interfaces.new(
