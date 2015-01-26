@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Libvirt
-
       class Interface < Fog::Model
-
         identity :name
         attribute :mac
         attribute :active
@@ -22,7 +20,6 @@ module Fog
           active
         end
       end
-
     end
   end
 end

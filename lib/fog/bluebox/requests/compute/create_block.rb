@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Bluebox
       class Real
-
         # Create a new block
         #
         # ==== Parameters
@@ -19,8 +18,7 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def create_block(product_id, template_id, location_id, options = {})
-
-          unless options.has_key?('password') || options.has_key?('ssh_public_key')
+          unless options.key?('password') || options.key?('ssh_public_key')
             raise ArgumentError, 'Either password or public_key must be supplied'
           end
 
@@ -30,6 +28,8 @@ module Fog
             'location' => location_id
           }
 
+          query['ipv6_only'] = options.delete('ipv6_only') if options['ipv6_only']
+
           request(
             :expects  => 200,
             :method   => 'POST',
@@ -38,7 +38,6 @@ module Fog
             :body     => options.map {|k,v| "#{CGI.escape(k)}=#{CGI.escape(v)}"}.join('&')
           )
         end
-
       end
     end
   end

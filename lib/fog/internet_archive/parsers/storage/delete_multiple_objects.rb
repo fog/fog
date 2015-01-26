@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module InternetArchive
-
         class DeleteMultipleObjects < Fog::Parsers::Base
-
           def reset
             @deleted = { 'Deleted' => {} }
             @error = { 'Error' => {} }
@@ -40,11 +38,8 @@ module Fog
               @error['Error'][name] = value
             end
           end
-
         end
-
       end
     end
   end
 end
-

@@ -4,9 +4,7 @@ require 'fog/openstack/models/storage/directory'
 module Fog
   module Storage
     class OpenStack
-
       class Directories < Fog::Collection
-
         model Fog::Storage::OpenStack::Directory
 
         def all
@@ -24,6 +22,7 @@ module Fog
           end
           directory.files.merge_attributes(options)
           directory.files.instance_variable_set(:@loaded, true)
+
           data.body.each do |file|
             directory.files << directory.files.new(file)
           end
@@ -31,9 +30,7 @@ module Fog
         rescue Fog::Storage::OpenStack::NotFound
           nil
         end
-
       end
-
     end
   end
 end

@@ -5,7 +5,6 @@ module Fog
         def get_cluster(id)
           ovirt_attrs client.cluster(id)
         end
-
       end
       class Mock
         def get_cluster(id)

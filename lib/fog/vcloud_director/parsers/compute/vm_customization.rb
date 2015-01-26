@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module VcloudDirector
-
         class VmCustomization < VcloudDirectorParser
-
           def reset
             @response = { }
           end
@@ -24,7 +22,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'Enabled',
+            when 'Enabled'
               @response[:enabled] = (value == "true")
             when 'ChangeSid'
               @response[:change_sid] = (value == "true")
@@ -32,6 +30,8 @@ module Fog
               @response[:join_domain_enabled] = (value == "true")
             when 'UseOrgSettings'
               @response[:use_org_settings] = (value == "true")
+            when 'AdminPassword'
+              @response[:admin_password] = value
             when 'AdminPasswordEnabled'
               @response[:admin_password_enabled] = (value == "true")
             when 'AdminPasswordAuto'
@@ -47,9 +47,7 @@ module Fog
               @response[:customization_script] = CGI::unescapeHTML(value) if @response[:has_customization_script]
             end
           end
-
         end
-
       end
     end
   end

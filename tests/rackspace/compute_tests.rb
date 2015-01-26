@@ -49,7 +49,7 @@ Shindo.tests('Rackspace | Compute', ['rackspace']) do
 
       identity_service = @service.instance_variable_get("@identity_service")
       returns(false, "identity service was used") { identity_service.nil? }
-      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").has_key?(:ssl_verify_peer) }
+      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").key?(:ssl_verify_peer) }
       @service.list_flavors
     end
 
@@ -65,7 +65,7 @@ Shindo.tests('Rackspace | Compute', ['rackspace']) do
     pending if Fog.mocking?
 
     tests('no params').succeeds do
-      @service = Fog::Compute::Rackspace.new
+      @service = Fog::Compute::Rackspace.new :rackspace_region => nil
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host == 'servers.api.rackspacecloud.com') != nil }
       @service.list_flavors
@@ -80,11 +80,6 @@ Shindo.tests('Rackspace | Compute', ['rackspace']) do
       @service = Fog::Compute::Rackspace.new :rackspace_compute_v1_url => 'https://my-custom-endpoint.com'
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
-    end
-    tests('rackspace_servicenet') do
-      @service = Fog::Compute::Rackspace.new :rackspace_servicenet => true
-      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-      returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /snet-/) != nil }
     end
   end
 

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         # Create an S3 bucket
         #
         # @param bucket_name [String] name of bucket to create
@@ -14,7 +13,7 @@ module Fog
         #   * status [Integer] 200
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html
-        # 
+        #
         def put_bucket(bucket_name, options = {})
           if location_constraint = options.delete('LocationConstraint')
             data =
@@ -35,11 +34,9 @@ DATA
             :method     => 'PUT'
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def put_bucket(bucket_name, options = {})
           acl = options['x-amz-acl'] || 'private'
           if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
@@ -67,7 +64,6 @@ DATA
           end
           response
         end
-
       end
     end
   end

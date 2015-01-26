@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Rackspace
       class Real
-
         # Delete an existing container
         #
         # ==== Parameters
@@ -18,7 +17,19 @@ module Fog
             :path     => Fog::Rackspace.escape(name)
           )
         end
+      end
 
+      class Mock
+        def delete_container(name)
+          c = mock_container! name
+
+          raise Excon::Errors::Conflict.new 'Conflict' unless c.empty?
+          remove_container name
+
+          response = Excon::Response.new
+          response.status = 204
+          response
+        end
       end
     end
   end

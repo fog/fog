@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Returns details of image specified by id
         #
         # ==== Parameters
@@ -39,11 +38,9 @@ module Fog
             :path     => "/offerings/image/#{image_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_image(image_id)
           response = Excon::Response.new
           if image_exists? image_id
@@ -60,7 +57,6 @@ module Fog
         def image_exists?(image_id)
           self.data[:images].key? image_id
         end
-
       end
     end
   end

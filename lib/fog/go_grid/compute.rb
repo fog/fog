@@ -1,10 +1,8 @@
-require 'fog/go_grid'
-require 'fog/compute'
+require 'fog/go_grid/core'
 
 module Fog
   module Compute
     class GoGrid < Fog::Service
-
       requires :go_grid_api_key, :go_grid_shared_secret
       recognizes :host, :path, :port, :scheme, :persistent
 
@@ -31,7 +29,6 @@ module Fog
       request :support_password_list
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
@@ -54,11 +51,9 @@ module Fog
         def reset_data
           self.class.data.delete(@go_grid_api_key)
         end
-
       end
 
       class Real
-
         def initialize(options={})
           require 'digest/md5'
           @go_grid_api_key = options[:go_grid_api_key]
@@ -69,7 +64,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
@@ -109,7 +104,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

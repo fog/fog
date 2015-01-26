@@ -4,13 +4,12 @@ require 'fog/cloudstack/models/compute/volume'
 module Fog
   module Compute
     class Cloudstack
-
       class Volumes < Fog::Collection
-
         model Fog::Compute::Cloudstack::Volume
 
-        def all
-          data = service.list_volumes["listvolumesresponse"]["volume"] || []
+        def all(attributes = {})
+          response = service.list_volumes(attributes)
+          data = response["listvolumesresponse"]["volume"] || []
           load(data)
         end
 
@@ -22,7 +21,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

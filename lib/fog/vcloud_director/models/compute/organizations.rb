@@ -4,7 +4,6 @@ require 'fog/vcloud_director/models/compute/organization'
 module Fog
   module Compute
     class VcloudDirector
-
       class Organizations < Collection
         model Fog::Compute::VcloudDirector::Organization
 
@@ -19,11 +18,10 @@ module Fog
 
         def item_list
           data = service.get_organizations.body
-          orgs = data[:Org].is_a?(Hash) ? [data[:Org]] : data[:Org]
+          orgs = data[:Org]
           orgs.each {|org| service.add_id_from_href!(org)}
           orgs
         end
-
       end
     end
   end

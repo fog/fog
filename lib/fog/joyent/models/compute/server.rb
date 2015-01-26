@@ -2,7 +2,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Joyent
-
       class Server < Fog::Compute::Server
         identity :id
 
@@ -10,11 +9,16 @@ module Fog
         attribute :state
         attribute :type
         attribute :dataset
+        attribute :compute_node
+        attribute :networks
         attribute :ips
         attribute :memory
         attribute :disk
         attribute :metadata
         attribute :tags
+        attribute :package
+        attribute :image
+        attribute :primary_ip, :aliases => 'primaryIp'
 
         attribute :created, :type => :time
         attribute :updated, :type => :time
@@ -114,7 +118,6 @@ module Fog
           service.delete_all_machine_tags(self.id)
           true
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class OpenStack
       class Real
-
         # List number of containers and total bytes stored
         #
         # ==== Returns
@@ -12,13 +11,12 @@ module Fog
         #     * 'X-Account-Bytes-Used'<~String> - Bytes used
         def head_containers
           request(
-            :expects  => 204,
+            :expects  => 200..299,
             :method   => 'HEAD',
             :path     => '',
             :query    => {'format' => 'json'}
           )
         end
-
       end
     end
   end

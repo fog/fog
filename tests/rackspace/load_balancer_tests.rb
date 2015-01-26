@@ -51,7 +51,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers', ['rackspace']) do
       returns(false, "path populated") { @service.instance_variable_get("@uri").host.nil? }
       identity_service = @service.instance_variable_get("@identity_service")
       returns(false, "identity service was used") { identity_service.nil? }
-      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").has_key?(:ssl_verify_peer) }
+      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").key?(:ssl_verify_peer) }
       @service.list_load_balancers
     end
     tests('dfw region').succeeds do
@@ -78,7 +78,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers', ['rackspace']) do
     pending if Fog.mocking?
 
     tests('no params').succeeds do
-      @service = Fog::Rackspace::LoadBalancers.new
+      @service = Fog::Rackspace::LoadBalancers.new :rackspace_region => nil
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw/) != nil }
       @service.list_load_balancers
@@ -100,7 +100,6 @@ Shindo.tests('Fog::Rackspace::LoadBalancers', ['rackspace']) do
       returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
     end
   end
-
 
   tests('reauthentication') do
     pending if Fog.mocking?

@@ -3,7 +3,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Vsphere
-
       class Server < Fog::Compute::Server
         extend Fog::Deprecation
         deprecate(:ipaddress, :public_ip_address)
@@ -33,9 +32,9 @@ module Fog
         attribute :connection_state
         attribute :mo_ref
         attribute :path
-        attribute :relative_path
         attribute :memory_mb
         attribute :cpus
+        attribute :corespersocket
         attribute :interfaces
         attribute :volumes
         attribute :customvalues
@@ -45,6 +44,8 @@ module Fog
         attribute :resource_pool
         attribute :instance_uuid # move this --> id
         attribute :guest_id
+        attribute :hardware_version
+        attribute :scsi_controller # this is the first scsi controller. Right now no more of them can be used.
 
         def initialize(attributes={} )
           super defaults.merge(attributes)
@@ -52,6 +53,7 @@ module Fog
           initialize_interfaces
           initialize_volumes
           initialize_customvalues
+          initialize_scsi_controller
         end
 
         # Lazy Loaded Attributes
@@ -63,15 +65,14 @@ module Fog
         end
         # End Lazy Loaded Attributes
 
-
         def vm_reconfig_memory(options = {})
           requires :instance_uuid, :memory
-          service.vm_reconfig_memory('instance_uuid' => instance_uuid, 'memory' => memory)
+          service.vm_reconfig_memory('instance_uuid' => instance_uuid, 'memory' => memory_mb)
         end
 
         def vm_reconfig_cpus(options = {})
-          requires :instance_uuid, :cpus
-          service.vm_reconfig_cpus('instance_uuid' => instance_uuid, 'cpus' => cpus)
+          requires :instance_uuid, :cpus, :corespersocket
+          service.vm_reconfig_cpus('instance_uuid' => instance_uuid, 'cpus' => cpus, 'corespersocket' => corespersocket)
         end
 
         def vm_reconfig_hardware(hardware_spec, options = {})
@@ -85,7 +86,7 @@ module Fog
         end
 
         def stop(options = {})
-          options = { :force => !tools_installed? }.merge(options)
+          options = { :force => !tools_installed? || !tools_running? }.merge(options)
           requires :instance_uuid
           service.vm_power_off('instance_uuid' => instance_uuid, 'force' => options[:force])
         end
@@ -100,7 +101,7 @@ module Fog
           requires :instance_uuid
           if ready?
             # need to turn it off before destroying
-            stop
+            stop(options)
             wait_for { !ready? }
           end
           service.vm_destroy('instance_uuid' => instance_uuid)
@@ -120,20 +121,26 @@ module Fog
         #   * See more options in vm_clone request/compute/vm_clone.rb
         #
         def clone(options = {})
-          requires :name, :datacenter, :relative_path
+          requires :name, :datacenter, :path
+
           # Convert symbols to strings
-          req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
+          req_options = options.reduce({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
+
           # Give our path to the request
           req_options['template_path'] ="#{relative_path}/#{name}"
           req_options['datacenter'] = "#{datacenter}"
+
           # Perform the actual clone
           clone_results = service.vm_clone(req_options)
+
+          # We need to assign the service, otherwise we can't reload the model
           # Create the new VM model. TODO This only works when "wait=true"
-          new_vm = self.class.new(clone_results['new_vm'])
-          # We need to assign the collection and the connection otherwise we
+          new_vm = self.class.new(clone_results['new_vm'].merge(:service => self.service))
+
+          # We need to assign the collection otherwise we
           # cannot reload the model.
           new_vm.collection = self.collection
-          new_vm.service = service
+
           # Return the new VM model.
           new_vm
         end
@@ -144,6 +151,10 @@ module Fog
 
         def tools_installed?
           tools_state != "toolsNotInstalled"
+        end
+
+        def tools_running?
+          tools_state == "toolsOk"
         end
 
         # defines VNC attributes on the hypervisor
@@ -162,21 +173,26 @@ module Fog
           memory_mb * 1024 * 1024
         end
 
+        def sockets
+          cpus / corespersocket
+        end
+
         def mac
           interfaces.first.mac unless interfaces.empty?
         end
 
         def interfaces
-          attributes[:interfaces] ||= id.nil? ? [] : service.interfaces( :vm => self )
+          attributes[:interfaces] ||= id.nil? ? [] : service.interfaces( :server_id => self.id )
         end
-        
+
         def interface_ready? attrs
           (attrs.is_a? Hash and attrs[:blocking]) or attrs.is_a? Fog::Compute::Vsphere::Interface
         end
 
         def add_interface attrs
-          wait_for { not ready? } if interface_ready? attrs
-          service.add_vm_interface(id, attrs)
+          Fog::Logger.deprecation("<server>.add_interface is deprecated. Call <server>.interfaces.create instead.")
+
+          interfaces.create(attrs)
         end
 
         def update_interface attrs
@@ -185,16 +201,21 @@ module Fog
         end
 
         def destroy_interface attrs
-          wait_for { not ready? } if interface_ready? attrs
-          service.destroy_vm_interface(id, attrs)
+          Fog::Logger.deprecation("<server>.destroy_vm_interface is deprecated. Call <server>.interfaces.get(:key => <nic_key>).destroy instead.")
+
+          interfaces.get(attrs[:key] || attrs['key']).destroy
         end
 
         def volumes
-          attributes[:volumes] ||= id.nil? ? [] : service.volumes( :vm => self )
+          attributes[:volumes] ||= id.nil? ? [] : service.volumes(:server_id => self.id)
         end
-        
+
         def customvalues
           attributes[:customvalues] ||= id.nil? ? [] : service.customvalues( :vm => self )
+        end
+
+        def scsi_controller
+          self.attributes[:scsi_controller] ||= service.get_vm_first_scsi_controller(id)
         end
 
         def folder
@@ -225,11 +246,18 @@ module Fog
           super
         end
 
+        def relative_path
+          requires :path, :datacenter
+
+          (path.split('/').reject {|e| e.empty?} - ["Datacenters", datacenter, "vm"]).join("/")
+        end
+
         private
 
         def defaults
           {
             :cpus      => 1,
+#            :corespersocket => 1,
             :memory_mb => 512,
             :guest_id  => 'otherGuest',
             :path      => '/'
@@ -247,14 +275,19 @@ module Fog
             self.attributes[:volumes].map! { |vol| vol.is_a?(Hash) ? service.volumes.new(vol) : vol }
           end
         end
-        
+
         def initialize_customvalues
           if attributes[:customvalues] and attributes[:customvalues].is_a?(Array)
             self.attributes[:customvalues].map { |cfield| cfield.is_a?(Hash) ? service.customvalue.new(cfield) : cfield}
           end
         end
-      end
 
+        def initialize_scsi_controller
+          if attributes[:scsi_controller] and attributes[:scsi_controller].is_a?(Hash)
+            Fog::Compute::Vsphere::SCSIController.new(self.attributes[:scsi_controller])
+          end
+        end
+      end
     end
   end
 end

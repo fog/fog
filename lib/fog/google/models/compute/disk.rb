@@ -3,74 +3,86 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class Disk < Fog::Model
-
         identity :name
 
-        attribute :kind, :aliases => 'kind'
-        attribute :id, :aliases => 'id'
+        attribute :kind
+        attribute :id
         attribute :creation_timestamp, :aliases => 'creationTimestamp'
-        attribute :zone_name, :aliases => 'zone'
-        attribute :status, :aliases => 'status'
-        attribute :description, :aliases => 'description'
+        attribute :zone, :aliases => :zone_name
+        attribute :status
+        attribute :description
         attribute :size_gb, :aliases => 'sizeGb'
         attribute :self_link, :aliases => 'selfLink'
         attribute :source_image, :aliases => 'sourceImage'
+        attribute :source_image_id, :aliases => 'sourceImageId'
         attribute :source_snapshot, :aliases => 'sourceSnapshot'
-        attribute :source_snapshot_id, :aliases => 'sourceSnapshot'
+        attribute :source_snapshot_id, :aliases => 'sourceSnapshotId'
+        attribute :type
 
         def save
-          requires :name
-          requires :zone_name
+          requires :name, :zone, :size_gb
 
           options = {}
-          if source_image.nil?
+          my_description = "Created with fog"
+          if !source_image.nil?
+            my_description = "Created from image: #{source_image}"
+          end
+          if source_image.nil? && !source_snapshot.nil?
             options['sourceSnapshot'] = source_snapshot
-            options['sizeGb']         = size_gb
+            my_description = "Created from snapshot: #{source_snapshot}"
           end
 
-          data = service.insert_disk(name, zone_name, source_image, options).body
-          data = service.backoff_if_unfound {service.get_disk(name, zone_name).body}
-          service.disks.merge_attributes(data)
+          options['sizeGb'] = size_gb
+          options['description'] = description || my_description
+          options['type'] = type
+
+          data = service.insert_disk(name, zone, source_image, options)
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+          operation.wait_for { !pending? }
+          reload
         end
 
-        def destroy
-          requires :name, :zone_name
-          service.delete_disk(name, zone_name)
-        end
+        def destroy(async=true)
+          requires :name, :zone
 
-        def zone
-          if self.zone_name.is_a? String
-            service.get_zone(self.zone_name.split('/')[-1]).body["name"]
-          elsif zone_name.is_a? Excon::Response
-            service.get_zone(zone_name.body["name"]).body["name"]
-          else
-            self.zone_name
+          data = service.delete_disk(name, zone_name)
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+          unless async
+            operation.wait_for { ready? }
           end
+          operation
         end
 
-        def get_as_boot_disk(writable=true)
+        def zone_name
+          zone.nil? ? nil : zone.split('/')[-1]
+        end
+
+        # auto_delete can only be applied to disks created before instance creation.
+        # auto_delete = true will automatically delete disk upon instance termination.
+        def get_object(writable=true, boot=false, device_name=nil, auto_delete=false)
           mode = writable ? 'READ_WRITE' : 'READ_ONLY'
-          return {
-              'name' => name,
-              'type' => 'PERSISTENT',
-              'boot' => true,
-              'source' => self_link,
-              'mode' => mode
-          }
+          value = {
+            'autoDelete' => auto_delete,
+            'boot' => boot,
+            'source' => self_link,
+            'mode' => mode,
+            'deviceName' => device_name,
+            'type' => 'PERSISTENT'
+          }.select { |k, v| !v.nil? }
+          return Hash[value]
+        end
+
+        def get_as_boot_disk(writable=true, auto_delete=false)
+          get_object(writable, true, nil, auto_delete)
         end
 
         def ready?
-          data = service.get_disk(self.name, self.zone_name).body
-          data['zone_name'] = self.zone_name
-          self.merge_attributes(data)
           self.status == RUNNING_STATE
         end
 
         def reload
-          requires :identity
-          requires :zone_name
+          requires :identity, :zone
 
           return unless data = begin
             collection.get(identity, zone_name)
@@ -83,8 +95,25 @@ module Fog
           self
         end
 
-        RUNNING_STATE = "READY"
+        def create_snapshot(snapshot_name, snapshot_description="")
+          requires :name, :zone
 
+          if snapshot_name.nil? or snapshot_name.empty?
+            raise ArgumentError, 'Invalid snapshot name'
+          end
+
+          options = {
+            'name'        => snapshot_name,
+            'description' => snapshot_description,
+          }
+
+          data = service.insert_snapshot(name, zone_name, service.project, options)
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+          operation.wait_for { !pending? }
+          service.snapshots.get(snapshot_name)
+        end
+
+        RUNNING_STATE = "READY"
       end
     end
   end

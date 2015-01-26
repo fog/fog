@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Joyent
-
       class Mock
         def list_machines(options={})
           res = Excon::Response.new
@@ -17,7 +16,8 @@ module Fog
             :path => "/my/machines",
             :method => "GET",
             :query => options,
-            :expects => 200
+            :expects => 200,
+            :idempotent => true
           )
         end
       end

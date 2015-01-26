@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def create_volume_snapshot(volume_id, name, description, force=false)
           data = {
             'snapshot' => {
@@ -14,13 +13,12 @@ module Fog
           }
 
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => [200, 202],
             :method   => 'POST',
             :path     => "os-snapshots"
           )
         end
-
       end
 
       class Mock
@@ -41,7 +39,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

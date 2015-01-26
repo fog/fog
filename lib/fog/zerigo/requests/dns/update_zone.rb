@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
         # Update the parameters of a zone
         # ==== Parameters
         #
@@ -25,7 +24,6 @@ module Fog
         # * response<~Excon::Response>:
         #   * 'status'<~Integer> - 200 for success
         def update_zone(zone_id, options = {})
-
           optional_tags= ''
           options.each { |option, value|
             case option
@@ -55,7 +53,7 @@ module Fog
               optional_tags+= "<tag-list>#{value}</tag-list>"
             end
           }
-          
+
           request(
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><zone>#{optional_tags}</zone>},
             :expects  => 200,
@@ -63,7 +61,6 @@ module Fog
             :path     => "/api/1.1/zones/#{zone_id}.xml"
           )
         end
-
       end
 
       class Mock # :nodoc:all

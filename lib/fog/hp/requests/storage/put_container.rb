@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Create a new container
         #
         # ==== Parameters
@@ -17,7 +16,6 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
@@ -42,7 +40,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

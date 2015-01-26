@@ -3,9 +3,7 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Ovirt
-
       class Server < Fog::Compute::Server
-
         # This will be the instance uuid which is globally unique across
         # a oVirt deployment.
         identity :id
@@ -28,12 +26,14 @@ module Fog
         attribute :volumes
         attribute :raw
         attribute :quota
- 
+        attribute :ips
+
         def ready?
           !(status =~ /down/i)
         end
 
         def locked?
+          @volumes = nil # force reload volumes
           !!(status =~ /locked/i) || (attributes[:volumes]=nil) || volumes.any?{|v| !!(v.status =~ /locked/i)}
         end
 
@@ -46,7 +46,7 @@ module Fog
         end
 
         def interfaces
-          attributes[:interfaces] ||= id.nil? ? [] : Fog::Compute::Ovirt::Interfaces.new(
+          @interfaces ||= id.nil? ? [] : Fog::Compute::Ovirt::Interfaces.new(
               :service => service,
               :vm => self
           )
@@ -68,7 +68,7 @@ module Fog
         end
 
         def volumes
-          attributes[:volumes] ||= id.nil? ? [] : Fog::Compute::Ovirt::Volumes.new(
+          @volumes ||= id.nil? ? [] : Fog::Compute::Ovirt::Volumes.new(
               :service => service,
               :vm => self
           )
@@ -84,9 +84,21 @@ module Fog
           service.destroy_volume(id, attrs)
         end
 
+        def update_volume attrs
+          wait_for { stopped? } if attrs[:blocking]
+          service.update_volume(id, attrs)
+        end
+
         def start(options = {})
           wait_for { !locked? } if options[:blocking]
           service.vm_action(:id =>id, :action => :start)
+          reload
+        end
+
+        def start_with_cloudinit(options = {})
+          wait_for { !locked? } if options[:blocking]
+          user_data = Hash[YAML.load(options[:user_data]).map{|a| [a.first.to_sym, a.last]}]
+          service.vm_start_with_cloudinit(:id =>id, :user_data =>user_data)
           reload
         end
 
@@ -128,9 +140,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end

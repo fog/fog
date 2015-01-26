@@ -2,7 +2,6 @@ Shindo.tests('Fog::Rackspace::Databases', ['rackspace']) do |variable|
 
   pending if Fog.mocking?
 
-
   def assert_method(url, method)
     @service.instance_variable_set "@rackspace_auth_url", url
     returns(method) { @service.send :authentication_method }
@@ -52,7 +51,7 @@ Shindo.tests('Fog::Rackspace::Databases', ['rackspace']) do |variable|
 
       identity_service = @service.instance_variable_get("@identity_service")
       returns(false, "identity service was used") { identity_service.nil? }
-      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").has_key?(:ssl_verify_peer) }
+      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").key?(:ssl_verify_peer) }
       @service.flavors
     end
     tests('dfw region').succeeds do
@@ -79,7 +78,7 @@ Shindo.tests('Fog::Rackspace::Databases', ['rackspace']) do |variable|
     pending if Fog.mocking?
 
     tests('no params').succeeds do
-      @service = Fog::Rackspace::Databases.new
+      @service = Fog::Rackspace::Databases.new :rackspace_region => nil
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw/) != nil }
       @service.flavors

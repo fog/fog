@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Rackspace
       class Real
-
         # Create a new dynamic large object manifest
         #
         # Creates an object with a +X-Object-Manifest+ header that specifies the common prefix ("<container>/<prefix>")
@@ -37,7 +36,27 @@ module Fog
             :path     => path
           )
         end
+      end
 
+      class Mock
+        def put_dynamic_obj_manifest(container, object, options = {})
+          path = "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
+
+          # Escape the X-Object-Manifest header to match.
+          explicit_manifest = options['X-Object-Manifest']
+          if explicit_manifest
+            parts = explicit_manifest.split('/', 2)
+            explicit_manifest = parts.map { |p| Fog::Rackspace.escape p }.join('/')
+          end
+
+          c = mock_container! container
+          o = c.add_object object, ''
+          o.meta['X-Object-Manifest'] = explicit_manifest || path
+
+          response = Excon::Response.new
+          response.status = 201
+          response
+        end
       end
     end
   end

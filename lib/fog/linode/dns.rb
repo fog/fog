@@ -1,10 +1,8 @@
-require 'fog/linode'
-require 'fog/dns'
+require 'fog/linode/core'
 
 module Fog
   module DNS
     class Linode < Fog::Service
-
       requires :linode_api_key
       recognizes :port, :scheme, :persistent
 
@@ -25,7 +23,6 @@ module Fog
       request :domain_resource_update
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
@@ -47,11 +44,9 @@ module Fog
         def reset_data
           self.class.data.delete(@linode_api_key)
         end
-
       end
 
       class Real
-
         def initialize(options={})
           @connection_options = options[:connection_options] || {}
           @host           = options[:host]        || "api.linode.com"
@@ -59,7 +54,7 @@ module Fog
           @persistent     = options[:persistent]  || false
           @port           = options[:port]        || 443
           @scheme         = options[:scheme]      || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
@@ -70,7 +65,7 @@ module Fog
           params[:query] ||= {}
           params[:query].merge!(:api_key => @linode_api_key)
 
-          response = @connection.request(params.merge!({:host => @host}))
+          response = @connection.request(params)
 
           unless response.body.empty?
             response.body = Fog::JSON.decode(response.body)
@@ -86,7 +81,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

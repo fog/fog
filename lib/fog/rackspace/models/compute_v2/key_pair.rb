@@ -4,7 +4,6 @@ module Fog
   module Compute
     class RackspaceV2
       class KeyPair < Fog::Model
-
         # @!attribute [rw] name
         # @return [String] the keypair name
         identity  :name
@@ -33,7 +32,7 @@ module Fog
         # @raise  [Fog::Compute::RackspaceV2::ServiceError]
         def save
           requires :name
-          data = service.create_keypair(name, public_key)
+          data = service.create_keypair(name, attributes)
           merge_attributes(data.body['keypair'])
           data.body['keypair']['name'] == name
         end
@@ -49,7 +48,6 @@ module Fog
             service.delete_keypair(identity)
             true
         end
-
       end
     end
   end

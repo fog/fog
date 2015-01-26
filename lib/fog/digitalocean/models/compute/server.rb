@@ -3,21 +3,20 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class DigitalOcean
-
       # A DigitalOcean Droplet
       #
       class Server < Fog::Compute::Server
-
         identity  :id
         attribute :name
         attribute :state, :aliases => 'status'
         attribute :image_id
         attribute :region_id
         attribute :flavor_id, :aliases => 'size_id'
-        # Not documented in their API, but
-        # available nevertheless
         attribute :public_ip_address, :aliases => 'ip_address'
-        attribute :backups_active
+        attribute :private_ip_address
+        attribute :private_networking
+        attribute :backups_active, :aliases => 'backups_enabled'
+        attribute :created_at
 
         attr_writer :ssh_keys
 
@@ -81,7 +80,7 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :public_ip_address
+          requires :ssh_ip_address
           require 'net/ssh'
 
           commands = [
@@ -93,10 +92,10 @@ module Fog
             commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}
           end
 
-          # wait for aws to be ready
+          # wait for DigitalOcean to be ready
           wait_for { sshable?(credentials) }
 
-          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+          Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
         end
 
         # Creates the server (not to be called directly).
@@ -124,6 +123,10 @@ module Fog
           elsif @ssh_keys
             options[:ssh_key_ids] = @ssh_keys.map(&:id)
           end
+
+          options[:private_networking] = private_networking
+          options[:backups_active] =  backups_active
+
           data = service.create_server name,
                                        flavor_id,
                                        image_id,
@@ -172,8 +175,29 @@ module Fog
           raise NotImplementedError.new(msg)
         end
 
-      end
+        # Helper method to get the flavor name
+        def flavor
+          requires :flavor_id
+          @flavor ||= service.flavors.get(flavor_id.to_i)
+        end
 
+        # Helper method to get the image name
+        def image
+          requires :image_id
+          @image ||= service.images.get(image_id.to_i)
+        end
+
+        # Helper method to get the region name
+        def region
+          requires :region_id
+          @region ||= service.regions.get(region_id.to_i)
+        end
+
+        # Helper method to get an array with all available IP addresses
+        def ip_addresses
+          [public_ip_address, private_ip_address].flatten.select(&:present?)
+        end
+      end
     end
   end
 end

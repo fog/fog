@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Joyent
       class Mock
-
         def get_key(keyid)
           if key = self.data[:keys][keyid]
             response = Excon::Response.new
@@ -20,7 +19,8 @@ module Fog
           request(
             :method => "GET",
             :path => "/my/keys/#{keyid}",
-            :expects => 200
+            :expects => 200,
+            :idempotent => true
           )
         end
       end

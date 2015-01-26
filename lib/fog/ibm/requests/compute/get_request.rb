@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Returns list of instances created with request specified by request_id
         #
         # ==== Parameters
@@ -39,11 +38,9 @@ module Fog
             :path     => "computecloud/enterprise/api/rest/20100331/requests/#{request_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_request(request_id)
           response = Excon::Response.new
           response.status = 200
@@ -71,7 +68,6 @@ module Fog
                "owner"=>"user@example.com"}]}
           response
         end
-
       end
     end
   end

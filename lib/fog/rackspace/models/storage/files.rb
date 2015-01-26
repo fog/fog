@@ -4,9 +4,7 @@ require 'fog/rackspace/models/storage/file'
 module Fog
   module Storage
     class Rackspace
-
       class Files < Fog::Collection
-
         # @!attribute [rw] directory
         # @return [String] The name of the directory
         # @note Methods in this class require this attribute to be set
@@ -68,7 +66,7 @@ module Fog
         # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
         # @raise [Fog::Storage::Rackspace::ServiceError]
         # @note This method retrieves files in pages. Page size is defined by the limit attribute
-        alias :each_file_this_page :each
+        alias_method :each_file_this_page, :each
         def each
           if !block_given?
             self
@@ -110,13 +108,13 @@ module Fog
         def get(key, &block)
           requires :directory
           data = service.get_object(directory.key, key, &block)
-          metadata = Metadata.from_headers(self, data.headers)  
+          metadata = Metadata.from_headers(self, data.headers)
           file_data = data.headers.merge({
             :body => data.body,
             :key  => key,
             :metadata => metadata
           })
-          
+
           new(file_data)
         rescue Fog::Storage::Rackspace::NotFound
           nil
@@ -136,7 +134,32 @@ module Fog
             Files::file_url directory.public_url, key
           end
         end
-        
+
+        # Get a temporary http url for a file.
+        #
+        # required attributes: key
+        # @param key [String] the key of the file within the directory
+        # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
+        # @param options [Hash]
+        # @return [String] url
+        # @note This URL does not use the Rackspace CDN
+        def get_http_url(key, expires, options = {})
+          requires :directory
+          service.get_object_http_url(directory.key, key, expires, options)
+        end
+
+        # Get a temporary https url for a file.
+        #
+        # required attributes: key
+        # @param key [String] the key of the file within the directory
+        # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
+        # @param options [Hash]
+        # @return [String] url
+        # @note This URL does not use the Rackspace CDN
+        def get_https_url(key, expires, options = {})
+          service.get_object_https_url(directory.key, key, expires, options)
+        end
+
         # View directory detail without loading file contents
         # @param key of the object
         # @param options Required for compatibility with other Fog providers. Not Used.
@@ -172,7 +195,6 @@ module Fog
           return nil unless path
           "#{path}/#{Fog::Rackspace.escape(key, '/')}"
         end
-
       end
     end
   end

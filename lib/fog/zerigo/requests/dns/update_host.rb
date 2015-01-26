@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
         # Update a host record
         #
         # ==== Parameters
@@ -15,11 +14,10 @@ module Fog
         #   * priority<~Integer> - Note: required for MX or SRV records
         #   * ttl<~Integer>
         # ==== Returns
-        # * response<~Excon::Response>: 
+        # * response<~Excon::Response>:
         #   * 'status'<~Integer> - 200 for success
         #
         def update_host(host_id, options = {})
-
           optional_tags= ''
           options.each { |option, value|
             case option
@@ -45,7 +43,6 @@ module Fog
             :path     => "/api/1.1/hosts/#{host_id}.xml"
           )
         end
-
       end
 
       class Mock # :nodoc:all

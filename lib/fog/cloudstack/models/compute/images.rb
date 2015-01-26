@@ -4,14 +4,11 @@ require 'fog/cloudstack/models/compute/image'
 module Fog
   module Compute
     class Cloudstack
-
       class Images < Fog::Collection
-
         model Fog::Compute::Cloudstack::Image
 
         def all(filters={})
           options = get_filter_options(filters)
-
           data = service.list_templates(options)["listtemplatesresponse"]["template"] || []
           load(data)
         end
@@ -19,7 +16,6 @@ module Fog
         def get(template_id, filters={})
           filter_option = get_filter_options(filters)
           options = filter_option.merge('id' => template_id)
-
           if template = service.list_templates(options)["listtemplatesresponse"]["template"].first
             new(template)
           end

@@ -4,9 +4,7 @@ require 'fog/cloudstack/models/compute/security_group_rule'
 module Fog
   module Compute
     class Cloudstack
-
       class SecurityGroupRules < Fog::Collection
-
         model Fog::Compute::Cloudstack::SecurityGroupRule
 
         attribute :security_group_id, :type => :string

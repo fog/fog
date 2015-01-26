@@ -2,12 +2,11 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         require 'fog/internet_archive/parsers/storage/get_bucket_website'
 
         # Get website configuration for an S3 bucket
         #
-        # 
+        #
         # @param bucket_name [String] name of bucket to get website configuration for
         #
         # @return [Excon::Response] response:
@@ -33,7 +32,6 @@ module Fog
             :query      => {'website' => nil}
           })
         end
-
       end
     end
   end

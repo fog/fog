@@ -1,9 +1,7 @@
+require 'fog/rackspace/core'
 # This class originally came from the rackspace-monitoring gem located here:
 # https://github.com/racker/rackspace-monitoring-rb
 # It has been heavily modified for import into Fog master.
-
-require 'fog'
-require 'fog/core'
 
 module Fog
   module Rackspace
@@ -13,9 +11,24 @@ module Fog
       class IdentifierTaken < Fog::Errors::Error; end
       class ServiceError < Fog::Rackspace::Errors::ServiceError; end
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
-      class BadRequest < Fog::Rackspace::Errors::BadRequest; end
       class Conflict < Fog::Rackspace::Errors::Conflict; end
       class ServiceUnavailable < Fog::Rackspace::Errors::ServiceUnavailable; end
+
+      class BadRequest < Fog::Rackspace::Errors::BadRequest
+        attr_reader :validation_errors
+
+        def self.slurp(error, service=nil)
+          new_error = super(error)
+          if  new_error.response_data && new_error.response_data['details']
+            new_error.instance_variable_set(:@validation_errors, new_error.response_data['details'])
+          end
+
+          status_code = error.response ? error.response.status : nil
+          new_error.instance_variable_set(:@status_code, status_code)
+          new_error.set_transaction_id(error, service)
+          new_error
+        end
+      end
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url
@@ -45,6 +58,7 @@ module Fog
 
       request_path 'fog/rackspace/requests/monitoring'
       request      :list_agent_tokens
+      request      :list_agents
       request      :list_alarms
       request      :list_alarm_examples
       request      :list_checks
@@ -56,12 +70,21 @@ module Fog
       request      :list_notification_plans
       request      :list_notifications
 
+      request      :get_agent
       request      :get_agent_token
       request      :get_alarm
       request      :get_alarm_example
       request      :get_check
       request      :get_entity
       request      :get_notification
+      request      :get_cpus_info
+      request      :get_disks_info
+      request      :get_filesystems_info
+      request      :get_memory_info
+      request      :get_network_interfaces_info
+      request      :get_processes_info
+      request      :get_system_info
+      request      :get_logged_in_user_info
 
       request      :create_agent_token
       request      :create_alarm
@@ -82,9 +105,10 @@ module Fog
 
       request      :evaluate_alarm_example
 
+      request      :list_monitoring_zones
+      request      :get_monitoring_zone
 
       class Mock < Fog::Rackspace::Service
-
         def initialize(options={})
         end
 
@@ -112,7 +136,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def reload
@@ -129,20 +153,20 @@ module Fog
 
         private
 
-        def request(params, parse_json = true, &block)
-          super(params, parse_json, &block)
-          rescue Excon::Errors::BadRequest => error
-            raise BadRequest.slurp(error, self)
-          rescue Excon::Errors::Conflict => error
-            raise Conflict.slurp(error, self)
-          rescue Excon::Errors::NotFound => error
-            raise NotFound.slurp(error, self)
-          rescue Excon::Errors::ServiceUnavailable => error
-            raise ServiceUnavailable.slurp(error, self)
-          rescue Excon::Errors::InternalServerError => error
-            raise InternalServerError.slurp(error, self)
-          rescue Excon::Errors::HTTPStatusError => error
-            raise ServiceError.slurp(error, self)
+        def request(params, parse_json = true)
+          super
+        rescue Excon::Errors::BadRequest => error
+          raise BadRequest.slurp(error, self)
+        rescue Excon::Errors::Conflict => error
+          raise Conflict.slurp(error, self)
+        rescue Excon::Errors::NotFound => error
+          raise NotFound.slurp(error, self)
+        rescue Excon::Errors::ServiceUnavailable => error
+          raise ServiceUnavailable.slurp(error, self)
+        rescue Excon::Errors::InternalServerError => error
+          raise InternalServerError.slurp(error, self)
+        rescue Excon::Errors::HTTPStatusError => error
+          raise ServiceError.slurp(error, self)
         end
 
         def authenticate

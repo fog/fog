@@ -1,10 +1,8 @@
-require 'fog/local/storage'
-require 'fog/storage'
+require 'fog/local/core'
 
 module Fog
   module Storage
     class Local < Fog::Service
-
       requires :local_root
       recognizes :endpoint, :scheme, :host, :port, :path
 
@@ -17,7 +15,6 @@ module Fog
       require 'uri'
 
       class Mock
-
         attr_reader :endpoint
 
         def self.data
@@ -63,7 +60,6 @@ module Fog
       end
 
       class Real
-
         attr_reader :endpoint
 
         def initialize(options={})
@@ -95,7 +91,6 @@ module Fog
           URI::Generic.build(options).to_s
         end
       end
-
     end
   end
 end

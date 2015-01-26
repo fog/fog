@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Entity < Fog::Rackspace::Monitoring::Base
-
         identity :id
 
         attribute :label
@@ -57,7 +56,6 @@ module Fog
           requires :id
           service.delete_entity(id)
         end
-
       end
     end
   end

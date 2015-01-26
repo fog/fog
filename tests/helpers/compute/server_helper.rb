@@ -1,5 +1,4 @@
 def server_tests(connection, params = {}, mocks_implemented = true)
-
   model_tests(connection.servers, params, mocks_implemented) do
 
     tests('#reload').returns(true) do
@@ -10,6 +9,7 @@ def server_tests(connection, params = {}, mocks_implemented = true)
     end
 
     responds_to([:ready?, :state])
+    yield if block_given?
 
     tests('#reboot').succeeds do
       pending if Fog.mocking? && !mocks_implemented
@@ -22,5 +22,4 @@ def server_tests(connection, params = {}, mocks_implemented = true)
     end
 
   end
-
 end

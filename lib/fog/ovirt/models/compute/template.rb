@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Ovirt
-
       class Template < Fog::Model
-
         identity :id
 
         attr_accessor :raw
@@ -21,6 +19,7 @@ module Fog
         attribute :cluster
         attribute :interfaces
         attribute :volumes
+        attribute :version
 
         def interfaces
           attributes[:interfaces] ||= id.nil? ? [] : Fog::Compute::Ovirt::Interfaces.new(
@@ -52,9 +51,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end

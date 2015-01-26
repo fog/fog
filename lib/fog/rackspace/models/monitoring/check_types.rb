@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class CheckTypes < Fog::Collection
-
         model Fog::Rackspace::Monitoring::CheckType
 
         def all
@@ -16,7 +15,6 @@ module Fog
         def new(attributes = {})
           super({ }.merge!(attributes))
         end
-
       end
     end
   end

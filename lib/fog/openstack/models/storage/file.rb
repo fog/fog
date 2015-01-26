@@ -3,17 +3,16 @@ require 'fog/core/model'
 module Fog
   module Storage
     class OpenStack
-
       class File < Fog::Model
-
         identity  :key,             :aliases => 'name'
 
+        attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
         attribute :content_disposition, :aliases => ['content_disposition', 'Content-Disposition']
         attribute :etag,            :aliases => ['hash', 'Etag']
         attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
-        attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
+        attribute :metadata
         attribute :origin,          :aliases => ['Origin']
 
         def body
@@ -49,7 +48,7 @@ module Fog
         end
 
         def metadata
-          @metadata ||= headers_to_metadata
+          attributes[:metadata] ||= headers_to_metadata
         end
 
         def owner=(new_owner)
@@ -63,6 +62,19 @@ module Fog
 
         def public=(new_public)
           new_public
+        end
+
+        # Get a url for file.
+        #
+        #     required attributes: key
+        #
+        # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
+        # @param options [Hash]
+        # @return [String] url
+        #
+        def url(expires, options = {})
+          requires :directory, :key
+          self.service.create_temp_url(directory.key, key, expires, "GET", options)
         end
 
         def public_url
@@ -146,7 +158,6 @@ module Fog
           merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
         end
       end
-
     end
   end
 end

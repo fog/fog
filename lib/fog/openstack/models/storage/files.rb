@@ -4,9 +4,7 @@ require 'fog/openstack/models/storage/file'
 module Fog
   module Storage
     class OpenStack
-
       class Files < Fog::Collection
-
         attribute :directory
         attribute :limit
         attribute :marker
@@ -35,7 +33,7 @@ module Fog
           end
         end
 
-        alias :each_file_this_page :each
+        alias_method :each_file_this_page, :each
         def each
           if !block_given?
             self
@@ -71,6 +69,16 @@ module Fog
           end
         end
 
+        def get_http_url(key, expires, options = {})
+          requires :directory
+          service.get_object_http_url(directory.key, key, expires, options)
+        end
+
+        def get_https_url(key, expires, options = {})
+          requires :directory
+          service.get_object_https_url(directory.key, key, expires, options)
+        end
+
         def head(key, options = {})
           requires :directory
           data = service.head_object(directory.key, key)
@@ -86,9 +94,7 @@ module Fog
           requires :directory
           super({ :directory => directory }.merge!(attributes))
         end
-
       end
-
     end
   end
 end

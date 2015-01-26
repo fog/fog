@@ -1,10 +1,8 @@
-require 'fog/metering'
-require 'fog/openstack'
+require 'fog/openstack/core'
 
 module Fog
   module Metering
     class OpenStack < Fog::Service
-
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                  :openstack_service_type, :openstack_service_name, :openstack_tenant,
@@ -17,7 +15,6 @@ module Fog
       model       :resource
       collection  :resources
 
-
       request_path 'fog/openstack/requests/metering'
 
       # Metering
@@ -26,7 +23,6 @@ module Fog
       request :get_statistics
       request :list_meters
       request :list_resources
-
 
       class Mock
         def self.data
@@ -43,7 +39,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'multi_json'
           @openstack_username = options[:openstack_username]
           @openstack_tenant   = options[:openstack_tenant]
           @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
@@ -90,8 +85,6 @@ module Fog
         attr_reader :current_tenant
 
         def initialize(options={})
-          require 'multi_json'
-
           @openstack_auth_token = options[:openstack_auth_token]
 
           unless @openstack_auth_token
@@ -120,7 +113,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def credentials
@@ -144,7 +137,6 @@ module Fog
                 'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/v2/#{params[:path]}"#,
               # Causes errors for some requests like tenants?limit=1
               # :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
@@ -166,7 +158,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end
@@ -180,7 +172,7 @@ module Fog
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
               :openstack_auth_uri => @openstack_auth_uri,
-              :openstack_auth_token => @openstack_auth_token,
+              :openstack_auth_token => @openstack_must_reauthenticate ? nil : @openstack_auth_token,
               :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
               :openstack_endpoint_type => @openstack_endpoint_type
@@ -207,9 +199,7 @@ module Fog
           @scheme = uri.scheme
           true
         end
-
       end
     end
   end
 end
-

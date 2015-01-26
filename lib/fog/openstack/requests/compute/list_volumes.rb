@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def list_volumes(detailed=true)
           path = detailed ? 'os-volumes/detail' : 'os-volumes'
           request(
@@ -11,11 +10,9 @@ module Fog
             :path     => path
           )
         end
-
       end
 
       class Mock
-
         def list_volumes(detailed=true)
           Excon::Response.new(
             :body   => { 'volumes' => self.data[:volumes].values },
@@ -23,7 +20,6 @@ module Fog
           )
         end
       end
-
     end
   end
 end

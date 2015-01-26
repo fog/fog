@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         require 'fog/internet_archive/parsers/storage/get_bucket_logging'
 
         # Get logging status for an S3 bucket
@@ -40,7 +39,6 @@ module Fog
             :query      => {'logging' => nil}
           })
         end
-
       end
     end
   end

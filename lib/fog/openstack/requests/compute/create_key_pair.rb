@@ -2,9 +2,7 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def create_key_pair(key_name, public_key = nil)
-
           data = {
             'keypair' => {
               'name' => key_name
@@ -14,13 +12,12 @@ module Fog
           data['keypair']['public_key'] = public_key unless public_key.nil?
 
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => 200,
             :method   => 'POST',
             :path     => 'os-keypairs.json'
           )
         end
-
       end
 
       class Mock

@@ -1,20 +1,25 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Deletes a specified user.
+        # Deletes a user for an account
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/deleteUser.html]
-        def delete_user(options={})
-          options.merge!(
-            'command' => 'deleteUser'
-          )
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/deleteUser.html]
+        def delete_user(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'deleteUser') 
+          else
+            options.merge!('command' => 'deleteUser', 
+            'id' => args[0])
+          end
           request(options)
         end
-
       end
+
     end
   end
 end
+

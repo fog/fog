@@ -25,7 +25,10 @@ Shindo.tests('Fog::Compute[:google] | disk requests', ['google']) do
       'name' => String,
       'zone' => String,
       'status' => String,
-      'sizeGb' => String
+      'sizeGb' => String,
+      'sourceImageId' => String,
+      'sourceImage' => String,
+      'type' => String,
   }
 
   @delete_disk_format = {
@@ -44,39 +47,22 @@ Shindo.tests('Fog::Compute[:google] | disk requests', ['google']) do
       'operationType' => String
   }
 
-  @list_disks_format = {
-      'kind' => String,
-      'id' => String,
-      'selfLink' => String,
-      'items' => [{
-        'kind'=> String,
-        'id'=> String,
-        'creationTimestamp'=>String,
-        'selfLink'=>String,
-        'name'=> String,
-        'sizeGb'=> String,
-        'zone'=> String,
-        'status'=>String,
-      }]
-  }
-
   tests('success') do
 
     disk_name = 'new-disk-test'
     disk_size = '2'
     zone_name = 'us-central1-a'
+    image_name = 'debian-7-wheezy-v20140408'
 
     # These will all fail if errors happen on insert
     tests("#insert_disk").formats(@insert_disk_format) do
-      @google.insert_disk(disk_name, disk_size, zone_name).body
+      response = @google.insert_disk(disk_name, zone_name, image_name).body
+      wait_operation(@google, response)
+      response
     end
 
     tests("#get_disk").formats(@get_disk_format) do
       @google.get_disk(disk_name, zone_name).body
-    end
-
-    tests("#list_disks").formats(@list_disks_format) do
-      @google.list_disks(zone_name).body
     end
 
     tests("#delete_disk").formats(@delete_disk_format) do

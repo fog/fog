@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Google
       class Real
-
         # Delete an Google Storage bucket
         #
         # ==== Parameters
@@ -19,11 +18,9 @@ module Fog
             :method   => 'DELETE'
           })
         end
-
       end
 
       class Mock
-
         def delete_bucket(bucket_name)
           response = Excon::Response.new
           if self.data[:buckets][bucket_name].nil?
@@ -38,9 +35,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

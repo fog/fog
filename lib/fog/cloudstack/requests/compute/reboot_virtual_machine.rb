@@ -1,21 +1,24 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Updates account information for the authenticated user.
+        # Reboots a virtual machine.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/rebootVirtualMachine.html]
-        def reboot_virtual_machine(options={})
-          options.merge!(
-            'command' => 'rebootVirtualMachine'
-          )
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/rebootVirtualMachine.html]
+        def reboot_virtual_machine(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'rebootVirtualMachine') 
+          else
+            options.merge!('command' => 'rebootVirtualMachine', 
+            'id' => args[0])
+          end
           request(options)
         end
-
       end
-
+ 
       class Mock
         def reboot_virtual_machine(options={})
           job_id = Fog::Cloudstack.uuid
@@ -25,7 +28,8 @@ module Fog
             }
           }
         end
-      end
+      end 
     end
   end
 end
+

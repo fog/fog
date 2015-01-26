@@ -7,25 +7,34 @@ fog is the Ruby cloud services library, top to bottom:
 * Mocks make testing and integrating a breeze.
 
 [![Build Status](https://secure.travis-ci.org/fog/fog.png?branch=master)](http://travis-ci.org/fog/fog)
-[![Gem Version](https://fury-badge.herokuapp.com/rb/fog.png)](http://badge.fury.io/rb/fog)
 [![Dependency Status](https://gemnasium.com/fog/fog.png)](https://gemnasium.com/fog/fog)
 [![Code Climate](https://codeclimate.com/github/fog/fog.png)](https://codeclimate.com/github/fog/fog)
+[![Gem Version](https://fury-badge.herokuapp.com/rb/fog.png)](http://badge.fury.io/rb/fog)
+[![Gittip](http://img.shields.io/gittip/geemus.png)](https://www.gittip.com/geemus/)
 
 ## Getting Started
 
-    sudo gem install fog
-
-Now type `fog` to try stuff, confident that fog will let you know what to do.
+The easiest way to learn fog is to install the gem and use the interactive console.
 Here is an example of wading through server creation for Amazon Elastic Compute Cloud:
 
-    >> server = Compute[:aws].servers.create
-    ArgumentError: image_id is required for this operation
+```
+$ sudo gem install fog
+[...]
 
-    >> server = Compute[:aws].servers.create(:image_id => 'ami-5ee70037')
-    <Fog::AWS::EC2::Server [...]>
+$ fog
 
-    >> server.destroy # cleanup after yourself or regret it, trust me
-    true
+  Welcome to fog interactive!
+  :default provides [...]
+
+>> server = Compute[:aws].servers.create
+ArgumentError: image_id is required for this operation
+
+>> server = Compute[:aws].servers.create(:image_id => 'ami-5ee70037')
+<Fog::AWS::EC2::Server [...]>
+
+>> server.destroy # cleanup after yourself or regret it, trust me
+true
+```
 
 ## Ruby 1.8.7
 
@@ -40,7 +49,9 @@ vulnerabilities.
 With this caveat, if you wish to bundle `fog` into your application on Ruby
 1.8.7, you must add the following line to your `Gemfile`.
 
-    gem 'nokogiri', '~>1.5.0'
+```ruby
+gem 'nokogiri', '~>1.5.0'
+```
 
 Also, ensure that you are using LibXML version 2.8.0, since there is an
 [issue with LibXML version 2.9.0][issue829] ([and 2.9.1][issue904]).
@@ -72,21 +83,23 @@ Collections share basic CRUD type operations, such as:
 
 As an example, we'll try initializing and persisting a Rackspace Cloud server:
 
-    require 'fog'
+```ruby
+require 'fog'
 
-    compute = Fog::Compute.new(
-      :provider           => 'Rackspace',
-      :rackspace_api_key  => key,
-      :rackspace_username => username
-    )
+compute = Fog::Compute.new(
+  :provider           => 'Rackspace',
+  :rackspace_api_key  => key,
+  :rackspace_username => username
+)
 
-    # boot a gentoo server (flavor 1 = 256, image 3 = gentoo 2008.0)
-    server = compute.servers.create(:flavor_id => 1, :image_id => 3, :name => 'my_server')
-    server.wait_for { ready? } # give server time to boot
+# boot a gentoo server (flavor 1 = 256, image 3 = gentoo 2008.0)
+server = compute.servers.create(:flavor_id => 1, :image_id => 3, :name => 'my_server')
+server.wait_for { ready? } # give server time to boot
 
-    # DO STUFF
+# DO STUFF
 
-    server.destroy # cleanup after yourself or regret it, trust me
+server.destroy # cleanup after yourself or regret it, trust me
+```
 
 ## Models
 
@@ -102,7 +115,9 @@ As you might imagine, testing code using Fog can be slow and expensive, constant
 Mocking allows skipping this overhead by providing an in memory representation resources as you make requests.
 Enabling mocking easy to use, before you run other commands, simply run:
 
-    Fog.mock!
+```ruby
+Fog.mock!
+```
 
 Then proceed as usual, if you run into unimplemented mocks, fog will raise an error and as always contributions are welcome!
 
@@ -124,55 +139,54 @@ It will return an [excon](http://github.com/geemus/excon) response, which has `b
 Play around and use the console to explore or check out [fog.io](http://fog.io) and the [provider documentation](http://fog.io/about/provider_documentation.html)
 for more details and examples. Once you are ready to start scripting fog, here is a quick hint on how to make connections without the command line thing to help you.
 
-    # create a compute connection
-    compute = Fog::Compute.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
-    # compute operations go here
+```ruby
+# create a compute connection
+compute = Fog::Compute.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
+# compute operations go here
 
-    # create a storage connection
-    storage = Fog::Storage.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
-    # storage operations go here
+# create a storage connection
+storage = Fog::Storage.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
+# storage operations go here
+```
 
 geemus says: "That should give you everything you need to get started, but let me know if there is anything I can do to help!"
 
+## Versioning
+
+Fog library aims to adhere to [Semantic Versioning 2.0.0][semver], although it does not
+address challenges of multi-provider libraries. Semantic versioning is only guaranteed for
+the common API, not any provider-specific extensions.  You may also need to update your
+configuration from time to time (even between Fog releases) as providers update or deprecate
+services.
+
+However, we still aim for forwards compatibility within Fog major versions.  As a result of this policy, you can (and
+should) specify a dependency on this gem using the [Pessimistic Version
+Constraint][pvc] with two digits of precision. For example:
+
+```ruby
+spec.add_dependency 'fog', '~> 1.0'
+```
+
+This means your project is compatible with Fog 1.0 up until 2.0.  You can also set a higher minimum version:
+
+```ruby
+spec.add_dependency 'fog', '~> 1.16'
+```
+
+[semver]: http://semver.org/
+[pvc]: http://guides.rubygems.org/patterns/
+
+## Getting Help
+
+* [General Documentation](http://fog.io).
+* [Provider Specific Documentation](http://fog.io/about/provider_documentation.html).
+* Ask specific questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/fog)
+* Report bugs and discuss potential features in [Github issues](https://github.com/fog/fog/issues).
+
 ## Contributing
 
-* Find something you would like to work on.
-  * Look for anything you can help with in the [issue tracker](https://github.com/fog/fog/issues).
-  * Look at the [code quality metrics](https://codeclimate.com/github/fog/fog) for anything you can help clean up.
-  * Or anything else!
-* Fork the project and do your work in a topic branch.
-  * Make sure your changes will work on both Ruby 1.8.7 and Ruby 1.9
-* Add a config at `tests/.fog` for the component you want to test.
-* Add shindo tests to prove your code works and run all the tests using `bundle exec rake`.
-* Rebase your branch against `fog/fog` to make sure everything is up to date.
-* Commit your changes and send a pull request.
+Please refer to [CONTRIBUTING.md](https://github.com/fog/fog/blob/master/CONTRIBUTING.md).
 
-## Additional Resources
+## License
 
-* [fog.io](http://fog.io)
-* [Provider Documentation](http://fog.io/about/provider_documentation.html)
-
-## Copyright
-
-(The MIT License)
-
-Copyright (c) 2013 [geemus (Wesley Beary)](http://github.com/geemus)
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Please refer to [LICENSE.md](https://github.com/fog/fog/blob/master/LICENSE.md).

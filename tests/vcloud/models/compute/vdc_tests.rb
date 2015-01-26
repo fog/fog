@@ -12,9 +12,9 @@ Shindo.tests("Vcloud::Compute | vdc", ['vcloud']) do
         :vcloud_password => 'password',
         :vcloud_version => version
       ).get_vdc("https://vcloud.example.com/api#{(version == '1.0') ? '/v1.0' : ''}/vdc/1")
-    
+
       instance.reload
-    
+
       tests("#href").returns("https://vcloud.example.com/api#{(version == '1.0') ? '/v1.0' : ''}/vdc/1") { instance.href }
       tests("#name").returns("vDC1") { instance.name }
       tests('#organization').returns("Org1") { instance.organization.name }
@@ -23,16 +23,16 @@ Shindo.tests("Vcloud::Compute | vdc", ['vcloud']) do
       tests("#nic_quota").returns(10) { instance.nic_quota }
       tests("#vm_quota").returns(10) { instance.vm_quota }
       tests("#is_enabled").returns(true) { instance.is_enabled }
-    
+
       tests("#available_networks") do
         tests("#size").returns(2) { instance.available_networks.size }
       end
-    
+
       tests("#storage_capacity") do
         tests("units").returns("MB") { instance.storage_capacity[:Units] }
         tests("allocated").returns("10240") { instance.storage_capacity[:Allocated] }
       end
-    
+
       tests("#compute_capacity") do
         tests("cpu") do
           tests("allocated").returns("20000") { instance.compute_capacity[:Cpu][:Allocated] }

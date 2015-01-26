@@ -2,7 +2,6 @@ module Fog
   module Identity
     class OpenStack
       class Real
-
         ##
         # Create an EC2 credential for a user in a tenant.  Requires
         # administrator credentials.
@@ -26,7 +25,7 @@ module Fog
           data = { 'tenant_id' => tenant_id }
 
           request(
-            :body    => MultiJson.encode(data),
+            :body    => Fog::JSON.encode(data),
             :expects => [200, 202],
             :method  => 'POST',
             :path    => "users/#{user_id}/credentials/OS-EC2"

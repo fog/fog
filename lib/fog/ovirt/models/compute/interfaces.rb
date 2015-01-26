@@ -4,9 +4,7 @@ require 'fog/ovirt/models/compute/interface'
 module Fog
   module Compute
     class Ovirt
-
       class Interfaces < Fog::Collection
-
         model Fog::Compute::Ovirt::Interface
 
         attr_accessor :vm
@@ -25,7 +23,6 @@ module Fog
         def get(id)
           new service.get_interface(id)
         end
-
      end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Returns the offerings of static address types/pricing for the authenticated user
         #
         # ==== Parameters
@@ -30,11 +29,9 @@ module Fog
             :path     => '/offerings/address'
           )
         end
-
       end
 
       class Mock
-
         def list_address_offerings
           response = Excon::Response.new
           response.status = 200
@@ -51,7 +48,6 @@ module Fog
                 "id"=>"20001223"}]}
           response
         end
-
       end
     end
   end

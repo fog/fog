@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Rackspace
       class Real
-
         # Delete an existing object
         #
         # ==== Parameters
@@ -19,7 +18,18 @@ module Fog
             :path     => "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
           )
         end
+      end
 
+      class Mock
+        def delete_object(container, object)
+          c = mock_container! container
+          c.mock_object! object
+          c.remove_object object
+
+          response = Excon::Response.new
+          response.status = 204
+          response
+        end
       end
     end
   end

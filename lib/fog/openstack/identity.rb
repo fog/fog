@@ -1,15 +1,14 @@
-require 'fog/openstack'
+require 'fog/openstack/core'
 
 module Fog
   module Identity
     class OpenStack < Fog::Service
-
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                  :openstack_service_type, :openstack_service_name, :openstack_tenant,
                  :openstack_api_key, :openstack_username, :openstack_current_user_id,
                  :current_user, :current_tenant,
-                 :openstack_endpoint_type
+                 :openstack_endpoint_type, :openstack_region
 
       model_path 'fog/openstack/models/identity'
       model       :tenant
@@ -95,7 +94,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'multi_json'
           @openstack_username = options[:openstack_username] || 'admin'
           @openstack_tenant   = options[:openstack_tenant]   || 'admin'
           @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
@@ -176,6 +174,7 @@ module Fog
             missing_credentials = Array.new
             @openstack_api_key  = options[:openstack_api_key]
             @openstack_username = options[:openstack_username]
+            @openstack_region   = options[:openstack_region]
 
             missing_credentials << :openstack_api_key  unless @openstack_api_key
             missing_credentials << :openstack_username unless @openstack_username
@@ -192,7 +191,7 @@ module Fog
           @connection_options = options[:connection_options] || {}
 
           @openstack_current_user_id = options[:openstack_current_user_id]
-          
+
           @openstack_endpoint_type = options[:openstack_endpoint_type] || 'adminURL'
 
           @current_user = options[:current_user]
@@ -201,7 +200,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def credentials
@@ -227,7 +226,6 @@ module Fog
                 'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{params[:path]}"#,
             }))
           rescue Excon::Errors::Unauthorized => error
@@ -246,7 +244,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end
@@ -258,12 +256,13 @@ module Fog
             options = {
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
-              :openstack_auth_token => @openstack_auth_token,
+              :openstack_auth_token => @openstack_must_reauthenticate ? nil : @openstack_auth_token,
               :openstack_auth_uri => @openstack_auth_uri,
               :openstack_tenant   => @openstack_tenant,
               :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
-              :openstack_endpoint_type => @openstack_endpoint_type
+              :openstack_endpoint_type => @openstack_endpoint_type,
+              :openstack_region => @openstack_region
             }
 
             credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
@@ -289,7 +288,6 @@ module Fog
           @scheme = uri.scheme
           true
         end
-
       end
     end
   end

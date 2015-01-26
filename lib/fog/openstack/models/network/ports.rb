@@ -5,7 +5,6 @@ module Fog
   module Network
     class OpenStack
       class Ports < Fog::Collection
-
         attribute :filters
 
         model Fog::Network::OpenStack::Port
@@ -15,8 +14,8 @@ module Fog
           super
         end
 
-        def all(filters = filters)
-          self.filters = filters
+        def all(filters_arg = filters)
+          filters = filters_arg
           load(service.list_ports(filters).body['ports'])
         end
 
@@ -27,7 +26,6 @@ module Fog
         rescue Fog::Network::OpenStack::NotFound
           nil
         end
-
       end
     end
   end

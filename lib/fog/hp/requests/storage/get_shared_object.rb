@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Get details for a shared object
         #
         # ==== Parameters
@@ -29,11 +28,9 @@ module Fog
           end
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_shared_object(shared_object_url, &block)
           response = Excon::Response.new
           response.status = 200
@@ -58,9 +55,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

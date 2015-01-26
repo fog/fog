@@ -1,21 +1,22 @@
-require 'fog/openstack'
+require 'fog/openstack/core'
 
 module Fog
   module Volume
     class OpenStack < Fog::Service
-
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                  :openstack_service_type, :openstack_service_name, :openstack_tenant,
                  :openstack_api_key, :openstack_username,
                  :current_user, :current_tenant,
-                 :openstack_endpoint_type
+                 :openstack_endpoint_type, :openstack_region
 
       model_path 'fog/openstack/models/volume'
 
       model       :volume
       collection  :volumes
 
+      model       :volume_type
+      collection  :volume_types
 
       request_path 'fog/openstack/requests/volume'
 
@@ -25,11 +26,14 @@ module Fog
       request :get_volume_details
       request :delete_volume
 
+      request :list_volume_types
+      request :get_volume_type_details
+
       request :create_volume_snapshot
       request :list_snapshots
       request :get_snapshot_details
       request :delete_snapshot
- 
+
       request :update_quota
       request :get_quota
       request :get_quota_defaults
@@ -56,7 +60,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'multi_json'
           @openstack_username = options[:openstack_username]
           @openstack_tenant   = options[:openstack_tenant]
           @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
@@ -103,8 +106,6 @@ module Fog
         attr_reader :current_tenant
 
         def initialize(options={})
-          require 'multi_json'
-
           @openstack_auth_token = options[:openstack_auth_token]
 
           unless @openstack_auth_token
@@ -123,6 +124,7 @@ module Fog
           @openstack_must_reauthenticate  = false
           @openstack_service_type         = options[:openstack_service_type] || ['volume']
           @openstack_service_name         = options[:openstack_service_name]
+          @openstack_region               = options[:openstack_region]
 
           @openstack_endpoint_type        = options[:openstack_endpoint_type] || 'adminURL'
           @connection_options = options[:connection_options] || {}
@@ -133,7 +135,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def credentials
@@ -157,7 +159,6 @@ module Fog
                 'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{params[:path]}"#,
             }))
           rescue Excon::Errors::Unauthorized => error
@@ -177,7 +178,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end
@@ -187,11 +188,12 @@ module Fog
         def authenticate
           if !@openstack_management_url || @openstack_must_reauthenticate
             options = {
+              :openstack_region   => @openstack_region,
               :openstack_tenant   => @openstack_tenant,
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
               :openstack_auth_uri => @openstack_auth_uri,
-              :openstack_auth_token => @openstack_auth_token,
+              :openstack_auth_token => @openstack_must_reauthenticate ? nil : @openstack_auth_token,
               :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
               :openstack_endpoint_type => @openstack_endpoint_type
@@ -218,9 +220,7 @@ module Fog
           @scheme = uri.scheme
           true
         end
-
       end
     end
   end
 end
-

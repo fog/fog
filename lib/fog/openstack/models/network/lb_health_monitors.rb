@@ -5,7 +5,6 @@ module Fog
   module Network
     class OpenStack
       class LbHealthMonitors < Fog::Collection
-
         attribute :filters
 
         model Fog::Network::OpenStack::LbHealthMonitor
@@ -15,8 +14,8 @@ module Fog
           super
         end
 
-        def all(filters = filters)
-          self.filters = filters
+        def all(filters_arg = filters)
+          filters = filters_arg
           load(service.list_lb_health_monitors(filters).body['health_monitors'])
         end
 
@@ -27,7 +26,6 @@ module Fog
         rescue Fog::Network::OpenStack::NotFound
           nil
         end
-
       end
     end
   end

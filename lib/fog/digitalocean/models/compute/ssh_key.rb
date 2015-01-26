@@ -1,8 +1,7 @@
 module Fog
   module Compute
-    class DigitalOcean 
+    class DigitalOcean
       class SshKey < Fog::Model
-
         identity :id
 
         attribute :name
@@ -21,7 +20,6 @@ module Fog
           service.destroy_ssh_key id
           true
         end
-
       end
     end
   end

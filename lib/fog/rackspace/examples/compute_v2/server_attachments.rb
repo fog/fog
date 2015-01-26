@@ -12,7 +12,7 @@ end
 
 def select_server(servers)
   abort "\nThere are not any servers in the Chicago region. Try running create_server.rb\n\n" if servers.empty?
-  
+
   puts "\nSelect Server For Attachment:\n\n"
   servers.each_with_index do |server, i|
     puts "\t #{i}. #{server.name} [#{server.public_ip_address}]"
@@ -22,7 +22,7 @@ def select_server(servers)
   servers[delete_str.to_i]
 end
 
-# Use username defined in ~/.fog file, if absent prompt for username. 
+# Use username defined in ~/.fog file, if absent prompt for username.
 # For more details on ~/.fog refer to http://fog.io/about/getting_started.html
 def rackspace_username
   Fog.credentials[:rackspace_username] || get_user_input("Enter Rackspace Username")
@@ -66,4 +66,3 @@ attachment = server.attach_volume volume
 
 puts "\nVolume #{volume.display_name} has been attached to #{server.name} on device #{attachment.device}\n\n"
 puts "To detach volume please execute the detach_volume.rb script\n\n"
-

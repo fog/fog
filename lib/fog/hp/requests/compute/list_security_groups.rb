@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # List all security groups
         #
         # ==== Returns
@@ -32,11 +31,9 @@ module Fog
             :path     => 'os-security-groups.json'
           )
         end
-
       end
 
       class Mock
-
         def list_security_groups
           response = Excon::Response.new
 
@@ -47,7 +44,6 @@ module Fog
           response.body = { 'security_groups' => sec_groups }
           response
         end
-
       end
     end
   end

@@ -1,11 +1,10 @@
 class BareMetalCloud < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
         Fog::Compute::BareMetalCloud
-      else 
+      else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
     end
@@ -26,6 +25,5 @@ class BareMetalCloud < Fog::Bin
     def services
       Fog::BareMetalCloud.services
     end
-
   end
 end

@@ -1,6 +1,6 @@
 for provider, config in compute_providers
 
-  next if [:glesys, :voxel, :ibm, :ecloud].include?(provider)
+  next if [:glesys, :ibm].include?(provider)
 
   Shindo.tests("Fog::Compute[:#{provider}] | flavors", [provider.to_s]) do
 

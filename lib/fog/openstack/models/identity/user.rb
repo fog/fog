@@ -67,4 +67,3 @@ module Fog
     end # class OpenStack
   end # module Identity
 end # module Fog
-

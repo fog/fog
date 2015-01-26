@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module DNS
     class Dynect
-
       class Record < Fog::Model
         extend Fog::Deprecation
 
@@ -20,7 +19,7 @@ module Fog
           true
         end
 
-        def save
+        def save(replace=false)
           requires :name, :type, :rdata, :zone
 
           options = {
@@ -28,7 +27,11 @@ module Fog
           }
           options.delete_if {|key, value| value.nil?}
 
-          data = service.post_record(type, zone.identity, name, rdata, options).body['data']
+          if replace
+            data = service.put_record(type, zone.identity, name, rdata, options).body['data']
+          else
+            data = service.post_record(type, zone.identity, name, rdata, options).body['data']
+          end
           # avoid overwriting zone object with zone string
           data = data.reject {|key, value| key == 'zone'}
           merge_attributes(data)
@@ -43,7 +46,7 @@ module Fog
               :type     => tokens[2][0...-6] # everything before 'Record'
             }
           end
-          record = records.detect {|record| record[:type] == type}
+          record = records.find {|record| record[:type] == type}
           merge_attributes(record)
 
           true
@@ -58,9 +61,7 @@ module Fog
         def zone=(new_zone)
           @zone = new_zone
         end
-
       end
-
     end
   end
 end

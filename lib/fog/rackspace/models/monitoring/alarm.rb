@@ -5,11 +5,11 @@ module Fog
   module Rackspace
     class Monitoring
       class Alarm < Fog::Rackspace::Monitoring::Base
-
         identity :id
         attribute :entity, :aliases => 'entity_id'
         attribute :check, :aliases => 'check_id'
 
+        attribute :disabled, :type => :boolean
         attribute :label
         attribute :criteria
         attribute :check_type
@@ -25,6 +25,7 @@ module Fog
 
         def params(options={})
           h = {
+            'disabled'             => disabled,
             'label'                => label,
             'criteria'             => criteria,
             'notification_plan_id' => notification_plan_id,
@@ -38,7 +39,7 @@ module Fog
           requires :check
 
           if identity
-            data = service.update_alarm(entity.id, identity, params)
+            service.update_alarm(entity.id, identity, params)
           else
             options = params('check_type' => check_type, 'check_id' => check.id)
             data = service.create_alarm(entity.id, options)
@@ -51,9 +52,7 @@ module Fog
           requires :id
           service.delete_alarm(entity.id, id)
         end
-
       end
-
     end
   end
 end

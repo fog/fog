@@ -15,9 +15,11 @@ module Fog
           service.list_usages(start_date, end_date, details).body['tenant_usages']
         end
 
-        def find_by_id(id)
+        def get(id)
           self.find {|tenant| tenant.id == id}
         end
+        alias_method :find_by_id, :get
+
       end # class Tenants
     end # class OpenStack
   end # module Compute

@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSMadeEasy
       class Real
-
         # Deletes the specified secondary entry.
         #
         # ==== Parameters
@@ -18,7 +17,6 @@ module Fog
             :path     => "/V1.2/secondary/#{secondary_name}"
           )
         end
-
       end
     end
   end

@@ -1,3 +1,36 @@
+0.0.22 10/16/2013
+=================
+- add support for new LoadBalancer provider
+  - add load balancer model and request layer with mocking support
+  - add node model and request layer with mocking support
+  - add virtual_ip, protocol and algorithm models and request layer with mocking support
+- add support for new DNS provider
+  - add domain model and request layer with mocking support
+  - add record model and request layer with mocking support
+
+0.0.21 06/11/2013
+=================
+- add support for new Networking (Neutron) provider (Grizzly release)
+  - add network model and request layer with mocking support
+  - add router model and request layer with mocking support
+  - add subnet model and request layer with mocking support
+  - add port model and request layer with mocking support
+  - add floating ip model and request layer with mocking support
+  - add security group/rule model and request layer with mocking support
+- add support for new Compute V2 provider (Grizzly release)
+  - remove support for security group/rule model and request layer
+  - revise support for server, flavor, image, keypair, floating ip, metadata models and request layers
+  - add support for availability zone model and request layer
+  - add support for volume attachment model and request layer
+- add support for new BlockStorage V2 (Cinder) provider (Grizzly release)
+  - add volume model and request layer with mocking support
+  - add snapshot model and request layer with mocking support
+  - add volume backups model and request layer with mocking support
+  - remove bootable volume model as it now accessible via volume model
+- add support for caching auth credentials
+- add filter query support to all new V2 collections
+- add side by side support for both Compute and BlockStorage, V1/V2 providers
+
 0.0.20 03/13/2013
 =================
 - add Accept header with application/json for all requests

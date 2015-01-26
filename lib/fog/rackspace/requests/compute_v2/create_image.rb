@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Create an image from a running server
         #
         # @param [String] server_id Id of server to create image from
@@ -25,7 +24,7 @@ module Fog
               'name' => name
             }
           }
-          data['createImage'].merge!(options)          
+          data['createImage'].merge!(options)
           request(
             :body     => Fog::JSON.encode(data),
             :expects  => 202,

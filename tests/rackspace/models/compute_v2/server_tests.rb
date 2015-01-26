@@ -3,13 +3,13 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
   cbs_service = Fog::Rackspace::BlockStorage.new
 
   tests('setup test network').succeeds do
-    @network = service.networks.create :label => "fog_test_net_#{Time.now.to_i.to_s}", :cidr => '192.168.1.1/24'
+    @network = service.networks.create :label => "fog_test_net_#{Time.now.to_i.to_s}", :cidr => '192.168.1.0/24'
   end
 
   options = {
     :name => "fog_server_#{Time.now.to_i.to_s}",
     :flavor_id => rackspace_test_flavor_id(service),
-    :image_id => rackspace_test_image_id(service), 
+    :image_id => rackspace_test_image_id(service),
     :metadata => { 'fog_test' => 'true' },
     :networks => [@network.id]
   }
@@ -67,14 +67,21 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
 
   model_tests(service.servers, options, true) do
     @instance.wait_for { ready? }
-    
+
     tests('#metadata[\'fog_test\']').returns('true') do
       @instance.metadata['fog_test']
     end
-    
+
      tests("includes #{@network.label}").returns(true) do
        @instance.addresses.keys.include?(@network.label)
      end
+
+    tests('#create').succeeds do
+      pending unless Fog.mocking?
+      original_options = Marshal.load(Marshal.dump(options))
+      @instance.create(options)
+      returns(true) { original_options == options }
+    end
 
     tests('#update').succeeds do
       new_name = "fog_server_update#{Time.now.to_i.to_s}"
@@ -88,7 +95,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       returns("::1") { @instance.access_ipv6_address }
       returns(new_name) { @instance.name }
     end
-    
+
     tests('#reboot("SOFT")').succeeds do
       @instance.reboot('SOFT')
       returns('REBOOT') { @instance.state }
@@ -188,7 +195,63 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     end
 
     @instance.wait_for { ready? }
-   end
+  end
+
+  tests('#setup') do
+    ATTRIBUTES = {
+      :name => "foo",
+      :image_id => 42,
+      :flavor_id => 42
+    }
+
+    create_server = lambda { |attributes|
+      service = Fog::Compute::RackspaceV2.new
+      attributes.merge!(:service => service)
+
+      Fog::SSH::Mock.data.clear
+
+      server = Fog::Compute::RackspaceV2::Server.new(attributes)
+      server.save(attributes)
+
+      @address = 123
+
+      server.ipv4_address = @address
+      server.identity = "bar"
+      server.public_key = "baz"
+
+      server.setup
+
+      server
+    }
+
+    commands = lambda {
+      Fog::SSH::Mock.data[@address].first[:commands]
+    }
+
+    test("leaves user unlocked only when requested") do
+      create_server.call(ATTRIBUTES.merge(:no_passwd_lock => true))
+      commands.call.none? { |c| c =~ /passwd\s+-l\s+root/ }
+    end
+
+    test("provide a password when the passed isn't locked") do
+      pwd = create_server.call(
+        ATTRIBUTES.merge(:no_passwd_lock => true)
+      ).password
+
+      # shindo expects a boolean not truthyness :-(
+      !!pwd
+    end
+
+    test("locks user by default") do
+      create_server.call(ATTRIBUTES)
+      commands.call.one? { |c| c =~ /passwd\s+-l\s+root/ }
+    end
+
+    test("nils password when password is locked") do
+      pwd = create_server.call(ATTRIBUTES).password
+      pwd.nil?
+    end
+  end
 
   #When after testing resize/resize_confirm we get a 409 when we try to resize_revert so I am going to split it into two blocks
   model_tests(service.servers, options, true) do
@@ -197,7 +260,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       @instance.resize(4)
       returns('RESIZE') { @instance.state }
     end
-  
+
     @instance.wait_for { ready?('VERIFY_RESIZE') }
     sleep 60 unless Fog.mocking?
     tests('#revert_resize').succeeds do

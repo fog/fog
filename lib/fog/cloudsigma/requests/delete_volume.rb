@@ -12,7 +12,6 @@ module Fog
           mock_delete(:volumes, 204, vol_id)
         end
       end
-
     end
   end
 end

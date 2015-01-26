@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Vsphere
-
       class Folder < Fog::Model
-
         identity :id
 
         attribute :name
@@ -20,9 +18,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Orchestration
     class OpenStack
       class Real
-
         # Delete a stack.
         #
         # @param stack_name [String] Name of the stack to delete.
@@ -14,11 +13,11 @@ module Fog
 
         def delete_stack(stack_name, stack_id)
           request(
+            :expects  => 204,
             :path => "stacks/#{stack_name}/#{stack_id}",
             :method => 'DELETE'
           )
         end
-
       end
 
       class Mock
@@ -26,7 +25,7 @@ module Fog
           self.data[:stacks].delete(stack_id)
 
           response = Excon::Response.new
-          response.status = 202
+          response.status = 204
           response.body = {}
           response
         end

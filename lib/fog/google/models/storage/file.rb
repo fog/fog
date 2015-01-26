@@ -3,10 +3,8 @@ require 'fog/core/model'
 module Fog
   module Storage
     class Google
-
       class File < Fog::Model
-
-        identity  :key,             :aliases => 'Key'
+        identity  :key,                 :aliases => 'Key'
 
         attribute :cache_control,       :aliases => 'Cache-Control'
         attribute :content_disposition, :aliases => 'Content-Disposition'
@@ -94,7 +92,7 @@ module Fog
           requires :directory, :key
 
           acl = service.get_object_acl(directory.key, key).body['AccessControlList']
-          access_granted = acl.detect do |entry|
+          access_granted = acl.find do |entry|
             entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'
           end
 
@@ -121,7 +119,7 @@ module Fog
           options['Content-MD5'] = content_md5 if content_md5
           options['Content-Type'] = content_type if content_type
           options['Expires'] = expires if expires
-          options.merge(metadata)
+          options.merge!(metadata)
 
           data = service.put_object(directory.key, key, body, options)
           merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
@@ -140,9 +138,7 @@ module Fog
         def directory=(new_directory)
           @directory = new_directory
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class BareMetalCloud
       class Real
-
         # List servers
         #
         # ==== Returns
@@ -29,7 +28,6 @@ module Fog
             :path     => 'api/listServers'
           )
         end
-
       end
     end
   end

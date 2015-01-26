@@ -4,9 +4,7 @@ require 'fog/hp/models/compute/server'
 module Fog
   module Compute
     class HP
-
       class Servers < Fog::Collection
-
         model Fog::Compute::HP::Server
 
         def all
@@ -28,9 +26,7 @@ module Fog
         rescue Fog::Compute::HP::NotFound
           nil
         end
-
       end
-
     end
   end
 end

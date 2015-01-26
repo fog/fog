@@ -4,13 +4,13 @@ module Fog
   module Rackspace
     class LoadBalancers
       class Node < Fog::Model
-
         identity :id
 
         attribute :address
         attribute :status
         attribute :weight
         attribute :port
+        attribute :type
         attribute :condition
 
         def destroy
@@ -32,11 +32,15 @@ module Fog
         def load_balancer
           collection.load_balancer
         end
+
         def create
           requires :load_balancer, :address, :condition, :port
           options = {}
           unless weight.nil?
             options[:weight] = weight
+          end
+          unless type.nil?
+            options[:type] = type
           end
           data = service.create_node(load_balancer.id, address, port, condition, options)
           merge_attributes(data.body['nodes'][0])
@@ -49,6 +53,9 @@ module Fog
           }
           unless weight.nil?
             options[:weight] = weight
+          end
+          unless type.nil?
+            options[:type] = type
           end
           service.update_node(load_balancer.id, identity, options)
         end

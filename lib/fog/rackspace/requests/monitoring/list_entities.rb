@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def list_entities(options={})
           request(
             :expects  => [200, 203],
@@ -12,7 +11,7 @@ module Fog
           )
         end
       end
-      
+
       class Mock
         def list_entities(options={})
           account_id = Fog::Mock.random_numbers(6).to_s
@@ -69,4 +68,3 @@ module Fog
     end
   end
 end
-

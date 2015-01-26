@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module InternetArchive
-
         class GetBucketLifecycle < Fog::Parsers::Base
-
           def reset
             @expiration = {}
             @transition = {}
@@ -36,7 +34,7 @@ module Fog
               end
             elsif @in_transition
               case name
-              when 'StorageClass', 
+              when 'StorageClass',
                 @transition['StorageClass'] = value
               when 'Date'
                 @transition[name] = value
@@ -56,7 +54,7 @@ module Fog
               when 'Rule'
                 @response['Rules'] << @rule
                 @rule = {}
-              end 
+              end
             end
           end
         end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module DNS
       module Bluebox
-
         class GetRecords < Fog::Parsers::Base
-
           def reset
             @record = {}
             @response = { 'records' => [] }
@@ -19,9 +17,7 @@ module Fog
               @record[name] = value
             end
           end
-
         end
-
       end
     end
   end

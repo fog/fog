@@ -2,7 +2,6 @@ module Fog
   module Orchestration
     class OpenStack
       class Real
-
         # List stacks.
         #
         # @param options [Hash]
@@ -25,12 +24,12 @@ module Fog
 
         def list_stacks(options = {})
           request(
+            :expects  => 200,
             :path => 'stacks',
             :method => 'GET',
             :query => options
           )
         end
-
       end
 
       class Mock

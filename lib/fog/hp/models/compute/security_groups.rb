@@ -4,9 +4,7 @@ require 'fog/hp/models/compute/security_group'
 module Fog
   module Compute
     class HP
-
       class SecurityGroups < Fog::Collection
-
         model Fog::Compute::HP::SecurityGroup
 
         def all
@@ -22,7 +20,6 @@ module Fog
         rescue Fog::Compute::HP::NotFound
           nil
         end
-
       end
     end
   end

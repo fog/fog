@@ -4,9 +4,7 @@ require 'fog/vsphere/models/compute/datacenter'
 module Fog
   module Compute
     class Vsphere
-
       class Datacenters < Fog::Collection
-
         model Fog::Compute::Vsphere::Datacenter
 
         def all(filters = {})
@@ -16,7 +14,6 @@ module Fog
         def get(name)
           new service.get_datacenter(name)
         end
-
       end
     end
   end

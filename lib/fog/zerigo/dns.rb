@@ -1,10 +1,8 @@
-require 'fog/zerigo'
-require 'fog/dns'
+require 'fog/zerigo/core'
 
 module Fog
   module DNS
     class Zerigo < Fog::Service
-
       requires :zerigo_email, :zerigo_token
       recognizes :host, :persistent, :port, :scheme, :timeout
 
@@ -31,7 +29,6 @@ module Fog
       request :update_zone
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = key == :zones ? [] : {}
@@ -64,14 +61,12 @@ module Fog
         end
 
         def find_host(host_id)
-          self.data[:zones].collect { |z| z['hosts'].find { |h| h['id'] == host_id } }.compact.first
+          self.data[:zones].map { |z| z['hosts'].find { |h| h['id'] == host_id } }.compact.first
         end
       end
 
       class Real
-
         def initialize(options={})
-          require 'fog/core/parser'
 
           @zerigo_email  = options[:zerigo_email]
           @zerigo_token  = options[:zerigo_token]
@@ -80,7 +75,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 80
           @scheme     = options[:scheme]      || 'http'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
@@ -101,7 +96,7 @@ module Fog
           end
 
           begin
-            response = @connection.request(params.merge!({:host => @host}))
+            response = @connection.request(params)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
@@ -113,7 +108,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

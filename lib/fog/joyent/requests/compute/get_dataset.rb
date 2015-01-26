@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Joyent
-
       class Mock
         def get_dataset(id)
           if ds = self.data[:datasets][id]
@@ -18,11 +17,11 @@ module Fog
         def get_dataset
           request(
             :method => "GET",
-            :path => "/my/datasets"
+            :path => "/my/datasets",
+            :idempotent => true
           )
         end
       end
-
     end
   end
 end

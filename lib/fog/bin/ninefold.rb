@@ -1,6 +1,5 @@
 class Ninefold < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -31,6 +30,5 @@ class Ninefold < Fog::Bin
     def services
       Fog::Ninefold.services
     end
-
   end
 end

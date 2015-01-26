@@ -4,9 +4,7 @@ require 'fog/rackspace/models/compute/server'
 module Fog
   module Compute
     class Rackspace
-
       class Servers < Fog::Collection
-
         model Fog::Compute::Rackspace::Server
 
         def all
@@ -28,9 +26,7 @@ module Fog
         rescue Fog::Compute::Rackspace::NotFound
           nil
         end
-
       end
-
     end
   end
 end

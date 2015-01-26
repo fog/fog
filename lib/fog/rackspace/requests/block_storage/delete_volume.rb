@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class BlockStorage
       class Real
-
         # Delete volume
         #
         # @param [String] volume_id Id of volume to delete

@@ -21,8 +21,7 @@ module Fog
               |user| user['tenantId'] == tenant_id
             }
           end
-                         
-          
+
           Excon::Response.new(
             :body   => { 'users' => users },
             :status => 200

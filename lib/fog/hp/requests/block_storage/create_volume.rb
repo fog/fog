@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorage
       class Real
-
         # Create a new block storage volume
         #
         # ==== Parameters
@@ -50,11 +49,9 @@ module Fog
             :path     => "os-volumes"
           )
         end
-
       end
 
       class Mock  # :nodoc:all
-
         def create_volume(name, description, size, options={})
           if options['snapshotId'] && options['imageRef']
             raise Fog::Errors::BadRequest.new("Snapshot and image cannot be specified together.")
@@ -81,7 +78,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

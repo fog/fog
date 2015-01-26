@@ -38,9 +38,7 @@ module Fog
           end
           vm ? vm : raise(Fog::Compute::Vsphere::NotFound, "#{id} was not found")
         end
-
       end
-
     end
   end
 end

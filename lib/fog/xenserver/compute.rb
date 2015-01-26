@@ -1,10 +1,8 @@
-require 'fog/xenserver'
-require 'fog/compute'
+require 'fog/xenserver/core'
 
 module Fog
   module Compute
     class XenServer < Fog::Service
-
       require 'fog/xenserver/utilities'
       require 'fog/xenserver/parser'
 
@@ -12,10 +10,46 @@ module Fog
       requires :xenserver_password
       requires :xenserver_url
       recognizes :xenserver_defaults
+      recognizes :xenserver_timeout
+      recognizes :xenserver_redirect_to_master
 
       model_path 'fog/xenserver/models/compute'
+      model :blob
+      collection :blobs
+      model :bond
+      collection :bonds
+      model :crash_dump
+      collection :crash_dumps
+      model :dr_task
+      collection :dr_tasks
+      model :gpu_group
+      collection :gpu_groups
+      model :host_crash_dump
+      collection :host_crash_dumps
+      model :host_patch
+      collection :host_patchs
+      model :pci
+      collection :pcis
+      model :pgpu
+      collection :pgpus
+      model :pif_metrics
+      collection :pifs_metrics
+      model :pool_patch
+      collection :pool_patchs
+      model :role
+      collection :roles
       model :server
       collection :servers
+      model :server_appliance
+      collection :server_appliances
+      model :storage_manager
+      collection :storage_managers
+      model :tunnel
+      collection :tunnels
+      model :vmpp
+      collection :vmpps
+      model :vtpm
+      collection :vtpms
       model :host
       collection :hosts
       collection :vifs
@@ -51,6 +85,7 @@ module Fog
       request :destroy_vif
       request :clone_server
       request :destroy_server
+      request :destroy_record
       request :unplug_vbd
       request :eject_vbd
       request :insert_vbd
@@ -81,12 +116,26 @@ module Fog
 
       class Real
 
+        attr_reader :connection
+
         def initialize(options={})
-          @host        = options[:xenserver_url]
-          @username    = options[:xenserver_username]
-          @password    = options[:xenserver_password]
-          @defaults    = options[:xenserver_defaults] || {}
-          @connection  = Fog::XenServer::Connection.new(@host)
+          @host                 = options[:xenserver_url]
+          @username             = options[:xenserver_username]
+          @password             = options[:xenserver_password]
+          @defaults             = options[:xenserver_defaults] || {}
+          @timeout              = options[:xenserver_timeout] || 30
+          @redirect_to_master   = options[:xenserver_redirect_to_master] || false
+          @connection           = Fog::XenServer::Connection.new(@host, @timeout)
+
+          if @redirect_to_master == false
+            @connection  = Fog::XenServer::Connection.new(@host, @timeout)
+          elsif @redirect_to_master == true
+            host_master  = @connection.find_pool_master(@username, @password)
+            if host_master && host_master!= @host
+              @host = host_master
+              @connection  = Fog::XenServer::Connection.new(@host, @timeout)
+            end
+          end
           @connection.authenticate(@username, @password)
         end
 
@@ -108,11 +157,9 @@ module Fog
         def default_network
           networks.find { |n| n.name == (@defaults[:network] || "Pool-wide network associated with eth0") }
         end
-
       end
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
@@ -129,13 +176,10 @@ module Fog
           @host        = options[:xenserver_pool_master]
           @username    = options[:xenserver_username]
           @password    = options[:xenserver_password]
-          @connection  = Fog::Connection.new(@host)
+          @connection  = Fog::XML::Connection.new(@host)
           @connection.authenticate(@username, @password)
         end
-
       end
     end
   end
 end
-
-

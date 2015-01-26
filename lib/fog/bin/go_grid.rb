@@ -1,11 +1,10 @@
 class GoGrid < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
         Fog::Compute::GoGrid
-      else 
+      else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
     end
@@ -26,6 +25,5 @@ class GoGrid < Fog::Bin
     def services
       Fog::GoGrid.services
     end
-
   end
 end

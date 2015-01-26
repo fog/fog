@@ -4,9 +4,7 @@ require 'fog/rackspace/models/compute/flavor'
 module Fog
   module Compute
     class Rackspace
-
       class Flavors < Fog::Collection
-
         model Fog::Compute::Rackspace::Flavor
 
         def all
@@ -20,9 +18,7 @@ module Fog
         rescue Fog::Compute::Rackspace::NotFound
           nil
         end
-
       end
-
     end
   end
 end

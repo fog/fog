@@ -3,7 +3,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Glesys
-
       class Server < Fog::Compute::Server
         extend Fog::Deprecation
 
@@ -15,6 +14,7 @@ module Fog
         attribute :memorysize
         attribute :disksize
         attribute :transfer
+        attribute :bandwidth
         attribute :uptime
         attribute :templatename
         attribute :managedhosting
@@ -66,6 +66,7 @@ module Fog
             :cpucores       => cpucores     || "1",
             :rootpassword   => rootpassword,
             :transfer       => transfer     || "500",
+            :bandwidth      => bandwidth    || "10",
           }
 
           # optional options when creating a server:
@@ -79,7 +80,7 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :public_ip_address, :username
+          requires :ssh_ip_address, :username
           require 'net/ssh'
 
           attrs = attributes.dup
@@ -100,7 +101,7 @@ module Fog
           # wait for glesys to be ready
           wait_for { sshable?(credentials) }
 
-          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+          Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
         end
 
         def ssh(command, options={}, &block)
@@ -119,7 +120,6 @@ module Fog
         end
 
         def public_ip_address(options = {})
-
           return nil if iplist.nil?
 
           type = options[:type] || nil
@@ -136,7 +136,6 @@ module Fog
             ips.first["ipaddress"]
           end
         end
-
       end
     end
   end

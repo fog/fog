@@ -15,7 +15,7 @@ Shindo.tests('Fog::Compute[:openstack] | address requests', ['openstack']) do
   @address_pools_format = {
     "name" => String
   }
-  
+
   tests('success') do
 
     tests('#allocate_address').formats({"floating_ip" => @address_format}) do
@@ -36,7 +36,7 @@ Shindo.tests('Fog::Compute[:openstack] | address requests', ['openstack']) do
     tests('#list_address_pools').formats({"floating_ip_pools" => [@address_pools_format]}) do
       compute.list_address_pools.body
     end
-    
+
     compute.servers.get(@server_id).wait_for { ready? }
 
     tests('#associate_address(server_id, ip_address)').succeeds do

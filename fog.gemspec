@@ -1,3 +1,8 @@
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'fog/version'
+
 Gem::Specification.new do |s|
   s.specification_version = 2 if s.respond_to? :specification_version=
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -6,8 +11,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '1.15.0'
-  s.date              = '2013-08-16'
+  s.version           = '1.27.0'
+  s.date              = '2015-01-12'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -41,33 +46,50 @@ Gem::Specification.new do |s|
 
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
-  s.add_dependency('builder')
-  s.add_dependency('excon', '~>0.25.0')
-  s.add_dependency('formatador', '~>0.2.0')
-  s.add_dependency('multi_json', '~>1.0')
-  s.add_dependency('mime-types')
-  s.add_dependency('net-scp', '~>1.1')
-  s.add_dependency('net-ssh', '>=2.1.3')
-  s.add_dependency('nokogiri', '~>1.5')
-  s.add_dependency('ruby-hmac')
-  s.add_dependency('unicode', "~> 0.4.4")
+  s.add_dependency("fog-core", "~> 1.27", ">= 1.27.3")
+  s.add_dependency("fog-json")
+  s.add_dependency("fog-xml", "~> 0.1.1")
+
+  s.add_dependency('nokogiri', '~> 1.5', '>= 1.5.11')
+  s.add_dependency('ipaddress', '~>0.5')
+
+  # Modular providers
+  s.add_dependency("fog-aws", "~> 0.0")
+  s.add_dependency("fog-brightbox", "~> 0.4")
+  s.add_dependency("fog-softlayer")
+  s.add_dependency("fog-sakuracloud", ">= 0.0.4")
+  s.add_dependency("fog-radosgw", ">=0.0.2")
+  s.add_dependency("fog-profitbricks")
+  s.add_dependency("fog-voxel")
+  s.add_dependency("fog-vmfusion")
+  s.add_dependency("fog-terremark")
+  s.add_dependency("fog-ecloud")
+  s.add_dependency("fog-storm_on_demand")
+  s.add_dependency("fog-atmos")
+  s.add_dependency("fog-serverlove")
+
+  # Disabled until Rackspace isn't broken, see fog-rackspace#10
+  #s.add_dependency("fog-rackspace")
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
-  s.add_development_dependency('jekyll')
+  s.add_development_dependency('minitest')
   s.add_development_dependency('rake')
   s.add_development_dependency('rbvmomi')
   s.add_development_dependency('yard')
   s.add_development_dependency('thor')
-  s.add_development_dependency('rspec', '~>1.3.1')
-  s.add_development_dependency('rbovirt', '>=0.0.11')
-  s.add_development_dependency('shindo', '~>0.3.4')
+  s.add_development_dependency('rbovirt', '0.0.32')
+  s.add_development_dependency('shindo', '~> 0.3.4')
   s.add_development_dependency('fission')
+  s.add_development_dependency('opennebula')
   s.add_development_dependency('pry')
-  s.add_development_dependency('google-api-client', '~>0.6.2')
-  s.add_development_dependency('vcr', '~>2.5.0')
-  s.add_development_dependency('webmock', '~>1.11.0')
-#  s.add_development_dependency('ruby-libvirt','~>0.4.0')
+  s.add_development_dependency('google-api-client', '~> 0.6', '>= 0.6.2')
+  s.add_development_dependency('docker-api', '>= 1.13.6')
+  s.add_development_dependency('rubocop') if RUBY_VERSION > "1.9"
+
+  if ENV["FOG_USE_LIBVIRT"]
+    s.add_development_dependency('ruby-libvirt','~> 0.5.0')
+  end
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {spec,tests}/*`.split("\n")

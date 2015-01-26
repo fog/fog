@@ -4,9 +4,7 @@ require 'cgi'
 module Fog
   module Compute
     module LibvirtUtil
-
       class URI
-
         attr_reader :uri
 
         def initialize(uri)
@@ -109,7 +107,6 @@ module Fog
           else
             return true
           end
-
         end
 
         def tty?
@@ -120,14 +117,13 @@ module Fog
           value("pkipath")
         end
 
-
         # A libvirt URI allows you to specify extra params
         # http://libvirt.org/remote.html
         private
         def value(name)
           unless @parsed_uri.query.nil?
             params=CGI.parse(@parsed_uri.query)
-            if params.has_key?(name)
+            if params.key?(name)
               return params[name].first
             else
               return nil
@@ -136,10 +132,7 @@ module Fog
             return nil
           end
         end
-
-
       end
     end
   end
 end
-

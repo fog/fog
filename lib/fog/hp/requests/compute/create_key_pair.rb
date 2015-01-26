@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Create a new keypair
         #
         # ==== Parameters
@@ -43,11 +42,9 @@ module Fog
             :path     => 'os-keypairs.json'
           )
         end
-
       end
 
       class Mock
-
         def create_key_pair(key_name, public_key = nil)
           response = Excon::Response.new
           unless self.data[:key_pairs][key_name]
@@ -73,9 +70,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

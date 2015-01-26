@@ -1,4 +1,4 @@
-require 'fog/aws/cloud_formation'
+require 'fog/openstack/core'
 
 module Fog
   module Orchestration
@@ -114,7 +114,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def credentials
@@ -138,9 +138,10 @@ module Fog
               :headers  => {
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
-                'X-Auth-Token' => @auth_token
+                'X-Auth-Token' => @auth_token,
+                'X-Auth-User'  => @openstack_username,
+                'X-Auth-Key'   => @openstack_api_key
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{@tenant_id}/#{params[:path]}",
               :query    => params[:query]
             }))
@@ -161,7 +162,7 @@ module Fog
               end
           end
 
-          if response.status == 200 && !response.body.empty?
+          if !response.body.empty? and response.get_header('Content-Type') =~ /application\/json/ then
             response.body = Fog::JSON.decode(response.body)
           end
 
@@ -175,7 +176,7 @@ module Fog
             options = {
               :openstack_api_key    => @openstack_api_key,
               :openstack_username   => @openstack_username,
-              :openstack_auth_token => @auth_token,
+              :openstack_auth_token => @openstack_must_reauthenticate ? nil : @auth_token,
               :openstack_auth_uri   => @openstack_auth_uri,
               :openstack_region     => @openstack_region,
               :openstack_tenant     => @openstack_tenant,
@@ -213,14 +214,13 @@ module Fog
 
           # Not all implementations have identity service in the catalog
           if @openstack_identity_public_endpoint || @openstack_management_url
-            @identity_connection = Fog::Connection.new(
+            @identity_connection = Fog::Core::Connection.new(
               @openstack_identity_public_endpoint || @openstack_management_url,
               false, @connection_options)
           end
 
           true
         end
-
       end
     end
   end

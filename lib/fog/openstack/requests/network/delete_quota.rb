@@ -2,7 +2,6 @@ module Fog
   module Network
     class OpenStack
       class Real
-
         def delete_quota(tenant_id)
           request(
             :expects  => 204,
@@ -10,7 +9,6 @@ module Fog
             :path     => "/quotas/#{tenant_id}"
           )
         end
-
       end
 
       class Mock
@@ -20,7 +18,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

@@ -12,7 +12,7 @@ end
 
 def select_directory(directories)
   abort "\nThere are not any directories with files in the Chicago region. Try running create_file.rb\n\n" if directories.empty?
-  
+
   puts "\nSelect Directory:\n\n"
   directories.each_with_index do |dir, i|
     puts "\t #{i}. #{dir.key} [#{dir.count} objects]"
@@ -32,7 +32,7 @@ def select_file(files)
   files[delete_str.to_i]
 end
 
-# Use username defined in ~/.fog file, if absent prompt for username. 
+# Use username defined in ~/.fog file, if absent prompt for username.
 # For more details on ~/.fog refer to http://fog.io/about/getting_started.html
 def rackspace_username
   Fog.credentials[:rackspace_username] || get_user_input("Enter Rackspace Username")
@@ -51,10 +51,10 @@ service = Fog::Storage.new({
   :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord #Use Chicago Region
   })
-  
+
 # retrieve directories with files
 directories = service.directories.select {|s| s.count > 0}
-  
+
 # prompt for directory
 directory = select_directory(directories)
 

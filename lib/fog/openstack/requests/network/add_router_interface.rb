@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def add_router_interface(router_id, subnet_id, options = {})
           data = {
@@ -42,7 +41,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

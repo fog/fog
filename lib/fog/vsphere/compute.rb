@@ -1,9 +1,9 @@
+require 'fog/vsphere/core'
 require 'digest/sha2'
 
 module Fog
   module Compute
     class Vsphere < Fog::Service
-
       requires :vsphere_username, :vsphere_password, :vsphere_server
       recognizes :vsphere_port, :vsphere_path, :vsphere_ns
       recognizes :vsphere_rev, :vsphere_ssl, :vsphere_expected_pubkey_hash
@@ -11,10 +11,14 @@ module Fog
       model_path 'fog/vsphere/models/compute'
       model :server
       collection :servers
+      model :servertype
+      collection :servertypes
       model :datacenter
       collection :datacenters
       model :interface
       collection :interfaces
+      model :interfacetype
+      collection :interfacetypes
       model :volume
       collection :volumes
       model :template
@@ -33,6 +37,7 @@ module Fog
       collection :customvalues
       model :customfield
       collection :customfields
+      model :scsicontroller
 
       request_path 'fog/vsphere/requests/compute'
       request :current_time
@@ -60,6 +65,7 @@ module Fog
       request :create_vm
       request :list_vm_interfaces
       request :modify_vm_interface
+      request :modify_vm_volume
       request :list_vm_volumes
       request :get_virtual_machine
       request :vm_reconfig_hardware
@@ -67,11 +73,16 @@ module Fog
       request :vm_reconfig_cpus
       request :vm_config_vnc
       request :create_folder
+      request :list_server_types
+      request :get_server_type
+      request :list_interface_types
+      request :get_interface_type
       request :list_vm_customvalues
       request :list_customfields
+      request :get_vm_first_scsi_controller
+      request :set_vm_customvalue
 
       module Shared
-
         attr_reader :vsphere_is_vcenter
         attr_reader :vsphere_rev
         attr_reader :vsphere_server
@@ -95,8 +106,10 @@ module Fog
           :tools_version => 'guest.toolsVersionStatus',
           :memory_mb => 'config.hardware.memoryMB',
           :cpus   => 'config.hardware.numCPU',
+          :corespersocket   => 'config.hardware.numCoresPerSocket',
           :overall_status => 'overallStatus',
-          :guest_id => 'summary.guest.guestId',
+          :guest_id => 'config.guestId',
+          :hardware_version => 'config.version',
         }
 
         def convert_vm_view_to_attr_hash(vms)
@@ -141,7 +154,6 @@ module Fog
             attrs['mac_addresses'] = Proc.new {vm_mob_ref.macs rescue nil}
             # Rescue nil to catch testing while vm_mob_ref isn't reaL??
             attrs['path'] = "/"+attrs['parent'].path.map(&:last).join('/') rescue nil
-            attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
           end
         end
         # returns the parent object based on a type
@@ -172,11 +184,9 @@ module Fog
         def is_uuid?(id)
           !(id =~ /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/).nil?
         end
-
       end
 
       class Mock
-
         include Shared
 
         def self.data
@@ -294,7 +304,44 @@ module Fog
               },
               :datacenters => {
                 "Solutions" => {:name => "Solutions", :status => "grey"}
-              }
+              },
+              :clusters =>
+                [{:id => "1d4d9a3f-e4e8-4c40-b7fc-263850068fa4",
+                  :name => "Solutionscluster",
+                  :num_host => "4",
+                  :num_cpu_cores => "16",
+                  :overall_status => "green",
+                  :datacenter => "Solutions",
+                  :klass => "RbVmomi::VIM::ComputeResource"
+                 },
+                 {:id => "e4195973-102b-4096-bbd6-5429ff0b35c9",
+                  :name => "Problemscluster",
+                  :num_host => "4",
+                  :num_cpu_cores => "32",
+                  :overall_status => "green",
+                  :datacenter => "Solutions",
+                  :klass => "RbVmomi::VIM::ComputeResource"
+                 },
+                 {
+                   :klass => "RbVmomi::VIM::Folder",
+                   :clusters => [{:id => "03616b8d-b707-41fd-b3b5-The first",
+                                  :name => "Problemscluster",
+                                  :num_host => "4",
+                                  :num_cpu_cores => "32",
+                                  :overall_status => "green",
+                                  :datacenter => "Solutions",
+                                  :klass => "RbVmomi::VIM::ComputeResource"
+                                 },
+                                 {:id => "03616b8d-b707-41fd-b3b5-the Second",
+                                  :name => "Lastcluster",
+                                  :num_host => "8",
+                                  :num_cpu_cores => "32",
+                                  :overall_status => "green",
+                                  :datacenter => "Solutions",
+                                  :klass => "RbVmomi::VIM::ComputeResource"}
+                   ]
+                 }
+                ]
             }
           end
         end
@@ -319,7 +366,6 @@ module Fog
       end
 
       class Real
-
         include Shared
 
         def initialize(options={})
@@ -334,8 +380,35 @@ module Fog
           @vsphere_ssl      = options[:vsphere_ssl] || true
           @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
           @vsphere_must_reauthenticate = false
-
+          @vsphere_is_vcenter = nil
           @connection = nil
+          connect
+          negotiate_revision(options[:vsphere_rev])
+          authenticate
+        end
+
+        def reload
+          connect
+          # Check if the negotiation was ever run
+          if @vsphere_is_vcenter.nil?
+            negotiate
+          end
+          authenticate
+        end
+
+        private
+        def negotiate_revision(revision = nil)
+          # Negotiate the API revision
+          if not revision
+            rev = @connection.serviceContent.about.apiVersion
+            @connection.rev = [ rev, ENV['FOG_VSPHERE_REV'] || '4.1' ].min
+          end
+
+          @vsphere_is_vcenter = @connection.serviceContent.about.apiType == "VirtualCenter"
+          @vsphere_rev = @connection.rev
+        end
+
+        def connect
           # This is a state variable to allow digest validation of the SSL cert
           bad_cert = false
           loop do
@@ -357,20 +430,7 @@ module Fog
           if bad_cert then
             validate_ssl_connection
           end
-
-          # Negotiate the API revision
-          if not options[:vsphere_rev]
-            rev = @connection.serviceContent.about.apiVersion
-            @connection.rev = [ rev, ENV['FOG_VSPHERE_REV'] || '4.1' ].min
-          end
-
-          @vsphere_is_vcenter = @connection.serviceContent.about.apiType == "VirtualCenter"
-          @vsphere_rev = @connection.rev
-
-          authenticate
         end
-
-        private
 
         def authenticate
           begin
@@ -390,9 +450,7 @@ module Fog
             raise Fog::Vsphere::Errors::SecurityError, "The remote system presented a public key with hash #{pubkey_hash} but we're expecting a hash of #{expected_pubkey_hash || '<unset>'}.  If you are sure the remote system is authentic set vsphere_expected_pubkey_hash: <the hash printed in this message> in ~/.fog"
           end
         end
-
       end
-
     end
   end
 end

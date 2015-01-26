@@ -4,7 +4,6 @@ module Fog
   module Storage
     class IBM
       class Volume < Fog::Model
-
         STATES = {
           0  => 'New',
           1  => 'Creating',
@@ -91,7 +90,6 @@ module Fog
         def state
           STATES[attributes[:state]]
         end
-
       end
     end
   end

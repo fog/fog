@@ -12,7 +12,7 @@ end
 
 def select_server(servers)
   abort "\nThere are not any servers in the Chicago region. Try running create_server.rb\n\n" if servers.empty?
-  
+
   puts "\nSelect Server For Volume Detachment:\n\n"
   servers.each_with_index do |server, i|
     puts "\t #{i}. #{server.name} [#{server.public_ip_address}]"
@@ -24,7 +24,7 @@ end
 
 def select_attachment(attachments)
   abort "\nThis server does not contain any volumes in the Chicago region. Try running server_attachments.rb\n\n" if attachments.empty?
-  
+
   puts "\nSelect Volume To Detach:\n\n"
   attachments.each_with_index do |attachment, i|
     puts "\t #{i}. #{attachment.device}"
@@ -83,7 +83,6 @@ puts "* Volume must be unmounted from operating system before detaching. *"
 puts "* This script assumes volume has been unmounted.                   *"
 puts "********************************************************************\n\n"
 
-
 volume = cbs_service.volumes.get attachment.volume_id
 
 # The snapshot process requires all writes to be flushed to disk. This requires unmounting the file systems or detaching the volume.
@@ -96,7 +95,7 @@ puts "Now Creating Snapshot #{snapshot_name}"
 snapshot = cbs_service.snapshots.create :display_name => snapshot_name, :volume_id => attachment.volume_id
 
 begin
-  # Check every 5 seconds to see if snapshot is in the available state (ready?). 
+  # Check every 5 seconds to see if snapshot is in the available state (ready?).
   # If the available has not been built in 5 minutes (600 seconds) an exception will be raised.
   snapshot.wait_for(600, 5) do
     print "."
@@ -115,4 +114,3 @@ rescue Fog::Errors::TimeoutError
   puts "The snapshot #{snapshot.display_name} is still being preformed and is taking longer to complete than expected."
   puts "You can continute to monitor the process through the web console at https://mycloud.rackspace.com/\n\n"
 end
-

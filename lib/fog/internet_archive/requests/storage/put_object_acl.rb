@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         require 'fog/internet_archive/requests/storage/acl_utils'
 
         # Change access control list for an S3 object
@@ -31,7 +30,7 @@ module Fog
           query = {'acl' => nil}
           data = ""
           headers = {}
-          
+
           if acl.is_a?(Hash)
             data = Fog::Storage::InternetArchive.hash_to_acl(acl)
           else
@@ -44,7 +43,7 @@ module Fog
           headers['Content-MD5'] = Base64.encode64(Digest::MD5.digest(data)).strip
           headers['Content-Type'] = 'application/json'
           headers['Date'] = Fog::Time.now.to_date_header
-          
+
           request({
             :body     => data,
             :expects  => 200,
@@ -56,7 +55,7 @@ module Fog
           })
         end
       end
-      
+
       class Mock
         def put_object_acl(bucket_name, object_name, acl, options = {})
           if acl.is_a?(Hash)
@@ -66,10 +65,9 @@ module Fog
               raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
             end
             self.data[:acls][:object][bucket_name][object_name] = acl
-          end        
+          end
         end
       end
-
     end
   end
 end

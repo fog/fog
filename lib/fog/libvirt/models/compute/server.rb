@@ -5,9 +5,7 @@ require 'net/ssh/proxy/command'
 module Fog
   module Compute
     class Libvirt
-
       class Server < Fog::Compute::Server
-
         include Fog::Compute::LibvirtUtil
         attr_reader :xml
 
@@ -68,9 +66,9 @@ module Fog
 
         def start
           return true if active?
-          service.vm_action(uuid, :create)
+          action_status = service.vm_action(uuid, :create)
           reload
-          true
+          action_status
         end
 
         def mac
@@ -89,23 +87,33 @@ module Fog
         end
 
         def reboot
-          service.vm_action(uuid, :reboot)
+          action_status = service.vm_action(uuid, :reboot)
+          reload
+          action_status
         end
 
         def poweroff
-          service.vm_action(uuid, :destroy)
+          action_status = service.vm_action(uuid, :destroy)
+          reload
+          action_status
         end
 
         def shutdown
-          service.vm_action(uuid, :shutdown)
+          action_status = service.vm_action(uuid, :shutdown)
+          reload
+          action_status
         end
 
         def resume
-          service.vm_action(uuid, :resume)
+          action_status = service.vm_action(uuid, :resume)
+          reload
+          action_status
         end
 
         def suspend
-          service.vm_action(uuid, :suspend)
+          action_status = service.vm_action(uuid, :suspend)
+          reload
+          action_status
         end
 
         def stopped?
@@ -117,9 +125,9 @@ module Fog
         end
 
         #alias methods
-        alias :halt    :poweroff
-        alias :stop    :shutdown
-        alias :active? :active
+        alias_method :halt,    :poweroff
+        alias_method :stop,    :shutdown
+        alias_method :active?, :active
 
         def volumes
           # lazy loading of volumes
@@ -135,7 +143,7 @@ module Fog
         end
 
         def ssh(commands)
-          requires :public_ip_address, :username
+          requires :ssh_ip_address, :username
 
           ssh_options={}
           ssh_options[:password] = password unless password.nil?
@@ -153,19 +161,19 @@ module Fog
 
         # Transfers a file
         def scp(local_path, remote_path, upload_options = {})
-          requires :public_ip_address, :username
+          requires :ssh_ip_address, :username
 
           scp_options = {}
           scp_options[:password] = password unless self.password.nil?
           scp_options[:key_data] = [private_key] if self.private_key
           scp_options[:proxy]= ssh_proxy unless self.ssh_proxy.nil?
 
-          Fog::SCP.new(public_ip_address, username, scp_options).upload(local_path, remote_path, upload_options)
+          Fog::SCP.new(ssh_ip_address, username, scp_options).upload(local_path, remote_path, upload_options)
         end
 
         # Sets up a new key
         def setup(credentials = {})
-          requires :public_key, :public_ip_address, :username
+          requires :public_key, :ssh_ip_address, :username
 
           credentials[:proxy]= ssh_proxy unless ssh_proxy.nil?
           credentials[:password] = password unless self.password.nil?
@@ -184,7 +192,7 @@ module Fog
           Timeout::timeout(360) do
             begin
               Timeout::timeout(8) do
-                Fog::SSH.new(public_ip_address, username, credentials.merge(:timeout => 4)).run('pwd')
+                Fog::SSH.new(ssh_ip_address, username, credentials.merge(:timeout => 4)).run('pwd')
               end
             rescue Errno::ECONNREFUSED
               sleep(2)
@@ -193,7 +201,7 @@ module Fog
               retry
             end
           end
-          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+          Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
         end
 
         def update_display attrs = {}
@@ -214,33 +222,32 @@ module Fog
         # It returns an array of public and private ip addresses
         # Currently only one ip address is returned, but in the future this could be multiple
         # if the server has multiple network interface
-        def addresses(service=service, options={})
+        def addresses(service_arg=service, options={})
           mac=self.mac
 
           # Aug 24 17:34:41 juno arpwatch: new station 10.247.4.137 52:54:00:88:5a:0a eth0.4
           # Aug 24 17:37:19 juno arpwatch: changed ethernet address 10.247.4.137 52:54:00:27:33:00 (52:54:00:88:5a:0a) eth0.4
           # Check if another ip_command string was provided
-          ip_command_global=service.ip_command.nil? ? 'grep $mac /var/log/arpwatch.log|sed -e "s/new station//"|sed -e "s/changed ethernet address//g" |sed -e "s/reused old ethernet //" |tail -1 |cut -d ":" -f 4-| cut -d " " -f 3' : service.ip_command
+          ip_command_global=service_arg.ip_command.nil? ? 'grep $mac /var/log/arpwatch.log|sed -e "s/new station//"|sed -e "s/changed ethernet address//g" |sed -e "s/reused old ethernet //" |tail -1 |cut -d ":" -f 4-| cut -d " " -f 3' : service_arg.ip_command
           ip_command_local=options[:ip_command].nil? ? ip_command_global : options[:ip_command]
 
           ip_command="mac=#{mac}; server_name=#{name}; "+ip_command_local
 
           ip_address=nil
 
-          if service.uri.ssh_enabled?
+          if service_arg.uri.ssh_enabled?
 
             # Retrieve the parts we need from the service to setup our ssh options
-            user=service.uri.user #could be nil
-            host=service.uri.host
-            keyfile=service.uri.keyfile
-            port=service.uri.port
+            user=service_arg.uri.user #could be nil
+            host=service_arg.uri.host
+            keyfile=service_arg.uri.keyfile
+            port=service_arg.uri.port
 
             # Setup the options
             ssh_options={}
             ssh_options[:keys]=[ keyfile ] unless keyfile.nil?
             ssh_options[:port]=port unless keyfile.nil?
-            ssh_options[:paranoid]=true if service.uri.no_verify?
-
+            ssh_options[:paranoid]=true if service_arg.uri.no_verify?
 
             begin
               result=Fog::SSH.new(host, user, ssh_options).run(ip_command)
@@ -249,7 +256,6 @@ module Fog
             rescue Net::SSH::AuthenticationFailed
               raise Fog::Errors::Error.new("Error authenticating over ssh to host #{host} and user #{user}")
             end
-
 
             # Check for a clean exit code
             if result.first.status == 0
@@ -261,7 +267,7 @@ module Fog
 
           else
             # It's not ssh enabled, so we assume it is
-            if service.uri.transport=="tls"
+            if service_arg.uri.transport=="tls"
               raise Fog::Errors::Error.new("TlS remote transport is not currently supported, only ssh")
             end
 
@@ -282,7 +288,6 @@ module Fog
             #Strip any new lines from the string
             ip_address=ip_address.chomp
           end
-
 
           # The Ip-address command has been run either local or remote now
 
@@ -390,10 +395,7 @@ module Fog
         def default_display
           {:port => '-1', :listen => '127.0.0.1', :type => 'vnc', :password => '' }
         end
-
       end
-
     end
   end
-
 end

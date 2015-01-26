@@ -2,7 +2,6 @@ module Fog
   module Storage
     class OpenStack
       class Real
-
         # Get details for object
         #
         # ==== Parameters
@@ -10,19 +9,18 @@ module Fog
         # * object<~String> - Name of object to look for
         #
         def get_object(container, object, &block)
-          params = {}
-
-          if block_given?
-            params[:response_block] = Proc.new
-          end
-
-          request(params.merge!({
+          params = {
             :expects  => 200,
             :method   => 'GET',
             :path     => "#{Fog::OpenStack.escape(container)}/#{Fog::OpenStack.escape(object)}"
-          }), false)
-        end
+          }
 
+          if block_given?
+            params[:response_block] = block
+          end
+
+          request(params, false)
+        end
       end
     end
   end

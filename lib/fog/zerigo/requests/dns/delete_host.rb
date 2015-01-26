@@ -2,13 +2,12 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
-        # Delete a host record 
+        # Delete a host record
         #
         # ==== Parameters
         # * host_id<~Integer> - Id of host record to delete
         # ==== Returns
-        # * response<~Excon::Response>: 
+        # * response<~Excon::Response>:
         #   * 'status'<~Integer> - 200 indicates success
         def delete_host(host_id)
           request(
@@ -17,7 +16,6 @@ module Fog
             :path     => "/api/1.1/hosts/#{host_id}.xml"
           )
         end
-
       end
 
       class Mock # :nodoc:all

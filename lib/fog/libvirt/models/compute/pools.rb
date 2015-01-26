@@ -4,9 +4,7 @@ require 'fog/libvirt/models/compute/pool'
 module Fog
   module Compute
     class Libvirt
-
       class Pools < Fog::Collection
-
         model Fog::Compute::Libvirt::Pool
 
         def all(filter = {})
@@ -16,9 +14,7 @@ module Fog
         def get(uuid)
           self.all(:uuid => uuid).first
         end
-
       end
-
     end
   end
 end

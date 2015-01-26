@@ -1,20 +1,25 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Updates account information for the authenticated user.
+        # Starts a virtual machine.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/startVirtualMachine.html]
-        def start_virtual_machine(options={})
-          options.merge!(
-            'command' => 'startVirtualMachine'
-          )
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/startVirtualMachine.html]
+        def start_virtual_machine(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'startVirtualMachine') 
+          else
+            options.merge!('command' => 'startVirtualMachine', 
+            'id' => args[0])
+          end
           request(options)
         end
-
       end
+
     end
   end
 end
+

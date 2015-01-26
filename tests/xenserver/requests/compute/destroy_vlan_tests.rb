@@ -17,7 +17,7 @@ Shindo.tests('Fog::Compute[:xenserver] | destroy_vlan request', ['xenserver']) d
       (compute.vlans.reload.find { |v| v.reference == @ref }).nil?
     end
   end
-  
+
   tests('failure') do
     test('#destroy_vlan invalid') do
       raises = false
@@ -32,5 +32,5 @@ Shindo.tests('Fog::Compute[:xenserver] | destroy_vlan request', ['xenserver']) d
   end
 
   @net.destroy
-  
+
 end

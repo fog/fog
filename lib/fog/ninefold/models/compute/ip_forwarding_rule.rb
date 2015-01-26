@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Ninefold
-
       class IpForwardingRule < Fog::Model
-
         identity  :id
 
         attribute :protocol
@@ -72,7 +70,6 @@ module Fog
             job['jobid'] || job['id']
           end
         end
-
       end
     end
   end

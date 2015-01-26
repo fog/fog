@@ -1,5 +1,5 @@
 This model implements the connection with a libvirt URI.
-A libvirt URI can either be local or remote. 
+A libvirt URI can either be local or remote.
 
 To learn more on the specific libvirt URI syntax see:
 
@@ -10,7 +10,7 @@ Only ssh is supported as the transport for remote URI's. TLS is NOT supported, a
 
 ## Dependencies
 
-- the interaction with libvirt is done through the official libvirt gem called 'libvirt-ruby'.
+- the interaction with libvirt is done through the official libvirt gem called 'ruby-libvirt'.
 - be aware that there is another libvirt gem called 'libvirt', which is not compatible
 - If this gem is not installed the models for libvirt will not be available
 

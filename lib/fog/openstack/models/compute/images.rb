@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/image'
 module Fog
   module Compute
     class OpenStack
-
       class Images < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::OpenStack::Image
@@ -18,8 +16,8 @@ module Fog
           super
         end
 
-        def all(filters = filters)
-          self.filters = filters
+        def all(filters_arg = filters)
+          filters = filters_arg
           data = service.list_images_detail(filters).body['images']
           images = load(data)
           if server
@@ -34,9 +32,7 @@ module Fog
         rescue Fog::Compute::OpenStack::NotFound
           nil
         end
-
       end
-
     end
   end
 end

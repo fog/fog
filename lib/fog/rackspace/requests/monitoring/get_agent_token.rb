@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def get_agent_token(id)
           request(
             :expects  => [200, 203],
@@ -14,7 +13,6 @@ module Fog
 
       class Mock
         def get_agent_token(id)
-
           token = Fog::Mock.random_letters(50).to_s
 
           if id == -1
@@ -44,9 +42,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end
-
-

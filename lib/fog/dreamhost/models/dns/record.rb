@@ -3,13 +3,11 @@ require 'fog/core/model'
 module Fog
   module DNS
     class Dreamhost
-
       class Record < Fog::Model
-
         identity  :name, :aliases => 'record'
 
         attribute :value
-        attribute :zone     
+        attribute :zone
         attribute :type
         attribute :editable
         attribute :account_id
@@ -27,9 +25,7 @@ module Fog
           merge_attributes(data)
           true
         end
-
       end
-
     end
   end
 end

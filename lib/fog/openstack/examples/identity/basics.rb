@@ -57,13 +57,12 @@ user = keystone.users.create :name      => 'rubiojr@example.net',
                              :password  => 'rubiojr@example.net',
                              :email     => 'rubiojr@example.net'
 
-
 # Find the recently created tenant
 tenant = keystone.tenants.find { |t| t.name == 'rubiojr@example.net' }
 # Destroy the tenant
 tenant.destroy
 
-# Find the recently created user 
+# Find the recently created user
 user = keystone.users.find { |u| u.name == 'rubiojr@example.net' }
 # Destroy the user
 user.destroy

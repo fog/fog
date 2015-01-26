@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module VcloudDirector
-
         class Disks < VcloudDirectorParser
-
           def reset
             @disk = {}
             @response = { :disks => [] }
@@ -48,9 +46,7 @@ module Fog
               @disk = {}
             end
           end
-
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Linode
       class Real
-
         # Update a domain record
         #
         # ==== Parameters
@@ -25,15 +24,12 @@ module Fog
         #     * DATA<~Hash>:
         #       * 'DomainID'<~Integer>: domain ID
         def domain_update(domain_id, options = {})
-
           request(
             :expects  => 200,
             :method   => 'GET',
             :query    => { :api_action => 'domain.update', :domainId => domain_id }.merge!(options)
           )
-
         end
-
       end
     end
   end

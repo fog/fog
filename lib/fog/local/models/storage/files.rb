@@ -4,9 +4,7 @@ require 'fog/local/models/storage/file'
 module Fog
   module Storage
     class Local
-
       class Files < Fog::Collection
-
         attribute :directory
 
         model Fog::Storage::Local::File
@@ -36,7 +34,7 @@ module Fog
         def get(key, &block)
           requires :directory
           path = file_path(key)
-          if ::File.exists?(path)
+          if ::File.exist?(path)
             data = {
               :content_length => ::File.size(path),
               :key            => key,
@@ -59,7 +57,7 @@ module Fog
         def head(key)
           requires :directory
           path = file_path(key)
-          if ::File.exists?(path)
+          if ::File.exist?(path)
             new({
               :content_length => ::File.size(path),
               :key            => key,
@@ -80,7 +78,6 @@ module Fog
         def file_path(key)
           service.path_to(::File.join(directory.key, key))
         end
-
       end
     end
   end

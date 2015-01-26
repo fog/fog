@@ -2,7 +2,6 @@ module Fog
   module Network
     class OpenStack
       class Real
-
         def update_quota(tenant_id, options = {})
           request(
             :body     => Fog::JSON.encode({ 'quota' => options} ),
@@ -11,11 +10,9 @@ module Fog
             :path     => "/quotas/#{tenant_id}"
           )
         end
-
       end
 
       class Mock
-
         def update_quota(tenant_id, options = {})
           self.data[:quota_updated] = self.data[:quota].merge options
 
@@ -24,10 +21,7 @@ module Fog
           response.body = { 'quota' => self.data[:quota_updated] }
           response
         end
-
       end
-
     end
   end
 end
-

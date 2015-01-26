@@ -3,7 +3,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class GoGrid
-
       class BlockInstantiationError < StandardError; end
 
       class Server < Fog::Compute::Server
@@ -71,8 +70,8 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :identity, :public_ip_address, :public_key, :username
-          Fog::SSH.new(public_ip_address, username, credentials).run([
+          requires :identity, :ssh_ip_address, :public_key, :username
+          Fog::SSH.new(ssh_ip_address, username, credentials).run([
             %{mkdir .ssh},
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
             %{passwd -l root},
@@ -89,10 +88,7 @@ module Fog
         def adminPass=(new_admin_pass)
           @password = new_admin_pass
         end
-
       end
-
     end
-
   end
 end

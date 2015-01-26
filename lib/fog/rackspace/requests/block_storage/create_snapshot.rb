@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class BlockStorage
       class Real
-
         # Create a snapshot from a volume
         #
         # @param [String] volume_id Id of server to create image from

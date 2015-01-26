@@ -1,7 +1,6 @@
 module Fog
   module Vcloud
     class Compute
-
       class Real
         def get_vm_memory(href, parse = true)
           request(

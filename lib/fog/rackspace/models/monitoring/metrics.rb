@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Metrics < Fog::Collection
-
         attribute :check
 
         model Fog::Rackspace::Monitoring::Metric
@@ -20,7 +19,6 @@ module Fog
           requires :check
           super({ :check => check }.merge!(attributes))
         end
-
       end
     end
   end

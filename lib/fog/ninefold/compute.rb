@@ -1,10 +1,8 @@
-require 'fog/ninefold'
-require 'fog/compute'
+require 'fog/ninefold/core'
 
 module Fog
   module Compute
     class Ninefold < Fog::Service
-
       API_URL = "http://api.ninefold.com/compute/v1.0/"
 
       requires :ninefold_compute_key, :ninefold_compute_secret
@@ -70,11 +68,10 @@ module Fog
       request :update_load_balancer_rule
 
       class Mock
-
         def initialize(options)
-          @api_url = options[:ninefold_api_url] || Fog.credentials[:ninefold_api_url] || API_URL
-          @ninefold_compute_key = options[:ninefold_compute_key] || Fog.credentials[:ninefold_compute_key]
-          @ninefold_compute_secret = options[:ninefold_compute_secret] || Fog.credentials[:ninefold_compute_secret]
+          @api_url = options[:ninefold_api_url] || API_URL
+          @ninefold_compute_key = options[:ninefold_compute_key]
+          @ninefold_compute_secret = options[:ninefold_compute_secret]
         end
 
         def request(options)
@@ -83,21 +80,20 @@ module Fog
       end
 
       class Real
-
         def initialize(options)
-          @api_url                  = options[:ninefold_api_url] || Fog.credentials[:ninefold_api_url] || API_URL
-          @ninefold_compute_key     = options[:ninefold_compute_key] || Fog.credentials[:ninefold_compute_key]
-          @ninefold_compute_secret  = options[:ninefold_compute_secret] || Fog.credentials[:ninefold_compute_secret]
+          @api_url                  = options[:ninefold_api_url] || API_URL
+          @ninefold_compute_key     = options[:ninefold_compute_key]
+          @ninefold_compute_secret  = options[:ninefold_compute_secret]
           @connection_options       = options[:connection_options] || {}
           @persistent               = options[:persistent] || false
-          @connection = Fog::Connection.new(@api_url, @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new(@api_url, @persistent, @connection_options)
         end
 
         def request(command, params, options)
           params['response'] = "json"
           # convert params to strings for sort
           req_params = params.merge('apiKey' => @ninefold_compute_key, 'command' => command)
-          req = URI.escape(req_params.sort_by{|k,v| k.to_s }.collect{|e| "#{e[0].to_s}=#{e[1].to_s}"}.join('&'))
+          req = URI.escape(req_params.sort_by{|k,v| k.to_s }.map{|e| "#{e[0].to_s}=#{e[1].to_s}"}.join('&'))
           encoded_signature = url_escape(encode_signature(req))
 
           options = {
@@ -114,7 +110,7 @@ module Fog
             # the values out with a prefix, and if there is an empty data entry return an
             # empty version of the expected type (if provided)
             response = Fog::JSON.decode(response.body)
-            if options.has_key? :response_prefix
+            if options.key? :response_prefix
               keys = options[:response_prefix].split('/')
               keys.each do |k|
                 if response[k]
@@ -132,7 +128,7 @@ module Fog
           end
         end
 
-      private
+        private
         def url_escape(string)
           string.gsub(/([^ a-zA-Z0-9_.-]+)/n) do
             '%' + $1.unpack('H2' * $1.size).join('%').upcase

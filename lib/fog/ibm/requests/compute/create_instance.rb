@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Requests a new Instance to be created.
         #
         # ==== Parameters
@@ -48,7 +47,7 @@ module Fog
           if options[:secondary_ip]
             options[:secondary_ip].split(',').map(&:strip).each_with_index do |n, idx|
               body_data.merge!({"secondary.ip.#{idx}" => n})
-            end 
+            end
           end
           request(
             :method   => 'POST',
@@ -57,11 +56,9 @@ module Fog
             :body     => body_data
           )
         end
-
       end
 
       class Mock
-
         def create_instance(name, image_id, instance_type, location, options={})
           response = Excon::Response.new
           # Since we want to test error conditions, we have a little regex that traps specially formed
@@ -78,7 +75,6 @@ module Fog
             response
           end
         end
-
       end
     end
   end

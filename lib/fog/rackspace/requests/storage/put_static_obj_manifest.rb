@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Rackspace
       class Real
-
         # Create a new static large object manifest.
         #
         # A static large object is similar to a dynamic large object. Whereas a GET for a dynamic large object manifest
@@ -51,10 +50,53 @@ module Fog
             :query    => { 'multipart-manifest' => 'put' }
           )
         end
+      end
 
+      class Mock
+        def put_static_obj_manifest(container, object, segments, options = {})
+          c = mock_container! container
+
+          # Verify paths.
+          errors = []
+          segments.each do |segment|
+            cname, oname = segment[:path].split('/', 2)
+            target_container = mock_container(cname)
+
+            raise Fog::Storage::Rackspace::NotFound.new unless target_container
+
+            target_object = target_container.mock_object oname
+            unless target_object
+              errors << [segment[:path], '404 Not Found']
+              next
+            end
+
+            unless target_object.hash == segment[:etag]
+              errors << [segment[:path], 'Etag Mismatch']
+            end
+
+            unless target_object.bytes_used == segment[:size_bytes]
+              errors << [segment[:path], 'Size Mismatch']
+            end
+          end
+
+          unless errors.empty?
+            response = Excon::Response.new
+            response.status = 400
+            response.body = Fog::JSON.encode({ 'Errors' => errors })
+
+            error = Excon::Errors.status_error({}, response)
+            raise Fog::Storage::Rackspace::BadRequest.slurp(error)
+          end
+
+          data = Fog::JSON.encode(segments)
+          o = c.add_object object, data
+          o.static_manifest = true
+
+          response = Excon::Response.new
+          response.status = 201
+          response
+        end
       end
     end
   end
 end
-
-

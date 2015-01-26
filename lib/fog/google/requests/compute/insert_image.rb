@@ -1,17 +1,46 @@
 module Fog
   module Compute
     class Google
-
       class Mock
+        def insert_image(image_name, options={})
+          id = Fog::Mock.random_numbers(19).to_s
+          object = {
+            "kind" => "compute#image",
+            "id" => id,
+            "creationTimestamp" => Time.now.iso8601,
+            "sourceType" => '',
+            "rawDisk" => {
+              "source" => options ["source"],
+              "shal1Checksum" => '',
+              "containerType" => ''
+            },
+            "status" => "READY",
+            "name" => image_name,
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/images/#{image_name}"
+          }
+          self.data[:images][image_name] = object
 
-        def insert_image(image_name)
-          Fog::Mock.not_implemented
+          operation = self.random_operation
+          self.data[:operations][operation] = {
+            "kind" => "compute#operation",
+            "id" => Fog::Mock.random_numbers(19).to_s,
+            "name" => operation,
+            "operationType" => "insert",
+            "targetLink" => object["selfLink"],
+            "targetId" => id,
+            "status" => Fog::Compute::Google::Operation::PENDING_STATE,
+            "user" => "123456789012-qwertyuiopasdfghjkl1234567890qwe@developer.gserviceaccount.com",
+            "progress" => 0,
+            "insertTime" => Time.now.iso8601,
+            "startTime" => Time.now.iso8601,
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/operations/#{operation}"
+          }
+
+          build_excon_response(self.data[:operations][operation])
         end
-
       end
 
       class Real
-
         def insert_image(image_name, options={})
           api_method = @compute.images.insert
 
@@ -19,27 +48,17 @@ module Fog
             'project' => @project,
           }
 
-          kernel_url = @api_url + 'google/global/kernels/' + \
-                      options.delete('preferredKernel').to_s
-
           body_object = {
             'sourceType'      => 'RAW',
             'name'            => image_name,
-            'rawDisk'         => options.delete('rawDisk'),
-            'preferredKernel' => kernel_url,
           }
 
-          # Merge in the remaining params (only 'description' should remain)
-          body_object.merge(options)
+          # Merge in the remaining params 
+          body_object.merge!(options)
 
-          result = self.build_result(api_method,
-                                     parameters,
-                                     body_object=body_object)
-          response = self.build_response(result)
+          request(api_method, parameters, body_object=body_object)
         end
-
       end
-
     end
   end
 end

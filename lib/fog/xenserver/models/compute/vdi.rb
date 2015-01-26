@@ -3,10 +3,9 @@ require 'fog/core/model'
 module Fog
   module Compute
     class XenServer
-
       class VDI < Fog::Model
         # API Reference here:
-        # http://docs.vmd.citrix.com/XenServer/5.6.0/1.0/en_gb/api/?c=VDI
+        # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=VDI
 
         identity :reference
 
@@ -22,6 +21,7 @@ module Fog
         attribute :read_only
         attribute :current_operations
         attribute :allowed_operations
+        attribute :__crash_dumps,               :aliases => :crash_dumps
         attribute :type
         attribute :other_config
         attribute :tags
@@ -30,6 +30,8 @@ module Fog
         attribute :missing
         attribute :location
         attribute :managed
+        attribute :metadata_latest
+        attribute :metadata_of_pool
         attribute :allow_caching
         attribute :on_boot
         attribute :sm_config
@@ -66,13 +68,13 @@ module Fog
         end
 
         def snapshots
-          __snapshots.collect do |ref|
+          __snapshots.map do |ref|
             service.vdis.get ref
           end
         end
 
         def vbds
-          __vbds.collect do |ref|
+          __vbds.map do |ref|
             service.vbds.get ref
           end
         end
@@ -94,9 +96,7 @@ module Fog
         def sr
           storage_repository
         end
-
       end
-
     end
   end
 end

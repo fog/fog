@@ -3,10 +3,9 @@ require 'fog/core/model'
 module Fog
   module Bluebox
     class BLB
-
       class LbApplication < Fog::Model
         identity :id
-        
+
         attribute :name
         attribute :ip_v4
         attribute :ip_v6
@@ -24,9 +23,7 @@ module Fog
             :lb_application => self
           })
         end
-
       end
-
     end
   end
 end

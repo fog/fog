@@ -6,19 +6,27 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace'
     tests('success') do
 
       @lb_id = nil
+      @lb_ids = []
       @lb_name = 'fog' + Time.now.to_i.to_s
 
-      tests("#create_load_balancer(#{@lb_name}, 'HTTP', 80,...)").formats(LOAD_BALANCER_FORMAT) do
-        data = @service.create_load_balancer(@lb_name, 'HTTP', 80, [{ :type => 'PUBLIC'}], [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED'}]).body
+      tests("#create_load_balancer(#{@lb_name}, 'HTTP')").formats(LOAD_BALANCER_FORMAT) do
+        data = @service.create_load_balancer(@lb_name, 'HTTP').body
         @lb_id = data['loadBalancer']['id']
+        @lb_ids << @lb_id
+        data
+      end
+
+      tests("#create_load_balancer(#{@lb_name}, 'HTTP', 80,...)").formats(LOAD_BALANCER_FORMAT) do
+        data = @service.create_load_balancer(@lb_name, 'HTTP', 80, [{ :type => 'PUBLIC' }], [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED' }]).body
+        @lb_ids << data['loadBalancer']['id']
         data
       end
 
       tests("#create_load_balancer(#{@lb_name}, 'HTTP', 80,...with algorithm)").formats(LOAD_BALANCER_FORMAT) do
-        data = @service.create_load_balancer(@lb_name, 'HTTP', 80, [{ :type => 'PUBLIC'}], 
+        data = @service.create_load_balancer(@lb_name, 'HTTP', 80, [{ :type => 'PUBLIC'}],
                                              [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED'}],
                                              { :algorithm => 'LEAST_CONNECTIONS', :timeout => 30 }).body
-        @lb_id = data['loadBalancer']['id']
+        @lb_ids << data['loadBalancer']['id']
         returns('LEAST_CONNECTIONS') { data['loadBalancer']['algorithm'] }
         returns(30) { data['loadBalancer']['timeout'] }
         data
@@ -52,8 +60,10 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace'
         sleep 10
       end
 
-      tests("#delete_load_balancer(#{@ld_id})").succeeds do
-        @service.delete_load_balancer(@lb_id).body
+      @lb_ids.each do |id|
+        tests("#delete_load_balancer(#{id})").succeeds do
+          @service.delete_load_balancer(id).body
+        end
       end
     end
 

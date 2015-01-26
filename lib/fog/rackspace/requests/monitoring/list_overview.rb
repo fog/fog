@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def list_overview(options={})
           request(
             :expects  => [200, 203],
@@ -15,7 +14,6 @@ module Fog
 
       class Mock
         def list_overview(options={})
-
           alarm_id   = Fog::Mock.random_letters(10)
           check_id   = Fog::Mock.random_letters(10)
           entity_id  = Fog::Mock.random_letters(10)
@@ -30,7 +28,7 @@ module Fog
                 "entity" => {
                   "id"           => entity_id,
                   "label"        => "mock_entity",
-                  "ip_addresses" => { 
+                  "ip_addresses" => {
                     "access_ip0_v6" => Fog::Rackspace::MockData.ipv6_address,
                     "public0_v4"    => Fog::Rackspace::MockData.ipv4_address,
                     "public1_v6"    => Fog::Rackspace::MockData.ipv6_address,
@@ -80,7 +78,7 @@ module Fog
                 "latest_alarm_states" => []
               }
             ],
-          
+
             "metadata" => {
               "count"       => 1,
               "limit"       => 100,
@@ -107,9 +105,7 @@ module Fog
           response.remote_ip = Fog::Rackspace::MockData.ipv4_address
           response
         end
-      end          
-
+      end
     end
   end
 end
-

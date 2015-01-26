@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def get_alarm_example(id)
           request(
             :expects  => [200, 203],
@@ -10,10 +9,7 @@ module Fog
             :path     => "alarm_examples/#{id}"
           )
         end
-
       end
     end
   end
 end
-
-

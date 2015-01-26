@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module DNS
       module Zerigo
-
         class GetZoneStats < Fog::Parsers::Base
-
           def reset
             @response = {}
           end
@@ -15,11 +13,9 @@ module Fog
               @response[name] = value.to_i
             when 'domain', 'period-begin', 'period-end'
               @response[name] = value
-            end            
+            end
           end
-
         end
-
       end
     end
   end

@@ -4,9 +4,7 @@ require 'fog/go_grid/models/compute/image'
 module Fog
   module Compute
     class GoGrid
-
       class Images < Fog::Collection
-
         model Fog::Compute::GoGrid::Image
 
         attribute :server
@@ -25,9 +23,7 @@ module Fog
         rescue Fog::Compute::GoGrid::NotFound
           nil
         end
-
       end
-
     end
   end
 end

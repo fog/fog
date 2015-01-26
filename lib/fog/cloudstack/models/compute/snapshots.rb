@@ -4,13 +4,12 @@ require 'fog/cloudstack/models/compute/snapshot'
 module Fog
   module Compute
     class Cloudstack
-
       class Snapshots < Fog::Collection
-
         model Fog::Compute::Cloudstack::Snapshot
 
-        def all
-          data = service.list_snapshots["listsnapshotsresponse"]["snapshot"] || []
+        def all(attributes = {})
+          response = service.list_snapshots(attributes)
+          data = response["listsnapshotsresponse"]["snapshot"] || []
           load(data)
         end
 
@@ -19,7 +18,6 @@ module Fog
           new(snapshot) if snapshot
         end
       end
-
     end
   end
 end

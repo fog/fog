@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def delete_router(router_id)
           request(
@@ -15,7 +14,7 @@ module Fog
       class Mock
         def delete_router(router_id)
           response = Excon::Response.new
-          if list_routers.body['routers'].map { |r| r['id'] }.include? router_id
+          if list_routers.body['routers'].find { |r| r[:id] == router_id }
             self.data[:routers].delete(router_id)
             response.status = 204
             response
@@ -24,7 +23,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

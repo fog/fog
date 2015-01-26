@@ -2,7 +2,6 @@ module Fog
   module Vcloud
     class Compute
       class Task < Fog::Vcloud::Model
-
         identity :href, :aliases => :Href
         attribute :links, :aliases => :Link, :type => :array
         ignore_attributes :xmlns, :xmlns_i, :xmlns_xsi, :xmlns_xsd
@@ -14,7 +13,6 @@ module Fog
         attribute :start_time, :aliases => :startTime, :type => :time
         attribute :end_time, :aliases => :endTime, :type => :time
         attribute :error, :aliases => :Error
-
       end
     end
   end

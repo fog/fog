@@ -1,5 +1,4 @@
-require 'fog/rackspace'
-require 'fog/dns'
+require 'fog/rackspace/core'
 
 module Fog
   module DNS
@@ -51,7 +50,6 @@ module Fog
       request :add_records
 
       class Mock < Fog::Rackspace::Service
-
         def initialize(options={})
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
@@ -75,11 +73,9 @@ module Fog
         def reset_data
           self.class.reset
         end
-
       end
 
       class Real < Fog::Rackspace::Service
-
         def service_name
           :cloudDNS
         end
@@ -102,7 +98,7 @@ module Fog
           deprecation_warnings(options)
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def endpoint_uri(service_endpoint_url=nil)
@@ -111,27 +107,25 @@ module Fog
 
         private
 
-        def request(params, parse_json = true, &block)
-          begin
-            super(params, parse_json, &block)
-          rescue Excon::Errors::NotFound => error
-            raise NotFound.slurp(error, self)
-          rescue Excon::Errors::BadRequest => error
-            raise BadRequest.slurp(error, self)
-          rescue Excon::Errors::InternalServerError => error
-            raise InternalServerError.slurp(error, self)
-          rescue Excon::Errors::ServiceUnavailable => error
-            raise ServiceUnavailable.slurp(error, self)
-          rescue Excon::Errors::Conflict => error
-            raise Conflict.slurp(error, self)
-          rescue Excon::Errors::HTTPStatusError => error
-            raise ServiceError.slurp(error, self)
-          end
+        def request(params, parse_json = true)
+          super
+        rescue Excon::Errors::NotFound => error
+          raise NotFound.slurp(error, self)
+        rescue Excon::Errors::BadRequest => error
+          raise BadRequest.slurp(error, self)
+        rescue Excon::Errors::InternalServerError => error
+          raise InternalServerError.slurp(error, self)
+        rescue Excon::Errors::ServiceUnavailable => error
+          raise ServiceUnavailable.slurp(error, self)
+        rescue Excon::Errors::Conflict => error
+          raise Conflict.slurp(error, self)
+        rescue Excon::Errors::HTTPStatusError => error
+          raise ServiceError.slurp(error, self)
         end
 
         def array_to_query_string(arr)
           return "" unless arr
-          query_array = arr.collect do | k, v |
+          query_array = arr.map do | k, v |
             val_str = v.is_a?(Array) ? v.join(",") : v.to_s
             "#{k}=#{val_str}"
           end

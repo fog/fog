@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Deletes the Instance that the authenticated user manages with the specified :instance_id
         #
         # ==== Parameters
@@ -19,11 +18,9 @@ module Fog
             :path     => "/instances/#{instance_id}"
           )
         end
-
       end
 
       class Mock
-
         def delete_instance(instance_id)
           response = Excon::Response.new
           if deleteable? instance_id
@@ -45,7 +42,6 @@ module Fog
           return false if [0, 1, 7, 14, 15].include?(instance["status"].to_i)
           true
         end
-
       end
     end
   end

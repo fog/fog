@@ -1,11 +1,10 @@
+require 'fileutils'
 require 'fog/core/model'
 
 module Fog
   module Storage
     class Local
-
       class File < Fog::Model
-
         identity  :key,             :aliases => 'Key'
 
         attribute :content_length,  :aliases => 'Content-Length', :type => :integer
@@ -47,7 +46,7 @@ module Fog
 
         def destroy
           requires :directory, :key
-          ::File.delete(path) if ::File.exists?(path)
+          ::File.delete(path) if ::File.exist?(path)
           dirs = path.split(::File::SEPARATOR)[0...-1]
           dirs.length.times do |index|
             dir_path = dirs[0..-index].join(::File::SEPARATOR)
@@ -59,7 +58,7 @@ module Fog
               break
             end
             pwd = Dir.pwd
-            if ::File.exists?(dir_path) && ::File.directory?(dir_path)
+            if ::File.exist?(dir_path) && ::File.directory?(dir_path)
               Dir.chdir(dir_path)
               if Dir.glob('*').empty?
                 Dir.rmdir(dir_path)
@@ -96,13 +95,17 @@ module Fog
               next
             end
             # create directory if it doesn't already exist
-            unless ::File.directory?(dir_path)
+            begin
               Dir.mkdir(dir_path)
+            rescue Errno::EEXIST
+              raise unless ::File.directory?(dir_path)
             end
           end
           file = ::File.new(path, 'wb')
           if body.is_a?(String)
             file.write(body)
+          elsif body.kind_of? ::File and ::File.exist?(body.path)
+            FileUtils.cp(body.path, path)
           else
             file.write(body.read)
           end
@@ -123,9 +126,7 @@ module Fog
         def path
           service.path_to(::File.join(directory.key, key))
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Rackspace
       class Real
-
         # Get details for container and total bytes stored
         #
         # ==== Parameters
@@ -41,7 +40,29 @@ module Fog
             :query    => {'format' => 'json'}.merge!(options)
           )
         end
+      end
 
+      class Mock
+        def get_container(container, options = {})
+          c = mock_container! container
+
+          results = []
+          c.objects.each do |key, mock_file|
+            results << {
+              "hash" => mock_file.hash,
+              "last_modified" => mock_file.last_modified.strftime('%Y-%m-%dT%H:%M:%S.%L'),
+              "bytes" => mock_file.bytes_used,
+              "name" => key,
+              "content_type" => mock_file.content_type
+            }
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+          response.headers = c.to_headers
+          response.body = results
+          response
+        end
       end
     end
   end

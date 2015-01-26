@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         require 'fog/internet_archive/parsers/storage/list_multipart_uploads'
 
         # List multipart uploads for a bucket
@@ -47,7 +46,6 @@ module Fog
             :query    => options.merge!({'uploads' => nil})
           })
         end
-
       end
     end
   end

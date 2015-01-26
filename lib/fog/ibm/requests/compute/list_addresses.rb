@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Returns the list of static IP addresses for current user
         #
         # ==== Parameters
@@ -27,11 +26,9 @@ module Fog
             :path     => '/addresses'
           )
         end
-
       end
 
       class Mock
-
         def list_addresses
           # Loop through addresses and update states and values if they aren't set
           self.data[:addresses].values.each do |address|
@@ -46,7 +43,6 @@ module Fog
           response.body   = { 'addresses' => self.data[:addresses].values }
           response
         end
-
       end
     end
   end

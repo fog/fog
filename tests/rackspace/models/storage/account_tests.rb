@@ -1,7 +1,5 @@
 Shindo.tests('Fog::Rackspace::Storage | account', ['rackspace']) do
 
-  pending if Fog.mocking?
-
   @account = Fog::Storage[:rackspace].account
 
   tests('load') do
@@ -21,7 +19,7 @@ Shindo.tests('Fog::Rackspace::Storage | account', ['rackspace']) do
     key = "testing-update-#{Time.now.to_i}"
     @account.meta_temp_url_key = "testing-update-#{Time.now.to_i}"
     @account.save
-    
+
     headers = @account.service.head_containers.headers
     returns(key) { headers['X-Account-Meta-Temp-Url-Key'] }
   end

@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'rackspace'))
+require 'fog/rackspace/core'
 
 module Fog
   module Rackspace
@@ -26,8 +26,6 @@ module Fog
 
       model :volume_type
       collection :volume_types
-      model :snapshot
-      collection :snapshots
 
       model :snapshot
       collection :snapshots
@@ -63,7 +61,7 @@ module Fog
           headers = params[:headers] || {}
 
           response = Excon::Response.new(:body => body, :headers => headers, :status => status)
-          if params.has_key?(:expects) && ![*params[:expects]].include?(response.status)
+          if params.key?(:expects) && ![*params[:expects]].include?(response.status)
             raise(Excon::Errors.status_error(params, response))
           else response
           end
@@ -84,11 +82,11 @@ module Fog
           deprecation_warnings(options)
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
-        def request(params, parse_json = true, &block)
-          super(params, parse_json, &block)
+        def request(params, parse_json = true)
+          super
         rescue Excon::Errors::NotFound => error
           raise NotFound.slurp(error, self)
         rescue Excon::Errors::BadRequest => error
@@ -141,7 +139,7 @@ module Fog
               @rackspace_endpoint = nil
               @rackspace_region = :lon
             else
-              @rackspace_region = options[:rackspace_region] || :dfw
+              @rackspace_region = options[:rackspace_region]
             end
           else
             #if we are using auth1 and the endpoint is not set, default to DFW_ENDPOINT for historical reasons
@@ -171,7 +169,6 @@ module Fog
           append_tenant_v1 credentials
           @auth_token = credentials['X-Auth-Token']
         end
-
       end
     end
   end

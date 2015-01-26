@@ -2,9 +2,8 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Delete the key specified with key_name
-        # @param  [String] key_name: name of the key to delete
+        # @param  [String] key_name name of the key to delete
         # @return [Excon::Response] response
         # @raise  [Fog::Compute::RackspaceV2::NotFound]
         # @raise  [Fog::Compute::RackspaceV2::BadRequest]
@@ -15,7 +14,7 @@ module Fog
           request(
             :method   => 'DELETE',
             :expects  => 202,
-            :path     => "/os-keypairs/#{key_name}"
+            :path     => "/os-keypairs/#{URI.escape(key_name)}"
           )
         end
       end
@@ -30,7 +29,6 @@ module Fog
             end
         end
       end
-
     end
   end
 end

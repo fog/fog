@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Joyent
-
       class Mock
         def list_packages
           response = Excon::Response.new()
@@ -25,12 +24,11 @@ module Fog
           request(
             :path => "/my/packages",
             :method => "GET",
-            :expects => 200
+            :expects => 200,
+            :idempotent => true
           )
         end
       end # Real
-
     end
-
   end
 end

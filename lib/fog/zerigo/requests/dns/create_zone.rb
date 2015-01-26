@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
         require 'fog/zerigo/parsers/dns/create_zone'
 
         # Create a new zone for Zerigo's DNS servers to serve/host
@@ -43,11 +42,10 @@ module Fog
         #     * 'updated-at'<~String>
         #     * 'hosts'<~String>
         #     * 'axfr-ips'<~String>
-        #     * 'restrict-axfr'<~String>    
-        #   * 'status'<~Integer> - 201 if successful        
-        
-        def create_zone(domain, default_ttl, ns_type, options = {})
+        #     * 'restrict-axfr'<~String>
+        #   * 'status'<~Integer> - 201 if successful
 
+        def create_zone(domain, default_ttl, ns_type, options = {})
           optional_tags= ''
           options.each { |option, value|
             case option
@@ -73,7 +71,7 @@ module Fog
               optional_tags+= "<tag-list>#{value}</tag-list>"
             end
           }
-          
+
           request(
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><zone><domain>#{domain}</domain><default-ttl type="integer">#{default_ttl}</default-ttl><ns-type>#{ns_type}</ns-type>#{optional_tags}</zone>},
             :expects  => 201,
@@ -82,7 +80,6 @@ module Fog
             :path     => '/api/1.1/zones.xml'
           )
         end
-
       end
 
       class Mock # :nodoc:all
@@ -126,7 +123,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Joyent
       class Real
-
         def get_machine_metadata(machine_id, options = {})
           query = {}
           if options[:credentials]
@@ -15,10 +14,10 @@ module Fog
 
           request(
             :path => "/my/machines/#{machine_id}/metadata",
-            :query => query
+            :query => query,
+            :idempotent => true
           )
         end
-
       end
     end
   end

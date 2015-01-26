@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Joyent
-
       class Mock
         def get_machine(uuid)
           if machine = self.data[:machines][uuid]
@@ -20,7 +19,8 @@ module Fog
           request(
             :method => "GET",
             :path => "/my/machines/#{uuid}",
-            :expects => [200, 410]
+            :expects => [200, 410],
+            :idempotent => true
           )
         end
       end

@@ -55,7 +55,6 @@ module Fog
       end
 
       class Mock
-
         def get_folder_path(folder, root = nil)
           nil
         end

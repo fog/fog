@@ -6,8 +6,8 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
 
     tests('have the action') do
       test('reload') { server.respond_to? 'reload' }
-      %w{ 
-        shutdown 
+      %w{
+        shutdown
         reboot
         power_cycle
         stop
@@ -19,15 +19,17 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
 
     tests('have attributes') do
       model_attribute_hash = server.attributes
-      attributes = [ 
+      attributes = [
         :id,
         :name,
         :state,
         :backups_active,
         :public_ip_address,
+        :private_ip_address,
         :flavor_id,
         :region_id,
         :image_id,
+        :created_at,
         :ssh_keys=
       ]
       tests("The server model should respond to") do
@@ -89,4 +91,3 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
   server.wait_for { ready? }
 
 end
-

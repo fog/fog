@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Linode
       class Real
-
         def linode_config_create(linode_id, kernel_id, name, disk_list)
           request(
             :expects  => 200,
@@ -16,7 +15,6 @@ module Fog
             }
           )
         end
-
       end
 
       class Mock

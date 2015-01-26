@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def get_host_details(host)
           request(
             :expects  => [200, 203],
@@ -10,13 +9,10 @@ module Fog
             :path     => "os-hosts/#{host}.json"
           )
         end
-
       end
 
       class Mock
-
         def get_host_details(host)
-
           response = Excon::Response.new
           response.status = 200
           response.body = { "host" => [
@@ -27,7 +23,7 @@ module Fog
                   "cpu" => 12,
                   "disk_gb" => 1608
                   }
-              }, 
+              },
               { "resource" => {
                   "project" => "(used_now)",
                   "memory_mb" => 1753,
@@ -35,7 +31,7 @@ module Fog
                   "cpu" => 3,
                   "disk_gb" => 33
                 }
-              }, 
+              },
               { "resource" => {
                   "project" => "(used_max)",
                   "memory_mb" => 7168,
@@ -63,11 +59,7 @@ module Fog
             ]
           }
           response
-
-          
         end
-
-
       end # mock
     end # openstack
   end # compute

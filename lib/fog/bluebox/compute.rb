@@ -1,10 +1,8 @@
-require 'fog/bluebox'
-require 'fog/compute'
+require 'fog/bluebox/core'
 
 module Fog
   module Compute
     class Bluebox < Fog::Service
-
       requires :bluebox_api_key, :bluebox_customer_id
       recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
 
@@ -34,7 +32,6 @@ module Fog
       request :reboot_block
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
@@ -56,11 +53,9 @@ module Fog
         def reset_data
           self.class.data.delete(@bluebox_api_key)
         end
-
       end
 
       class Real
-
         def initialize(options={})
           @bluebox_api_key      = options[:bluebox_api_key]
           @bluebox_customer_id  = options[:bluebox_customer_id]
@@ -69,7 +64,7 @@ module Fog
           @persistent = options[:persistent]      || false
           @port       = options[:bluebox_port]    || 443
           @scheme     = options[:bluebox_scheme]  || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
@@ -83,7 +78,7 @@ module Fog
           })
 
           begin
-            response = @connection.request(params.merge!({:host => @host}))
+            response = @connection.request(params)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
@@ -97,7 +92,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

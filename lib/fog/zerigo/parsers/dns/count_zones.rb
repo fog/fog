@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module DNS
       module Zerigo
-
         class CountZones < Fog::Parsers::Base
-
           def reset
             @response = {}
           end
@@ -15,9 +13,7 @@ module Fog
               @response[name] = value.to_i
             end
           end
-
         end
-
       end
     end
   end

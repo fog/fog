@@ -48,6 +48,10 @@ module Fog
         # @return [String] region of the volume
         attribute :availability_zone
 
+        # @!attribute [rw] image_id
+        # @return [String] The ID of an image used to create a bootable volume.
+        attribute :image_id, :aliases => ['image', 'imageRef'], :squash => 'id'
+
         # Returns true if the volume is in a ready state
         # @return [Boolean] returns true if volume is in a ready state
         def ready?
@@ -69,7 +73,6 @@ module Fog
         def snapshots
           service.snapshots.select { |s| s.volume_id == identity }
         end
-
 
         # Creates a snapshot from the current volume
         # @param [Hash] options
@@ -105,7 +108,8 @@ module Fog
             :display_description => display_description,
             :volume_type => volume_type,
             :availability_zone => availability_zone,
-            :snapshot_id => attributes[:snapshot_id]
+            :snapshot_id => attributes[:snapshot_id],
+            :image_id => attributes[:image_id]
           })
           merge_attributes(data.body['volume'])
           true

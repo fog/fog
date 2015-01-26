@@ -4,9 +4,7 @@ require 'fog/bluebox/models/compute/location'
 module Fog
   module Compute
     class Bluebox
-
       class Locations < Fog::Collection
-
         model Fog::Compute::Bluebox::Location
 
         def all
@@ -20,9 +18,7 @@ module Fog
         rescue Fog::Compute::Bluebox::NotFound
           nil
         end
-
       end
-
     end
   end
 end

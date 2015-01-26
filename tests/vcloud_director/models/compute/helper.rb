@@ -1,11 +1,4 @@
-require 'vcr'
 require 'fog/vcloud_director/compute'
-
-VCR.configure do |c|
-  c.cassette_library_dir = 'tests/vcloud_director/vcr_cassettes'
-  c.hook_into :webmock
-  c.allow_http_connections_when_no_cassette = true
-end
 
 def boolean?(item)
   [TrueClass, FalseClass].include?(item.class)
@@ -13,8 +6,6 @@ end
 
 def vcloud_director
   @vcloud_director ||= Fog::Compute::VcloudDirector.new(
-    :vcloud_director_host => 'devlab.mdsol.com',
-    :vcloud_director_api_version => '5.1',
     :connection_options => {
       :ssl_verify_peer => false,
       :connect_timeout => 200,
@@ -28,7 +19,7 @@ def organizations
 end
 
 def organization
-  organizations.first
+  @organization ||= organizations.get_by_name(vcloud_director.org_name)
 end
 
 def catalogs
@@ -52,7 +43,7 @@ def vapps
 end
 
 def vapp
-  vapps.detect {|vapp| vapp.vms.size >= 1 }
+  vapps.find {|vapp| vapp.vms.size >= 1 }
 end
 
 def the_network

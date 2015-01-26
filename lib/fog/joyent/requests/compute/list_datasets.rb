@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Joyent
-
       class Mock
         def list_datasets
           res = Excon::Response.new
@@ -15,7 +14,8 @@ module Fog
         def list_datasets
           request(
             :method => "GET",
-            :path => "/my/datasets"
+            :path => "/my/datasets",
+            :idempotent => true
           )
         end
       end

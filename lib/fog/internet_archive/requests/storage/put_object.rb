@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         # Create an object in an S3 bucket
         #
         # @param bucket_name [String] Name of bucket to create object in
@@ -25,7 +24,7 @@ module Fog
         #     * ETag [String] etag of new object
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPUT.html
-        
+
         def put_object(bucket_name, object_name, data, options = {})
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
@@ -39,11 +38,9 @@ module Fog
             :path       => CGI.escape(object_name)
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def put_object(bucket_name, object_name, data, options = {})
           acl = options['x-amz-acl'] || 'private'
           if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
@@ -91,7 +88,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

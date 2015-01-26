@@ -1,10 +1,7 @@
 module Fog
   module Vcloud
     class Compute
-
       class Real
-
-
         def login
           headers = { 'Authorization' => authorization_header }
           uri = if version == '1.0'
@@ -20,7 +17,6 @@ module Fog
             :uri      => uri
           })
         end
-
       end
     end
   end

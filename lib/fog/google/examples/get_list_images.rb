@@ -14,14 +14,13 @@ def test
   # puts img.inspect
 
   # First, get the name of an image that is in the users 'project' (not global)
-  custom_img_name = images.detect { |img| img.project == img.service.project }
+  custom_img_name = images.find { |img| img.project == img.service.project }
   # Run the next test only if there is a custom image available
   if custom_img_name
     # puts 'Fetching a single image from the custom project'
     # puts '----------------------------------------------'
-    img = connection.images.get(custom_img_name)
+    img = connection.images.get(custom_img_name.name)
     raise 'Could not GET the (custom) image' unless img
     # puts img.inspect
   end
-
 end

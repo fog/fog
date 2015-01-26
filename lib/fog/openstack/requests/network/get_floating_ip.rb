@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def get_floating_ip(floating_ip_id)
           request(
@@ -35,8 +34,6 @@ module Fog
           end
         end
       end
-
-
     end
   end
 end

@@ -2,16 +2,15 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
         require 'fog/zerigo/parsers/dns/count_zones'
 
-        # Total number of zones hosted Zerigo for this account. It is the same value as provided 
+        # Total number of zones hosted Zerigo for this account. It is the same value as provided
         # in the X-Query-Count header in the list_zones API method
         #
         # ==== Returns
-        # * response<~Excon::Response>: 
+        # * response<~Excon::Response>:
         #   * body<~Hash>
-        #     * 'count'<~Integer> 
+        #     * 'count'<~Integer>
         #   * 'status'<~Integer> - 200 indicates success
         def count_zones
           request(
@@ -21,7 +20,6 @@ module Fog
             :path     => "/api/1.1/zones/count.xml"
           )
         end
-
       end
 
       class Mock # :nodoc:all

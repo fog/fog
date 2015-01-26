@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def create_agent_token(options = {})
           data = options.dup
           request(
@@ -16,10 +15,9 @@ module Fog
 
       class Mock
         def create_agent_token(options = {})
-
           account_id = Fog::Mock.random_numbers(6).to_s
           token = Fog::Mock.random_letters(50).to_s
-          
+
           if options == -1
             raise TypeError
           end
@@ -47,4 +45,3 @@ module Fog
     end
   end
 end
-

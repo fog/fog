@@ -1,10 +1,8 @@
-require 'fog/dnsmadeeasy'
-require 'fog/dns'
+require 'fog/dnsmadeeasy/core'
 
 module Fog
   module DNS
     class DNSMadeEasy < Fog::Service
-
       requires :dnsmadeeasy_api_key, :dnsmadeeasy_secret_key
       recognizes :host, :path, :port, :scheme, :persistent
 
@@ -60,7 +58,6 @@ module Fog
       end
 
       class Real
-
         # Initialize connection to DNS Made Easy
         #
         # ==== Notes
@@ -79,7 +76,6 @@ module Fog
         # ==== Returns
         # * dns object with connection to aws.
         def initialize(options={})
-          require 'fog/core/parser'
 
           @dnsmadeeasy_api_key = options[:dnsmadeeasy_api_key]
           @dnsmadeeasy_secret_key = options[:dnsmadeeasy_secret_key]
@@ -88,7 +84,7 @@ module Fog
           @persistent = options.fetch(:persistent, true)
           @port       = options[:port]        || 80 #443 Not yet
           @scheme     = options[:scheme]      || 'http' #'https Not yet
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
@@ -122,7 +118,6 @@ module Fog
           end
 
           response
-
         end
 
         def signature(params)

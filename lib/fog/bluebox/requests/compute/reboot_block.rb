@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Bluebox
       class Real
-
         # Reboot block
         #
         # ==== Parameters
@@ -20,7 +19,6 @@ module Fog
             :path     => "api/blocks/#{block_id}/#{'soft_' if type == 'SOFT'}reboot.json"
           )
         end
-
       end
     end
   end

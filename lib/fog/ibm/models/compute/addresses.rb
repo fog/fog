@@ -4,9 +4,7 @@ require 'fog/ibm/models/compute/address'
 module Fog
   module Compute
     class IBM
-
       class Addresses < Fog::Collection
-
         model Fog::Compute::IBM::Address
 
         def all
@@ -21,7 +19,6 @@ module Fog
             nil
           end
         end
-
       end
     end
   end

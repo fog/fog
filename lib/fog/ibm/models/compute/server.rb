@@ -3,9 +3,7 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class IBM
-
       class Server < Fog::Compute::Server
-
         STATES = {
           0  => 'New',
           1  => 'Provisioning',
@@ -184,10 +182,8 @@ module Fog
          }.merge(opts)
          service.create_image(id, options[:name], options[:description]).body
         end
-        alias :create_image :to_image
+        alias_method :create_image, :to_image
       end
-
     end
   end
-
 end

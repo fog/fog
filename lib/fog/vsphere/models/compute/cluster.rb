@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Vsphere
-
       class Cluster < Fog::Model
-
         identity :id
 
         attribute :name
@@ -11,6 +9,7 @@ module Fog
         attribute :num_host
         attribute :num_cpu_cores
         attribute :overall_status
+        attribute :full_path
 
         def resource_pools(filters = { })
           self.attributes[:resource_pools] ||= id.nil? ? [] : service.resource_pools({
@@ -23,9 +22,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end

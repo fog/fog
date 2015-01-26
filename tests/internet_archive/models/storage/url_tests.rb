@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-Shindo.tests('InternetArchive | url', ["internet_archive"]) do
+Shindo.tests('InternetArchive | url', ["internetarchive"]) do
 
   @expires = Time.utc(2013,1,1).utc.to_i
 
@@ -10,7 +10,7 @@ Shindo.tests('InternetArchive | url', ["internet_archive"]) do
     :ia_secret_access_key => 'abc',
     :region => 'us-east-1'
   )
-  
+
   @file = @storage.directories.new(:key => 'fognonbucket').files.new(:key => 'test.txt')
 
   if Fog.mock?

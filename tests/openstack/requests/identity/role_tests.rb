@@ -43,4 +43,3 @@ Shindo.tests('Fog::Identity[:openstack] | role requests', ['openstack']) do
 
   end
 end
-

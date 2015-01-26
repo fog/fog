@@ -25,6 +25,7 @@ module Fog
         attribute :server_id,                  :aliases => 'virtualmachineid'
         attribute :server_name,                :aliases => 'vmname'
         attribute :server_display_name,        :aliases => 'vmdisplayname'
+        attribute :job_id,                     :aliases => 'jobid'   # only on create
 
         attr_accessor :snapshot_id, :project_id
 
@@ -39,6 +40,7 @@ module Fog
             'snapshotid'     => snapshot_id,
             'projectid'      => project_id
           }
+
           data = service.create_volume(options)
           merge_attributes(data['createvolumeresponse'])
         end
@@ -50,12 +52,17 @@ module Fog
         def flavor
           service.disk_offerings.get(self.disk_offering_id)
         end
-        alias disk_offering flavor
+        alias_method :disk_offering, :flavor
 
         def server
           if server_id
             service.servers.get(server_id)
           end
+        end
+
+        def snapshots
+          requires :id
+          service.snapshots.all('volumeid' => id)
         end
 
         def reload
@@ -76,7 +83,6 @@ module Fog
           merge_attributes(new_attributes)
           self
         end
-
 
         def attach(instance_or_id, mountpoint=nil)
           requires :id

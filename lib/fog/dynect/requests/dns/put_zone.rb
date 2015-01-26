@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Dynect
       class Real
-
         # Update a zone
         #
         # ==== Parameters
@@ -14,10 +13,11 @@ module Fog
 
         def put_zone(zone, options = {})
           request(
-            :body     => Fog::JSON.encode(options),
-            :expects  => 200,
-            :method   => :put,
-            :path     => 'Zone/' << zone
+            :body       => Fog::JSON.encode(options),
+            :expects    => 200,
+            :idempotent => true,
+            :method     => :put,
+            :path       => 'Zone/' << zone
           )
         end
       end

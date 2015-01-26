@@ -2,7 +2,6 @@ module Fog
   module Storage
     class OpenStack
       class Real
-
         # Get headers for object
         #
         # ==== Parameters
@@ -16,7 +15,6 @@ module Fog
             :path     => "#{Fog::OpenStack.escape(container)}/#{Fog::OpenStack.escape(object)}"
           }, false)
         end
-
       end
     end
   end

@@ -4,9 +4,7 @@ require 'fog/dnsmadeeasy/models/dns/records'
 module Fog
   module DNS
     class DNSMadeEasy
-
       class Zone < Fog::Model
-
         identity  :id
         attribute :domain,      :aliases => 'name'
         attribute :gtd_enabled, :aliases => 'gtdEnabled'
@@ -34,9 +32,7 @@ module Fog
           merge_attributes(data)
           true
         end
-
       end
-
     end
   end
 end

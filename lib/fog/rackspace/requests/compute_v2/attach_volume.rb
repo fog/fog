@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-        
         # This operation attaches a volume to the specified server.
         # @param [String] server_id
         # @param [String] volume_id
@@ -27,7 +26,7 @@ module Fog
           }
 
           data['volumeAttachment']['device'] = device if device
-          
+
           request(
             :body => Fog::JSON.encode(data),
             :expects => [200],

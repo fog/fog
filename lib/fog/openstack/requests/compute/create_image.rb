@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def create_image(server_id, name, metadata={})
           body = { 'createImage' => {
             'name' => name,
@@ -12,11 +11,9 @@ module Fog
           image_id = data.headers["Location"].scan(/.*\/(.*)/).flatten[0]
           get_image_details(image_id)
         end
-
       end
 
       class Mock
-
         def create_image(server_id, name, metadata={})
           response = Excon::Response.new
           response.status = 202
@@ -40,9 +37,7 @@ module Fog
           self.data[:images][data['id']] = data
           response.body = { 'image' => data }
           response
-
         end
-
       end
     end
   end

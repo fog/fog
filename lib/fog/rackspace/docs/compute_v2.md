@@ -10,7 +10,7 @@ Start by executing the following command:
 
 	irb
 	
-Once `irb` has launched you need to require the Fog library. 
+Once `irb` has launched you need to require the Fog library.
 
 If using Ruby 1.8.x execute:
 
@@ -108,7 +108,7 @@ Fog supports passing additional connection parameters to its underlying HTTP lib
 
 ## Fog Abstractions
 
-Fog provides both a **model** and **request** abstraction. The request abstraction provides the most efficient interface and the model abstraction wraps the request abstraction to provide a convenient `ActiveModel` like interface. 
+Fog provides both a **model** and **request** abstraction. The request abstraction provides the most efficient interface and the model abstraction wraps the request abstraction to provide a convenient `ActiveModel` like interface.
 	
 ### Request Layer
 
@@ -131,14 +131,14 @@ To request a list of flavors:
 
 This returns in the following `Excon::Response`:
 
-	<Excon::Response:0x007fe4b2ea2f38 @body={"flavors"=>[{"id"=>"2", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/2", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/2", "rel"=>"bookmark"}], "name"=>"512MB Standard Instance"}, {"id"=>"3", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/3", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/3", "rel"=>"bookmark"}], "name"=>"1GB Standard Instance"}, {"id"=>"4", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/4", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/4", "rel"=>"bookmark"}], "name"=>"2GB Standard Instance"}, {"id"=>"5", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/5", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/5", "rel"=>"bookmark"}], "name"=>"4GB Standard Instance"}, {"id"=>"6", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/6", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/6", "rel"=>"bookmark"}], "name"=>"8GB Standard Instance"}, {"id"=>"7", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/7", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/7", "rel"=>"bookmark"}], "name"=>"15GB Standard Instance"}, {"id"=>"8", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/8", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/8", "rel"=>"bookmark"}], "name"=>"30GB Standard Instance"}]}, @headers={"Date"=>"Mon, 21 Jan 2013 16:14:45 GMT", "Content-Length"=>"1697", "Content-Type"=>"application/json", "X-Compute-Request-Id"=>"req-0a1e8532-19b3-4993-8b48-cf2d9efe078c", "Server"=>"Jetty(8.0.y.z-SNAPSHOT)"}, @status=200> 
+	<Excon::Response:0x007fe4b2ea2f38 @body={"flavors"=>[{"id"=>"2", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/2", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/2", "rel"=>"bookmark"}], "name"=>"512MB Standard Instance"}, {"id"=>"3", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/3", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/3", "rel"=>"bookmark"}], "name"=>"1GB Standard Instance"}, {"id"=>"4", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/4", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/4", "rel"=>"bookmark"}], "name"=>"2GB Standard Instance"}, {"id"=>"5", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/5", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/5", "rel"=>"bookmark"}], "name"=>"4GB Standard Instance"}, {"id"=>"6", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/6", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/6", "rel"=>"bookmark"}], "name"=>"8GB Standard Instance"}, {"id"=>"7", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/7", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/7", "rel"=>"bookmark"}], "name"=>"15GB Standard Instance"}, {"id"=>"8", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/8", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/8", "rel"=>"bookmark"}], "name"=>"30GB Standard Instance"}]}, @headers={"Date"=>"Mon, 21 Jan 2013 16:14:45 GMT", "Content-Length"=>"1697", "Content-Type"=>"application/json", "X-Compute-Request-Id"=>"req-0a1e8532-19b3-4993-8b48-cf2d9efe078c", "Server"=>"Jetty(8.0.y.z-SNAPSHOT)"}, @status=200>
 
 To view the status of the response:
 	
 	response.status
 	
 **Note**: Fog is aware of valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.
-	
+
 To view response body:
 
 	response.body
@@ -152,7 +152,7 @@ To learn more about Compute request methods refer to [rdoc](http://rubydoc.info/
 
 ### Model Layer
 
-Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `persisted?`, `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.  
+Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `persisted?`, `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.
 
 Here is a summary of common model methods:
 
@@ -180,7 +180,7 @@ Here is a summary of common model methods:
 	<tr>
 		<td>destroy</td>
 		<td>
-			Destroys object.<br> 
+			Destroys object.<br>
 			Note: this is a non-blocking call and object deletion might not be instantaneous.
 		</td>
 	<tr>
@@ -250,8 +250,6 @@ This returns a collection of `Fog::Compute::RackspaceV2::Image` models:
         >,
 	…
 
-**Note**: In order to speed up access `service.images` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual image or use the request abstraction.
-
 ## Get Image
 
 To retrieve individual image:
@@ -274,15 +272,13 @@ This returns an `Fog::Compute::RackspaceV2::Image` instance:
       metadata={"os_distro"=>"ubuntu", "com.rackspace__1__visible_core"=>"1", "com.rackspace__1__build_rackconnect"=>"1", "auto_disk_config"=>"True", "com.rackspace__1__options"=>"0", "image_type"=>"base", "org.openstack__1__os_version"=>"12.10", "os_version"=>"12.10", "rax_options"=>"0", "com.rackspace__1__visible_rackconnect"=>"1", "org.openstack__1__os_distro"=>"org.ubuntu", "com.rackspace__1__visible_managed"=>"1", "com.rackspace__1__build_core"=>"1", "arch"=>"x86-64", "os_type"=>"linux", "org.openstack__1__architecture"=>"x64", "com.rackspace__1__build_managed"=>"1"},
       disk_config="AUTO",
       links=[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "rel"=>"bookmark"}, {"href"=>"https://ord.images.api.rackspacecloud.com/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "type"=>"application/vnd.openstack.image", "rel"=>"alternate"}]
-    > 
-    
-**Note**: This request populates all Image attributes.
+    >
 
 ## List Flavors
 
 To retrieve a list of available flavors:
 
-	service.images
+	service.flavors
 	
 This returns a collection of `Fog::Compute::RackspaceV2::Flavor` models:
 
@@ -305,8 +301,6 @@ This returns a collection of `Fog::Compute::RackspaceV2::Flavor` models:
         links=[{"href"=>"https://dfw.servers.api.rackspacecloud.com/v2/772045/flavors/3", "rel"=>"self"}, {"href"=>"https://dfw.servers.api.rackspacecloud.com/772045/flavors/3", "rel"=>"bookmark"}]
       >,
 	…
-	
-**Note**: In order to speed up access `service.flavors` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual flavor or use the request abstraction.
 
 
 ## Get Flavor
@@ -325,8 +319,6 @@ This returns a `Fog::Compute::RackspaceV2::Flavor` instance:
     vcpus=1,
     links=[{"href"=>"https://dfw.servers.api.rackspacecloud.com/v2/772045/flavors/2", "rel"=>"self"}, {"href"=>"https://dfw.servers.api.rackspacecloud.com/772045/flavors/2", "rel"=>"bookmark"}]
     >
-    
-**Note**: This request populates all Flavor attributes.
 
 
 ## List Servers
@@ -394,7 +386,7 @@ This returns a `Fog::Compute::RackspaceV2::Server` instance:
         image_id="33e21646-43ed-407e-9dbf-7c7873fccd9a"
       >,
     ...
-    
+
 ## Create Server
 
 If you are interested in creating a server utilizing ssh key authenication, you are recommended to use [bootstrap](#bootstrap) method.
@@ -429,7 +421,7 @@ This will return a `Fog::Compute::RackspaceV2::Server` instance:
     addresses=nil,
     flavor_id=2,
     image_id="3afe97b2-26dc-49c5-a2cc-a2fc8d80c001"
-  	> 
+  	>
 
 Notice that your server contains several `nil` attributes. To see the latest status, reload the instance as follows:
 
@@ -457,10 +449,10 @@ You can see that the server is currently 17% built:
     addresses={"public"=>[{"version"=>4, "addr"=>"198.61.209.78"}, {"version"=>6, "addr"=>"2001:4800:7810:0512:0fe1:75e8:ff04:94e4"}], "private"=>[{"version"=>4, "addr"=>"10.181.13.198"}]},
     flavor_id="2",
     image_id="3afe97b2-26dc-49c5-a2cc-a2fc8d80c001"
-  > 
-  
+  >
+
 You will be unable to perform any actions to this server until it reaches an `ACTIVE` state. Since this is true for most server actions, Fog provides the convenience method `wait_for`.
-  
+
 Fog can wait for the server to become ready as follows:
 
 	server.wait_for { ready? }
@@ -486,7 +478,12 @@ The `create` method also supports the following key values:
 	</tr>
 	<tr>
 		<td>:personality</td>
-		<td>Array of files to be injected onto the server. Please refer to the Fog <a href="http://rubydoc.info/github/fog/fog/Fog/Compute/RackspaceV2/Servers:bootstrap">bootstrap </a> API documentation for further information.</td>
+		<td>Array of files to be injected onto the server. Please refer to the Fog <a href="http://rubydoc.info/github/fog/fog/Fog/Compute/RackspaceV2/Server:personality">personality </a> API documentation for further information.</td>
+	</tr>
+	<tr>
+		<td>:config_drive</td>
+		<td>Whether a read-only configuration drive is attached. Refer to  Next Gen Server API documentation - <a
+href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/config_drive_ext.html">Config Drive Extension</a>.</td>
 	</tr>
 </table>
 
@@ -591,7 +588,7 @@ Rebuild removes all data on the server and replaces it with the specified image.
 
 To rebuild a server:
 
-	image = service.images.first 
+	image = service.images.first
 	server.rebuild image.id
 	
 Additionally, the `rebuild` method will take a second parameter containing a hash with the following values:
@@ -619,7 +616,7 @@ Additionally, the `rebuild` method will take a second parameter containing a has
 	</tr>
 	<tr>
 		<td>:metadata</td>
-		<td>Hash containing server metadata</td> 
+		<td>Hash containing server metadata</td>
 	</tr>
 	<tr>
 		<td>:personality</td>
@@ -637,10 +634,10 @@ Resizing a server allows you to change the resources dedicated to the server.
 
 To resize a server:
 
-	flavor_id = service.flavor[2].id 
+	flavor_id = service.flavor[2].id
 	server.resize flavor_id  #flavor_id should be your desired flavor
 
-During the resize process the server will have a state of `RESIZE`. Once a server has completed resizing it will be in a `VERIFY_RESIZE` state. 
+During the resize process the server will have a state of `RESIZE`. Once a server has completed resizing it will be in a `VERIFY_RESIZE` state.
 
 You can use Fog's `wait_for` method to wait for this state as follows:
 
@@ -677,14 +674,14 @@ During the imaging process, the image state will be `SAVING`. The image is ready
 ## List Attached Volumes
 To list Cloud Block Volumes attached to server:
 
-	server.attachments 
+	server.attachments
 	
 ## Attach Volume
 To attach volume using the volume id:
 
 	server.attach_volume "0e7a706c-340d-48b3-802d-192850387f93"
 	
-If the volume id is unknown you can look it up using the Cloud Block Storage service. Start by creating a `cbs_service` similar to our Compute Service: 
+If the volume id is unknown you can look it up using the Cloud Block Storage service. Start by creating a `cbs_service` similar to our Compute Service:
 
 	cbs_service = Fog::Rackspace::BlockStorage.new({
   		:rackspace_username  => RACKSPACE_USER_NAME, # Your Rackspace Username

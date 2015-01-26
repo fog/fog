@@ -1,7 +1,6 @@
 module Fog
   module Rackspace
     class Service
-
       def service_name
         raise Fog::Errors::NotImplemented.new("Please implement the #service_name method")
       end
@@ -30,17 +29,17 @@ module Fog
          self.send authentication_method, options
       end
 
-      def request_without_retry(params, parse_json = true, &block)
-        response = @connection.request(request_params(params), &block)
+      def request_without_retry(params, parse_json = true)
+        response = @connection.request(request_params(params))
 
         process_response(response) if parse_json
         response
       end
 
-      def request(params, parse_json = true, &block)
+      def request(params, parse_json = true)
         first_attempt = true
         begin
-          response = @connection.request(request_params(params), &block)
+          response = @connection.request(request_params(params))
         rescue Excon::Errors::Unauthorized => error
           raise error unless first_attempt
           first_attempt = false
@@ -52,13 +51,21 @@ module Fog
         response
       end
 
+      def service_net?
+        false
+      end
+
       private
 
       def process_response(response)
-        if response && response.body && response.body.is_a?(String) && Fog::Rackspace.json_response?(response)
+        if response &&
+           response.body &&
+           response.body.is_a?(String) &&
+           !response.body.strip.empty? &&
+           Fog::Rackspace.json_response?(response)
           begin
             response.body = Fog::JSON.decode(response.body)
-          rescue MultiJson::DecodeError => e
+          rescue Fog::JSON::DecodeError => e
             Fog::Logger.warning("Error Parsing response json - #{e}")
             response.body = {}
           end
@@ -66,8 +73,7 @@ module Fog
       end
 
       def headers(options={})
-        h = {
-          'Content-Type' => 'application/json',
+        { 'Content-Type' => 'application/json',
           'Accept' => 'application/json',
           'X-Auth-Token' => auth_token
         }.merge(options[:headers] || {})
@@ -76,7 +82,6 @@ module Fog
       def request_params(params)
         params.merge({
           :headers  => headers(params),
-          :host     => endpoint_uri.host,
           :path     => "#{endpoint_uri.path}/#{params[:path]}"
         })
       end
@@ -85,7 +90,7 @@ module Fog
         if v2_authentication?
           :authenticate_v2
         else
-          Fog::Logger.deprecation "Authentication using a v1.0/v1.1 endpoint is deprecated. Please specify a v2.0 endpoint using :rackpace_auth_url.\ 
+          Fog::Logger.deprecation "Authentication using a v1.0/v1.1 endpoint is deprecated. Please specify a v2.0 endpoint using :rackspace_auth_url.\
           For a list of v2.0 endpoints refer to http://docs.rackspace.com/auth/api/v2.0/auth-client-devguide/content/Endpoints-d1e180.html"
          :authenticate_v1
         end
@@ -96,7 +101,7 @@ module Fog
       end
 
       def v2_authentication?
-        @rackspace_auth_url.nil? || @rackspace_auth_url =~ /v2(\.\d)?\w*$/
+        @rackspace_auth_url.nil? || @rackspace_auth_url =~ /v2(\.\d)?[\w\/]*$/
       end
 
       def authenticate_v2(identity_options)
@@ -116,13 +121,22 @@ module Fog
       end
 
       def endpoint_uri_v2
-        @uri = @identity_service.service_catalog.get_endpoint(service_name, region)
+        @uri = @identity_service.service_catalog.get_endpoint(service_name, region, service_net?)
       end
 
       def auth_token
         @auth_token || @identity_service.auth_token
       end
 
+      def select_options(keys)
+        return nil unless @options && keys
+        selected = {}
+        keys.each do |k|
+          selected[k] = @options[k]
+        end
+
+        selected
+      end
     end
   end
 end

@@ -8,7 +8,7 @@ module Fog
         attribute :name
         attribute :account_name,                            :aliases => 'account'
         attribute :domain_name,                             :aliases => 'domain'
-        attribute :created
+        attribute :created,              :type => :time
         attribute :state
         attribute :haenable
         attribute :memory
@@ -38,17 +38,48 @@ module Fog
         attribute :user_data,                                :aliases => 'userdata'
         attribute :security_group_list,    :type => :array, :aliases => 'securitygroup'
         attribute :nics,                   :type => :array, :aliases => 'nic'
+        attribute :job_id,                                  :aliases => 'jobid'   # only on create
 
         attr_accessor :network_ids, :disk_offering_id, :ip_address, :ip_to_network_list
         attr_writer :security_group_ids
+
+        alias_method :public_ip_address, :ip_address
+        alias_method :public_ip_address=, :ip_address=
 
         def addresses
           nics.map{|nic| Address.new(nic)}
         end
 
-        def destroy
+        def ip_addresses
+          addresses.map(&:ip_address)
+        end
+
+        def volumes
           requires :id
-          data = service.destroy_virtual_machine("id" => id)
+          service.volumes.all('virtualmachineid' => id)
+        end
+
+        def reset_password
+          requires :id
+          data = service.reset_password_for_virtual_machine(id)
+          service.jobs.new(data['resetpasswordforvirtualmachineresponse'])
+        end
+
+        def public_ip_addresses
+          if public_ip_address.nil? then [public_ip_address] else [] end
+        end
+
+        def private_ip_addresses
+          ip_addresses - public_ip_addresses
+        end
+
+        def private_ip_address
+          private_ip_addresses.first
+        end
+
+        def destroy(options={})
+          requires :id
+          data = service.destroy_virtual_machine(options.merge({'id'=> self.id}))
           service.jobs.new(data["destroyvirtualmachineresponse"])
         end
 
@@ -87,6 +118,7 @@ module Fog
             'zoneid'            => zone_id,
             'networkids'        => network_ids,
             'diskofferingid'    => disk_offering_id,
+            'name'              => name,
             'displayname'       => display_name,
             'group'             => group,
             'domainid'          => domain_id,
@@ -95,7 +127,7 @@ module Fog
             'iptonetworklist'   => ip_to_network_list,
             'projectid'         => project_id,
             'keypair'           => key_name,
-            'userdata'           => user_data,
+            'userdata'          => user_data,
           }
 
           options.merge!('networkids' => network_ids) if network_ids
@@ -111,9 +143,13 @@ module Fog
           service.jobs.new(data["startvirtualmachineresponse"])
         end
 
-        def stop(force=false)
+        def stop(options={})
           requires :id
-          data = service.stop_virtual_machine("id" => self.id, "force" => force)
+          unless options.is_a?(Hash)
+            Fog::Logger.deprecation("Passing force as a boolean option has been deprecated. Please pass a hash with 'force' => (true|false)")
+            options = {'force' => options}
+          end
+          data = service.stop_virtual_machine(options.merge({'id' => self.id}))
           service.jobs.new(data["stopvirtualmachineresponse"])
         end
       end # Server

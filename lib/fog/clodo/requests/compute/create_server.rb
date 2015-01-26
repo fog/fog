@@ -13,7 +13,7 @@ module Fog
         # Output:
         # id - VDS ID
         # name - VDS title
-        # imageId - OS ID 
+        # imageId - OS ID
         # adminPass - root password
 
         def create_server(image_id, options = {})
@@ -35,13 +35,11 @@ module Fog
                   :method   => 'POST',
                   :path     => 'servers'
                   )
-
         end
       end
 
       class Mock
         def create_server(image_id, options = {})
-
           raise Excon::Errors::BadRequest.new("Invalid image ID") unless image_id > 0
 
           response = Excon::Response.new
@@ -109,4 +107,3 @@ module Fog
     end
   end
 end
-

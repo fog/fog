@@ -1,15 +1,11 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def create_floating_ip(floating_network_id, options = {})
           data = {
             'floatingip' => {
-              'floating_network_id' => floating_network_id,
-              'port_id' => options[:port_id],
-              'tenant_id' => options[:tenant_id],
-              'fixed_ip_address' => options[:fixed_ip_address],
+              'floating_network_id' => floating_network_id
             }
           }
 
@@ -44,7 +40,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

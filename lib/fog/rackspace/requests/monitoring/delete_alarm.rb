@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def delete_alarm(entity_id, alarm_id)
           request(
             :expects  => [204],
@@ -13,9 +12,7 @@ module Fog
       end
 
       class Mock
-
         def delete_alarm(entity_id, alarm_id)
-
           if entity_id == -1 || alarm_id == -1
             raise Fog::Rackspace::Monitoring::NotFound
           end
@@ -37,9 +34,8 @@ module Fog
           }
           response.remote_ip = Fog::Rackspace::MockData.ipv4_address
           response
-        end 
+        end
       end
     end
   end
 end
-

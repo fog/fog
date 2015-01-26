@@ -5,7 +5,6 @@ module Fog
   module Compute
     class IBM
       class Image < Fog::Model
-
         STATES = {
           0 => 'New',
           1 => 'Available',
@@ -63,7 +62,6 @@ module Fog
           requires :id
           service.delete_image(id).body['success']
         end
-
       end
     end
   end

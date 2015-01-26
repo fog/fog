@@ -1,20 +1,24 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Deletes a specified user.
+        # Deletes a detached disk volume.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/deleteVolume.html]
-        def delete_volume(options={})
-          options.merge!(
-            'command' => 'deleteVolume'
-          )
-
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.4/root_admin/deleteVolume.html]
+        def delete_volume(*args)
+          options = {}
+          if args[0].is_a? Hash
+            options = args[0]
+            options.merge!('command' => 'deleteVolume') 
+          else
+            options.merge!('command' => 'deleteVolume', 
+            'id' => args[0])
+          end
           request(options)
         end
-
-      end # Real
+      end
+ 
       class Mock
         def delete_volume(options={})
           volume_id = options['id']
@@ -34,7 +38,8 @@ module Fog
             }
           end
         end
-      end # Mock
-    end # Cloudstack
-  end # Compute
-end # Fog
+      end 
+    end
+  end
+end
+

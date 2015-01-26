@@ -2,13 +2,12 @@ module Fog
   module Compute
     class BareMetalCloud
       class Real
-
         # List images
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'image'<~Array>        
+        #     * 'image'<~Array>
         #       * 'Size'<~String>  - Size of the image
         #       * 'Name'<~String>  - Name of the image
         #
@@ -20,7 +19,6 @@ module Fog
             :path     => 'api/listImages'
           )
         end
-
       end
     end
   end

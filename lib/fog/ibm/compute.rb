@@ -1,10 +1,8 @@
-require 'fog/ibm'
-require 'fog/compute'
+require 'fog/ibm/core'
 
 module Fog
   module Compute
     class IBM < Fog::Service
-
       requires :ibm_username, :ibm_password
       recognizes :location
 
@@ -82,7 +80,6 @@ module Fog
       end
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -227,9 +224,7 @@ module Fog
           }
           locations
         end
-
       end
-
     end
   end
 end

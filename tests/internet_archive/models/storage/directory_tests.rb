@@ -1,4 +1,4 @@
-Shindo.tests("Storage[:internet_archive] | directory", ["internet_archive"]) do
+Shindo.tests("Storage[:internet_archive] | directory", ["internetarchive"]) do
 
   directory_attributes = {
     :key => "fogdirectorytests-#{rand(65536)}",
@@ -38,6 +38,5 @@ Shindo.tests("Storage[:internet_archive] | directory", ["internet_archive"]) do
       @options['x-archive-meta02-collection'] == 'test_collection'
     end
   end
-
 
 end

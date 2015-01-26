@@ -4,9 +4,7 @@ require 'fog/rackspace/models/compute_v2/key_pair'
 module Fog
   module Compute
     class RackspaceV2
-
       class KeyPairs < Fog::Collection
-
         model Fog::Compute::RackspaceV2::KeyPair
 
         # Fetch the list of known keypairs
@@ -24,7 +22,7 @@ module Fog
         end
 
         # Fetch keypair details
-        # @param  [String] key_name: name of the key to request
+        # @param  [String] key_name name of the key to request
         # @return [Fog::Compute::RackspaceV2::Keypair] the requested keypair or 'nil' when not found
         # @raise  [Fog::Compute::RackspaceV2::BadRequest]
         # @raise  [Fog::Compute::RackspaceV2::InternalServerError]
@@ -36,7 +34,6 @@ module Fog
                 nil
             end
         end
-
       end
     end
   end

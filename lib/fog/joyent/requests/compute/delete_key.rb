@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Joyent
-
       class Mock
         def delete_key(keyname)
           if self.data[:keys].delete(keyname)
@@ -23,7 +22,6 @@ module Fog
           )
         end
       end # Real
-
     end
   end
 end

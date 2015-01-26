@@ -19,27 +19,6 @@ def compute_providers
       },
       :mocked => false
     },
-    :ecloud => {
-      :server_attributes => {
-        :name                 => "eugene",
-        :row                  => "eugene1",
-        :group                => "eugene-104",
-        :catalog_network_name => "bridged",
-        :description          => "blarg",
-        :operating_system => {
-          :name =>  "Red Hat Enterprise Linux 5 (64-bit)",
-          :href => "/cloudapi/ecloud/operatingsystems/rhel5_64guest/computepools/963",
-        },
-      }.tap do |hash|
-        [:template_href, :network_uri, :environment_name].each do |k|
-          key = "ecloud_#{k}".to_sym
-          if Fog.credentials[key]
-            hash[k]= Fog.credentials[key]
-          end
-        end
-      end,
-      :mocked => true,
-    },
     :cloudstack => {
       :provider_attributes => {
         :cloudstack_host => 'http://host.foo'
@@ -76,6 +55,7 @@ def compute_providers
         :protocol => 'tcp'
       },
       :disk_offering_attributes => { :name => "new disk offering", :display_text => 'New Disk Offering' },
+      :egress_firewall_rule_attributes => { :protocol => "tcp", :network_id => "8aacae29-e0a4-4b7b-8a7a-3ee11cfb4362", :cidr_list =>"10.1.1.0/24"},
       :mocked => true
     },
     :glesys   => {
@@ -127,16 +107,6 @@ def compute_providers
         :name     => "fog_#{Time.now.to_i}"
       },
       :mocked => true
-    },
-    :voxel      => {
-      :server_attributes => {
-        :name => "fog.#{Time.now.to_i}",
-        :disk_size => 10,
-        :processing_cores => 1,
-        :image_id => 55, # image 55 = Ubuntu 10.04 (Lucid), 64-bit, base install
-        :facility => "LDJ1"
-      },
-      :mocked => false
     }
   }
 end

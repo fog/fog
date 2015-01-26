@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def create_security_group_rule(parent_group_id, ip_protocol, from_port, to_port, cidr, group_id=nil)
           data = {
             'security_group_rule' => {
@@ -18,11 +17,10 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'POST',
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :path     => 'os-security-group-rules.json'
           )
         end
-
       end
 
       class Mock
@@ -47,7 +45,7 @@ module Fog
               'cidr'   => cidr
             }
           }
-          self.data[:security_groups][parent_group_id]['rules'].push(rule)
+          self.data[:security_groups][parent_group_id.to_s]['rules'].push(rule)
           response.body = {
             'security_group_rule' => rule
           }

@@ -22,7 +22,6 @@ class Ninefold
         Fog::Compute[:ninefold].query_async_job_result(:jobid => job)
       end
       module_function :wait_for_job
-
     end
     module Formats
       module Lists

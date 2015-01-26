@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internet_archive"]) do
+Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internetarchive"]) do
   @ia_bucket_name = 'fogbuckettests-' + Time.now.to_i.to_s(32)
 
   tests('success') do
@@ -23,14 +23,14 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internet_arch
     }
     @bucket_lifecycle_format = {
       'Rules' => [{
-         'ID'         => String, 
+         'ID'         => String,
          'Prefix'     => Fog::Nullable::String,
-         'Enabled'    => Fog::Boolean, 
+         'Enabled'    => Fog::Boolean,
          'Expiration' => Fog::Nullable::Hash,
          'Transition' => Fog::Nullable::Hash
        }]
     }
-      
+
     @service_format = {
       'Buckets' => [{
         'CreationDate'  => Time,

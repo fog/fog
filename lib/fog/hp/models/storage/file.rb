@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Storage
     class HP
-
       class File < Fog::Model
-
         identity  :key,             :aliases => 'name'
 
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
@@ -60,6 +58,18 @@ module Fog
           self.collection.get_url(self.key)
         end
 
+        # Get a url for file.
+        #
+        # required attributes: key
+        #
+        # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
+        # @param options [Hash]
+        # @return [String] url
+        def url(expires, options = {})
+          requires :directory,:key
+          service.create_temp_url(directory.key, key, expires, "GET", options)
+        end
+
         def cdn_public_url
           requires :key
           self.collection.get_cdn_url(self.key)
@@ -89,9 +99,7 @@ module Fog
         def directory=(new_directory)
           @directory = new_directory
         end
-
       end
-
     end
   end
 end

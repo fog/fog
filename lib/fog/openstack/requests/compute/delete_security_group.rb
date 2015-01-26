@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def delete_security_group(security_group_id)
           request(
             :expects  => 202,
@@ -10,12 +9,11 @@ module Fog
             :path     => "os-security-groups/#{security_group_id}"
           )
         end
-
       end
 
       class Mock
         def delete_security_group(security_group_id)
-          self.data[:security_groups].delete security_group_id
+          self.data[:security_groups].delete security_group_id.to_s
 
           response = Excon::Response.new
           response.status = 202

@@ -4,15 +4,13 @@ require 'fog/zerigo/models/dns/record'
 module Fog
   module DNS
     class Zerigo
-
       class Records < Fog::Collection
-
         attribute :zone
 
         model Fog::DNS::Zerigo::Record
-        
+
         # List all domains
-        # @param [Hash] options Options to pass to the underlying API call 
+        # @param [Hash] options Options to pass to the underlying API call
         # @option options [String] :fqdn search for the given fqdn
         def all(options = {})
           requires :zone
@@ -41,9 +39,7 @@ module Fog
           requires :zone
           super({ :zone => zone }.merge!(attributes))
         end
-
       end
-
     end
   end
 end

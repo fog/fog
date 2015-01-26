@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/host'
 module Fog
   module Compute
     class OpenStack
-
       class Hosts < Fog::Collection
-
         model Fog::Compute::OpenStack::Host
 
         def all
@@ -24,9 +22,7 @@ module Fog
         rescue Fog::Compute::OpenStack::NotFound
           nil
         end
-
       end
-
     end
   end
 end

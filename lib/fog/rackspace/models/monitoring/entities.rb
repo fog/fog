@@ -6,14 +6,13 @@ module Fog
   module Rackspace
     class Monitoring
       class Entities < Fog::Collection
-
         model Fog::Rackspace::Monitoring::Entity
 
         attribute :marker
 
         def all(options={})
           data = service.list_entities(options).body
-          marker = data['metadata']['next_marker']
+          self.marker = data['metadata']['next_marker']
 
           load(data['values'])
         end
@@ -27,7 +26,7 @@ module Fog
 
         def overview(options={})
           body = service.list_overview(options).body
-          marker = body['metadata']['next_marker']
+          self.marker = body['metadata']['next_marker']
 
           load_all(body['values'])
         end

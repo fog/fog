@@ -3,7 +3,6 @@ require 'fog/cloudsigma/error'
 module Fog
   module CloudSigma
     module CloudSigmaConnection
-
       module Real
         def auth_header(type = :basic)
           case type
@@ -37,7 +36,7 @@ module Fog
           @api_version = options[:cloudsigma_api_version] || '2.0'
           @path_prefix = "#{@api_path_prefix}/#{@api_version}/"
 
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def request(params)
@@ -46,7 +45,6 @@ module Fog
 
           req_path = params[:path]
           params[:path] = "#{@path_prefix}#{req_path}"
-
 
           params[:body] = Fog::JSON.encode(params[:body]) if params[:body]
 
@@ -113,7 +111,6 @@ module Fog
         def setup_connection(options)
           @username = options[:cloudsigma_username]
           @password = options[:cloudsigma_password]
-
         end
 
         def mock_get(obj_or_collection, status, key=nil)
@@ -189,9 +186,7 @@ module Fog
 
           response
         end
-
       end
-
     end
   end
 end

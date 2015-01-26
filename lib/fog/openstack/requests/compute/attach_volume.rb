@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def attach_volume(volume_id, server_id, device)
           data = {
             'volumeAttachment' => {
@@ -11,17 +10,15 @@ module Fog
             }
           }
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => [200, 202],
             :method   => 'POST',
             :path     => "servers/%s/os-volume_attachments" % [server_id]
           )
         end
-
       end
 
       class Mock
-
         def attach_volume(volume_id, server_id, device)
           response = Excon::Response.new
           response.status = 200
@@ -35,9 +32,7 @@ module Fog
           response.body = { 'volumeAttachment' => data }
           response
         end
-
       end
-
     end
   end
 end

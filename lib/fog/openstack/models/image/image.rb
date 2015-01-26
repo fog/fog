@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Image
     class OpenStack
-
       class Image < Fog::Model
-
         identity :id
 
         attribute :name
@@ -29,7 +27,6 @@ module Fog
         attribute :properties
         attribute :location
         attribute :copy_from
-
 
         def initialize(attributes)
           # Old 'connection' is renamed as service and should be used instead
@@ -84,7 +81,6 @@ module Fog
           requires :id
           service.get_image(self.id).headers
         end
-
       end
     end
   end

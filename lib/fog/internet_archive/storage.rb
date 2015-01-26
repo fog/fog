@@ -1,10 +1,8 @@
-require 'fog/internet_archive'
-require 'fog/storage'
+require 'fog/internet_archive/core'
 
 module Fog
   module Storage
     class InternetArchive < Fog::Service
-
       requires :ia_access_key_id, :ia_secret_access_key
       recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :ia_session_token, :ia_credentials_expire_at
 
@@ -63,7 +61,6 @@ module Fog
       request :upload_part
 
       module Utils
-
         attr_accessor :region
 
         def http_url(params, expires)
@@ -78,7 +75,6 @@ module Fog
           Fog::Logger.deprecation("Fog::Storage::InternetArchive => #url is deprecated, use #https_url instead [light_black](#{caller.first})[/]")
           http_url(params, expires)
         end
-
 
         private
 
@@ -107,7 +103,6 @@ module Fog
           port_part = params[:port] && ":#{params[:port]}"
           "#{params[:scheme]}://#{params[:host]}#{port_part}/#{params[:path]}?#{query.join('&')}"
         end
-
       end
 
       class Mock
@@ -221,7 +216,6 @@ module Fog
           @ia_session_token     = options[:ia_session_token]
           @ia_credentials_expire_at = options[:ia_credentials_expire_at]
         end
-
       end
 
       class Real
@@ -246,7 +240,6 @@ module Fog
         # ==== Returns
         # * S3 object with connection to aws.
         def initialize(options={})
-          require 'fog/core/parser'
 
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
@@ -270,7 +263,7 @@ module Fog
             @port       = options[:port]        || 80
             @scheme     = options[:scheme]      || 'http'
           end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
@@ -377,7 +370,7 @@ DATA
           rescue Excon::Errors::TemporaryRedirect => error
             uri = URI.parse(error.response.headers['location'])
             Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
-            response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false, @connection_options).request(original_params, &block)
+            response = Fog::XML::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false, @connection_options).request(original_params, &block)
           end
 
           response

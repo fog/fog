@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def create_entity(options = {})
           data = options.dup
           request(
@@ -15,13 +14,11 @@ module Fog
       end
 
       class Mock
-
         def create_entity(options = {})
-
           account_id = Fog::Mock.random_numbers(6).to_s
           entity_id = Fog::Mock.random_letters(10)
 
-          if options[:label] == ""  
+          if options[:label] == ""
             raise Fog::Rackspace::Monitoring::BadRequest
           end
 
@@ -48,4 +45,3 @@ module Fog
     end
   end
 end
-

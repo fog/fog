@@ -26,12 +26,10 @@ module Fog
         def node_attr attr, xml
           xml_element(xml, "sysinfo/system/entry[@name='#{attr}']").strip
         end
-
       end
 
       class Mock
         def get_node_info
-
         end
       end
     end

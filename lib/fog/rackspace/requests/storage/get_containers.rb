@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Rackspace
       class Real
-
         # List existing storage containers
         #
         # ==== Parameters
@@ -30,7 +29,22 @@ module Fog
             :query    => {'format' => 'json'}.merge!(options)
           )
         end
+      end
 
+      class Mock
+        def get_containers(options = {})
+          results = data.map do |name, container|
+            {
+              "name" => name,
+              "count" => container.objects.size,
+              "bytes" => container.bytes_used
+            }
+          end
+          response = Excon::Response.new
+          response.status = 200
+          response.body = results
+          response
+        end
       end
     end
   end

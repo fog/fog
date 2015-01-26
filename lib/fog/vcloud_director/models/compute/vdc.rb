@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class VcloudDirector
-
       class Vdc < Model
-
         identity  :id
 
         attribute :name
@@ -22,11 +20,15 @@ module Fog
         attribute :vm_quota ,:aliases => :VmQuota, :type => :integer
         attribute :is_enabled ,:aliases => :IsEnabled, :type => :boolean
 
+        def medias
+          requires :id
+          service.medias(:vdc => self)
+        end
+
         def vapps
           requires :id
           service.vapps(:vdc => self)
         end
-
       end
     end
   end

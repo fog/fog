@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-Shindo.tests('InternetArchive | signaturev4', ['internet_archive']) do
+Shindo.tests('InternetArchive | signaturev4', ['internetarchive']) do
 
   # These testcases are from http://docs.amazonwebservices.com/general/latest/gr/signature-v4-test-suite.html
   @signer = Fog::InternetArchive::SignatureV4.new('AKIDEXAMPLE', 'wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY', 'us-east-1','host')
@@ -18,7 +18,7 @@ Shindo.tests('InternetArchive | signaturev4', ['internet_archive']) do
       'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=date;host, Signature=0dc122f3b28b831ab48ba65cb47300de53fbe91b577fe113edac383730254a3b'
     end
   end
-  
+
   tests('get-vanilla-query-order-key') do
     returns(@signer.sign({:query => {'a' => 'foo', 'b' => 'foo'}, :headers => {'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '/'}, Fog::Time.now)) do
       'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=date;host, Signature=0dc122f3b28b831ab48ba65cb47300de53fbe91b577fe113edac383730254a3b'

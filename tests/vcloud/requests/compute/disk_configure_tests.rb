@@ -1,11 +1,3 @@
-begin
-  require 'rspec'
-  require 'rspec/mocks'
-rescue LoadError
-  require 'spec'
-  require 'spec/mocks'
-end
-
 Shindo.tests("Vcloud::Compute | disk_requests", ['vcloud']) do
 
   @xmlns = {
@@ -112,7 +104,7 @@ EOF
      ng.xpath("//xmlns:ResourceType[ .='17']", @xmlns).size == 2
     ]
   end
-  
+
   unless Fog.mocking?
     Vcloud[:compute].unstub!(:request)
   end

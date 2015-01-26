@@ -4,7 +4,6 @@ require 'fog/openvz/models/compute/server'
 module Fog
   module Compute
     class Openvz
-
       class Servers < Fog::Collection
         model Fog::Compute::Openvz::Server
 
@@ -19,9 +18,7 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

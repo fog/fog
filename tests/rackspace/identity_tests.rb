@@ -1,8 +1,6 @@
 Shindo.tests('Fog::Rackspace::Identity', ['rackspace']) do
 
   tests('current authentication') do
-    pending if Fog.mocking?
-
     tests('variables populated').returns(200)  do
       @service = Fog::Rackspace::Identity.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :connection_options => {:ssl_verify_peer => true}
       returns(true, "auth token populated") { !@service.auth_token.nil? }
@@ -14,8 +12,6 @@ Shindo.tests('Fog::Rackspace::Identity', ['rackspace']) do
   end
 
   tests('reauthentication') do
-    pending if Fog.mocking?
-
     tests('should reauth with valid credentials') do
       @service = Fog::Rackspace::Identity.new  :rackspace_region => :ord
       returns(true, "auth token populated") { !@service.auth_token.nil? }

@@ -4,9 +4,7 @@ require 'fog/libvirt/models/compute/interface'
 module Fog
   module Compute
     class Libvirt
-
       class Interfaces < Fog::Collection
-
         model Fog::Compute::Libvirt::Interface
 
         def all(filter={})
@@ -16,9 +14,7 @@ module Fog
         def get(name)
           self.all(:name => name).first
         end
-
       end
-
     end
   end
 end

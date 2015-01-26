@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Rackspace
       class Real
-
         # List number of containers and total bytes stored
         #
         # ==== Returns
@@ -22,7 +21,23 @@ module Fog
             :query    => {'format' => 'json'}
           )
         end
+      end
 
+      class Mock
+        def head_containers
+          bytes_used = data.values.map { |c| c.bytes_used }.reduce(0) { |a, b| a + b }
+          container_count = data.size
+          object_count = data.values.map { |c| c.objects.size }.reduce(0) { |a, b| a + b }
+
+          response = Excon::Response.new
+          response.status = 204
+          response.headers = {
+            'X-Account-Bytes-Used' => bytes_used,
+            'X-Account-Container-Count' => container_count,
+            'X-Account-Object-Count' => object_count
+          }.merge(account_meta)
+          response
+        end
       end
     end
   end

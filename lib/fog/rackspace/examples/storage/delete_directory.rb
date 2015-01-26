@@ -12,7 +12,7 @@ end
 
 def select_directory(directories)
   abort "\nThere are not any directories to delete in the Chicago region. Try running create_directory.rb\n\n" if directories.empty?
-  
+
   puts "\nSelect Directory To Delete:\n\n"
   directories.each_with_index do |dir, i|
     puts "\t #{i}. #{dir.key} [#{dir.count} objects]"
@@ -22,7 +22,7 @@ def select_directory(directories)
   directories[delete_str.to_i]
 end
 
-# Use username defined in ~/.fog file, if absent prompt for username. 
+# Use username defined in ~/.fog file, if absent prompt for username.
 # For more details on ~/.fog refer to http://fog.io/about/getting_started.html
 def rackspace_username
   Fog.credentials[:rackspace_username] || get_user_input("Enter Rackspace Username")
@@ -41,17 +41,17 @@ service = Fog::Storage.new({
   :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord #Use Chicago Region
   })
-  
-# retrieve directories  
+
+# retrieve directories
 directories = service.directories
-  
+
 # prompt for directory
 directory = select_directory(directories)
 
 puts "\nNow deleting #{directory.key}"
 
 # delete files if necessary
-directory.files.each do |f| 
+directory.files.each do |f|
   puts "\tDeleting file #{f.key}"
   f.destroy
 end
@@ -59,4 +59,4 @@ end
 # delete directory
 directory.destroy
 
-puts "\tDone\n\n"  
+puts "\tDone\n\n"

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class IBM
       class Real
-
         # Used to retrieve the specified storage volume for specified volume_id
         #
         # ==== Parameters
@@ -18,11 +17,9 @@ module Fog
             :path     => "/storage/#{volume_id}"
           )
         end
-
       end
 
       class Mock
-
         # For whatever reason, get_volume returns different data than an entry in list_volumes
         def get_volume(volume_id)
           response = Excon::Response.new
@@ -65,7 +62,6 @@ module Fog
           # If not ready, make ready
           self.data[:volumes][volume_id]['state'] = 4
         end
-
       end
     end
   end

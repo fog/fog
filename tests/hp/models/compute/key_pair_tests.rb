@@ -23,5 +23,4 @@ Shindo.tests("Fog::Compute[:hp] | key_pair", ['hp']) do
     end
   end
 
-
 end

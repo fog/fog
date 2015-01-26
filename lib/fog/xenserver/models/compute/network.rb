@@ -3,27 +3,30 @@ require 'fog/core/model'
 module Fog
   module Compute
     class XenServer
-
       class Network < Fog::Model
         # API Reference here:
-        # http://docs.vmd.citrix.com/XenServer/5.6.0/1.0/en_gb/api/?c=network
+        # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=network
 
         identity :reference
 
         attribute :uuid
-        attribute :__vifs,             :aliases => :VIFs
+        attribute :__vifs,              :aliases => :VIFs
         attribute :tags
-        attribute :mtu,                :aliases => :MTU
+        attribute :mtu,                 :aliases => :MTU
         attribute :bridge
-        attribute :description,        :aliases => :name_description
-        attribute :name,               :aliases => :name_label
+        attribute :description,         :aliases => :name_description
+        attribute :name,                :aliases => :name_label
         attribute :other_config
-        attribute :__pifs,               :aliases => :PIFs
+        attribute :__pifs,              :aliases => :PIFs
         attribute :allowed_operations
         attribute :current_operations
+        attribute :default_locking_mode
         attribute :blobs
 
         def refresh
+          Fog::Logger.deprecation(
+              'This method is deprecated. Use #reload instead.'
+          )
           data = service.get_record( reference, 'network' )
           merge_attributes( data )
           true
@@ -85,7 +88,6 @@ module Fog
           true
         end
       end
-
     end
   end
 end

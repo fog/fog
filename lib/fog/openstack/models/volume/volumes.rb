@@ -4,12 +4,14 @@ require 'fog/openstack/models/volume/volume'
 module Fog
   module Volume
     class OpenStack
-
       class Volumes < Fog::Collection
         model Fog::Volume::OpenStack::Volume
 
-        def all(detailed=true)
-          load(service.list_volumes(detailed).body['volumes'])
+        def all(options = {:detailed => true})
+          # the parameter has been "detailed = true" before. Make sure we are
+          # backwards compatible
+          detailed = options.is_a?(Hash) ? options.delete(:detailed) : options
+          load(service.list_volumes(detailed, options).body['volumes'])
         end
 
         def get(volume_id)
@@ -21,8 +23,6 @@ module Fog
         end
         alias_method :find_by_id, :get
       end
-
     end
   end
 end
-

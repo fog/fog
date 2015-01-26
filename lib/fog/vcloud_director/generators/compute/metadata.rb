@@ -1,29 +1,30 @@
-#
-#
-# {:metadata=>{"buenas si"=>"no tanto ya", "hola"=>"adios"},
-#  :type=>"application/vnd.vmware.vcloud.metadata+xml",
-#  :href=>
-#   "https://example.com/api/vApp/vm-18545e82-d919-4071-ae7e-d1300d9d8112/metadata",
-#  :id=>"vm-18545e82-d919-4071-ae7e-d1300d9d8112"}
-#
-# <Metadata xmlns="http://www.vmware.com/vcloud/v1.5" type="application/vnd.vmware.vcloud.metadata+xml"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
-#   <MetadataEntry>
-#         <Key>buenas si</Key>
-#         <Value>no tanto ya</Value>
-#     </MetadataEntry>
-#     <MetadataEntry">
-#         <Key>hola</Key>
-#         <Value>adios</Value>
-#     </MetadataEntry>
-# </Metadata>
-
 module Fog
   module Generators
     module Compute
       module VcloudDirector
-
+        #   {:metadata=>
+        #    {"buenas si"=>"no tanto ya",
+        #     "hola"=>"adios"},
+        #    :type=>"application/vnd.vmware.vcloud.metadata+xml",
+        #    :href=>
+        #     "https://example.com/api/vApp/vm-18545e82-d919-4071-ae7e-d1300d9d8112/metadata",
+        #    :id=>"vm-18545e82-d919-4071-ae7e-d1300d9d8112"}
+        #
+        # This is what it generates:
+        #
+        #   <Metadata xmlns="http://www.vmware.com/vcloud/v1.5" type="application/vnd.vmware.vcloud.metadata+xml"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
+        #     <MetadataEntry>
+        #       <Key>buenas si</Key>
+        #       <Value>no tanto ya</Value>
+        #     </MetadataEntry>
+        #     <MetadataEntry">
+        #       <Key>hola</Key>
+        #       <Value>adios</Value>
+        #     </MetadataEntry>
+        #   </Metadata>
+        #
+        # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/types/MetadataType.html
         class MetadataBase
-
           attr_reader :attrs
 
           def initialize(attrs={})
@@ -46,11 +47,12 @@ module Fog
 
           # 1.5
           def header
-            '<Metadata xmlns="http://www.vmware.com/vcloud/v1.5"
-              type="application/vnd.vmware.vcloud.metadata+xml"
+            <<-END
+            <Metadata
+              xmlns="http://www.vmware.com/vcloud/v1.5"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
-              '
+              type="application/vnd.vmware.vcloud.metadata+xml">
+            END
           end
 
           def metadata_entry
@@ -67,38 +69,35 @@ module Fog
           #end
 
           def tail
-            '</Metadata>'
+            <<-END
+            </Metadata>
+            END
           end
-
         end
 
         class MetadataV51 < MetadataBase
-          def metadata_entry(key,value)
-            body = <<EOF
-            <MetadataEntry
-              type="application/vnd.vmware.vcloud.metadata.value+xml">
+          def metadata_entry(key, value)
+            <<-END
+            <MetadataEntry type="application/vnd.vmware.vcloud.metadata.value+xml">
               <Key>#{key}</Key>
-              <TypedValue
-                xsi:type="MetadataStringValue">
+              <TypedValue xsi:type="MetadataStringValue">
                 <Value>#{value}</Value>
               </TypedValue>
             </MetadataEntry>
-EOF
+            END
           end
-
         end
 
         class MetadataV15 < MetadataBase
-          def metadata_entry(key,value)
-            body = <<EOF
+          def metadata_entry(key, value)
+            <<-END
             <MetadataEntry>
-               <Key>#{key}</Key>
-               <Value>#{value}</Value>
+              <Key>#{key}</Key>
+              <Value>#{value}</Value>
             </MetadataEntry>
-EOF
+            END
           end
         end
-#
       end
     end
   end

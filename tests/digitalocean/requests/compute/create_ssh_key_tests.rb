@@ -14,7 +14,7 @@ Shindo.tests('Fog::Compute[:digitalocean] | create_ssh_key request', ['digitaloc
       @key = Fog::Compute[:digitalocean].create_ssh_key 'fookey', 'fookey'
       @key.body
     end
-    
+
   end
 
   service.destroy_ssh_key @key.body['ssh_key']['id']

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         # Get a hash of hidden fields for form uploading to S3, in the form {:field_name => :field_value}
         # Form should look like: <form action="http://#{bucket_name}.#{Fog::InternetArchive::API_DOMAIN_NAME}/" method="post" enctype="multipart/form-data">
         # These hidden fields should then appear, followed by a field named 'file' which is either a textarea or file input.
@@ -22,7 +21,7 @@ module Fog
         # @option options x-amz-meta... meta data tags
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/dev/HTTPPOSTForms.html
-        # 
+        #
         def post_object_hidden_fields(options = {})
           if options['policy']
             options['policy'] = Base64.encode64(Fog::JSON.encode(options['policy'])).gsub("\n", "")
@@ -31,7 +30,6 @@ module Fog
           end
           options
         end
-
       end
     end
   end

@@ -12,9 +12,16 @@ module Fog
         # @option options [Hash] metadata key value pairs of server metadata
         # @option options [String] OS-DCF:diskConfig The disk configuration value. (AUTO or MANUAL)
         # @option options [Hash] personality Hash containing data to inject into the file system of the cloud server instance during server creation.
+        # @option options [Boolean] config_drive whether to attach a read-only configuration drive
         # @option options [String] keypair  Name of the kay-pair to associate with this server.
+        # @option options [Array<Hash>] block_device_mapping A manually specified block device mapping to fully control the creation and
+        #   attachment of volumes to this server. Mutually exclusive with :volume_id or :volume_image_id. If provided, leave image_id
+        #   as "". See http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot for details.
+        # @option options [String] boot_volume_id Id of a pre-created bootable volume to use for this server. If provided, leave image_id as "".
+        # @option options [String] boot_image_id Id of an image to create a bootable volume from and attach to this server. If provided,
+        #   leave image_id as "".
         # @return [Excon::Response] response:
-        #   * body [Hash]:        
+        #   * body [Hash]:
         #     * server [Hash]:
         #       * name [String] - name of server
         #       * imageRef [String] - id of image used to create server
@@ -22,13 +29,15 @@ module Fog
         #       * OS-DCF:diskConfig [String] - The disk configuration value.
         #       * name [String] - name of server
         #       * metadata [Hash] - Metadata key and value pairs.
-        #       * personality [Array]: 
+        #       * personality [Array]:
         #         * [Hash]:
         #           * path - path of the file created
         #           * contents - Base 64 encoded file contents
-        #       * networks [Array]: 
-        #         * [Hash]: 
+        #       * networks [Array]:
+        #         * [Hash]:
         #           * uuid [String] - uuid of attached network
+        #       * config_drive [Boolean]: Wether to use a config drive or not
+        #       * user_data [String]: User data for cloud init
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
@@ -37,6 +46,7 @@ module Fog
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Metadata-d1e2529.html
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_extensions.html#diskconfig_attribute
+        # @see http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot
         #
         # * State Transitions
         #   * BUILD -> ACTIVE
@@ -52,14 +62,59 @@ module Fog
             }
           }
 
+          data['server']['adminPass'] = options[:password] unless options[:password].nil?
           data['server']['OS-DCF:diskConfig'] = options[:disk_config] unless options[:disk_config].nil?
           data['server']['metadata'] = options[:metadata] unless options[:metadata].nil?
           data['server']['personality'] = options[:personality] unless options[:personality].nil?
+          data['server']['config_drive'] = options[:config_drive] unless options[:config_drive].nil?
+          data['server']['user_data'] = options[:user_data] unless options[:user_data].nil?
           data['server']['networks'] = options[:networks] || [
             { :uuid => '00000000-0000-0000-0000-000000000000' },
             { :uuid => '11111111-1111-1111-1111-111111111111' }
           ]
-          data['server']['key_name'] = options[:keypair] unless options[:keypair].nil?
+
+          if options[:keypair]
+            Fog::Logger.deprecation(":keypair has been depreciated. Please use :key_name instead.")
+            options[:key_name] = options[:keypair]
+          end
+
+          data['server']['key_name'] = options[:key_name] unless options[:key_name].nil?
+
+          if options[:block_device_mapping]
+            if options[:boot_volume_id]
+              Fog::Logger.warning("Manual :block_device_mapping overrides :boot_volume_id in #create_server!")
+            end
+
+            if options[:boot_image_id]
+              Fog::Logger.warning("Manual :block_device_mapping overrides :boot_image_id in #create_server!")
+            end
+
+            data['server']['block_device_mapping_v2'] = options[:block_device_mapping]
+          else
+            if options[:boot_volume_id]
+              if options[:boot_image_id]
+                Fog::Logger.warning(":boot_volume_id overrides :boot_image_id!")
+              end
+
+              data['server']['block_device_mapping_v2'] = [{
+                'boot_index' => '0',
+                'uuid' => options[:boot_volume_id],
+                'source_type' => 'volume',
+                'destination_type' => 'volume',
+                'volume_size' => 100
+              }]
+            end
+
+            if options[:boot_image_id]
+              data['server']['block_device_mapping_v2'] = [{
+                'boot_index' => '0',
+                'uuid' => options[:boot_image_id],
+                'source_type' => 'image',
+                'destination_type' => 'volume',
+                'volume_size' => 100
+              }]
+            end
+        end
 
           request(
             :body    => Fog::JSON.encode(data),

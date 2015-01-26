@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module DNS
     class DNSimple
-
       class Record < Fog::Model
         extend Fog::Deprecation
         deprecate :ip, :value
@@ -11,14 +10,14 @@ module Fog
 
         identity :id
 
+        attribute :zone_id,     :aliases => "domain_id"
         attribute :name
         attribute :value,       :aliases => "content"
         attribute :ttl
+        attribute :priority,    :aliases => "prio"
+        attribute :type,        :aliases => "record_type"
         attribute :created_at
         attribute :updated_at
-        attribute :zone_id,     :aliases => "domain_id"
-        attribute :type,        :aliases => "record_type"
-        attribute :priority,    :aliases => "prio"
 
         def initialize(attributes={})
           super
@@ -58,9 +57,7 @@ module Fog
         def zone=(new_zone)
           @zone = new_zone
         end
-
       end
-
     end
   end
 end

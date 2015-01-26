@@ -9,7 +9,8 @@ module Fog
               'port' => options[:port],
               'protocol' => options[:protocol],
               'algorithm' => options[:algorithm],
-              'timeout' => options[:timeout]
+              'timeout' => options[:timeout],
+              'httpsRedirect' => options[:https_redirect]
             }
           }
           request(

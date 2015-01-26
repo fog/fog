@@ -2,7 +2,6 @@ module Fog
   module Storage
     class IBM
       class Real
-
         # Deletes the storage that the authenticated user manages with the specified :storage_id
         #
         # ==== Parameters
@@ -19,11 +18,9 @@ module Fog
             :path     => "/storage/#{volume_id}"
           )
         end
-
       end
 
       class Mock
-
         def delete_volume(volume_id)
           response = Excon::Response.new
           if volume_exists? volume_id
@@ -35,7 +32,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

@@ -1,10 +1,10 @@
 Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_monitoring']) do
 
   account = Fog::Rackspace::Monitoring.new
-  if Fog.mocking? 
+  if Fog.mocking?
     entity_id = "peoigne93"
     check_id = "2090wgn93"
-  else 
+  else
     entity_id = account.create_entity(:label => "Foo").data[:headers]["X-Object-ID"]
     check_id = account.create_check(entity_id,CHECK_CREATE_OPTIONS).data[:headers]["X-Object-ID"]
   end
@@ -13,8 +13,19 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
   now = Time.now.to_i
   SLEEP_TIME= 2
   sleep(SLEEP_TIME) unless Fog.mocking?
-  
+
   tests('success') do
+
+    tests('#get list of monitoring zones').formats(LIST_MONITORING_ZONE) do
+      pending if Fog.mocking?
+      account.list_monitoring_zones.body
+    end
+
+    tests('#get a monitoring zone').formats(GET_MONITORING_ZONE) do
+      pending if Fog.mocking?
+      account.get_monitoring_zone('mzdfw').body
+    end
+
     tests('#get list of checks').formats(LIST_HEADERS_FORMAT) do
       account.list_checks(entity_id).data[:headers]
     end
@@ -39,8 +50,8 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
     tests('#get list of data points').formats(LIST_HEADERS_FORMAT) do
       options = {
         :points => 1,
-        :from => now,
-        :to => now+SLEEP_TIME
+        :from => now * 1000,
+        :to => (now+SLEEP_TIME) * 1000
       }
       account.list_data_points(entity_id,check_id,metric_name,options).data[:headers]
     end

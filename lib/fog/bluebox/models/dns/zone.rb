@@ -4,9 +4,7 @@ require 'fog/bluebox/models/dns/records'
 module Fog
   module DNS
     class Bluebox
-
       class Zone < Fog::Model
-
         identity :id
 
         attribute :domain,        :aliases => 'name'

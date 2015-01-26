@@ -54,7 +54,7 @@ Shindo.tests('Fog::DNS::Rackspace', ['rackspace']) do
 
       identity_service = @service.instance_variable_get("@identity_service")
       returns(false, "identity service was used") { identity_service.nil? }
-      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").has_key?(:ssl_verify_peer) }
+      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").key?(:ssl_verify_peer) }
       @service.list_domains
     end
     tests('custom endpoint') do
@@ -69,7 +69,7 @@ Shindo.tests('Fog::DNS::Rackspace', ['rackspace']) do
     pending if Fog.mocking?
 
     tests('no params').succeeds do
-      @service = Fog::DNS::Rackspace.new
+      @service = Fog::DNS::Rackspace.new :rackspace_region => nil
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").host.nil? }
       returns(true, "contains tenant id") {  (@service.instance_variable_get("@uri").path =~ /\/v1\.0\/\d+$/) != nil} #dns does not error if tenant id is missing

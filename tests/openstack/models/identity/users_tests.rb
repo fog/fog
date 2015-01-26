@@ -14,6 +14,11 @@ Shindo.tests("Fog::Identity[:openstack] | users", ['openstack']) do
       user.id == @instance.id
     end
 
+    tests('#find_by_name').succeeds do
+      user = Fog::Identity[:openstack].users.find_by_name(@instance.name)
+      user.name == @instance.name
+    end
+
     tests('#destroy').succeeds do
       Fog::Identity[:openstack].users.destroy(@instance.id)
     end
@@ -24,6 +29,10 @@ Shindo.tests("Fog::Identity[:openstack] | users", ['openstack']) do
 
     tests('#find_by_id').raises(Fog::Identity::OpenStack::NotFound) do
       Fog::Identity[:openstack].users.find_by_id('fake')
+    end
+
+    tests('#find_by_name').raises(Fog::Identity::OpenStack::NotFound) do
+      Fog::Identity[:openstack].users.find_by_name('fake')
     end
 
     tests('#destroy').raises(Fog::Identity::OpenStack::NotFound) do

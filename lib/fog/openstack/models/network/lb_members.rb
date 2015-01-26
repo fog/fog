@@ -5,7 +5,6 @@ module Fog
   module Network
     class OpenStack
       class LbMembers < Fog::Collection
-
         attribute :filters
 
         model Fog::Network::OpenStack::LbMember
@@ -15,8 +14,8 @@ module Fog
           super
         end
 
-        def all(filters = filters)
-          self.filters = filters
+        def all(filters_arg = filters)
+          filters = filters_arg
           load(service.list_lb_members(filters).body['members'])
         end
 
@@ -27,7 +26,6 @@ module Fog
         rescue Fog::Network::OpenStack::NotFound
           nil
         end
-
       end
     end
   end

@@ -1,9 +1,8 @@
-require 'fog/rackspace'
+require 'fog/rackspace/core'
 
 module Fog
   module Rackspace
     class Identity < Fog::Service
-
       US_ENDPOINT = 'https://identity.api.rackspacecloud.com/v2.0'
       UK_ENDPOINT = 'https://lon.identity.api.rackspacecloud.com/v2.0'
 
@@ -34,18 +33,16 @@ module Fog
       request :update_user
       request :delete_user
 
-      class Mock < Fog::Rackspace::Service
-        attr_reader :service_catalog
-        
-        def request
-          Fog::Mock.not_implemented
-        end
-      end
-
-      class Real < Fog::Rackspace::Service
+      module Common
         attr_reader :service_catalog, :auth_token
-        
-        def initialize(options={})
+
+        def authenticate(options={})
+          data = self.create_token(@rackspace_username, @rackspace_api_key).body
+          @service_catalog = ServiceCatalog.from_response(self, data)
+          @auth_token = data['access']['token']['id']
+        end
+
+        def apply_options(options)
           @rackspace_username = options[:rackspace_username]
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_region = options[:rackspace_region]
@@ -58,15 +55,27 @@ module Fog
           @scheme = @uri.scheme
           @persistent = options[:persistent] || false
           @connection_options = options[:connection_options] || {}
-          @connection = Fog::Connection.new(@uri.to_s, @persistent, @connection_options)
+        end
+      end
+
+      class Mock < Fog::Rackspace::Service
+        include Common
+
+        def initialize(options={})
+          apply_options(options)
 
           authenticate
         end
-        
-        def authenticate(options={})
-          data = self.create_token(@rackspace_username, @rackspace_api_key).body
-          @service_catalog = ServiceCatalog.from_response(self, data)
-          @auth_token = data['access']['token']['id']
+      end
+
+      class Real < Fog::Rackspace::Service
+        include Common
+
+        def initialize(options={})
+          apply_options(options)
+          @connection = Fog::Core::Connection.new(@uri.to_s, @persistent, @connection_options)
+
+          authenticate
         end
       end
     end

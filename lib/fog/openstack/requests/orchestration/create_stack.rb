@@ -2,7 +2,6 @@ module Fog
   module Orchestration
     class OpenStack
       class Real
-
         # Create a stack.
         #
         # * stack_name [String] Name of the stack to create.
@@ -22,14 +21,14 @@ module Fog
           }.merge(options)
 
           request(
+            :expects  => 201,
             :path => 'stacks',
             :method => 'POST',
-            :body => MultiJson.encode(params)
+            :body => Fog::JSON.encode(params)
           )
         end
-
       end
-      
+
       class Mock
         def create_stack(stack_name, options = {})
           stack_id = Fog::Mock.random_hex(32)
@@ -45,8 +44,10 @@ module Fog
           }
 
           response = Excon::Response.new
-          response.status = 202
-          response.body = {}
+          response.status = 201
+          response.body = {
+            'id' => stack_id,
+            'links'=>[{"href"=>"http://localhost:8004/v1/fake_tenant_id/stacks/#{stack_name}/#{stack_id}", "rel"=>"self"}]}
           response
         end
       end
