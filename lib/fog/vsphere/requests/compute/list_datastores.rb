@@ -34,7 +34,8 @@ module Fog
                                 :host_name=>h.key.name,
                                 :host_id=>managed_obj_id(h.key),
                                 :mounted=>h.mountInfo.mounted,
-                                :path=>h.mountInfo.path
+                                :path=>h.mountInfo.path,
+                                :accessible=>h.mountInfo.accessible
                               }
                             },
           }
