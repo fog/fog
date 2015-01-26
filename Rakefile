@@ -102,7 +102,7 @@ task :nuke do
     begin
       compute = Fog::Compute.new(:provider => provider)
       for server in compute.servers
-        Formatador.display_line("[#{provider}] destroying server #{server.identity}")
+        Fog::Formatador.display_line("[#{provider}] destroying server #{server.identity}")
         server.destroy rescue nil
       end
     rescue
@@ -113,7 +113,7 @@ task :nuke do
         for record in zone.records
           record.destroy rescue nil
         end
-        Formatador.display_line("[#{provider}] destroying zone #{zone.identity}")
+        Fog::Formatador.display_line("[#{provider}] destroying zone #{zone.identity}")
         zone.destroy rescue nil
       end
     rescue
