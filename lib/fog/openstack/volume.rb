@@ -25,6 +25,7 @@ module Fog
       request :create_volume
       request :get_volume_details
       request :delete_volume
+      request :volume_action
 
       request :list_volume_types
       request :get_volume_type_details
