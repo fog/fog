@@ -85,6 +85,7 @@ module Fog
       request :destroy_vif
       request :clone_server
       request :destroy_server
+      request :plug_vbd
       request :unplug_vbd
       request :eject_vbd
       request :insert_vbd
