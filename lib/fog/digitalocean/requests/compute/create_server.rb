@@ -23,6 +23,10 @@ module Fog
             query_hash[:ssh_key_ids] = options[:ssh_key_ids]
           end
 
+          if options[:user_data]
+            query_hash[:user_data] = options[:user_data]
+          end
+
           query_hash[:private_networking] = !!options[:private_networking]
           # backups are enabled using backups_enabled query parameter!
           query_hash[:backups_enabled] = !!options[:backups_active]

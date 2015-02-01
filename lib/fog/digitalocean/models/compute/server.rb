@@ -17,6 +17,7 @@ module Fog
         attribute :private_networking
         attribute :backups_active, :aliases => 'backups_enabled'
         attribute :created_at
+        attribute :user_data
 
         attr_writer :ssh_keys
 
@@ -126,6 +127,7 @@ module Fog
 
           options[:private_networking] = private_networking
           options[:backups_active] =  backups_active
+          options[:user_data] = user_data if user_data
 
           data = service.create_server name,
                                        flavor_id,
