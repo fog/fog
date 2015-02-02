@@ -1,0 +1,48 @@
+module Fog
+  module Baremetal
+    class OpenStack
+      class Real
+        def list_chassis(parameters=nil)
+          if parameters
+            query = parameters.each { |k, v| parameters[k] = URI::encode(v) }
+          else
+            query = {}
+          end
+
+          request(
+            :expects => [200, 204],
+            :method  => 'GET',
+            :path    => 'chassis',
+            :query   => query
+          )
+        end
+      end # class Real
+
+      class Mock
+        def list_chassis(parameters=nil)
+          response = Excon::Response.new
+          response.status = [200, 204][rand(1)]
+          response.body = {
+            "chassis" => [
+              {
+                "description" => "Sample chassis",
+                "links" => [
+                    {
+                        "href" => "http =>//localhost:6385/v1/chassis/eaaca217-e7d8-47b4-bb41-3f99f20eed89",
+                        "rel" => "self"
+                    },
+                    {
+                        "href" => "http =>//localhost:6385/chassis/eaaca217-e7d8-47b4-bb41-3f99f20eed89",
+                        "rel" => "bookmark"
+                    }
+                ],
+                "uuid" => Fog::UUID.uuid
+              }
+            ]
+          }
+          response
+        end # def list_chassis
+      end # class Mock
+    end # class OpenStack
+  end # module Baremetal
+end # module Fog
