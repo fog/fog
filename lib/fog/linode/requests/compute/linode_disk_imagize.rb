@@ -24,7 +24,10 @@ module Fog
           response.body = {
             "ERRORARRAY" => [],
             "ACTION"     => "linode.disk.imagize",
-            "DATA"       => { "JobID" => Fog::Mock.random_numbers(4) }
+            "DATA"       => {
+              "JobID" => Fog::Mock.random_numbers(4),
+              "ImageID" => Fog::Mock.random_numbers(4)
+	    }
           }
           response
         end
