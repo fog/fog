@@ -160,7 +160,7 @@ Shindo.tests('Fog::Compute[:linode] | linode requests', ['linode']) do
 
     tests('#linode_disk_createfromimage').formats(@disk_createfromimage_format) do
       pending if Fog.mocking?
-      data = Fog::Compute[:linode].linode_disk_createfromimage(@linode_id, @image1_id, 3, 'P@SSW)RD', '').body
+      data = Fog::Compute[:linode].linode_disk_createfromimage(@linode_id, @image1_id, 'test1', 3, 'P@SSW)RD', '').body
       @disk3_id = data['DATA']['DISKID']
       data
     end

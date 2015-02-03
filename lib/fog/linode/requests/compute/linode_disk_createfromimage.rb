@@ -2,7 +2,7 @@ module Fog
   module Compute
     class Linode
       class Real
-        def linode_disk_createfromimage(linode_id, image_id, size, password, sshkey)
+        def linode_disk_createfromimage(linode_id, image_id, label, size, password, sshkey)
           request(
             :expects  => 200,
             :method   => 'GET',
@@ -10,6 +10,7 @@ module Fog
               :api_action => 'linode.disk.createfromimage',
               :linodeId => linode_id,
               :imageId => image_id,
+              :label => label,
               :size => size,
               :rootPass => password,
               :rootSSHKey => sshkey
@@ -19,7 +20,7 @@ module Fog
       end
 
       class Mock
-        def linode_disk_createfromimage(linode_id, image_id, size, password, sshkey)
+        def linode_disk_createfromimage(linode_id, image_id, label, size, password, sshkey)
           response = Excon::Response.new
           response.status = 200
           response.body = {
