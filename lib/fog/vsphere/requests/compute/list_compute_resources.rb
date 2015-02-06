@@ -50,7 +50,41 @@ module Fog
       end
       class Mock
         def list_compute_resources(filters = { })
-          []
+          [
+            {
+              :id=>"domain-s7", 
+              :name=>"fake-host", 
+              :totalCpu=>33504, 
+              :totalMemory=>154604142592, 
+              :numCpuCores=>12, 
+              :numCpuThreads=>24, 
+              :effectiveCpu=>32247, 
+              :effectiveMemory=>135733, 
+              :numHosts=>1, 
+              :numEffectiveHosts=>1, 
+              :overallStatus=>"gray", 
+              :overallCpuUsage=>15682, 
+              :overallMemoryUsage=>132755, 
+              :effective=>true, 
+              :isSingleHost=>true
+            }, {
+              :id=>"domain-s74", 
+              :name=>"fake-cluster", 
+              :totalCpu=>41484, 
+              :totalMemory=>51525996544, 
+              :numCpuCores=>12, 
+              :numCpuThreads=>24, 
+              :effectiveCpu=>37796, 
+              :effectiveMemory=>45115, 
+              :numHosts=>2, 
+              :numEffectiveHosts=>2, 
+              :overallStatus=>"gray", 
+              :overallCpuUsage=>584, 
+              :overallMemoryUsage=>26422, 
+              :effective=>true, 
+              :isSingleHost=>false
+            }
+          ]
         end
       end
     end
