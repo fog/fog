@@ -41,6 +41,7 @@ module Fog
 
       request_path 'fog/vsphere/requests/compute'
       request :current_time
+      request :cloudinit_to_customspec
       request :list_virtual_machines
       request :vm_power_off
       request :vm_power_on
