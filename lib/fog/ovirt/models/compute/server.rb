@@ -89,6 +89,16 @@ module Fog
           service.update_volume(id, attrs)
         end
 
+        def attach_volume attrs
+          wait_for { stopped? } if attrs[:blocking]
+          service.attach_volume(id, attrs)
+        end
+
+        def detach_volume attrs
+          wait_for { stopped? } if attrs[:blocking]
+          service.detach_volume(id, attrs)
+        end
+
         def start(options = {})
           wait_for { !locked? } if options[:blocking]
           service.vm_action(:id =>id, :action => :start)

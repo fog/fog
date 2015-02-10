@@ -1,0 +1,58 @@
+<disks>
+  <disk href="/api/disks/4d1abf9a-da81-4de2-bf20-f5f060018e05" id="4d1abf9a-da81-4de2-bf20-f5f060018e05">
+      <actions>
+          <link href="/api/disks/4d1abf9a-da81-4de2-bf20-f5f060018e05/export" rel="export"/>
+          <link href="/api/disks/4d1abf9a-da81-4de2-bf20-f5f060018e05/move" rel="move"/>
+          <link href="/api/disks/4d1abf9a-da81-4de2-bf20-f5f060018e05/copy" rel="copy"/>
+      </actions>
+      <name>Disk 2</name>
+      <link href="/api/disks/4d1abf9a-da81-4de2-bf20-f5f060018e05/permissions" rel="permissions"/>
+      <link href="/api/disks/4d1abf9a-da81-4de2-bf20-f5f060018e05/statistics" rel="statistics"/>
+      <alias>Disk 2</alias>
+      <image_id>d6034a90-39fa-46ee-888f-208a76f3baa4</image_id>
+      <storage_domains>
+          <storage_domain id="a23a4329-33b9-4246-a393-4f91071825b6"/>
+      </storage_domains>
+      <size>4294967296</size>
+      <provisioned_size>4294967296</provisioned_size>
+      <actual_size>1073741824</actual_size>
+      <status>
+          <state>ok</state>
+      </status>
+      <interface>virtio</interface>
+      <format>cow</format>
+      <sparse>true</sparse>
+      <bootable>false</bootable>
+      <shareable>false</shareable>
+      <wipe_after_delete>false</wipe_after_delete>
+      <propagate_errors>false</propagate_errors>
+  </disk>
+  <disk href="/api/disks/cfebdac5-cefb-488a-8b55-f5f273a1e863" id="cfebdac5-cefb-488a-8b55-f5f273a1e863">
+      <actions>
+          <link href="/api/disks/cfebdac5-cefb-488a-8b55-f5f273a1e863/export" rel="export"/>
+          <link href="/api/disks/cfebdac5-cefb-488a-8b55-f5f273a1e863/move" rel="move"/>
+          <link href="/api/disks/cfebdac5-cefb-488a-8b55-f5f273a1e863/copy" rel="copy"/>
+      </actions>
+      <name>Disk 3</name>
+      <link href="/api/disks/cfebdac5-cefb-488a-8b55-f5f273a1e863/permissions" rel="permissions"/>
+      <link href="/api/disks/cfebdac5-cefb-488a-8b55-f5f273a1e863/statistics" rel="statistics"/>
+      <alias>Disk 3</alias>
+      <image_id>3d7edbe9-54e1-484c-a77c-3d170f1906bb</image_id>
+      <storage_domains>
+          <storage_domain id="c8431bb5-f57b-4ce8-8ba0-17c1859bc767"/>
+      </storage_domains>
+      <size>21474836480</size>
+      <provisioned_size>21474836480</provisioned_size>
+      <actual_size>1073741824</actual_size>
+      <status>
+          <state>ok</state>
+      </status>
+      <interface>virtio</interface>
+      <format>cow</format>
+      <sparse>true</sparse>
+      <bootable>false</bootable>
+      <shareable>false</shareable>
+      <wipe_after_delete>false</wipe_after_delete>
+      <propagate_errors>false</propagate_errors>
+  </disk>
+</disks>

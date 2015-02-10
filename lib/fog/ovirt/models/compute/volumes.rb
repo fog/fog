@@ -10,13 +10,12 @@ module Fog
         attr_accessor :vm
 
         def all(filters = {})
-          requires :vm
           if vm.is_a? Fog::Compute::Ovirt::Server
             load service.list_vm_volumes(vm.id)
           elsif vm.is_a? Fog::Compute::Ovirt::Template
             load service.list_template_volumes(vm.id)
           else
-            raise 'volumes should have vm or template'
+            load service.list_volumes
           end
         end
 
