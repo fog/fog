@@ -15,11 +15,57 @@ module Fog
       model       :stack
       collection  :stacks
 
+      model :resource
+      collection :resources
+
+      collection :resource_schemas
+
+      model :event
+      collection :events
+
+      model :template
+      collection :templates
+
       request_path 'fog/openstack/requests/orchestration'
+      request :abandon_stack
+      request :build_info
       request :create_stack
-      request :update_stack
       request :delete_stack
-      request :list_stacks
+      request :get_stack_template
+      request :list_resource_events
+      request :list_resource_types
+      request :list_resources
+      request :list_stack_data
+      request :list_stack_events
+      request :preview_stack
+      request :show_event_details
+      request :show_resource_data
+      request :show_resource_metadata
+      request :show_resource_schema
+      request :show_resource_template
+      request :show_stack_details
+      request :update_stack
+      request :validate_template
+
+      module Reflectable
+
+        REFLECTION_REGEX = /\/stacks\/(\w+)\/([\w|-]+)\/resources\/(\w+)/
+
+        def resource
+          @resource ||= service.resources.get(r[3], stack)
+        end
+
+        def stack
+          @stack ||= service.stacks.get(r[1], r[2])
+        end
+
+        private
+
+        def reflection
+          @reflection ||= REFLECTION_REGEX.match(self.links[0]['href'])
+        end
+        alias :r :reflection
+      end
 
       class Mock
         attr_reader :auth_token
