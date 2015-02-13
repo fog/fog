@@ -45,6 +45,8 @@ module Fog
       # @option options [String] :google_client_email A @developer.gserviceaccount.com email address to use
       # @option options [String] :google_key_location The location of a pkcs12 key file
       # @option options [String] :google_key_string The content of the pkcs12 key file
+      # @option options [String] :google_json_key_location The location of a JSON key file
+      # @option options [String] :google_json_key_string The content of the JSON key file
       # @option options [String] :google_api_scope_url The access scope URLs
       # @option options [String] :app_name The app name to set in the user agent
       # @option options [String] :app_version The app version to set in the user agent
@@ -64,17 +66,12 @@ module Fog
         client = options[:google_client]
         return client unless client.nil?
 
+        # Create a signing key
+        signing_key = create_signing_key(options)
+
         # Validate required arguments
         unless options[:google_client_email]
           raise ArgumentError.new('Missing required arguments: google_client_email')
-        end
-
-        if options[:google_key_location]
-          google_key = File.expand_path(options[:google_key_location])
-        elsif options[:google_key_string]
-          google_key = options[:google_key_string]
-        else
-          raise ArgumentError.new('Missing required arguments: google_key_location or google_key_string')
         end
 
         unless options[:google_api_scope_url]
@@ -84,7 +81,7 @@ module Fog
         # Create a new Google API Client
         self.new_pk12_google_client(
           options[:google_client_email],
-          google_key,
+          signing_key,
           options[:google_api_scope_url],
           options[:app_name],
           options[:app_version]
@@ -92,15 +89,48 @@ module Fog
       end
 
       ##
+      # Creates a Google signing key
+      #
+      def create_signing_key(options)
+        if options[:google_json_key_location] || options[:google_json_key_string]
+          if options[:google_json_key_location]
+            json_key_location = File.expand_path(options[:google_json_key_location])
+            json_key = File.open(json_key_location, 'r') { |file| file.read }
+          else
+            json_key = options[:google_json_key_string]
+          end
+
+          json_key_hash = Fog::JSON.decode(json_key)
+          unless json_key_hash.has_key?('client_email') || json_key_hash.has_key?('private_key')
+            raise ArgumentError.new('Invalid Google JSON key')
+          end
+
+          options[:google_client_email] = json_key_hash['client_email']
+          ::Google::APIClient::KeyUtils.load_from_pem(json_key_hash['private_key'], 'notasecret')
+        elsif options[:google_key_location] || options[:google_key_string]
+          if options[:google_key_location]
+            google_key = File.expand_path(options[:google_key_location])
+          else
+            google_key = options[:google_key_string]
+          end
+
+          ::Google::APIClient::KeyUtils.load_from_pkcs12(google_key, 'notasecret')
+        else
+          raise ArgumentError.new('Missing required arguments: google_key_location, google_key_string, ' \
+                                  'google_json_key_location or google_json_key_string')
+        end
+      end
+
+      ##
       # Create a Google API Client with a user email and a pkcs12 key
       #
       # @param [String] google_client_email A @developer.gserviceaccount.com email address to use
-      # @param [String] google_key An absolute location to a pkcs12 key file or the content of the file itself
+      # @param [OpenSSL::PKey] signing_key The private key for signing
       # @param [String] google_api_scope_url Access scope URLs
       # @param [String] app_name The app name to set in the user agent
       # @param [String] app_version The app version to set in the user agent
       # @return [Google::APIClient] Google API Client
-      def new_pk12_google_client(google_client_email, google_key, google_api_scope_url, app_name = nil, app_version = nil)
+      def new_pk12_google_client(google_client_email, signing_key, google_api_scope_url, app_name = nil, app_version = nil)
         application_name = app_name.nil? ? 'fog' : "#{app_name}/#{app_version || '0.0.0'} fog"
         api_client_options = {
           :application_name => application_name,
@@ -115,7 +145,7 @@ module Fog
             :client_x509_cert_url => "https://www.googleapis.com/robot/v1/metadata/x509/#{google_client_email}",
             :issuer => google_client_email,
             :scope => google_api_scope_url,
-            :signing_key => ::Google::APIClient::KeyUtils.load_from_pkcs12(google_key, 'notasecret'),
+            :signing_key => signing_key,
             :token_credential_uri => 'https://accounts.google.com/o/oauth2/token',
           }
         )
