@@ -4,7 +4,7 @@ module Fog
       class Real
         def attach_volume(id, options)
           raise ArgumentError, "instance id is a required parameter" unless id
-          raise ArgumentError, "volume id is a required parameter for destroy-volume" unless options.key? :id
+          raise ArgumentError, "volume id is a required parameter for attach-volume" unless options.key? :id
 
           client.attach_volume(id, options[:id])
         end
@@ -13,7 +13,7 @@ module Fog
       class Mock
         def attach_volume(id, options)
           raise ArgumentError, "instance id is a required parameter" unless id
-          raise ArgumentError, "volume id is a required parameter for destroy-volume" unless options.key? :id
+          raise ArgumentError, "volume id is a required parameter for attach-volume" unless options.key? :id
           true
         end
       end
