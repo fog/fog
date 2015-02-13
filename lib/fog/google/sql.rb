@@ -5,7 +5,7 @@ module Fog
     class SQL < Fog::Service
       requires :google_project
       recognizes :google_client_email, :google_key_location, :google_key_string, :google_client,
-                 :app_name, :app_version
+                 :app_name, :app_version, :google_json_key_location, :google_json_key_string
 
       GOOGLE_SQL_API_VERSION    = 'v1beta3'
       GOOGLE_SQL_BASE_URL       = 'https://www.googleapis.com/sql/'
