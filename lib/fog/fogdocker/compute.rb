@@ -40,8 +40,9 @@ module Fog
           email    = options[:docker_email]
           url      = options[:docker_url]
 
-          Docker.url = url
-          Docker.authenticate!('username' => username, 'password' => password, 'email' => email) unless username.nil? || username.empty?
+          connection_options = {:username => username, :password => password, :email => email}
+          @connection = Docker::Connection.new(url, connection_options)
+          Docker.authenticate!(connection_options, @connection) if username || email || password
         rescue Docker::Error::AuthenticationError => e
           raise Fog::Errors::Fogdocker::AuthenticationError.new(e.message)
         end

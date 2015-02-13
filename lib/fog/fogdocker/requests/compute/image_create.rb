@@ -3,7 +3,7 @@ module Fog
     class Fogdocker
       class Real
         def image_create(attrs)
-          downcase_hash_keys Docker::Image.create(attrs).json
+          downcase_hash_keys Docker::Image.create(attrs, nil, @connection).json
         end
       end
 

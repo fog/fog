@@ -3,7 +3,7 @@ module Fog
     class Fogdocker
       class Real
         def container_get(id)
-          raw_container = Docker::Container.get(id).json
+          raw_container = Docker::Container.get(id, {}, @connection).json
           processed_container = downcase_hash_keys(raw_container)
           processed_container['hostconfig_port_bindings'] = raw_container['HostConfig']['PortBindings']
           processed_container['hostconfig_links']         = raw_container['HostConfig']['Links']
