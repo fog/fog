@@ -116,11 +116,21 @@ module Fog
           # Options['network']
           # Build up the config spec
           if ( options.key?('network_label') )
-            #network_obj = datacenter_obj.networkFolder.find(options['network_label'])
             config_spec_operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation('edit')
-            nic_backing_info = RbVmomi::VIM::VirtualEthernetCardNetworkBackingInfo(:deviceName => options['network_label'])
-              #:deviceName => "Network adapter 1",
-              #:network => network_obj)
+            # Get the portgroup and handle it from there.
+            network = get_raw_network(options['network_label'],options['datacenter'])
+            if ( network.kind_of? RbVmomi::VIM::DistributedVirtualPortgroup)
+                # Create the NIC backing for the distributed virtual portgroup
+                nic_backing_info = RbVmomi::VIM::VirtualEthernetCardDistributedVirtualPortBackingInfo(
+                    :port => RbVmomi::VIM::DistributedVirtualSwitchPortConnection( 
+                                                                                  :portgroupKey => network.key, 
+                                                                                  :switchUuid => network.config.distributedVirtualSwitch.uuid,
+                                                                                 ) 
+                )
+            else
+                # Otherwise it's a non distributed port group
+                nic_backing_info = RbVmomi::VIM::VirtualEthernetCardNetworkBackingInfo(:deviceName => options['network_label'])
+            end
             connectable = RbVmomi::VIM::VirtualDeviceConnectInfo(
               :allowGuestControl => true,
               :connected => true,
