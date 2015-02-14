@@ -124,7 +124,7 @@ module Fog
                 nic_backing_info = RbVmomi::VIM::VirtualEthernetCardDistributedVirtualPortBackingInfo(
                     :port => RbVmomi::VIM::DistributedVirtualSwitchPortConnection( 
                                                                                   :portgroupKey => network.key, 
-                                                                                  :switchUuid => network.config.distributedVirtualSwitch.uuid,
+                                                                                  :switchUuid => network.config.distributedVirtualSwitch.uuid
                                                                                  ) 
                 )
             else
