@@ -146,6 +146,16 @@ module Fog
           :instance_store_volumes  => 2
         },
         {
+          :id                      => 'c3.8xlarge',
+          :name                    => 'C3 Eight Extra Large',
+          :bits                    => 64,
+          :cores                   => 108,
+          :disk                    => 640,
+          :ram                     => 61440,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 2
+        },
+        {
           :id                      => 'c4.large',
           :name                    => 'C4 Large',
           :bits                    => 64,
@@ -186,8 +196,8 @@ module Fog
           :instance_store_volumes  => 2
         },
         {
-          :id                      => 'c3.8xlarge',
-          :name                    => 'C3 Eight Extra Large',
+          :id                      => 'c4.8xlarge',
+          :name                    => 'C4 Eight Extra Large',
           :bits                    => 64,
           :cores                   => 122,
           :disk                    => 640,
