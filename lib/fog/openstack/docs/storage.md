@@ -336,7 +336,7 @@ Swift requires files larger than 5 GB (the Swift default limit) to be uploaded i
 	SEGMENT_LIMIT = 5368709119.0  # 5GB -1
 	BUFFER_SIZE = 1024 * 1024 # 1MB
 
-	File.open(file_name) do |f|
+	File.open(file_name) do |file|
 	  segment = 0
 	  until file.eof?
 	    segment += 1
