@@ -129,6 +129,20 @@ module Fog
           Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
         end
 
+        def start
+          requires :identity, :zone
+
+          data = service.start_server(identity, zone_name)
+          Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+        end
+
+        def stop
+          requires :identity, :zone
+
+          data = service.stop_server(identity, zone_name)
+          Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+        end
+
         def serial_port_output
           requires :identity, :zone
 
