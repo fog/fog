@@ -156,6 +156,56 @@ module Fog
           :instance_store_volumes  => 2
         },
         {
+          :id                      => 'c4.large',
+          :name                    => 'C4 Large',
+          :bits                    => 64,
+          :cores                   => 7,
+          :disk                    => 32,
+          :ram                     => 3750,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'c4.xlarge',
+          :name                    => 'C4 Extra Large',
+          :bits                    => 64,
+          :cores                   => 14,
+          :disk                    => 80,
+          :ram                     => 7168,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'c4.2xlarge',
+          :name                    => 'C4 Double Extra Large',
+          :bits                    => 64,
+          :cores                   => 28,
+          :disk                    => 160,
+          :ram                     => 15360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'c4.4xlarge',
+          :name                    => 'C4 Quadruple Extra Large',
+          :bits                    => 64,
+          :cores                   => 55,
+          :disk                    => 320,
+          :ram                     => 30720,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'c4.8xlarge',
+          :name                    => 'C4 Eight Extra Large',
+          :bits                    => 64,
+          :cores                   => 122,
+          :disk                    => 640,
+          :ram                     => 61440,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
           :id                      => 'g2.2xlarge',
           :name                    => 'GPU Double Extra Large',
           :bits                    => 64,
