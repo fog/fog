@@ -358,12 +358,6 @@ Swift requires files larger than 5 GB (the Swift default limit) to be uploaded i
 
 	# write manifest file
 	service.put_object_manifest("my_container", "large_file", 'X-Object-Manifest' => "my_container/large_file/")
-
-    # write manifest file
-    service.put_object_manifest("my_container", "large_file", 'X-Object-Manifest' => "my_container/large_file/")
-
-    # write manifest file
-    service.put_object_manifest("my_container", "large_file", 'X-Object-Manifest' => "my_container/large_file/")
 ```
 
 Segmented files are downloaded like ordinary files. See [Download Files](#download-files) section for more information.
