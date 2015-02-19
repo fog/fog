@@ -4,7 +4,7 @@ module Fog
       class Real
         def image_delete(options = {})
           raise ArgumentError, "instance id is a required parameter" unless options.key? :id
-          image = Docker::Image.get(options[:id])
+          image = Docker::Image.get(options[:id], {}, @connection)
           image.remove()
         end
       end

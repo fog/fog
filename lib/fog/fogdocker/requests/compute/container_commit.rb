@@ -4,7 +4,7 @@ module Fog
       class Real
         def container_commit(options)
           raise ArgumentError, "instance id is a required parameter" unless options.key? :id
-          container = Docker::Container.get(options[:id])
+          container = Docker::Container.get(options[:id], {}, @connection)
           downcase_hash_keys container.commit(camelize_hash_keys(options)).json
         end
       end
