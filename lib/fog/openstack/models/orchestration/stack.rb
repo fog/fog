@@ -48,8 +48,8 @@ module Fog
           @details ||= service.stacks.get(self.stack_name, self.id)
         end
 
-        def resources
-          @resources ||= service.resources.all(self)
+        def resources(options={})
+          @resources ||= service.resources.all(self, options)
         end
 
         def events(options={})
