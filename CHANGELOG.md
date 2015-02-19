@@ -1,3 +1,74 @@
+## 1.28.0 02/19/2015
+*Hash* d023ee520bcf52072f50f03e22efde344caef936
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Downloads     | 8526269
+Forks         | 1402
+Open Issues   | 86
+Watchers      | 3382
+
+**MVP!** Peter Souter
+
+#### [HP|storage]
+*   Add support for headers to get_object. thanks Bruz Marzolf
+
+#### [Openstack|Servers|Create]
+*   Allow :volume_size in block_device_mapping_v2. thanks Brandon Dunne
+
+#### [google]
+*   Add support for JSON key format. thanks Ferran Rodenas
+
+#### [joyent|compute]
+*   support for gracefully handling 400 error responses from api Fixes #3434. thanks Kevin Chan
+
+#### [misc]
+*   Port Rackspace Orchestration implementation to OpenStack. thanks Bill Wei
+*   Pass options when get resources from a stack. thanks Bill Wei
+*   Add ubuntu-os-cloud to list of global projects. thanks Chris Gianelloni
+*   get resource pool without name. thanks Chris Thompson
+*   Add nic_type option. thanks Darren Foo
+*   Adding multiple server support for Docker. thanks David Davis
+*   Fixes "Error - undefined method 'delete' for nil:NilClass" when attempting to stop a container. thanks Dmitri Dolguikh
+*   Remove duplicate openstack_region key. thanks Kyle Tolle
+*   Add OpenStack Ironic support. thanks Ladislav Smola
+*   Ming Jin: added list/get compute_resource functions. thanks Ming Jin
+*   Ming Jin: expose effective attribute. thanks Ming Jin
+*   Ming Jin: add isSingleHost attribute to compute resource. thanks Ming Jin
+*   Ming Jin: fix nil usage issue of host. thanks Ming Jin
+*   Ming Jin: added appropriate mocked response. thanks Ming Jin
+*   Fix RDoc build. thanks Paulo Henrique Lopes Ribeiro
+*   Fix small typo. thanks Paulo Henrique Lopes Ribeiro
+*   Remove RiakCS. thanks Paulo Henrique Lopes Ribeiro
+*   Remove tests. thanks Paulo Henrique Lopes Ribeiro
+*   Remove unused credentials. thanks Paulo Henrique Lopes Ribeiro
+*   Remove Bin. thanks Paulo Henrique Lopes Ribeiro
+*   Add Fog::RiakCS as dependency. thanks Paulo Henrique Lopes Ribeiro
+*   Add floating disks manipulation in rbovirt provider. thanks Pavol Dilung
+*   Fix method names errors in exception. thanks Pavol Dilung
+*   Add missing braces. thanks Pavol Dilung
+*   Updates location to get API keys from. thanks Peter Souter
+*   Adds section about SSH key management. thanks Peter Souter
+*   Adds notes about how to bootstrap a server. thanks Peter Souter
+*   Fix typo. thanks Peter Souter
+*   Adds RDoc for #bootstrap, #get(id) and #all(). thanks Peter Souter
+*   Removes not about not being documented. thanks Peter Souter
+*   adding option to set ovirt to use filtered API. thanks Tom Caspy
+*   adding version attribute for ovirt template. thanks Tom Caspy
+*   Remove duplicate lines from code example. thanks Tomas Varaneckas
+*   Use correct variable in code example. thanks Tomas Varaneckas
+*   remove redundant requires. thanks geemus
+*   cloudinit to customspec support. thanks karmab
+*   Use Fog::Formatador. thanks starbelly
+
+#### [vsphere]
+*   new default dest_folder in vm_clone. thanks Chris Thompson
+*   find network by name and dvswitch. thanks Chris Thompson
+*   Supplied a mock implementation for cloudinit_to_customspec. thanks Kevin Menard
+*   searching for VM improved to search whole cluster instead of current folder. thanks Matthew Black
+
+
 ## 1.27.0 01/12/2015
 *Hash* 8a8f9a366be09de646536f06e2bcc84eb9229087
 
