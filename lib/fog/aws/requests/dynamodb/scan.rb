@@ -13,7 +13,8 @@ module Fog
         #   * 'Limit'<~Integer> - limit of total items to return
         #   * 'ScanFilter'<~Hash>: value to compare against
         #     * attribute_name<~Hash>:
-        #       * 'AttributeValueList'<~Hash>: one or more values to compare against
+        #       * 'AttributeValueList'<~Array>: one or more values to compare against
+        #         * 'AttributeValue'<~Hash> - formated as {type => value}
         #       * 'ComparisonOperator'<~String>: comparison operator to use with attribute value list, in %w{BETWEEN BEGINS_WITH EQ LE LT GE GT}
         #   * 'ScanIndexForward'<~Boolean>: Whether to scan from start or end of index, defaults to start
         #   * 'ExclusiveStartKey'<~Hash>: Key to start listing from, can be taken from LastEvaluatedKey in response
