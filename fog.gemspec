@@ -68,6 +68,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-atmos")
   s.add_dependency("fog-serverlove")
   s.add_dependency("fog-riakcs")
+  s.add_dependency("fog-local")
 
   # Disabled until Rackspace isn't broken, see fog-rackspace#10
   #s.add_dependency("fog-rackspace")
