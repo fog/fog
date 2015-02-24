@@ -45,7 +45,7 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = %w[README.md]
 
   ## Ruby version
-  s.required_ruby_version = ">= 2"
+  s.required_ruby_version = ">= 1.9.3"
 
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
