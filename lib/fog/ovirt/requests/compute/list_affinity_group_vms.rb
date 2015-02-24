@@ -9,7 +9,11 @@ module Fog
 
       class Mock
         def list_affinity_group_vms(id)
-          nil
+          vms = []
+          Nokogiri::XML(read_xml('affinitygroup_vms.xml')).xpath('/vms/vm/@id').each do |attr|
+            vms << ovirt_attrs(OVIRT::VM::new(self, Nokogiri::XML(read_xml('vms.xml')).xpath("/vms/vm[@id='%s']" % attr.value).first))
+          end
+          vms
         end
       end
     end
