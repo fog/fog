@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<affinity_group href="/api/clusters/a240aac1-d03a-4c69-923e-a295200539fa/affinitygroups/9aaec56b-e24d-4fce-82a1-21a7b642ab0f" id="9aaec56b-e24d-4fce-82a1-21a7b642ab0f">
+    <name>test1_ag</name>
+    <link href="/api/clusters/a240aac1-d03a-4c69-923e-a295200539fa/affinitygroups/9aaec56b-e24d-4fce-82a1-21a7b642ab0f/vms" rel="vms"/>
+    <cluster href="/api/clusters/a240aac1-d03a-4c69-923e-a295200539fa" id="a240aac1-d03a-4c69-923e-a295200539fa"/>
+    <positive>true</positive>
+    <enforcing>false</enforcing>
+</affinity_group>

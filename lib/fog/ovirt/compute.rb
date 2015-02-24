@@ -20,6 +20,8 @@ module Fog
       collection :volumes
       model      :quota
       collection :quotas
+      model      :affinity_group
+      collection :affinity_groups
 
       request_path 'fog/ovirt/requests/compute'
 
@@ -54,6 +56,13 @@ module Fog
       request :get_api_version
       request :list_quotas
       request :get_quota
+      request :list_affinity_groups
+      request :get_affinity_group
+      request :list_affinity_group_vms
+      request :create_affinity_group
+      request :destroy_affinity_group
+      request :add_to_affinity_group
+      request :remove_from_affinity_group
 
       module Shared
         # converts an OVIRT object into an hash for fog to consume.

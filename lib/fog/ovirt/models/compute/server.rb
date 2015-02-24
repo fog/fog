@@ -99,6 +99,16 @@ module Fog
           service.detach_volume(id, attrs)
         end
 
+        def add_to_affinity_group(attrs)
+          wait_for { stopped? } if attrs[:blocking]
+          service.add_to_affinity_group(id, attrs)
+        end
+        
+        def remove_from_affinity_group(attrs)
+          wait_for { stopped? } if attrs[:blocking]
+          service.remove_from_affinity_group(id, attrs)
+        end
+
         def start(options = {})
           wait_for { !locked? } if options[:blocking]
           service.vm_action(:id =>id, :action => :start)
