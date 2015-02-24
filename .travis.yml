@@ -21,6 +21,7 @@ matrix:
 
   allow_failures:
     - rvm: jruby-head
+    - rvm: 2.2
 
 notifications:
   email: false
