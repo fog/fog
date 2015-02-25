@@ -5,6 +5,7 @@ module Fog
     class Ovirt < Fog::Service
       requires   :ovirt_username, :ovirt_password
       recognizes :ovirt_url,      :ovirt_server,  :ovirt_port, :ovirt_api_path, :ovirt_datacenter,
+                 :ovirt_filtered_api,
                  :ovirt_ca_cert_store, :ovirt_ca_cert_file, :ovirt_ca_no_verify
 
       model_path 'fog/ovirt/models/compute'
