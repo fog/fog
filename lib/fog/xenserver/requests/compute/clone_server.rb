@@ -5,14 +5,17 @@ module Fog
         def clone_server( server_name, template_ref )
           # Clone the VM template
           if template_ref.kind_of? Fog::Compute::XenServer::Server
+            Fog::Logger.deprecation(
+                'Passing an object to #clone_server is deprecated. Pass the reference instead.'
+            )
             template_ref = template_ref.reference
           end
           raise ArgumentError.new("Invalid template_ref") if template_ref.nil?
           raise ArgumentError.new("Invalid template_ref") if server_name.nil?
 
           ref = @connection.request(
-            {:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.clone'},
-            template_ref, server_name
+              {:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.clone'},
+              template_ref, server_name
           )
         end
       end

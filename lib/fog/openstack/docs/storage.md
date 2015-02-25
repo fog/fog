@@ -336,7 +336,7 @@ Swift requires files larger than 5 GB (the Swift default limit) to be uploaded i
 	SEGMENT_LIMIT = 5368709119.0  # 5GB -1
 	BUFFER_SIZE = 1024 * 1024 # 1MB
 
-	File.open(file_name) do |f|
+	File.open(file_name) do |file|
 	  segment = 0
 	  until file.eof?
 	    segment += 1
@@ -358,12 +358,6 @@ Swift requires files larger than 5 GB (the Swift default limit) to be uploaded i
 
 	# write manifest file
 	service.put_object_manifest("my_container", "large_file", 'X-Object-Manifest' => "my_container/large_file/")
-
-    # write manifest file
-    service.put_object_manifest("my_container", "large_file", 'X-Object-Manifest' => "my_container/large_file/")
-
-    # write manifest file
-    service.put_object_manifest("my_container", "large_file", 'X-Object-Manifest' => "my_container/large_file/")
 ```
 
 Segmented files are downloaded like ordinary files. See [Download Files](#download-files) section for more information.

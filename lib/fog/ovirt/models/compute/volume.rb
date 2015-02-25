@@ -16,6 +16,7 @@ module Fog
         attribute :size_gb
         attribute :status
         attribute :quota
+        attribute :alias
 
         def size_gb
           attributes[:size_gb] ||= attributes[:size].to_i / DISK_SIZE_TO_GB if attributes[:size]

@@ -7,6 +7,9 @@ module Fog
         # @see http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=VLAN
         #
         def destroy_vlan( ref )
+          Fog::Logger.deprecation(
+              'This method is deprecated. Use #destroy_record instead.'
+          )
           @connection.request(
             {
               :parser => Fog::Parsers::XenServer::Base.new,

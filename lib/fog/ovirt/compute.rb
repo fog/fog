@@ -5,7 +5,8 @@ module Fog
     class Ovirt < Fog::Service
       requires   :ovirt_username, :ovirt_password
       recognizes :ovirt_url,      :ovirt_server,  :ovirt_port, :ovirt_api_path, :ovirt_datacenter,
-                 :ovirt_ca_cert_store, :ovirt_ca_cert_file
+                 :ovirt_filtered_api,
+                 :ovirt_ca_cert_store, :ovirt_ca_cert_file, :ovirt_ca_no_verify
 
       model_path 'fog/ovirt/models/compute'
       model      :server
@@ -20,6 +21,8 @@ module Fog
       collection :volumes
       model      :quota
       collection :quotas
+      model      :affinity_group
+      collection :affinity_groups
 
       request_path 'fog/ovirt/requests/compute'
 
@@ -45,12 +48,22 @@ module Fog
       request :vm_ticket
       request :list_vm_volumes
       request :list_template_volumes
+      request :list_volumes
       request :add_volume
       request :destroy_volume
       request :update_volume
+      request :attach_volume
+      request :detach_volume
       request :get_api_version
       request :list_quotas
       request :get_quota
+      request :list_affinity_groups
+      request :get_affinity_group
+      request :list_affinity_group_vms
+      request :create_affinity_group
+      request :destroy_affinity_group
+      request :add_to_affinity_group
+      request :remove_from_affinity_group
 
       module Shared
         # converts an OVIRT object into an hash for fog to consume.
@@ -65,6 +78,8 @@ module Fog
             opts[key] = case value
                         when OVIRT::Link
                           value.id
+                        when OVIRT::TemplateVersion
+                          value
                         when Array
                           value
                         when Hash
@@ -113,6 +128,8 @@ module Fog
           connection_opts[:datacenter_id] = options[:ovirt_datacenter]
           connection_opts[:ca_cert_store] = options[:ovirt_ca_cert_store]
           connection_opts[:ca_cert_file]  = options[:ovirt_ca_cert_file]
+          connection_opts[:ca_no_verify]  = options[:ovirt_ca_no_verify]
+          connection_opts[:filtered_api]  = options[:ovirt_filtered_api]
 
           @client = OVIRT::Client.new(username, password, url, connection_opts)
         end

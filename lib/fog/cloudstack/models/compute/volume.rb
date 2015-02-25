@@ -25,6 +25,7 @@ module Fog
         attribute :server_id,                  :aliases => 'virtualmachineid'
         attribute :server_name,                :aliases => 'vmname'
         attribute :server_display_name,        :aliases => 'vmdisplayname'
+        attribute :job_id,                     :aliases => 'jobid'   # only on create
 
         attr_accessor :snapshot_id, :project_id
 
@@ -39,6 +40,7 @@ module Fog
             'snapshotid'     => snapshot_id,
             'projectid'      => project_id
           }
+
           data = service.create_volume(options)
           merge_attributes(data['createvolumeresponse'])
         end

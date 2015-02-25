@@ -35,6 +35,16 @@ module Fog
           else self.job_result
           end
         end
+
+        def save
+          raise Fog::Errors::Error.new('Creating a job is not supported')
+        end
+
+        def destroy
+          raise Fog::Errors::Error.new('Destroying a job is not supported')
+        end
+
+
       end # Job
     end # Cloudstack
   end # Compute

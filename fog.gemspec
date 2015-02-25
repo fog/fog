@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '1.26.0'
-  s.date              = '2014-12-17'
+  s.version           = '1.28.0'
+  s.date              = '2015-02-19'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -49,7 +49,7 @@ Gem::Specification.new do |s|
 
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
-  s.add_dependency("fog-core", "~> 1.27", ">= 1.27.2")
+  s.add_dependency("fog-core", "~> 1.27", ">= 1.27.4")
   s.add_dependency("fog-json")
   s.add_dependency("fog-xml", "~> 0.1.1")
 
@@ -57,6 +57,7 @@ Gem::Specification.new do |s|
   s.add_dependency('ipaddress', '~>0.5')
 
   # Modular providers
+  s.add_dependency("fog-aws", "~> 0.0")
   s.add_dependency("fog-brightbox", "~> 0.4")
   s.add_dependency("fog-softlayer")
   s.add_dependency("fog-sakuracloud", ">= 0.0.4")
@@ -68,6 +69,9 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-ecloud")
   s.add_dependency("fog-storm_on_demand")
   s.add_dependency("fog-atmos")
+  s.add_dependency("fog-serverlove")
+  s.add_dependency("fog-riakcs")
+  s.add_dependency("fog-local")
 
   # Disabled until Rackspace isn't broken, see fog-rackspace#10
   #s.add_dependency("fog-rackspace")
@@ -79,7 +83,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rbvmomi')
   s.add_development_dependency('yard')
   s.add_development_dependency('thor')
-  s.add_development_dependency('rbovirt', '0.0.31')
+  s.add_development_dependency('rbovirt', '0.0.32')
   s.add_development_dependency('shindo', '~> 0.3.4')
   s.add_development_dependency('fission')
   s.add_development_dependency('opennebula')

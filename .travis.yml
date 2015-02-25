@@ -18,7 +18,6 @@ gemfile:
 
 matrix:
   fast_finish: true
-
   allow_failures:
     - rvm: jruby-head
     - rvm: 2.2
@@ -35,6 +34,3 @@ notifications:
     on_success: always
     on_failure: always
     use_notice: false
-
-before_install:
-  - gem update --system #  todo: workaround for https://github.com/rubygems/rubygems/pull/763

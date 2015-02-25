@@ -96,6 +96,8 @@ module Fog
                 "https://storage101.#{r}#{Fog::Mock.random_numbers(1)}.clouddrive.com/v1/#{object_tenant}"
               end),
 
+            service_catalog_entry("rackCDN", "rax:cdn", compute_tenant, :rackspace_api_version => '1.0'),
+
             service_catalog_entry("cloudMonitoring", "rax:monitor", compute_tenant,
               :single_endpoint => true, :rackspace_api_name => 'monitoring'),
 

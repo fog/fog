@@ -1,1 +1,0 @@
-require 'fog/serverlove/compute'

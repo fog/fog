@@ -31,6 +31,7 @@ module Fog
           data = service.create_zone(options)
           merge_attributes(data['createzoneresponse'])
         end
+
       end # Zone
     end # Cloudstack
   end # Compute

@@ -4,37 +4,56 @@ module Fog
       class Real
         # Create a stack.
         #
-        # * stack_name [String] Name of the stack to create.
+        #
         # * options [Hash]:
-        #   * :template_body [String] Structure containing the template body.
+        #   * :stack_name [String] Name of the stack to create.
+        #   * :template [String] Structure containing the template body.
         #   or (one of the two Template parameters is required)
         #   * :template_url [String] URL of file containing the template body.
         #   * :disable_rollback [Boolean] Controls rollback on stack creation failure, defaults to false.
         #   * :parameters [Hash] Hash of providers to supply to template
-        #   * :timeout_in_minutes [Integer] Minutes to wait before status is set to CREATE_FAILED
+        #   * :timeout_mins [Integer] Minutes to wait before status is set to CREATE_FAILED
         #
-        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_CreateStack.html
+        # @see http://developer.openstack.org/api-ref-orchestration-v1.html
 
-        def create_stack(stack_name, options = {})
-          params = {
-            :stack_name => stack_name
-          }.merge(options)
+        def create_stack(arg1, arg2 = nil)
+          if arg1.is_a?(Hash)
+            # Normal use: create_stack(options)
+            options = arg1
+          else
+            # Deprecated: create_stack(stack_name, options = {})
+            Fog::Logger.deprecation("#create_stack(stack_name, options) is deprecated, use #create_stack(options) instead [light_black](#{caller.first})[/]")
+            options = {
+              :stack_name => arg1
+            }.merge(arg2.nil? ? {} : arg2)
+          end
 
           request(
             :expects  => 201,
             :path => 'stacks',
             :method => 'POST',
-            :body => Fog::JSON.encode(params)
+            :body => Fog::JSON.encode(options)
           )
         end
       end
 
       class Mock
-        def create_stack(stack_name, options = {})
+        def create_stack(arg1, arg2 = nil)
+          if arg1.is_a?(Hash)
+            # Normal use: create_stack(options)
+            options = arg1
+          else
+            # Deprecated: create_stack(stack_name, options = {})
+            Fog::Logger.deprecation("#create_stack(stack_name, options) is deprecated, use #create_stack(options) instead [light_black](#{caller.first})[/]")
+            options = {
+              :stack_name => arg1
+            }.merge(arg2.nil? ? {} : arg2)
+          end
+
           stack_id = Fog::Mock.random_hex(32)
           stack = self.data[:stacks][stack_id] = {
             'id' => stack_id,
-            'stack_name' => stack_name,
+            'stack_name' => options[:stack_name],
             'links' => [],
             'description' => options[:description],
             'stack_status' => 'CREATE_COMPLETE',
@@ -47,7 +66,7 @@ module Fog
           response.status = 201
           response.body = {
             'id' => stack_id,
-            'links'=>[{"href"=>"http://localhost:8004/v1/fake_tenant_id/stacks/#{stack_name}/#{stack_id}", "rel"=>"self"}]}
+            'links'=>[{"href"=>"http://localhost:8004/v1/fake_tenant_id/stacks/#{options[:stack_name]}/#{stack_id}", "rel"=>"self"}]}
           response
         end
       end

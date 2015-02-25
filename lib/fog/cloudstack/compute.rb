@@ -11,33 +11,47 @@ module Fog
       requires :cloudstack_host
 
       recognizes :cloudstack_api_key, :cloudstack_secret_access_key, :cloudstack_session_key, :cloudstack_session_id,
-                 :cloudstack_port, :cloudstack_path, :cloudstack_scheme, :cloudstack_persistent
-
-      request_path 'fog/cloudstack/requests/compute'
-
+                 :cloudstack_port, :cloudstack_path, :cloudstack_scheme, :cloudstack_persistent, :cloudstack_project_id
 
       model_path 'fog/cloudstack/models/compute'
+      request_path 'fog/cloudstack/requests/compute'
+
       model :address
       model :disk_offering
       collection :disk_offerings
+      model :egress_firewall_rule
+      collection :egress_firewall_rules
+      model :firewall_rule
+      collection :firewall_rules
       model :flavor
       collection :flavors
-      model :job
-      collection :jobs
-      model :server
-      collection :servers
       model :image
       collection :images
+      model :job
+      collection :jobs
+      model :network
+      collection :networks
+      model :network_offering
+      collection :network_offerings
+      model :public_ip_address
+      collection :public_ip_addresses
+      model :port_forwarding_rule
+      collection :port_forwarding_rules
+      model :project
+      collection :projects
       model :security_group
       collection :security_groups
       model :security_group_rule
       collection :security_group_rules
+      model :server
+      collection :servers
       model :volume
       collection :volumes
       model :snapshot
       collection :snapshots
       model :zone
       collection :zones
+
       request :activate_project
       request :add_account_to_project
       request :add_baremetal_dhcp
@@ -523,7 +537,7 @@ module Fog
       request :upload_custom_certificate
       request :upload_ssl_cert
       request :upload_volume
-      
+
 
       class Real
 
@@ -532,6 +546,7 @@ module Fog
           @cloudstack_secret_access_key = options[:cloudstack_secret_access_key]
           @cloudstack_session_id        = options[:cloudstack_session_id]
           @cloudstack_session_key       = options[:cloudstack_session_key]
+          @cloudstack_project_id        = options[:cloudstack_project_id]
           @host                         = options[:cloudstack_host]
           @path                         = options[:cloudstack_path]    || '/client/api'
           @port                         = options[:cloudstack_port]    || 443
@@ -645,6 +660,7 @@ module Fog
       class Mock
         def initialize(options={})
           @cloudstack_api_key = options[:cloudstack_api_key]
+          @cloudstack_project_id = Fog.credentials[:cloudstack_project_id] || Fog::Cloudstack.uuid
         end
 
         def self.data
@@ -725,6 +741,27 @@ module Fog
                 "restartrequired"   => false,
                 "specifyipranges"   => true}
               },
+              :public_ip_addresses => { "0e276270-7950-4483-bf21-3dc897dbe08a" => {
+                "id"                => "0e276270-7950-4483-bf21-3dc897dbe08a",
+                "ipaddress"         => "192.168.200.2",
+                "allocated"         => "2014-11-26T22:32:39+0000",
+                "zoneid"            => "0e276270-7950-4483-bf21-3dc897dbe08a",
+                "zonename"          => "Toronto",
+                "issourcenat"       => false,
+                "projectid"         => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                "project"           => "TestProject",
+                "domainid"          => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                "domain"            => "TestDomain",
+                "forvirtualnetwork" => true,
+                "isstaticnat"       => false,
+                "issystem"          => false,
+                "associatednetworkid" => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                "associatednetworkname" => "TestNetwork",
+                "networkid"         => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                "state"             => "Allocated",
+                "physicalnetworkid" => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                "tags"              => []
+              }},
               :zones => { zone_id => {
                 "id"                    => zone_id,
                 "name"                  => "zone-00",
@@ -772,7 +809,8 @@ module Fog
                 "offerha"     => false,
                 "limitcpuuse" => false,
                 "issystem"    => false,
-                "defaultuse"  => false}},
+                "defaultuse"  => false
+              }},
               :accounts => { account_id => {
                 "id"                => account_id,
                 "name"              => "accountname",
@@ -865,6 +903,65 @@ module Fog
                   "storagetype"  => "shared"
                 }
               },
+              :network_offerings  => {
+                "cc4de87d-672d-4353-abb5-6a8a4c0abf59" => {
+                  "id"                => "cc4de87d-672d-4353-abb5-6a8a4c0abf59",
+                  "name"              => "Shared Network With Security Groups",
+                  "displaytext"       => "Shared Network With Security Groups",
+                  "traffictype"       => "Guest",
+                  "isdefault"         => true,
+                  "specifyvlan"       => true,
+                  "conservemode"      => true,
+                  "specifyipranges"   => true,
+                  "availability"      =>  "Optional",
+                  "networkrate"       =>  200,
+                  "state"             =>  "Enabled",
+                  "guestiptype"       =>  "Shared",
+                  "serviceofferingid" =>  "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1"
+                }
+              },
+              :firewall_rules => {
+                "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1" => {
+                  "id"=> "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                  "protocol"=> "tcp",
+                  "startport" => "443",
+                  "endport" => "443",
+                  "ipaddressid" => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                  "networkid"=> "31c4b26e-4be9-11e4-8304-00163e5b5f54",
+                  "ipaddress" => "192.168.200.1",
+                  "state" => "Active",
+                  "cidrlist" => "255.255.255.0/24",
+                  "tags" => []
+                }
+              },
+              :egress_firewall_rules => {
+                "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1" => {
+                  "id"=>"f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                  "protocol"=>"tcp",
+                  "networkid"=> "31c4b26e-4be9-11e4-8304-00163e5b5f54",
+                  "state"=>"Active",
+                  "cidrlist"=>"10.2.1.0/24",
+                  "tags"=>[]
+                }
+              },
+              :port_forwarding_rules => {
+                "8f4627c5-1fdd-4504-8a92-f61b4e9cb3e3" => {
+                  'id' => "8f4627c5-1fdd-4504-8a92-f61b4e9cb3e3",
+                  'privateport' => "25",
+                  'privateendport' => "25",
+                  'protocol' => "tcp",
+                  'publicport' => "25",
+                  'publicendport' => "25",
+                  'virtualmachineid' => "8f4627c5-1fdd-4504-8a92-f61b4e9cb3e3",
+                  'virtualmachinename' => "LoadBalancer",
+                  'virtualmachinedisplayname' => "LoadBalancer",
+                  'ipaddressid' => "f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1",
+                  'ipaddress' => "192.168.200.200",
+                  'state' => "Active",
+                  'cidrlist' => "",
+                  'tags' => []
+                }
+              },
               :os_types  => {
                 "51ef854d-279e-4e68-9059-74980fd7b29b" => {
                   "id"           => "51ef854d-279e-4e68-9059-74980fd7b29b",
@@ -892,6 +989,7 @@ module Fog
         def reset_data
           self.class.data.delete(@cloudstack_api_key)
         end
+
       end
     end # Cloudstack
   end # Compute

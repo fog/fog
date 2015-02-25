@@ -4,7 +4,8 @@ module Fog
   module DNS
     class Google < Fog::Service
       requires :google_project
-      recognizes :app_name, :app_version, :google_client_email, :google_key_location, :google_key_string, :google_client
+      recognizes :app_name, :app_version, :google_client_email, :google_key_location, :google_key_string,
+                 :google_client, :google_json_key_location, :google_json_key_string
 
       GOOGLE_DNS_API_VERSION     = 'v1beta1'
       GOOGLE_DNS_BASE_URL        = 'https://www.googleapis.com/dns/'
