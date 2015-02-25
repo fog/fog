@@ -4,20 +4,24 @@ sudo: false
 
 script: bundle exec rake travis
 
+rvm:
+  - 1.9
+  - 2.0
+  - 2.1
+  - 2.2
+  - jruby-19mode
+  - jruby-head
+
+gemfile:
+  - Gemfile
+  - gemfiles/Gemfile-edge
+
 matrix:
   fast_finish: true
-  include:
-    - rvm: 1.9.3
-    - rvm: 2.0.0
-    - rvm: 2.1.0
-    - rvm: 2.1.5
-    - rvm: 2.1.5
-      gemfile: gemfiles/Gemfile-edge
-    - rvm: jruby-19mode
-    - rvm: jruby-head
 
   allow_failures:
     - rvm: jruby-head
+    - rvm: 2.2
 
 notifications:
   email: false
