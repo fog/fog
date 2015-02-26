@@ -108,9 +108,6 @@ def compute_providers
       },
       :mocked => true
     },
-    :serverlove => {
-      :mocked => false
-    },
     :xenserver => {
       :mocked => false
     }

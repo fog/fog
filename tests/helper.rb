@@ -15,7 +15,6 @@ if Fog.mocking?
   Fog::Logger.warning "Setting default fog timeout to #{Fog.timeout} seconds"
 
   # These sets of tests do not behave nicely when running mocked tests
-  Thread.current[:tags] << '-serverlove'
   Thread.current[:tags] << '-xenserver'
   Thread.current[:tags] << '-joyent'
   Thread.current[:tags] << '-dreamhost'
