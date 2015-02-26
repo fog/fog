@@ -13,6 +13,11 @@ if Fog.mocking?
   FOG_TESTING_TIMEOUT = ENV['FOG_TEST_TIMEOUT'] || 2000
   Fog.timeout = 2000
   Fog::Logger.warning "Setting default fog timeout to #{Fog.timeout} seconds"
+
+  # These sets of tests do not behave nicely when running mocked tests
+  Thread.current[:tags] << '-xenserver'
+  Thread.current[:tags] << '-joyent'
+  Thread.current[:tags] << '-dreamhost'
 else
   FOG_TESTING_TIMEOUT = Fog.timeout
 end
@@ -43,7 +48,6 @@ end
 
 for provider in unavailable_providers
   Fog::Formatador.display_line("[yellow]Skipping tests for [bold]#{provider}[/] [yellow]due to lacking credentials (add some to '#{Fog.credentials_path}' to run them)[/]")
-  Thread.current[:tags] << ('-' << provider)
 end
 
 # mark libvirt tests pending if not setup
