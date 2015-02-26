@@ -102,6 +102,9 @@ module Fog
       request :remove_flavor_access
       request :list_tenants_with_flavor_access
 
+      # Hypervisor
+      request :get_hypervisor_statistics
+
       # Metadata
       request :list_metadata
       request :get_metadata

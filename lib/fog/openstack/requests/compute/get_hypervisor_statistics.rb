@@ -6,7 +6,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :path     => "/#{tenant_id}​/os-hypervisors/statistics"
+            :path     => "os-hypervisors/statistics"
           )
         end
       end
