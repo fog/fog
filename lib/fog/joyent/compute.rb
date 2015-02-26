@@ -9,6 +9,8 @@ module Fog
 
       recognizes :joyent_password
       recognizes :joyent_url
+      
+      recognizes :joyent_ssl_verify_peer
 
       recognizes :joyent_keyname
       recognizes :joyent_keyfile
@@ -116,6 +118,10 @@ module Fog
         def initialize(options = {})
           @connection_options = options[:connection_options] || {}
           @persistent = options[:persistent] || false
+          
+          if options[:joyent_ssl_verify_peer].to_s.downcase == 'false'
+            Excon.defaults[:ssl_verify_peer]=false
+          end
 
           @joyent_url = options[:joyent_url] || 'https://us-sw-1.api.joyentcloud.com'
           @joyent_version = options[:joyent_version] || '~6.5'
