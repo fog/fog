@@ -28,7 +28,6 @@ class Glesys
           'server' => {
             'managedhosting'  => String,
             'cost'            => {
-              'amount'      =>  Float,
               'timeperiod'  => String,
               'currency'    => String
             },
