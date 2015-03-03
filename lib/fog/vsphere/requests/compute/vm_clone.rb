@@ -171,8 +171,11 @@ module Fog
             end
             raise ArgumentError, "domain is required" unless cust_options.key?("domain")
             cust_domain = cust_options['domain']
-            cust_ip_settings = RbVmomi::VIM::CustomizationIPSettings.new(cust_options["ipsettings"]) if cust_options.key?("ipsettings")
-            cust_ip_settings.ip = RbVmomi::VIM::CustomizationFixedIp("ipAddress" => cust_options["ipsettings"]["ip"]) if cust_options.key?("ipsettings")
+            if cust_options.key?("ipsettings")
+              cust_ip_settings = RbVmomi::VIM::CustomizationIPSettings.new(cust_options["ipsettings"])
+              cust_ip_settings.ip = RbVmomi::VIM::CustomizationFixedIp("ipAddress" => cust_options["ipsettings"]["ip"])
+              cust_ip_settings.gateway = cust_options['ipsettings']['gateway']
+            end
             cust_ip_settings ||= RbVmomi::VIM::CustomizationIPSettings.new("ip" => RbVmomi::VIM::CustomizationDhcpIpGenerator.new())
             cust_ip_settings.dnsDomain = cust_domain
             cust_global_ip_settings = RbVmomi::VIM::CustomizationGlobalIPSettings.new
