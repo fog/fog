@@ -9,25 +9,35 @@ module Fog
           raise ArgumentError.new('Missing #type attribute') if config[:type].nil?
           raise ArgumentError.new('Missing #sharable attribute') if config[:sharable].nil?
           raise ArgumentError.new('Missing #other_config attribute') if config[:other_config].nil?
-          if config[:storage_repository].nil? || config[:SR].nil?
-            raise ArgumentError.new('Missing #storage_repository or #SR attribute')
+
+          if config[:storage_repository].nil? && config[:SR].nil? && config[:__sr].nil?
+            raise ArgumentError.new('Missing StorageRepository reference.')
           end
 
-          if config[:storage_repository].present?
+          unless config[:storage_repository].nil?
             Fog::Logger.deprecation(
                 'The attribute #storage_repository is deprecated. Use #SR instead.'
             )
             config[:SR] = config[:storage_repository].reference
           end
-          if config[:name].present?
+
+          unless config[:__sr].nil?
+            Fog::Logger.deprecation(
+                'The attribute #__sr is deprecated. Use #SR instead.'
+            )
+            config[:SR] = config[:__sr].reference
+          end
+
+          unless config[:name].nil?
             Fog::Logger.deprecation(
                 'The attribute #name is deprecated. Use #name_label instead.'
             )
             config[:name_label] = config[:name]
           end
-          if config[:description].present?
+
+          unless config[:description].nil?
             Fog::Logger.deprecation(
-                'The attribute storage_repository is deprecated. Use SR instead.'
+                'The attribute #description is deprecated. Use #name_description instead.'
             )
             config[:name_description] = config[:description]
           end
