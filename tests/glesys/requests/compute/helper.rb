@@ -28,7 +28,6 @@ class Glesys
           'server' => {
             'managedhosting'  => String,
             'cost'            => {
-              'amount'      =>  Float,
               'timeperiod'  => String,
               'currency'    => String
             },
@@ -115,7 +114,7 @@ class Glesys
               'unit'  => Fog::Nullable::String
             },
             'cpu'       => {
-              'usage' => Fog::Nullable::Integer,
+              'usage' => Fog::Nullable::Float,
               'max'   => Fog::Nullable::Integer,
               'unit'  => Fog::Nullable::String
             },

@@ -58,9 +58,9 @@ module Fog
 
           options = {
             :datacenter     => datacenter   || "Falkenberg",
-            :platform       => platform     || "Xen",
+            :platform       => platform     || "OpenVz",
             :hostname       => hostname,
-            :templatename   => templatename || "Debian-6 x64",
+            :templatename   => templatename || "Debian 7.0 64-bit",
             :disksize       => disksize     || "10",
             :memorysize     => memorysize   || "512",
             :cpucores       => cpucores     || "1",
