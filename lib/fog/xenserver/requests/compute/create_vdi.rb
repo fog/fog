@@ -25,7 +25,7 @@ module Fog
             Fog::Logger.deprecation(
                 'The attribute #__sr is deprecated. Use #SR instead.'
             )
-            config[:SR] = config[:__sr].reference
+            config[:SR] = config[:__sr]
           end
 
           unless config[:name].nil?
