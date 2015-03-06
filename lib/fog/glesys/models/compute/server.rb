@@ -53,28 +53,39 @@ module Fog
         end
 
         def save
-          raise "Operation not supported" if self.identity
-          requires :hostname, :rootpassword
+          if self.identity
+            options = {
+              :serverid => self.identity,
+              :disksize => disksize,
+              :memorysize => memorysize,
+              :cpucores => cpucores,
+              :hostname => hostname,
+              :bandwidth => bandwidth
+            }
+            data = service.edit(options)
+          else
+            requires :hostname, :rootpassword
 
-          options = {
-            :datacenter     => datacenter   || "Falkenberg",
-            :platform       => platform     || "OpenVz",
-            :hostname       => hostname,
-            :templatename   => templatename || "Debian 7.0 64-bit",
-            :disksize       => disksize     || "10",
-            :memorysize     => memorysize   || "512",
-            :cpucores       => cpucores     || "1",
-            :rootpassword   => rootpassword,
-            :transfer       => transfer     || "500",
-            :bandwidth      => bandwidth    || "10",
-          }
+            options = {
+              :datacenter     => datacenter   || "Falkenberg",
+              :platform       => platform     || "OpenVz",
+              :hostname       => hostname,
+              :templatename   => templatename || "Debian 7.0 64-bit",
+              :disksize       => disksize     || "10",
+              :memorysize     => memorysize   || "512",
+              :cpucores       => cpucores     || "1",
+              :rootpassword   => rootpassword,
+              :transfer       => transfer     || "500",
+              :bandwidth      => bandwidth    || "10",
+            }
 
-          # optional options when creating a server:
-          [:ip, :ipv6, :description].each do |k|
-            options[k] = attributes[k] if attributes[k]
+            # optional options when creating a server:
+            [:ip, :ipv6, :description].each do |k|
+              options[k] = attributes[k] if attributes[k]
+            end
+
+            data = service.create(options)
           end
-
-          data = service.create(options)
           merge_attributes(data.body['response']['server'])
           data.status == 200 ? true : false
         end
