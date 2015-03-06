@@ -27,6 +27,8 @@ module Fog
         attribute :raw
         attribute :quota
         attribute :ips
+        attribute :ha
+        attribute :ha_priority
 
         def ready?
           !(status =~ /down/i)
