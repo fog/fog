@@ -94,8 +94,23 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
               :transfer     => "500",
               :bandwidth    => "10"
             )
-
       @serverid = vm.body['response']['server']['serverid']
+      vm.body['response']
+    end
+
+    unless Fog.mocking?
+      Fog::Compute[:glesys].servers.get(@serverid).wait_for { ready? }
+    end
+
+    tests("#edit #{@serverid}").formats(Glesys::Compute::Formats::Servers::EDIT) do
+      pending if Fog.mocking?
+      vm = Fog::Compute[:glesys].edit(
+        :serverid => @serverid,
+        :disksize => "10",
+        :memorysize => "512",
+        :cpucores => "1",
+        :bandwidth => "10"
+      )
       vm.body['response']
     end
 

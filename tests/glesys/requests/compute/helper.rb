@@ -85,6 +85,18 @@ class Glesys
           }
         )
 
+        EDIT = DETAILS.merge(
+          'debug' => {
+            'input' => {
+              'serverid'      => Fog::Nullable::String,
+              'disksize'      => String,
+              'memorysize'    => String,
+              'cpucores'      => String,
+              'bandwidth'     => String
+            }
+          }
+        )
+
         STATUS = {
           'debug' => {
             'input' => {

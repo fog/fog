@@ -19,6 +19,7 @@ module Fog
 
       # Server
       request :create
+      request :edit
       request :destroy
       request :list_servers
       request :server_details
