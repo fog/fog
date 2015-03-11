@@ -16,6 +16,8 @@ module Fog
       model_path 'fog/openstack/models/planning'
       model       :role
       collection  :roles
+      model       :plan
+      collection  :plans
 
       ## REQUESTS
       #
@@ -23,6 +25,10 @@ module Fog
 
       # Role requests
       request :list_roles
+
+      # Plan requests
+      request :list_plans
+      request :get_plan
 
       class Mock
         def self.data
