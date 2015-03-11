@@ -25,6 +25,18 @@ Shindo.tests('Fog::Openstack[:planning] | Planning plan requests', ['openstack']
       Fog::Openstack[:planning].get_plan(@instance['uuid']).body
     end
 
+    tests('#delete_plan').succeeds do
+      Fog::Openstack[:planning].delete_plan(@instance['uuid'])
+    end
+
+    tests('#create_plan').data_matches_schema(@plan_format) do
+      plan_attributes = {
+        :name        => 'test-plan-name',
+        :description => 'test-plan-desc',
+      }
+      @instance = Fog::Openstack[:planning].create_plan(plan_attributes).body
+    end
+
     tests('#get_plan_templates').data_matches_schema(@plan_templates_format) do
       Fog::Openstack[:planning].get_plan_templates(@instance['uuid']).body
     end
