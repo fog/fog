@@ -20,6 +20,8 @@ class OpenStack < Fog::Bin
         Fog::Orchestration::OpenStack
       when :baremetal
         Fog::Baremetal::OpenStack
+      when :planning
+        Fog::Openstack::Planning
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
