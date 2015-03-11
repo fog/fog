@@ -14,10 +14,15 @@ module Fog
       ## MODELS
       #
       model_path 'fog/openstack/models/planning'
+      model       :role
+      collection  :roles
 
       ## REQUESTS
       #
       request_path 'fog/openstack/requests/planning'
+
+      # Role requests
+      request :list_roles
 
       class Mock
         def self.data
