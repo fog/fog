@@ -28,6 +28,7 @@ module Fog
 
       # Plan requests
       request :list_plans
+      request :get_plan_templates
       request :get_plan
 
       class Mock
