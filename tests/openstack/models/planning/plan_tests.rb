@@ -23,6 +23,11 @@ Shindo.tests("Fog::Openstack[:planning] | plan", ['openstack']) do
       @instance.provider_resource_templates
     end
 
+    tests('#patch').succeeds do
+      parameter =  @instance.parameters.first
+      @instance.patch(:parameters => [{"name" => parameter['name'], "value" => 'new_value'}])
+    end
+
     tests('#remove_role').succeeds do
       @instance.remove_role(@role['uuid'])
     end

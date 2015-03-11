@@ -42,6 +42,17 @@ Shindo.tests('Fog::Openstack[:planning] | Planning plan requests', ['openstack']
       Fog::Openstack[:planning].add_role_to_plan(@instance['uuid'], @role_instance['uuid']).body
     end
 
+    tests('#patch_plan').data_matches_schema(@plan_format) do
+      parameters = Fog::Openstack[:planning].get_plan(@instance['uuid']).body['parameters'][0..1]
+      plan_parameters = parameters.map do |parameter|
+        {
+          "name" => parameter['name'],
+          "value" => "test-#{parameter['name']}-value",
+        }
+      end
+      Fog::Openstack[:planning].patch_plan(@instance['uuid'], plan_parameters).body
+    end
+
     tests('#get_plan_templates').data_matches_schema(@plan_templates_format) do
       Fog::Openstack[:planning].get_plan_templates(@instance['uuid']).body
     end

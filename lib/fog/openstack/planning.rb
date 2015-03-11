@@ -30,6 +30,7 @@ module Fog
       request :list_plans
       request :get_plan_templates
       request :get_plan
+      request :patch_plan
       request :create_plan
       request :delete_plan
       request :add_role_to_plan

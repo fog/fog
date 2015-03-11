@@ -41,6 +41,10 @@ module Fog
           end
         end
 
+        def patch(parameters)
+          service.patch_plan(uuid, parameters[:parameters]).body
+        end
+
         def add_role(role_uuid)
           service.add_role_to_plan(uuid, role_uuid)
         end
