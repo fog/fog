@@ -40,6 +40,14 @@ module Fog
             ![MASTER_TEMPLATE_NAME, ENVIRONMENT_NAME].include?(key)
           end
         end
+
+        def add_role(role_uuid)
+          service.add_role_to_plan(uuid, role_uuid)
+        end
+
+        def remove_role(role_uuid)
+          service.remove_role_from_plan(uuid, role_uuid)
+        end
       end
     end
   end

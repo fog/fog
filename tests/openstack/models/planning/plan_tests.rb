@@ -2,6 +2,11 @@ Shindo.tests("Fog::Openstack[:planning] | plan", ['openstack']) do
   @instance = Fog::Openstack[:planning].plans.first
 
   tests('success') do
+    tests('#add_role').succeeds do
+      @role = Fog::Openstack[:planning].list_roles.body.first
+      @instance.add_role(@role['uuid'])
+    end
+
     tests('#templates').succeeds do
       @instance.templates
     end
@@ -16,6 +21,10 @@ Shindo.tests("Fog::Openstack[:planning] | plan", ['openstack']) do
 
     tests('#provider_resource_templates').succeeds do
       @instance.provider_resource_templates
+    end
+
+    tests('#remove_role').succeeds do
+      @instance.remove_role(@role['uuid'])
     end
   end
 end

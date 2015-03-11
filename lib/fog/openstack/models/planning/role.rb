@@ -15,6 +15,14 @@ module Fog
           prepare_service_value(attributes)
           super
         end
+
+        def add_to_plan(plan_uuid)
+          service.add_role_to_plan(plan_uuid, uuid)
+        end
+
+        def remove_from_plan(plan_uuid)
+          service.remove_role_from_plan(plan_uuid, uuid)
+        end
       end
     end
   end

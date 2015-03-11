@@ -37,8 +37,18 @@ Shindo.tests('Fog::Openstack[:planning] | Planning plan requests', ['openstack']
       @instance = Fog::Openstack[:planning].create_plan(plan_attributes).body
     end
 
+    tests('#add_role_to_plan').data_matches_schema(@plan_format) do
+      @role_instance = Fog::Openstack[:planning].list_roles.body.first
+      Fog::Openstack[:planning].add_role_to_plan(@instance['uuid'], @role_instance['uuid']).body
+    end
+
     tests('#get_plan_templates').data_matches_schema(@plan_templates_format) do
       Fog::Openstack[:planning].get_plan_templates(@instance['uuid']).body
     end
+
+    tests('#remove_role_from_plan').data_matches_schema(@plan_format) do
+      Fog::Openstack[:planning].remove_role_from_plan(@instance['uuid'], @role_instance['uuid']).body
+    end
+
   end
 end

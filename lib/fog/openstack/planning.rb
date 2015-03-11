@@ -32,6 +32,8 @@ module Fog
       request :get_plan
       request :create_plan
       request :delete_plan
+      request :add_role_to_plan
+      request :remove_role_from_plan
 
       class Mock
         def self.data
