@@ -30,6 +30,7 @@ module Fog
       request :template_pool
       request :vm_disk_snapshot
       request :vm_shutdown
+      request :image_pool
 
     class Mock
       include Collections
