@@ -28,6 +28,8 @@ module Fog
       request :vm_resume
       request :vm_stop
       request :template_pool
+      request :vm_disk_snapshot
+      request :vm_shutdown
 
     class Mock
       include Collections
