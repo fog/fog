@@ -1,4 +1,4 @@
-class Softlayer < Fog::Bin
+class PowerDNS < Fog::Bin
   class << self
     def class_for(key)
       case key
