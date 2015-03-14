@@ -1,5 +1,4 @@
-require "minitest/autorun"
-require "fog"
+require "spec_helper"
 
 # @note This is going to be part of fog-xml eventually
 describe Fog::XML::Connection do

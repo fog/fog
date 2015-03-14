@@ -1,5 +1,4 @@
-require "minitest/autorun"
-require "fog"
+require "spec_helper"
 
 describe Fog::Billing do
   Fog::Billing.providers.each do |provider|

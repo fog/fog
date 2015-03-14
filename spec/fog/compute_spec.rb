@@ -1,5 +1,4 @@
-require "minitest/autorun"
-require "fog"
+require "spec_helper"
 
 describe Fog::Compute do
   Fog::Compute.providers.each do |provider|
