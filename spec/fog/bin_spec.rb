@@ -136,7 +136,7 @@ describe Fog do
       assert_includes Fog.available_providers, "OpenStack" if OpenStack.available?
       assert_includes Fog.available_providers, "Openvz" if Openvz.available?
       assert_includes Fog.available_providers, "Ovirt" if Ovirt.available?
-      assert_includes Fog.available_providers, "ProfitBricks" if PowerDNS.available?
+      assert_includes Fog.available_providers, "PowerDNS" if PowerDNS.available?
       assert_includes Fog.available_providers, "ProfitBricks" if ProfitBricks.available?
       assert_includes Fog.available_providers, "Rackspace" if Rackspace.available?
       assert_includes Fog.available_providers, "Rage4" if Rage4.available?
