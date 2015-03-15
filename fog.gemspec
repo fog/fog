@@ -72,6 +72,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("fission")
   s.add_development_dependency("google-api-client", "~> 0.6", ">= 0.6.2")
   s.add_development_dependency("minitest")
+  s.add_development_dependency("minitest-stub-const")
   s.add_development_dependency("opennebula")
   s.add_development_dependency("pry")
   s.add_development_dependency("rake")
@@ -79,6 +80,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rbvmomi")
   s.add_development_dependency("rubocop") if RUBY_VERSION > "1.9"
   s.add_development_dependency("shindo", "~> 0.3.4")
+  s.add_development_dependency("simplecov")
   s.add_development_dependency("thor")
   s.add_development_dependency("yard")
 

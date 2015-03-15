@@ -1,5 +1,4 @@
-require "minitest/autorun"
-require "fog"
+require "spec_helper"
 
 describe Fog::DNS do
   Fog::DNS.providers.each do |provider|
