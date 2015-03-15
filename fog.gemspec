@@ -80,6 +80,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rbvmomi")
   s.add_development_dependency("rubocop") if RUBY_VERSION > "1.9"
   s.add_development_dependency("shindo", "~> 0.3.4")
+  s.add_development_dependency("simplecov")
   s.add_development_dependency("thor")
   s.add_development_dependency("yard")
 
