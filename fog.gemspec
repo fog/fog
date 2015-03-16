@@ -67,8 +67,6 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-storm_on_demand")
   s.add_dependency("fog-terremark")
   s.add_dependency("fog-vmfusion")
-  s.add_dependency("fog-voxel")
-  s.add_dependency("fog-powerdns")
 
   s.add_development_dependency("docker-api", ">= 1.13.6")
   s.add_development_dependency("fission")
