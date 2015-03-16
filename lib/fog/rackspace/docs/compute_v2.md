@@ -715,5 +715,5 @@ Example code using Next Gen Cloud Servers can be found [here](https://github.com
 
 Your feedback is appreciated! If you have specific issues with the **fog** SDK, you should file an [issue via Github](https://github.com/fog/fog/issues).
 
-For general feedback and support requests, send an email to: <sdk-support@rackspace.com>.
+For general feedback and support requests, please visit: https://developer.rackspace.com/support.
 
