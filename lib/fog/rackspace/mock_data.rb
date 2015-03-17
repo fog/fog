@@ -103,13 +103,13 @@ module Fog
             volume_type1 = {
               "id" => volume_type1_id,
               "name" => "SATA",
-              "extra_specs" => {},
+              "extra_specs" => {}
             }
 
             volume_type2 = {
               "id" => volume_type2_id,
               "name" => "SSD",
-              "extra_specs" => {},
+              "extra_specs" => {}
             }
 
             #AutoScale
