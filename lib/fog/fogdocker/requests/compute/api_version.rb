@@ -3,7 +3,7 @@ module Fog
     class Fogdocker
       class Real
         def api_version
-          Docker.version
+          Docker.version(@connection)
         end
       end
       class Mock
