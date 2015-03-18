@@ -1,4 +1,5 @@
 require 'fog/cloudsigma/nested_model'
+require 'fog/cloudsigma/models/snapshot'
 
 module Fog
   module Compute
@@ -19,6 +20,7 @@ module Fog
         attribute :affinities, :type => :array
         attribute :size, :type => :integer
         attribute :resource_uri, :type => :string
+        model_attribute_array :snapshots, Snapshot
 
         def save
           if persisted?
@@ -63,6 +65,19 @@ module Fog
 
           self.class.new(response.body['objects'].first)
         end
+        
+        def create_snapshot(snapshot_params={})
+          requires :identity
+          snapshot_params[:drive] = identity
+          response = service.create_snapshot(snapshot_params)
+
+          Snapshot.new(response.body['objects'].first)
+        end
+        
+        def available?
+          status == 'unmounted'
+        end
+        
       end
     end
   end

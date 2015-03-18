@@ -18,6 +18,15 @@ module Fog
       request :update_volume
       request :delete_volume
       request :clone_volume
+      
+      model :snapshot
+      collection :snapshots
+      request :create_snapshot
+      request :get_snapshot
+      request :list_snapshots
+      request :update_snapshot
+      request :delete_snapshot
+      request :clone_snapshot
 
       model :lib_volume
       collection :lib_volumes
