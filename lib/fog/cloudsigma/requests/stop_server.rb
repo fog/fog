@@ -2,10 +2,11 @@ module Fog
   module Compute
     class CloudSigma
       class Real
-        def stop_server(server_id)
+        def stop_server(server_id, do_graceful_acpi = false)
+          action = do_graceful_acpi ? :shutdown : :stop
           request(:path => "servers/#{server_id}/action/",
                   :method => 'POST',
-                  :query => {:do => :stop},
+                  :query => {:do => action},
                   :expects => [200, 202])
         end
       end
