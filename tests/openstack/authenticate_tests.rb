@@ -89,6 +89,16 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
       end
     end
 
+    tests("validate token") do
+        Fog::Identity[:openstack].validate_token(token, tenant_token)
+        Fog::Identity[:openstack].validate_token(token)
+    end
+
+    tests("check token") do
+      Fog::Identity[:openstack].check_token(token, tenant_token)
+      Fog::Identity[:openstack].check_token(token)
+    end
+
     tests("v2 missing service") do
       Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
                  { :status => 200, :body => Fog::JSON.encode(body) })
