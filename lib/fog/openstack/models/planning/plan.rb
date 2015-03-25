@@ -52,6 +52,29 @@ module Fog
         def remove_role(role_uuid)
           service.remove_role_from_plan(uuid, role_uuid)
         end
+
+        def destroy
+          requires :uuid
+          service.delete_plan(uuid)
+          true
+        end
+
+        def save
+          requires :name
+          identity ? update : create
+        end
+
+        def create
+          requires :name
+          merge_attributes(service.create_plan(self.attributes).body)
+          self
+        end
+
+        def update(parameters=nil)
+          requires :uuid
+          merge_attributes(service.patch_plan(uuid, parameters).body)
+          self
+        end
       end
     end
   end
