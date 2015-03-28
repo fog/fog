@@ -23,8 +23,10 @@ module Fog
         # * object<~String> - Name of object to get expiring url for
         # * expires<~Time> - An expiry time for this url
         # * method<~String> - The method to use for accessing the object (GET, PUT, HEAD)
-        # * scheme<~String> - The scheme to use (http, https)
         # * options<~Hash> - An optional options hash
+        #   * 'scheme'<~String> - The scheme to use (http, https)
+        #   * 'host'<~String> - The host to use
+        #   * 'port'<~Integer> - The port to use
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -37,6 +39,8 @@ module Fog
           raise ArgumentError, "Storage must be instantiated with the :openstack_temp_url_key option" if @openstack_temp_url_key.nil?
 
           scheme = options[:scheme] || @scheme
+          host = options[:host] || @host
+          port = options[:port] || @port
 
           # POST not allowed
           allowed_methods = %w{GET PUT HEAD}
@@ -54,8 +58,8 @@ module Fog
 
           temp_url_options = {
             :scheme => scheme,
-            :host => @host,
-            :port => @port,
+            :host => host,
+            :port => port,
             :path => object_path_escaped,
             :query => URI.encode_www_form(
               :temp_url_sig => sig,

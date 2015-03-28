@@ -197,8 +197,10 @@ module Fog
         # * object<~String> - Name of object to get expiring url for
         # * expires<~Time> - An expiry time for this url
         # * method<~String> - The method to use for accessing the object (GET, PUT, HEAD)
-        # * scheme<~String> - The scheme to use (http, https)
         # * options<~Hash> - An optional options hash
+        #   * 'scheme'<~String> - The scheme to use (http, https)
+        #   * 'host'<~String> - The host to use
+        #   * 'port'<~Integer> - The port to use
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -214,6 +216,8 @@ module Fog
 
           expires        = expires.to_i
           scheme = options[:scheme] || @scheme
+          host = options[:host] || @host
+          port = options[:port] || @port
 
           # do not encode before signature generation, encode after
           sig_path = "#{@path}/#{container}/#{object}"
@@ -226,7 +230,7 @@ module Fog
           # HP uses a different strategy to create the signature that is passed to swift than OpenStack.
           # As the HP provider is broadly used by OpenStack users the OpenStack strategy is applied when
           # the @os_account_meta_temp_url_key is given.
-          if @os_account_meta_temp_url_key then
+          if @os_account_meta_temp_url_key
             hmac      = OpenSSL::HMAC.new(@os_account_meta_temp_url_key, OpenSSL::Digest::SHA1.new)
             signature= hmac.update(string_to_sign).hexdigest
           else
@@ -247,7 +251,17 @@ module Fog
           end
 
           # generate the temp url using the signature and expiry
-          "#{scheme}://#{@host}#{encoded_path}?temp_url_sig=#{signature}&temp_url_expires=#{expires}"
+          temp_url_options = {
+              :scheme => scheme,
+              :host => host,
+              :port => port,
+              :path => encoded_path,
+              :query => URI.encode_www_form(
+                  :temp_url_sig => signature,
+                  :temp_url_expires => expires
+              )
+          }
+          URI::Generic.build(temp_url_options).to_s
         end
       end
 
