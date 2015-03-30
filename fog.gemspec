@@ -44,30 +44,8 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.md]
 
-  s.add_dependency("fog-core", "~> 1.27", ">= 1.27.4")
-  s.add_dependency("fog-json")
-  s.add_dependency("fog-xml", "~> 0.1.1")
-
   s.add_dependency("ipaddress", "~> 0.5")
   s.add_dependency("nokogiri", "~> 1.5", ">= 1.5.11")
-
-  # Modular providers (please keep sorted)
-  s.add_dependency("fog-atmos")
-  s.add_dependency("fog-aws", "~> 0.0")
-  s.add_dependency("fog-brightbox", "~> 0.4")
-  s.add_dependency("fog-ecloud")
-  s.add_dependency("fog-local")
-  s.add_dependency("fog-powerdns", ">= 0.1.1")
-  s.add_dependency("fog-profitbricks")
-  s.add_dependency("fog-radosgw", ">= 0.0.2")
-  s.add_dependency("fog-riakcs")
-  s.add_dependency("fog-sakuracloud", ">= 0.0.4")
-  s.add_dependency("fog-serverlove")
-  s.add_dependency("fog-softlayer")
-  s.add_dependency("fog-storm_on_demand")
-  s.add_dependency("fog-terremark")
-  s.add_dependency("fog-vmfusion")
-  s.add_dependency("fog-voxel")
 
   s.add_development_dependency("docker-api", ">= 1.13.6")
   s.add_development_dependency("fission")
