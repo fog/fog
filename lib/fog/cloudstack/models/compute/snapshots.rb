@@ -14,8 +14,12 @@ module Fog
         end
 
         def get(snapshot_id)
-          snapshot = service.list_snapshots('id' => snapshot_id)["listsnapshotsresponse"]["snapshot"].first
-          new(snapshot) if snapshot
+          snapshots = service.list_snapshots('id' => snapshot_id)["listsnapshotsresponse"]["snapshot"]
+          unless snapshots.nil? || snapshots.empty?
+            new(snapshots.first)
+          end
+        rescue Fog::Compute::Cloudstack::BadRequest
+          nil
         end
       end
     end

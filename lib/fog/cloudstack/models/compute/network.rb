@@ -4,6 +4,7 @@ module Fog
       class Network < Fog::Model
         identity  :id,                      :aliases => 'id'
         attribute :name,                    :aliases => 'name'
+        attribute :services,                :type => :array, :aliases => 'service'
         attribute :display_text,            :aliases => 'displaytext'
 
         attribute :broadcast_domain_type,   :aliases => 'broadcastdomaintype'

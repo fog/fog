@@ -26,6 +26,7 @@ module Fog
         attribute :server_name,                :aliases => 'vmname'
         attribute :server_display_name,        :aliases => 'vmdisplayname'
         attribute :job_id,                     :aliases => 'jobid'   # only on create
+        attribute :device_id,                  :aliases => 'deviceid'
 
         attr_accessor :snapshot_id, :project_id
 

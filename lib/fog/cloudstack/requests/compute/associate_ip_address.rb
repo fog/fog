@@ -19,6 +19,16 @@ module Fog
           request(options)
         end
       end
+      class Mock
+        def associate_ip_address(options={})
+          ip_info = self.data[:ip_info]
+          { 'associateipaddressresponse' =>
+             { 'count' => ip_info.count,
+               'ip_info' => ip_info
+              }
+          }
+        end
+      end
 
       class Mock
         def associate_ip_address(*args)

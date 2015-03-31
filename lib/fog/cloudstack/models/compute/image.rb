@@ -66,6 +66,28 @@ module Fog
           service.delete_template('id' => self.id)
           true
         end
+        def register
+          requires :display_text, :format, :hypervisor, :name, :os_type_id, :url, :zone_id
+          options = {
+                  'displaytext' => display_text,
+                  'format' => format,
+                  'hypervisor' => hypervisor,
+                  'name' => name,
+                  'ostypeid' => os_type_id,
+                  'url' => url,
+                  'zoneid' => zone_id,
+                  'isfeatured' => is_featured
+          }
+          data = service.register_template(options)
+          merge_attributes(data['registertemplateresponse']['template'][0])
+        end
+        
+        def copy(to_zone)
+          requires :id
+          requires :zone_id
+          data = service.copy_template('id' => id, 'sourcezoneid' => zone_id, 'destzoneid' => to_zone.id)
+          service.jobs.new(data["copytemplateresponse"])
+        end
       end # Server
     end # Cloudstack
   end # Compute
