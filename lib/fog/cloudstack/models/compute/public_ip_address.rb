@@ -16,22 +16,25 @@ module Fog
         attribute :is_system,             :aliases => 'issytem', :type => :boolean
         attribute :is_portable,           :aliases => 'isportable', :type => :boolean
         attribute :allocated,             :aliases => 'allocated', :type => :time
-        attribute :zone_id,               :aliases => 'zone_id'
-        attribute :domain_id,             :aliases => 'domain_id'
+        attribute :zone_id,               :aliases => 'zoneid'
+        attribute :region_id,             :aliases => 'regionid'
+        attribute :vpc_id,                :aliases => 'vpcid'
+        attribute :account,               :aliases => 'account'
+        attribute :domain_id,             :aliases => 'domainid'
         attribute :tags,                  :type => :array
         attribute :type
+        attribute :job_id,                                  :aliases => 'jobid'   # only on create
 
-       def save
-          requires :display_text, :name
+        def save
 
           options = {
-            'displaytext' => display_text,
-            'name'        => name,
-            'customized'  => is_customized,
-            'disksize'    => disk_size,
-            'domain_id'   => domain_id,
-            'storagetype' => storage_type,
-            'tags'        => tags
+            'account'     => account,
+            'domainid'    => domain_id,
+            'isportable'  => is_portable,
+            'networkid'   => network_id,
+            'regionid'    => region_id,
+            'vpcid'       => vpc_id,
+            'zoneid'      => zone_id,
           }
 
           response = service.associate_ip_address(options)
@@ -39,12 +42,10 @@ module Fog
         end
 
         def destroy
-          requires :id
+          # requires :id
 
-          response = service.disassociate_ip_address('id' => id )
-          success_status = response['disassociateipaddressresponse']['success']
-
-          success_status == 'true'
+          response = service.disassociate_ip_address('id' => self.id )
+          job = service.jobs.new(response['disassociateipaddressresponse'])
         end
 
       end
