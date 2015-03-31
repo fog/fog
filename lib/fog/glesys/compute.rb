@@ -14,6 +14,8 @@ module Fog
       model       :template
       collection  :ips
       model       :ip
+      collection  :ssh_keys
+      model       :ssh_key
 
       request_path 'fog/glesys/requests/compute'
 
@@ -39,6 +41,11 @@ module Fog
       request :ip_release
       request :ip_add
       request :ip_remove
+
+      # SSH keys
+      request :ssh_key_list
+      request :ssh_key_add
+      request :ssh_key_remove
 
       class Mock
         def initialize(options={})
