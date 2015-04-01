@@ -70,10 +70,7 @@ module Fog
           requires :name
           requires :raw_disk
 
-          options = {
-            'rawDisk'         => raw_disk,
-            'description'     => description,
-          }
+          options = { 'description' => description }
 
           data = service.insert_image(name, options)
           operation = Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'])
@@ -83,6 +80,15 @@ module Fog
 
         def resource_url
           "#{self.project}/global/images/#{name}"
+        end
+
+        def delete
+          requires :name
+
+          response = service.delete_image(name)
+
+          operation = service.operations.new(response.body)
+          operation
         end
       end
     end

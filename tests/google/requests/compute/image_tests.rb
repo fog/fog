@@ -48,7 +48,7 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
       'kind' => String,
       'id' => String,
       'selfLink' => String,
-      'items' => [@get_image_format]
+      'items' => [ @get_image_format ]
   }
 
   tests('success') do

@@ -28,17 +28,9 @@ module Fog
       end
 
       class Real
-        def delete_disk(disk_name, zone_name)
-          if zone_name.start_with? 'http'
-            zone_name = zone_name.split('/')[-1]
-          end
-
+        def delete_disk(disk_name, zone_name_or_url)
           api_method = @compute.disks.delete
-          parameters = {
-            'project' => @project,
-            'disk' => disk_name,
-            'zone' => zone_name
-          }
+          parameters = disk_request_parameters(disk_name, zone_name_or_url)
 
           request(api_method, parameters)
         end

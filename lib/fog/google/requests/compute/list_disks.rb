@@ -14,12 +14,9 @@ module Fog
       end
 
       class Real
-        def list_disks(zone_name)
+        def list_disks(zone_name_or_url)
           api_method = @compute.disks.list
-          parameters = {
-            'project' => @project,
-            'zone' => zone_name
-          }
+          parameters = zone_request_parameters(zone_name_or_url)
 
           request(api_method, parameters)
         end

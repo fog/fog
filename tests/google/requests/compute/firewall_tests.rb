@@ -72,7 +72,7 @@ Shindo.tests('Fog::Compute[:google] | firewall requests', ['google']) do
 
     # TODO: Get better matching for firewall responses.
     tests("#get_firewall").succeeds do
-      @google.get_firewall(firewall_name)
+      @google.get_firewall(firewall_name).body
     end
 
     tests("#list_firewalls").succeeds do
@@ -82,7 +82,5 @@ Shindo.tests('Fog::Compute[:google] | firewall requests', ['google']) do
     tests("#delete_firewall").formats(@delete_firewall_format) do
       @google.delete_firewall(firewall_name).body
     end
-
   end
-
 end

@@ -35,11 +35,11 @@ module Fog
       class Real
         # https://developers.google.com/compute/docs/reference/latest/globalOperations
 
-        def get_global_operation(operation)
+        def get_global_operation(operation_name)
           api_method = @compute.global_operations.get
           parameters = {
             'project' => @project,
-            'operation' => operation
+            'operation' => operation_name
           }
 
           request(api_method, parameters)

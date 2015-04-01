@@ -72,6 +72,7 @@ module Fog
           end
           operation
         end
+        alias_method :delete, :destroy
 
         # not used since v1
         def image
@@ -165,6 +166,7 @@ module Fog
         end
 
         def ready?
+          requires :state
           self.state == RUNNING
         end
 
@@ -195,6 +197,7 @@ module Fog
         def reload
           data = service.get_server(self.name, zone_name).body
           self.merge_attributes(data)
+          self
         end
 
         def save
@@ -238,6 +241,13 @@ module Fog
           operation.wait_for { !pending? }
           reload
         end
+
+        def reset 
+          requires :name, :zone_name
+          response = service.reset_server(name, zone_name)
+          service.operations.new(response.body)
+        end
+        alias_method :reboot, :reset
       end
     end
   end

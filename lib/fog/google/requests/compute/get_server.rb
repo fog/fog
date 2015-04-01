@@ -53,19 +53,9 @@ module Fog
       end
 
       class Real
-        def get_server(server_name, zone_name)
-          if zone_name.is_a? Excon::Response
-            zone = zone_name.body["name"]
-          else
-            zone = zone_name
-          end
-
+        def get_server(instance_name, zone_name_or_url)
           api_method = @compute.instances.get
-          parameters = {
-            'project' => @project,
-            'zone' => zone,
-            'instance' => server_name
-          }
+          parameters = instance_request_parameters(instance_name, zone_name_or_url)
 
           request(api_method, parameters)
         end

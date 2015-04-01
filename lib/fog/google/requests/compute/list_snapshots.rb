@@ -8,11 +8,10 @@ module Fog
       end
 
       class Real
-        def list_snapshots(project=nil)
+        def list_snapshots
           api_method = @compute.snapshots.list
-          project=@project if project.nil?
           parameters = {
-            'project' => project
+            'project' => @project
           }
 
           request(api_method, parameters)

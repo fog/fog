@@ -15,20 +15,18 @@ module Fog
         # * zone<~String> - Zone short name (without the full path)
         # * fingerprint<~String> - The fingerprint of the last metadata. Can be retrieved by reloading the compute object, and checking the metadata fingerprint field.
         #     instance.reload
-        #     fingerprint = instance.metadata['fingerprint']
+        #     fingerprint = instance.metadata["fingerprint"]
         # * metadata<~Hash> - A new metadata
         #
         # ==== Returns
         # * response<~Excon::Response>
-        def set_metadata(instance, zone, fingerprint, metadata={})
+        def set_metadata(instance, zone_name_or_url, fingerprint, metadata = {})
           api_method = @compute.instances.set_metadata
-          parameters = {
-            'project' => @project,
-            'instance' => instance,
-            'zone' => zone
-          }
+          zone_name = get_zone_name(zone_name_or_url)
+          parameters = {project: @project, zone: zone_name, instance: instance}
+
           body_object = {
-            'fingerprint' => fingerprint,
+            "fingerprint" => fingerprint,
             "items" => metadata.to_a.map {|pair| { :key => pair[0], :value => pair[1] } }
           }
           request(api_method, parameters, body_object=body_object)

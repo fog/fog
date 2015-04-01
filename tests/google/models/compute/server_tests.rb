@@ -6,10 +6,7 @@ Shindo.tests("Fog::Compute[:google] | server model", ['google']) do
   @disk = create_test_disk(Fog::Compute[:google], @zone)
   random_string = SecureRandom.hex
 
-  model_tests(Fog::Compute[:google].servers, {:name => "fog-test-server-#{random_string}",
-                                              :zone_name => @zone,
-                                              :machine_type => 'n1-standard-1',
-                                              :disks => [@disk]})
+  model_tests(Fog::Compute[:google].servers, {:name => "fog-test-server-#{random_string}", :zone_name => @zone, :machine_type => 'n1-standard-1', :disks => [@disk]})
 
   tests('servers') do
     @instance = nil
