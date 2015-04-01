@@ -250,6 +250,7 @@ module Fog
 
         def initialize(options={})
           @openstack_username = options[:openstack_username]
+          @openstack_domain = options[:openstack_domain]
           @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
 
           @current_tenant = options[:openstack_tenant]
@@ -289,6 +290,7 @@ module Fog
         attr_reader :auth_token_expiration
         attr_reader :current_user
         attr_reader :current_tenant
+        attr_reader :openstack_domain
 
         def initialize(options={})
           @openstack_auth_token = options[:openstack_auth_token]
@@ -299,6 +301,7 @@ module Fog
             missing_credentials = Array.new
             @openstack_api_key  = options[:openstack_api_key]
             @openstack_username = options[:openstack_username]
+            @openstack_domain   = options[:openstack_domain]
 
             missing_credentials << :openstack_api_key  unless @openstack_api_key
             missing_credentials << :openstack_username unless @openstack_username
@@ -306,6 +309,7 @@ module Fog
           end
 
           @openstack_tenant     = options[:openstack_tenant]
+          @openstack_domain     = options[:openstack_domain] || 'Default'
           @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
@@ -328,6 +332,7 @@ module Fog
 
         def credentials
           { :provider                 => 'openstack',
+            :openstack_domain         => @openstack_domain,
             :openstack_auth_url       => @openstack_auth_uri.to_s,
             :openstack_auth_token     => @auth_token,
             :openstack_management_url => @openstack_management_url,
@@ -383,6 +388,7 @@ module Fog
             options = {
               :openstack_api_key    => @openstack_api_key,
               :openstack_username   => @openstack_username,
+              :openstack_domain     => @openstack_domain,
               :openstack_auth_token => @openstack_must_reauthenticate ? nil : @auth_token,
               :openstack_auth_uri   => @openstack_auth_uri,
               :openstack_region     => @openstack_region,
@@ -396,6 +402,8 @@ module Fog
             if @openstack_auth_uri.path =~ /\/v2.0/
 
               credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
+            elsif @openstack_auth_uri.path =~ /\/v3/
+              credentials = Fog::OpenStack.authenticate_v3(options, @connection_options)
             else
               credentials = Fog::OpenStack.authenticate_v1(options, @connection_options)
             end
@@ -415,7 +423,7 @@ module Fog
           @path, @tenant_id = uri.path.scan(/(\/.*)\/(.*)/).flatten
 
           @path.sub!(/\/$/, '')
-          unless @path.match(/1\.1|v2/)
+          unless @path.match(/1\.1|v2/|v3/)
             raise Fog::OpenStack::Errors::ServiceUnavailable.new(
                     "OpenStack binding only supports version 2 (a.k.a. 1.1)")
           end
