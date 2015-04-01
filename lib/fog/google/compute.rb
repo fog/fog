@@ -147,6 +147,8 @@ module Fog
       request :delete_server_access_config
       request :update_url_map
       request :validate_url_map
+      request :start_server
+      request :stop_server
 
       model_path 'fog/google/models/compute'
       model :server
