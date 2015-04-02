@@ -109,6 +109,7 @@ Watchers      | #{watchers}
            'Ash Wilson',
            'Benson Kalahar',
            'Brian Hartsock',
+           'Chris Luo',
            'Chris Roberts',
            'Christopher Oliver',
            'Colin Hebert',
@@ -171,7 +172,7 @@ Watchers      | #{watchers}
       end
 
       def last_release_sha
-        `cat changelog.md | head -2`.split(' ').last
+        `cat CHANGELOG.md | head -2`.split(' ').last
       end
 
       def downloads

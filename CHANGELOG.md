@@ -1,3 +1,114 @@
+## 1.29.0 04/02/2015
+*Hash* 90e96f36e6f70a12f0c6794a149231c337293887
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Downloads     | 9116129
+Forks         | 1417
+Open Issues   | 83
+Watchers      | 3433
+
+**MVP!** Chris Luo
+
+#### [GleSYS]
+*   Add ability to persist changes on existing server. thanks Christoffer Artmann
+*   add support for SSH key management. thanks Tobias Nygren
+
+#### [glesys]
+*   fix URL encoding of API parameter values. thanks Tobias Nygren
+
+#### [google]
+*   Add credentials tests. thanks Ferran Rodenas
+
+#### [google|compute]
+*   Adding start_server and stop_server. thanks Daniel Broudy
+
+#### [misc]
+*   Initial integration of powerdns. thanks Chris Luo
+*   Fix binspec def. thanks Chris Luo
+*   Debug modularization and integration. thanks Chris Luo
+*   Initial integration of powerdns. thanks Chris Luo
+*   Fix binspec def. thanks Chris Luo
+*   Debug modularization and integration. thanks Chris Luo
+*   gemspec powerdns update. thanks Chris Luo
+*   fix powerdns_spec.rb. thanks Chris Luo
+*   revert modular providers messup. thanks Chris Luo
+*   missing powerdns require in bin. thanks Chris Luo
+*   fix formatting in gemspec. thanks Chris Luo
+*   Remove server.cost.amount from Formats:Details as it breaks the tests when server has a cost that is a non decimail number. thanks Christoffer Artmann
+*   Use OpenVZ and Debian 7.0 64-bit as default options when creating a server as GleSYS has deprecated their Xen platform. thanks Christoffer Artmann
+*   Changed tests to use Vmware and Debian 7 instead of Xen and Debian 6. thanks Christoffer Artmann
+*   Update test to expect CPU Usage as a Nullable Float. thanks Christoffer Artmann
+*   zone.id instead of zone.domain. thanks Hippie Hacker
+*   Move contributing guidelines from fog.io to CONTRIBUTING.md; closes #3509. thanks Isaac Hollander McCreery
+*   CONTRIBUTING: discuss ongoing changes, link to Roadmap in Wiki and relevant issues. thanks Isaac Hollander McCreery
+*   allow self-signed certs. thanks Jared Everett
+*   Adds `ovirt_filtered_api` to list of recognized options for Ovirt service. thanks Jesse Hallett
+*   Treat __sr as a string representing an opaque reference to a storage repository. See https://github.com/fog/fog/pull/3469. thanks Jonas Kongslund
+*   Allow setting gateway option in CustomizationIPSettings. thanks Justin Pratt
+*   Remove superfluous if modifier. thanks Justin Pratt
+*   added requests files for linode image and linode disk api calls. thanks Marques Johansson
+*   use Fog::Mock.random_numbers where appropriate. thanks Marques Johansson
+*   fix mock for linode_disk_createfromimage. thanks Marques Johansson
+*   added tests for the new linode requests. thanks Marques Johansson
+*   use correct api_action in linode_disk_update. thanks Marques Johansson
+*   use correct identifier for linode_disk_createfromimage. thanks Marques Johansson
+*   revise linode expected results. thanks Marques Johansson
+*   add linode.disk.createfromimage(..label..) param. thanks Marques Johansson
+*   add missing ImageID, DiskID from linode.disk.imagize, linode.disk.resize responses. thanks Marques Johansson
+*   Use fog-core 1.27.4 and above. thanks Matt Bostock
+*   Rackspace Neutron Security Groups & Rules. thanks Matt Darby
+*   Better help address for Rackspace. thanks Matt Darby
+*   Added support to requests V3 tokens and provision compute using V3 keystone auth. thanks Miguel Z
+*   Added extra parameters for domain suffixes and gateway, added comments. thanks Oscar Elfving
+*   vm_clone used regular virtual switches no matter what kind of portgroup was named, changed it to look up and handle distributed virtual switches correctly. thanks Oscar Elfving
+*   Fixed Ruby 1.8 breaking comma. thanks Oscar Elfving
+*   Makes the docker api version call use assigned connection. thanks Partha Aji
+*   Test `Provider[]` errors when unknown. thanks Paul Thornthwaite
+*   Tests top level classes interface. thanks Paul Thornthwaite
+*   Do not skip tests when configuration is missing. thanks Paul Thornthwaite
+*   Remove test references to xenserver. thanks Paul Thornthwaite
+*   Apply style rules to fog.gemspec. thanks Paul Thornthwaite
+*   DRY up specs with `spec_helper`. thanks Paul Thornthwaite
+*   Add Simplecov for coverage. thanks Paul Thornthwaite
+*   Fix Xenserver VDI creation. thanks Paulo Henrique Lopes Ribeiro
+*   Remove Atmos Bin. thanks Paulo Henrique Lopes Ribeiro
+*   Add alias attribute to ovirt/compute/volume.rb. thanks Pavol Dilung
+*   Implement affinity groups. thanks Pavol Dilung
+*   Remove dangeling references to pry debugger. thanks Pavol Dilung
+*   Implement affinity group mockups. thanks Pavol Dilung
+*   Fine-tune affinity group mockups. thanks Pavol Dilung
+*   Implement wipe_after_delete attribute for Fog::Compute::Ovirt::Volume class. thanks Pavol Dilung
+*   Adds Planning service to OpenStack provider. thanks Petr Blaho
+*   Adds Role model and list_roles request. thanks Petr Blaho
+*   Adds Plan model, list_plans and get_plan requests. thanks Petr Blaho
+*   Adds template retrieving into Plan. thanks Petr Blaho
+*   Adds create_plan and delete_plan requests. thanks Petr Blaho
+*   Adds adding and removing Roles from Plan. thanks Petr Blaho
+*   Adds patch_plan request and patch method to Plan. thanks Petr Blaho
+*   Adds RESTlike methods to Plan of Planning service. thanks Petr Blaho
+*   Adds brief docs for OpenStack Planning service. thanks Petr Blaho
+*   Adds few examples for OpenStack Planning service. thanks Petr Blaho
+*   Add endpoint for hypervisor stats. thanks Sean Handley
+*   Fix path and include request in catalog. thanks Sean Handley
+*   fixes inconsistent spacing. thanks Tony Ta
+*   removes unnecessary commas. thanks Tony Ta
+*   more consistent spacing around blocks. thanks Tony Ta
+*   fix inconsistent hash spacing. thanks Tony Ta
+*   Extract local storage provider. thanks Ville Lautanala
+*   Revert "allow self-signed certs for Joyent". thanks Wesley Beary
+*   fix minor typo in get_object_https_url. thanks stephen charles baldwin
+
+#### [openstack|identity]
+*   check_token and validate_token - make tenant_id optional. thanks Darren Hague
+*   add tests for check_token and validate_token parameters. thanks Darren Hague
+
+#### [ovirt]
+*   Fix update_interface method. thanks Pavol Dilung
+*   Implement high availability flag an priority attributes. thanks Pavol Dilung
+
+
 ## 1.28.0 02/19/2015
 *Hash* d023ee520bcf52072f50f03e22efde344caef936
 
