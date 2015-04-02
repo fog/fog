@@ -25,6 +25,33 @@ New contributors are always welcome, when it doubt please ask questions. We stri
 * [Donate](https://www.gittip.com/geemus/)
 * Discuss other ideas for contribution with [geemus](mailto:geemus+fog@gmail.com).
 
+### Changes
+
+Before we go into more detail, please be aware that Fog is going through some growing pains right now.  A lot of things are moving right now, and things may not be documented as well as we would like.
+
+It might be wise to check out the [Roadmap](https://github.com/fog/fog/wiki/Roadmap) in the Wiki for more information.
+
+For right now, there are three major things in motion:
+
+#### Meta-gem movement
+
+Fog is moving from a monolithic gem structure to a meta-gem structure, where code for specific providers will be housed in `fog-provider` gems.  Extracting provider code is an ongoing process, and is also causing some performance issues.
+
+Relevant issues include:
+
+- General: [#1253](https://github.com/fog/fog/issues/1253), [#2602](https://github.com/fog/fog/issues/2602), [#2681](https://github.com/fog/fog/issues/2681), [#2877](https://github.com/fog/fog/issues/2877)
+- Performance: [#3430](https://github.com/fog/fog/issues/3430)
+
+#### Testing
+
+In the past, fog has used the [Shindo](https://github.com/geemus/shindo) test framework, but is moving toward using `minitest` instead.  Furthermore, the mocking structure fog has used to test in the past is undergoing some scrutiny and changes.
+
+Relevant issues include:
+
+- General: [#1266](https://github.com/fog/fog/issues/1266)
+- Shindo -> minitest: [#2630](https://github.com/fog/fog/issues/2630)
+- Mocking: [#1252](https://github.com/fog/fog/issues/1252), [#1266](https://github.com/fog/fog/issues/1266) starting about halfway down, [#1418](https://github.com/fog/fog/issues/1418), [#2629](https://github.com/fog/fog/issues/2629)
+
 ## Overview
 
 * Organize your patches by keeping all related changes together in a topic branch.
