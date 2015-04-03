@@ -256,10 +256,7 @@ module Fog
               :host => host,
               :port => port,
               :path => encoded_path,
-              :query => URI.encode_www_form(
-                  :temp_url_sig => signature,
-                  :temp_url_expires => expires
-              )
+              :query => "temp_url_sig=#{signature}&temp_url_expires=#{expires}"
           }
           URI::Generic.build(temp_url_options).to_s
         end
