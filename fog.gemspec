@@ -56,6 +56,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-aws", "~> 0.0")
   s.add_dependency("fog-brightbox", "~> 0.4")
   s.add_dependency("fog-ecloud")
+  s.add_dependency("fog-google", ">= 0.0.2")
   s.add_dependency("fog-local")
   s.add_dependency("fog-powerdns", ">= 0.1.1")
   s.add_dependency("fog-profitbricks")
@@ -71,7 +72,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency("docker-api", ">= 1.13.6")
   s.add_development_dependency("fission")
-  s.add_development_dependency("google-api-client", "~> 0.6", ">= 0.6.2")
   s.add_development_dependency("minitest")
   s.add_development_dependency("minitest-stub-const")
   s.add_development_dependency("opennebula")
