@@ -29,7 +29,7 @@ New contributors are always welcome, when it doubt please ask questions. We stri
 
 Before we go into more detail, please be aware that Fog is going through some growing pains right now.  A lot of things are moving right now, and things may not be documented as well as we would like.
 
-It might be wise to check out the [Roadmap](https://github.com/fog/fog/wiki/Roadmap) in the Wiki for more information.
+It might be wise to check out the [Roadmap](https://github.com/fog/fog/wiki/Roadmap) and [Design Document](https://github.com/fog/fog/wiki/fog-design-document) in the Wiki for more information.
 
 For right now, there are three major things in motion:
 
