@@ -300,6 +300,15 @@ module Fog
           @hp_secret_key = options[:hp_secret_key]
           @hp_tenant_id = options[:hp_tenant_id]
           @os_account_meta_temp_url_key = options[:os_account_meta_temp_url_key]
+
+          @hp_storage_uri = options[:hp_auth_uri]
+
+          uri = URI.parse(@hp_storage_uri)
+          @host   = uri.host
+          @path   = uri.path
+          @persistent = options[:persistent] || false
+          @port   = uri.port
+          @scheme = uri.scheme
         end
 
         def data
