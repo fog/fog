@@ -13,7 +13,7 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~String> - url for object
         def get_object_https_url(container, object, expires, options = {})
-          create_temp_url(container, object, expires, "GET", options.merge(:scheme => "https", :port => 443))
+          create_temp_url(container, object, expires, "GET", {:port => 443}.merge(options).merge(:scheme => "https"))
         end
 
         # creates a temporary url

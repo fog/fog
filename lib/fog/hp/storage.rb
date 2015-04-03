@@ -158,7 +158,7 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~String> - url for object
         def get_object_https_url(container, object, expires, options = {})
-          create_temp_url(container, object, expires, "GET", options.merge(:scheme => "https", :port => 443))
+          create_temp_url(container, object, expires, "GET", {:port => 443}.merge(options).merge(:scheme => "https"))
         end
 
         # Get an expiring object http url
@@ -172,7 +172,7 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~String> - url for object
         def get_object_http_url(container, object, expires, options = {})
-          create_temp_url(container, object, expires, "GET", options.merge(:scheme => "http", :port => 80))
+          create_temp_url(container, object, expires, "GET", {:port => 80}.merge(options).merge(:scheme => "http"))
         end
 
         # Get an object http url expiring in the given amount of seconds
