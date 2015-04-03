@@ -56,7 +56,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-aws", "~> 0.0")
   s.add_dependency("fog-brightbox", "~> 0.4")
   s.add_dependency("fog-ecloud")
-  s.add_dependency("fog-google")
+  s.add_dependency("fog-google", ">= 0.0.2")
   s.add_dependency("fog-local")
   s.add_dependency("fog-powerdns", ">= 0.1.1")
   s.add_dependency("fog-profitbricks")
