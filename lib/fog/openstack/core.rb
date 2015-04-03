@@ -182,7 +182,6 @@ module Fog
       identity_service_type = options[:openstack_identity_service_type]
       endpoint_type         = (options[:openstack_endpoint_type] || 'public').to_s
       openstack_region      = options[:openstack_region]
-      domain_name           = options[:openstack_domain]
 
       body, token_headers = retrieve_tokens_v3(options, connection_options)
 
@@ -212,8 +211,10 @@ module Fog
         service = get_service(body, service_type, service_name)
       end
 
+      endpoint_type = 'public'
+
       service['endpoints'] = service['endpoints'].select do |endpoint|
-        endpoint['region'] == openstack_region
+        endpoint['region'] == openstack_region && endpoint['interface'] == endpoint_type
       end if openstack_region
 
       if service['endpoints'].empty?
@@ -245,7 +246,6 @@ module Fog
       identity_service = get_service(body, identity_service_type) if identity_service_type
       tenant = body['token']['project']['name']
       user = body['token']['user']['name']
-      endpoint_type = 'public'
 
       management_url = service['endpoints'].find{|s| s["interface"][endpoint_type]}["url"]
       identity_url   = identity_service['endpoints'].find{|s| s["interface"]["public"]}["url"] if identity_service
@@ -319,10 +319,15 @@ module Fog
     def self.retrieve_tokens_v3(options, connection_options = {})
       api_key     = options[:openstack_api_key].to_s
       username    = options[:openstack_username].to_s
-      tenant_name = options[:openstack_tenant].to_s
+      if options[:openstack_tenantid]
+        tenant_id   = options[:openstack_tenantid].to_s
+      else
+        tenant_name = options[:openstack_tenant].to_s
+      end
       auth_token  = options[:openstack_auth_token] || options[:unscoped_token]
       uri         = options[:openstack_auth_uri]
-      domain      = options[:openstack_domain]
+      userdomain  = options[:openstack_userdomain] || options[:openstack_domain]
+      prj_domain  = options[:openstack_prjdomain]  || options[:openstack_domain] || 'Default'
 
       connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
       request_body = {:auth => Hash.new}
@@ -337,21 +342,29 @@ module Fog
           :password => {
             :user => {
               :domain => {
-                :name => domain
+                :name => userdomain
               },
               :name => username,
               :password => api_key
             }
           }
         }
-        request_body[:auth][:scope] = {
-          :project => {
-            :domain => {
-              :name => domain
-            },
-            :id => tenant_name
+        unless tenant_id.nil?
+          request_body[:auth][:scope] = {
+            :project => {
+              :id => tenant_id
+            }
           }
-        }
+        else
+          request_body[:auth][:scope] = {
+            :project => {
+              :domain => {
+                :name => prj_domain
+              },
+              :name => tenant_name
+            }
+          }
+        end
       end
 
       response = connection.request({
