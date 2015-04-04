@@ -10,6 +10,14 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def meter_label_rule_delete( rule_id )
+          response = Excon::Response.new
+	  response.status = 204
+	  response
+	end
+      end
     end
   end
 end

@@ -18,6 +18,28 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def meter_label_create( name, tenant_id )
+	  response = Excon::Response.new
+	  response.status = 201
+
+	  data = {
+	    metering_label: {
+              shared: false,
+	      description: '',
+	      tenant_id: tenant_id,
+	      name: name,
+	      id: Fog::Mock.random_numbers( 6 ).to_s
+	    }
+	  }
+
+	  # TODO, maybe
+	  # self.data[:meters][data['metering_label'][:id]] = data['metering_label']
+	  response.body = data
+	  response
+        end
+      end
     end
   end
 end
