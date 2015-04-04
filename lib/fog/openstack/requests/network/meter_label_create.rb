@@ -5,8 +5,8 @@ module Fog
         def meter_label_create( name, tenant_id )
           data = {
             'metering_label' => {
-              'name' => name,
-              'tenant_id' => tenant_id
+              :name => name,
+              :tenant_id => tenant_id
             }
           }
 
@@ -25,7 +25,7 @@ module Fog
 	  response.status = 201
 
 	  data = {
-	    :metering_label => {
+	    'metering_label' => {
               :shared => false,
 	      :description => '',
 	      :tenant_id => tenant_id,
