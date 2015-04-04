@@ -131,6 +131,12 @@ module Fog
       request :update_quota
       request :delete_quota
 
+      # Meters
+      request :meter_label_create
+      request :meter_label_delete
+      request :meter_label_rule_create
+      request :meter_label_rule_delete
+
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
