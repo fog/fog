@@ -158,7 +158,7 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~String> - url for object
         def get_object_https_url(container, object, expires, options = {})
-          create_temp_url(container, object, expires, "GET", options.merge(:scheme => "https"))
+          create_temp_url(container, object, expires, "GET", {:port => 443}.merge(options).merge(:scheme => "https"))
         end
 
         # Get an expiring object http url
@@ -172,7 +172,7 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~String> - url for object
         def get_object_http_url(container, object, expires, options = {})
-          create_temp_url(container, object, expires, "GET", options.merge(:scheme => "http"))
+          create_temp_url(container, object, expires, "GET", {:port => 80}.merge(options).merge(:scheme => "http"))
         end
 
         # Get an object http url expiring in the given amount of seconds
@@ -197,8 +197,10 @@ module Fog
         # * object<~String> - Name of object to get expiring url for
         # * expires<~Time> - An expiry time for this url
         # * method<~String> - The method to use for accessing the object (GET, PUT, HEAD)
-        # * scheme<~String> - The scheme to use (http, https)
         # * options<~Hash> - An optional options hash
+        #   * 'scheme'<~String> - The scheme to use (http, https)
+        #   * 'host'<~String> - The host to use
+        #   * 'port'<~Integer> - The port to use
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -214,6 +216,8 @@ module Fog
 
           expires        = expires.to_i
           scheme = options[:scheme] || @scheme
+          host = options[:host] || @host
+          port = options[:port] || @port
 
           # do not encode before signature generation, encode after
           sig_path = "#{@path}/#{container}/#{object}"
@@ -226,7 +230,7 @@ module Fog
           # HP uses a different strategy to create the signature that is passed to swift than OpenStack.
           # As the HP provider is broadly used by OpenStack users the OpenStack strategy is applied when
           # the @os_account_meta_temp_url_key is given.
-          if @os_account_meta_temp_url_key then
+          if @os_account_meta_temp_url_key
             hmac      = OpenSSL::HMAC.new(@os_account_meta_temp_url_key, OpenSSL::Digest::SHA1.new)
             signature= hmac.update(string_to_sign).hexdigest
           else
@@ -247,7 +251,14 @@ module Fog
           end
 
           # generate the temp url using the signature and expiry
-          "#{scheme}://#{@host}#{encoded_path}?temp_url_sig=#{signature}&temp_url_expires=#{expires}"
+          temp_url_options = {
+              :scheme => scheme,
+              :host => host,
+              :port => port,
+              :path => encoded_path,
+              :query => "temp_url_sig=#{signature}&temp_url_expires=#{expires}"
+          }
+          URI::Generic.build(temp_url_options).to_s
         end
       end
 
@@ -286,6 +297,15 @@ module Fog
           @hp_secret_key = options[:hp_secret_key]
           @hp_tenant_id = options[:hp_tenant_id]
           @os_account_meta_temp_url_key = options[:os_account_meta_temp_url_key]
+
+          @hp_storage_uri = options[:hp_auth_uri]
+
+          uri = URI.parse(@hp_storage_uri)
+          @host   = uri.host
+          @path   = uri.path
+          @persistent = options[:persistent] || false
+          @port   = uri.port
+          @scheme = uri.scheme
         end
 
         def data
