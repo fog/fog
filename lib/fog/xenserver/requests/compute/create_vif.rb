@@ -6,7 +6,7 @@ module Fog
           raise ArgumentError.new('Invalid vm_ref') if vm_ref.nil?
           raise ArgumentError.new('Invalid network_ref') if network_ref.nil?
           if vm_ref.is_a?(Hash)
-            vif_config = vm_ref.reject! { |_k,v| v.nil? }
+            vif_config = vm_ref.reject { |_k,v| v.nil? }
           else
             vm_ref = vm_ref.reference if vm_ref.kind_of? Fog::Model
             network_ref = network_ref.reference if network_ref.kind_of? Fog::Model
