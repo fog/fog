@@ -5,12 +5,12 @@ module Fog
 
         def vm_shutdown(id)
           vmpool = ::OpenNebula::VirtualMachinePool.new(client)
-         vmpool.info!(-2,id,id,-1)
+          vmpool.info!(-2,id,id,-1)
 
-         vmpool.each do |vm|
-           vm.shutdown()
+          vmpool.each do |vm|
+            vm.shutdown()
           end
-        end #def vm_disk_snapshot
+        end #def vm_shutdown
 
       end
       class Mock
