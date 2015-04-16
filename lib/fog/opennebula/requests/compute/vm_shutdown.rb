@@ -13,11 +13,6 @@ module Fog
         end #def vm_shutdown
 
       end
-      class Mock
-        def vm_shutdown(id)
-          true
-        end
-      end
     end
   end
 end

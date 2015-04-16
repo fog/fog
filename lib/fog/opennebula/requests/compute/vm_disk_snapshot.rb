@@ -16,9 +16,6 @@ module Fog
           end
           rc
         end #def vm_disk_snapshot
-
-        class Mock
-        end
       end
     end
   end
