@@ -57,7 +57,6 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-brightbox", "~> 0.4")
   s.add_dependency("fog-ecloud")
   s.add_dependency("fog-google", ">= 0.0.2")
-  s.add_dependency("fog-libvirt")
   s.add_dependency("fog-local")
   s.add_dependency("fog-powerdns", ">= 0.1.1")
   s.add_dependency("fog-profitbricks")
@@ -85,10 +84,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency("simplecov")
   s.add_development_dependency("thor")
   s.add_development_dependency("yard")
-
-  if ENV["FOG_USE_LIBVIRT"]
-    s.add_development_dependency("ruby-libvirt","~> 0.5.0")
-  end
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {spec,tests}/*`.split("\n")

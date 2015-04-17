@@ -1,10 +1,6 @@
 language: ruby
 
-sudo: required
-
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y libvirt-dev
+sudo: false
 
 script: bundle exec rake travis
 
