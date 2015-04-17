@@ -18,17 +18,14 @@ Shindo.tests("Fog::Compute[:opennebula] | vm_create and destroy request", 'openn
   tests("Start VM") do
     test("response should be a kind of Hash") { vm.kind_of?  Fog::Compute::OpenNebula::Server}
     test("id should be a one-id (Fixnum)") { vm.id.is_a?  Fixnum}
-    puts "\twaiting for VM ID #{vm.id} to go into RUNNING state"
     vm.wait_for { (vm.state == 'RUNNING') } 
     test("VM should be in RUNNING state") { vm.state == 'RUNNING' }
-    puts "\twaiting for 30 seconds to let VM finish booting"
-    sleep(30)
+    sleep(30) # waiting for 30 seconds to let VM finish booting
   end
 
   tests("Create snapshot of the disk and shutdown VM") do
-    puts "\tcreating snapshot"
     img_id = compute.vm_disk_snapshot(vm.id, 0, 'fogtest-'+name_base.to_s)
-    test("Image ID should be a kind of Fixnum") { img_id.is_a? Fixnum }
+    test("Image ID of created snapshot should be a kind of Fixnum") { img_id.is_a? Fixnum }
     (1..5).each do # wait maximum 5 seconds
       sleep(1) # The delay is needed for some reason between issueing disk-snapshot and shutdown
       images = compute.image_pool( { :mine => true, :id => img_id } )
@@ -37,11 +34,9 @@ Shindo.tests("Fog::Compute[:opennebula] | vm_create and destroy request", 'openn
         break
       end
     end
-    puts "\tNew Image has been successfully created, Image ID = #{img_id}."
-    puts "\tShutting down VM. Waiting for up to 50 seconds for Image to become READY."
     compute.servers.shutdown(vm.id)
     image_state = 4
-    (1..25).each do
+    (1..25).each do # Waiting for up to 50 seconds for Image to become READY
       sleep(2)
       images = compute.image_pool( { :mine => true, :id => img_id } )
       image_state = images[0].state
