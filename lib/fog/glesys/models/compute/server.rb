@@ -74,13 +74,11 @@ module Fog
               :disksize       => disksize     || "10",
               :memorysize     => memorysize   || "512",
               :cpucores       => cpucores     || "1",
-              :rootpassword   => rootpassword,
-              :transfer       => transfer     || "500",
-              :bandwidth      => bandwidth    || "10",
+              :rootpassword   => rootpassword
             }
 
             # optional options when creating a server:
-            [:ip, :ipv6, :description].each do |k|
+            [:description, :ip, :ipv6, :transfer, :bandwidth, :campaigncode, :sshkeyids, :sshkey].each do |k|
               options[k] = attributes[k] if attributes[k]
             end
 
