@@ -85,10 +85,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency("thor")
   s.add_development_dependency("yard")
 
-  if ENV["FOG_USE_LIBVIRT"]
-    s.add_development_dependency("ruby-libvirt","~> 0.5.0")
-  end
-
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {spec,tests}/*`.split("\n")
 end
