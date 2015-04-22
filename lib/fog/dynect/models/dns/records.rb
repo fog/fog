@@ -14,7 +14,6 @@ module Fog
           data = []
           service.get_all_records(zone.domain, options).body['data'].each do |records|
             (type, list) = records
-            next if %w{soa_records ns_records}.include?(type)
             list.each do |record|
               data << {
                 :identity => record['record_id'],
