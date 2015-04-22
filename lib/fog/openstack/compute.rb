@@ -10,7 +10,7 @@ module Fog
                  :openstack_api_key, :openstack_username, :openstack_identity_endpoint,
                  :current_user, :current_tenant, :openstack_region,
                  :openstack_endpoint_type,
-                 :openstack_prj_domain, :openstack_user_domain
+                 :openstack_project_domain, :openstack_user_domain
 
       ## MODELS
       #
@@ -252,7 +252,7 @@ module Fog
         def initialize(options={})
           @openstack_username = options[:openstack_username]
           @openstack_user_domain = options[:openstack_user_domain] || options[:openstack_domain]
-          @openstack_prj_domain  = options[:openstack_prj_domain]  || options[:openstack_domain] || 'Default'
+          @openstack_project_domain  = options[:openstack_project_domain]  || options[:openstack_domain] || 'Default'
           @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
 
           @current_tenant = options[:openstack_tenant]
@@ -295,7 +295,7 @@ module Fog
         attr_reader :current_tenant
         attr_reader :current_tenant_id
         attr_reader :openstack_user_domain
-        attr_reader :openstack_prj_domain
+        attr_reader :openstack_project_domain
 
         def initialize(options={})
           @openstack_auth_token = options[:openstack_auth_token]
@@ -307,7 +307,7 @@ module Fog
             @openstack_api_key     = options[:openstack_api_key]
             @openstack_username    = options[:openstack_username]
             @openstack_user_domain = options[:openstack_user_domain] || options[:openstack_domain]
-            @openstack_prj_domain  = options[:openstack_prj_domain]  || options[:openstack_domain] || 'Default'
+            @openstack_project_domain  = options[:openstack_project_domain]  || options[:openstack_domain] || 'Default'
 
             missing_credentials << :openstack_api_key  unless @openstack_api_key
             missing_credentials << :openstack_username unless @openstack_username
@@ -317,7 +317,7 @@ module Fog
           @openstack_tenant      = options[:openstack_tenant]
           @openstack_tenant_id   = options[:openstack_tenant_id]
           @openstack_user_domain = options[:openstack_user_domain] || options[:openstack_domain]
-          @openstack_prj_domain  = options[:openstack_prj_domain]  || options[:openstack_domain] || 'Default'
+          @openstack_project_domain  = options[:openstack_project_domain]  || options[:openstack_domain] || 'Default'
           @openstack_auth_uri    = URI.parse(options[:openstack_auth_url])
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
@@ -341,7 +341,7 @@ module Fog
         def credentials
           { :provider                 => 'openstack',
             :openstack_user_domain    => @openstack_user_domain,
-            :openstack_prj_domain     => @openstack_prj_domain,
+            :openstack_project_domain     => @openstack_project_domain,
             :openstack_auth_url       => @openstack_auth_uri.to_s,
             :openstack_auth_token     => @auth_token,
             :openstack_management_url => @openstack_management_url,
@@ -398,7 +398,7 @@ module Fog
               :openstack_api_key      => @openstack_api_key,
               :openstack_username     => @openstack_username,
               :openstack_user_domain  => @openstack_user_domain,
-              :openstack_prj_domain   => @openstack_prj_domain,
+              :openstack_project_domain   => @openstack_project_domain,
               :openstack_auth_token   => @openstack_must_reauthenticate ? nil : @auth_token,
               :openstack_auth_uri     => @openstack_auth_uri,
               :openstack_region       => @openstack_region,

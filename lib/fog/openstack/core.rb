@@ -327,7 +327,7 @@ module Fog
       auth_token  = options[:openstack_auth_token] || options[:unscoped_token]
       uri         = options[:openstack_auth_uri]
       userdomain  = options[:openstack_user_domain] || options[:openstack_domain]
-      prj_domain  = options[:openstack_prj_domain]  || options[:openstack_domain] || 'Default'
+      project_domain  = options[:openstack_project_domain]  || options[:openstack_domain] || 'Default'
 
       connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
       request_body = {:auth => Hash.new}
@@ -359,7 +359,7 @@ module Fog
           request_body[:auth][:scope] = {
             :project => {
               :domain => {
-                :name => prj_domain
+                :name => project_domain
               },
               :name => tenant_name
             }
