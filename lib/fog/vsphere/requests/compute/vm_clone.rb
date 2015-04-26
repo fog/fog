@@ -419,7 +419,7 @@ module Fog
               custom_identity = RbVmomi::VIM::CustomizationSysprep(          
                 :guiUnattended => custom_guiUnattended,
                 :identification => custom_identification,
-                :userData => custom_userData,
+                :userData => custom_userData
               )
               custom_identity.guiRunOnce = cust_guirunonce if defined?(cust_guirunonce)
               custom_identity.licenseFilePrintData = custom_licenseFilePrintData if defined?(custom_licenseFilePrintData)
@@ -565,7 +565,7 @@ module Fog
                       disk_backing.backing.fileName = "[#{disk.backing.datastore.name}]";
                       disk_backing.backing.parent = disk.backing
                     }
-                  },
+                  }
                 ]
               }
               vm_mob_ref.ReconfigVM_Task(:spec => disk_spec).wait_for_completion
