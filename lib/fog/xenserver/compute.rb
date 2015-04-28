@@ -126,17 +126,18 @@ module Fog
           @timeout              = options[:xenserver_timeout] || 30
           @redirect_to_master   = options[:xenserver_redirect_to_master] || false
           @connection           = Fog::XenServer::Connection.new(@host, @timeout)
-
-          if @redirect_to_master == false
-            @connection  = Fog::XenServer::Connection.new(@host, @timeout)
-          elsif @redirect_to_master == true
-            host_master  = @connection.find_pool_master(@username, @password)
-            if host_master && host_master!= @host
-              @host = host_master
+          begin
+            @connection.authenticate(@username, @password)
+          rescue Fog::XenServer::HostIsSlave => e
+            if @redirect_to_master
+              Fog::Logger.debug "Redirecting to master #{e.master_ip}"
+              @host = e.master_ip
               @connection  = Fog::XenServer::Connection.new(@host, @timeout)
+              @connection.authenticate(@username, @password)
+            else
+              raise e
             end
           end
-          @connection.authenticate(@username, @password)
         end
 
         def reload
