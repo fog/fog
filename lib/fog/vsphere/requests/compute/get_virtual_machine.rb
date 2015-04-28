@@ -30,7 +30,13 @@ module Fog
 
         def get_vm_by_name(name, dc)
           vms = raw_list_all_virtual_machines(dc)
-          vms.keep_if { |v| v["name"] == name }.first
+
+          if name.include?('/')
+            folder, basename = name.split('/')
+            vms.keep_if { |v| v["name"] == basename && v.parent["name"] == folder }.first
+          else
+            vms.keep_if { |v| v["name"] == name }.first
+          end
         end
       end
 
