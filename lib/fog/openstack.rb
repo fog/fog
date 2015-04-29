@@ -1,5 +1,5 @@
 require 'fog/openstack/compute'
-require 'fog/openstack/identity'
+require 'fog/openstack/identity_v2'
 require 'fog/openstack/image'
 require 'fog/openstack/metering'
 require 'fog/openstack/network'
