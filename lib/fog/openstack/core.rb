@@ -66,6 +66,48 @@ module Fog
       end
     end
 
+    module Authenticate
+
+      def authenticate
+        if !@openstack_management_url || @openstack_must_reauthenticate
+          options = {
+              :openstack_api_key => @openstack_api_key,
+              :openstack_username => @openstack_username,
+              :openstack_auth_token => @openstack_must_reauthenticate ? nil : @openstack_auth_token,
+              :openstack_auth_uri => @openstack_auth_uri,
+              :openstack_tenant => @openstack_tenant,
+              :openstack_service_type => @openstack_service_type,
+              :openstack_service_name => @openstack_service_name,
+              :openstack_endpoint_type => @openstack_endpoint_type,
+              :openstack_region => @openstack_region
+          }
+
+          credentials = Fog::OpenStack.authenticate(options, @connection_options)
+
+          @current_user = credentials[:user]
+          @current_tenant = credentials[:tenant]
+
+          @openstack_must_reauthenticate = false
+          @auth_token = credentials[:token]
+          @openstack_management_url = credentials[:server_management_url]
+          @openstack_current_user_id = credentials[:current_user_id]
+          @unscoped_token = credentials[:unscoped_token]
+          uri = URI.parse(@openstack_management_url)
+        else
+          @auth_token = @openstack_auth_token
+          uri = URI.parse(@openstack_management_url)
+        end
+
+        @host = uri.host
+        @path = uri.path
+        @path.sub!(/\/$/, '')
+        @port = uri.port
+        @scheme = uri.scheme
+        true
+      end
+
+    end
+
     # legacy v1.0 style auth
     def self.authenticate_v1(options, connection_options = {})
       uri = options[:openstack_auth_uri]
@@ -177,10 +219,11 @@ module Fog
     def self.authenticate_v3(options, connection_options = {})
       uri                   = options[:openstack_auth_uri]
       tenant_name           = options[:openstack_tenant]
+      project_name           = options[:openstack_project_name]
       service_type          = options[:openstack_service_type]
       service_name          = options[:openstack_service_name]
       identity_service_type = options[:openstack_identity_service_type]
-      endpoint_type         = (options[:openstack_endpoint_type] || 'public').to_s
+      endpoint_type         = map_endpoint_type(options[:openstack_endpoint_type] || 'publicURL')
       openstack_region      = options[:openstack_region]
 
       body, token_headers = retrieve_tokens_v3(options, connection_options)
@@ -190,6 +233,29 @@ module Fog
       options[:unscoped_token] = token_headers['X-Subject-Token']
 
       unless service
+        unless project_name
+          request_body = {
+              :expects => [200],
+              :headers => {'Content-Type' => 'application/json',
+                           'Accept' => 'application/json',
+                           'X-Auth-Token' => token_headers['X-Subject-Token']},
+              :method  => 'GET'
+          }
+          user_id = body['token']['user']['id']
+          response = Fog::Core::Connection.new(
+              "#{uri.scheme}://#{uri.host}:#{uri.port}/v3/users/#{user_id}/projects", false, connection_options).request(request_body)
+
+          projects_body = Fog::JSON.decode(response.body)
+          if projects_body['projects'].empty?
+            raise Fog::Errors::NotFound.new('No Project Found')
+          else
+            options[:openstack_project_name] = projects_body['projects'].first['name']
+            options[:openstack_domain_name] = body['token']['user']['domain']['name']
+          end
+        end
+
+        tenant_name = options[:openstack_project_name]
+
         unless tenant_name
           response = Fog::Core::Connection.new(
             "#{uri.scheme}://#{uri.host}:#{uri.port}/v3/projects", false, connection_options).request({
@@ -210,8 +276,6 @@ module Fog
         body, token_headers = retrieve_tokens_v3(options, connection_options)
         service = get_service(body, service_type, service_name)
       end
-
-      endpoint_type = 'public'
 
       service['endpoints'] = service['endpoints'].select do |endpoint|
         endpoint['region'] == openstack_region && endpoint['interface'] == endpoint_type
@@ -238,13 +302,14 @@ module Fog
         admin = true if r["name"] == "admin"
       end
 
-      if service['endpoints'].count > 1 and not admin
-        regions = service["endpoints"].map{ |e| e['region'] }.uniq.join(',')
-        raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
+      regions = service["endpoints"].map{ |e| e['region'] }.uniq
+      if regions.count > 1 and not admin
+        raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions.join(',')}'")
       end
 
       identity_service = get_service(body, identity_service_type) if identity_service_type
-      tenant = body['token']['project']['name']
+      tenant = body['token']['project']['name'] if body['token']['project']
+      tenant = body['token']['user']['project']['name'] unless body['token']['project']
       user = body['token']['user']['name']
 
       management_url = service['endpoints'].find{|s| s["interface"][endpoint_type]}["url"]
@@ -260,7 +325,6 @@ module Fog
         :unscoped_token           => options[:unscoped_token]
       }
     end
-
 
     def self.get_service(body, service_type=[], service_name=nil)
       if not body['access'].nil?
@@ -410,6 +474,18 @@ module Fog
       str.gsub(/([^a-zA-Z0-9_.-#{extra_exclude_chars}]+)/) do
         '%' + $1.unpack('H2' * $1.bytesize).join('%').upcase
       end
+    end
+
+    def self.map_endpoint_type type
+      case type
+        when "publicURL"
+          "public"
+        when "internalURL"
+          "internal"
+        when "adminURL"
+          "admin"
+      end
+
     end
   end
 end
