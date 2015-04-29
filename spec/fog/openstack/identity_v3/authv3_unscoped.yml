@@ -1,0 +1,334 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:5000/v3/auth/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"identity":{"methods":["password"],"password":{"user":{"password":"openstack","id":"8d5732a0ebd9485396351d74e24c9647"}}}}}'
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      X-Subject-Token:
+      - 146f478106c447d6aeed2a6a817e697a
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '256'
+      Date:
+      - Fri, 20 Mar 2015 13:00:03 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"token": {"issued_at": "2015-03-20T13:00:03.391982Z", "extras":
+        {}, "methods": ["password"], "expires_at": "2015-03-20T14:00:03.391951Z",
+        "user": {"domain": {"id": "default", "name": "Default"}, "id": "8d5732a0ebd9485396351d74e24c9647",
+        "name": "admin"}}}'
+    http_version: 
+  recorded_at: Fri, 20 Mar 2015 13:00:03 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:5000/v3/users/8d5732a0ebd9485396351d74e24c9647/projects
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 146f478106c447d6aeed2a6a817e697a
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '393'
+      Date:
+      - Fri, 20 Mar 2015 13:00:03 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:5000/v3/users/8d5732a0ebd9485396351d74e24c9647/projects",
+        "previous": null, "next": null}, "projects": [{"description": "Admin Tenant",
+        "links": {"self": "http://devstack.openstack.stack:5000/v3/projects/c7767afa57b74f33863a420daba5f57f"},
+        "enabled": true, "id": "c7767afa57b74f33863a420daba5f57f", "domain_id": "default",
+        "name": "admin"}]}'
+    http_version: 
+  recorded_at: Fri, 20 Mar 2015 13:00:03 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:5000/v3/auth/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"146f478106c447d6aeed2a6a817e697a"}},"scope":{"project":{"name":"admin","domain":{"name":"Default"}}}}}'
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      X-Subject-Token:
+      - 75e465a8e6384a6a9f1e31f58b54e34a
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2263'
+      Date:
+      - Fri, 20 Mar 2015 13:00:04 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"token": {"methods": ["token", "password"], "roles": [{"id": "7ebef8a2837246eda8f83f96ffb82b2f",
+        "name": "admin"}], "expires_at": "2015-03-20T14:00:03.391951Z", "project":
+        {"domain": {"id": "default", "name": "Default"}, "id": "c7767afa57b74f33863a420daba5f57f",
+        "name": "admin"}, "catalog": [{"endpoints": [{"url": "http://devstack.openstack.stack:5000/v2.0",
+        "region": "europe", "interface": "public", "id": "0b4b1e907e184880a1c3f32f00cd676f"},
+        {"url": "http://devstack.openstack.stack:35357/v2.0", "region": "europe",
+        "interface": "admin", "id": "53d872f1c5d04f35ac69509e41600c0b"}, {"url": "http://devstack.openstack.stack:5000/v2.0",
+        "region": "europe", "interface": "internal", "id": "67aa3eedc510444faadb9ef3c7e8b2e4"}],
+        "type": "identity", "id": "8e53f1d389df4059aeab1acfece2fc66", "name": "keystone"},
+        {"endpoints": [{"url": "http://devstack.openstack.stack:5000/v3", "region":
+        "europe", "interface": "internal", "id": "7002cfd6dbe74512b0b817d3b7380abb"},
+        {"url": "http://devstack.openstack.stack:5000/v3", "region": "europe", "interface":
+        "public", "id": "a7c634aa7f034284b62ddf974ddc04eb"}, {"url": "http://devstack.openstack.stack:35357/v3",
+        "region": "europe", "interface": "admin", "id": "cba56e3e7a9c4ddfb39e1e4053bd04ab"}],
+        "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6", "name": "identity_v3"},
+        {"endpoints": [{"url": "http://localhost/testurl/c7767afa57b74f33863a420daba5f57f",
+        "region": "europe", "interface": "public", "id": "3387dfbf7bc440728e7aa1488f6ca96e"}],
+        "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39", "name": "test_stefan"},
+        {"endpoints": [{"url": "http://devstack.openstack.stack:9292", "region": "europe",
+        "interface": "public", "id": "0dabc688a031422381d3c92b7dfdfe4c"}, {"url":
+        "http://devstack.openstack.stack:9292", "region": "europe", "interface": "admin",
+        "id": "768f3eb8b29d49a19c4d50a85541d42e"}, {"url": "http://devstack.openstack.stack:9292",
+        "region": "europe", "interface": "internal", "id": "a0c5556c80e448aca907a3ee785bd602"}],
+        "type": "image", "id": "ee073ec39e804cca96d2440d8f109932", "name": "glance"}],
+        "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
+        "8d5732a0ebd9485396351d74e24c9647", "name": "admin"}, "issued_at": "2015-03-20T13:00:04.578867Z"}}'
+    http_version: 
+  recorded_at: Fri, 20 Mar 2015 13:00:04 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:5000/v3/auth/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"75e465a8e6384a6a9f1e31f58b54e34a"}},"scope":{"project":{"name":"admin","domain":{"name":"Default"}}}}}'
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      X-Subject-Token:
+      - 79c7966c1d654e8d88f049675bc44e38
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2263'
+      Date:
+      - Fri, 20 Mar 2015 13:00:05 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"token": {"methods": ["token", "password"], "roles": [{"id": "7ebef8a2837246eda8f83f96ffb82b2f",
+        "name": "admin"}], "expires_at": "2015-03-20T14:00:03.391951Z", "project":
+        {"domain": {"id": "default", "name": "Default"}, "id": "c7767afa57b74f33863a420daba5f57f",
+        "name": "admin"}, "catalog": [{"endpoints": [{"url": "http://devstack.openstack.stack:5000/v2.0",
+        "region": "europe", "interface": "public", "id": "0b4b1e907e184880a1c3f32f00cd676f"},
+        {"url": "http://devstack.openstack.stack:35357/v2.0", "region": "europe",
+        "interface": "admin", "id": "53d872f1c5d04f35ac69509e41600c0b"}, {"url": "http://devstack.openstack.stack:5000/v2.0",
+        "region": "europe", "interface": "internal", "id": "67aa3eedc510444faadb9ef3c7e8b2e4"}],
+        "type": "identity", "id": "8e53f1d389df4059aeab1acfece2fc66", "name": "keystone"},
+        {"endpoints": [{"url": "http://devstack.openstack.stack:5000/v3", "region":
+        "europe", "interface": "internal", "id": "7002cfd6dbe74512b0b817d3b7380abb"},
+        {"url": "http://devstack.openstack.stack:5000/v3", "region": "europe", "interface":
+        "public", "id": "a7c634aa7f034284b62ddf974ddc04eb"}, {"url": "http://devstack.openstack.stack:35357/v3",
+        "region": "europe", "interface": "admin", "id": "cba56e3e7a9c4ddfb39e1e4053bd04ab"}],
+        "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6", "name": "identity_v3"},
+        {"endpoints": [{"url": "http://localhost/testurl/c7767afa57b74f33863a420daba5f57f",
+        "region": "europe", "interface": "public", "id": "3387dfbf7bc440728e7aa1488f6ca96e"}],
+        "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39", "name": "test_stefan"},
+        {"endpoints": [{"url": "http://devstack.openstack.stack:9292", "region": "europe",
+        "interface": "public", "id": "0dabc688a031422381d3c92b7dfdfe4c"}, {"url":
+        "http://devstack.openstack.stack:9292", "region": "europe", "interface": "admin",
+        "id": "768f3eb8b29d49a19c4d50a85541d42e"}, {"url": "http://devstack.openstack.stack:9292",
+        "region": "europe", "interface": "internal", "id": "a0c5556c80e448aca907a3ee785bd602"}],
+        "type": "image", "id": "ee073ec39e804cca96d2440d8f109932", "name": "glance"}],
+        "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
+        "8d5732a0ebd9485396351d74e24c9647", "name": "admin"}, "issued_at": "2015-03-20T13:00:05.207404Z"}}'
+    http_version: 
+  recorded_at: Fri, 20 Mar 2015 13:00:05 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/auth/tokens
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 75e465a8e6384a6a9f1e31f58b54e34a
+      X-Subject-Token:
+      - 79c7966c1d654e8d88f049675bc44e38
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Subject-Token:
+      - 79c7966c1d654e8d88f049675bc44e38
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2263'
+      Date:
+      - Fri, 20 Mar 2015 13:00:05 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"token": {"methods": ["token", "password"], "roles": [{"id": "7ebef8a2837246eda8f83f96ffb82b2f",
+        "name": "admin"}], "expires_at": "2015-03-20T14:00:03.391951Z", "project":
+        {"domain": {"id": "default", "name": "Default"}, "id": "c7767afa57b74f33863a420daba5f57f",
+        "name": "admin"}, "catalog": [{"endpoints": [{"url": "http://devstack.openstack.stack:5000/v2.0",
+        "interface": "public", "region": "europe", "id": "0b4b1e907e184880a1c3f32f00cd676f"},
+        {"url": "http://devstack.openstack.stack:35357/v2.0", "interface": "admin",
+        "region": "europe", "id": "53d872f1c5d04f35ac69509e41600c0b"}, {"url": "http://devstack.openstack.stack:5000/v2.0",
+        "interface": "internal", "region": "europe", "id": "67aa3eedc510444faadb9ef3c7e8b2e4"}],
+        "type": "identity", "id": "8e53f1d389df4059aeab1acfece2fc66", "name": "keystone"},
+        {"endpoints": [{"url": "http://devstack.openstack.stack:5000/v3", "interface":
+        "internal", "region": "europe", "id": "7002cfd6dbe74512b0b817d3b7380abb"},
+        {"url": "http://devstack.openstack.stack:5000/v3", "interface": "public",
+        "region": "europe", "id": "a7c634aa7f034284b62ddf974ddc04eb"}, {"url": "http://devstack.openstack.stack:35357/v3",
+        "interface": "admin", "region": "europe", "id": "cba56e3e7a9c4ddfb39e1e4053bd04ab"}],
+        "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6", "name": "identity_v3"},
+        {"endpoints": [{"url": "http://localhost/testurl/c7767afa57b74f33863a420daba5f57f",
+        "interface": "public", "region": "europe", "id": "3387dfbf7bc440728e7aa1488f6ca96e"}],
+        "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39", "name": "test_stefan"},
+        {"endpoints": [{"url": "http://devstack.openstack.stack:9292", "interface":
+        "public", "region": "europe", "id": "0dabc688a031422381d3c92b7dfdfe4c"}, {"url":
+        "http://devstack.openstack.stack:9292", "interface": "admin", "region": "europe",
+        "id": "768f3eb8b29d49a19c4d50a85541d42e"}, {"url": "http://devstack.openstack.stack:9292",
+        "interface": "internal", "region": "europe", "id": "a0c5556c80e448aca907a3ee785bd602"}],
+        "type": "image", "id": "ee073ec39e804cca96d2440d8f109932", "name": "glance"}],
+        "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
+        "8d5732a0ebd9485396351d74e24c9647", "name": "admin"}, "issued_at": "2015-03-20T13:00:05.207404Z"}}'
+    http_version: 
+  recorded_at: Fri, 20 Mar 2015 13:00:05 GMT
+- request:
+    method: head
+    uri: http://devstack.openstack.stack:35357/v3/auth/tokens
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 75e465a8e6384a6a9f1e31f58b54e34a
+      X-Subject-Token:
+      - 79c7966c1d654e8d88f049675bc44e38
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Subject-Token:
+      - 79c7966c1d654e8d88f049675bc44e38
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2263'
+      Date:
+      - Fri, 20 Mar 2015 13:00:05 GMT
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Fri, 20 Mar 2015 13:00:05 GMT
+- request:
+    method: head
+    uri: http://devstack.openstack.stack:35357/v3/auth/tokens
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 75e465a8e6384a6a9f1e31f58b54e34a
+      X-Subject-Token:
+      - random-token
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '96'
+      Date:
+      - Fri, 20 Mar 2015 13:00:06 GMT
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Fri, 20 Mar 2015 13:00:06 GMT
+recorded_with: VCR 2.9.3

@@ -1,0 +1,223 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d8291e2a2a2046259316f7c2d4253e92
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1148'
+      Date:
+      - Fri, 13 Mar 2015 11:40:25 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"services": [{"name": "keystone", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/8e53f1d389df4059aeab1acfece2fc66"},
+        "enabled": true, "type": "identity", "id": "8e53f1d389df4059aeab1acfece2fc66",
+        "description": "OpenStack Identity"}, {"name": "identity_v3", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/services/a47e0f0014fa409993cef0bd984a5ac6"},
+        "enabled": true, "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
+        "description": "OpenStack KeyStone V3 Service"}, {"description": "Test for
+        endpoint parameter expansion; can be deleted", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/d36a1f72832b428688b7dae7d0ab8a39"},
+        "enabled": true, "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39",
+        "name": "test_stefan"}, {"name": "glance", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/ee073ec39e804cca96d2440d8f109932"},
+        "enabled": true, "type": "image", "id": "ee073ec39e804cca96d2440d8f109932",
+        "description": "OpenStack Image Service"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 13 Mar 2015 11:40:25 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d8291e2a2a2046259316f7c2d4253e92
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1148'
+      Date:
+      - Fri, 13 Mar 2015 11:40:25 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"services": [{"name": "keystone", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/8e53f1d389df4059aeab1acfece2fc66"},
+        "enabled": true, "type": "identity", "id": "8e53f1d389df4059aeab1acfece2fc66",
+        "description": "OpenStack Identity"}, {"name": "identity_v3", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/services/a47e0f0014fa409993cef0bd984a5ac6"},
+        "enabled": true, "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
+        "description": "OpenStack KeyStone V3 Service"}, {"description": "Test for
+        endpoint parameter expansion; can be deleted", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/d36a1f72832b428688b7dae7d0ab8a39"},
+        "enabled": true, "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39",
+        "name": "test_stefan"}, {"name": "glance", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/ee073ec39e804cca96d2440d8f109932"},
+        "enabled": true, "type": "image", "id": "ee073ec39e804cca96d2440d8f109932",
+        "description": "OpenStack Image Service"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 13 Mar 2015 11:40:25 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d8291e2a2a2046259316f7c2d4253e92
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1148'
+      Date:
+      - Fri, 13 Mar 2015 11:40:25 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"services": [{"name": "keystone", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/8e53f1d389df4059aeab1acfece2fc66"},
+        "enabled": true, "type": "identity", "id": "8e53f1d389df4059aeab1acfece2fc66",
+        "description": "OpenStack Identity"}, {"name": "identity_v3", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/services/a47e0f0014fa409993cef0bd984a5ac6"},
+        "enabled": true, "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
+        "description": "OpenStack KeyStone V3 Service"}, {"description": "Test for
+        endpoint parameter expansion; can be deleted", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/d36a1f72832b428688b7dae7d0ab8a39"},
+        "enabled": true, "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39",
+        "name": "test_stefan"}, {"name": "glance", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/ee073ec39e804cca96d2440d8f109932"},
+        "enabled": true, "type": "image", "id": "ee073ec39e804cca96d2440d8f109932",
+        "description": "OpenStack Image Service"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 13 Mar 2015 11:40:25 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d8291e2a2a2046259316f7c2d4253e92
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1148'
+      Date:
+      - Fri, 13 Mar 2015 11:40:25 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"services": [{"name": "keystone", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/8e53f1d389df4059aeab1acfece2fc66"},
+        "enabled": true, "type": "identity", "id": "8e53f1d389df4059aeab1acfece2fc66",
+        "description": "OpenStack Identity"}, {"name": "identity_v3", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/services/a47e0f0014fa409993cef0bd984a5ac6"},
+        "enabled": true, "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
+        "description": "OpenStack KeyStone V3 Service"}, {"description": "Test for
+        endpoint parameter expansion; can be deleted", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/d36a1f72832b428688b7dae7d0ab8a39"},
+        "enabled": true, "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39",
+        "name": "test_stefan"}, {"name": "glance", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/ee073ec39e804cca96d2440d8f109932"},
+        "enabled": true, "type": "image", "id": "ee073ec39e804cca96d2440d8f109932",
+        "description": "OpenStack Image Service"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 13 Mar 2015 11:40:25 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/projects/atlantis
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d8291e2a2a2046259316f7c2d4253e92
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '94'
+      Date:
+      - Fri, 13 Mar 2015 11:40:25 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"error": {"message": "Could not find project, atlantis.", "code":
+        404, "title": "Not Found"}}'
+    http_version: 
+  recorded_at: Fri, 13 Mar 2015 11:40:25 GMT
+recorded_with: VCR 2.9.3

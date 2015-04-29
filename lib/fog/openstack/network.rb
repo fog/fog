@@ -337,15 +337,7 @@ module Fog
               :openstack_region        => @openstack_region
             }
 
-            case @openstack_auth_uri.path
-            when %r{/v2.0}
-              credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
-            when %r{/v3}
-              credentials = Fog::OpenStack.authenticate_v3(options, @connection_options)
-            else
-              credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
-            end
-
+            credentials = Fog::OpenStack.authenticate(options, @connection_options)
 
             @current_user = credentials[:user]
             @current_tenant = credentials[:tenant]

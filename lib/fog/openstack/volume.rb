@@ -199,7 +199,7 @@ module Fog
               :openstack_endpoint_type => @openstack_endpoint_type
             }
 
-            credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
+            credentials = Fog::OpenStack.authenticate(options, @connection_options)
 
             @current_user = credentials[:user]
             @current_tenant = credentials[:tenant]
