@@ -16,6 +16,8 @@ module Fog
             :deviceChange => device_change(attributes),
             :extraConfig  => extra_config(attributes),
           }
+          vm_cfg[:cpuHotAddEnabled] = attributes[:cpuHotAddEnabled] if attributes.key?(:cpuHotAddEnabled)
+          vm_cfg[:memoryHotAddEnabled] = attributes[:memoryHotAddEnabled] if attributes.key?(:memoryHotAddEnabled)
           resource_pool = if attributes[:resource_pool]
                             get_raw_resource_pool(attributes[:resource_pool], attributes[:cluster], attributes[:datacenter])
                           else

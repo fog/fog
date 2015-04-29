@@ -152,6 +152,8 @@ module Fog
           # FIXME: pad this out with the rest of the useful things in VirtualMachineConfigSpec
           virtual_machine_config_spec.numCPUs = options['numCPUs'] if  ( options.key?('numCPUs') )
           virtual_machine_config_spec.memoryMB = options['memoryMB'] if ( options.key?('memoryMB') )
+          virtual_machine_config_spec.cpuHotAddEnabled = options['cpuHotAddEnabled'] if ( options.key?('cpuHotAddEnabled') )
+          virtual_machine_config_spec.memoryHotAddEnabled = options['memoryHotAddEnabled'] if ( options.key?('memoryHotAddEnabled') )
           # Options['customization_spec']
           # Build up all the crappy tiered objects like the perl method
           # Collect your variables ifset (writing at 11pm revist me)
