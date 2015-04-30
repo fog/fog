@@ -44,7 +44,7 @@ module Fog
       class TaskError < Fog::VcloudDirector::Errors::TaskError; end
 
       requires :vcloud_director_username, :vcloud_director_password, :vcloud_director_host
-      recognizes :vcloud_director_api_version, :vcloud_director_show_progress, :path
+      recognizes :vcloud_director_api_version, :vcloud_director_show_progress, :path, :vcloud_token
 
       secrets :vcloud_director_password
 
@@ -346,6 +346,7 @@ module Fog
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
           @show_progress = options[:vcloud_director_show_progress]
           @show_progress = $stdin.tty? if @show_progress.nil?
+          @vcloud_token  = options[:vcloud_token]
         end
 
         def vcloud_token
@@ -460,7 +461,8 @@ module Fog
         private
 
         def login
-          if @vcloud_token = ENV['FOG_VCLOUD_TOKEN']
+          @vcloud_token ||= ENV['FOG_VCLOUD_TOKEN']
+          if @vcloud_token
             response = get_current_session
             session_org = response.body[:org]
             session_user = response.body[:user]
@@ -768,8 +770,9 @@ module Fog
           @port = options[:port] || Fog::Compute::VcloudDirector::Defaults::PORT
           @scheme = options[:scheme] || Fog::Compute::VcloudDirector::Defaults::SCHEME
           #@connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
-          @end_point = "#{@scheme}://#{@host}#{@path}/"
-          @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
+          @end_point    = "#{@scheme}://#{@host}#{@path}/"
+          @api_version  = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
+          @vcloud_token = options[:vcloud_token]
         end
 
         def vcloud_token
