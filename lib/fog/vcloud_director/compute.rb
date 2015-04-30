@@ -44,7 +44,7 @@ module Fog
       class TaskError < Fog::VcloudDirector::Errors::TaskError; end
 
       requires :vcloud_director_username, :vcloud_director_password, :vcloud_director_host
-      recognizes :vcloud_director_api_version, :vcloud_director_show_progress
+      recognizes :vcloud_director_api_version, :vcloud_director_show_progress, :path
 
       secrets :vcloud_director_password
 
