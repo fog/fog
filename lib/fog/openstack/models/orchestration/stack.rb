@@ -6,7 +6,7 @@ module Fog
         identity :id
 
         %w{capabilities description disable_rollback links notification_topics outputs parameters
-            stack_name stack_status stack_status_reason template_description timeout_mins
+            stack_name stack_status stack_status_reason template_description timeout_mins parent
             creation_time updated_time}.each do |a|
           attribute a.to_sym
         end
