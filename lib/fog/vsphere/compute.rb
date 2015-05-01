@@ -114,6 +114,8 @@ module Fog
           :overall_status => 'overallStatus',
           :guest_id => 'config.guestId',
           :hardware_version => 'config.version',
+          :cpuHotAddEnabled => 'config.cpuHotAddEnabled',
+          :memoryHotAddEnabled => 'config.memoryHotAddEnabled',
         }
 
         def convert_vm_view_to_attr_hash(vms)
