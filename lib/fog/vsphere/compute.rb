@@ -116,6 +116,7 @@ module Fog
           :hardware_version => 'config.version',
           :cpuHotAddEnabled => 'config.cpuHotAddEnabled',
           :memoryHotAddEnabled => 'config.memoryHotAddEnabled',
+          :firmware => 'config.firmware',
         }
 
         def convert_vm_view_to_attr_hash(vms)

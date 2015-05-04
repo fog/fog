@@ -48,6 +48,7 @@ module Fog
         attribute :scsi_controller # this is the first scsi controller. Right now no more of them can be used.
         attribute :cpuHotAddEnabled
         attribute :memoryHotAddEnabled
+        attribute :firmware
 
         def initialize(attributes={} )
           super defaults.merge(attributes)
