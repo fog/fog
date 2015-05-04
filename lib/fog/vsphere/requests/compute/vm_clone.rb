@@ -154,6 +154,7 @@ module Fog
           virtual_machine_config_spec.memoryMB = options['memoryMB'] if ( options.key?('memoryMB') )
           virtual_machine_config_spec.cpuHotAddEnabled = options['cpuHotAddEnabled'] if ( options.key?('cpuHotAddEnabled') )
           virtual_machine_config_spec.memoryHotAddEnabled = options['memoryHotAddEnabled'] if ( options.key?('memoryHotAddEnabled') )
+          virtual_machine_config_spec.firmware = options['firmware'] if ( options.key?('firmware') )
           # Options['customization_spec']
           # Build up all the crappy tiered objects like the perl method
           # Collect your variables ifset (writing at 11pm revist me)
