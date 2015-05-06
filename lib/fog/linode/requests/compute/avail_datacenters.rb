@@ -29,7 +29,8 @@ module Fog
               { "LOCATION" => "Atlanta, GA, USA",    "DATACENTERID" => 4 },
               { "LOCATION" => "Newark, NJ, USA",     "DATACENTERID" => 6 },
               { "LOCATION" => "London, England, UK", "DATACENTERID" => 7 },
-              { "LOCATION" => "Tokyo, JP",           "DATACENTERID" => 8 }
+              { "LOCATION" => "Tokyo, JP",           "DATACENTERID" => 8 },
+              { "LOCATION" => "Singapore, SGP",      "DATACENTERID" => 9 },
             ],
             "ACTION" => "avail.datacenters"
           }
