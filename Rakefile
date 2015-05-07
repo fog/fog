@@ -6,6 +6,12 @@ require 'rubygems/package_task'
 require 'yard'
 require File.dirname(__FILE__) + '/lib/fog'
 
+require "tasks/changelog_task"
+Fog::Rake::ChangelogTask.new
+
+require "tasks/github_release_task"
+Fog::Rake::GithubReleaseTask.new
+
 #############################################################################
 #
 # Helper functions
@@ -160,12 +166,11 @@ end
 
 task :git_mark_release do
   sh "git commit --allow-empty -a -m 'Release #{version}'"
-  sh "git tag v#{version}"
 end
 
 task :git_push_release do
   sh "git push origin master"
-  sh "git push origin v#{version}"
+  ::Rake::Task[:github_release].invoke
 end
 
 task :gem_push do
@@ -215,9 +220,3 @@ YARD::Rake::YardocTask.new do |t|
   t.files   = ['lib/**/*.rb', "README"]
   t.options = ["--output-dir", YARDOC_LOCATION, "--title", "#{name} #{version}"]
 end
-
-require "tasks/changelog_task"
-Fog::Rake::ChangelogTask.new
-
-require "tasks/github_release_task"
-Fog::Rake::GithubReleaseTask.new
