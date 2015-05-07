@@ -18,8 +18,8 @@ module Fog
           nil
         end
 
-        def get_by_name(name)
-          data = service.list_networks({:name => name})
+        def get_by_name(network)
+          data = service.list_networks({:network => network})
           load(data).first
         rescue Fog::Compute::OpenNebula::NotFound
           nil

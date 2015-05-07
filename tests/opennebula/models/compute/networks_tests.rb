@@ -9,6 +9,7 @@ Shindo.tests('Fog::Compute[:opennebula] | networks collection', ['opennebula']) 
       tests('all').succeeds { networks.all }
       tests('by instance id').succeeds { networks.get networks.first.id }
       tests('by filter').succeeds { networks.get_by_filter ({ :id => networks.first.id }) }
+      tests('by name').succeeds { networks.get_by_name ("fogtest") }
     end
   end
 
