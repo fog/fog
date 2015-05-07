@@ -50,7 +50,7 @@ module Fog
 
       class Mock
         def list_networks(filters={})
-          net1 = mock_network 'net1'
+          net1 = mock_network 'fogtest'
           net2 = mock_network 'net2'
           [net1, net2]
         end

@@ -24,6 +24,13 @@ Shindo.tests('Fog::Compute[:opennebula] | flavor model', ['opennebula']) do
       end
     end
     test('be a kind of Fog::Compute::OpenNebula::Flavor') { flavor.kind_of? Fog::Compute::OpenNebula::Flavor }
+    test('have a nic in network fogtest') { flavor.nic[0].vnet.name == "fogtest" }
+
+    flavor.vcpu = 666
+    flavor.memory = 666
+    test('have a 666 MB memory') { flavor.get_memory == "MEMORY=666\n" }
+    test('have a 666 CPUs') { flavor.get_vcpu == "VCPU=666\n" }
+
   end
 
 end

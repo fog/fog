@@ -13,5 +13,4 @@ Shindo.tests('Fog::Compute[:opennebula] | flavors collection', ['opennebula']) d
       tests('by filter').succeeds { flavors.get_by_filter ({:name => "fogtest", :id => flavors.first.id }) }
     end
   end
-
 end
