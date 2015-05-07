@@ -14,9 +14,13 @@ module Fog
             @openstack_auth_uri = URI.parse(args[:openstack_auth_url])
             if @openstack_auth_uri.path =~ /\/v3/
               service = Fog::Identity::OpenStack::V3.new(args)
+              @@Mock = Fog::Identity::OpenStack::V3::Mock
+              @@Real = Fog::Identity::OpenStack::V3::Real
             end
           end
           service ||= Fog::Identity::OpenStack::V2.new(args)
+          @@Mock = Fog::Identity::OpenStack::V2::Mock
+          @@Real = Fog::Identity::OpenStack::V2::Real
         else
           service = Fog::Service.new(args)
         end
