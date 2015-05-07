@@ -82,7 +82,7 @@ http_interactions:
         {"url": "http://devstack.openstack.stack:35357/v3", "region": "europe", "interface":
         "public", "id": "a7c634aa7f034284b62ddf974ddc04eb"}, {"url": "http://devstack.openstack.stack:35357/v3",
         "region": "europe", "interface": "admin", "id": "cba56e3e7a9c4ddfb39e1e4053bd04ab"}],
-        "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6", "name": "identity_v3"},
+        "type": "identityv3", "id": "a47e0f0014fa409993cef0bd984a5ac6", "name": "identityv3"},
         {"endpoints": [{"url": "http://localhost/testurl/c7767afa57b74f33863a420daba5f57f",
         "region": "europe", "interface": "public", "id": "3387dfbf7bc440728e7aa1488f6ca96e"}],
         "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39", "name": "test_stefan"},
@@ -130,9 +130,9 @@ http_interactions:
       encoding: US-ASCII
       string: ! '{"services": [{"name": "keystone", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/8e53f1d389df4059aeab1acfece2fc66"},
         "enabled": true, "type": "identity", "id": "8e53f1d389df4059aeab1acfece2fc66",
-        "description": "OpenStack Identity"}, {"name": "identity_v3", "links": {"self":
+        "description": "OpenStack Identity"}, {"name": "identityv3", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/services/a47e0f0014fa409993cef0bd984a5ac6"},
-        "enabled": true, "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
+        "enabled": true, "type": "identityv3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
         "description": "OpenStack KeyStone V3 Service"}, {"description": "Test for
         endpoint parameter expansion; can be deleted", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/d36a1f72832b428688b7dae7d0ab8a39"},
         "enabled": true, "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39",
@@ -176,9 +176,9 @@ http_interactions:
       encoding: US-ASCII
       string: ! '{"services": [{"name": "keystone", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/8e53f1d389df4059aeab1acfece2fc66"},
         "enabled": true, "type": "identity", "id": "8e53f1d389df4059aeab1acfece2fc66",
-        "description": "OpenStack Identity"}, {"name": "identity_v3", "links": {"self":
+        "description": "OpenStack Identity"}, {"name": "identityv3", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/services/a47e0f0014fa409993cef0bd984a5ac6"},
-        "enabled": true, "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
+        "enabled": true, "type": "identityv3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
         "description": "OpenStack KeyStone V3 Service"}, {"description": "Test for
         endpoint parameter expansion; can be deleted", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/d36a1f72832b428688b7dae7d0ab8a39"},
         "enabled": true, "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39",
@@ -337,9 +337,9 @@ http_interactions:
         "id": "2a485dc447b24eeda7e6a995252caa56"}, {"name": "keystone", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/services/8e53f1d389df4059aeab1acfece2fc66"},
         "enabled": true, "type": "identity", "id": "8e53f1d389df4059aeab1acfece2fc66",
-        "description": "OpenStack Identity"}, {"name": "identity_v3", "links": {"self":
+        "description": "OpenStack Identity"}, {"name": "identityv3", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/services/a47e0f0014fa409993cef0bd984a5ac6"},
-        "enabled": true, "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
+        "enabled": true, "type": "identityv3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
         "description": "OpenStack KeyStone V3 Service"}, {"description": "Test for
         endpoint parameter expansion; can be deleted", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/d36a1f72832b428688b7dae7d0ab8a39"},
         "enabled": true, "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39",
@@ -386,9 +386,9 @@ http_interactions:
         "id": "2a485dc447b24eeda7e6a995252caa56"}, {"name": "keystone", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/services/8e53f1d389df4059aeab1acfece2fc66"},
         "enabled": true, "type": "identity", "id": "8e53f1d389df4059aeab1acfece2fc66",
-        "description": "OpenStack Identity"}, {"name": "identity_v3", "links": {"self":
+        "description": "OpenStack Identity"}, {"name": "identityv3", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/services/a47e0f0014fa409993cef0bd984a5ac6"},
-        "enabled": true, "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
+        "enabled": true, "type": "identityv3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
         "description": "OpenStack KeyStone V3 Service"}, {"description": "Test for
         endpoint parameter expansion; can be deleted", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/d36a1f72832b428688b7dae7d0ab8a39"},
         "enabled": true, "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39",
@@ -465,9 +465,9 @@ http_interactions:
       encoding: US-ASCII
       string: ! '{"services": [{"name": "keystone", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/8e53f1d389df4059aeab1acfece2fc66"},
         "enabled": true, "type": "identity", "id": "8e53f1d389df4059aeab1acfece2fc66",
-        "description": "OpenStack Identity"}, {"name": "identity_v3", "links": {"self":
+        "description": "OpenStack Identity"}, {"name": "identityv3", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/services/a47e0f0014fa409993cef0bd984a5ac6"},
-        "enabled": true, "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
+        "enabled": true, "type": "identityv3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
         "description": "OpenStack KeyStone V3 Service"}, {"description": "Test for
         endpoint parameter expansion; can be deleted", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/d36a1f72832b428688b7dae7d0ab8a39"},
         "enabled": true, "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39",
@@ -547,9 +547,9 @@ http_interactions:
       encoding: US-ASCII
       string: ! '{"services": [{"name": "keystone", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/8e53f1d389df4059aeab1acfece2fc66"},
         "enabled": true, "type": "identity", "id": "8e53f1d389df4059aeab1acfece2fc66",
-        "description": "OpenStack Identity"}, {"name": "identity_v3", "links": {"self":
+        "description": "OpenStack Identity"}, {"name": "identityv3", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/services/a47e0f0014fa409993cef0bd984a5ac6"},
-        "enabled": true, "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
+        "enabled": true, "type": "identityv3", "id": "a47e0f0014fa409993cef0bd984a5ac6",
         "description": "OpenStack KeyStone V3 Service"}, {"description": "Test for
         endpoint parameter expansion; can be deleted", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/d36a1f72832b428688b7dae7d0ab8a39"},
         "enabled": true, "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39",

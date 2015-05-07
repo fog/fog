@@ -48,7 +48,7 @@ http_interactions:
         {"url": "http://devstack.openstack.stack:35357/v3", "region": "europe", "interface":
         "public", "id": "a7c634aa7f034284b62ddf974ddc04eb"}, {"url": "http://devstack.openstack.stack:35357/v3",
         "region": "europe", "interface": "admin", "id": "cba56e3e7a9c4ddfb39e1e4053bd04ab"}],
-        "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6", "name": "identity_v3"},
+        "type": "identityv3", "id": "a47e0f0014fa409993cef0bd984a5ac6", "name": "identityv3"},
         {"endpoints": [{"url": "http://localhost/testurl/c7767afa57b74f33863a420daba5f57f",
         "region": "europe", "interface": "public", "id": "3387dfbf7bc440728e7aa1488f6ca96e"}],
         "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39", "name": "test_stefan"},
@@ -112,7 +112,7 @@ http_interactions:
         {"url": "http://devstack.openstack.stack:35357/v3", "interface": "public",
         "region": "europe", "id": "a7c634aa7f034284b62ddf974ddc04eb"}, {"url": "http://devstack.openstack.stack:35357/v3",
         "interface": "admin", "region": "europe", "id": "cba56e3e7a9c4ddfb39e1e4053bd04ab"}],
-        "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6", "name": "identity_v3"},
+        "type": "identityv3", "id": "a47e0f0014fa409993cef0bd984a5ac6", "name": "identityv3"},
         {"endpoints": [{"url": "http://localhost/testurl/c7767afa57b74f33863a420daba5f57f",
         "interface": "public", "region": "europe", "id": "3387dfbf7bc440728e7aa1488f6ca96e"}],
         "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39", "name": "test_stefan"},

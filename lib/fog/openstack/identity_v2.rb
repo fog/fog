@@ -1,9 +1,8 @@
 require 'fog/openstack/core'
-require 'fog/openstack/identity'
 
 module Fog
   module Identity
-    class OpenStack
+    class OpenStack < Fog::Service
       class V2 < Fog::Service
 
         requires :openstack_auth_url
@@ -170,7 +169,7 @@ module Fog
           attr_reader :current_tenant
           attr_reader :unscoped_token
 
-          include Fog::Identity::OpenStack::Common
+          include Fog::OpenStack::Authenticate
 
           def initialize(options={})
             @openstack_auth_token = options[:openstack_auth_token]

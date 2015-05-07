@@ -112,7 +112,7 @@ http_interactions:
         "http://devstack.openstack.stack:35357/v3", "region": "europe", "internalURL":
         "http://devstack.openstack.stack:5000/v3", "id": "7002cfd6dbe74512b0b817d3b7380abb",
         "publicURL": "http://devstack.openstack.stack:5000/v3"}], "endpoints_links":
-        [], "type": "identity_v3", "name": "identity_v3"}, {"endpoints": [{"adminURL":
+        [], "type": "identityv3", "name": "identityv3"}, {"endpoints": [{"adminURL":
         "http://devstack.openstack.stack:35357/v2.0", "region": "europe", "internalURL":
         "http://devstack.openstack.stack:5000/v2.0", "id": "0b4b1e907e184880a1c3f32f00cd676f",
         "publicURL": "http://devstack.openstack.stack:5000/v2.0"}], "endpoints_links":
@@ -165,7 +165,7 @@ http_interactions:
         {"url": "http://devstack.openstack.stack:5000/v3", "region": "europe", "interface":
         "public", "id": "a7c634aa7f034284b62ddf974ddc04eb"}, {"url": "http://devstack.openstack.stack:35357/v3",
         "region": "europe", "interface": "admin", "id": "cba56e3e7a9c4ddfb39e1e4053bd04ab"}],
-        "type": "identity_v3", "id": "a47e0f0014fa409993cef0bd984a5ac6", "name": "identity_v3"},
+        "type": "identityv3", "id": "a47e0f0014fa409993cef0bd984a5ac6", "name": "identityv3"},
         {"endpoints": [{"url": "http://localhost/testurl/c7767afa57b74f33863a420daba5f57f",
         "region": "europe", "interface": "public", "id": "3387dfbf7bc440728e7aa1488f6ca96e"}],
         "type": "test_stefan", "id": "d36a1f72832b428688b7dae7d0ab8a39", "name": "test_stefan"},
@@ -224,7 +224,7 @@ http_interactions:
         "http://devstack.openstack.stack:35357/v3", "region": "europe", "internalURL":
         "http://devstack.openstack.stack:5000/v3", "id": "7002cfd6dbe74512b0b817d3b7380abb",
         "publicURL": "http://devstack.openstack.stack:5000/v3"}], "endpoints_links":
-        [], "type": "identity_v3", "name": "identity_v3"}, {"endpoints": [{"adminURL":
+        [], "type": "identityv3", "name": "identityv3"}, {"endpoints": [{"adminURL":
         "http://devstack.openstack.stack:35357/v2.0", "region": "europe", "internalURL":
         "http://devstack.openstack.stack:5000/v2.0", "id": "0b4b1e907e184880a1c3f32f00cd676f",
         "publicURL": "http://devstack.openstack.stack:5000/v2.0"}], "endpoints_links":
@@ -418,7 +418,7 @@ http_interactions:
         "http://devstack.openstack.stack:35357/v3", "region": "europe", "internalURL":
         "http://devstack.openstack.stack:5000/v3", "id": "7002cfd6dbe74512b0b817d3b7380abb",
         "publicURL": "http://devstack.openstack.stack:5000/v3"}], "endpoints_links":
-        [], "type": "identity_v3", "name": "identity_v3"}, {"endpoints": [{"adminURL":
+        [], "type": "identityv3", "name": "identityv3"}, {"endpoints": [{"adminURL":
         "http://devstack.openstack.stack:35357/v2.0", "region": "europe", "internalURL":
         "http://devstack.openstack.stack:5000/v2.0", "id": "0b4b1e907e184880a1c3f32f00cd676f",
         "publicURL": "http://devstack.openstack.stack:5000/v2.0"}], "endpoints_links":

@@ -28,8 +28,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
     unless example.metadata[:skip_preauthentication]
       VCR.use_cassette('idv3') do
         @id_v3 = Fog::Identity::OpenStack::V3.new(
-            :openstack_project_name => ENV['OS_TENANT_NAME'] || 'admin',
-            :openstack_domain_name => 'Default',
+            :openstack_project_name => ENV['OS_PROJECT_NAME'] || 'admin',
+            :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
             :openstack_api_key => ENV['OS_PASSWORD'] || 'openstack',
             :openstack_username => ENV['OS_USERNAME'] || 'admin',
             :openstack_auth_url => "#{@os_auth_url}/auth/tokens") unless @id_v3
@@ -40,8 +40,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it 'authenticates with password, userid and domain_id', :skip_preauthentication do
     VCR.use_cassette('authv3_a') do
       Fog::Identity::OpenStack::V3.new(
-          :openstack_project_name => ENV['OS_TENANT_NAME'] || 'admin',
-          :openstack_domain_name => 'Default',
+          :openstack_project_name => ENV['OS_PROJECT_NAME'] || 'admin',
+          :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
           :openstack_api_key => ENV['OS_PASSWORD'] || 'openstack',
           :openstack_username => ENV['OS_USERNAME'] || 'admin',
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
@@ -51,8 +51,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it 'authenticates with password, username and domain_id', :skip_preauthentication do
     VCR.use_cassette('authv3_b') do
       Fog::Identity::OpenStack::V3.new(
-          :openstack_project_name => ENV['OS_TENANT_NAME'] || 'admin',
-          :openstack_domain_name => 'Default',
+          :openstack_project_name => ENV['OS_PROJECT_NAME'] || 'admin',
+          :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
           :openstack_api_key => ENV['OS_PASSWORD'] || 'openstack',
           :openstack_username => ENV['OS_USERNAME'] || 'admin',
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
@@ -62,8 +62,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it 'authenticates with password, username and domain_name', :skip_preauthentication do
     VCR.use_cassette('authv3_c') do
       Fog::Identity::OpenStack::V3.new(
-          :openstack_project_name => ENV['OS_TENANT_NAME'] || 'admin',
-          :openstack_domain_name => 'Default',
+          :openstack_project_name => ENV['OS_PROJECT_NAME'] || 'admin',
+          :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
           :openstack_api_key => ENV['OS_PASSWORD'] || 'openstack',
           :openstack_username => ENV['OS_USERNAME'] || 'admin',
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
@@ -73,8 +73,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it 'authenticates with project scope', :skip_preauthentication do
     VCR.use_cassette('authv3_project') do
       Fog::Identity::OpenStack::V3.new(
-          :openstack_project_name => ENV['OS_TENANT_NAME'] || 'admin',
-          :openstack_domain_name => 'Default',
+          :openstack_project_name => ENV['OS_PROJECT_NAME'] || 'admin',
+          :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
           :openstack_api_key => ENV['OS_PASSWORD'] || 'openstack',
           :openstack_username => ENV['OS_USERNAME'] || 'admin',
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
@@ -95,7 +95,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       # Exchange it for a project-scoped token
       auth = Fog::Identity::OpenStack::V3.new(
           :openstack_project_name => ENV['OS_USERNAME'] || 'admin',
-          :openstack_domain_name => 'Default',
+          :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
           :openstack_tenant => ENV['OS_USERNAME'] || 'admin',
           :openstack_auth_token => @id_v2.credentials[:openstack_auth_token],
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
@@ -117,13 +117,13 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       # Juno Keystone
       @id_v3 = Fog::Identity::OpenStack::V3.new(
           :openstack_api_key => ENV['OS_PASSWORD'] || 'openstack',
-          :openstack_userid => '8d5732a0ebd9485396351d74e24c9647',
+          :openstack_userid => ENV['OS_USER_ID'] || '8d5732a0ebd9485396351d74e24c9647',
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
 
       # Exchange it for a project-scoped token
       auth = Fog::Identity::OpenStack::V3.new(
           :openstack_project_name => ENV['OS_USERNAME'] || 'admin',
-          :openstack_domain_name => 'Default',
+          :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
           :openstack_tenant => ENV['OS_USERNAME'] || 'admin',
           :openstack_auth_token => @id_v3.credentials[:openstack_auth_token],
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
@@ -142,7 +142,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it "find specific user, lists users" do
     VCR.use_cassette('idv3_users') do
 
-      other_user = @id_v3.users.find_by_id '8d5732a0ebd9485396351d74e24c9647'
+      other_user = @id_v3.users.find_by_id ENV['OS_USER_ID'] || '8d5732a0ebd9485396351d74e24c9647'
 
       expect(other_user).to_not be_nil
       expect { nonexistent_user = @id_v3.users.find_by_id 'u-random-blah' }.to raise_error(Fog::Identity::OpenStack::NotFound)
@@ -271,8 +271,10 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it "gets a token, checks it and then revokes it" do
     VCR.use_cassette('idv3_token') do
       auth = {:auth => {:identity => {:methods => %w{password},
-                                      :password => {:user => {:id => '8d5732a0ebd9485396351d74e24c9647', :password => 'openstack'}}},
-                        :scope => {:project => {:domain => {:id => 'default'}, :name => 'admin'}}}}
+                                      :password => {:user => {:id => ENV['OS_USER_ID'] || '8d5732a0ebd9485396351d74e24c9647',
+                                                              :password => ENV['OS_PASSWORD'] || 'openstack'}}},
+                        :scope => {:project => {:domain => {:id => ENV['OS_USER_DOMAIN_NAME']||'default'},
+                                                :name => ENV['OS_PROJECT_NAME']||'admin'}}}}
 
       token = @id_v3.tokens.authenticate(auth)
       expect(token).to_not be_nil
@@ -294,22 +296,22 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       nonadmin_v3 = Fog::Identity::OpenStack::V3.new(
           :openstack_project_name => 'demo',
           :openstack_domain_id => 'default',
-          :openstack_api_key => 'openstack',
+          :openstack_api_key => ENV['OS_PASSWORD'] || 'openstack',
           :openstack_username => 'demo',
-          :openstack_region => 'europe',
+          :openstack_region => ENV['OS_REGION'] || 'europe',
           :openstack_auth_url => auth_url)
 
       # Test - check the token validity by using it to create a new Fog::Identity::OpenStack::V3 instance
       token_check = Fog::Identity::OpenStack::V3.new(
           :openstack_auth_token => nonadmin_v3.auth_token,
-          :openstack_region => 'europe',
+          :openstack_region => ENV['OS_REGION'] || 'europe',
           :openstack_auth_url => auth_url)
 
       expect(token_check).to_not be_nil
 
       expect { Fog::Identity::OpenStack::V3.new(
           :openstack_auth_token => 'blahblahblah',
-          :openstack_region => 'europe',
+          :openstack_region => ENV['OS_REGION'] || 'europe',
           :openstack_auth_url => auth_url) }.to raise_error(Excon::Errors::NotFound)
     end
   end
@@ -497,8 +499,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       expect(roles_all).to_not be_nil
       expect(roles_all.length).to_not be 0
 
-      default_role = @id_v3.roles.find_by_id '9fe2ff9ee4384b1894a90878d3e92bab'
-      expect(default_role).to_not be_nil
+      role_by_id = @id_v3.roles.find_by_id roles_all.first.id
+      expect(role_by_id).to_not be_nil
 
       expect { @id_v3.roles.find_by_id 'atlantis' }.to raise_error(Fog::Identity::OpenStack::NotFound)
     end
@@ -552,8 +554,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       expect(projects_all).to_not be_nil
       expect(projects_all.length).to_not be 0
 
-      default_project = @id_v3.projects.find_by_id 'c9f75b1200f64bf09ed079206a1a1b75'
-      expect(default_project).to_not be_nil
+      project_byid = @id_v3.projects.find_by_id projects_all.first.id
+      expect(project_byid).to_not be_nil
 
       expect { @id_v3.projects.find_by_id 'atlantis' }.to raise_error(Fog::Identity::OpenStack::NotFound)
     end
