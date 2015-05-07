@@ -62,7 +62,11 @@ module Fog
 
         def get_raw
           return "" unless raw
-          "RAW=#{raw.gsub(/"/){ %q(\") }}\n"
+          ret = "RAW=#{raw}\n"
+          ret.gsub!(/\{/, '[')
+          ret.gsub!(/\}/, ']')
+          ret.gsub!(/>/,'')
+          ret
         end
 
         def get_disk
