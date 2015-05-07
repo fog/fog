@@ -1,3 +1,91 @@
+## 1.30.0 05/07/2015
+*Hash* 7de752a9554c0437a7112ec47829f52988ef1444
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Downloads     | 9587472
+Forks         | 1436
+Open Issues   | 85
+Watchers      | 3479
+
+**MVP!** Josef Stribny
+
+#### [Brightbox]
+*   Remove provider specific helper test. thanks Paul Thornthwaite
+
+#### [GleSYS]
+*   server/create: sync required and optional args with API spec. thanks Tobias Nygren
+
+#### [Rackspace|Documentation]
+*   Documenting the Networks option. thanks James Belchamber
+
+#### [cloudstack|compute]
+*   Public IP Address model improvement. thanks Atsushi Sasaki
+
+#### [dynect|dns]
+*   include SOA and NS records in #records response. thanks Richard Henning
+
+#### [misc]
+*   Add missing attributes to stack and resource. thanks Bill Wei
+*   Supporting openstack auth v3 - project/user domain for compute/network. thanks Christophe Larsonneur
+*   Introduce disk-snapshot and VM shutdown functionality. thanks Evgeny Yurchenko
+*   image_pool request introduced. thanks Evgeny Yurchenko
+*   Fixes #3543, adds support for cpuHotAdd and memoryHotAdd. thanks Francois Herbert
+*   update CONTRIBUTING to point to design document in wiki. thanks Isaac Hollander McCreery
+*   Hash#reject! returns nil if no changes were made; it is not correct behavior in assignment. thanks Jaroslav Barton
+*   Fix the 'redirect to master' functionality. When authenticating towards a slave host, the error HOST_IS_SLAVE is returned by the slave host together with the IP address of the master host. Previously this resulted in an InvalidLogin exception which was hiding the actual cause. Now it results in an HostIsSlave exception which is then used to redirect the connection to the master host in case :xenserver_redirect_to_master is true. thanks Jonas Kongslund
+*   Remove libvirt provider specific files. thanks Josef Stribny
+*   Add modular dependency on extracted fog-libvirt. thanks Josef Stribny
+*   Remove libvirt bin file. thanks Josef Stribny
+*   Travis: Install libvirt header files to compile ruby-libvirt. thanks Josef Stribny
+*   Remove dependency on fog-libvirt altogether. thanks Josef Stribny
+*   Remove libvirt tests from fog. thanks Josef Stribny
+*   Added vsphere_debug flag for stderr debugging. thanks Lukas Zapletal
+*   add Linode Singapore DC to mock data. thanks Marques Johansson
+*   Set proper content type and clear operations after request. thanks Matt Darby
+*   Fixing Unrecognized argument: path warning message. thanks Miguel Martinez
+*   name and storage profile VM configuraiton during vApp instantiation. thanks Miguel Martinez
+*   vcloud-token on instantiation. thanks Miguel Martinez
+*   Remove Google code. thanks Paulo Henrique Lopes Ribeiro
+*   Remove Google tests. thanks Paulo Henrique Lopes Ribeiro
+*   Remove Google main file. thanks Paulo Henrique Lopes Ribeiro
+*   Remove Google Binary. thanks Paulo Henrique Lopes Ribeiro
+*   Remove mocks for Google. thanks Paulo Henrique Lopes Ribeiro
+*   Depend on fog-google. thanks Paulo Henrique Lopes Ribeiro
+*   Force version 0.0.2 of fog-google. thanks Paulo Henrique Lopes Ribeiro
+*   add firmware support for vsphere. thanks Samuel Keeley
+*   Allow passing query options to snapshots endpoint. thanks Sean Handley
+*   Change openstack_prj to openstack_project. thanks TerryHowe
+*   Host and port options support for create_temp_url. thanks biomancer
+*   Fix hp storage tests. thanks biomancer
+*   Use sane default ports for get_object_http(s)_url. thanks biomancer
+*   Compatibility fix for ruby 1.8.7 that does not have URI.encode_www_form method. thanks biomancer
+*   Make port option overridable for get_object_http(s)_url. thanks biomancer
+*   Fixing indentation. thanks eyurchenko
+*   Tests added for vm_disk_snapshot, vm_shutdown and image_pool requests. thanks eyurchenko
+*   Remove empty Mock classes. thanks eyurchenko
+*   Return to "standard" template name. thanks eyurchenko
+*   Remove puts (leftovers from debugging tests). thanks eyurchenko
+
+#### [opennebula]
+*   added get_by_name for network model. thanks ller
+*   identify the network by id or name within a flavor. thanks ller
+*   fixed networks.get_by_name. thanks ller
+*   changed list_networks mock names. thanks ller
+*   added mock for template_pool. thanks ller
+*   added flavor tests. thanks ller
+*   flavor: fixed get_vcpu and get_memory; added tests. thanks ller
+*   removed dead debug code. thanks ller
+*   added better string escaping for schedule requirements and raw sections. thanks ller
+*   fix: escape RAW parameter the right way. thanks ller
+*   fixed networks.get_by_name, added tests. thanks ller
+
+#### [vsphere|compute]
+*   Find virtual machines and templates under a folder. thanks Kevin Menard
+*   Fixed spacing. thanks Kevin Menard
+
+
 ## 1.29.0 04/02/2015
 *Hash* 90e96f36e6f70a12f0c6794a149231c337293887
 

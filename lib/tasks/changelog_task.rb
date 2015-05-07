@@ -121,6 +121,7 @@ Watchers      | #{watchers}
            'geemus',
            'Henry Addison',
            'James Bence',
+           'Josef Stribny',
            'Kevin Menard',
            'Kevin Olbrich',
            'Kyle Rames',
