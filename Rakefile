@@ -78,6 +78,9 @@ namespace :test do
   task :openstack do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/openstack")
   end
+  task :openstack_idv3 do
+    sh("export FOG_MOCK=#{mock} && bundle exec rspec spec/fog/openstack/identity_v3_spec.rb")
+  end
   task :cloudstack do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/cloudstack")
   end

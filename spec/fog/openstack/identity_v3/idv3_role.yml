@@ -1,0 +1,199 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/roles?page=1&per_page=30
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d8291e2a2a2046259316f7c2d4253e92
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '514'
+      Date:
+      - Fri, 13 Mar 2015 11:40:10 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles",
+        "previous": null, "next": null}, "roles": [{"id": "7ebef8a2837246eda8f83f96ffb82b2f",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/7ebef8a2837246eda8f83f96ffb82b2f"},
+        "name": "admin"}, {"links": {"self": "http://devstack.openstack.stack:35357/v3/roles/9fe2ff9ee4384b1894a90878d3e92bab"},
+        "enabled": "True", "description": "Default role for project membership", "name":
+        "_member_", "id": "9fe2ff9ee4384b1894a90878d3e92bab"}]}'
+    http_version: 
+  recorded_at: Fri, 13 Mar 2015 11:40:10 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/roles?page=1&per_page=30
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d8291e2a2a2046259316f7c2d4253e92
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '514'
+      Date:
+      - Fri, 13 Mar 2015 11:40:11 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles",
+        "previous": null, "next": null}, "roles": [{"id": "7ebef8a2837246eda8f83f96ffb82b2f",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/7ebef8a2837246eda8f83f96ffb82b2f"},
+        "name": "admin"}, {"links": {"self": "http://devstack.openstack.stack:35357/v3/roles/9fe2ff9ee4384b1894a90878d3e92bab"},
+        "enabled": "True", "description": "Default role for project membership", "name":
+        "_member_", "id": "9fe2ff9ee4384b1894a90878d3e92bab"}]}'
+    http_version: 
+  recorded_at: Fri, 13 Mar 2015 11:40:11 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/roles?page=1&per_page=30
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d8291e2a2a2046259316f7c2d4253e92
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '514'
+      Date:
+      - Fri, 13 Mar 2015 11:40:11 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles",
+        "previous": null, "next": null}, "roles": [{"id": "7ebef8a2837246eda8f83f96ffb82b2f",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/7ebef8a2837246eda8f83f96ffb82b2f"},
+        "name": "admin"}, {"links": {"self": "http://devstack.openstack.stack:35357/v3/roles/9fe2ff9ee4384b1894a90878d3e92bab"},
+        "enabled": "True", "description": "Default role for project membership", "name":
+        "_member_", "id": "9fe2ff9ee4384b1894a90878d3e92bab"}]}'
+    http_version: 
+  recorded_at: Fri, 13 Mar 2015 11:40:11 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/roles?page=1&per_page=30
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d8291e2a2a2046259316f7c2d4253e92
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '514'
+      Date:
+      - Fri, 13 Mar 2015 11:40:11 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles",
+        "previous": null, "next": null}, "roles": [{"id": "7ebef8a2837246eda8f83f96ffb82b2f",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/7ebef8a2837246eda8f83f96ffb82b2f"},
+        "name": "admin"}, {"links": {"self": "http://devstack.openstack.stack:35357/v3/roles/9fe2ff9ee4384b1894a90878d3e92bab"},
+        "enabled": "True", "description": "Default role for project membership", "name":
+        "_member_", "id": "9fe2ff9ee4384b1894a90878d3e92bab"}]}'
+    http_version: 
+  recorded_at: Fri, 13 Mar 2015 11:40:11 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/roles/atlantis
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.28.0 fog-core/1.29.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d8291e2a2a2046259316f7c2d4253e92
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Vary:
+      - X-Auth-Token
+      X-Distribution:
+      - Ubuntu
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '91'
+      Date:
+      - Fri, 13 Mar 2015 11:40:11 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"error": {"message": "Could not find role, atlantis.", "code": 404,
+        "title": "Not Found"}}'
+    http_version: 
+  recorded_at: Fri, 13 Mar 2015 11:40:11 GMT
+recorded_with: VCR 2.9.3
