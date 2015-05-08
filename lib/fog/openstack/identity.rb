@@ -27,7 +27,7 @@ module Fog
 
       class Mock < Fog::Identity::OpenStack::V2::Mock
       end
-      class Real < Fog::Identity::OpenStack::V2::Mock
+      class Real < Fog::Identity::OpenStack::V2::Real
       end
     end
 
