@@ -175,7 +175,7 @@ module Fog
             @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
             @openstack_management_url = options[:openstack_management_url]
             @openstack_must_reauthenticate = false
-            @openstack_service_type = options[:openstack_service_type] || ['identityv3']
+            @openstack_service_type = options[:openstack_service_type] || ['identity_v3','identityv3','identity']
             @openstack_service_name = options[:openstack_service_name]
 
             @connection_options = options[:connection_options] || {}
