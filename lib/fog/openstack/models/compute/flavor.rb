@@ -13,6 +13,7 @@ module Fog
         attribute :links
         attribute :swap
         attribute :rxtx_factor
+        attribute :extra_specs
         attribute :ephemeral, :aliases => 'OS-FLV-EXT-DATA:ephemeral'
         attribute :is_public, :aliases => 'os-flavor-access:is_public'
         attribute :disabled, :aliases => 'OS-FLV-DISABLED:disabled'
@@ -38,6 +39,18 @@ module Fog
           requires :id
           service.delete_flavor(self.id)
           true
+        end
+
+        def extra_specs
+          service.get_flavor_extra_specs(self.id).body['extra_specs']
+        rescue Fog::Compute::OpenStack::NotFound
+          nil
+        end
+
+        def create_extra_specs(extra_specs)
+          service.create_flavor_extra_specs(self.id, extra_specs)
+        rescue Fog::Compute::OpenStack::NotFound
+          nil
         end
       end
     end
