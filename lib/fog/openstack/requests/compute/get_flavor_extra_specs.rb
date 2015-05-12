@@ -12,7 +12,7 @@ module Fog
       end
 
       class Mock
-        def get_flavor_extra_specs(host)
+        def get_flavor_extra_specs(flavor_ref)
           response = Excon::Response.new
           response.status = 200
           response.body = { "extra_specs" => {

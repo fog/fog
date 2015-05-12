@@ -49,6 +49,14 @@ Shindo.tests('Fog::Compute[:openstack] | flavor requests', ['openstack']) do
       Fog::Compute[:openstack].delete_flavor('100')
     end
 
+    tests('#get_flavor_extra_specs(flavor_ref)').data_matches_schema('extra_specs' => {'cpu_arch' => String}) do
+      Fog::Compute[:openstack].get_flavor_extra_specs("1").body
+    end
+
+    tests('#create_flavor_extra_specs(flavor_ref, extra_specs)').data_matches_schema('extra_specs' => {'cpu_arch' => String}) do
+      extra_specs = {:cpu_arch => 'x86_64'}
+      Fog::Compute[:openstack].create_flavor_extra_specs("1", extra_specs).body
+    end
   end
 
   tests('failure') do
@@ -72,6 +80,16 @@ Shindo.tests('Fog::Compute[:openstack] | flavor requests', ['openstack']) do
       Fog::Compute[:openstack].list_tenants_with_flavor_access(1234)
     end
 
+    tests('get_flavor_extra_specs(flavor_ref)').raises(Fog::Compute::OpenStack::NotFound) do
+      pending if Fog.mocking?
+      Fog::Compute[:openstack].get_flavor_extra_specs("1234").body
+    end
+
+    tests('create_flavor_extra_specs(flavor_ref)').raises(Fog::Compute::OpenStack::NotFound) do
+      pending if Fog.mocking?
+      extra_specs = {:cpu_arch => 'x86_64'}
+      Fog::Compute[:openstack].create_flavor_extra_specs("1234", extra_specs).body
+    end
   end
 
 end

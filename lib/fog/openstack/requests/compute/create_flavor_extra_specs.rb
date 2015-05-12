@@ -17,7 +17,7 @@ module Fog
       end
 
       class Mock
-        def create_flavor_extra_specs(attributes)
+        def create_flavor_extra_specs(flavor_ref, extra_specs)
           response = Excon::Response.new
           response.status = 200
           response.headers = {
