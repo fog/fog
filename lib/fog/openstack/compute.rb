@@ -99,8 +99,8 @@ module Fog
       request :delete_flavor
 
       # Flavor Actions
-      request :get_flavor_extra_specs
-      request :create_flavor_extra_specs
+      request :get_flavor_metadata
+      request :create_flavor_metadata
 
       # Flavor Access
       request :add_flavor_access

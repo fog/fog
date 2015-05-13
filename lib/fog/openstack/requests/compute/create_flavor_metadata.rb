@@ -2,9 +2,9 @@ module Fog
   module Compute
     class OpenStack
       class Real
-        def create_flavor_extra_specs(flavor_ref, extra_specs)
+        def create_flavor_metadata(flavor_ref, metadata)
           data = {
-            'extra_specs' => extra_specs
+            'extra_specs' => metadata
           }
 
           request(
@@ -17,7 +17,7 @@ module Fog
       end
 
       class Mock
-        def create_flavor_extra_specs(flavor_ref, extra_specs)
+        def create_flavor_metadata(flavor_ref, metadata)
           response = Excon::Response.new
           response.status = 200
           response.headers = {
