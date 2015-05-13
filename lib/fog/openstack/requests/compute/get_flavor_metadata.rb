@@ -2,7 +2,7 @@ module Fog
   module Compute
     class OpenStack
       class Real
-        def get_flavor_extra_specs(flavor_ref)
+        def get_flavor_metadata(flavor_ref)
           request(
             :expects  => [200, 203],
             :method   => 'GET',
@@ -12,7 +12,7 @@ module Fog
       end
 
       class Mock
-        def get_flavor_extra_specs(flavor_ref)
+        def get_flavor_metadata(flavor_ref)
           response = Excon::Response.new
           response.status = 200
           response.body = { "extra_specs" => {
