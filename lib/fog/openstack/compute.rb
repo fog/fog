@@ -10,6 +10,7 @@ module Fog
                  :openstack_api_key, :openstack_username, :openstack_identity_endpoint,
                  :current_user, :current_tenant, :openstack_region,
                  :openstack_endpoint_type,
+                 :openstack_project_name,
                  :openstack_project_domain, :openstack_user_domain
 
       ## MODELS
