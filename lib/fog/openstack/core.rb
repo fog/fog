@@ -177,7 +177,7 @@ module Fog
     def self.authenticate_v3(options, connection_options = {})
       uri                   = options[:openstack_auth_uri]
       tenant_name           = options[:openstack_tenant]
-      project_name           = options[:openstack_project_name]
+      project_name          = options[:openstack_project_name]
       service_type          = options[:openstack_service_type]
       service_name          = options[:openstack_service_name]
       identity_service_type = options[:openstack_identity_service_type]
@@ -349,7 +349,7 @@ module Fog
       end
       auth_token  = options[:openstack_auth_token] || options[:unscoped_token]
       uri         = options[:openstack_auth_uri]
-      userdomain  = options[:openstack_user_domain] || options[:openstack_domain]
+      userdomain  = options[:openstack_user_domain] || options[:openstack_domain] || 'Default'
       project_domain  = options[:openstack_project_domain]  || options[:openstack_domain] || 'Default'
 
       connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
@@ -364,9 +364,6 @@ module Fog
           :methods => ["password"],
           :password => {
             :user => {
-              :domain => {
-                :name => userdomain
-              },
               :name => username,
               :password => api_key
             }
@@ -381,11 +378,18 @@ module Fog
         else
           request_body[:auth][:scope] = {
             :project => {
-              :domain => {
-                :name => project_domain
-              },
               :name => tenant_name
             }
+          }
+        end
+        unless userdomain.to_s.empty?
+          request_body[:auth][:identity][:password][:user][:domain] = {
+                  :name => userdomain
+          }
+        end
+        unless project_domain.to_s.empty?
+          request_body[:auth][:scope][:project][:domain] = {
+                :name => project_domain
           }
         end
       end
