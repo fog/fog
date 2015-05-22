@@ -18,6 +18,8 @@ module Fog
       model_path 'fog/openstack/models/compute'
       model       :server
       collection  :servers
+      model       :service
+      collection  :services
       model       :image
       collection  :images
       model       :flavor
@@ -84,6 +86,13 @@ module Fog
       request :get_vnc_console
       request :live_migrate_server
       request :migrate_server
+
+      # Service CRUD
+      request :list_services
+      request :enable_service
+      request :disable_service
+      request :disable_service_log_reason
+      request :delete_service
 
       # Image CRUD
       request :list_images
