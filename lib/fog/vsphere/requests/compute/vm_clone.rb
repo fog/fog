@@ -68,6 +68,14 @@ module Fog
         #       Default true
         #     * 'time_zone'<~String> - *REQUIRED* Only valid linux options
         #       are valid - example: 'America/Denver'
+        #     * 'interfaces' <~Array> - interfaces object to apply to
+        #        the template when cloning: overrides the
+        #        network_label, network_adapter_device_key and nic_type attributes
+        #     * 'volumes' <~Array> - volumes object to apply to
+        #        the template when cloning: this allows to resize the
+        #        existing disks as well as add or remove them. The
+        #        resizing is applied only when the size is bigger then the
+        #        in size in the template
         def vm_clone(options = {})
           # Option handling
           options = vm_clone_check_options(options)
@@ -113,38 +121,21 @@ module Fog
           datastore_obj ||= nil
           virtual_machine_config_spec = RbVmomi::VIM::VirtualMachineConfigSpec()
 
-          # Options['network']
-          # Build up the config spec
-          if ( options.key?('network_label') )
-            config_spec_operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation('edit')
-            # Get the portgroup and handle it from there.
-            network = get_raw_network(options['network_label'],options['datacenter'])
-            if ( network.kind_of? RbVmomi::VIM::DistributedVirtualPortgroup)
-                # Create the NIC backing for the distributed virtual portgroup
-                nic_backing_info = RbVmomi::VIM::VirtualEthernetCardDistributedVirtualPortBackingInfo(
-                    :port => RbVmomi::VIM::DistributedVirtualSwitchPortConnection( 
-                                                                                  :portgroupKey => network.key, 
-                                                                                  :switchUuid => network.config.distributedVirtualSwitch.uuid
-                                                                                 ) 
-                )
-            else
-                # Otherwise it's a non distributed port group
-                nic_backing_info = RbVmomi::VIM::VirtualEthernetCardNetworkBackingInfo(:deviceName => options['network_label'])
+          device_change = []
+          # fully futured interfaces api: replace the current nics
+          # with the new based on the specification
+          if (options.key?('interfaces') )
+            if options.key?('network_label')
+              raise ArgumentError, "interfaces option can't be specified together with network_label"
             end
-            connectable = RbVmomi::VIM::VirtualDeviceConnectInfo(
-              :allowGuestControl => true,
-              :connected => true,
-              :startConnected => true)
-            device = RbVmomi::VIM.public_send "#{options['nic_type']}",
-              :backing => nic_backing_info,
-              :deviceInfo => RbVmomi::VIM::Description(:label => "Network adapter 1", :summary => options['network_label']),
-              :key => options['network_adapter_device_key'],
-              :connectable => connectable
-            device_spec = RbVmomi::VIM::VirtualDeviceConfigSpec(
-              :operation => config_spec_operation,
-              :device => device)
-            virtual_machine_config_spec.deviceChange = [device_spec]
+            device_change.concat(modify_template_nics_specs(template_path, options['interfaces'], options['datacenter']))
+          elsif options.key?('network_label')
+            device_change << modify_template_nics_simple_spec(options['network_label'], options['nic_type'], options['network_adapter_device_key'], options['datacenter'])
           end
+          if disks = options['volumes']
+            device_change.concat(modify_template_volumes_specs(vm_mob_ref, options['volumes']))
+          end
+          virtual_machine_config_spec.deviceChange = device_change if device_change.any?
           # Options['numCPUs'] or Options['memoryMB']
           # Build up the specification for Hardware, for more details see ____________
           # https://github.com/rlane/rbvmomi/blob/master/test/test_serialization.rb
@@ -285,6 +276,86 @@ module Fog
             'new_vm'        => new_vm ? convert_vm_mob_ref_to_attr_hash(new_vm) : nil,
             'task_ref'      => task._ref
           }
+        end
+
+        # Build up the network config spec for simple case:
+        # simple case: apply just the network_label, nic_type and network_adapter_device_key
+        def modify_template_nics_simple_spec(network_label, nic_type, network_adapter_device_key, datacenter)
+            config_spec_operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation('edit')
+            # Get the portgroup and handle it from there.
+            network = get_raw_network(network_label, datacenter)
+            if ( network.kind_of? RbVmomi::VIM::DistributedVirtualPortgroup)
+                # Create the NIC backing for the distributed virtual portgroup
+                nic_backing_info = RbVmomi::VIM::VirtualEthernetCardDistributedVirtualPortBackingInfo(
+                    :port => RbVmomi::VIM::DistributedVirtualSwitchPortConnection( 
+                                                                                  :portgroupKey => network.key,
+                                                                                  :switchUuid => network.config.distributedVirtualSwitch.uuid
+                                                                                 ) 
+                )
+            else
+                # Otherwise it's a non distributed port group
+                nic_backing_info = RbVmomi::VIM::VirtualEthernetCardNetworkBackingInfo(:deviceName => network_label)
+            end
+            connectable = RbVmomi::VIM::VirtualDeviceConnectInfo(
+              :allowGuestControl => true,
+              :connected => true,
+              :startConnected => true)
+            device = RbVmomi::VIM.public_send "#{nic_type}",
+              :backing => nic_backing_info,
+              :deviceInfo => RbVmomi::VIM::Description(:label => "Network adapter 1", :summary => network_label),
+              :key => network_adapter_device_key,
+              :connectable => connectable
+            device_spec = RbVmomi::VIM::VirtualDeviceConfigSpec(
+              :operation => config_spec_operation,
+              :device => device)
+            return device_spec
+        end
+
+
+        def modify_template_nics_specs(template_path, new_nics, datacenter)
+          #new_spec_operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation('new')
+          #remove_spec_operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation('remove')
+
+          template_nics = list_vm_interfaces(template_path, datacenter).map do |old_attributes|
+            Fog::Compute::Vsphere::Interface.new(old_attributes)
+          end
+          specs = []
+
+          template_nics.each do |interface|
+            specs << create_interface(interface, interface.key, :remove)
+          end
+
+          new_nics.each do |interface|
+            specs << create_interface(interface, 0, :add)
+          end
+
+          return specs
+        end
+
+        def modify_template_volumes_specs(vm_mob_ref, volumes)
+          template_volumes = vm_mob_ref.config.hardware.device.grep(RbVmomi::VIM::VirtualDisk)
+          modified_volumes = volumes.take(template_volumes.size)
+          new_volumes      = volumes.drop(template_volumes.size)
+
+          specs = []
+          template_volumes.zip(modified_volumes).each do |template_volume, new_volume|
+            if new_volume
+              # updated the attribtues on the existing volume
+              # it's not allowed to reduce the size of the volume when cloning
+              if new_volume.size > template_volume.capacityInKB
+                template_volume.capacityInKB = new_volume.size
+              end
+              template_volume.backing.diskMode = new_volume.mode
+              template_volume.backing.thinProvisioned = new_volume.thin
+              specs << { :operation => :edit, :device  => template_volume }
+            else
+              specs << { :operation => :remove,
+                         :fileOperation => :destroy,
+                         :device  => template_volume }
+            end
+          end
+          specs.concat(new_volumes.map { |volume| create_disk(volume, volumes.index(volume)) })
+          return specs
         end
       end
 
