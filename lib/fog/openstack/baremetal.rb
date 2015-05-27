@@ -34,6 +34,8 @@ module Fog
       request :list_nodes
       request :list_nodes_detailed
       request :patch_node
+      request :set_node_power_state
+      request :set_node_provision_state
 
       # Chassis requests
       request :create_chassis
@@ -69,8 +71,6 @@ module Fog
       # request :set_boot_device
       # request :list_supported_boot_devices
       # request :list_node_states
-      # request :set_power_state
-      # request :provision_node
       # request :get_console_info
       # request :change_console_state
       # request :get_vendor_passthru_methods
