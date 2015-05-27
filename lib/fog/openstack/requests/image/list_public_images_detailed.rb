@@ -5,7 +5,7 @@ module Fog
         def list_public_images_detailed(attribute=nil, query=nil)
           path = 'images/detail'
           if attribute
-            query = { attribute => URI::encode(query) }
+            query = { attribute => query }
           else
             query = {}
           end
