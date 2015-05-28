@@ -368,7 +368,7 @@ module Fog
                 'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :path     => "#{@path}/#{@tenant_id}/#{params[:path]}",
+              :path     => "#{@path}/#{params[:path]}",
               :query    => params[:query]
             }))
           rescue Excon::Errors::Unauthorized => error
@@ -429,7 +429,7 @@ module Fog
 
           uri = URI.parse(@openstack_management_url)
           @host   = uri.host
-          @path, @tenant_id = uri.path.scan(/(\/.*)\/(.*)/).flatten
+          @path   = uri.path
 
           @path.sub!(/\/$/, '')
           unless @path.match(/1\.1|v2/)
