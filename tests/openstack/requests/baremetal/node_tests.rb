@@ -58,6 +58,16 @@ Shindo.tests('Fog::Baremetal[:openstack] | Baremetal node requests', ['openstack
         [{'op' => 'replace', 'path' => '/driver', 'value' => 'pxe_ssh'}]).body
     end
 
+    tests('#set_node_power_state').data_matches_schema(@detailed_node_format) do
+      Fog::Baremetal[:openstack].set_node_power_state(
+        @instance['uuid'], 'power off').body
+    end
+
+    tests('#set_node_provision_state').data_matches_schema(@detailed_node_format) do
+      Fog::Baremetal[:openstack].set_node_provision_state(
+        @instance['uuid'], 'manage').body
+    end
+
     tests('#delete_node').succeeds do
       Fog::Baremetal[:openstack].delete_node(@instance['uuid'])
     end

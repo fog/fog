@@ -79,6 +79,16 @@ module Fog
           requires :uuid
           service.get_node(self.uuid).headers
         end
+
+        def set_power_state(power_state)
+          requires :uuid
+          service.set_node_power_state(self.uuid, power_state)
+        end
+
+        def set_provision_state(provision_state)
+          requires :uuid
+          service.set_node_provision_state(self.uuid, provision_state)
+        end
       end
     end
   end
