@@ -44,7 +44,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.md]
 
-  s.add_dependency("fog-core", "~> 1.27", ">= 1.27.4")
+  s.add_dependency("fog-core", "~> 1.30")
   s.add_dependency("fog-json")
   s.add_dependency("fog-xml", "~> 0.1.1")
 
