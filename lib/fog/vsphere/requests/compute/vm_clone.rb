@@ -58,7 +58,16 @@ module Fog
         #   * 'numCPUs'<~Integer> - the number of Virtual CPUs of the Destination VM
         #   * 'memoryMB'<~Integer> - the size of memory of the Destination VM in MB
         #   * customization_spec<~Hash>: Options are marked as required if you
-        #     use this customization_spec. Static IP Settings not configured.
+        #     use this customization_spec. 
+        #     As defined https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.Specification.html
+        #     * encryptionKey <~array of bytes> Used to encrypt/decrypt password
+        #     * globalIPSettings expects a hash, REQUIRED
+        #     * identity expects a hash, REQUIRED - either LinuxPrep, Sysprep or SysprepText
+        #     * nicSettingMap expects an array
+        #     * options expects a hash
+        #     * All options can be parsed using a yaml template with cloudinit_to_customspec.rb
+        #      
+        #     OLD Values still supported:
         #     This only support cloning and setting DHCP on the first interface
         #     * 'domain'<~String> - *REQUIRED* This is put into
         #       /etc/resolve.conf (we hope)
@@ -156,52 +165,382 @@ module Fog
           virtual_machine_config_spec.memoryHotAddEnabled = options['memoryHotAddEnabled'] if ( options.key?('memoryHotAddEnabled') )
           virtual_machine_config_spec.firmware = options['firmware'] if ( options.key?('firmware') )
           # Options['customization_spec']
-          # Build up all the crappy tiered objects like the perl method
-          # Collect your variables ifset (writing at 11pm revist me)
+          # OLD Options still supported
           # * domain <~String> - *REQUIRED* - Sets the server's domain for customization
           # * dnsSuffixList <~Array> - Optional - Sets the dns search paths in resolv - Example: ["dev.example.com", "example.com"]
+          # * time_zone <~String> - Required - Only valid linux options are valid - example: 'America/Denver'
           # * ipsettings <~Hash> - Optional - If not set defaults to dhcp
           #  * ip <~String> - *REQUIRED* Sets the ip address of the VM - Example: 10.0.0.10
           #  * dnsServerList <~Array> - Optional - Sets the nameservers in resolv - Example: ["10.0.0.2", "10.0.0.3"]
           #  * gateway <~Array> - Optional - Sets the gateway for the interface - Example: ["10.0.0.1"]
           #  * subnetMask <~String> - *REQUIRED* - Set the netmask of the interface - Example: "255.255.255.0"
           #    For other ip settings options see http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.customization.IPSettings.html
+          #
+          #  Implement complete customization spec as per https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.Specification.html
+          #   * encryptionKey <~Array> - Optional, encryption key used to encypt any encrypted passwords
+          #   https://pubs.vmware.com/vsphere-51/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.GlobalIPSettings.html
+          #   * globalIPSettings <~Hash> - REQUIRED
+          #   *   dnsServerList <~Array> - Optional, list of dns servers - Example: ["10.0.0.2", "10.0.0.3"]
+          #   *   dnsSuffixList <~Array> - Optional, List of name resolution suffixes - Example: ["dev.example.com", "example.com"]
+          #   * identity <~Hash> - REQUIRED, Network identity and settings, similar to Microsoft's Sysprep tool. This is a Sysprep, LinuxPrep, or SysprepText object
+          #   *   Sysprep <~Hash> - Optional, representation of a Windows sysprep.inf answer file.
+          #   *     guiRunOnce: <~Hash> -Optional, representation of the sysprep GuiRunOnce key
+          #   *       commandList: <~Array> - REQUIRED, list of commands to run at first user logon, after guest customization. - Example: ["c:\sysprep\runaftersysprep.cmd", "c:\sysprep\installpuppet.ps1"]
+          #   *     guiUnattended: <~Hash> - REQUIRED, representation of the sysprep GuiUnattended key
+          #   *       autoLogin: boolean - REQUIRED, Flag to determine whether or not the machine automatically logs on as Administrator.
+          #   *       autoLogonCount: int - REQUIRED, specifies the number of times the machine should automatically log on as Administrator
+          #   *       password: <~Hash> - REQUIRED, new administrator password for the machine
+          #   *         plainText: boolean - REQUIRED, specify whether or not the password is in plain text, rather than encrypted
+          #   *         value: <~String> - REQUIRED, password string
+          #   *       timeZone: <~int> - REQUIRED, (see here for values https://msdn.microsoft.com/en-us/library/ms912391(v=winembedded.11).aspx)    
+          #   *     identification: <~Hash> - REQUIRED, representation of the sysprep Identification key
+          #   *       domainAdmin: <~String> - Optional, domain user account used for authentication if the virtual machine is joining a domain
+          #   *       domainAdminPassword: <~Hash> - Optional, password for the domain user account used for authentication 
+          #   *         plainText: boolean - REQUIRED, specify whether or not the password is in plain text, rather than encrypted
+          #   *         value: <~String> - REQUIRED, password string
+          #   *       joinDomain: <~String> - Optional, The domain that the virtual machine should join. If this value is supplied, then domainAdmin and domainAdminPassword must also be supplied
+          #   *       joinWorkgroup: <~String> - Optional, The workgroup that the virtual machine should join.
+          #   *     licenseFilePrintData: <~Hash> - Optional, representation of the sysprep LicenseFilePrintData key
+          #   *       autoMode: <~String> - REQUIRED, Server licensing mode. Two strings are supported: 'perSeat' or 'perServer'
+          #   *       autoUsers: <~Int> - Optional, This key is valid only if AutoMode = PerServer. The integer value indicates the number of client licenses
+          #   *     userData: <~Hash> - REQUIRED, representation of the sysprep UserData key
+          #   *       computerName: <~String> - REQUIRED, The computer name of the (Windows) virtual machine. Will be truncates to 15 characters
+          #   *       fullName: <~String> - REQUIRED, User's full name
+          #   *       orgName: <~String> - REQUIRED, User's organization
+          #   *       productId: <~String> - REQUIRED, serial number for os, ignored if using volume licensed instance
+          #   *   LinuxPrep: <~Hash> - Optional, contains machine-wide settings (note the uppercase P)
+          #   *     domain: <~String> - REQUIRED, The fully qualified domain name.
+          #   *     hostName: <~String> - REQUIRED, the network host name
+          #   *     hwClockUTC: <~Boolean> - Optional, Specifies whether the hardware clock is in UTC or local time
+          #   *     timeZone: <~String> - Optional, Case sensistive timezone, valid values can be found at https://pubs.vmware.com/vsphere-51/topic/com.vmware.wssdk.apiref.doc/timezone.html
+          #   *   SysprepText: <~Hash> - Optional, alternate way to specify the sysprep.inf answer file.
+          #   *     value: <~String> - REQUIRED, Text for the sysprep.inf answer file. 
+          #   * nicSettingMap: <~Array> - Optional, IP settings that are specific to a particular virtual network adapter
+          #   *   Each item in array:
+          #   *   adapter: <~Hash> - REQUIRED, IP settings for the associated virtual network adapter
+          #   *     dnsDomain: <~String> - Optional, DNS domain suffix for adapter
+          #   *     dnsServerList: <~Array> - Optional, list of dns server ip addresses - Example: ["10.0.0.2", "10.0.0.3"]
+          #   *     gateway: <~Array> - Optional, list of gateways - Example: ["10.0.0.2", "10.0.0.3"]
+          #   *     ip: <~String> - Optional, but required if static IP
+          #   *     ipV6Spec: <~Hash> - Optional, IPv^ settings
+          #   *       ipAddress: <~String> - Optional, but required if setting static IP
+          #   *       gateway: <~Array> - Optional, list of ipv6 gateways
+          #   *     netBIOS: <~String> - Optional, NetBIOS settings, if supplied must be one of: disableNetBIOS','enableNetBIOS','enableNetBIOSViaDhcp'
+          #   *     primaryWINS: <~String> - Optional, IP address of primary WINS server
+          #   *     secondaryWINS: <~String> - Optional, IP address of secondary WINS server
+          #   *     subnetMask: <~String> - Optional, subnet mask for adapter
+          #   *   macAddress: <~String> - Optional, MAC address of adapter being customized. This cannot be set by the client
+          #   * options: <~Hash> Optional operations, currently only win options have any value
+          #   *   changeSID: <~Boolean> - REQUIRED, The customization process should modify the machine's security identifier
+          #   *   deleteAccounts: <~Boolean> - REQUIRED, If deleteAccounts is true, then all user accounts are removed from the system
+          #   *   reboot: <~String> - Optional, (defaults to reboot), Action to be taken after running sysprep, must be one of: 'noreboot', 'reboot', 'shutdown'
+          #
           if ( options.key?('customization_spec') )
-            cust_options = options['customization_spec']
-            if cust_options.key?("ipsettings")
-              raise ArgumentError, "ip and subnetMask is required for static ip" unless cust_options["ipsettings"].key?("ip") and
-                                                                                        cust_options["ipsettings"].key?("subnetMask")
+            custom_spec = options['customization_spec']
+
+            # backwards compatablity
+            if custom_spec.key?('domain')
+              # doing this means the old options quash any new ones passed as well... might not be the best way to do it?
+              # any 'old' options overwrite the following:
+              #   - custom_spec['identity']['LinuxPrep']
+              #   - custom_spec['globalIPSettings['['dnsServerList']
+              #   - custom_spec['globalIPSettings']['dnsSuffixList']
+              #   - custom_spec['nicSettingMap'][0]['adapter']['ip']
+              #   - custom_spec['nicSettingMap'][0]['adapter']['gateway']
+              #   - custom_spec['nicSettingMap'][0]['adapter']['subnetMask']
+              #   - custom_spec['nicSettingMap'][0]['adapter']['dnsDomain']
+              #   - custom_spec['nicSettingMap'][0]['adapter']['dnsServerList']
+              #
+              # we can assume old parameters being passed
+              cust_hostname = custom_spec['hostname'] || options['name']
+              custom_spec['identity'] = Hash.new unless custom_spec.key?('identity')
+              custom_spec['identity']['LinuxPrep'] = {"domain" => custom_spec['domain'], "hostName" => cust_hostname, "timeZone" => custom_spec['time_zone']}
+            
+              if custom_spec.key?('ipsettings')
+                custom_spec['globalIPSettings']=Hash.new unless custom_spec.key?('globalIPSettings')
+                custom_spec['globalIPSettings']['dnsServerList'] = custom_spec['ipsettings']['dnsServerList'] if custom_spec['ipsettings'].key?('dnsServerList')
+                custom_spec['globalIPSettings']['dnsSuffixList'] = custom_spec['dnsSuffixList'] || [custom_spec['domain']] if ( custom_spec['dnsSuffixList'] || custom_spec['domain'])
+              end
+        
+              if (custom_spec['ipsettings'].key?('ip') or custom_spec['ipsettings'].key?('gateway') or custom_spec['ipsettings'].key?('subnetMask') or custom_spec['ipsettings'].key?('domain') or custom_spec['ipsettings'].key?('dnsServerList'))
+                if custom_spec['ipsettings'].key?('ip') 
+                  raise ArgumentError, "subnetMask is required for static ip" unless custom_spec["ipsettings"].key?("subnetMask")
+                end
+                custom_spec['nicSettingMap']=Array.new unless custom_spec.key?('nicSettingMap')
+                custom_spec['nicSettingMap'][0]=Hash.new unless custom_spec['nicSettingMap'].length > 0
+                custom_spec['nicSettingMap'][0]['adapter']=Hash.new unless custom_spec['nicSettingMap'][0].key?('adapter')
+                custom_spec['nicSettingMap'][0]['adapter']['ip'] = custom_spec['ipsettings']['ip'] if custom_spec['ipsettings'].key?('ip')
+                custom_spec['nicSettingMap'][0]['adapter']['gateway'] = custom_spec['ipsettings']['gateway'] if custom_spec['ipsettings'].key?('gateway')
+                custom_spec['nicSettingMap'][0]['adapter']['subnetMask'] = custom_spec['ipsettings']['subnetMask'] if custom_spec['ipsettings'].key?('subnetMask')
+                custom_spec['nicSettingMap'][0]['adapter']['dnsDomain'] = custom_spec['ipsettings']['domain'] if custom_spec['ipsettings'].key?('domain')
+                custom_spec['nicSettingMap'][0]['adapter']['dnsServerList'] = custom_spec['ipsettings']['dnsServerList'] if custom_spec['ipsettings'].key?('dnsServerList')
+              end       
             end
-            raise ArgumentError, "domain is required" unless cust_options.key?("domain")
-            cust_domain = cust_options['domain']
-            if cust_options.key?("ipsettings")
-              cust_ip_settings = RbVmomi::VIM::CustomizationIPSettings.new(cust_options["ipsettings"])
-              cust_ip_settings.ip = RbVmomi::VIM::CustomizationFixedIp("ipAddress" => cust_options["ipsettings"]["ip"])
-              cust_ip_settings.gateway = cust_options['ipsettings']['gateway']
+            ### End of backwards compatability 
+
+            ## requirements check here ##
+            raise ArgumentError, "globalIPSettings are required when using Customization Spec" unless custom_spec.key?('globalIPSettings')
+            raise ArgumentError, "identity is required when using Customization Spec" unless custom_spec.key?('identity')
+          
+            # encryptionKey
+            custom_encryptionKey = custom_spec['encryptionKey'] if custom_spec.key?('encryptionKey')
+            custom_encryptionKey ||= nil
+            
+            # globalIPSettings
+            # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.GlobalIPSettings.html
+            custom_globalIPSettings = RbVmomi::VIM::CustomizationGlobalIPSettings.new()
+            custom_globalIPSettings.dnsServerList = custom_spec['globalIPSettings']['dnsServerList'] if custom_spec['globalIPSettings'].key?("dnsServerList")
+            custom_globalIPSettings.dnsSuffixList = custom_spec['globalIPSettings']['dnsSuffixList'] if custom_spec['globalIPSettings'].key?("dnsSuffixList")
+            
+            # identity
+            # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.IdentitySettings.html
+            # Accepts the 3 supported CustomizationIdentitySettings Types:
+            # 1. CustomizationLinuxPrep (LinuxPrep) - note the uppercase P
+            # 2. CustomizationSysprep (Sysprep)
+            # 3. CustomizationSysprepText (SysprepText)
+            # At least one of these is required
+            #
+            identity = custom_spec['identity']
+            if identity.key?("LinuxPrep")
+              # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.LinuxPrep.html
+              # Fields:
+              #   * domain: string **REQUIRED**
+              #   * hostName: string (CustomizationName)  **REQUIRED** Will use options['name'] if not provided.
+              #   * hwClockUTC: boolean
+              #   * timeZone: string (https://pubs.vmware.com/vsphere-55/topic/com.vmware.wssdk.apiref.doc/timezone.html) 
+              raise ArgumentError, "domain is required when using LinuxPrep identity" unless identity['LinuxPrep'].key?('domain')
+              custom_identity = RbVmomi::VIM::CustomizationLinuxPrep(:domain => identity['LinuxPrep']['domain'])
+              cust_hostname = RbVmomi::VIM::CustomizationFixedName(:name => identity['LinuxPrep']['hostName']) if identity['LinuxPrep'].key?('hostName')
+              cust_hostname ||= RbVmomi::VIM::CustomizationFixedName(:name => options['name'])
+              custom_identity.hostName = cust_hostname
+              custom_identity.hwClockUTC = identity['LinuxPrep']['hwClockUTC'] if identity['LinuxPrep'].key?('hwClockUTC')
+              custom_identity.timeZone = identity['LinuxPrep']['timeZone'] if identity['LinuxPrep'].key?('timeZone') 
+            elsif identity.key?("Sysprep")
+              # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.Sysprep.html
+              # Fields:
+              #   * guiRunOnce: CustomizationGuiRunOnce
+              #   * guiUnattended: CustomizationGuiUnattended  **REQUIRED**
+              #   * identification: CustomizationIdentification  **REQUIRED**
+              #   * licenseFilePrintData: CustomizationLicenseFilePrintData
+              #   * userData: CustomizationUserData **REQUIRED**
+              # 
+              raise ArgumentError, "guiUnattended is required when using Sysprep identity" unless identity['Sysprep'].key?('guiUnattended')
+              raise ArgumentError, "identification is required when using Sysprep identity" unless identity['Sysprep'].key?('identification')
+              raise ArgumentError, "userData is required when using Sysprep identity" unless identity['Sysprep'].key?('userData')
+              if identity['Sysprep']['guiRunOnce']
+                # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.GuiRunOnce.html
+                # Fields:
+                #  * commandList: array of string **REQUIRED***
+                #
+                raise ArgumentError, "commandList is required when using Sysprep identity and guiRunOnce" unless identity['Sysprep']['guiRunOnce'].key?('commandList')
+                cust_guirunonce = RbVmomi::VIM.CustomizationGuiRunOnce( :commandList => identity['Sysprep']['guiRunOnce']['commandList'] )
+              end
+              # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.GuiUnattended.html
+              # Fields:
+              #   * autoLogin: boolean **REQUIRED**
+              #   * autoLogonCount: int **REQUIRED**
+              #   * timeZone: int (see here for values https://msdn.microsoft.com/en-us/library/ms912391(v=winembedded.11).aspx) **REQUIRED**
+              #   * password: CustomizationPassword 
+              raise ArgumentError, "guiUnattended->autoLogon is required when using Sysprep identity" unless identity['Sysprep']['guiUnattended'].key?('autoLogon')
+              raise ArgumentError, "guiUnattended->autoLogonCount is required when using Sysprep identity" unless identity['Sysprep']['guiUnattended'].key?('autoLogonCount')
+              raise ArgumentError, "guiUnattended->timeZone is required when using Sysprep identity" unless identity['Sysprep']['guiUnattended'].key?('timeZone')
+              custom_guiUnattended = RbVmomi::VIM.CustomizationGuiUnattended(
+                :autoLogon => identity['Sysprep']['guiUnattended']['autoLogon'],
+                :autoLogonCount => identity['Sysprep']['guiUnattended']['autoLogonCount'],
+                :timeZone => identity['Sysprep']['guiUnattended']['timeZone']
+              )
+              if identity['Sysprep']['guiUnattended']['password']
+                # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.Password.html
+                # Fields:
+                #   * plainText: boolean  **REQUIRED**
+                #   * value: string  **REQUIRED**
+                raise ArgumentError, "guiUnattended->password->plainText is required when using Sysprep identity and guiUnattended -> password" unless identity['Sysprep']['guiUnattended']['password'].key?('plainText')
+                raise ArgumentError, "guiUnattended->password->value is required when using Sysprep identity and guiUnattended -> password" unless identity['Sysprep']['guiUnattended']['password'].key?('value')
+                custom_guiUnattended.password = RbVmomi::VIM.CustomizationPassword(
+                  :plainText => identity['Sysprep']['guiUnattended']['password']['plainText'],
+                  :value => identity['Sysprep']['guiUnattended']['password']['value']
+                )
+              end
+              # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.Identification.html
+              # Fields:
+              #   * domainAdmin: string
+              #   * domainAdminPassword: CustomizationPassword
+              #   * joinDomain: string *If supplied domainAdmin and domainAdminPassword must be set
+              #   * joinWorkgroup: string *If supplied, joinDomain, domainAdmin and domainAdminPassword will be ignored
+              custom_identification = RbVmomi::VIM.CustomizationIdentification()
+              if identity['Sysprep']['identification'].key?('joinWorkgroup')
+                custom_identification.joinWorkgroup = identity['Sysprep']['identification']['joinWorkgroup']
+              elsif identity['Sysprep']['identification'].key?('joinDomain')
+                raise ArgumentError, "identification->domainAdmin is required when using Sysprep identity and identification -> joinDomain" unless identity['Sysprep']['identification'].key?('domainAdmin')
+                raise ArgumentError, "identification->domainAdminPassword is required when using Sysprep identity and identification -> joinDomain" unless identity['Sysprep']['identification'].key?('domainAdmin')
+                raise ArgumentError, "identification->domainAdminPassword->plainText is required when using Sysprep identity and identification -> joinDomain" unless identity['Sysprep']['identification']['domainAdminPassword'].key?('plainText')
+                raise ArgumentError, "identification->domainAdminPassword->value is required when using Sysprep identity and identification -> joinDomain" unless identity['Sysprep']['identification']['domainAdminPassword'].key?('value')
+                custom_identification.joinDomain = identity['Sysprep']['identification']['joinDomain']
+                custom_identification.domainAdmin = identity['Sysprep']['identification']['domainAdmin']
+                # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.Password.html
+                # Fields:
+                #   * plainText: boolean **REQUIRED**
+                #   * value: string **REQUIRED**
+                custom_identification.domainAdminPassword = RbVmomi::VIM.CustomizationPassword( 
+                  :plainText => identity['Sysprep']['identification']['domainAdminPassword']['plainText'],
+                  :value => identity['Sysprep']['identification']['domainAdminPassword']['value']
+                )
+              else
+                raise ArgumentError, "No valid Indentification found, valid values are 'joinWorkgroup' and 'joinDomain'"
+              end
+              if identity['Sysprep'].key?('licenseFilePrintData')
+                # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.LicenseFilePrintData.html
+                # Fields:
+                #   * autoMode: string (CustomizationLicenseDataMode) ** REQUIRED **, valid strings are: 'perSeat' or 'perServer'
+                #   * autoUsers: int (valid only if AutoMode = PerServer)
+                raise ArgumentError, "licenseFilePrintData->autoMode is required when using Sysprep identity and licenseFilePrintData" unless identity['Sysprep']['licenseFilePrintData'].key?('autoMode')
+                raise ArgumentError, "Unsupported autoMode, supported modes are : 'perSeat' or 'perServer'" unless ['perSeat', 'perServer'].include? identity['Sysprep']['licenseFilePrintData']['autoMode']
+                custom_licenseFilePrintData = RbVmomi::VIM.CustomizationLicenseFilePrintData(
+                  :autoMode => RbVmomi::VIM.CustomizationLicenseDataMode(identity['Sysprep']['licenseFilePrintData']['autoMode'])
+                )
+                if identity['Sysprep']['licenseFilePrintData'].key?('autoUsers')
+                  custom_licenseFilePrintData.autoUsers = identity['Sysprep']['licenseFilePrintData']['autoUsers'] if identity['Sysprep']['licenseFilePrintData']['autoMode'] == "PerServer"
+                end
+              end
+              # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.UserData.html
+              # Fields:
+              #   * computerName: string (CustomizationFixedName)  **REQUIRED**
+              #   * fullName: string **REQUIRED**
+              #   * orgName: string **REQUIRED**
+              #   * productID: string **REQUIRED**
+              raise ArgumentError, "userData->computerName is required when using Sysprep identity" unless identity['Sysprep']['userData'].key?('computerName')
+              raise ArgumentError, "userData->fullName is required when using Sysprep identity" unless identity['Sysprep']['userData'].key?('fullName')
+              raise ArgumentError, "userData->orgName is required when using Sysprep identity" unless identity['Sysprep']['userData'].key?('orgName')
+              raise ArgumentError, "userData->productId is required when using Sysprep identity" unless identity['Sysprep']['userData'].key?('productId')
+              custom_userData = RbVmomi::VIM.CustomizationUserData(
+                :fullName => identity['Sysprep']['userData']['fullName'],
+                :orgName => identity['Sysprep']['userData']['orgName'],
+                :productId => identity['Sysprep']['userData']['productId'],
+                :computerName => RbVmomi::VIM.CustomizationFixedName(:name => identity['Sysprep']['userData']['computerName'])
+              )
+
+              custom_identity = RbVmomi::VIM::CustomizationSysprep(          
+                :guiUnattended => custom_guiUnattended,
+                :identification => custom_identification,
+                :userData => custom_userData
+              )
+              custom_identity.guiRunOnce = cust_guirunonce if defined?(cust_guirunonce)
+              custom_identity.licenseFilePrintData = custom_licenseFilePrintData if defined?(custom_licenseFilePrintData)
+            elsif identity.key?("SysprepText")
+              # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.SysprepText.html
+              # Fields:
+              #   * value: string **REQUIRED**
+              raise ArgumentError, "SysprepText -> value is required when using SysprepText identity" unless identity['SysprepText'].key?('value')
+              custom_identity = RbVmomi::VIM::CustomizationSysprepText(:value => identity['SysprepText']['value'])
+            else
+              raise ArgumentError, "At least one of the following valid identities must be supplied: LinuxPrep, Sysprep, SysprepText"
             end
-            cust_ip_settings ||= RbVmomi::VIM::CustomizationIPSettings.new("ip" => RbVmomi::VIM::CustomizationDhcpIpGenerator.new())
-            cust_ip_settings.dnsDomain = cust_domain
-            cust_global_ip_settings = RbVmomi::VIM::CustomizationGlobalIPSettings.new
-            cust_global_ip_settings.dnsServerList = cust_ip_settings.dnsServerList
-            cust_global_ip_settings.dnsSuffixList = cust_options['dnsSuffixList'] || [cust_domain]
-            cust_hostname = RbVmomi::VIM::CustomizationFixedName.new(:name => cust_options['hostname']) if cust_options.key?('hostname')
-            cust_hostname ||= RbVmomi::VIM::CustomizationFixedName.new(:name => options['name'])
-            cust_hwclockutc = cust_options['hw_clock_utc']
-            cust_timezone = cust_options['time_zone']
-            # Start Building objects
-            # Build the CustomizationLinuxPrep Object
-            cust_prep = RbVmomi::VIM::CustomizationLinuxPrep.new(
-              :domain => cust_domain,
-              :hostName => cust_hostname,
-              :hwClockUTC => cust_hwclockutc,
-              :timeZone => cust_timezone)
-            # Build the Custom Adapter Mapping Supports only one eth right now
-            cust_adapter_mapping = [RbVmomi::VIM::CustomizationAdapterMapping.new("adapter" => cust_ip_settings)]
-            # Build the customization Spec
-            customization_spec = RbVmomi::VIM::CustomizationSpec.new(
-              :identity => cust_prep,
-              :globalIPSettings => cust_global_ip_settings,
-              :nicSettingMap => cust_adapter_mapping)
+
+            if custom_spec.key?("nicSettingMap")
+              # custom_spec['nicSettingMap'] is an array of adapater mappings:
+              # custom_spec['nicSettingMap'][0]['macAddress']
+              # custom_spec['nicSettingMap'][0]['adapter']['ip']
+              #https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.AdapterMapping.html
+              # Fields:
+              #   * adapter: CustomizationIPSettings **REQUIRED**
+              #   * macAddress: string
+              raise ArgumentError, "At least one nicSettingMap is required when using nicSettingMap" unless custom_spec['nicSettingMap'].length > 0
+              raise ArgumentError, "Adapter is required when using nicSettingMap" unless custom_spec['nicSettingMap'][0].key?('adapter')
+              
+              custom_nicSettingMap = [] 
+              # need to go through array here for each apapter
+              custom_spec['nicSettingMap'].each do | nic |
+                # https://pubs.vmware.com/vsphere-55/index.jsp?topic=%2Fcom.vmware.wssdk.apiref.doc%2Fvim.vm.customization.IPSettings.html
+                # Fields:
+                #   * dnsDomain: string
+                #   * gateway: array of string
+                #   * ip: CustomizationIpGenerator (string) **REQUIRED IF Assigning Static IP***
+                #   * ipV6Spec: CustomizationIPSettingsIpV6AddressSpec
+                #   * netBIOS: CustomizationNetBIOSMode (string)
+                #   * primaryWINS: string
+                #   * secondaryWINS: string
+                #   * subnetMask: string - Required if assigning static IP
+                if nic['adapter'].key?('ip')
+                  raise ArgumentError, "SubnetMask is required when assigning static IP when using nicSettingMap -> Adapter" unless nic['adapter'].key?('subnetMask')
+                  custom_ip = RbVmomi::VIM.CustomizationFixedIp(:ipAddress => nic['adapter']['ip'])
+                else
+                  custom_ip = RbVmomi::VIM::CustomizationDhcpIpGenerator.new()
+                end
+                custom_adapter = RbVmomi::VIM.CustomizationIPSettings(:ip => custom_ip)
+                custom_adapter.dnsDomain = nic['adapter']['dnsDomain'] if nic['adapter'].key?('dnsDomain')
+                custom_adapter.dnsServerList = nic['adapter']['dnsServerList'] if nic['adapter'].key?('dnsServerList')
+                custom_adapter.gateway = nic['adapter']['gateway'] if nic['adapter'].key?('gateway')
+                if nic['adapter'].key?('ipV6Spec')
+                  # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.IPSettings.IpV6AddressSpec.html
+                  # Fields:
+                  #   * gateway: array of string
+                  #   * ip: CustomizationIpV6Generator[] **Required if setting static IP **
+                  if nic['adapter']['ipV6Spec'].key?('ipAddress')
+                    raise ArgumentError, "SubnetMask is required when assigning static IPv6 when using nicSettingMap -> Adapter -> ipV6Spec" unless nic['adapter']['ipV6Spec'].key?('subnetMask')
+                    # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.FixedIpV6.html
+                    #   * ipAddress: string **REQUIRED**
+                    #   * subnetMask: int **REQUIRED**
+                    custom_ipv6 = RbVmomi::VIM.CustomizationFixedIpV6(
+                      :ipAddress => nic['adapter']['ipV6Spec']['ipAddress'],
+                      :subnetMask => nic['adapter']['ipV6Spec']['subnetMask']
+                    )
+                  else
+                    custom_ipv6 = RbVmomi::VIM::CustomizationDhcpIpV6Generator.new()
+                  end
+                  custom_ipv6Spec = RbVmomo::VIM.CustomizationIPSettingsIpV6AddressSpec(:ip => custom_ipv6)
+                  custom_ipv6Spec.gateway = nic['adapter']['ipV6Spec']['gateway'] if nic['adapter']['ipV6Spec'].key?('gateway')
+                  custom_adapter.ipV6Spec = custom_ipv6Spec
+                end
+                if nic['adapter'].key?('netBIOS')
+                  # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.IPSettings.NetBIOSMode.html
+                  # Fields:
+                  #   netBIOS: string matching: 'disableNetBIOS','enableNetBIOS' or 'enableNetBIOSViaDhcp' ** REQUIRED **
+                  #
+                  raise ArgumentError, "Unsupported NetBIOSMode, supported modes are : 'disableNetBIOS','enableNetBIOS' or 'enableNetBIOSViaDhcp'" unless ['disableNetBIOS','enableNetBIOS','enableNetBIOSViaDhcp'].include? nic['adapter']['netBIOS']
+                  custom_adapter.netBIOS = RbVmomi::VIM.CustomizationNetBIOSMode(nic['adapter']['netBIOS'])
+                end
+                custom_adapter.primaryWINS = nic['adapter']['primaryWINS'] if nic['adapter'].key?('primaryWINS')
+                custom_adapter.secondaryWINS = nic['adapter']['secondaryWINS'] if nic['adapter'].key?('secondaryWINS')
+                custom_adapter.subnetMask = nic['adapter']['subnetMask'] if nic['adapter'].key?('subnetMask')
+                
+                custom_adapter_mapping = RbVmomi::VIM::CustomizationAdapterMapping(:adapter => custom_adapter)
+                custom_adapter_mapping.macAddress = nic['macAddress'] if nic.key?('macAddress')
+                
+                # build the adapters array, creates it if not already created, otherwise appends to it
+                custom_nicSettingMap << custom_adapter_mapping 
+              end
+            end  
+            custom_nicSettingMap = nil if custom_nicSettingMap.length < 1
+                      
+            if custom_spec.key?("options") 
+              # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.Options.html
+              # this currently doesn't have any Linux options, just windows
+              # Fields:
+              #   * changeSID: boolean **REQUIRED**
+              #   * deleteAccounts: boolean **REQUIRED** **note deleteAccounts is deprecated as of VI API 2.5 so can be ignored
+              #   * reboot: CustomizationSysprepRebootOption: (string) one of following 'noreboot', reboot' or 'shutdown' (defaults to reboot)
+              raise ArgumentError, "changeSID id required when using Windows Options" unless custom_spec['options'].key?('changeSID')
+              raise ArgumentError, "deleteAccounts id required when using Windows Options" unless custom_spec['options'].key?('deleteAccounts')
+              custom_options = RbVmomi::VIM::CustomizationWinOptions(
+                :changeSID => custom_spec['options']['changeSID'],
+                :deleteAccounts => custom_spec['options']['deleteAccounts']
+              )
+              if custom_spec['options'].key?('reboot')
+                raise ArgumentError, "Unsupported reboot option, supported options are : 'noreboot', 'reboot' or 'shutdown'" unless ['noreboot','reboot','shutdown'].include? custom_spec['options']['reboot']
+                custom_options.reboot = RBVmomi::VIM.CustomizationSysprepRebootOption(custom_spec['options']['reboot'])
+              end
+            end
+            custom_options ||=nil  
+            
+            # https://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.wssdk.apiref.doc/vim.vm.customization.Specification.html
+            customization_spec = RbVmomi::VIM::CustomizationSpec(
+              :globalIPSettings => custom_globalIPSettings,
+              :identity         => custom_identity
+            )
+            customization_spec.encryptionKey = custom_encryptionKey if defined?(custom_encryptionKey)
+            customization_spec.nicSettingMap = custom_nicSettingMap if defined?(custom_nicSettingMap)
+            customization_spec.options = custom_options if defined?(custom_options)
+
           end
           customization_spec ||= nil
 
@@ -229,7 +568,7 @@ module Fog
                       disk_backing.backing.fileName = "[#{disk.backing.datastore.name}]";
                       disk_backing.backing.parent = disk.backing
                     }
-                  },
+                  }
                 ]
               }
               vm_mob_ref.ReconfigVM_Task(:spec => disk_spec).wait_for_completion
