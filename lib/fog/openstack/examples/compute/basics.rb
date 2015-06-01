@@ -17,7 +17,9 @@ compute_client ||= ::Fog::Compute.new(:provider           => :openstack,
 # Options include metadata, availability zone, etc...
 
 begin
-  vm = compute_client.servers.create(name, image, flavor, options = {})
+  vm = compute_client.servers.create(:name => 'lucky',
+                                     :image_ref => 'fcd8f8a9',
+                                     :flavor_ref => 4)
 rescue => e
   puts JSON.parse(e.response.body)['badRequest']['message']
 end
