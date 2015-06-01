@@ -75,6 +75,18 @@ module Fog
           service.list_ports_detailed({:node_uuid => self.uuid}).body['ports']
         end
 
+        def set_node_maintenance(parameters=nil)
+          requires :uuid
+          service.set_node_maintenance(uuid, parameters)
+          true
+        end
+
+        def unset_node_maintenance(parameters=nil)
+          requires :uuid
+          service.unset_node_maintenance(uuid, parameters)
+          true
+        end
+
         def metadata
           requires :uuid
           service.get_node(self.uuid).headers

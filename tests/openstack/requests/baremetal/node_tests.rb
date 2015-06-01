@@ -68,6 +68,14 @@ Shindo.tests('Fog::Baremetal[:openstack] | Baremetal node requests', ['openstack
         @instance['uuid'], 'manage').body
     end
 
+    tests('#set_node_maintenance').succeeds do
+      Fog::Baremetal[:openstack].set_node_maintenance(@instance['uuid'])
+    end
+
+    tests('#unset_node_maintenance').succeeds do
+      Fog::Baremetal[:openstack].unset_node_maintenance(@instance['uuid'])
+    end
+
     tests('#delete_node').succeeds do
       Fog::Baremetal[:openstack].delete_node(@instance['uuid'])
     end

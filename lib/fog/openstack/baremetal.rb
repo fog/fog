@@ -36,6 +36,8 @@ module Fog
       request :patch_node
       request :set_node_power_state
       request :set_node_provision_state
+      request :set_node_maintenance
+      request :unset_node_maintenance
 
       # Chassis requests
       request :create_chassis
@@ -65,8 +67,6 @@ module Fog
 
       ## Node requests
       # request :validate_node
-      # request :set_maintenance
-      # request :unset_maintenance
       # request :get_boot_device
       # request :set_boot_device
       # request :list_supported_boot_devices
