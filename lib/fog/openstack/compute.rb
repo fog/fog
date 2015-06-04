@@ -189,6 +189,9 @@ module Fog
       request :list_hosts
       request :get_host_details
 
+      # Zones
+      request :list_zones
+
       class Mock
         attr_reader :auth_token
         attr_reader :auth_token_expiration
