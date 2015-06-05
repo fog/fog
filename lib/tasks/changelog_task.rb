@@ -140,6 +140,7 @@ Watchers      | #{watchers}
            'Rodrigo Estebanez',
            'Rupak Ganguly',
            'Stepan G. Fedorov',
+           'TerryHowe',
            'Wesley Beary'
          ].include?(committer)
       end

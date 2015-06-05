@@ -1,3 +1,42 @@
+## 1.31.0 06/05/2015
+*Hash* 8c653412b40dd82f82187b9710ccb9177dab3d98
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Downloads     | 10004131
+Forks         | 1444
+Open Issues   | 77
+Watchers      | 3515
+
+**MVP!** TerryHowe
+
+#### [cloudstack]
+*   Allow specifying the size of DATADISK on the creation of a server. thanks Yamashita Yuu
+
+#### [misc]
+*   Fixes #3084: Implement OpenStack Identity V3 API. thanks Darren Hague
+*   Support the full vmware customization spec. thanks Francois Herbert
+*   remove comma from end of hash to fix error with ruby 1.8.7 test. thanks Francois Herbert
+*   Openstack Ironic maintenance mode. thanks Ladislav Smola
+*   OpenStack add nova service support. thanks Ladislav Smola
+*   Fog::OpenStack::Compute: remove assumption about endpoint URL format. thanks Stefan Majewsky
+*   OpenStack rename flavor extra specs to metadata. thanks TerryHowe
+*   OpenStack allow domains to be optional fix warning. thanks TerryHowe
+*   Do not double encode image query. thanks TerryHowe
+*   Fix OpenStack compute docs. thanks TerryHowe
+*   Adding list_zones call to OpenStack. thanks Tom Caspy
+*   added tests for flavor extra_specs. thanks Mainn Chen
+*   rework tasks to better integrate github release creation/tagging. thanks geemus
+*   Upgraded fog-core to version 1.30. thanks gust
+
+#### [openstack|baremetal]
+*   added support for setting node power/provision states. thanks Mainn Chen
+
+#### [openstack|compute]
+*   added support for flavor extra_specs. thanks Mainn Chen
+
+
 ## 1.30.0 05/07/2015
 *Hash* 7de752a9554c0437a7112ec47829f52988ef1444
 
