@@ -171,6 +171,9 @@ module Fog
               raise ArgumentError, "Missing required arguments: #{missing_credentials.join(', ')}" unless missing_credentials.empty?
             end
 
+            @openstack_domain_name = options[:openstack_domain_name]
+            @openstack_domain_id = options[:openstack_domain_id]
+            @openstack_project_name = options[:openstack_project_name]
 
             @openstack_tenant = options[:openstack_tenant]
             @openstack_auth_uri = URI.parse(options[:openstack_auth_url])

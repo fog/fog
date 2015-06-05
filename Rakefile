@@ -54,7 +54,7 @@ end
 
 GEM_NAME = "#{name}"
 task :default => :test
-task :travis  => ['test', 'test:travis']
+task :travis  => ['test', 'test:travis', 'test:openstack_idv3']
 
 Rake::TestTask.new do |t|
   t.pattern = File.join("spec", "**", "*_spec.rb")

@@ -8,41 +8,48 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 009ae8660db6493fa60c0a2fef90202f
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:47 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-1768497e-e387-4399-8240-e89c601318c9
+      Content-Length:
+      - '1089'
       Content-Type:
       - application/json
-      Content-Length:
-      - '834'
-      Date:
-      - Fri, 13 Mar 2015 11:40:13 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects",
-        "previous": null, "next": null}, "projects": [{"description": "Service Tenant",
-        "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/46c5dbf37d144a98b075c701d02d5336"},
-        "enabled": true, "id": "46c5dbf37d144a98b075c701d02d5336", "domain_id": "default",
-        "name": "service"}, {"description": "Admin Tenant", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/c7767afa57b74f33863a420daba5f57f"},
-        "enabled": true, "id": "c7767afa57b74f33863a420daba5f57f", "domain_id": "default",
-        "name": "admin"}, {"description": "Demo Tenant", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/c9f75b1200f64bf09ed079206a1a1b75"},
-        "enabled": true, "id": "c9f75b1200f64bf09ed079206a1a1b75", "domain_id": "default",
-        "name": "demo"}]}'
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?page=1&per_page=30",
+        "previous": null, "next": null}, "projects": [{"description": null, "links":
+        {"self": "http://devstack.openstack.stack:35357/v3/projects/123ac695d4db400a9001b91bb3b8aa46"},
+        "enabled": true, "id": "123ac695d4db400a9001b91bb3b8aa46", "parent_id": null,
+        "domain_id": "default", "name": "admin"}, {"description": null, "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/projects/3e06db1f2ff64d219d27a3f6858bf602"},
+        "enabled": true, "id": "3e06db1f2ff64d219d27a3f6858bf602", "parent_id": null,
+        "domain_id": "default", "name": "invisible_to_admin"}, {"description": null,
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/3ed7ee0512b641d3bb1fe17fc86d8bff"},
+        "enabled": true, "id": "3ed7ee0512b641d3bb1fe17fc86d8bff", "parent_id": null,
+        "domain_id": "default", "name": "demo"}, {"description": null, "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/projects/956fbf1d663b4d6fa9d26c4d78de113f"},
+        "enabled": true, "id": "956fbf1d663b4d6fa9d26c4d78de113f", "parent_id": null,
+        "domain_id": "default", "name": "service"}]}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:40:13 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:47 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/projects?page=1&per_page=30
@@ -51,41 +58,48 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 009ae8660db6493fa60c0a2fef90202f
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:47 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-c69747f7-0dcf-41de-9459-1c73049c4f86
+      Content-Length:
+      - '1089'
       Content-Type:
       - application/json
-      Content-Length:
-      - '834'
-      Date:
-      - Fri, 13 Mar 2015 11:40:13 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects",
-        "previous": null, "next": null}, "projects": [{"description": "Service Tenant",
-        "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/46c5dbf37d144a98b075c701d02d5336"},
-        "enabled": true, "id": "46c5dbf37d144a98b075c701d02d5336", "domain_id": "default",
-        "name": "service"}, {"description": "Admin Tenant", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/c7767afa57b74f33863a420daba5f57f"},
-        "enabled": true, "id": "c7767afa57b74f33863a420daba5f57f", "domain_id": "default",
-        "name": "admin"}, {"description": "Demo Tenant", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/c9f75b1200f64bf09ed079206a1a1b75"},
-        "enabled": true, "id": "c9f75b1200f64bf09ed079206a1a1b75", "domain_id": "default",
-        "name": "demo"}]}'
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?page=1&per_page=30",
+        "previous": null, "next": null}, "projects": [{"description": null, "links":
+        {"self": "http://devstack.openstack.stack:35357/v3/projects/123ac695d4db400a9001b91bb3b8aa46"},
+        "enabled": true, "id": "123ac695d4db400a9001b91bb3b8aa46", "parent_id": null,
+        "domain_id": "default", "name": "admin"}, {"description": null, "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/projects/3e06db1f2ff64d219d27a3f6858bf602"},
+        "enabled": true, "id": "3e06db1f2ff64d219d27a3f6858bf602", "parent_id": null,
+        "domain_id": "default", "name": "invisible_to_admin"}, {"description": null,
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/3ed7ee0512b641d3bb1fe17fc86d8bff"},
+        "enabled": true, "id": "3ed7ee0512b641d3bb1fe17fc86d8bff", "parent_id": null,
+        "domain_id": "default", "name": "demo"}, {"description": null, "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/projects/956fbf1d663b4d6fa9d26c4d78de113f"},
+        "enabled": true, "id": "956fbf1d663b4d6fa9d26c4d78de113f", "parent_id": null,
+        "domain_id": "default", "name": "service"}]}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:40:13 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:47 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/projects?page=1&per_page=30
@@ -94,41 +108,48 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 009ae8660db6493fa60c0a2fef90202f
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:47 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-c31e384d-7d8b-4bc7-9bfa-895988a1b371
+      Content-Length:
+      - '1089'
       Content-Type:
       - application/json
-      Content-Length:
-      - '834'
-      Date:
-      - Fri, 13 Mar 2015 11:40:14 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects",
-        "previous": null, "next": null}, "projects": [{"description": "Service Tenant",
-        "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/46c5dbf37d144a98b075c701d02d5336"},
-        "enabled": true, "id": "46c5dbf37d144a98b075c701d02d5336", "domain_id": "default",
-        "name": "service"}, {"description": "Admin Tenant", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/c7767afa57b74f33863a420daba5f57f"},
-        "enabled": true, "id": "c7767afa57b74f33863a420daba5f57f", "domain_id": "default",
-        "name": "admin"}, {"description": "Demo Tenant", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/c9f75b1200f64bf09ed079206a1a1b75"},
-        "enabled": true, "id": "c9f75b1200f64bf09ed079206a1a1b75", "domain_id": "default",
-        "name": "demo"}]}'
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?page=1&per_page=30",
+        "previous": null, "next": null}, "projects": [{"description": null, "links":
+        {"self": "http://devstack.openstack.stack:35357/v3/projects/123ac695d4db400a9001b91bb3b8aa46"},
+        "enabled": true, "id": "123ac695d4db400a9001b91bb3b8aa46", "parent_id": null,
+        "domain_id": "default", "name": "admin"}, {"description": null, "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/projects/3e06db1f2ff64d219d27a3f6858bf602"},
+        "enabled": true, "id": "3e06db1f2ff64d219d27a3f6858bf602", "parent_id": null,
+        "domain_id": "default", "name": "invisible_to_admin"}, {"description": null,
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/3ed7ee0512b641d3bb1fe17fc86d8bff"},
+        "enabled": true, "id": "3ed7ee0512b641d3bb1fe17fc86d8bff", "parent_id": null,
+        "domain_id": "default", "name": "demo"}, {"description": null, "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/projects/956fbf1d663b4d6fa9d26c4d78de113f"},
+        "enabled": true, "id": "956fbf1d663b4d6fa9d26c4d78de113f", "parent_id": null,
+        "domain_id": "default", "name": "service"}]}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:40:14 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:47 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/projects?page=1&per_page=30
@@ -137,41 +158,48 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 009ae8660db6493fa60c0a2fef90202f
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:47 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-3a15236d-559b-4abc-a4dc-f99d38c15471
+      Content-Length:
+      - '1089'
       Content-Type:
       - application/json
-      Content-Length:
-      - '834'
-      Date:
-      - Fri, 13 Mar 2015 11:40:14 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects",
-        "previous": null, "next": null}, "projects": [{"description": "Service Tenant",
-        "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/46c5dbf37d144a98b075c701d02d5336"},
-        "enabled": true, "id": "46c5dbf37d144a98b075c701d02d5336", "domain_id": "default",
-        "name": "service"}, {"description": "Admin Tenant", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/c7767afa57b74f33863a420daba5f57f"},
-        "enabled": true, "id": "c7767afa57b74f33863a420daba5f57f", "domain_id": "default",
-        "name": "admin"}, {"description": "Demo Tenant", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/c9f75b1200f64bf09ed079206a1a1b75"},
-        "enabled": true, "id": "c9f75b1200f64bf09ed079206a1a1b75", "domain_id": "default",
-        "name": "demo"}]}'
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?page=1&per_page=30",
+        "previous": null, "next": null}, "projects": [{"description": null, "links":
+        {"self": "http://devstack.openstack.stack:35357/v3/projects/123ac695d4db400a9001b91bb3b8aa46"},
+        "enabled": true, "id": "123ac695d4db400a9001b91bb3b8aa46", "parent_id": null,
+        "domain_id": "default", "name": "admin"}, {"description": null, "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/projects/3e06db1f2ff64d219d27a3f6858bf602"},
+        "enabled": true, "id": "3e06db1f2ff64d219d27a3f6858bf602", "parent_id": null,
+        "domain_id": "default", "name": "invisible_to_admin"}, {"description": null,
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/3ed7ee0512b641d3bb1fe17fc86d8bff"},
+        "enabled": true, "id": "3ed7ee0512b641d3bb1fe17fc86d8bff", "parent_id": null,
+        "domain_id": "default", "name": "demo"}, {"description": null, "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/projects/956fbf1d663b4d6fa9d26c4d78de113f"},
+        "enabled": true, "id": "956fbf1d663b4d6fa9d26c4d78de113f", "parent_id": null,
+        "domain_id": "default", "name": "service"}]}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:40:14 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:47 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/projects/atlantis
@@ -180,32 +208,34 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 009ae8660db6493fa60c0a2fef90202f
   response:
     status:
       code: 404
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:47 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-c45b1de1-0130-4e43-93b8-982443eec021
+      Content-Length:
+      - '93'
       Content-Type:
       - application/json
-      Content-Length:
-      - '94'
-      Date:
-      - Fri, 13 Mar 2015 11:40:14 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"error": {"message": "Could not find project, atlantis.", "code":
+      string: ! '{"error": {"message": "Could not find project: atlantis", "code":
         404, "title": "Not Found"}}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:40:14 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:47 GMT
 recorded_with: VCR 2.9.3

@@ -8,34 +8,41 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:37 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-6888223e-cd33-43f4-a7eb-8a4004ebcebc
+      Content-Length:
+      - '558'
       Content-Type:
       - application/json
-      Content-Length:
-      - '116'
-      Date:
-      - Fri, 13 Mar 2015 11:39:51 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
-        "previous": null, "next": null}, "groups": []}'
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
+        "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
+        "non-admin group", "id": "456293145b0b48b1be46e71d97ad14e4", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/groups/456293145b0b48b1be46e71d97ad14e4"},
+        "name": "nonadmins"}, {"domain_id": "default", "description": "openstack admin
+        group", "id": "b87395bdcc4c40d18a83277430f60f29", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/b87395bdcc4c40d18a83277430f60f29"},
+        "name": "admins"}]}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:51 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:37 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
@@ -44,34 +51,41 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:37 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-95b5c230-d721-44bc-b554-7ef63d8a652e
+      Content-Length:
+      - '558'
       Content-Type:
       - application/json
-      Content-Length:
-      - '116'
-      Date:
-      - Fri, 13 Mar 2015 11:39:51 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
-        "previous": null, "next": null}, "groups": []}'
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
+        "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
+        "non-admin group", "id": "456293145b0b48b1be46e71d97ad14e4", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/groups/456293145b0b48b1be46e71d97ad14e4"},
+        "name": "nonadmins"}, {"domain_id": "default", "description": "openstack admin
+        group", "id": "b87395bdcc4c40d18a83277430f60f29", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/b87395bdcc4c40d18a83277430f60f29"},
+        "name": "admins"}]}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:51 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:37 GMT
 - request:
     method: post
     uri: http://devstack.openstack.stack:35357/v3/groups
@@ -80,35 +94,37 @@ http_interactions:
       string: ! '{"group":{"name":"foobar","description":"Group of Foobar users"}}'
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 201
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:37 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-b15de7d7-6c2f-4ac1-89d5-0190ae352f11
+      Content-Length:
+      - '228'
       Content-Type:
       - application/json
-      Content-Length:
-      - '238'
-      Date:
-      - Fri, 13 Mar 2015 11:39:51 GMT
     body:
       encoding: US-ASCII
       string: ! '{"group": {"domain_id": "default", "description": "Group of Foobar
-        users", "id": "8f298c0da6a744bf9440540132fc8709", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709"},
+        users", "id": "07206bf5df914ffcadcb9bd7154f77a0", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0"},
         "name": "foobar"}}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:51 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:37 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
@@ -117,74 +133,82 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:37 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-43f85c2e-9d5e-4d42-86ac-427b4d243821
+      Content-Length:
+      - '777'
       Content-Type:
       - application/json
-      Content-Length:
-      - '343'
-      Date:
-      - Fri, 13 Mar 2015 11:39:51 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
         "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
-        "Group of Foobar users", "id": "8f298c0da6a744bf9440540132fc8709", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709"},
-        "name": "foobar"}]}'
+        "Group of Foobar users", "id": "07206bf5df914ffcadcb9bd7154f77a0", "links":
+        {"self": "http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0"},
+        "name": "foobar"}, {"domain_id": "default", "description": "non-admin group",
+        "id": "456293145b0b48b1be46e71d97ad14e4", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/456293145b0b48b1be46e71d97ad14e4"},
+        "name": "nonadmins"}, {"domain_id": "default", "description": "openstack admin
+        group", "id": "b87395bdcc4c40d18a83277430f60f29", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/b87395bdcc4c40d18a83277430f60f29"},
+        "name": "admins"}]}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:51 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:37 GMT
 - request:
     method: patch
-    uri: http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709
+    uri: http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0
     body:
       encoding: UTF-8
       string: ! '{"group":{"name":"baz","description":"Group of Baz users"}}'
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:37 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-e6e6dc07-2218-4bc8-8968-c2016a0e29e0
+      Content-Length:
+      - '222'
       Content-Type:
       - application/json
-      Content-Length:
-      - '232'
-      Date:
-      - Fri, 13 Mar 2015 11:39:52 GMT
     body:
       encoding: US-ASCII
       string: ! '{"group": {"domain_id": "default", "description": "Group of Baz users",
-        "id": "8f298c0da6a744bf9440540132fc8709", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709"},
+        "id": "07206bf5df914ffcadcb9bd7154f77a0", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0"},
         "name": "baz"}}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:52 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:37 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
@@ -193,37 +217,43 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:37 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-0a545fbb-2d00-49a1-957d-53c2ed14e192
+      Content-Length:
+      - '771'
       Content-Type:
       - application/json
-      Content-Length:
-      - '337'
-      Date:
-      - Fri, 13 Mar 2015 11:39:52 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
         "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
-        "Group of Baz users", "id": "8f298c0da6a744bf9440540132fc8709", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709"},
-        "name": "baz"}]}'
+        "Group of Baz users", "id": "07206bf5df914ffcadcb9bd7154f77a0", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0"},
+        "name": "baz"}, {"domain_id": "default", "description": "non-admin group",
+        "id": "456293145b0b48b1be46e71d97ad14e4", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/456293145b0b48b1be46e71d97ad14e4"},
+        "name": "nonadmins"}, {"domain_id": "default", "description": "openstack admin
+        group", "id": "b87395bdcc4c40d18a83277430f60f29", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/b87395bdcc4c40d18a83277430f60f29"},
+        "name": "admins"}]}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:52 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:37 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
@@ -232,37 +262,43 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:37 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-645ef7a2-b4d0-4142-9d80-236667818625
+      Content-Length:
+      - '771'
       Content-Type:
       - application/json
-      Content-Length:
-      - '337'
-      Date:
-      - Fri, 13 Mar 2015 11:39:52 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
         "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
-        "Group of Baz users", "id": "8f298c0da6a744bf9440540132fc8709", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709"},
-        "name": "baz"}]}'
+        "Group of Baz users", "id": "07206bf5df914ffcadcb9bd7154f77a0", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0"},
+        "name": "baz"}, {"domain_id": "default", "description": "non-admin group",
+        "id": "456293145b0b48b1be46e71d97ad14e4", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/456293145b0b48b1be46e71d97ad14e4"},
+        "name": "nonadmins"}, {"domain_id": "default", "description": "openstack admin
+        group", "id": "b87395bdcc4c40d18a83277430f60f29", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/b87395bdcc4c40d18a83277430f60f29"},
+        "name": "admins"}]}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:52 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:37 GMT
 - request:
     method: post
     uri: http://devstack.openstack.stack:35357/v3/users
@@ -271,35 +307,37 @@ http_interactions:
       string: ! '{"user":{"name":"foobar1","email":"foobar1@example.com","password":"s3cret!1"}}'
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 201
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:37 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-5fc28d1c-ed3d-4aae-8239-6dc0ab79bea3
+      Content-Length:
+      - '236'
       Content-Type:
       - application/json
-      Content-Length:
-      - '246'
-      Date:
-      - Fri, 13 Mar 2015 11:39:52 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"user": {"name": "foobar1", "links": {"self": "http://devstack.openstack.stack:35357/v3/users/975c312e54354059984fb7f8e8483cae"},
+      string: ! '{"user": {"name": "foobar1", "links": {"self": "http://devstack.openstack.stack:35357/v3/users/ffd77fc506ab4f0086dc0e31b340acfc"},
         "domain_id": "default", "enabled": true, "email": "foobar1@example.com", "id":
-        "975c312e54354059984fb7f8e8483cae"}}'
+        "ffd77fc506ab4f0086dc0e31b340acfc"}}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:52 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:38 GMT
 - request:
     method: post
     uri: http://devstack.openstack.stack:35357/v3/users
@@ -308,634 +346,592 @@ http_interactions:
       string: ! '{"user":{"name":"foobar2","email":"foobar2@example.com","password":"s3cret!2"}}'
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 201
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:37 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-836257ac-ad7e-44ae-9429-92311cdddd2e
+      Content-Length:
+      - '236'
       Content-Type:
       - application/json
-      Content-Length:
-      - '246'
-      Date:
-      - Fri, 13 Mar 2015 11:39:52 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"user": {"name": "foobar2", "links": {"self": "http://devstack.openstack.stack:35357/v3/users/538e1793b93248f7be2e92524978011c"},
+      string: ! '{"user": {"name": "foobar2", "links": {"self": "http://devstack.openstack.stack:35357/v3/users/cd02a17fc2e24f9f99c1d9bd9bfe0231"},
         "domain_id": "default", "enabled": true, "email": "foobar2@example.com", "id":
-        "538e1793b93248f7be2e92524978011c"}}'
+        "cd02a17fc2e24f9f99c1d9bd9bfe0231"}}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:52 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:38 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/users/975c312e54354059984fb7f8e8483cae/groups
+    uri: http://devstack.openstack.stack:35357/v3/users/ffd77fc506ab4f0086dc0e31b340acfc/groups
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:38 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-4614ff65-cda5-4ce3-b12f-9a39e221c16f
+      Content-Length:
+      - '145'
       Content-Type:
       - application/json
-      Content-Length:
-      - '155'
-      Date:
-      - Fri, 13 Mar 2015 11:39:53 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/users/975c312e54354059984fb7f8e8483cae/groups",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/users/ffd77fc506ab4f0086dc0e31b340acfc/groups",
         "previous": null, "next": null}, "groups": []}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:53 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:38 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users?page=1&per_page=30
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:38 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-c7f5499e-4bb9-4170-baca-a0cf52387a41
+      Content-Length:
+      - '163'
       Content-Type:
       - application/json
-      Content-Length:
-      - '154'
-      Date:
-      - Fri, 13 Mar 2015 11:39:53 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"users": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users",
+      string: ! '{"users": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users?page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:53 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:38 GMT
 - request:
     method: put
-    uri: http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users/975c312e54354059984fb7f8e8483cae
+    uri: http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users/ffd77fc506ab4f0086dc0e31b340acfc
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 204
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:38 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-cbfd2a39-efb0-47b1-8671-540cbb49ddcb
       Content-Length:
       - '0'
-      Date:
-      - Fri, 13 Mar 2015 11:39:53 GMT
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:53 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:38 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/users/975c312e54354059984fb7f8e8483cae/groups
+    uri: http://devstack.openstack.stack:35357/v3/users/ffd77fc506ab4f0086dc0e31b340acfc/groups
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:38 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-7dd739fa-5b14-468c-93ef-70d008c422a9
+      Content-Length:
+      - '356'
       Content-Type:
       - application/json
-      Content-Length:
-      - '376'
-      Date:
-      - Fri, 13 Mar 2015 11:39:53 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/users/975c312e54354059984fb7f8e8483cae/groups",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/users/ffd77fc506ab4f0086dc0e31b340acfc/groups",
         "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
-        "Group of Baz users", "id": "8f298c0da6a744bf9440540132fc8709", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709"},
+        "Group of Baz users", "id": "07206bf5df914ffcadcb9bd7154f77a0", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0"},
         "name": "baz"}]}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:53 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:38 GMT
 - request:
     method: head
-    uri: http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users/975c312e54354059984fb7f8e8483cae
+    uri: http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users/ffd77fc506ab4f0086dc0e31b340acfc
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 204
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:38 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
-      Content-Length:
-      - '0'
-      Date:
-      - Fri, 13 Mar 2015 11:39:53 GMT
+      X-Openstack-Request-Id:
+      - req-93636b1f-4961-489f-ac9d-ff99ca8003d2
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:53 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:38 GMT
 - request:
     method: put
-    uri: http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users/538e1793b93248f7be2e92524978011c
+    uri: http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users/cd02a17fc2e24f9f99c1d9bd9bfe0231
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 204
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:38 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-65368b0b-220e-4f55-b362-6563e247f921
       Content-Length:
       - '0'
-      Date:
-      - Fri, 13 Mar 2015 11:39:54 GMT
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:54 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:38 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users?page=1&per_page=30
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:38 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-eba8c631-2d51-427d-942a-383ec631e15c
+      Content-Length:
+      - '617'
       Content-Type:
       - application/json
-      Content-Length:
-      - '628'
-      Date:
-      - Fri, 13 Mar 2015 11:39:54 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"users": [{"name": "foobar2", "links": {"self": "http://devstack.openstack.stack:35357/v3/users/538e1793b93248f7be2e92524978011c"},
+      string: ! '{"users": [{"name": "foobar2", "links": {"self": "http://devstack.openstack.stack:35357/v3/users/cd02a17fc2e24f9f99c1d9bd9bfe0231"},
         "domain_id": "default", "enabled": true, "email": "foobar2@example.com", "id":
-        "538e1793b93248f7be2e92524978011c"}, {"name": "foobar1", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/users/975c312e54354059984fb7f8e8483cae"},
+        "cd02a17fc2e24f9f99c1d9bd9bfe0231"}, {"name": "foobar1", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/users/ffd77fc506ab4f0086dc0e31b340acfc"},
         "domain_id": "default", "enabled": true, "email": "foobar1@example.com", "id":
-        "975c312e54354059984fb7f8e8483cae"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users",
+        "ffd77fc506ab4f0086dc0e31b340acfc"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users?page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:54 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:38 GMT
 - request:
     method: delete
-    uri: http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users/975c312e54354059984fb7f8e8483cae
+    uri: http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users/ffd77fc506ab4f0086dc0e31b340acfc
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 204
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:38 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-9c8ec028-4e43-4dcd-86a9-3e6ac365bd31
       Content-Length:
       - '0'
-      Date:
-      - Fri, 13 Mar 2015 11:39:54 GMT
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:54 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:38 GMT
 - request:
     method: head
-    uri: http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users/975c312e54354059984fb7f8e8483cae
+    uri: http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users/ffd77fc506ab4f0086dc0e31b340acfc
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 404
       message: ''
     headers:
-      Vary:
-      - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '84'
       Date:
-      - Fri, 13 Mar 2015 11:39:54 GMT
-    body:
-      encoding: US-ASCII
-      string: ''
-    http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:54 GMT
-- request:
-    method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users?page=1&per_page=30
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
-      Content-Type:
-      - application/json
-      Accept:
-      - application/json
-      X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
+      - Thu, 04 Jun 2015 10:45:38 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '390'
-      Date:
-      - Fri, 13 Mar 2015 11:39:54 GMT
-    body:
-      encoding: US-ASCII
-      string: ! '{"users": [{"name": "foobar2", "links": {"self": "http://devstack.openstack.stack:35357/v3/users/538e1793b93248f7be2e92524978011c"},
-        "domain_id": "default", "enabled": true, "email": "foobar2@example.com", "id":
-        "538e1793b93248f7be2e92524978011c"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users",
-        "previous": null, "next": null}}'
-    http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:54 GMT
-- request:
-    method: delete
-    uri: http://devstack.openstack.stack:35357/v3/users/975c312e54354059984fb7f8e8483cae
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
-      Content-Type:
-      - application/json
-      Accept:
-      - application/json
-      X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
-  response:
-    status:
-      code: 204
-      message: ''
-    headers:
-      Vary:
-      - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
-      Content-Length:
-      - '0'
-      Date:
-      - Fri, 13 Mar 2015 11:39:55 GMT
-    body:
-      encoding: US-ASCII
-      string: ''
-    http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:55 GMT
-- request:
-    method: delete
-    uri: http://devstack.openstack.stack:35357/v3/users/538e1793b93248f7be2e92524978011c
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
-      Content-Type:
-      - application/json
-      Accept:
-      - application/json
-      X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
-  response:
-    status:
-      code: 204
-      message: ''
-    headers:
-      Vary:
-      - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
-      Content-Length:
-      - '0'
-      Date:
-      - Fri, 13 Mar 2015 11:39:55 GMT
-    body:
-      encoding: US-ASCII
-      string: ''
-    http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:55 GMT
-- request:
-    method: head
-    uri: http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users/538e1793b93248f7be2e92524978011c
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
-      Content-Type:
-      - application/json
-      Accept:
-      - application/json
-      X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
-  response:
-    status:
-      code: 404
-      message: ''
-    headers:
-      Vary:
-      - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '115'
-      Date:
-      - Fri, 13 Mar 2015 11:39:55 GMT
-    body:
-      encoding: US-ASCII
-      string: ''
-    http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:55 GMT
-- request:
-    method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users?page=1&per_page=30
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
-      Content-Type:
-      - application/json
-      Accept:
-      - application/json
-      X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Vary:
-      - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
-      Content-Type:
-      - application/json
+      X-Openstack-Request-Id:
+      - req-0bd9a8df-2b71-4e8b-80c5-fd5be70f6c54
       Content-Length:
       - '154'
-      Date:
-      - Fri, 13 Mar 2015 11:39:55 GMT
+      Content-Type:
+      - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"users": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709/users",
-        "previous": null, "next": null}}'
+      string: ''
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:55 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:38 GMT
 - request:
-    method: delete
-    uri: http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users?page=1&per_page=30
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:38 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-0db9e4c0-7fc5-4410-8b1a-0f3d1afb9507
+      Content-Length:
+      - '389'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"users": [{"name": "foobar2", "links": {"self": "http://devstack.openstack.stack:35357/v3/users/cd02a17fc2e24f9f99c1d9bd9bfe0231"},
+        "domain_id": "default", "enabled": true, "email": "foobar2@example.com", "id":
+        "cd02a17fc2e24f9f99c1d9bd9bfe0231"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users?page=1&per_page=30",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Thu, 04 Jun 2015 10:45:38 GMT
+- request:
+    method: delete
+    uri: http://devstack.openstack.stack:35357/v3/users/ffd77fc506ab4f0086dc0e31b340acfc
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.30.0 fog-core/1.30.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 204
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:38 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-5a192e53-1bb5-463f-9e02-6838d144e443
       Content-Length:
       - '0'
-      Date:
-      - Fri, 13 Mar 2015 11:39:55 GMT
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:55 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:39 GMT
 - request:
-    method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
+    method: delete
+    uri: http://devstack.openstack.stack:35357/v3/users/cd02a17fc2e24f9f99c1d9bd9bfe0231
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
-      code: 200
+      code: 204
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:39 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
-      Content-Type:
-      - application/json
+      X-Openstack-Request-Id:
+      - req-c314636c-ac6c-4e82-bc0c-24ecff8621af
       Content-Length:
-      - '116'
-      Date:
-      - Fri, 13 Mar 2015 11:39:56 GMT
+      - '0'
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
-        "previous": null, "next": null}, "groups": []}'
+      string: ''
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:56 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:39 GMT
 - request:
-    method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups/8f298c0da6a744bf9440540132fc8709
+    method: head
+    uri: http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users/cd02a17fc2e24f9f99c1d9bd9bfe0231
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 404
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:39 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-f0fac7e2-e431-4cd1-9f9d-f216fb8e1aa1
+      Content-Length:
+      - '114'
       Content-Type:
       - application/json
-      Content-Length:
-      - '116'
-      Date:
-      - Fri, 13 Mar 2015 11:39:56 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"error": {"message": "Could not find group, 8f298c0da6a744bf9440540132fc8709.",
-        "code": 404, "title": "Not Found"}}'
+      string: ''
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:56 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:39 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users?page=1&per_page=30
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.30.0 fog-core/1.30.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 9dace70d63f348a7b68a895f2b53c206
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:39 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-56fe22fe-6af4-4304-9a12-a4c406cfe367
+      Content-Length:
+      - '163'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"users": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0/users?page=1&per_page=30",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Thu, 04 Jun 2015 10:45:39 GMT
+- request:
+    method: delete
+    uri: http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.30.0 fog-core/1.30.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 9dace70d63f348a7b68a895f2b53c206
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:39 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-7bbb4e5b-a98c-41ef-85cc-3a5f126b2a71
+      Content-Length:
+      - '0'
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Thu, 04 Jun 2015 10:45:39 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
@@ -944,32 +940,120 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.28.0 fog-core/1.29.0
+      - fog/1.30.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - d8291e2a2a2046259316f7c2d4253e92
+      - 9dace70d63f348a7b68a895f2b53c206
   response:
     status:
       code: 200
       message: ''
     headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:39 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
-      X-Distribution:
-      - Ubuntu
+      X-Openstack-Request-Id:
+      - req-0266301c-5fec-4ab8-8573-34d08a5043b0
+      Content-Length:
+      - '558'
       Content-Type:
       - application/json
-      Content-Length:
-      - '116'
-      Date:
-      - Fri, 13 Mar 2015 11:39:56 GMT
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
-        "previous": null, "next": null}, "groups": []}'
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
+        "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
+        "non-admin group", "id": "456293145b0b48b1be46e71d97ad14e4", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/groups/456293145b0b48b1be46e71d97ad14e4"},
+        "name": "nonadmins"}, {"domain_id": "default", "description": "openstack admin
+        group", "id": "b87395bdcc4c40d18a83277430f60f29", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/b87395bdcc4c40d18a83277430f60f29"},
+        "name": "admins"}]}'
     http_version: 
-  recorded_at: Fri, 13 Mar 2015 11:39:56 GMT
+  recorded_at: Thu, 04 Jun 2015 10:45:39 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/groups/07206bf5df914ffcadcb9bd7154f77a0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.30.0 fog-core/1.30.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 9dace70d63f348a7b68a895f2b53c206
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:39 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-db0c5a19-1d86-423d-bc65-7bf4a4fc9c2f
+      Content-Length:
+      - '115'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"error": {"message": "Could not find group: 07206bf5df914ffcadcb9bd7154f77a0",
+        "code": 404, "title": "Not Found"}}'
+    http_version: 
+  recorded_at: Thu, 04 Jun 2015 10:45:39 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.30.0 fog-core/1.30.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 9dace70d63f348a7b68a895f2b53c206
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Thu, 04 Jun 2015 10:45:39 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-eb0dc9c7-0087-4f23-b22c-2364326c2e76
+      Content-Length:
+      - '558'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
+        "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
+        "non-admin group", "id": "456293145b0b48b1be46e71d97ad14e4", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/groups/456293145b0b48b1be46e71d97ad14e4"},
+        "name": "nonadmins"}, {"domain_id": "default", "description": "openstack admin
+        group", "id": "b87395bdcc4c40d18a83277430f60f29", "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/b87395bdcc4c40d18a83277430f60f29"},
+        "name": "admins"}]}'
+    http_version: 
+  recorded_at: Thu, 04 Jun 2015 10:45:39 GMT
 recorded_with: VCR 2.9.3

@@ -85,6 +85,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("thor")
   s.add_development_dependency("yard")
   s.add_development_dependency("rspec-core")
+  s.add_development_dependency("rspec-expectations")
   s.add_development_dependency("vcr")
   s.add_development_dependency("webmock")
 
