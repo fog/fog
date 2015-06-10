@@ -487,7 +487,7 @@ module Fog
                   else
                     custom_ipv6 = RbVmomi::VIM::CustomizationDhcpIpV6Generator.new()
                   end
-                  custom_ipv6Spec = RbVmomo::VIM.CustomizationIPSettingsIpV6AddressSpec(:ip => custom_ipv6)
+                  custom_ipv6Spec = RbVmomi::VIM.CustomizationIPSettingsIpV6AddressSpec(:ip => custom_ipv6)
                   custom_ipv6Spec.gateway = nic['adapter']['ipV6Spec']['gateway'] if nic['adapter']['ipV6Spec'].key?('gateway')
                   custom_adapter.ipV6Spec = custom_ipv6Spec
                 end
