@@ -1,16 +1,17 @@
 Shindo.tests('Fog::Network[:openstack] | port requests', ['openstack']) do
 
   @port_format = {
-    'id'             => String,
-    'name'           => String,
-    'network_id'     => String,
-    'fixed_ips'      => Array,
-    'mac_address'    => String,
-    'status'         => String,
-    'admin_state_up' => Fog::Boolean,
-    'device_owner'   => String,
-    'device_id'      => String,
-    'tenant_id'      => String,
+    'id'              => String,
+    'name'            => String,
+    'network_id'      => String,
+    'fixed_ips'       => Array,
+    'mac_address'     => String,
+    'status'          => String,
+    'admin_state_up'  => Fog::Boolean,
+    'device_owner'    => String,
+    'device_id'       => String,
+    'tenant_id'       => String,
+    'security_groups' => Array,
   }
 
   tests('success') do
@@ -19,7 +20,7 @@ Shindo.tests('Fog::Network[:openstack] | port requests', ['openstack']) do
       attributes = {:name => 'port_name', :fixed_ips => [],
                     :mac_address => 'fa:16:3e:62:91:7f', :admin_state_up => true,
                     :device_owner => 'device_owner', :device_id => 'device_id',
-                    :tenant_id => 'tenant_id'}
+                    :tenant_id => 'tenant_id' ,:security_groups => [] }
       Fog::Network[:openstack].create_port(network_id, attributes).body
     end
 

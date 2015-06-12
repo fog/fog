@@ -33,6 +33,7 @@ module Fog
                 'device_id' => 'dhcp724fc160-2b2e-597e-b9ed-7f65313cd73f-e624a36d-762b-481f-9b50-4154ceb78bbb',
                 'device_owner' => 'network:dhcp',
                 'tenant_id' => 'f8b26a6032bc47718a7702233ac708b9',
+                'security_groups' => ['3ddde803-e550-4737-b5de-0862401dc834'],
               }
             }
             response
