@@ -16,6 +16,8 @@ module Fog
       ## MODELS
       #
       model_path 'fog/openstack/models/compute'
+      model       :aggregate
+      collection  :aggregates
       model       :server
       collection  :servers
       model       :service
@@ -49,6 +51,17 @@ module Fog
       #
       request_path 'fog/openstack/requests/compute'
 
+      # Aggregate CRUD
+      request :list_aggregates
+      request :create_aggregate
+      request :update_aggregate
+      request :get_aggregate
+      request :update_aggregate
+      request :update_aggregate_metadata
+      request :add_aggregate_host
+      request :remove_aggregate_host
+      request :delete_aggregate
+      
       # Server CRUD
       request :list_servers
       request :list_servers_detail
@@ -208,6 +221,15 @@ module Fog
                 :security_groups => {},
                 :addresses => {}
               },
+              :aggregates => [{
+                "availability_zone" => "nova",
+                "created_at" => "2012-11-16T06:22:23.032493",
+                "deleted" => false,
+                "deleted_at" => nil,
+                "id" => 1,
+                "name" => "name",
+                "updated_at" => nil
+              }],
               :images  => {
                 "0e09fbd6-43c5-448a-83e9-0d3d05f9747e" => {
                   "id"=>"0e09fbd6-43c5-448a-83e9-0d3d05f9747e",
