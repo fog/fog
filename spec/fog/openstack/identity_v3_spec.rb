@@ -23,7 +23,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       config.allow_http_connections_when_no_cassette = true
       config.hook_into :webmock
       config.cassette_library_dir = "spec/fog/openstack/identity_v3"
-      config.default_cassette_options = {:record => :none}
+      config.default_cassette_options = {:record => :none, :match_requests_on => [:method, :uri, :body]}
     end
 
     if ENV['DEBUG']
@@ -32,7 +32,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
           false && !ENV['OS_AUTH_URL'].nil?
         end
         config.cassette_library_dir = "spec/debug"
-        config.default_cassette_options = {:record => :all}
+        config.default_cassette_options.merge! :record => :all
       end
     end
 
@@ -77,7 +77,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it 'authenticates with password, username and domain_name', :skip_preauthentication do
     VCR.use_cassette('authv3_c') do
       Fog::Identity::OpenStack::V3.new(
-          :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
+          :openstack_user_domain => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
           :openstack_api_key => ENV['OS_PASSWORD'] || 'password',
           :openstack_username => ENV['OS_USERNAME'] || 'admin',
           :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
@@ -333,7 +333,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
         foobar_user = @id_v3.users.create(:name => 'foobar_385',
                                           :email => 'foobar_demo@example.com',
-                                          :domain_id => ENV['OS_USER_DOMAIN_ID'],
+                                          :domain_id => ENV['OS_USER_DOMAIN_ID'] || 'default',
                                           :password => 's3cret!')
 
         foobar_role = @id_v3.roles.create(:name => 'foobar_role390')

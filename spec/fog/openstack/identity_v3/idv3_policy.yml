@@ -8,26 +8,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - ed55724107be40b7930e67bf6f7866cf
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:56 GMT
+      - Mon, 15 Jun 2015 17:44:56 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-52fea540-14a7-4989-8053-62512817f2a5
+      - req-e7f4eca2-e7fd-4671-bfd5-40bdd79ee0ce
       Content-Length:
       - '129'
       Content-Type:
@@ -37,7 +37,7 @@ http_interactions:
       string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30",
         "previous": null, "next": null}, "policies": []}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:56 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:56 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30
@@ -46,26 +46,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - ed55724107be40b7930e67bf6f7866cf
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:56 GMT
+      - Mon, 15 Jun 2015 17:44:56 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-4a500b1c-de58-4147-bf14-5199ff039639
+      - req-cf7e2bbd-5414-47ff-b253-bb6214e308d1
       Content-Length:
       - '129'
       Content-Type:
@@ -75,7 +75,7 @@ http_interactions:
       string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30",
         "previous": null, "next": null}, "policies": []}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:56 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:56 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30
@@ -84,26 +84,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - ed55724107be40b7930e67bf6f7866cf
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:56 GMT
+      - Mon, 15 Jun 2015 17:44:56 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-e7afa461-087d-4462-977e-5249ab2faa59
+      - req-a7225fef-0dea-4ea9-bce3-980d2028d3d3
       Content-Length:
       - '129'
       Content-Type:
@@ -113,7 +113,7 @@ http_interactions:
       string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30",
         "previous": null, "next": null}, "policies": []}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:56 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:56 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/policies/atlantis
@@ -122,26 +122,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - ed55724107be40b7930e67bf6f7866cf
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 404
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:56 GMT
+      - Mon, 15 Jun 2015 17:44:56 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-054043d5-9d8c-4ace-94da-c32c70ef66dc
+      - req-359e1c0a-b942-48ae-874d-220c1df68e28
       Content-Length:
       - '92'
       Content-Type:
@@ -151,5 +151,5 @@ http_interactions:
       string: ! '{"error": {"message": "Could not find policy: atlantis", "code":
         404, "title": "Not Found"}}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:56 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:56 GMT
 recorded_with: VCR 2.9.3

@@ -8,26 +8,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 2c915388f81d44539f71069e25766423
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:45 GMT
+      - Mon, 15 Jun 2015 17:44:50 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-d834c572-d629-4df1-998e-b80a38ada30f
+      - req-92ddaab9-7ab7-4515-9216-38d8864291c1
       Content-Length:
       - '903'
       Content-Type:
@@ -47,7 +47,7 @@ http_interactions:
         "http://devstack.openstack.stack:35357/v3/roles/d7390adf0b014ceb9247591b70d0eac9"},
         "name": "ResellerAdmin"}]}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:46 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:50 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/roles?page=1&per_page=30
@@ -56,26 +56,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 2c915388f81d44539f71069e25766423
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:46 GMT
+      - Mon, 15 Jun 2015 17:44:50 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-2ad76ed4-2d58-489c-85bb-e42360231bea
+      - req-ba9732bf-ea42-400a-b5c0-ff32c830eaf1
       Content-Length:
       - '903'
       Content-Type:
@@ -95,7 +95,7 @@ http_interactions:
         "http://devstack.openstack.stack:35357/v3/roles/d7390adf0b014ceb9247591b70d0eac9"},
         "name": "ResellerAdmin"}]}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:46 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:50 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/roles?page=1&per_page=30
@@ -104,26 +104,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 2c915388f81d44539f71069e25766423
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:46 GMT
+      - Mon, 15 Jun 2015 17:44:50 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-9f6b0997-c533-47b9-9c3d-9d40b8c182e0
+      - req-7148fb2b-b566-4da6-99ba-9d97725a1620
       Content-Length:
       - '903'
       Content-Type:
@@ -143,7 +143,7 @@ http_interactions:
         "http://devstack.openstack.stack:35357/v3/roles/d7390adf0b014ceb9247591b70d0eac9"},
         "name": "ResellerAdmin"}]}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:46 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:50 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/roles?page=1&per_page=30
@@ -152,26 +152,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 2c915388f81d44539f71069e25766423
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:46 GMT
+      - Mon, 15 Jun 2015 17:44:50 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-836f95b3-5dd5-46e6-b0a6-723fc28f42ef
+      - req-82f222d1-8121-4ab2-aca1-0a7ebe3c2ebe
       Content-Length:
       - '903'
       Content-Type:
@@ -191,7 +191,7 @@ http_interactions:
         "http://devstack.openstack.stack:35357/v3/roles/d7390adf0b014ceb9247591b70d0eac9"},
         "name": "ResellerAdmin"}]}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:46 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:50 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/roles/atlantis
@@ -200,26 +200,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 2c915388f81d44539f71069e25766423
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 404
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:46 GMT
+      - Mon, 15 Jun 2015 17:44:50 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-d00d9bea-52ad-4adb-ad18-c53fe77a3641
+      - req-c38bc927-4f1c-4e5c-9089-16120034625f
       Content-Length:
       - '90'
       Content-Type:
@@ -229,5 +229,5 @@ http_interactions:
       string: ! '{"error": {"message": "Could not find role: atlantis", "code": 404,
         "title": "Not Found"}}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:46 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:50 GMT
 recorded_with: VCR 2.9.3

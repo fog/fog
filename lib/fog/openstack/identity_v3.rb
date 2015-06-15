@@ -5,15 +5,16 @@ module Fog
   module Identity
     class OpenStack
       class V3 < Fog::Service
-
         requires :openstack_auth_url
         recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                    :openstack_service_type, :openstack_service_name, :openstack_tenant,
-                   :openstack_project_name, :openstack_domain_name, :openstack_userid,
-                   :openstack_api_key, :openstack_username, :openstack_current_user_id,
-                   :current_user, :current_tenant,
                    :openstack_endpoint_type, :openstack_region, :openstack_domain_id,
-                   :openstack_domain, :openstack_project, :provider
+                   :openstack_project_name, :openstack_domain_name,
+                   :openstack_user_domain, :openstack_project_domain,
+                   :openstack_user_domain_id, :openstack_project_domain_id,
+                   :openstack_api_key, :openstack_current_user_id, :openstack_userid, :openstack_username,
+                   :current_user, :current_tenant,
+                   :provider
 
         model_path 'fog/openstack/models/identity_v3'
         model :domain
@@ -152,33 +153,11 @@ module Fog
           attr_reader :auth_token
 
           include Fog::Identity::OpenStack::Common
+          include Fog::OpenStack::Core
 
           def initialize(options={})
-            @openstack_auth_token = options[:openstack_auth_token]
+            initialize_identity options
 
-            @openstack_region = options[:openstack_region]
-
-            unless @openstack_auth_token
-              missing_credentials = Array.new
-              @openstack_api_key = options[:openstack_api_key]
-              @openstack_username = options[:openstack_username]
-              @openstack_userid = options[:openstack_userid]
-
-              missing_credentials << :openstack_api_key unless @openstack_api_key
-              unless @openstack_username || @openstack_userid
-                missing_credentials << 'openstack_username or openstack_userid'
-              end
-              raise ArgumentError, "Missing required arguments: #{missing_credentials.join(', ')}" unless missing_credentials.empty?
-            end
-
-            @openstack_domain_name = options[:openstack_domain_name]
-            @openstack_domain_id = options[:openstack_domain_id]
-            @openstack_project_name = options[:openstack_project_name]
-
-            @openstack_tenant = options[:openstack_tenant]
-            @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
-            @openstack_management_url = options[:openstack_management_url]
-            @openstack_must_reauthenticate = false
             @openstack_service_type = options[:openstack_service_type] || ['identity_v3','identityv3','identity']
             @openstack_service_name = options[:openstack_service_name]
 
@@ -188,23 +167,10 @@ module Fog
 
             @openstack_endpoint_type = options[:openstack_endpoint_type] || 'adminURL'
 
-            @current_user = options[:current_user]
-            @current_tenant = options[:current_tenant]
-
             authenticate
 
             @persistent = options[:persistent] || false
             @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
-          end
-
-          def credentials
-            {:provider => 'openstack',
-             :openstack_auth_url => @openstack_auth_uri.to_s,
-             :openstack_auth_token => @auth_token,
-             :openstack_management_url => @openstack_management_url,
-             :openstack_current_user_id => @openstack_current_user_id,
-             :current_user => @current_user,
-             :current_tenant => @current_tenant}
           end
 
           def reload
@@ -242,7 +208,6 @@ module Fog
             end
             response
           end
-
 
         end
 

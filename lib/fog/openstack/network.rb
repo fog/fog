@@ -204,10 +204,13 @@ module Fog
           @data = nil
         end
 
+        include Fog::OpenStack::Core
+
         def initialize(options={})
-          @openstack_username = options[:openstack_username]
-          @openstack_tenant   = options[:openstack_tenant]
-          @openstack_tenant_id = options[:openstack_tenant_id]
+          @auth_token = Fog::Mock.random_base64(64)
+          @auth_token_expiration = (Time.now.utc + 86400).iso8601
+
+          initialize_identity options
         end
 
         def data
@@ -218,69 +221,33 @@ module Fog
           self.class.data.delete("#{@openstack_username}-#{@openstack_tenant}")
         end
 
-        def credentials
-          { :provider                 => 'openstack',
-            :openstack_auth_url       => @openstack_auth_uri.to_s,
-            :openstack_auth_token     => @auth_token,
-            :openstack_management_url => @openstack_management_url }
-        end
       end
 
       class Real
-        attr_reader :current_user
-        attr_reader :current_tenant
-        attr_reader :openstack_user_domain
-        attr_reader :openstack_project_domain
+
+        include Fog::OpenStack::Core
 
         def initialize(options={})
-          @openstack_auth_token = options[:openstack_auth_token]
 
-          unless @openstack_auth_token
-            missing_credentials = Array.new
-            @openstack_api_key  = options[:openstack_api_key]
-            @openstack_username = options[:openstack_username]
-            @openstack_user_domain = options[:openstack_user_domain] || options[:openstack_domain]
-            @openstack_project_domain  = options[:openstack_project_domain]  || options[:openstack_domain] || 'Default'
+          initialize_identity options
 
-            missing_credentials << :openstack_api_key  unless @openstack_api_key
-            missing_credentials << :openstack_username unless @openstack_username
-            raise ArgumentError, "Missing required arguments: #{missing_credentials.join(', ')}" unless missing_credentials.empty?
-          end
-
-          @openstack_tenant               = options[:openstack_tenant]
-          @openstack_tenant_id             = options[:openstack_tenant_id]
-          @openstack_user_domain           = options[:openstack_user_domain] || options[:openstack_domain]
-          @openstack_project_domain            = options[:openstack_project_domain]  || options[:openstack_domain] || 'Default'
-          @openstack_auth_uri             = URI.parse(options[:openstack_auth_url])
-          @openstack_management_url       = options[:openstack_management_url]
-          @openstack_must_reauthenticate  = false
           @openstack_service_type         = options[:openstack_service_type] || ['network']
           @openstack_service_name         = options[:openstack_service_name]
-          @openstack_endpoint_type        = options[:openstack_endpoint_type] || 'publicURL'
-          @openstack_region               = options[:openstack_region]
 
           @connection_options = options[:connection_options] || {}
 
-          @current_user = options[:current_user]
-          @current_tenant = options[:current_tenant]
-
           authenticate
+
+          @path.sub!(/\/$/, '')
+          unless @path.match(SUPPORTED_VERSIONS)
+            @path = "/" + Fog::OpenStack.get_supported_version(SUPPORTED_VERSIONS,
+                                                               uri,
+                                                               @auth_token,
+                                                               @connection_options)
+          end
 
           @persistent = options[:persistent] || false
           @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
-        end
-
-        def credentials
-          { :provider                 => 'openstack',
-            :openstack_tenant_id      => @openstack_tenant_id,
-            :openstack_user_domain    => @openstack_user_domain,
-            :openstack_project_domain     => @openstack_project_domain,
-            :openstack_auth_url       => @openstack_auth_uri.to_s,
-            :openstack_auth_token     => @auth_token,
-            :openstack_management_url => @openstack_management_url,
-            :current_user             => @current_user,
-            :current_tenant           => @current_tenant,
-            :openstack_region         => @openstack_region }
         end
 
         def reload
@@ -319,52 +286,6 @@ module Fog
           response
         end
 
-        private
-
-        def authenticate
-          if !@openstack_management_url || @openstack_must_reauthenticate
-            options = {
-              :openstack_tenant        => @openstack_tenant,
-              :openstack_tenant_id      => @openstack_tenant_id,
-              :openstack_api_key       => @openstack_api_key,
-              :openstack_username      => @openstack_username,
-              :openstack_user_domain    => @openstack_user_domain,
-              :openstack_project_domain     => @openstack_project_domain,
-              :openstack_auth_uri      => @openstack_auth_uri,
-              :openstack_auth_token    => @openstack_must_reauthenticate ? nil : @openstack_auth_token,
-              :openstack_service_type  => @openstack_service_type,
-              :openstack_service_name  => @openstack_service_name,
-              :openstack_endpoint_type => @openstack_endpoint_type,
-              :openstack_region        => @openstack_region
-            }
-
-            credentials = Fog::OpenStack.authenticate(options, @connection_options)
-
-            @current_user = credentials[:user]
-            @current_tenant = credentials[:tenant]
-
-            @openstack_must_reauthenticate = false
-            @auth_token = credentials[:token]
-            @openstack_management_url = credentials[:server_management_url]
-            uri = URI.parse(@openstack_management_url)
-          else
-            @auth_token = @openstack_auth_token
-            uri = URI.parse(@openstack_management_url)
-          end
-
-          @host   = uri.host
-          @path   = uri.path
-          @path.sub!(/\/$/, '')
-          unless @path.match(SUPPORTED_VERSIONS)
-            @path = "/" + Fog::OpenStack.get_supported_version(SUPPORTED_VERSIONS,
-                                                               uri,
-                                                               @auth_token,
-                                                               @connection_options)
-          end
-          @port   = uri.port
-          @scheme = uri.scheme
-          true
-        end
       end
     end
   end

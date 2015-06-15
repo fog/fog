@@ -53,6 +53,127 @@ module Fog
     service(:baremetal,     'Baremetal')
     service(:planning,      'Planning')
 
+    module Core
+      attr_reader :auth_token
+      attr_reader :auth_token_expiration
+      attr_reader :current_user
+      attr_reader :current_tenant
+      attr_reader :openstack_domain_name
+      attr_reader :openstack_user_domain
+      attr_reader :openstack_project_domain
+      attr_reader :openstack_domain_id
+      attr_reader :openstack_user_domain_id
+      attr_reader :openstack_project_domain_id
+
+      def initialize_identity options
+        @openstack_auth_token = options[:openstack_auth_token]
+        @auth_token        ||= options[:openstack_auth_token]
+        @openstack_identity_public_endpoint = options[:openstack_identity_endpoint]
+
+        @openstack_username = options[:openstack_username]
+        @openstack_userid = options[:openstack_userid]
+
+        @openstack_domain_name = options[:openstack_domain_name]
+        @openstack_user_domain = options[:openstack_user_domain]
+        @openstack_project_domain  = options[:openstack_project_domain]
+        @openstack_domain_id = options[:openstack_domain_id]
+        @openstack_user_domain_id = options[:openstack_user_domain_id]
+        @openstack_project_domain_id  = options[:openstack_project_domain_id]
+
+        @openstack_tenant      = options[:openstack_tenant]
+        @openstack_tenant_id   = options[:openstack_tenant_id]
+
+        @openstack_auth_uri    = URI.parse(options[:openstack_auth_url])
+
+        @openstack_management_url       = options[:openstack_management_url]
+
+        @openstack_must_reauthenticate  = false
+
+        @openstack_endpoint_type = options[:openstack_endpoint_type] || 'publicURL'
+        @openstack_region        = options[:openstack_region]
+
+        unless @auth_token
+          missing_credentials = Array.new
+          @openstack_api_key = options[:openstack_api_key]
+          @openstack_username = options[:openstack_username]
+          @openstack_userid = options[:openstack_userid]
+
+          missing_credentials << :openstack_api_key unless @openstack_api_key
+          unless @openstack_username || @openstack_userid
+            missing_credentials << 'openstack_username or openstack_userid'
+          end
+          raise ArgumentError, "Missing required arguments: #{missing_credentials.join(', ')}" unless missing_credentials.empty?
+        end
+
+        @current_user = options[:current_user]
+        @current_tenant = options[:current_tenant]
+
+      end
+
+      def credentials
+        { :provider                 => 'openstack',
+          :openstack_domain_name    => @openstack_domain_name,
+          :openstack_user_domain    => @openstack_user_domain,
+          :openstack_project_domain => @openstack_project_domain,
+          :openstack_domain_id      => @openstack_domain_id,
+          :openstack_user_domain_id => @openstack_user_domain_id,
+          :openstack_project_domain_id => @openstack_project_domain_id,
+          :openstack_auth_url       => @openstack_auth_uri.to_s,
+          :openstack_auth_token     => @auth_token,
+          :openstack_management_url => @openstack_management_url,
+          :openstack_identity_endpoint => @openstack_identity_public_endpoint,
+          :openstack_region         => @openstack_region,
+          :current_user             => @current_user,
+          :current_tenant           => @current_tenant }
+      end
+
+      private
+      def authenticate
+        if !@openstack_management_url || @openstack_must_reauthenticate
+          options = {
+              :openstack_tenant        => @openstack_tenant,
+              :openstack_tenant_id     => @openstack_tenant_id,
+              :openstack_api_key       => @openstack_api_key,
+              :openstack_username      => @openstack_username,
+              :openstack_userid        => @openstack_userid,
+              :openstack_user_domain   => @openstack_user_domain,
+              :openstack_project_domain => @openstack_project_domain,
+              :openstack_user_domain_id => @openstack_user_domain_id,
+              :openstack_project_domain_id => @openstack_project_domain_id,
+              :openstack_domain_name   => @openstack_domain_name,
+              :openstack_project_name  => @openstack_project_name,
+              :openstack_domain_id     => @openstack_domain_id,
+              :openstack_project_id    => @openstack_project_id,
+              :openstack_auth_uri      => @openstack_auth_uri,
+              :openstack_auth_token    => @openstack_must_reauthenticate ? nil : @openstack_auth_token,
+              :openstack_service_type  => @openstack_service_type,
+              :openstack_service_name  => @openstack_service_name,
+              :openstack_endpoint_type => @openstack_endpoint_type,
+              :openstack_region        => @openstack_region
+          }
+
+          credentials = Fog::OpenStack.authenticate(options, @connection_options)
+
+          @current_user = credentials[:user]
+          @current_tenant = credentials[:tenant]
+
+          @openstack_must_reauthenticate = false
+          @auth_token = credentials[:token]
+          @openstack_management_url = credentials[:server_management_url]
+          uri = URI.parse(@openstack_management_url)
+        else
+          @auth_token = @openstack_auth_token
+          uri = URI.parse(@openstack_management_url)
+        end
+
+        @host   = uri.host
+        @path   = uri.path
+        @port   = uri.port
+        @scheme = uri.scheme
+        true
+      end
+    end
+
     def self.authenticate(options, connection_options = {})
       case options[:openstack_auth_uri].path
       when /v1(\.\d+)?/
@@ -331,6 +452,10 @@ module Fog
       userid       = options[:openstack_userid]
       domain_id    = options[:openstack_domain_id]
       domain_name  = options[:openstack_domain_name]
+      project_domain = options[:openstack_project_domain]
+      project_domain_id = options[:openstack_project_domain_id]
+      user_domain  = options[:openstack_user_domain]
+      user_domain_id  = options[:openstack_user_domain_id]
       project_name = options[:openstack_project_name]
       project_id   = options[:openstack_project_id]
       auth_token   = options[:openstack_auth_token] || options[:unscoped_token]
@@ -343,7 +468,11 @@ module Fog
 
       if project_name || project_id
         scope[:project] = if project_id.nil? then
-                            {:name => project_name, :domain => domain_id.nil? ? {:name => domain_name} : {:id => domain_id}}
+                            if project_domain || project_domain_id
+                              {:name => project_name, :domain => project_domain_id.nil? ? {:name => project_domain} : {:id => project_domain_id}}
+                            else
+                              {:name => project_name, :domain => domain_id.nil? ? {:name => domain_name} : {:id => domain_id}}
+                            end
                           else
                             {:id => project_id}
                           end
@@ -373,16 +502,18 @@ module Fog
         if userid
           request_body[:auth][:identity][:password][:user][:id] = userid
         else
-          if domain_id
-            request_body[:auth][:identity][:password][:user].merge! :domain => {:id => domain_id}
-          elsif domain_name
-            request_body[:auth][:identity][:password][:user].merge! :domain => {:name => domain_name}
+          if user_domain || user_domain_id
+            request_body[:auth][:identity][:password][:user].merge! :domain => user_domain_id.nil? ? {:name => user_domain} : {:id => user_domain_id}
+          elsif domain_name || domain_id
+            request_body[:auth][:identity][:password][:user].merge! :domain => domain_id.nil? ? {:name => domain_name} : {:id => domain_id}
           end
           request_body[:auth][:identity][:password][:user][:name] = username
         end
 
       end
       request_body[:auth][:scope] = scope unless scope.empty?
+
+      puts "request_body: #{request_body}" if user_domain=='Default2'
 
       response = connection.request({
                                         :expects => [201],
@@ -392,6 +523,7 @@ module Fog
                                         :path => (uri.path and not uri.path.empty?) ? uri.path : 'v2.0'
                                     })
 
+      puts "response.body: #{response.body}" if user_domain=='Default2'
 
       [response.headers["X-Subject-Token"], Fog::JSON.decode(response.body)]
     end
