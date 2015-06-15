@@ -8,7 +8,7 @@ http_interactions:
       string: ! '{"auth":{"identity":{"methods":["password"],"password":{"user":{"password":"password","id":"aa9f25defa6d4cafb48466df83106065"}}},"scope":{"domain":{"id":"default"}}}}'
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
   response:
@@ -17,15 +17,15 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:32 GMT
+      - Mon, 15 Jun 2015 17:44:42 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       X-Subject-Token:
-      - db19bef292b54e22945d9607fc2a4108
+      - 3436fc50f62e48c18ba4901d6dd3ec7c
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-833de3ed-2381-4b67-aec3-2ea12ba0ceaf
+      - req-7214de01-8cbb-4473-905a-375364663a9b
       Content-Length:
       - '3532'
       Content-Type:
@@ -34,7 +34,7 @@ http_interactions:
       encoding: US-ASCII
       string: ! '{"token": {"domain": {"id": "default", "name": "Default"}, "methods":
         ["password"], "roles": [{"id": "6ead57f8ae124996af8b0beb72ff1007", "name":
-        "admin"}], "expires_at": "2015-06-04T11:45:33.012464Z", "catalog": [{"endpoints":
+        "admin"}], "expires_at": "2015-06-15T18:44:42.546896Z", "catalog": [{"endpoints":
         [{"region_id": "RegionOne", "url": "http://devstack.openstack.stack:9292", "region":
         "RegionOne", "interface": "public", "id": "6e82c8912d3f49a09df51035681d564c"},
         {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:9292", "region":
@@ -74,8 +74,8 @@ http_interactions:
         "RegionOne", "interface": "admin", "id": "d5f8e0da0f3345529a5fb324d735d4a3"}],
         "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009", "name": "keystone_v3"}],
         "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
-        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["IObXTq4jR5WceEVkZoq9YA"],
-        "issued_at": "2015-06-04T10:45:33.012499Z"}}'
+        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["ZcgNWJ-eSjaYEJC9Rx2Erw"],
+        "issued_at": "2015-06-15T17:44:42.546938Z"}}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:33 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:42 GMT
 recorded_with: VCR 2.9.3

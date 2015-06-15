@@ -8,26 +8,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 82f1ef5174d54037ae83606aceae211a
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:35 GMT
+      - Mon, 15 Jun 2015 17:44:44 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-2df35f8f-83d8-4f37-8805-dc8ba68662ed
+      - req-86365660-e6a3-4a05-8fa4-3a39c1bd34ec
       Content-Length:
       - '1408'
       Content-Type:
@@ -50,7 +50,7 @@ http_interactions:
         "links": {"self": "http://devstack.openstack.stack:35357/v3/users?page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:35 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:44 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/users/u-random-blah
@@ -59,26 +59,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 82f1ef5174d54037ae83606aceae211a
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 404
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:35 GMT
+      - Mon, 15 Jun 2015 17:44:44 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-8fef1c4d-e387-4f94-a15d-e8893b8f69cc
+      - req-aeefb281-7559-4d74-a976-c726ea2f6772
       Content-Length:
       - '95'
       Content-Type:
@@ -88,7 +88,7 @@ http_interactions:
       string: ! '{"error": {"message": "Could not find user: u-random-blah", "code":
         404, "title": "Not Found"}}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:35 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:44 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/users?name=admin&page=1&per_page=30
@@ -97,26 +97,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 82f1ef5174d54037ae83606aceae211a
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:35 GMT
+      - Mon, 15 Jun 2015 17:44:44 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-05821308-942d-49cf-8c16-5eff15cdb362
+      - req-43f9225a-4f9a-4cd0-a8ac-fe1e48b30029
       Content-Length:
       - '341'
       Content-Type:
@@ -128,7 +128,7 @@ http_interactions:
         "links": {"self": "http://devstack.openstack.stack:35357/v3/users?name=admin&page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:35 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:44 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/users?page=1&per_page=30
@@ -137,26 +137,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 82f1ef5174d54037ae83606aceae211a
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:35 GMT
+      - Mon, 15 Jun 2015 17:44:44 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-50d43dd9-af60-489a-bf58-ed70df3d68c0
+      - req-785fc710-994a-4a32-ab20-c399b127ae49
       Content-Length:
       - '1408'
       Content-Type:
@@ -179,7 +179,7 @@ http_interactions:
         "links": {"self": "http://devstack.openstack.stack:35357/v3/users?page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:35 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:44 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/users?page=1&per_page=30
@@ -188,26 +188,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 82f1ef5174d54037ae83606aceae211a
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:35 GMT
+      - Mon, 15 Jun 2015 17:44:44 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-c42ec987-d6ea-4747-853a-d756fc79d3ed
+      - req-de350134-82f4-4426-82fd-d5a4ccd2963c
       Content-Length:
       - '1408'
       Content-Type:
@@ -230,7 +230,7 @@ http_interactions:
         "links": {"self": "http://devstack.openstack.stack:35357/v3/users?page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:35 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:44 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/users?page=1&per_page=30
@@ -239,26 +239,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 82f1ef5174d54037ae83606aceae211a
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:35 GMT
+      - Mon, 15 Jun 2015 17:44:44 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-fbbeb7f3-5101-4b41-a6f2-8aaef64cae8b
+      - req-82eda955-3a1b-431a-88b8-d1d9cdb51f85
       Content-Length:
       - '1408'
       Content-Type:
@@ -281,7 +281,7 @@ http_interactions:
         "links": {"self": "http://devstack.openstack.stack:35357/v3/users?page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:35 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:44 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/users?name=pimpernel&page=1&per_page=30
@@ -290,26 +290,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.30.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.30.0
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 82f1ef5174d54037ae83606aceae211a
+      - 5bc6e7b91ec04cc4902e184255f1db67
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Thu, 04 Jun 2015 10:45:35 GMT
+      - Mon, 15 Jun 2015 17:44:44 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-86669577-5c9b-4fdc-a3c1-94e53575185e
+      - req-19836f94-be60-4646-a686-951191a062fc
       Content-Length:
       - '138'
       Content-Type:
@@ -319,5 +319,5 @@ http_interactions:
       string: ! '{"users": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/users?name=pimpernel&page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Thu, 04 Jun 2015 10:45:35 GMT
+  recorded_at: Mon, 15 Jun 2015 17:44:44 GMT
 recorded_with: VCR 2.9.3
