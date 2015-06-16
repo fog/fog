@@ -23,7 +23,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       config.allow_http_connections_when_no_cassette = true
       config.hook_into :webmock
       config.cassette_library_dir = "spec/fog/openstack/identity_v3"
-      config.default_cassette_options = {:record => :none, :match_requests_on => [:method, :uri, :body]}
+      config.default_cassette_options = {:record => :none}
+      config.default_cassette_options.merge! :match_requests_on => [:method, :uri, :body] unless RUBY_VERSION =~ /1.8/ # Ruby 1.8.7 encodes JSON differently, which screws up request matching
     end
 
     if ENV['DEBUG']
