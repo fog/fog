@@ -7,7 +7,7 @@ module Fog
             params = Hash.new
             params['page'] = options.fetch(:page, 1)
             params['per_page'] = options.fetch(:per_page, 30)
-            params['name'] = options[:name] if options[:name]
+            params['user_id'] = options[:user_id] if options[:user_id]
 
             request(
                 :expects => [200],
