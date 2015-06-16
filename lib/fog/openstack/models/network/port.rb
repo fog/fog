@@ -15,6 +15,7 @@ module Fog
         attribute :device_owner
         attribute :device_id
         attribute :tenant_id
+        attribute :security_groups
 
         def initialize(attributes)
           # Old 'connection' is renamed as service and should be used instead
