@@ -12,6 +12,7 @@ module Fog
           attribute :enabled
           attribute :name
           attribute :links
+          attribute :parent_id
 
           def to_s
             self.name

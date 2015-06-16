@@ -28,6 +28,10 @@ module Fog
             options = {
                 :openstack_api_key => @openstack_api_key,
                 :openstack_username => @openstack_username,
+                :openstack_userid => @openstack_userid,
+                :openstack_domain_name => @openstack_domain_name,
+                :openstack_domain_id => @openstack_domain_id,
+                :openstack_project_name => @openstack_project_name,
                 :openstack_auth_token => @openstack_must_reauthenticate ? nil : @openstack_auth_token,
                 :openstack_auth_uri => @openstack_auth_uri,
                 :openstack_tenant => @openstack_tenant,

@@ -55,7 +55,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-atmos")
   s.add_dependency("fog-aws", "~> 0.0")
   s.add_dependency("fog-brightbox", "~> 0.4")
-  s.add_dependency("fog-ecloud")
+  s.add_dependency("fog-ecloud", "= 0.1.1")
   s.add_dependency("fog-google", ">= 0.0.2")
   s.add_dependency("fog-local")
   s.add_dependency("fog-powerdns", ">= 0.1.1")
@@ -85,6 +85,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("thor")
   s.add_development_dependency("yard")
   s.add_development_dependency("rspec-core")
+  s.add_development_dependency("rspec-expectations")
   s.add_development_dependency("vcr")
   s.add_development_dependency("webmock")
 

@@ -54,7 +54,7 @@ end
 
 GEM_NAME = "#{name}"
 task :default => :test
-task :travis  => ['test', 'test:travis']
+task :travis  => ['test', 'test:travis', 'test:openstack_idv3']
 
 Rake::TestTask.new do |t|
   t.pattern = File.join("spec", "**", "*_spec.rb")
@@ -63,7 +63,10 @@ end
 
 namespace :test do
   mock = ENV['FOG_MOCK'] || 'true'
-  task :travis do
+  task :openstack_idv3 do
+    sh("export FOG_MOCK=false && bundle exec rspec spec/fog/openstack/identity_v3_spec.rb")
+  end
+  task :travis => [:openstack_idv3] do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont")
   end
   task :vsphere do
@@ -77,9 +80,6 @@ namespace :test do
   end
   task :openstack do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/openstack")
-  end
-  task :openstack_idv3 do
-    sh("export FOG_MOCK=#{mock} && bundle exec rspec spec/fog/openstack/identity_v3_spec.rb")
   end
   task :cloudstack do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/cloudstack")

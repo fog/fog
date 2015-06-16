@@ -10,8 +10,9 @@ module Fog
                  :openstack_api_key, :openstack_username, :openstack_identity_endpoint,
                  :current_user, :current_tenant, :openstack_region,
                  :openstack_endpoint_type,
-                 :openstack_project_name,
-                 :openstack_project_domain, :openstack_user_domain
+                 :openstack_project_name, :openstack_project_id,
+                 :openstack_project_domain, :openstack_user_domain, :openstack_domain_name,
+                 :openstack_project_domain_id, :openstack_user_domain_id, :openstack_domain_id
 
       ## MODELS
       #
@@ -288,17 +289,13 @@ module Fog
           @data = nil
         end
 
+        include Fog::OpenStack::Core
+
         def initialize(options={})
-          @openstack_username = options[:openstack_username]
-          @openstack_user_domain = options[:openstack_user_domain] || options[:openstack_domain]
-          @openstack_project_domain  = options[:openstack_project_domain]  || options[:openstack_domain] || 'Default'
-          @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
-
-          @current_tenant = options[:openstack_tenant]
-          @current_tenant_id = options[:openstack_tenant_id]
-
           @auth_token = Fog::Mock.random_base64(64)
           @auth_token_expiration = (Time.now.utc + 86400).iso8601
+
+          initialize_identity options
 
           management_url = URI.parse(options[:openstack_auth_url])
           management_url.port = 8774
@@ -318,77 +315,28 @@ module Fog
           self.class.data.delete("#{@openstack_username}-#{@current_tenant}")
         end
 
-        def credentials
-          { :provider                 => 'openstack',
-            :openstack_auth_url       => @openstack_auth_uri.to_s,
-            :openstack_auth_token     => @auth_token,
-            :openstack_management_url => @openstack_management_url,
-            :openstack_identity_endpoint => @openstack_identity_public_endpoint }
-        end
       end
 
       class Real
-        attr_reader :auth_token
-        attr_reader :auth_token_expiration
-        attr_reader :current_user
-        attr_reader :current_tenant
-        attr_reader :current_tenant_id
-        attr_reader :openstack_user_domain
-        attr_reader :openstack_project_domain
+
+        include Fog::OpenStack::Core
 
         def initialize(options={})
-          @openstack_auth_token = options[:openstack_auth_token]
-          @auth_token        = options[:openstack_auth_token]
-          @openstack_identity_public_endpoint = options[:openstack_identity_endpoint]
+          initialize_identity options
 
-          unless @auth_token
-            missing_credentials = Array.new
-            @openstack_api_key     = options[:openstack_api_key]
-            @openstack_username    = options[:openstack_username]
-            @openstack_user_domain = options[:openstack_user_domain] || options[:openstack_domain]
-            @openstack_project_domain  = options[:openstack_project_domain]  || options[:openstack_domain] || 'Default'
-
-            missing_credentials << :openstack_api_key  unless @openstack_api_key
-            missing_credentials << :openstack_username unless @openstack_username
-            raise ArgumentError, "Missing required arguments: #{missing_credentials.join(', ')}" unless missing_credentials.empty?
-          end
-
-          @openstack_tenant      = options[:openstack_tenant]
-          @openstack_tenant_id   = options[:openstack_tenant_id]
-          @openstack_user_domain = options[:openstack_user_domain] || options[:openstack_domain]
-          @openstack_project_domain  = options[:openstack_project_domain]  || options[:openstack_domain] || 'Default'
-          @openstack_auth_uri    = URI.parse(options[:openstack_auth_url])
-          @openstack_management_url       = options[:openstack_management_url]
-          @openstack_must_reauthenticate  = false
+          @openstack_identity_service_type = options[:openstack_identity_service_type] || 'identity'
           @openstack_service_type  = options[:openstack_service_type] || ['nova', 'compute']
           @openstack_service_name  = options[:openstack_service_name]
-          @openstack_identity_service_type = options[:openstack_identity_service_type] || 'identity'
-          @openstack_endpoint_type = options[:openstack_endpoint_type] || 'publicURL'
-          @openstack_region        = options[:openstack_region]
 
           @connection_options = options[:connection_options] || {}
 
-          @current_user = options[:current_user]
-          @current_tenant = options[:current_tenant]
-
-          authenticate
+          authenticate_compute
 
           @persistent = options[:persistent] || false
           @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
-        def credentials
-          { :provider                 => 'openstack',
-            :openstack_user_domain    => @openstack_user_domain,
-            :openstack_project_domain     => @openstack_project_domain,
-            :openstack_auth_url       => @openstack_auth_uri.to_s,
-            :openstack_auth_token     => @auth_token,
-            :openstack_management_url => @openstack_management_url,
-            :openstack_identity_endpoint => @openstack_identity_public_endpoint,
-            :openstack_region         => @openstack_region,
-            :current_user             => @current_user,
-            :current_tenant           => @current_tenant }
-        end
+
 
         def reload
           @connection.reset
@@ -408,7 +356,7 @@ module Fog
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
               @openstack_must_reauthenticate = true
-              authenticate
+              authenticate_compute
               retry
             else # Bad Credentials
               raise error
@@ -431,35 +379,8 @@ module Fog
 
         private
 
-        def authenticate
-          if !@openstack_management_url || @openstack_must_reauthenticate
-            options = {
-              :openstack_api_key      => @openstack_api_key,
-              :openstack_username     => @openstack_username,
-              :openstack_user_domain  => @openstack_user_domain,
-              :openstack_project_domain   => @openstack_project_domain,
-              :openstack_auth_token   => @openstack_must_reauthenticate ? nil : @auth_token,
-              :openstack_auth_uri     => @openstack_auth_uri,
-              :openstack_region       => @openstack_region,
-              :openstack_tenant       => @openstack_tenant,
-              :openstack_tenant_id    => @openstack_tenant_id,
-              :openstack_service_type => @openstack_service_type,
-              :openstack_service_name => @openstack_service_name,
-              :openstack_identity_service_type => @openstack_identity_service_type,
-              :openstack_endpoint_type => @openstack_endpoint_type
-            }
-
-            credentials = Fog::OpenStack.authenticate(options, @connection_options)
-
-            @current_user = credentials[:user]
-            @current_tenant = credentials[:tenant]
-
-            @openstack_must_reauthenticate = false
-            @auth_token               = credentials[:token]
-            @auth_token_expiration    = credentials[:expires]
-            @openstack_management_url = credentials[:server_management_url]
-            @openstack_identity_public_endpoint  = credentials[:identity_public_endpoint]
-          end
+        def authenticate_compute
+          authenticate
 
           uri = URI.parse(@openstack_management_url)
           @host   = uri.host
@@ -470,9 +391,6 @@ module Fog
             raise Fog::OpenStack::Errors::ServiceUnavailable.new(
                     "OpenStack compute binding only supports version 2 (a.k.a. 1.1)")
           end
-
-          @port   = uri.port
-          @scheme = uri.scheme
 
           # Not all implementations have identity service in the catalog
           if @openstack_identity_public_endpoint || @openstack_management_url
