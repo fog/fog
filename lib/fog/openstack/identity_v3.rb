@@ -119,6 +119,7 @@ module Fog
         request :delete_policy
 
         class Mock
+          include Fog::OpenStack::Core
           def initialize(options={})
 
           end
