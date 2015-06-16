@@ -8,6 +8,7 @@ module Fog
 
         attribute :display_name,        :aliases => 'displayName'
         attribute :display_description, :aliases => 'displayDescription'
+        attribute :metadata
         attribute :status
         attribute :size
         attribute :volume_type,         :aliases => ['volumeType', 'type']
