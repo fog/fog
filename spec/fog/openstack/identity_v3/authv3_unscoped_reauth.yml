@@ -17,27 +17,27 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:43 GMT
+      - Wed, 17 Jun 2015 15:06:04 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       X-Subject-Token:
-      - 3700562bf31a423fa9a328f530734bc1
+      - 05ceba633c7a4458b5f3ab3a76bf6280
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-98b3d29d-de15-4600-9c3a-252cad8ef7b5
+      - req-b7c26233-9ad8-4921-9106-fc8276d2ef83
       Content-Length:
       - '297'
       Content-Type:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"token": {"methods": ["password"], "expires_at": "2015-06-15T18:44:43.312255Z",
+      string: ! '{"token": {"methods": ["password"], "expires_at": "2015-06-17T16:06:04.923946Z",
         "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
-        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["5vRaYmiTR4m0p1YY8Qj7BA"],
-        "issued_at": "2015-06-15T17:44:43.312291Z"}}'
+        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["v1OQSR03TYeNa-qNY9_0kQ"],
+        "issued_at": "2015-06-17T15:06:04.923982Z"}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:43 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:36 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:5000/v3/users/aa9f25defa6d4cafb48466df83106065/projects
@@ -52,20 +52,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 3700562bf31a423fa9a328f530734bc1
+      - 05ceba633c7a4458b5f3ab3a76bf6280
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:43 GMT
+      - Wed, 17 Jun 2015 15:06:04 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-ab5df192-d80c-4d40-a30f-dcb1b56a5b59
+      - req-3c736100-9338-4e02-b2f2-8de4a05af0b3
       Content-Length:
       - '617'
       Content-Type:
@@ -81,13 +81,13 @@ http_interactions:
         "enabled": true, "id": "3ed7ee0512b641d3bb1fe17fc86d8bff", "parent_id": null,
         "domain_id": "default", "name": "demo"}]}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:43 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:36 GMT
 - request:
     method: post
     uri: http://devstack.openstack.stack:5000/v3/auth/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"3700562bf31a423fa9a328f530734bc1"}},"scope":{"project":{"name":"admin","domain":{"id":"default"}}}}}'
+      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"05ceba633c7a4458b5f3ab3a76bf6280"}},"scope":{"project":{"name":"admin","domain":{"id":"default"}}}}}'
     headers:
       User-Agent:
       - fog/1.31.0 fog-core/1.30.0
@@ -99,15 +99,15 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:43 GMT
+      - Wed, 17 Jun 2015 15:06:04 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       X-Subject-Token:
-      - 2937893a354e4e5ea13a4625be03def4
+      - fb57275cd6d745bc90c5baf8583e3c1a
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-ef545b18-a468-496b-a67b-828e1a97f0ed
+      - req-aad1de7d-9162-43f3-8990-4b606f5e59a6
       Content-Length:
       - '5909'
       Content-Type:
@@ -115,7 +115,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ! '{"token": {"methods": ["token", "password"], "roles": [{"id": "6ead57f8ae124996af8b0beb72ff1007",
-        "name": "admin"}], "expires_at": "2015-06-15T18:44:43.312255Z", "project":
+        "name": "admin"}], "expires_at": "2015-06-17T16:06:04.923946Z", "project":
         {"domain": {"id": "default", "name": "Default"}, "id": "123ac695d4db400a9001b91bb3b8aa46",
         "name": "admin"}, "catalog": [{"endpoints": [{"region_id": "RegionOne", "url":
         "http://devstack.openstack.stack:9292", "region": "RegionOne", "interface": "public",
@@ -180,16 +180,16 @@ http_interactions:
         "RegionOne", "interface": "admin", "id": "d5f8e0da0f3345529a5fb324d735d4a3"}],
         "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009", "name": "keystone_v3"}],
         "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
-        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["SOBpAfEnRKO4Eq8Zkk4-sw",
-        "5vRaYmiTR4m0p1YY8Qj7BA"], "issued_at": "2015-06-15T17:44:43.442226Z"}}'
+        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["Sj8LHyYuTv-t_8-vXRyw4g",
+        "v1OQSR03TYeNa-qNY9_0kQ"], "issued_at": "2015-06-17T15:06:05.052202Z"}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:43 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:36 GMT
 - request:
     method: post
     uri: http://devstack.openstack.stack:5000/v3/auth/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"2937893a354e4e5ea13a4625be03def4"}}}}'
+      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"fb57275cd6d745bc90c5baf8583e3c1a"}}}}'
     headers:
       User-Agent:
       - fog/1.31.0 fog-core/1.30.0
@@ -201,27 +201,27 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:43 GMT
+      - Wed, 17 Jun 2015 15:06:05 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       X-Subject-Token:
-      - b8205b5b313d4410b9999b35e853abc2
+      - f1461bd5c4a14dc7b03079db74846098
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-a2648c2d-36f7-401a-831f-9e3073bac7c5
+      - req-08386e77-6844-466a-95ef-b9145d4cf410
       Content-Length:
       - '332'
       Content-Type:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"token": {"methods": ["token", "password"], "expires_at": "2015-06-15T18:44:43.312255Z",
+      string: ! '{"token": {"methods": ["token", "password"], "expires_at": "2015-06-17T16:06:04.923946Z",
         "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
-        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["dmdzC8_CQPubAhJ-9GGHyw",
-        "5vRaYmiTR4m0p1YY8Qj7BA"], "issued_at": "2015-06-15T17:44:43.508224Z"}}'
+        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["FZOOKqGATBexvvq4WxXuQA",
+        "v1OQSR03TYeNa-qNY9_0kQ"], "issued_at": "2015-06-17T15:06:05.100192Z"}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:43 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:36 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:5000/v3/users/aa9f25defa6d4cafb48466df83106065/projects
@@ -236,20 +236,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - b8205b5b313d4410b9999b35e853abc2
+      - f1461bd5c4a14dc7b03079db74846098
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:43 GMT
+      - Wed, 17 Jun 2015 15:06:05 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-53e2380f-a58a-4f99-b8f1-76b4ae79297c
+      - req-0dbb53c8-367b-49c7-8ac5-dedbf5043c61
       Content-Length:
       - '617'
       Content-Type:
@@ -265,13 +265,13 @@ http_interactions:
         "enabled": true, "id": "3ed7ee0512b641d3bb1fe17fc86d8bff", "parent_id": null,
         "domain_id": "default", "name": "demo"}]}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:43 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:36 GMT
 - request:
     method: post
     uri: http://devstack.openstack.stack:5000/v3/auth/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"2937893a354e4e5ea13a4625be03def4"}},"scope":{"project":{"name":"admin","domain":{"id":"default"}}}}}'
+      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"fb57275cd6d745bc90c5baf8583e3c1a"}},"scope":{"project":{"name":"admin","domain":{"id":"default"}}}}}'
     headers:
       User-Agent:
       - fog/1.31.0 fog-core/1.30.0
@@ -283,15 +283,15 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:43 GMT
+      - Wed, 17 Jun 2015 15:06:05 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       X-Subject-Token:
-      - af0d34bdfcb2432d9597b6b4e69918a7
+      - 0dccc775c18044a18fa78896c0331c0f
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-8eca3456-2dc1-483e-86b3-6d6420e2f850
+      - req-8ba3b643-2c8e-4df9-bb4d-e5472d85315f
       Content-Length:
       - '5909'
       Content-Type:
@@ -299,7 +299,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ! '{"token": {"methods": ["token", "password"], "roles": [{"id": "6ead57f8ae124996af8b0beb72ff1007",
-        "name": "admin"}], "expires_at": "2015-06-15T18:44:43.312255Z", "project":
+        "name": "admin"}], "expires_at": "2015-06-17T16:06:04.923946Z", "project":
         {"domain": {"id": "default", "name": "Default"}, "id": "123ac695d4db400a9001b91bb3b8aa46",
         "name": "admin"}, "catalog": [{"endpoints": [{"region_id": "RegionOne", "url":
         "http://devstack.openstack.stack:9292", "region": "RegionOne", "interface": "public",
@@ -364,8 +364,8 @@ http_interactions:
         "RegionOne", "interface": "admin", "id": "d5f8e0da0f3345529a5fb324d735d4a3"}],
         "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009", "name": "keystone_v3"}],
         "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
-        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["kUSDWbU9QoWBvg3kKYEqcQ",
-        "5vRaYmiTR4m0p1YY8Qj7BA"], "issued_at": "2015-06-15T17:44:43.647313Z"}}'
+        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["dWTMlajOTa-jHpM53LQx_g",
+        "v1OQSR03TYeNa-qNY9_0kQ"], "issued_at": "2015-06-17T15:06:05.227894Z"}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:43 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:36 GMT
 recorded_with: VCR 2.9.3

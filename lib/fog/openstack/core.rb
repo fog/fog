@@ -80,6 +80,7 @@ module Fog
         @openstack_user_domain_id = options[:openstack_user_domain_id]
         @openstack_project_domain_id  = options[:openstack_project_domain_id]
 
+        @openstack_project_name = options[:openstack_project_name]
         @openstack_tenant      = options[:openstack_tenant]
         @openstack_tenant_id   = options[:openstack_tenant_id]
 
