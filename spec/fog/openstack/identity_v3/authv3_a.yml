@@ -17,15 +17,15 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:42 GMT
+      - Wed, 17 Jun 2015 15:06:04 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       X-Subject-Token:
-      - 3436fc50f62e48c18ba4901d6dd3ec7c
+      - 7bdb40de5c8f404ab322db9f87064dcf
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-7214de01-8cbb-4473-905a-375364663a9b
+      - req-d1754acf-0a84-46ca-9bdd-d0be38c25b0b
       Content-Length:
       - '3532'
       Content-Type:
@@ -34,7 +34,7 @@ http_interactions:
       encoding: US-ASCII
       string: ! '{"token": {"domain": {"id": "default", "name": "Default"}, "methods":
         ["password"], "roles": [{"id": "6ead57f8ae124996af8b0beb72ff1007", "name":
-        "admin"}], "expires_at": "2015-06-15T18:44:42.546896Z", "catalog": [{"endpoints":
+        "admin"}], "expires_at": "2015-06-17T16:06:04.180994Z", "catalog": [{"endpoints":
         [{"region_id": "RegionOne", "url": "http://devstack.openstack.stack:9292", "region":
         "RegionOne", "interface": "public", "id": "6e82c8912d3f49a09df51035681d564c"},
         {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:9292", "region":
@@ -74,8 +74,8 @@ http_interactions:
         "RegionOne", "interface": "admin", "id": "d5f8e0da0f3345529a5fb324d735d4a3"}],
         "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009", "name": "keystone_v3"}],
         "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
-        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["ZcgNWJ-eSjaYEJC9Rx2Erw"],
-        "issued_at": "2015-06-15T17:44:42.546938Z"}}'
+        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["D3j-aFWvSp2SOIITEsEQKg"],
+        "issued_at": "2015-06-17T15:06:04.181030Z"}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:42 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:35 GMT
 recorded_with: VCR 2.9.3

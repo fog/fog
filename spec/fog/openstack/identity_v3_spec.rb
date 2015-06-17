@@ -6,7 +6,7 @@ require 'vcr'
 
 RSpec.describe Fog::Identity::OpenStack::V3 do
 
-  before :each do |example|
+  before :all do |example|
     @os_auth_url = ENV['OS_AUTH_URL']
 
     # if OS_AUTH_URL is set but FOG_MOCK is not, don't record anything and just pass through the requests
@@ -40,20 +40,18 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
     # Allow us to ignore dev certificates on servers
     Excon.defaults[:ssl_verify_peer] = false if ENV['SSL_VERIFY_PEER'] == 'false'
 
-    unless example.metadata[:skip_preauthentication]
-      VCR.use_cassette('idv3') do
-        @id_v3 = Fog::Identity::OpenStack::V3.new(
-            :openstack_project_name => ENV['OS_PROJECT_NAME'] || 'admin',
-            :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
-            :openstack_api_key => ENV['OS_PASSWORD'] || 'password',
-            :openstack_username => ENV['OS_USERNAME'] || 'admin',
-            :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
-            :openstack_auth_url => "#{@os_auth_url}/auth/tokens") unless @id_v3
-      end
+    VCR.use_cassette('idv3') do
+      @id_v3 = Fog::Identity::OpenStack::V3.new(
+          :openstack_project_name => ENV['OS_PROJECT_NAME'] || 'admin',
+          :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
+          :openstack_api_key => ENV['OS_PASSWORD'] || 'password',
+          :openstack_username => ENV['OS_USERNAME'] || 'admin',
+          :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
+          :openstack_auth_url => "#{@os_auth_url}/auth/tokens") unless @id_v3
     end
   end
 
-  it 'authenticates with password, userid and domain_id', :skip_preauthentication do
+  it 'authenticates with password, userid and domain_id' do
     VCR.use_cassette('authv3_a') do
       Fog::Identity::OpenStack::V3.new(
           :openstack_domain_id =>    ENV['OS_USER_DOMAIN_ID'] || 'default',
@@ -64,7 +62,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
     end
   end
 
-  it 'authenticates with password, username and domain_id', :skip_preauthentication do
+  it 'authenticates with password, username and domain_id' do
     VCR.use_cassette('authv3_b') do
       Fog::Identity::OpenStack::V3.new(
           :openstack_domain_id =>    ENV['OS_USER_DOMAIN_ID'] || 'default',
@@ -75,7 +73,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
     end
   end
 
-  it 'authenticates with password, username and domain_name', :skip_preauthentication do
+  it 'authenticates with password, username and domain_name' do
     VCR.use_cassette('authv3_c') do
       Fog::Identity::OpenStack::V3.new(
           :openstack_user_domain => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
@@ -103,7 +101,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
     end unless endpoints_in_region.empty?
   end
 
-  it 'get an unscoped token, then reauthenticate with it', :skip_preauthentication do
+  it 'get an unscoped token, then reauthenticate with it' do
     VCR.use_cassette('authv3_unscoped_reauth') do
 
       @id_v3 = Fog::Identity::OpenStack::V3.new(
@@ -125,7 +123,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
     end
   end
 
-  it 'authenticates with project scope', :skip_preauthentication do
+  it 'authenticates with project scope' do
     VCR.use_cassette('authv3_project') do
       Fog::Identity::OpenStack::V3.new(
           :openstack_project_name => ENV['OS_PROJECT_NAME'] || 'admin',
@@ -137,7 +135,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
     end
   end
 
-  it 'get an unscoped token, then use it to get a scoped token', :skip_preauthentication do
+  it 'get an unscoped token, then use it to get a scoped token' do
     VCR.use_cassette('authv3_unscoped') do
 
       @id_v3 = Fog::Identity::OpenStack::V3.new(

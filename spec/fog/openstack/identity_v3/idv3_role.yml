@@ -14,20 +14,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:50 GMT
+      - Wed, 17 Jun 2015 15:06:11 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-92ddaab9-7ab7-4515-9216-38d8864291c1
+      - req-847b228d-1f59-4285-9239-aede2b03bcb9
       Content-Length:
       - '903'
       Content-Type:
@@ -47,7 +47,7 @@ http_interactions:
         "http://devstack.openstack.stack:35357/v3/roles/d7390adf0b014ceb9247591b70d0eac9"},
         "name": "ResellerAdmin"}]}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:50 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:43 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/roles?page=1&per_page=30
@@ -62,20 +62,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:50 GMT
+      - Wed, 17 Jun 2015 15:06:11 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-ba9732bf-ea42-400a-b5c0-ff32c830eaf1
+      - req-f5761ca6-eeee-41e0-8534-362ff5bd0948
       Content-Length:
       - '903'
       Content-Type:
@@ -95,7 +95,7 @@ http_interactions:
         "http://devstack.openstack.stack:35357/v3/roles/d7390adf0b014ceb9247591b70d0eac9"},
         "name": "ResellerAdmin"}]}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:50 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:43 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/roles?page=1&per_page=30
@@ -110,20 +110,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:50 GMT
+      - Wed, 17 Jun 2015 15:06:11 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-7148fb2b-b566-4da6-99ba-9d97725a1620
+      - req-572bee67-3923-4e3d-ba5e-4e0929d4f341
       Content-Length:
       - '903'
       Content-Type:
@@ -143,7 +143,7 @@ http_interactions:
         "http://devstack.openstack.stack:35357/v3/roles/d7390adf0b014ceb9247591b70d0eac9"},
         "name": "ResellerAdmin"}]}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:50 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:43 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/roles?page=1&per_page=30
@@ -158,20 +158,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:50 GMT
+      - Wed, 17 Jun 2015 15:06:12 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-82f222d1-8121-4ab2-aca1-0a7ebe3c2ebe
+      - req-407b7e1e-d24c-4f87-af1b-b9c9da320af9
       Content-Length:
       - '903'
       Content-Type:
@@ -191,7 +191,7 @@ http_interactions:
         "http://devstack.openstack.stack:35357/v3/roles/d7390adf0b014ceb9247591b70d0eac9"},
         "name": "ResellerAdmin"}]}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:50 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:43 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/roles/atlantis
@@ -206,20 +206,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 404
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:50 GMT
+      - Wed, 17 Jun 2015 15:06:12 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-c38bc927-4f1c-4e5c-9089-16120034625f
+      - req-af724e7b-5637-46ee-96b0-3114067c36ef
       Content-Length:
       - '90'
       Content-Type:
@@ -229,5 +229,5 @@ http_interactions:
       string: ! '{"error": {"message": "Could not find role: atlantis", "code": 404,
         "title": "Not Found"}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:50 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:43 GMT
 recorded_with: VCR 2.9.3

@@ -14,20 +14,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:55 GMT
+      - Wed, 17 Jun 2015 15:06:15 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-72a2d33a-eebc-4664-95f3-1ccde1221a88
+      - req-bea1375e-e725-48b6-85e8-d64792ca028a
       Content-Length:
       - '2011'
       Content-Type:
@@ -60,7 +60,7 @@ http_interactions:
         "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:55 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30
@@ -75,20 +75,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:55 GMT
+      - Wed, 17 Jun 2015 15:06:16 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-59eb2e5f-3571-441f-bcc7-3f5866209772
+      - req-84e42d05-3e73-4d72-a374-ad17e13f5a54
       Content-Length:
       - '8895'
       Content-Type:
@@ -205,7 +205,7 @@ http_interactions:
         "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:55 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
 - request:
     method: post
     uri: http://devstack.openstack.stack:35357/v3/endpoints
@@ -220,32 +220,32 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 201
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:55 GMT
+      - Wed, 17 Jun 2015 15:06:16 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-00d139d9-e0eb-4988-81dd-1e30c079d0d1
+      - req-58138c98-e619-4fa5-8538-89a292b02730
       Content-Length:
       - '334'
       Content-Type:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"endpoint": {"region_id": null, "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/01f7b2bffefe4947b9d8826932b8ce4e"},
+      string: ! '{"endpoint": {"region_id": null, "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/60b1cf5cd8b743fc91dbf665f365ee71"},
         "url": "http://example.com/foobar", "region": null, "enabled": false, "interface":
-        "internal", "service_id": "0d56500210a24c38a3702b6825e24164", "id": "01f7b2bffefe4947b9d8826932b8ce4e",
+        "internal", "service_id": "0d56500210a24c38a3702b6825e24164", "id": "60b1cf5cd8b743fc91dbf665f365ee71",
         "name": "foobar"}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:55 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/endpoints?interface=internal&page=1&per_page=30
@@ -260,30 +260,27 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:55 GMT
+      - Wed, 17 Jun 2015 15:06:16 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-cde1bc51-9340-4711-8c74-465c4a9ac400
+      - req-4aab1404-10d8-4a05-92ba-90ab7471b0be
       Content-Length:
       - '3406'
       Content-Type:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"endpoints": [{"region_id": null, "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/01f7b2bffefe4947b9d8826932b8ce4e"},
-        "url": "http://example.com/foobar", "region": null, "enabled": false, "interface":
-        "internal", "service_id": "0d56500210a24c38a3702b6825e24164", "id": "01f7b2bffefe4947b9d8826932b8ce4e",
-        "name": "foobar"}, {"region_id": "RegionOne", "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/261aaf6239bb49a4a1cfa87c19859138"},
+      string: ! '{"endpoints": [{"region_id": "RegionOne", "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/261aaf6239bb49a4a1cfa87c19859138"},
         "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
         "enabled": true, "interface": "internal", "service_id": "2b92e79c45254516932c633229cd0e8b",
         "id": "261aaf6239bb49a4a1cfa87c19859138"}, {"region_id": "RegionOne", "links":
@@ -294,8 +291,11 @@ http_interactions:
         {"self": "http://devstack.openstack.stack:35357/v3/endpoints/4b4178fd2e3d4f329600cc4ceaaa7e3a"},
         "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
         "enabled": true, "interface": "internal", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "4b4178fd2e3d4f329600cc4ceaaa7e3a"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/81c51855280345e9a6c322ca986d4e4b"},
+        "id": "4b4178fd2e3d4f329600cc4ceaaa7e3a"}, {"region_id": null, "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/endpoints/60b1cf5cd8b743fc91dbf665f365ee71"},
+        "url": "http://example.com/foobar", "region": null, "enabled": false, "interface":
+        "internal", "service_id": "0d56500210a24c38a3702b6825e24164", "id": "60b1cf5cd8b743fc91dbf665f365ee71",
+        "name": "foobar"}, {"region_id": "RegionOne", "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/81c51855280345e9a6c322ca986d4e4b"},
         "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
         "enabled": true, "interface": "internal", "service_id": "5b7028751ed045d79467c7845ecb8c58",
         "id": "81c51855280345e9a6c322ca986d4e4b"}, {"region_id": "RegionOne", "links":
@@ -321,10 +321,10 @@ http_interactions:
         "id": "ece52860cf1e4eb6a8fed05c47a30147"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?interface=internal&page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:55 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
 - request:
     method: patch
-    uri: http://devstack.openstack.stack:35357/v3/endpoints/01f7b2bffefe4947b9d8826932b8ce4e
+    uri: http://devstack.openstack.stack:35357/v3/endpoints/60b1cf5cd8b743fc91dbf665f365ee71
     body:
       encoding: UTF-8
       string: ! '{"endpoint":{"name":"baz","url":"http://example.com/baz"}}'
@@ -336,32 +336,32 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:55 GMT
+      - Wed, 17 Jun 2015 15:06:16 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-fd1c11e9-b2f0-44a0-b000-1238ca29eb44
+      - req-a433143a-58ea-4ccf-8752-737de0fc9c0b
       Content-Length:
       - '328'
       Content-Type:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"endpoint": {"region_id": null, "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/01f7b2bffefe4947b9d8826932b8ce4e"},
+      string: ! '{"endpoint": {"region_id": null, "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/60b1cf5cd8b743fc91dbf665f365ee71"},
         "url": "http://example.com/baz", "region": null, "enabled": false, "interface":
-        "internal", "service_id": "0d56500210a24c38a3702b6825e24164", "id": "01f7b2bffefe4947b9d8826932b8ce4e",
+        "internal", "service_id": "0d56500210a24c38a3702b6825e24164", "id": "60b1cf5cd8b743fc91dbf665f365ee71",
         "name": "baz"}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:55 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/endpoints?interface=internal&page=1&per_page=30
@@ -376,30 +376,27 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:55 GMT
+      - Wed, 17 Jun 2015 15:06:16 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-0c5fadb7-c6a5-446d-8706-5037c69191d1
+      - req-15f0e064-5d29-44af-9345-29f42ea18805
       Content-Length:
       - '3400'
       Content-Type:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"endpoints": [{"region_id": null, "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/01f7b2bffefe4947b9d8826932b8ce4e"},
-        "url": "http://example.com/baz", "region": null, "enabled": false, "interface":
-        "internal", "service_id": "0d56500210a24c38a3702b6825e24164", "id": "01f7b2bffefe4947b9d8826932b8ce4e",
-        "name": "baz"}, {"region_id": "RegionOne", "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/261aaf6239bb49a4a1cfa87c19859138"},
+      string: ! '{"endpoints": [{"region_id": "RegionOne", "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/261aaf6239bb49a4a1cfa87c19859138"},
         "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
         "enabled": true, "interface": "internal", "service_id": "2b92e79c45254516932c633229cd0e8b",
         "id": "261aaf6239bb49a4a1cfa87c19859138"}, {"region_id": "RegionOne", "links":
@@ -410,8 +407,11 @@ http_interactions:
         {"self": "http://devstack.openstack.stack:35357/v3/endpoints/4b4178fd2e3d4f329600cc4ceaaa7e3a"},
         "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
         "enabled": true, "interface": "internal", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "4b4178fd2e3d4f329600cc4ceaaa7e3a"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/81c51855280345e9a6c322ca986d4e4b"},
+        "id": "4b4178fd2e3d4f329600cc4ceaaa7e3a"}, {"region_id": null, "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/endpoints/60b1cf5cd8b743fc91dbf665f365ee71"},
+        "url": "http://example.com/baz", "region": null, "enabled": false, "interface":
+        "internal", "service_id": "0d56500210a24c38a3702b6825e24164", "id": "60b1cf5cd8b743fc91dbf665f365ee71",
+        "name": "baz"}, {"region_id": "RegionOne", "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/81c51855280345e9a6c322ca986d4e4b"},
         "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
         "enabled": true, "interface": "internal", "service_id": "5b7028751ed045d79467c7845ecb8c58",
         "id": "81c51855280345e9a6c322ca986d4e4b"}, {"region_id": "RegionOne", "links":
@@ -437,7 +437,7 @@ http_interactions:
         "id": "ece52860cf1e4eb6a8fed05c47a30147"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?interface=internal&page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:55 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30
@@ -452,30 +452,27 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:55 GMT
+      - Wed, 17 Jun 2015 15:06:16 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-57abb430-b785-43a0-894f-c200aebaef40
+      - req-705ae242-b858-4ea8-8b39-48d3e16784e8
       Content-Length:
       - '9211'
       Content-Type:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"endpoints": [{"region_id": null, "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/01f7b2bffefe4947b9d8826932b8ce4e"},
-        "url": "http://example.com/baz", "region": null, "enabled": false, "interface":
-        "internal", "service_id": "0d56500210a24c38a3702b6825e24164", "id": "01f7b2bffefe4947b9d8826932b8ce4e",
-        "name": "baz"}, {"region_id": "RegionOne", "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/185eda94de9340e58245062f75d7f80e"},
+      string: ! '{"endpoints": [{"region_id": "RegionOne", "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/185eda94de9340e58245062f75d7f80e"},
         "url": "http://devstack.openstack.stack:35357/v3", "region": "RegionOne", "enabled":
         true, "interface": "admin", "service_id": "b577d8f7c7074d04a1165fcca638b600",
         "id": "185eda94de9340e58245062f75d7f80e"}, {"region_id": "RegionOne", "links":
@@ -518,8 +515,11 @@ http_interactions:
         {"self": "http://devstack.openstack.stack:35357/v3/endpoints/600638643d22494fad4f30e3b22ae124"},
         "url": "http://devstack.openstack.stack:5000/v3", "region": "europe", "enabled": true,
         "interface": "public", "service_id": "cd9002bbadfe495d81b5ee4c50768009", "id":
-        "600638643d22494fad4f30e3b22ae124"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/6e82c8912d3f49a09df51035681d564c"},
+        "600638643d22494fad4f30e3b22ae124"}, {"region_id": null, "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/endpoints/60b1cf5cd8b743fc91dbf665f365ee71"},
+        "url": "http://example.com/baz", "region": null, "enabled": false, "interface":
+        "internal", "service_id": "0d56500210a24c38a3702b6825e24164", "id": "60b1cf5cd8b743fc91dbf665f365ee71",
+        "name": "baz"}, {"region_id": "RegionOne", "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/6e82c8912d3f49a09df51035681d564c"},
         "url": "http://devstack.openstack.stack:9292", "region": "RegionOne", "enabled": true,
         "interface": "public", "service_id": "0d56500210a24c38a3702b6825e24164", "id":
         "6e82c8912d3f49a09df51035681d564c"}, {"region_id": "RegionOne", "links": {"self":
@@ -585,10 +585,10 @@ http_interactions:
         "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:55 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
 - request:
     method: delete
-    uri: http://devstack.openstack.stack:35357/v3/endpoints/01f7b2bffefe4947b9d8826932b8ce4e
+    uri: http://devstack.openstack.stack:35357/v3/endpoints/60b1cf5cd8b743fc91dbf665f365ee71
     body:
       encoding: US-ASCII
       string: ''
@@ -600,27 +600,27 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 204
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:55 GMT
+      - Wed, 17 Jun 2015 15:06:16 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-a8817a32-e2d6-43dc-a274-5dbab17d3a08
+      - req-13a32869-61e4-4fea-a932-8dd8df51e9ae
       Content-Length:
       - '0'
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:55 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:48 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30
@@ -635,20 +635,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:55 GMT
+      - Wed, 17 Jun 2015 15:06:16 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-ce9abe34-fe9f-4f68-ae7d-c8184a9ad508
+      - req-c41b0e47-654a-4930-aa2f-c8c66d832f2e
       Content-Length:
       - '8895'
       Content-Type:
@@ -765,10 +765,10 @@ http_interactions:
         "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:55 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:48 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/endpoints/01f7b2bffefe4947b9d8826932b8ce4e
+    uri: http://devstack.openstack.stack:35357/v3/endpoints/60b1cf5cd8b743fc91dbf665f365ee71
     body:
       encoding: US-ASCII
       string: ''
@@ -780,30 +780,30 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 404
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:55 GMT
+      - Wed, 17 Jun 2015 15:06:16 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-8f7a0149-5e57-4225-82a9-588229dd99a1
+      - req-1fa2cfde-148c-4b6a-8cb0-04c20a537aa4
       Content-Length:
       - '118'
       Content-Type:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"error": {"message": "Could not find endpoint: 01f7b2bffefe4947b9d8826932b8ce4e",
+      string: ! '{"error": {"message": "Could not find endpoint: 60b1cf5cd8b743fc91dbf665f365ee71",
         "code": 404, "title": "Not Found"}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:55 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:48 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30
@@ -818,20 +818,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 5bc6e7b91ec04cc4902e184255f1db67
+      - 7b745f289de14e26a7a9db5cbef90b7e
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:55 GMT
+      - Wed, 17 Jun 2015 15:06:16 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-709eb4db-5c67-4819-b5a0-0f08c7b77b9b
+      - req-74a22df5-d4aa-4482-b1a5-89c7ac596a72
       Content-Length:
       - '8895'
       Content-Type:
@@ -948,5 +948,5 @@ http_interactions:
         "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:55 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:48 GMT
 recorded_with: VCR 2.9.3
