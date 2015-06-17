@@ -17,27 +17,27 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:43 GMT
+      - Wed, 17 Jun 2015 15:06:04 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       X-Subject-Token:
-      - 3a55616169b740f0905a2cf854f7358b
+      - 0960242c8a9846b6b275f0cc21590bfd
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-c2276090-ceb4-4756-8a49-a3d0d7c8eca4
+      - req-ffe273cf-9330-425e-ad90-4cd7014b8102
       Content-Length:
       - '297'
       Content-Type:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"token": {"methods": ["password"], "expires_at": "2015-06-15T18:44:43.087618Z",
+      string: ! '{"token": {"methods": ["password"], "expires_at": "2015-06-17T16:06:04.681867Z",
         "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
-        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["6FBVWrNqSoqCg3JcdB95qg"],
-        "issued_at": "2015-06-15T17:44:43.087654Z"}}'
+        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["goorCJDkTzmTNz8V5Zsgkg"],
+        "issued_at": "2015-06-17T15:06:04.681901Z"}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:43 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:36 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:5000/v3/users/aa9f25defa6d4cafb48466df83106065/projects
@@ -52,20 +52,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - 3a55616169b740f0905a2cf854f7358b
+      - 0960242c8a9846b6b275f0cc21590bfd
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:43 GMT
+      - Wed, 17 Jun 2015 15:06:04 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-267d2592-b0e7-4218-8c4f-ebebf82e403d
+      - req-3bd8f33e-9c1f-47d3-aa9b-3636213be17a
       Content-Length:
       - '617'
       Content-Type:
@@ -81,13 +81,13 @@ http_interactions:
         "enabled": true, "id": "3ed7ee0512b641d3bb1fe17fc86d8bff", "parent_id": null,
         "domain_id": "default", "name": "demo"}]}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:43 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:36 GMT
 - request:
     method: post
     uri: http://devstack.openstack.stack:5000/v3/auth/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"3a55616169b740f0905a2cf854f7358b"}},"scope":{"project":{"name":"admin","domain":{"id":"default"}}}}}'
+      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"0960242c8a9846b6b275f0cc21590bfd"}},"scope":{"project":{"name":"admin","domain":{"id":"default"}}}}}'
     headers:
       User-Agent:
       - fog/1.31.0 fog-core/1.30.0
@@ -99,15 +99,15 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 17:44:43 GMT
+      - Wed, 17 Jun 2015 15:06:04 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       X-Subject-Token:
-      - 07b586fbeb1f4f9fa62cfa137aff5511
+      - c6373b0b06284ec084a7e922e54dc7dd
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-bf9508b0-5fc3-4897-b866-136cfeedc765
+      - req-f7d1b4df-bde3-4cec-9f69-212d6c459f2f
       Content-Length:
       - '5909'
       Content-Type:
@@ -115,7 +115,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ! '{"token": {"methods": ["token", "password"], "roles": [{"id": "6ead57f8ae124996af8b0beb72ff1007",
-        "name": "admin"}], "expires_at": "2015-06-15T18:44:43.087618Z", "project":
+        "name": "admin"}], "expires_at": "2015-06-17T16:06:04.681867Z", "project":
         {"domain": {"id": "default", "name": "Default"}, "id": "123ac695d4db400a9001b91bb3b8aa46",
         "name": "admin"}, "catalog": [{"endpoints": [{"region_id": "RegionOne", "url":
         "http://devstack.openstack.stack:9292", "region": "RegionOne", "interface": "public",
@@ -180,8 +180,8 @@ http_interactions:
         "RegionOne", "interface": "admin", "id": "d5f8e0da0f3345529a5fb324d735d4a3"}],
         "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009", "name": "keystone_v3"}],
         "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
-        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["aV1Zr_ccQaqyVS09aqfrPw",
-        "6FBVWrNqSoqCg3JcdB95qg"], "issued_at": "2015-06-15T17:44:43.213557Z"}}'
+        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["ik-PR4MUSj6E_tgcot-ziw",
+        "goorCJDkTzmTNz8V5Zsgkg"], "issued_at": "2015-06-17T15:06:04.818582Z"}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 17:44:43 GMT
+  recorded_at: Wed, 17 Jun 2015 15:06:36 GMT
 recorded_with: VCR 2.9.3
