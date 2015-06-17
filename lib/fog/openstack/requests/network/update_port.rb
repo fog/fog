@@ -25,11 +25,11 @@ module Fog
           response = Excon::Response.new
           if port = list_ports.body['ports'].find { |_| _['id'] == port_id }
             port['name']              = options[:name]
-            port['fixed_ips']         = options[:fixed_ips]
+            port['fixed_ips']         = options[:fixed_ips] || []
             port['admin_state_up']    = options[:admin_state_up]
             port['device_owner']      = options[:device_owner]
             port['device_id']         = options[:device_id]
-            port['security_groups']   = options[:security_groups]
+            port['security_groups']   = options[:security_groups] || []
             response.body = { 'port' => port }
             response.status = 200
             response
