@@ -7,12 +7,12 @@ module Fog
       class Ports < Fog::Collection
         model Fog::Baremetal::OpenStack::Port
 
-        def all
-          load(service.list_ports.body['ports'])
+        def all(options = {})
+          load(service.list_ports(options).body['ports'])
         end
 
-        def details(parameters=nil)
-          load(service.list_ports_detailed(parameters).body['ports'])
+        def details(options = {})
+          load(service.list_ports_detailed(options).body['ports'])
         end
 
         def find_by_uuid(uuid)

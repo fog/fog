@@ -2,24 +2,18 @@ module Fog
   module Baremetal
     class OpenStack
       class Real
-        def list_ports(parameters=nil)
-          if parameters
-            query = parameters.each { |k, v| parameters[k] = URI::encode(v) }
-          else
-            query = {}
-          end
-
+        def list_ports(options = {})
           request(
             :expects => [200, 204],
             :method  => 'GET',
             :path    => 'ports',
-            :query   => query
+            :query   => options
           )
         end
       end # class Real
 
       class Mock
-        def list_ports(parameters=nil)
+        def list_ports(options = {})
           response = Excon::Response.new
           response.status = [200, 204][rand(1)]
           response.body = {
