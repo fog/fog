@@ -7,12 +7,15 @@ module Fog
       class Services < Fog::Collection
         model Fog::Compute::OpenStack::Service
 
-        def all(parameters=nil)
-          load(service.list_services(parameters).body['services'])
+        def all(options = {})
+          load(service.list_services(options).body['services'])
         end
 
-        def details(parameters=nil)
-          load(service.list_services(parameters).body['services'])
+        alias_method :summary, :all
+
+        def details(options = {})
+          Fog::Logger.deprecation('Calling OpenStack[:compute].services.details is deprecated, use .services.all')
+          load(service.list_services(options).body['services'])
         end
       end
     end

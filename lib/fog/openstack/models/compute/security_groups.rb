@@ -7,9 +7,11 @@ module Fog
       class SecurityGroups < Fog::Collection
         model Fog::Compute::OpenStack::SecurityGroup
 
-        def all
-          load(service.list_security_groups.body['security_groups'])
+        def all(options = {})
+          load(service.list_security_groups(options).body['security_groups'])
         end
+
+        alias_method :summary, :all
 
         def get(security_group_id)
           if security_group_id

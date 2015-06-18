@@ -7,9 +7,11 @@ module Fog
       class Addresses < Fog::Collection
         model Fog::Compute::OpenStack::Address
 
-        def all
-          load(service.list_all_addresses.body['floating_ips'])
+        def all(options = {})
+          load(service.list_all_addresses(options).body['floating_ips'])
         end
+
+        alias_method :summary, :all
 
         def get(address_id)
           if address = service.get_address(address_id).body['floating_ip']

@@ -20,6 +20,8 @@ module Fog
           load(data)
         end
 
+        alias_method :summary, :all
+
         # Creates a new server and populates ssh keys
         # @return [Fog::Compute::OpenStack::Server]
         # @raise [Fog::Compute::OpenStack::NotFound] - HTTP 404

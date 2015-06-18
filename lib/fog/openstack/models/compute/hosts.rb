@@ -7,10 +7,12 @@ module Fog
       class Hosts < Fog::Collection
         model Fog::Compute::OpenStack::Host
 
-        def all
-          data = service.list_hosts.body['hosts']
+        def all(options = {})
+          data = service.list_hosts(options).body['hosts']
           load(data)
         end
+
+        alias_method :summary, :all
 
         def get(host_name)
           if host = service.get_host_details(host_name).body['host']

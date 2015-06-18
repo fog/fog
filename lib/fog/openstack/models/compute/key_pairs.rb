@@ -7,13 +7,15 @@ module Fog
       class KeyPairs < Fog::Collection
         model Fog::Compute::OpenStack::KeyPair
 
-        def all
+        def all(options = {})
           items = Array.new
-          service.list_key_pairs.body['keypairs'].each do |kp|
+          service.list_key_pairs(options).body['keypairs'].each do |kp|
             items = items + kp.values
           end
           load(items)
         end
+
+        alias_method :summary, :all
 
         def get(key_pair_name)
           if key_pair_name
