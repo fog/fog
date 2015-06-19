@@ -41,7 +41,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/domains?name=foobar&page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/domains?name=foobar
     body:
       encoding: US-ASCII
       string: ''
@@ -75,7 +75,7 @@ http_interactions:
       encoding: US-ASCII
       string: ! '{"domains": [{"enabled": true, "id": "b4c5d89384394e0aa3e5c8daf383ee35",
         "links": {"self": "http://devstack.openstack.stack:35357/v3/domains/b4c5d89384394e0aa3e5c8daf383ee35"},
-        "name": "foobar"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/domains?name=foobar&page=1&per_page=30",
+        "name": "foobar"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/domains?name=foobar",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
@@ -120,7 +120,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/domains?name=baz&page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/domains?name=baz
     body:
       encoding: US-ASCII
       string: ''
@@ -154,13 +154,13 @@ http_interactions:
       encoding: US-ASCII
       string: ! '{"domains": [{"enabled": false, "id": "b4c5d89384394e0aa3e5c8daf383ee35",
         "links": {"self": "http://devstack.openstack.stack:35357/v3/domains/b4c5d89384394e0aa3e5c8daf383ee35"},
-        "name": "baz"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/domains?name=baz&page=1&per_page=30",
+        "name": "baz"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/domains?name=baz",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/domains?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/domains
     body:
       encoding: US-ASCII
       string: ''
@@ -197,7 +197,7 @@ http_interactions:
         "name": "baz"}, {"links": {"self": "http://devstack.openstack.stack:35357/v3/domains/default"},
         "enabled": true, "description": "Owns users and tenants (i.e. projects) available
         on Identity API v2.", "name": "Default", "id": "default"}], "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/domains?page=1&per_page=30", "previous": null,
+        "http://devstack.openstack.stack:35357/v3/domains", "previous": null,
         "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
@@ -315,7 +315,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/domains?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/domains
     body:
       encoding: US-ASCII
       string: ''
@@ -350,7 +350,7 @@ http_interactions:
       string: ! '{"domains": [{"links": {"self": "http://devstack.openstack.stack:35357/v3/domains/default"},
         "enabled": true, "description": "Owns users and tenants (i.e. projects) available
         on Identity API v2.", "name": "Default", "id": "default"}], "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/domains?page=1&per_page=30", "previous": null,
+        "http://devstack.openstack.stack:35357/v3/domains", "previous": null,
         "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
@@ -394,7 +394,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/domains?name=foobar&page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/domains?name=foobar
     body:
       encoding: US-ASCII
       string: ''
@@ -426,13 +426,13 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"domains": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/domains?name=foobar&page=1&per_page=30",
+      string: ! '{"domains": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/domains?name=foobar",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/domains?name=baz&page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/domains?name=baz
     body:
       encoding: US-ASCII
       string: ''
@@ -464,7 +464,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"domains": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/domains?name=baz&page=1&per_page=30",
+      string: ! '{"domains": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/domains?name=baz",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:41 GMT

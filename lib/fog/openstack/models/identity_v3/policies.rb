@@ -8,9 +8,11 @@ module Fog
         class Policies < Fog::Collection
           model Fog::Identity::OpenStack::V3::Policy
 
-          def all params={}
-            load(service.list_policies(params).body['policies'])
+          def all(options = {})
+            load(service.list_policies(options).body['policies'])
           end
+
+          alias_method :details, :all
 
           def find_by_id(id)
             cached_policy = self.find { |policy| policy.id == id }

@@ -8,9 +8,11 @@ module Fog
         class Endpoints < Fog::Collection
           model Fog::Identity::OpenStack::V3::Endpoint
 
-          def all params = {}
-            load(service.list_endpoints(params).body['endpoints'])
+          def all(options = {})
+            load(service.list_endpoints(options).body['endpoints'])
           end
+
+          alias_method :details, :all
 
           def find_by_id(id)
             cached_endpoint = self.find { |endpoint| endpoint.id == id }
@@ -19,7 +21,6 @@ module Fog
             Fog::Identity::OpenStack::V3::Endpoint.new(
                 endpoint_hash.merge(:service => service))
           end
-
         end
       end
     end

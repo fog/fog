@@ -3,23 +3,18 @@ module Fog
     class OpenStack
       class V3
         class Real
-          def list_os_credentials(options={})
-            params = Hash.new
-            params['page'] = options.fetch(:page, 1)
-            params['per_page'] = options.fetch(:per_page, 30)
-            params['name'] = options[:name] if options[:name]
-
+          def list_os_credentials(options = {})
             request(
-                :expects => [200],
-                :method => 'GET',
-                :path => "credentials",
-                :query => params
+              :expects => [200],
+              :method  => 'GET',
+              :path    => "credentials",
+              :query   => options
             )
           end
         end
 
         class Mock
-          def list_os_credentials
+          def list_os_credentials(options = {})
 
           end
         end

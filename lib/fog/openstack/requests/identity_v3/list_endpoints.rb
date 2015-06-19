@@ -3,25 +3,18 @@ module Fog
     class OpenStack
       class V3
         class Real
-          def list_endpoints(options={})
-            params = Hash.new
-            params['service_id'] = options[:service_id] if options[:service_id]
-            params['interface'] = options[:interface] if options[:interface]
-
-            params['page'] = options.fetch(:page, 1)
-            params['per_page'] = options.fetch(:per_page, 30)
-
+          def list_endpoints(options = {})
             request(
-                :expects => [200],
-                :method => 'GET',
-                :path => "endpoints",
-                :query => params
+              :expects => [200],
+              :method  => 'GET',
+              :path    => "endpoints",
+              :query   => options
             )
           end
         end
 
         class Mock
-          def list_endpoints
+          def list_endpoints(options={})
 
           end
         end

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/domains?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/domains
     body:
       encoding: US-ASCII
       string: ''
@@ -37,7 +37,7 @@ http_interactions:
       string: ! '{"domains": [{"links": {"self": "http://devstack.openstack.stack:35357/v3/domains/default"},
         "enabled": true, "description": "Owns users and tenants (i.e. projects) available
         on Identity API v2.", "name": "Default", "id": "default"}], "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/domains?page=1&per_page=30", "previous": null,
+        "http://devstack.openstack.stack:35357/v3/domains", "previous": null,
         "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:44 GMT
@@ -82,7 +82,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:44 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-foobar46&page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-foobar46
     body:
       encoding: US-ASCII
       string: ''
@@ -114,7 +114,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-foobar46&page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-foobar46",
         "previous": null, "next": null}, "projects": [{"description": "", "links":
         {"self": "http://devstack.openstack.stack:35357/v3/projects/e0de6d7921d74cfaafd3cddcb2f17939"},
         "enabled": true, "id": "e0de6d7921d74cfaafd3cddcb2f17939", "parent_id": null,
@@ -162,7 +162,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:44 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-baz46&page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-baz46
     body:
       encoding: US-ASCII
       string: ''
@@ -194,7 +194,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-baz46&page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-baz46",
         "previous": null, "next": null}, "projects": [{"description": "", "links":
         {"self": "http://devstack.openstack.stack:35357/v3/projects/e0de6d7921d74cfaafd3cddcb2f17939"},
         "enabled": false, "id": "e0de6d7921d74cfaafd3cddcb2f17939", "parent_id": null,
@@ -203,7 +203,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:44 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/projects?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/projects
     body:
       encoding: US-ASCII
       string: ''
@@ -235,7 +235,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects",
         "previous": null, "next": null}, "projects": [{"description": null, "links":
         {"self": "http://devstack.openstack.stack:35357/v3/projects/123ac695d4db400a9001b91bb3b8aa46"},
         "enabled": true, "id": "123ac695d4db400a9001b91bb3b8aa46", "parent_id": null,
@@ -291,7 +291,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:44 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/projects?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/projects
     body:
       encoding: US-ASCII
       string: ''
@@ -323,7 +323,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects",
         "previous": null, "next": null}, "projects": [{"description": null, "links":
         {"self": "http://devstack.openstack.stack:35357/v3/projects/123ac695d4db400a9001b91bb3b8aa46"},
         "enabled": true, "id": "123ac695d4db400a9001b91bb3b8aa46", "parent_id": null,
@@ -379,7 +379,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:44 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-foobar46&page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-foobar46
     body:
       encoding: US-ASCII
       string: ''
@@ -411,13 +411,13 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-foobar46&page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-foobar46",
         "previous": null, "next": null}, "projects": []}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:44 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-baz46&page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-baz46
     body:
       encoding: US-ASCII
       string: ''
@@ -449,7 +449,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-baz46&page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-baz46",
         "previous": null, "next": null}, "projects": []}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:45 GMT
