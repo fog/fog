@@ -7,12 +7,12 @@ module Fog
       class Nodes < Fog::Collection
         model Fog::Baremetal::OpenStack::Node
 
-        def all
-          load(service.list_nodes.body['nodes'])
+        def all(options = {})
+          load(service.list_nodes(options).body['nodes'])
         end
 
-        def details(parameters=nil)
-          load(service.list_nodes_detailed(parameters).body['nodes'])
+        def details(options = {})
+          load(service.list_nodes_detailed(options).body['nodes'])
         end
 
         def find_by_uuid(uuid)

@@ -7,9 +7,11 @@ module Fog
       class Drivers < Fog::Collection
         model Fog::Baremetal::OpenStack::Driver
 
-        def all
-          load(service.list_drivers.body['drivers'])
+        def all(options = {})
+          load(service.list_drivers(options).body['drivers'])
         end
+
+        alias_method :details, :all
 
         def find_by_name(name)
           new(service.get_driver(name).body)

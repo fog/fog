@@ -7,12 +7,12 @@ module Fog
       class ChassisCollection < Fog::Collection
         model Fog::Baremetal::OpenStack::Chassis
 
-        def all
-          load(service.list_chassis.body['chassis'])
+        def all(options = {})
+          load(service.list_chassis(options).body['chassis'])
         end
 
-        def details(parameters=nil)
-          load(service.list_chassis_detailed(parameters).body['chassis'])
+        def details(options = {})
+          load(service.list_chassis_detailed(options).body['chassis'])
         end
 
         def find_by_uuid(uuid)
