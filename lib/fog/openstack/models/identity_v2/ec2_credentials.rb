@@ -10,13 +10,16 @@ module Fog
 
           attribute :user
 
-          def all
+          def all(options = {})
             user_id = user ? user.id : nil
 
-            ec2_credentials = service.list_ec2_credentials(user_id)
+            options[:user_id] = user_id
+            ec2_credentials = service.list_ec2_credentials(options)
 
             load(ec2_credentials.body['credentials'])
           end
+
+          alias_method :details, :all
 
           def create(attributes = {})
             if user then

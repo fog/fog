@@ -8,9 +8,11 @@ module Fog
         class Users < Fog::Collection
           model Fog::Identity::OpenStack::V3::User
 
-          def all params={}
-            load(service.list_users(params).body['users'])
+          def all(options = {})
+            load(service.list_users(options).body['users'])
           end
+
+          alias_method :details, :all
 
           def find_by_id(id)
             cached_user = self.find { |user| user.id == id }

@@ -8,9 +8,11 @@ module Fog
         class Services < Fog::Collection
           model Fog::Identity::OpenStack::V3::Service
 
-          def all params={}
-            load(service.list_services(params).body['services'])
+          def all(options = {})
+            load(service.list_services(options).body['services'])
           end
+
+          alias_method :details, :all
 
           def find_by_id(id)
             cached_service = self.find { |service| service.id == id }

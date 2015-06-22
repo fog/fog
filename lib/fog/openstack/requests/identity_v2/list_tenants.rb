@@ -3,22 +3,28 @@ module Fog
     class OpenStack
       class V2
         class Real
-          def list_tenants(limit = nil, marker = nil)
-            params = Hash.new
-            params['limit'] = limit if limit
-            params['marker'] = marker if marker
+          def list_tenants(options = nil, marker = nil)
+            if options.is_a?(Hash)
+              params = options
+            else
+              Fog::Logger.deprecation('Calling OpenStack[:identity].list_tenants(limit, marker) is deprecated, use'\
+                                      ' .list_ec2_credentials(:limit => value, :marker => value)')
+              params = {}
+              params['limit'] = options if options
+              params['marker'] = marker if marker
+            end
 
             request(
                 :expects => [200, 204],
-                :method => 'GET',
-                :path => "tenants",
-                :query => params
+                :method  => 'GET',
+                :path    => "tenants",
+                :query   => params
             )
           end
         end # class Real
 
         class Mock
-          def list_tenants
+          def list_tenants(options = nil, marker = nil)
             Excon::Response.new(
                 :body => {
                     'tenants_links' => [],

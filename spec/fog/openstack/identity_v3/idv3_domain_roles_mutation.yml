@@ -193,7 +193,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/role_assignments?page=1&per_page=30&user.id=05e24831bf9c45b29a6d71f2773abe45
+    uri: http://devstack.openstack.stack:35357/v3/role_assignments?user.id=05e24831bf9c45b29a6d71f2773abe45
     body:
       encoding: US-ASCII
       string: ''
@@ -228,13 +228,13 @@ http_interactions:
       string: ! '{"role_assignments": [{"scope": {"domain": {"id": "default"}}, "role":
         {"id": "30c546e4e42443368a69812a659bf675"}, "user": {"id": "05e24831bf9c45b29a6d71f2773abe45"},
         "links": {"assignment": "http://devstack.openstack.stack:35357/v3/domains/default/users/05e24831bf9c45b29a6d71f2773abe45/roles/30c546e4e42443368a69812a659bf675"}}],
-        "links": {"self": "http://devstack.openstack.stack:35357/v3/role_assignments?page=1&per_page=30&user.id=05e24831bf9c45b29a6d71f2773abe45",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/role_assignments?user.id=05e24831bf9c45b29a6d71f2773abe45",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/role_assignments?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/role_assignments
     body:
       encoding: US-ASCII
       string: ''
@@ -296,7 +296,7 @@ http_interactions:
         {"scope": {"domain": {"id": "default"}}, "role": {"id": "6ead57f8ae124996af8b0beb72ff1007"},
         "user": {"id": "aa9f25defa6d4cafb48466df83106065"}, "links": {"assignment":
         "http://devstack.openstack.stack:35357/v3/domains/default/users/aa9f25defa6d4cafb48466df83106065/roles/6ead57f8ae124996af8b0beb72ff1007"}}],
-        "links": {"self": "http://devstack.openstack.stack:35357/v3/role_assignments?page=1&per_page=30",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/role_assignments",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:41 GMT

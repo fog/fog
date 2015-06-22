@@ -3,18 +3,13 @@ module Fog
     class OpenStack
       class V3
         class Real
-          def auth_projects(options={})
-            params = Hash.new
-            params['page'] = options.fetch(:page, 1)
-            params['per_page'] = options.fetch(:per_page, 30)
-
+          def auth_projects(options = {})
             request(
-                :expects => [200],
-                :method => 'GET',
-                :path => "auth/projects",
-                :query => params
+              :expects => [200],
+              :method  => 'GET',
+              :path    => "auth/projects",
+              :query   => options
             )
-
           end
         end
 

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/services
     body:
       encoding: US-ASCII
       string: ''
@@ -57,13 +57,13 @@ http_interactions:
         "description": "OpenStack Identity v3 x"}, {"name": "keystone_v3", "links":
         {"self": "http://devstack.openstack.stack:35357/v3/services/cd9002bbadfe495d81b5ee4c50768009"},
         "enabled": true, "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009",
-        "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30",
+        "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/endpoints
     body:
       encoding: US-ASCII
       string: ''
@@ -202,7 +202,7 @@ http_interactions:
         {"self": "http://devstack.openstack.stack:35357/v3/endpoints/f6d38c03b9c04a9e924aaa288ce014b8"},
         "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
         "enabled": true, "interface": "public", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30",
+        "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
@@ -248,7 +248,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/endpoints?interface=internal&page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/endpoints?interface=internal
     body:
       encoding: US-ASCII
       string: ''
@@ -318,7 +318,7 @@ http_interactions:
         {"self": "http://devstack.openstack.stack:35357/v3/endpoints/ece52860cf1e4eb6a8fed05c47a30147"},
         "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
         "interface": "internal", "service_id": "3364a7b95c664bf89a7a8db081576364",
-        "id": "ece52860cf1e4eb6a8fed05c47a30147"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?interface=internal&page=1&per_page=30",
+        "id": "ece52860cf1e4eb6a8fed05c47a30147"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?interface=internal",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
@@ -364,7 +364,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/endpoints?interface=internal&page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/endpoints?interface=internal
     body:
       encoding: US-ASCII
       string: ''
@@ -434,13 +434,13 @@ http_interactions:
         {"self": "http://devstack.openstack.stack:35357/v3/endpoints/ece52860cf1e4eb6a8fed05c47a30147"},
         "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
         "interface": "internal", "service_id": "3364a7b95c664bf89a7a8db081576364",
-        "id": "ece52860cf1e4eb6a8fed05c47a30147"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?interface=internal&page=1&per_page=30",
+        "id": "ece52860cf1e4eb6a8fed05c47a30147"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?interface=internal",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/endpoints
     body:
       encoding: US-ASCII
       string: ''
@@ -582,7 +582,7 @@ http_interactions:
         {"self": "http://devstack.openstack.stack:35357/v3/endpoints/f6d38c03b9c04a9e924aaa288ce014b8"},
         "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
         "enabled": true, "interface": "public", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30",
+        "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
@@ -623,7 +623,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:48 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/endpoints
     body:
       encoding: US-ASCII
       string: ''
@@ -762,7 +762,7 @@ http_interactions:
         {"self": "http://devstack.openstack.stack:35357/v3/endpoints/f6d38c03b9c04a9e924aaa288ce014b8"},
         "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
         "enabled": true, "interface": "public", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30",
+        "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:48 GMT
@@ -806,7 +806,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:48 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/endpoints
     body:
       encoding: US-ASCII
       string: ''
@@ -945,7 +945,7 @@ http_interactions:
         {"self": "http://devstack.openstack.stack:35357/v3/endpoints/f6d38c03b9c04a9e924aaa288ce014b8"},
         "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
         "enabled": true, "interface": "public", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints?page=1&per_page=30",
+        "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:48 GMT
