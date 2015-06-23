@@ -26,6 +26,8 @@ module Fog
           images
         end
 
+        alias_method :summary, :all
+
         def get(image_id)
           data = service.get_image_details(image_id).body['image']
           new(data)

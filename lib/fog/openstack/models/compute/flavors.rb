@@ -12,6 +12,11 @@ module Fog
           load(data)
         end
 
+        def summary(options = {})
+          data = service.list_flavors(options).body['flavors']
+          load(data)
+        end
+
         def get(flavor_id)
           data = service.get_flavor_details(flavor_id).body['flavor']
           new(data)

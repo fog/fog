@@ -2,17 +2,18 @@ module Fog
   module Compute
     class OpenStack
       class Real
-        def list_key_pairs
+        def list_key_pairs(options = {})
           request(
             :expects  => [200, 203],
             :method   => 'GET',
-            :path     => 'os-keypairs.json'
+            :path     => 'os-keypairs.json',
+            :query    => options
           )
         end
       end
 
       class Mock
-        def list_key_pairs
+        def list_key_pairs(options = {})
           response = Excon::Response.new
           response.status = 200
           response.headers = {

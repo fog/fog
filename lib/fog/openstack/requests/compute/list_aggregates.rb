@@ -2,24 +2,18 @@ module Fog
   module Compute
     class OpenStack
       class Real
-        def list_aggregates(parameters=nil)
-          if parameters
-            query = parameters.each { |k, v| parameters[k] = URI::encode(v) }
-          else
-            query = {}
-          end
-
+        def list_aggregates(options = {})
           request(
             :expects => [200, 203],
             :method  => 'GET',
             :path    => 'os-aggregates',
-            :query   => query
+            :query   => options
           )
         end
       end
 
       class Mock
-        def list_aggregates(parameters=nil)
+        def list_aggregates(options = {})
           response = Excon::Response.new
           response.status = 200
           response.body = {'aggregates' => [{

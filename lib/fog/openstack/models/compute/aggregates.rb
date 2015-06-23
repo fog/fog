@@ -7,9 +7,10 @@ module Fog
       class Aggregates < Fog::Collection
         model Fog::Compute::OpenStack::Aggregate
 
-        def all(parameters=nil)
-          load(service.list_aggregates(parameters).body['aggregates'])
+        def all(options = {})
+          load(service.list_aggregates(options).body['aggregates'])
         end
+
         alias_method :summary, :all
 
         def find_by_id(id)

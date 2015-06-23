@@ -178,6 +178,7 @@ module Fog
 
       # Volume
       request :list_volumes
+      request :list_volumes_detail
       request :create_volume
       request :get_volume_details
       request :delete_volume
@@ -185,8 +186,10 @@ module Fog
       request :detach_volume
       request :get_server_volumes
 
+      # Snapshot
       request :create_volume_snapshot
       request :list_snapshots
+      request :list_snapshots_detail
       request :get_snapshot_details
       request :delete_snapshot
 

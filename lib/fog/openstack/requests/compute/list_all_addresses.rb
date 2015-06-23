@@ -2,17 +2,18 @@ module Fog
   module Compute
     class OpenStack
       class Real
-        def list_all_addresses
+        def list_all_addresses(options = {})
           request(
             :expects  => [200, 203],
             :method   => 'GET',
-            :path     => "os-floating-ips.json"
+            :path     => "os-floating-ips.json",
+            :query    => options
           )
         end
       end
 
       class Mock
-        def list_all_addresses
+        def list_all_addresses(options = {})
           response = Excon::Response.new
           response.status = 200
           response.headers = {
