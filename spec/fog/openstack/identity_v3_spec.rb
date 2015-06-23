@@ -54,7 +54,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it 'authenticates with password, userid and domain_id' do
     VCR.use_cassette('authv3_a') do
       Fog::Identity::OpenStack::V3.new(
-          :openstack_domain_id =>    ENV['OS_USER_DOMAIN_ID'] || 'default',
+          :openstack_domain_id => ENV['OS_USER_DOMAIN_ID'] || 'default',
           :openstack_api_key => ENV['OS_PASSWORD'] || 'password',
           :openstack_userid => ENV['OS_USER_ID'] || 'aa9f25defa6d4cafb48466df83106065',
           :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
@@ -65,7 +65,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it 'authenticates with password, username and domain_id' do
     VCR.use_cassette('authv3_b') do
       Fog::Identity::OpenStack::V3.new(
-          :openstack_domain_id =>    ENV['OS_USER_DOMAIN_ID'] || 'default',
+          :openstack_domain_id => ENV['OS_USER_DOMAIN_ID'] || 'default',
           :openstack_api_key => ENV['OS_PASSWORD'] || 'password',
           :openstack_username => ENV['OS_USERNAME'] || 'admin',
           :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
@@ -92,11 +92,11 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
     VCR.use_cassette('idv3_other_region') do
       @fog = Fog::Identity::OpenStack::V3.new({
-                                                :openstack_region => ENV['OS_REGION_OTHER']||'europe',
-          :openstack_auth_url => "#{@os_auth_url}/auth/tokens",
-          :openstack_userid => ENV['OS_USER_ID'] || 'aa9f25defa6d4cafb48466df83106065',
-          :openstack_api_key => ENV['OS_PASSWORD'] || "password"
-      })
+                                                  :openstack_region => ENV['OS_REGION_OTHER']||'europe',
+                                                  :openstack_auth_url => "#{@os_auth_url}/auth/tokens",
+                                                  :openstack_userid => ENV['OS_USER_ID'] || 'aa9f25defa6d4cafb48466df83106065',
+                                                  :openstack_api_key => ENV['OS_PASSWORD'] || "password"
+                                              })
       expect(@fog).to_not be_nil
     end unless endpoints_in_region.empty?
   end
@@ -110,7 +110,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
           :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
 
-      auth_params = {:provider=>"openstack",
+      auth_params = {:provider => "openstack",
                      :openstack_auth_token => @id_v3.credentials[:openstack_auth_token],
                      :openstack_auth_url => "#{@os_auth_url}/auth/tokens",
                      :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne'}
@@ -138,7 +138,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it 'get an unscoped token, then use it to get a scoped token' do
     VCR.use_cassette('authv3_unscoped') do
 
-      @id_v3 = Fog::Identity::OpenStack::V3.new(
+      id_v3 = Fog::Identity::OpenStack::V3.new(
           :openstack_api_key => ENV['OS_PASSWORD'] || 'password',
           :openstack_userid => ENV['OS_USER_ID']||'aa9f25defa6d4cafb48466df83106065',
           :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
@@ -149,18 +149,18 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
           :openstack_project_name => ENV['OS_PROJECT_NAME'] || 'admin',
           :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
           :openstack_tenant => ENV['OS_USERNAME'] || 'admin',
-          :openstack_auth_token => @id_v3.credentials[:openstack_auth_token],
+          :openstack_auth_token => id_v3.credentials[:openstack_auth_token],
           :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
 
       token = auth.credentials[:openstack_auth_token]
 
       # We can use the unscoped token to validate the scoped token
-      validated_token = @id_v3.tokens.validate(token)
+      validated_token = id_v3.tokens.validate(token)
       expect(validated_token).to_not be_nil
 
-      @id_v3.tokens.check(token)
-      expect { @id_v3.tokens.check('random-token') }.to raise_error(Fog::Identity::OpenStack::NotFound)
+      id_v3.tokens.check(token)
+      expect { id_v3.tokens.check('random-token') }.to raise_error(Fog::Identity::OpenStack::NotFound)
     end
   end
 
@@ -304,11 +304,11 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
   it "gets a token, checks it and then revokes it" do
     VCR.use_cassette('idv3_token') do
-      auth = {:auth => {:identity => {:methods  => %w{password},
-                                      :password => {:user   => {:id => ENV['OS_USER_ID']||'aa9f25defa6d4cafb48466df83106065',
-                                                                :password => ENV['OS_PASSWORD']||'password'}}},
-                        :scope    => {:project  => {:domain => {:name => ENV['OS_USER_DOMAIN_NAME']||'Default'},
-                                                    :name   => ENV['OS_PROJECT_NAME']||'admin'}}}}
+      auth = {:auth => {:identity => {:methods => %w{password},
+                                      :password => {:user => {:id => ENV['OS_USER_ID']||'aa9f25defa6d4cafb48466df83106065',
+                                                              :password => ENV['OS_PASSWORD']||'password'}}},
+                        :scope => {:project => {:domain => {:name => ENV['OS_USER_DOMAIN_NAME']||'Default'},
+                                                :name => ENV['OS_PROJECT_NAME']||'admin'}}}}
 
       token = @id_v3.tokens.authenticate(auth)
       expect(token).to_not be_nil
@@ -379,7 +379,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       expect(domains_all).to_not be_nil
       expect(domains_all.length).to_not be 0
 
-      default_domain = @id_v3.domains.find_by_id ENV['OS_USER_DOMAIN_NAME']||'default'
+      default_domain = @id_v3.domains.find_by_id ENV['OS_USER_DOMAIN_ID']||'default'
       expect(default_domain).to_not be_nil
 
       expect { @id_v3.domains.find_by_id 'atlantis' }.to raise_error(Fog::Identity::OpenStack::NotFound)
@@ -415,7 +415,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         rescue
         end
         # Check that the deletion worked
-        expect { @id_v3.domains.find_by_id foobar_id }.to raise_error(Fog::Identity::OpenStack::NotFound)
+        expect { @id_v3.domains.find_by_id foobar_id }.to raise_error(Fog::Identity::OpenStack::NotFound) if foobar_id
         ['foobar', 'baz'].each do |domain_name|
           expect(@id_v3.domains.all(:name => domain_name).length).to be 0
         end
@@ -439,7 +439,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         foobar_role = @id_v3.roles.create(:name => 'foobar_role')
         foobar_user.grant_role(foobar_role.id)
         expect(foobar_user.roles.length).to be 1
-        assignments = @id_v3.role_assignments.filter_by(:user_id => foobar_user.id)
+        assignments = @id_v3.role_assignments.all(:user_id => foobar_user.id)
         expect(assignments.length).to be 1
         expect(assignments.first.role['id']).to eq foobar_role.id
         expect(assignments.first.user['id']).to eq foobar_user.id
@@ -497,10 +497,10 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
         # Add user to the group and check that it inherits the role
         expect(foobar_user.check_role foobar_role.id).to be false
-        expect(@id_v3.role_assignments.filter_by(:user_id => foobar_user.id, :effective => true).length).to be 0
+        expect(@id_v3.role_assignments.all(:user_id => foobar_user.id, :effective => true).length).to be 0
         foobar_group.add_user foobar_user.id
         expect(foobar_user.check_role foobar_role.id).to be false # Still false in absolute assignment terms
-        assignments = @id_v3.role_assignments.filter_by(:user_id => foobar_user.id, :effective => true)
+        assignments = @id_v3.role_assignments.all(:user_id => foobar_user.id, :effective => true)
         expect(assignments.length).to be 1
         expect(assignments.first.role['id']).to eq foobar_role.id
         expect(assignments.first.user['id']).to eq foobar_user.id
@@ -508,7 +508,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         expect(assignments.first.links['assignment'].end_with? "/v3/domains/#{foobar_domain.id}/groups/#{foobar_group.id}/roles/#{foobar_role.id}").to be true
         expect(assignments.first.links['membership'].end_with? "/v3/groups/#{foobar_group.id}/users/#{foobar_user.id}").to be true
 
-        group_assignments = @id_v3.role_assignments.filter_by(:group_id => foobar_group.id)
+        group_assignments = @id_v3.role_assignments.all(:group_id => foobar_group.id)
         expect(group_assignments.length).to be 1
         expect(group_assignments.first.role['id']).to eq foobar_role.id
         expect(group_assignments.first.group['id']).to eq foobar_group.id
@@ -517,7 +517,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
         # Revoke the role from the group and check the user no longer has it
         foobar_group.revoke_role foobar_role.id
-        expect(@id_v3.role_assignments.filter_by(:user_id => foobar_user.id, :effective => true).length).to be 0
+        expect(@id_v3.role_assignments.all(:user_id => foobar_user.id, :effective => true).length).to be 0
       ensure
         # Clean up
         foobar_user = @id_v3.users.find_by_name('u-foobar_foobar').first unless foobar_user
@@ -573,7 +573,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         # Delete the role
         baz_role.destroy if baz_role
         # Check that the deletion worked
-        expect { @id_v3.roles.find_by_id foobar_id }.to raise_error(Fog::Identity::OpenStack::NotFound)
+        expect { @id_v3.roles.find_by_id foobar_id }.to raise_error(Fog::Identity::OpenStack::NotFound) if foobar_id
         ['foobar23', 'baz23'].each do |role_name|
           expect(@id_v3.roles.all(:name => role_name).length).to be 0
         end
@@ -665,9 +665,9 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
         # User has no projects initially
         expect(foobar_user.projects.length).to be 0
-        expect(@id_v3.role_assignments.filter_by(:user_id => foobar_user.id,
-                                                 :project_id => foobar_project.id,
-                                                 :effective => true).length).to be 0
+        expect(@id_v3.role_assignments.all(:user_id => foobar_user.id,
+                                           :project_id => foobar_project.id,
+                                           :effective => true).length).to be 0
         expect(foobar_project.user_roles(foobar_user.id).length).to be 0
 
         # Grant role to the user in the new project - this assigns the project to the user
@@ -684,9 +684,9 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         # Group initially has no roles in project
         expect(foobar_project.group_roles(foobar_group.id).length).to be 0
 
-        expect(@id_v3.role_assignments.filter_by(:user_id => foobar_user.id,
-                                                 :project_id => foobar_project.id,
-                                                 :effective => true).length).to be 0
+        expect(@id_v3.role_assignments.all(:user_id => foobar_user.id,
+                                           :project_id => foobar_project.id,
+                                           :effective => true).length).to be 0
 
         # Grant role to the group in the new project - this assigns the project to the group
         foobar_project.grant_role_to_group(baz_role.id, foobar_group.id)
@@ -694,9 +694,9 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         expect(foobar_project.group_roles(foobar_group.id).length).to be 1
 
         # Now we check that a user has the role in that project
-        assignments = @id_v3.role_assignments.filter_by(:user_id => foobar_user.id,
-                                                        :project_id => foobar_project.id,
-                                                        :effective => true)
+        assignments = @id_v3.role_assignments.all(:user_id => foobar_user.id,
+                                                  :project_id => foobar_project.id,
+                                                  :effective => true)
         expect(assignments.length).to be 1
         expect(assignments.first.role['id']).to eq baz_role.id
         expect(assignments.first.user['id']).to eq foobar_user.id
@@ -764,10 +764,10 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         expect(baz_service.type).to eq 'volume'
       ensure
         # Delete the service
-        baz_service.destroy
+        baz_service.destroy if baz_service
 
         # Check that the deletion worked
-        expect { @id_v3.services.find_by_id foobar_id }.to raise_error(Fog::Identity::OpenStack::NotFound)
+        expect { @id_v3.services.find_by_id foobar_id }.to raise_error(Fog::Identity::OpenStack::NotFound) if foobar_id
         expect(@id_v3.services.all.select { |service| ['foobar', 'baz'].include? service.name }.length).to be 0
       end
     end

@@ -8,28 +8,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:38 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-587c559c-8358-48d0-9bd6-5c2ce6528f7a
+      - req-af3b2535-2676-4ac9-a839-89bc473c2eb1
       Content-Length:
-      - '2011'
+      - '1992'
       Content-Type:
       - application/json
     body:
@@ -60,7 +60,7 @@ http_interactions:
         "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:39 GMT
 - request:
     method: post
     uri: http://devstack.openstack.stack:35357/v3/services
@@ -69,26 +69,26 @@ http_interactions:
       string: ! '{"service":{"type":"volume","name":"foobar"}}'
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 201
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:39 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-b95d320d-b0dc-4a1a-a173-81184b550212
+      - req-481cf7dd-5016-4f8e-8ac1-ba9b6ef187e6
       Content-Length:
       - '203'
       Content-Type:
@@ -96,10 +96,10 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ! '{"service": {"enabled": true, "type": "volume", "name": "foobar",
-        "links": {"self": "http://devstack.openstack.stack:35357/v3/services/c0123d91180c46dfae5c7815d8bc271b"},
-        "id": "c0123d91180c46dfae5c7815d8bc271b"}}'
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/services/43d21a8a348e48b085dfad86e8fb49d4"},
+        "id": "43d21a8a348e48b085dfad86e8fb49d4"}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:39 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/services?type=volume
@@ -108,68 +108,69 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:39 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-2db271e9-71be-48ea-946d-b7fb3365188a
+      - req-f2461471-aa4c-4885-94dd-43ea6309ac40
       Content-Length:
-      - '563'
+      - '544'
       Content-Type:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"services": [{"name": "cinder", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/511b94ce0482484ea09028091dd5e9a5"},
+      string: ! '{"services": [{"enabled": true, "type": "volume", "name": "foobar",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/services/43d21a8a348e48b085dfad86e8fb49d4"},
+        "id": "43d21a8a348e48b085dfad86e8fb49d4"}, {"name": "cinder", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/services/511b94ce0482484ea09028091dd5e9a5"},
         "enabled": true, "type": "volume", "id": "511b94ce0482484ea09028091dd5e9a5",
-        "description": "Cinder Volume Service"}, {"enabled": true, "type": "volume",
-        "name": "foobar", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/c0123d91180c46dfae5c7815d8bc271b"},
-        "id": "c0123d91180c46dfae5c7815d8bc271b"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services?type=volume",
+        "description": "Cinder Volume Service"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services?type=volume",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:39 GMT
 - request:
     method: patch
-    uri: http://devstack.openstack.stack:35357/v3/services/c0123d91180c46dfae5c7815d8bc271b
+    uri: http://devstack.openstack.stack:35357/v3/services/43d21a8a348e48b085dfad86e8fb49d4
     body:
       encoding: UTF-8
       string: ! '{"service":{"name":"baz"}}'
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:39 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-ef88b854-4358-4566-af4d-c7cc04a5c3a1
+      - req-49631a13-c3ac-4d54-a2f3-4e2155be9727
       Content-Length:
       - '200'
       Content-Type:
@@ -177,10 +178,10 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ! '{"service": {"enabled": true, "type": "volume", "name": "baz", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/services/c0123d91180c46dfae5c7815d8bc271b"},
-        "id": "c0123d91180c46dfae5c7815d8bc271b"}}'
+        {"self": "http://devstack.openstack.stack:35357/v3/services/43d21a8a348e48b085dfad86e8fb49d4"},
+        "id": "43d21a8a348e48b085dfad86e8fb49d4"}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:39 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/services
@@ -189,28 +190,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:39 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-0113859d-c4e0-4e5e-ad7d-b5a3edf37ce0
+      - req-02709a79-ab82-4f6a-8739-5fec4f51d673
       Content-Length:
-      - '2200'
+      - '2181'
       Content-Type:
       - application/json
     body:
@@ -223,7 +224,9 @@ http_interactions:
         "description": "Cinder Volume Service V2"}, {"name": "ec2", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/services/3364a7b95c664bf89a7a8db081576364"},
         "enabled": true, "type": "ec2", "id": "3364a7b95c664bf89a7a8db081576364",
-        "description": "EC2 Compatibility Layer"}, {"name": "cinder", "links": {"self":
+        "description": "EC2 Compatibility Layer"}, {"enabled": true, "type": "volume",
+        "name": "baz", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/43d21a8a348e48b085dfad86e8fb49d4"},
+        "id": "43d21a8a348e48b085dfad86e8fb49d4"}, {"name": "cinder", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/services/511b94ce0482484ea09028091dd5e9a5"},
         "enabled": true, "type": "volume", "id": "511b94ce0482484ea09028091dd5e9a5",
         "description": "Cinder Volume Service"}, {"name": "nova", "links": {"self":
@@ -235,15 +238,13 @@ http_interactions:
         "description": "Nova Compute Service V2.1"}, {"name": "keystone_v3x", "links":
         {"self": "http://devstack.openstack.stack:35357/v3/services/b577d8f7c7074d04a1165fcca638b600"},
         "enabled": true, "type": "identity", "id": "b577d8f7c7074d04a1165fcca638b600",
-        "description": "OpenStack Identity v3 x"}, {"enabled": true, "type": "volume",
-        "name": "baz", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/c0123d91180c46dfae5c7815d8bc271b"},
-        "id": "c0123d91180c46dfae5c7815d8bc271b"}, {"name": "keystone_v3", "links":
+        "description": "OpenStack Identity v3 x"}, {"name": "keystone_v3", "links":
         {"self": "http://devstack.openstack.stack:35357/v3/services/cd9002bbadfe495d81b5ee4c50768009"},
         "enabled": true, "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009",
         "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:39 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/services
@@ -252,28 +253,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:39 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-8434e887-809f-4262-b43d-1482bba557ce
+      - req-82c297d0-d331-41ea-908b-bcf6abb3df6d
       Content-Length:
-      - '2200'
+      - '2181'
       Content-Type:
       - application/json
     body:
@@ -286,7 +287,9 @@ http_interactions:
         "description": "Cinder Volume Service V2"}, {"name": "ec2", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/services/3364a7b95c664bf89a7a8db081576364"},
         "enabled": true, "type": "ec2", "id": "3364a7b95c664bf89a7a8db081576364",
-        "description": "EC2 Compatibility Layer"}, {"name": "cinder", "links": {"self":
+        "description": "EC2 Compatibility Layer"}, {"enabled": true, "type": "volume",
+        "name": "baz", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/43d21a8a348e48b085dfad86e8fb49d4"},
+        "id": "43d21a8a348e48b085dfad86e8fb49d4"}, {"name": "cinder", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/services/511b94ce0482484ea09028091dd5e9a5"},
         "enabled": true, "type": "volume", "id": "511b94ce0482484ea09028091dd5e9a5",
         "description": "Cinder Volume Service"}, {"name": "nova", "links": {"self":
@@ -298,50 +301,48 @@ http_interactions:
         "description": "Nova Compute Service V2.1"}, {"name": "keystone_v3x", "links":
         {"self": "http://devstack.openstack.stack:35357/v3/services/b577d8f7c7074d04a1165fcca638b600"},
         "enabled": true, "type": "identity", "id": "b577d8f7c7074d04a1165fcca638b600",
-        "description": "OpenStack Identity v3 x"}, {"enabled": true, "type": "volume",
-        "name": "baz", "links": {"self": "http://devstack.openstack.stack:35357/v3/services/c0123d91180c46dfae5c7815d8bc271b"},
-        "id": "c0123d91180c46dfae5c7815d8bc271b"}, {"name": "keystone_v3", "links":
+        "description": "OpenStack Identity v3 x"}, {"name": "keystone_v3", "links":
         {"self": "http://devstack.openstack.stack:35357/v3/services/cd9002bbadfe495d81b5ee4c50768009"},
         "enabled": true, "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009",
         "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:39 GMT
 - request:
     method: delete
-    uri: http://devstack.openstack.stack:35357/v3/services/c0123d91180c46dfae5c7815d8bc271b
+    uri: http://devstack.openstack.stack:35357/v3/services/43d21a8a348e48b085dfad86e8fb49d4
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 204
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:39 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-c3ea4423-3172-4efd-9dac-b4a66f8368e9
+      - req-b9da7b46-f53d-4518-8374-3f35aa502e63
       Content-Length:
       - '0'
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:40 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/services
@@ -350,28 +351,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:39 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-02df1b77-a822-45f5-ae1a-ac5f27af9bc3
+      - req-f27a144f-285b-4e4d-a610-8b1442116b70
       Content-Length:
-      - '2011'
+      - '1992'
       Content-Type:
       - application/json
     body:
@@ -402,45 +403,45 @@ http_interactions:
         "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:40 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/projects/c0123d91180c46dfae5c7815d8bc271b
+    uri: http://devstack.openstack.stack:35357/v3/projects/43d21a8a348e48b085dfad86e8fb49d4
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 404
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:39 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-ffc339a8-904c-4f6a-9bb3-520050c35bb9
+      - req-fa735daa-3977-469e-9857-b98ec76c716f
       Content-Length:
       - '117'
       Content-Type:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"error": {"message": "Could not find project: c0123d91180c46dfae5c7815d8bc271b",
+      string: ! '{"error": {"message": "Could not find project: 43d21a8a348e48b085dfad86e8fb49d4",
         "code": 404, "title": "Not Found"}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:40 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/services
@@ -449,28 +450,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:40 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-b4dcfe0c-10e2-467c-b0ea-9ddd3b73fb25
+      - req-f6092b81-ebfc-4c64-badb-cd43d572dc83
       Content-Length:
-      - '2011'
+      - '1992'
       Content-Type:
       - application/json
     body:
@@ -501,5 +502,5 @@ http_interactions:
         "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:40 GMT
 recorded_with: VCR 2.9.3
