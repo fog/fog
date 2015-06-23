@@ -12,7 +12,7 @@ module Fog
             load(service.list_roles(options).body['roles'])
           end
 
-          alias_method :details, :all
+          alias_method :summary, :all
 
           def get(id)
             service.get_role(id)

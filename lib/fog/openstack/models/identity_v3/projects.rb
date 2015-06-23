@@ -12,6 +12,8 @@ module Fog
             load(service.list_projects(options).body['projects'])
           end
 
+          alias_method :summary, :all
+
           def auth_projects(options = {})
             load(service.auth_projects(options).body['projects'])
           end

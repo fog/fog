@@ -8,10 +8,16 @@ module Fog
         model Fog::Baremetal::OpenStack::Port
 
         def all(options = {})
+          load(service.list_ports_detailed(options).body['ports'])
+        end
+
+        def summary(options = {})
           load(service.list_ports(options).body['ports'])
         end
 
         def details(options = {})
+          Fog::Logger.deprecation("Calling OpenStack[:baremetal].ports.details will be removed, "\
+                                  " call .ports.all for detailed list.")
           load(service.list_ports_detailed(options).body['ports'])
         end
 

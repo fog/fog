@@ -10,7 +10,7 @@ module Fog
         def all(parameters=nil)
           load(service.list_aggregates(parameters).body['aggregates'])
         end
-        alias_method :details, :all
+        alias_method :summary, :all
 
         def find_by_id(id)
           new(service.get_aggregate(id).body['aggregate'])
