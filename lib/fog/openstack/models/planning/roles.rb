@@ -7,9 +7,12 @@ module Fog
       class Roles < Fog::Collection
         model Fog::Openstack::Planning::Role
 
-        def all
-          load(service.list_roles.body)
+        def all(options = {})
+          load(service.list_roles(options).body)
         end
+
+        alias_method :summary, :all
+
       end
     end
   end

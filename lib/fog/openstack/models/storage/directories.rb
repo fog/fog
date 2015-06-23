@@ -7,10 +7,12 @@ module Fog
       class Directories < Fog::Collection
         model Fog::Storage::OpenStack::Directory
 
-        def all
-          data = service.get_containers.body
+        def all(options = {})
+          data = service.get_containers(options).body
           load(data)
         end
+
+        alias_method :summary, :all
 
         def get(key, options = {})
           data = service.get_container(key, options)
