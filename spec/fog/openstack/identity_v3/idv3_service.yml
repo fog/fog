@@ -8,28 +8,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:38 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-5940143e-6ebe-454e-b96b-baea6bf641ef
+      - req-e7507857-b61a-4f4c-90af-04c59aec6afc
       Content-Length:
-      - '2011'
+      - '1992'
       Content-Type:
       - application/json
     body:
@@ -60,7 +60,7 @@ http_interactions:
         "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:46 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:38 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/services
@@ -69,28 +69,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:38 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-84ae7855-8052-4f36-80fb-83a27b0694f4
+      - req-832f395e-e925-4f75-b77e-e1771137e3a4
       Content-Length:
-      - '2011'
+      - '1992'
       Content-Type:
       - application/json
     body:
@@ -121,7 +121,7 @@ http_interactions:
         "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:46 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:38 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/services
@@ -130,28 +130,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:38 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-819f558e-fef6-4d50-949d-dcd99b1d5fd5
+      - req-64e863c7-c5f7-42ac-828b-bcf475ea8163
       Content-Length:
-      - '2011'
+      - '1992'
       Content-Type:
       - application/json
     body:
@@ -182,7 +182,7 @@ http_interactions:
         "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:46 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:38 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/services
@@ -191,28 +191,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:38 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-06fa448f-9ab9-41a0-acd6-03526e229725
+      - req-45af3683-ab7b-4090-a9e9-4e7b703c31c4
       Content-Length:
-      - '2011'
+      - '1992'
       Content-Type:
       - application/json
     body:
@@ -243,7 +243,7 @@ http_interactions:
         "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:46 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:39 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/projects/atlantis
@@ -252,26 +252,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 404
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:15 GMT
+      - Tue, 23 Jun 2015 15:09:38 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-679a387d-a089-4ad7-9180-e4739b5bcc82
+      - req-813db214-c996-4b93-af5b-08a257e8599f
       Content-Length:
       - '93'
       Content-Type:
@@ -281,5 +281,5 @@ http_interactions:
       string: ! '{"error": {"message": "Could not find project: atlantis", "code":
         404, "title": "Not Found"}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:47 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:39 GMT
 recorded_with: VCR 2.9.3
