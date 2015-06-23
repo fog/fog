@@ -33,6 +33,8 @@ module Fog
           end
         end
 
+        alias_method :summary, :all
+
         alias_method :each_file_this_page, :each
         def each
           if !block_given?
