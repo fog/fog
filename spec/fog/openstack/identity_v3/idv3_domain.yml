@@ -8,28 +8,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:09 GMT
+      - Tue, 23 Jun 2015 15:09:25 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-d7a5ea17-7468-4383-b8c5-05636a7ad0fa
+      - req-9e6ba978-decb-4ee6-8667-e163a9983174
       Content-Length:
-      - '336'
+      - '317'
       Content-Type:
       - application/json
     body:
@@ -37,10 +37,9 @@ http_interactions:
       string: ! '{"domains": [{"links": {"self": "http://devstack.openstack.stack:35357/v3/domains/default"},
         "enabled": true, "description": "Owns users and tenants (i.e. projects) available
         on Identity API v2.", "name": "Default", "id": "default"}], "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/domains", "previous": null,
-        "next": null}}'
+        "http://devstack.openstack.stack:35357/v3/domains", "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:40 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:25 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/domains
@@ -49,28 +48,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:09 GMT
+      - Tue, 23 Jun 2015 15:09:25 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-127d1694-f347-46e1-8373-6c4539fe4317
+      - req-5d516662-a25d-43a8-9c80-38ab40a7ecaf
       Content-Length:
-      - '336'
+      - '317'
       Content-Type:
       - application/json
     body:
@@ -78,10 +77,9 @@ http_interactions:
       string: ! '{"domains": [{"links": {"self": "http://devstack.openstack.stack:35357/v3/domains/default"},
         "enabled": true, "description": "Owns users and tenants (i.e. projects) available
         on Identity API v2.", "name": "Default", "id": "default"}], "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/domains", "previous": null,
-        "next": null}}'
+        "http://devstack.openstack.stack:35357/v3/domains", "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:40 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:25 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/domains
@@ -90,28 +88,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:09 GMT
+      - Tue, 23 Jun 2015 15:09:25 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-b5a0c4fb-da5f-47cb-9735-d41ba913c43d
+      - req-41f55c12-a076-4844-a32b-d01821c3790d
       Content-Length:
-      - '336'
+      - '317'
       Content-Type:
       - application/json
     body:
@@ -119,49 +117,9 @@ http_interactions:
       string: ! '{"domains": [{"links": {"self": "http://devstack.openstack.stack:35357/v3/domains/default"},
         "enabled": true, "description": "Owns users and tenants (i.e. projects) available
         on Identity API v2.", "name": "Default", "id": "default"}], "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/domains", "previous": null,
-        "next": null}}'
+        "http://devstack.openstack.stack:35357/v3/domains", "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
-- request:
-    method: get
-    uri: http://devstack.openstack.stack:35357/v3/domains/Default
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
-      Content-Type:
-      - application/json
-      Accept:
-      - application/json
-      X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Date:
-      - Wed, 17 Jun 2015 15:06:09 GMT
-      Server:
-      - Apache/2.4.7 (Ubuntu)
-      Vary:
-      - X-Auth-Token
-      X-Openstack-Request-Id:
-      - req-a5b473cf-bce5-4f41-9b52-5d20093e3a54
-      Content-Length:
-      - '221'
-      Content-Type:
-      - application/json
-    body:
-      encoding: US-ASCII
-      string: ! '{"domain": {"links": {"self": "http://devstack.openstack.stack:35357/v3/domains/default"},
-        "enabled": true, "description": "Owns users and tenants (i.e. projects) available
-        on Identity API v2.", "name": "Default", "id": "default"}}'
-    http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:26 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/domains
@@ -170,28 +128,28 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:09 GMT
+      - Tue, 23 Jun 2015 15:09:25 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-b8adac03-33fd-4218-8a02-f650fefe17e4
+      - req-14575680-f257-4f8a-b656-14481aedaa27
       Content-Length:
-      - '336'
+      - '317'
       Content-Type:
       - application/json
     body:
@@ -199,10 +157,9 @@ http_interactions:
       string: ! '{"domains": [{"links": {"self": "http://devstack.openstack.stack:35357/v3/domains/default"},
         "enabled": true, "description": "Owns users and tenants (i.e. projects) available
         on Identity API v2.", "name": "Default", "id": "default"}], "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/domains", "previous": null,
-        "next": null}}'
+        "http://devstack.openstack.stack:35357/v3/domains", "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:26 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:35357/v3/domains/atlantis
@@ -211,26 +168,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 7b745f289de14e26a7a9db5cbef90b7e
+      - 0c4458de5ba5446885c65b1dedfb2404
   response:
     status:
       code: 404
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:09 GMT
+      - Tue, 23 Jun 2015 15:09:26 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-4754ad4a-9cd1-4df8-8e7b-c52a5614cf0c
+      - req-d4631565-0c9f-4b7c-9ae0-77e7f0126e3e
       Content-Length:
       - '92'
       Content-Type:
@@ -240,5 +197,5 @@ http_interactions:
       string: ! '{"error": {"message": "Could not find domain: atlantis", "code":
         404, "title": "Not Found"}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:41 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:26 GMT
 recorded_with: VCR 2.9.3

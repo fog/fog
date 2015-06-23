@@ -8,7 +8,7 @@ http_interactions:
       string: ! '{"auth":{"identity":{"methods":["password"],"password":{"user":{"password":"password","id":"aa9f25defa6d4cafb48466df83106065"}}}}}'
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
   response:
@@ -17,27 +17,27 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:04 GMT
+      - Tue, 23 Jun 2015 15:09:15 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       X-Subject-Token:
-      - 0960242c8a9846b6b275f0cc21590bfd
+      - 9f7df72efb3749ed8eb12699d16f56cc
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-ffe273cf-9330-425e-ad90-4cd7014b8102
+      - req-77ed8c5d-de40-42ea-b7ac-013eedf72558
       Content-Length:
       - '297'
       Content-Type:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"token": {"methods": ["password"], "expires_at": "2015-06-17T16:06:04.681867Z",
+      string: ! '{"token": {"methods": ["password"], "expires_at": "2015-06-23T16:09:15.097008Z",
         "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
-        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["goorCJDkTzmTNz8V5Zsgkg"],
-        "issued_at": "2015-06-17T15:06:04.681901Z"}}'
+        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["K9N-CugNRDSarC82lwYYHQ"],
+        "issued_at": "2015-06-23T15:09:15.097078Z"}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:36 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:15 GMT
 - request:
     method: get
     uri: http://devstack.openstack.stack:5000/v3/users/aa9f25defa6d4cafb48466df83106065/projects
@@ -46,26 +46,26 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 0960242c8a9846b6b275f0cc21590bfd
+      - 9f7df72efb3749ed8eb12699d16f56cc
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:04 GMT
+      - Tue, 23 Jun 2015 15:09:15 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-3bd8f33e-9c1f-47d3-aa9b-3636213be17a
+      - req-99d9e960-accc-4943-b647-f0454eb9f9ba
       Content-Length:
       - '617'
       Content-Type:
@@ -81,16 +81,16 @@ http_interactions:
         "enabled": true, "id": "3ed7ee0512b641d3bb1fe17fc86d8bff", "parent_id": null,
         "domain_id": "default", "name": "demo"}]}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:36 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:15 GMT
 - request:
     method: post
     uri: http://devstack.openstack.stack:5000/v3/auth/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"0960242c8a9846b6b275f0cc21590bfd"}},"scope":{"project":{"name":"admin","domain":{"id":"default"}}}}}'
+      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"9f7df72efb3749ed8eb12699d16f56cc"}},"scope":{"project":{"name":"admin","domain":{"id":"default"}}}}}'
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.30.0
+      - fog/1.31.0 fog-core/1.31.1
       Content-Type:
       - application/json
   response:
@@ -99,15 +99,15 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Wed, 17 Jun 2015 15:06:04 GMT
+      - Tue, 23 Jun 2015 15:09:15 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       X-Subject-Token:
-      - c6373b0b06284ec084a7e922e54dc7dd
+      - 6974d4e66dbb47e9a4ca379c14f706f4
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-f7d1b4df-bde3-4cec-9f69-212d6c459f2f
+      - req-7111935d-8900-4dff-ba6f-f1f691cb6b48
       Content-Length:
       - '5909'
       Content-Type:
@@ -115,7 +115,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ! '{"token": {"methods": ["token", "password"], "roles": [{"id": "6ead57f8ae124996af8b0beb72ff1007",
-        "name": "admin"}], "expires_at": "2015-06-17T16:06:04.681867Z", "project":
+        "name": "admin"}], "expires_at": "2015-06-23T16:09:15.097008Z", "project":
         {"domain": {"id": "default", "name": "Default"}, "id": "123ac695d4db400a9001b91bb3b8aa46",
         "name": "admin"}, "catalog": [{"endpoints": [{"region_id": "RegionOne", "url":
         "http://devstack.openstack.stack:9292", "region": "RegionOne", "interface": "public",
@@ -180,8 +180,8 @@ http_interactions:
         "RegionOne", "interface": "admin", "id": "d5f8e0da0f3345529a5fb324d735d4a3"}],
         "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009", "name": "keystone_v3"}],
         "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
-        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["ik-PR4MUSj6E_tgcot-ziw",
-        "goorCJDkTzmTNz8V5Zsgkg"], "issued_at": "2015-06-17T15:06:04.818582Z"}}'
+        "aa9f25defa6d4cafb48466df83106065", "name": "admin"}, "audit_ids": ["1yvNE0UcSCWjedTDCBbDsA",
+        "K9N-CugNRDSarC82lwYYHQ"], "issued_at": "2015-06-23T15:09:15.359531Z"}}'
     http_version: 
-  recorded_at: Wed, 17 Jun 2015 15:06:36 GMT
+  recorded_at: Tue, 23 Jun 2015 15:09:15 GMT
 recorded_with: VCR 2.9.3
