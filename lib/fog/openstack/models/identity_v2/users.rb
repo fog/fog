@@ -10,9 +10,13 @@ module Fog
 
           attribute :tenant_id
 
-          def all
-            load(service.list_users(tenant_id).body['users'])
+          def all(options = {})
+            options[:tenant_id] = tenant_id
+
+            load(service.list_users(options).body['users'])
           end
+
+          alias_method :details, :all
 
           def find_by_id(id)
             self.find { |user| user.id == id } ||

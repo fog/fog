@@ -8,12 +8,18 @@ module Fog
         class Roles < Fog::Collection
           model Fog::Identity::OpenStack::V3::Role
 
-          def all params={}
-            load(service.list_roles(params).body['roles'])
+          def all(options = {})
+            load(service.list_roles(options).body['roles'])
           end
 
-          def assignments params={}
-            load(service.list_role_assignments(params).body['role_assignments'])
+          alias_method :details, :all
+
+          def assignments(options = {})
+            # TODO(lsmola) this method doesn't make much sense, it should be moved to role.rb and automatically add
+            # role.id filter. Otherwise it's just duplication.
+            Fog::Logger.deprecation("Calling OpenStack[:keystone].roles.assignments(options) method which"\
+                                    " deprecated, call OpenStack[:keystone].role_assignments(options) instead")
+            load(service.list_role_assignments(options).body['role_assignments'])
           end
 
           def find_by_id(id)

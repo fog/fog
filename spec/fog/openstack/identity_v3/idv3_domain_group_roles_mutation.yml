@@ -158,7 +158,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:42 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/roles?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/roles
     body:
       encoding: US-ASCII
       string: ''
@@ -190,7 +190,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles",
         "previous": null, "next": null}, "roles": [{"id": "1348e84f9797426bb6ec4cae1e6289d7",
         "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/1348e84f9797426bb6ec4cae1e6289d7"},
         "name": "anotherrole"}, {"id": "430e91ef76b74b728a2864bc8a410a60", "links":
@@ -357,7 +357,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:42 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/role_assignments?effective=true&page=1&per_page=30&user.id=e51182349e024408974508cfd0e5128e
+    uri: http://devstack.openstack.stack:35357/v3/role_assignments?effective=true&user.id=e51182349e024408974508cfd0e5128e
     body:
       encoding: US-ASCII
       string: ''
@@ -389,7 +389,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"role_assignments": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/role_assignments?effective=true&page=1&per_page=30&user.id=e51182349e024408974508cfd0e5128e",
+      string: ! '{"role_assignments": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/role_assignments?effective=true&user.id=e51182349e024408974508cfd0e5128e",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:42 GMT
@@ -467,7 +467,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:43 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/role_assignments?effective=true&page=1&per_page=30&user.id=e51182349e024408974508cfd0e5128e
+    uri: http://devstack.openstack.stack:35357/v3/role_assignments?effective=true&user.id=e51182349e024408974508cfd0e5128e
     body:
       encoding: US-ASCII
       string: ''
@@ -503,13 +503,13 @@ http_interactions:
         "role": {"id": "1391a570f2a24056961be1035aa72a61"}, "user": {"id": "e51182349e024408974508cfd0e5128e"},
         "links": {"assignment": "http://devstack.openstack.stack:35357/v3/domains/1374ea16b39b48e7bde71e737f7d964a/groups/ea21b86bd05442e59eac49626cda687e/roles/1391a570f2a24056961be1035aa72a61",
         "membership": "http://devstack.openstack.stack:35357/v3/groups/ea21b86bd05442e59eac49626cda687e/users/e51182349e024408974508cfd0e5128e"}}],
-        "links": {"self": "http://devstack.openstack.stack:35357/v3/role_assignments?effective=true&page=1&per_page=30&user.id=e51182349e024408974508cfd0e5128e",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/role_assignments?effective=true&user.id=e51182349e024408974508cfd0e5128e",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:43 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/role_assignments?group.id=ea21b86bd05442e59eac49626cda687e&page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/role_assignments?group.id=ea21b86bd05442e59eac49626cda687e
     body:
       encoding: US-ASCII
       string: ''
@@ -545,7 +545,7 @@ http_interactions:
         "group": {"id": "ea21b86bd05442e59eac49626cda687e"}, "links": {"assignment":
         "http://devstack.openstack.stack:35357/v3/domains/1374ea16b39b48e7bde71e737f7d964a/groups/ea21b86bd05442e59eac49626cda687e/roles/1391a570f2a24056961be1035aa72a61"},
         "scope": {"domain": {"id": "1374ea16b39b48e7bde71e737f7d964a"}}}], "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/role_assignments?group.id=ea21b86bd05442e59eac49626cda687e&page=1&per_page=30",
+        {"self": "http://devstack.openstack.stack:35357/v3/role_assignments?group.id=ea21b86bd05442e59eac49626cda687e",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:43 GMT
@@ -586,7 +586,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:43 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/role_assignments?effective=true&page=1&per_page=30&user.id=e51182349e024408974508cfd0e5128e
+    uri: http://devstack.openstack.stack:35357/v3/role_assignments?effective=true&user.id=e51182349e024408974508cfd0e5128e
     body:
       encoding: US-ASCII
       string: ''
@@ -618,7 +618,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"role_assignments": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/role_assignments?effective=true&page=1&per_page=30&user.id=e51182349e024408974508cfd0e5128e",
+      string: ! '{"role_assignments": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/role_assignments?effective=true&user.id=e51182349e024408974508cfd0e5128e",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:43 GMT

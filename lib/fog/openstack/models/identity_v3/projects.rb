@@ -8,12 +8,12 @@ module Fog
         class Projects < Fog::Collection
           model Fog::Identity::OpenStack::V3::Project
 
-          def all params={}
-            load(service.list_projects(params).body['projects'])
+          def all(options = {})
+            load(service.list_projects(options).body['projects'])
           end
 
-          def auth_projects params={}
-            load(service.auth_projects(params).body['projects'])
+          def auth_projects(options = {})
+            load(service.auth_projects(options).body['projects'])
           end
 
           def find_by_id(id)

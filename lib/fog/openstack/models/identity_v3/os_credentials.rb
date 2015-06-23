@@ -8,9 +8,11 @@ module Fog
         class OsCredentials < Fog::Collection
           model Fog::Identity::OpenStack::V3::OsCredential
 
-          def all params={}
-            load(service.list_os_credentials(params).body['credentials'])
+          def all(options = {})
+            load(service.list_os_credentials(options).body['credentials'])
           end
+
+          alias_method :details, :all
 
           def find_by_id(id)
             cached_credential = self.find { |credential| credential.id == id }

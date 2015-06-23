@@ -8,14 +8,15 @@ module Fog
         class Domains < Fog::Collection
           model Fog::Identity::OpenStack::V3::Domain
 
-          def all params={}
-            load(service.list_domains(params).body['domains'])
+          def all(options = {})
+            load(service.list_domains(options).body['domains'])
           end
 
-          def auth_domains params={}
-            load(service.auth_domains(params).body['domains'])
-          end
+          alias_method :details, :all
 
+          def auth_domains(options = {})
+            load(service.auth_domains(options).body['domains'])
+          end
 
           def find_by_id(id)
             cached_domain = self.find { |domain| domain.id == id }

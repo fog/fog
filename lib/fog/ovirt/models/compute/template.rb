@@ -7,6 +7,7 @@ module Fog
         attr_accessor :raw
 
         attribute :name
+        attribute :comment
         attribute :description
         attribute :profile
         attribute :display

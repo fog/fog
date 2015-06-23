@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/services
     body:
       encoding: US-ASCII
       string: ''
@@ -57,13 +57,13 @@ http_interactions:
         "description": "OpenStack Identity v3 x"}, {"name": "keystone_v3", "links":
         {"self": "http://devstack.openstack.stack:35357/v3/services/cd9002bbadfe495d81b5ee4c50768009"},
         "enabled": true, "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009",
-        "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30",
+        "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:46 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/services
     body:
       encoding: US-ASCII
       string: ''
@@ -118,13 +118,13 @@ http_interactions:
         "description": "OpenStack Identity v3 x"}, {"name": "keystone_v3", "links":
         {"self": "http://devstack.openstack.stack:35357/v3/services/cd9002bbadfe495d81b5ee4c50768009"},
         "enabled": true, "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009",
-        "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30",
+        "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:46 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/services
     body:
       encoding: US-ASCII
       string: ''
@@ -179,13 +179,13 @@ http_interactions:
         "description": "OpenStack Identity v3 x"}, {"name": "keystone_v3", "links":
         {"self": "http://devstack.openstack.stack:35357/v3/services/cd9002bbadfe495d81b5ee4c50768009"},
         "enabled": true, "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009",
-        "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30",
+        "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:46 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/services
     body:
       encoding: US-ASCII
       string: ''
@@ -240,7 +240,7 @@ http_interactions:
         "description": "OpenStack Identity v3 x"}, {"name": "keystone_v3", "links":
         {"self": "http://devstack.openstack.stack:35357/v3/services/cd9002bbadfe495d81b5ee4c50768009"},
         "enabled": true, "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009",
-        "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services?page=1&per_page=30",
+        "description": "OpenStack Identity v3"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/services",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:46 GMT

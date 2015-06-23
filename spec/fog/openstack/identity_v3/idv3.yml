@@ -104,7 +104,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:35 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/users?name=admin&page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/users?name=admin
     body:
       encoding: US-ASCII
       string: ''
@@ -138,13 +138,13 @@ http_interactions:
       encoding: US-ASCII
       string: ! '{"users": [{"name": "admin", "links": {"self": "http://devstack.openstack.stack:35357/v3/users/aa9f25defa6d4cafb48466df83106065"},
         "domain_id": "default", "enabled": true, "email": null, "id": "aa9f25defa6d4cafb48466df83106065"}],
-        "links": {"self": "http://devstack.openstack.stack:35357/v3/users?name=admin&page=1&per_page=30",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/users?name=admin",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:35 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/roles?name=admin&page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/roles?name=admin
     body:
       encoding: US-ASCII
       string: ''
@@ -176,7 +176,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles?name=admin&page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles?name=admin",
         "previous": null, "next": null}, "roles": [{"id": "6ead57f8ae124996af8b0beb72ff1007",
         "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/6ead57f8ae124996af8b0beb72ff1007"},
         "name": "admin"}]}'

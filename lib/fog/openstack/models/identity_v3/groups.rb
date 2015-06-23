@@ -8,9 +8,11 @@ module Fog
         class Groups < Fog::Collection
           model Fog::Identity::OpenStack::V3::Group
 
-          def all params={}
-            load(service.list_groups(params).body['groups'])
+          def all(options = {})
+            load(service.list_groups(options).body['groups'])
           end
+
+          alias_method :details, :all
 
           def find_by_id(id)
             cached_group = self.find { |group| group.id == id }

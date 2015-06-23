@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/groups
     body:
       encoding: US-ASCII
       string: ''
@@ -34,7 +34,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
         "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
         "non-admin group", "id": "456293145b0b48b1be46e71d97ad14e4", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/groups/456293145b0b48b1be46e71d97ad14e4"},
@@ -45,7 +45,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:38 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/groups
     body:
       encoding: US-ASCII
       string: ''
@@ -77,7 +77,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
         "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
         "non-admin group", "id": "456293145b0b48b1be46e71d97ad14e4", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/groups/456293145b0b48b1be46e71d97ad14e4"},
@@ -127,7 +127,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:38 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/groups
     body:
       encoding: US-ASCII
       string: ''
@@ -159,7 +159,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
         "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
         "Group of Foobar users", "id": "3e52735856774071af0c3425b8762d34", "links":
         {"self": "http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34"},
@@ -211,7 +211,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:38 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/groups
     body:
       encoding: US-ASCII
       string: ''
@@ -243,7 +243,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
         "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
         "Group of Baz users", "id": "3e52735856774071af0c3425b8762d34", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34"},
@@ -256,7 +256,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:38 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/groups
     body:
       encoding: US-ASCII
       string: ''
@@ -288,7 +288,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
         "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
         "Group of Baz users", "id": "3e52735856774071af0c3425b8762d34", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34"},
@@ -417,7 +417,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:39 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users
     body:
       encoding: US-ASCII
       string: ''
@@ -449,7 +449,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"users": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users?page=1&per_page=30",
+      string: ! '{"users": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:39 GMT
@@ -599,7 +599,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:39 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users
     body:
       encoding: US-ASCII
       string: ''
@@ -636,7 +636,7 @@ http_interactions:
         "7ff4aed64f0b4d7cb7a82a1a3349fc2b"}, {"name": "foobar2", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/users/8e8a0629ccf84cc495c849ecfbb21d89"},
         "domain_id": "default", "enabled": true, "email": "foobar2@example.com", "id":
-        "8e8a0629ccf84cc495c849ecfbb21d89"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users?page=1&per_page=30",
+        "8e8a0629ccf84cc495c849ecfbb21d89"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:39 GMT
@@ -714,7 +714,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:39 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users
     body:
       encoding: US-ASCII
       string: ''
@@ -748,7 +748,7 @@ http_interactions:
       encoding: US-ASCII
       string: ! '{"users": [{"name": "foobar2", "links": {"self": "http://devstack.openstack.stack:35357/v3/users/8e8a0629ccf84cc495c849ecfbb21d89"},
         "domain_id": "default", "enabled": true, "email": "foobar2@example.com", "id":
-        "8e8a0629ccf84cc495c849ecfbb21d89"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users?page=1&per_page=30",
+        "8e8a0629ccf84cc495c849ecfbb21d89"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:39 GMT
@@ -861,7 +861,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:39 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users
     body:
       encoding: US-ASCII
       string: ''
@@ -893,7 +893,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"users": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users?page=1&per_page=30",
+      string: ! '{"users": [], "links": {"self": "http://devstack.openstack.stack:35357/v3/groups/3e52735856774071af0c3425b8762d34/users",
         "previous": null, "next": null}}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:39 GMT
@@ -934,7 +934,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:39 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/groups
     body:
       encoding: US-ASCII
       string: ''
@@ -966,7 +966,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
         "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
         "non-admin group", "id": "456293145b0b48b1be46e71d97ad14e4", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/groups/456293145b0b48b1be46e71d97ad14e4"},
@@ -1015,7 +1015,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:39 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/groups
     body:
       encoding: US-ASCII
       string: ''
@@ -1047,7 +1047,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/groups",
         "previous": null, "next": null}, "groups": [{"domain_id": "default", "description":
         "non-admin group", "id": "456293145b0b48b1be46e71d97ad14e4", "links": {"self":
         "http://devstack.openstack.stack:35357/v3/groups/456293145b0b48b1be46e71d97ad14e4"},

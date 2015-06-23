@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/policies
     body:
       encoding: US-ASCII
       string: ''
@@ -34,7 +34,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies",
         "previous": null, "next": null}, "policies": []}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:49 GMT
@@ -79,7 +79,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:49 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/policies
     body:
       encoding: US-ASCII
       string: ''
@@ -111,7 +111,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies",
         "previous": null, "next": null}, "policies": [{"type": "application/json",
         "id": "8fcf57c79e26405384b338ad44dc4043", "links": {"self": "http://devstack.openstack.stack:35357/v3/policies/8fcf57c79e26405384b338ad44dc4043"},
         "blob": "{\"foobar_user\":[\"role:compute-user\"]}"}]}'
@@ -158,7 +158,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:49 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/policies
     body:
       encoding: US-ASCII
       string: ''
@@ -190,7 +190,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies",
         "previous": null, "next": null}, "policies": [{"type": "application/json",
         "id": "8fcf57c79e26405384b338ad44dc4043", "links": {"self": "http://devstack.openstack.stack:35357/v3/policies/8fcf57c79e26405384b338ad44dc4043"},
         "blob": "{\"baz_user\":[\"role:compute-user\"]}"}]}'
@@ -198,7 +198,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:49 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/policies
     body:
       encoding: US-ASCII
       string: ''
@@ -230,7 +230,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies",
         "previous": null, "next": null}, "policies": [{"type": "application/json",
         "id": "8fcf57c79e26405384b338ad44dc4043", "links": {"self": "http://devstack.openstack.stack:35357/v3/policies/8fcf57c79e26405384b338ad44dc4043"},
         "blob": "{\"baz_user\":[\"role:compute-user\"]}"}]}'
@@ -273,7 +273,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:49 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/policies
     body:
       encoding: US-ASCII
       string: ''
@@ -305,7 +305,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies",
         "previous": null, "next": null}, "policies": []}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:49 GMT
@@ -349,7 +349,7 @@ http_interactions:
   recorded_at: Wed, 17 Jun 2015 15:06:49 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30
+    uri: http://devstack.openstack.stack:35357/v3/policies
     body:
       encoding: US-ASCII
       string: ''
@@ -381,7 +381,7 @@ http_interactions:
       - application/json
     body:
       encoding: US-ASCII
-      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies?page=1&per_page=30",
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies",
         "previous": null, "next": null}, "policies": []}'
     http_version: 
   recorded_at: Wed, 17 Jun 2015 15:06:49 GMT

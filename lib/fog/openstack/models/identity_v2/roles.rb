@@ -8,9 +8,11 @@ module Fog
         class Roles < Fog::Collection
           model Fog::Identity::OpenStack::V2::Role
 
-          def all
-            load(service.list_roles.body['roles'])
+          def all(options = {})
+            load(service.list_roles(options).body['roles'])
           end
+
+          alias_method :details, :all
 
           def get(id)
             service.get_role(id)

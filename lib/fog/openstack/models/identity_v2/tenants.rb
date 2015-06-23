@@ -8,9 +8,11 @@ module Fog
         class Tenants < Fog::Collection
           model Fog::Identity::OpenStack::V2::Tenant
 
-          def all
-            load(service.list_tenants.body['tenants'])
+          def all(options = {})
+            load(service.list_tenants(options).body['tenants'])
           end
+
+          alias_method :details, :all
 
           def find_by_id(id)
             cached_tenant = self.find { |tenant| tenant.id == id }
