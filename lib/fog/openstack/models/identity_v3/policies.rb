@@ -12,7 +12,7 @@ module Fog
             load(service.list_policies(options).body['policies'])
           end
 
-          alias_method :details, :all
+          alias_method :summary, :all
 
           def find_by_id(id)
             cached_policy = self.find { |policy| policy.id == id }

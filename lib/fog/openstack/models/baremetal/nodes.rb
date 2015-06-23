@@ -8,10 +8,16 @@ module Fog
         model Fog::Baremetal::OpenStack::Node
 
         def all(options = {})
+          load(service.list_nodes_detailed(options).body['nodes'])
+        end
+
+        def summary(options = {})
           load(service.list_nodes(options).body['nodes'])
         end
 
         def details(options = {})
+          Fog::Logger.deprecation("Calling OpenStack[:baremetal].nodes.details will be removed, "\
+                                  " call .nodes.all for detailed list.")
           load(service.list_nodes_detailed(options).body['nodes'])
         end
 

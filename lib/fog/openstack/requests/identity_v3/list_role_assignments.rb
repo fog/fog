@@ -4,7 +4,8 @@ module Fog
       class V3
         class Real
           def list_role_assignments(options = {})
-            # Backwards compatibility name mapping
+            # Backwards compatibility name mapping, also serves as single pane of glass, since keystone broke
+            # consistency in naming of options, just for this one API call
             name_mapping = {
               :group_id   => 'group.id',
               :role_id    => 'role.id',
@@ -14,9 +15,6 @@ module Fog
             }
             name_mapping.keys.each do |key|
               if (opt = options.delete(key))
-                Fog::Logger.deprecation("Calling OpenStack[:keystone].list_role_assignments(options) with deprecated"\
-                                        " option '#{key}'. Use option '#{name_mapping[key]}' which is defined in"\
-                                        " keystone documentation.")
                 options[name_mapping[key]] = opt
               end
             end

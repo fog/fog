@@ -12,7 +12,7 @@ module Fog
             load(service.list_services(options).body['services'])
           end
 
-          alias_method :details, :all
+          alias_method :summary, :all
 
           def find_by_id(id)
             cached_service = self.find { |service| service.id == id }

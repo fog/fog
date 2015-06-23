@@ -12,7 +12,7 @@ module Fog
             load(service.list_os_credentials(options).body['credentials'])
           end
 
-          alias_method :details, :all
+          alias_method :summary, :all
 
           def find_by_id(id)
             cached_credential = self.find { |credential| credential.id == id }

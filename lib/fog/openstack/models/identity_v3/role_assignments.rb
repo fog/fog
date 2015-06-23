@@ -12,12 +12,12 @@ module Fog
             load(service.list_role_assignments(options).body['role_assignments'])
           end
 
-          alias_method :details, :all
+          alias_method :summary, :all
 
           def filter_by(options = {})
             Fog::Logger.deprecation("Calling OpenStack[:keystone].role_assignments.filter_by(options) method which"\
                                     " is not part of standard interface and is deprecated, call "\
-                                    " .role_assignments.all(options) or .role_assignments.details(options) instead.")
+                                    " .role_assignments.all(options) or .role_assignments.summary(options) instead.")
             all(options)
           end
         end
