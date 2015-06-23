@@ -11,7 +11,7 @@ module Fog
           load(service.list_drivers(options).body['drivers'])
         end
 
-        alias_method :details, :all
+        alias_method :summary, :all
 
         def find_by_name(name)
           new(service.get_driver(name).body)

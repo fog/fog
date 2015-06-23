@@ -12,7 +12,7 @@ module Fog
             load(service.list_users(options).body['users'])
           end
 
-          alias_method :details, :all
+          alias_method :summary, :all
 
           def find_by_id(id)
             cached_user = self.find { |user| user.id == id }

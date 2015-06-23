@@ -19,7 +19,7 @@ module Fog
             load(ec2_credentials.body['credentials'])
           end
 
-          alias_method :details, :all
+          alias_method :summary, :all
 
           def create(attributes = {})
             if user then

@@ -12,7 +12,7 @@ module Fog
             load(service.list_domains(options).body['domains'])
           end
 
-          alias_method :details, :all
+          alias_method :summary, :all
 
           def auth_domains(options = {})
             load(service.auth_domains(options).body['domains'])
