@@ -32,10 +32,12 @@ module Fog
       request :create_stack
       request :delete_stack
       request :get_stack_template
+      request :list_events
       request :list_resource_events
       request :list_resource_types
       request :list_resources
       request :list_stack_data
+      request :list_stack_data_detailed
       request :list_stack_events
       request :preview_stack
       request :show_event_details
