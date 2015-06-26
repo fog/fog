@@ -74,7 +74,11 @@ RSpec.describe Fog::Volume::OpenStack do
 
       # create volume
       puts "Creating volume..." if ENV['DEBUG_VERBOSE']
-      volume_id = @service.create_volume(volume_name, volume_description, volume_size)[:body]['volume']['id']
+      volume_id = @service.volumes.create(
+        :display_name        => volume_name,
+        :display_description => volume_description,
+        :size                => volume_size
+      ).id
       expect(@service.volumes.all(:display_name => volume_name).length).to be 1
 
       # check retrieval of volume by ID
