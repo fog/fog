@@ -20,7 +20,7 @@ module Fog
             Fog::Logger.deprecation('Calling OpenStack[:orchestration].list_resources(stack, options) is deprecated, '\
                                     ' call .list_resources(:stack => stack) or '\
                                     ' .list_resources(:stack_name => value, :stack_id => value) instead')
-            path   = "stacks/#{stack.stack_name}/#{stack.id}/resources"
+            path   = "stacks/#{options.stack_name}/#{options.id}/resources"
             params = options_deprecated
           end
 
