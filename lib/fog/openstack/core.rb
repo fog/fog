@@ -161,16 +161,15 @@ module Fog
           @openstack_must_reauthenticate = false
           @auth_token = credentials[:token]
           @openstack_management_url = credentials[:server_management_url]
-          uri = URI.parse(@openstack_management_url)
         else
           @auth_token = @openstack_auth_token
-          uri = URI.parse(@openstack_management_url)
         end
+        @openstack_management_uri = URI.parse(@openstack_management_url)
 
-        @host   = uri.host
-        @path   = uri.path
-        @port   = uri.port
-        @scheme = uri.scheme
+        @host   = @openstack_management_uri.host
+        @path   = @openstack_management_uri.path
+        @port   = @openstack_management_uri.port
+        @scheme = @openstack_management_uri.scheme
         true
       end
     end
