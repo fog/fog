@@ -19,6 +19,8 @@ module Fog
           load(service.list_networks(filters).body['networks'])
         end
 
+        alias_method :summary, :all
+
         def get(network_id)
           if network = service.get_network(network_id).body['network']
             new(network)

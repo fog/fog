@@ -19,6 +19,8 @@ module Fog
           load(service.list_ports(filters).body['ports'])
         end
 
+        alias_method :summary, :all
+
         def get(port_id)
           if port = service.get_port(port_id).body['port']
             new(port)
