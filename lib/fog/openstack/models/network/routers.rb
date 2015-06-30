@@ -19,6 +19,8 @@ module Fog
           load(service.list_routers(filters).body['routers'])
         end
 
+        alias_method :summary, :all
+
         def get(router_id)
           if router = service.get_router(router_id).body['router']
             new(router)
