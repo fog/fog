@@ -42,6 +42,10 @@ module Fog
         # @return [String] region of the snapshot
         attribute :availability_zone
 
+        # @!attribute [r] force
+        # @return [Boolean] `force` creation flag
+        attribute :force
+
         # Returns true if the snapshot is in a ready state
         # @return [Boolean] returns true if snapshot is in a ready state
         def ready?
@@ -59,7 +63,7 @@ module Fog
         # @note A snapshot object cannot be updated
         # @note All writes to the volume should be flushed before creating the snapshot, either by un-mounting any file systems on the volume or by detaching the volume.
         # @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/POST_createSnapshot__v1__tenant_id__snapshots.html
-        def save(force = false)
+        def save
           requires :volume_id
           raise IdentifierTaken.new('Resaving may cause a duplicate snapshot to be created') if persisted?
           data = service.create_snapshot(volume_id, {
