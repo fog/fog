@@ -1,3 +1,56 @@
+## 1.32.0 07/02/2015
+*Hash* 3339ba764f099c1fab8c989510c427ac65dabeca
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Downloads     | 10420612
+Forks         | 1453
+Open Issues   | 83
+Watchers      | 3538
+
+**MVP!** Ladislav Smola
+
+#### [cloudstack]
+*   Use `isdefault` in `listNetworks` response. thanks Yamashita Yuu
+
+#### [misc]
+*   Various fixes & tweaks for OpenStack Identity V3 API & related tests. thanks Darren Hague
+*   Clamp fog-ecloud at 0.1.1 because 0.1.2 was causing a Travis build failure. thanks Darren Hague
+*   Reintroduce user_domain and project_domain     Refactor - move repetitive code from compute & network to core.     Tweak VCR config and Rakefile to make sure tests are run correctly. thanks Darren Hague
+*   Fix ruby 1.8.7 failure. thanks Darren Hague
+*   Add missing reference to openstack_project_name & simplify test code a little. thanks Darren Hague
+*   Adding OpenStack Host Aggregate support. thanks Ladislav Smola
+*   OpenStack Baremetal list methods unified interface. thanks Ladislav Smola
+*   We need to move all list methods to unified interface, where     only Hash is passed as a first argument. The hash can have     specific fields, that will be recognized and deleted. Rest     of the Hash goes directly to request :query. thanks Ladislav Smola
+*   OpenStack Keystone and Ironic change all to detailed list. thanks Ladislav Smola
+*   OpenStack Cinder, Swift and Tuskar list methods unified interface. thanks Ladislav Smola
+*   OpenStack Compute list methods unified interface. thanks Ladislav Smola
+*   OpenStack Glance and Heat list methods unified interface. thanks Ladislav Smola
+*   Minor bugs from list methods unification. thanks Ladislav Smola
+*   Missing network init uri. thanks Ladislav Smola
+*   OpenStack missing list unification of Network and Volume. thanks Ladislav Smola
+*   Openstack security groups list typo. thanks Ladislav Smola
+*   Don't remove nil keys in OpenStack#create_subnet. thanks Matt Darby
+*   Send :force flag in Snapshot payload. thanks Matt Darby
+*   OpenStack create_volume: add metadata option. thanks Maurice Schreiber
+*   OpenStack volume model: add metadata attribute. thanks Maurice Schreiber
+*   OpenStack port: add security groups to model and update request. thanks Maurice Schreiber
+*   include core in identity_v3 mock. thanks Maurice Schreiber
+*   correct mock format, when there is no input given. thanks Maurice Schreiber
+*   Bump fog-aws dependency. thanks Quentin de Metz
+*   add missing new method call to example. thanks Ryan King
+*   first bits of a spec for Fog::OpenStack::Volume. thanks Stefan Majewsky
+*   test the model create() method instead of the create_volume request. thanks Stefan Majewsky
+*   Fix typo in vm_clone. thanks alan
+*   bump fog-core dep. thanks geemus
+*   comment attribute in ovirt. thanks karmab
+*   support security-group by create port. thanks kazuhiko yamashita
+
+#### [openstack]
+*   Minor bugfixes & cleanups in identity_v3 test code. thanks Darren Hague
+
+
 ## 1.31.0 06/05/2015
 *Hash* 8c653412b40dd82f82187b9710ccb9177dab3d98
 
