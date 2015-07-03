@@ -38,6 +38,12 @@ module Fog
           true
         end
 
+        def extend(size)
+          requires :id
+          service.extend_volume(id, size)
+          true
+        end
+
         def ready?
           status == 'available'
         end
