@@ -8,7 +8,7 @@ module Fog
             :expects  => 202,
             :method   => 'POST',
             :path     => "volumes/#{volume_id}/action",
-            :body     => Fog::JSON.encode(body),
+            :body     => Fog::JSON.encode(body)
           )
         end
       end
