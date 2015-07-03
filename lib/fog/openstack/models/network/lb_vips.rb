@@ -19,6 +19,8 @@ module Fog
           load(service.list_lb_vips(filters).body['vips'])
         end
 
+        alias_method :summary, :all
+
         def get(vip_id)
           if vip = service.get_lb_vip(vip_id).body['vip']
             new(vip)

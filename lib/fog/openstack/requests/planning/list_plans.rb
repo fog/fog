@@ -2,17 +2,18 @@ module Fog
   module Openstack
     class Planning
       class Real
-        def list_plans
+        def list_plans(options = {})
           request(
             :expects => [200, 204],
             :method  => 'GET',
-            :path    => 'plans'
+            :path    => 'plans',
+            :query   => options
           )
         end
       end # class Real
 
       class Mock
-        def list_plans
+        def list_plans(options = {})
           response = Excon::Response.new
           response.status = [200, 204][rand(1)]
           response.body = [

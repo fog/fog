@@ -2,15 +2,28 @@ module Fog
   module Compute
     class OpenStack
       class Real
-        def list_security_groups(server_id = nil)
+        def list_security_groups(options = {})
           path = "os-security-groups.json"
+
+          if options.is_a?(Hash)
+            server_id = options.delete(:server_id)
+            query = options
+          else
+            # Backwards compatibility layer, only server_id was passed as first parameter previously
+            Fog::Logger.deprecation('Calling OpenStack[:compute].list_security_groups(server_id) is deprecated, use .list_security_groups(:server_id => value) instead')
+            server_id = options
+            query = {}
+          end
+
           if server_id
             path = "servers/#{server_id}/#{path}"
           end
+
           request(
             :expects  => [200],
             :method   => 'GET',
-            :path     => path
+            :path     => path,
+            :query    => query
           )
         end
       end

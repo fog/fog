@@ -6,15 +6,19 @@ module Fog
       class Events < Fog::Collection
         model Fog::Orchestration::OpenStack::Event
 
-        def all(obj, options={})
-          data = if obj.is_a?(Stack)
-            service.list_stack_events(obj, options).body['events']
-          else
-            service.list_resource_events(obj.stack, obj, options).body['events']
-          end
+        def all(options = {}, options_deprecated = {})
+          data = if options.is_a?(Stack)
+                   service.list_stack_events(options, options_deprecated).body['events']
+                 elsif options.is_a?(Hash)
+                   service.list_events(options).body['events']
+                 else
+                   service.list_resource_events(options.stack, options, options_deprecated).body['events']
+                 end
 
           load data
         end
+
+        alias_method :summary, :all
 
         def get(stack, resource, event_id)
           data = service.show_event_details(stack, resource, event_id).body['event']

@@ -22,6 +22,7 @@ module Fog
 
        # Volume
       request :list_volumes
+      request :list_volumes_detailed
       request :create_volume
       request :get_volume_details
       request :extend_volume

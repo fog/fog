@@ -7,12 +7,18 @@ module Fog
       class Images < Fog::Collection
         model Fog::Image::OpenStack::Image
 
-        def all
-          load(service.list_public_images_detailed.body['images'])
+        def all(options = {})
+          load(service.list_public_images_detailed(options).body['images'])
         end
 
-        def details(attribute=nil, query=nil)
-          load(service.list_public_images_detailed(attribute, query).body['images'])
+        def summary(options = {})
+          load(service.list_public_images(options).body['images'])
+        end
+
+        def details(options = {}, deprecated_query = nil)
+          Fog::Logger.deprecation("Calling OpenStack[:glance].images.details will be removed, "\
+                                  " call .images.all for detailed list.")
+          load(service.list_public_images_detailed(options, deprecated_query).body['images'])
         end
 
         def find_by_id(id)

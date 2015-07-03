@@ -6,7 +6,15 @@ module Fog
       class Stacks < Fog::Collection
         model Fog::Orchestration::OpenStack::Stack
 
-        def all(options={})
+        def all(options = {})
+          # TODO(lsmola) we can uncomment this when https://bugs.launchpad.net/heat/+bug/1468318 is fixed, till then
+          # we will use non detailed list
+          # data = service.list_stack_data_detailed(options).body['stacks']
+          data = service.list_stack_data(options).body['stacks']
+          load(data)
+        end
+
+        def summary(options = {})
           data = service.list_stack_data(options).body['stacks']
           load(data)
         end

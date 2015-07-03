@@ -7,8 +7,21 @@ module Fog
       class Volumes < Fog::Collection
         model Fog::Compute::OpenStack::Volume
 
-        def all(detailed=true)
-          load(service.list_volumes(detailed).body['volumes'])
+        def all(options = true)
+          if !options.is_a?(Hash)
+            if options
+              Fog::Logger.deprecation('Calling OpenStack[:compute].volumes.all(true) is deprecated, use .volumes.all')
+            else
+              Fog::Logger.deprecation('Calling OpenStack[:compute].volumes.all(false) is deprecated, use .volumes.summary')
+            end
+            load(service.list_volumes(options).body['volumes'])
+          else
+            load(service.list_volumes_detail(options).body['volumes'])
+          end
+        end
+
+        def summary(options = {})
+          load(service.list_volumes(options).body['volumes'])
         end
 
         def get(volume_id)

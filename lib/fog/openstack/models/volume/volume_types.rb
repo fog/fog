@@ -12,6 +12,8 @@ module Fog
           load(response.body['volume_types'])
         end
 
+        alias_method :summary, :all
+
         def get(volume_type_id)
           if volume_type = service.get_volume_type_details(volume_type_id).body['volume_type']
             new(volume_type)

@@ -10,10 +10,12 @@ module Fog
           service.list_resource_types.body['resource_types'].sort
         end
 
-        def all(stack, options={})
-          data = service.list_resources(stack, options).body['resources']
+        def all(options = {}, deprecated_options = {})
+          data = service.list_resources(options, deprecated_options).body['resources']
           load(data)
         end
+
+        alias_method :summary, :all
 
         def get(resource_name, stack=nil)
           stack = self.first.stack if stack.nil?

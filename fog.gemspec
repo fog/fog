@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = "fog"
-  s.version           = "1.31.2"
-  s.date              = "2015-06-17"
+  s.version           = "1.32.0"
+  s.date              = "2015-07-02"
   s.rubyforge_project = "fog"
 
   ## Make sure your summary is short. The description may be as long
@@ -44,7 +44,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.md]
 
-  s.add_dependency("fog-core", "~> 1.30")
+  s.add_dependency("fog-core", "~> 1.32")
   s.add_dependency("fog-json")
   s.add_dependency("fog-xml", "~> 0.1.1")
 
@@ -53,7 +53,7 @@ Gem::Specification.new do |s|
 
   # Modular providers (please keep sorted)
   s.add_dependency("fog-atmos")
-  s.add_dependency("fog-aws", "~> 0.0")
+  s.add_dependency("fog-aws", ">= 0.6.0")
   s.add_dependency("fog-brightbox", "~> 0.4")
   s.add_dependency("fog-ecloud", "= 0.1.1")
   s.add_dependency("fog-google", ">= 0.0.2")

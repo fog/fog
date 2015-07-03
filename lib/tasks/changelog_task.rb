@@ -124,6 +124,7 @@ Watchers      | #{watchers}
            'Kevin Menard',
            'Kevin Olbrich',
            'Kyle Rames',
+           'Ladislav Smola',
            'Lincoln Stoll',
            'Luqman Amjad',
            'Michael Hale',

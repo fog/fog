@@ -2,24 +2,18 @@ module Fog
   module Openstack
     class Planning
       class Real
-        def list_roles(parameters=nil)
-          if parameters
-            query = parameters.each { |k, v| parameters[k] = URI::encode(v) }
-          else
-            query = {}
-          end
-
+        def list_roles(options = {})
           request(
             :expects => [200, 204],
             :method  => 'GET',
             :path    => 'roles',
-            :query   => query
+            :query   => options
           )
         end
       end # class Real
 
       class Mock
-        def list_roles(parameters=nil)
+        def list_roles(options = {})
           response = Excon::Response.new
           response.status = [200, 204][rand(1)]
           response.body = [

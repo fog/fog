@@ -7,9 +7,11 @@ module Fog
       class Plans < Fog::Collection
         model Fog::Openstack::Planning::Plan
 
-        def all
-          load(service.list_plans.body)
+        def all(options = {})
+          load(service.list_plans(options).body)
         end
+
+        alias_method :summary, :all
 
         def find_by_uuid(plan_uuid)
           new(service.get_plan(plan_uuid).body)

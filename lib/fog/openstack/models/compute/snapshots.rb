@@ -7,8 +7,21 @@ module Fog
       class Snapshots < Fog::Collection
         model Fog::Compute::OpenStack::Snapshot
 
-        def all(detailed=true)
-          load(service.list_snapshots(detailed).body['snapshots'])
+        def all(options = {})
+          if !options.is_a?(Hash)
+            if options
+              Fog::Logger.deprecation('Calling OpenStack[:compute].snapshots.all(true) is deprecated, use .snapshots.all')
+            else
+              Fog::Logger.deprecation('Calling OpenStack[:compute].snapshots.all(false) is deprecated, use .snapshots.summary')
+            end
+            load(service.list_snapshots(options).body['snapshots'])
+          else
+            load(service.list_snapshots_detail(options).body['snapshots'])
+          end
+        end
+
+        def summary(options = {})
+          load(service.list_snapshots(options).body['snapshots'])
         end
 
         def get(snapshot_id)
