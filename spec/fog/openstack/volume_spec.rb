@@ -2,62 +2,21 @@ require 'fog/openstack/compute'
 require 'fog/openstack/identity'
 require 'fog/openstack/identity_v3'
 require 'fog/openstack/volume'
-require 'rspec/core'
-require 'rspec/expectations'
-require 'vcr'
+
+if RUBY_VERSION =~ /1.8/
+  require File.expand_path('../shared_context', __FILE__)
+else
+  require_relative './shared_context'
+end
 
 RSpec.describe Fog::Volume::OpenStack do
 
+  include_context 'OpenStack specs with VCR'
   before :all do
-    # FIXME code duplication with "before :all" of identity_v3_spec.rb
-    @os_auth_url = ENV['OS_AUTH_URL']
-
-    if @os_auth_url
-      # if OS_AUTH_URL is set but FOG_MOCK is not, don't record anything and just pass through the requests
-      VCR.configure do |c|
-        c.ignore_request do |request|
-          ENV['FOG_MOCK']!='true' && !ENV['OS_AUTH_URL'].nil?
-        end
-      end
-    else
-      # Fail-safe URL which matches the VCR recordings
-      @os_auth_url = 'http://devstack.openstack.stack:5000/v2.0'
-      # when using the cassettes, there is no need to sleep in wait_for()
-      Fog.interval = 0
-    end
-
-    VCR.configure do |config|
-      config.allow_http_connections_when_no_cassette = true
-      config.hook_into :webmock
-
-      if ENV['DEBUG']
-        config.ignore_request do |request|
-          false && !ENV['OS_AUTH_URL'].nil?
-        end
-        config.cassette_library_dir = "spec/debug"
-        config.default_cassette_options.merge! :record => :all
-      else
-        config.cassette_library_dir = "spec/fog/openstack/volume"
-        config.default_cassette_options = {:record => :none}
-        config.default_cassette_options.merge! :match_requests_on => [:method, :uri, :body] unless RUBY_VERSION =~ /1.8/ # Ruby 1.8.7 encodes JSON differently, which screws up request matching
-      end
-    end
-
-    # Allow us to ignore dev certificates on servers
-    Excon.defaults[:ssl_verify_peer] = false if ENV['SSL_VERIFY_PEER'] == 'false'
-
-    VCR.use_cassette('volume_common_setup') do
-      @service = Fog::Volume::OpenStack.new(
-        :openstack_auth_url       => "#{@os_auth_url}/tokens",
-        :openstack_region         => ENV['OS_REGION_NAME']         || 'RegionOne',
-        :openstack_api_key        => ENV['OS_PASSWORD']            || 'devstack',
-        :openstack_username       => ENV['OS_USERNAME']            || 'admin',
-        :openstack_tenant         => ENV['OS_PROJECT_NAME']        || 'admin'
-        # FIXME: Identity V3 not properly supported by this call yet
-        # :openstack_user_domain    => ENV['OS_USER_DOMAIN_NAME']    || 'Default',
-        # :openstack_project_domain => ENV['OS_PROJECT_DOMAIN_NAME'] || 'Default',
-      ) unless @service
-    end
+    setup_vcr_and_service(
+      :vcr_directory => 'spec/fog/openstack/volume',
+      :service_class => Fog::Volume::OpenStack
+    )
   end
 
   it 'CRUD volumes' do
