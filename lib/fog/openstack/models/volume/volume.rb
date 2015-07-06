@@ -18,6 +18,7 @@ module Fog
         attribute :created_at,          :aliases => 'createdAt'
         attribute :attachments
         attribute :source_volid
+        attribute :tenant_id,           :aliases => 'os-vol-tenant-attr:tenant_id'
 
         def initialize(attributes)
           # Old 'connection' is renamed as service and should be used instead
