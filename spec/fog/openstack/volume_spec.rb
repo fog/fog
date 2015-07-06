@@ -58,8 +58,9 @@ RSpec.describe Fog::Volume::OpenStack do
       puts "Retrieving volume by name..." if ENV['DEBUG_VERBOSE']
 
       volumes = @service.volumes.all(:display_name => volume_name)
-      expect(volumes).to contain_exactly(an_instance_of(Fog::Volume::OpenStack::Volume))
+      expect(volumes.length).to be 1
       volume = volumes[0]
+      expect(volume).to be_a(Fog::Volume::OpenStack::Volume)
 
       expect(volume.id).to eq(volume_id)
       expect(volume.display_name).to eq(volume_name)
