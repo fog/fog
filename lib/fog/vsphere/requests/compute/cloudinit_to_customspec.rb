@@ -16,6 +16,7 @@ module Fog
           custom_spec['encryptionKey']    = user_data['encryptionKey'] if user_data.key?('encryptionKey')
           custom_spec['globalIPSettings'] = user_data['globalIPSettings'] if user_data.key?('globalIPSettings')
           custom_spec['identity']         = user_data['identity'] if user_data.key?('identity')
+          custom_spec['identity']         = {"Sysprep"=>{"guiRunOnce"=>{"commandList"=>user_data['runcmd']}}} if user_data.key?('runcmd') and not user_data.key?('identity')
           custom_spec['nicSettingMap']    = user_data['nicSettingMap'] if user_data.key?('nicSettingMap')
           custom_spec['options']          = user_data['options'] if user_data.key?('options')
           
