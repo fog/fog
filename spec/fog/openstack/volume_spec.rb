@@ -159,6 +159,58 @@ RSpec.describe Fog::Volume::OpenStack do
     end
   end
 
+  it 'can extend volumes' do
+    VCR.use_cassette('volume_extend') do
+
+      volume_name = "fog-testvolume-1"
+      volume_size_small  = 1 # in GB
+      volume_size_large  = 2 # in GB
+
+      # if any of these expectations fail, that means you have left-over
+      # objects from your previous failed test run
+      puts "Checking for leftovers..." if ENV['DEBUG_VERBOSE']
+      expect(@service.volumes.all(:display_name => volume_name).length).to be 0
+
+      # create volume
+      puts "Creating volume..." if ENV['DEBUG_VERBOSE']
+      volume_id = @service.volumes.create(
+        :display_name => volume_name,
+        :size         => volume_size_small
+      ).id
+      expect(@service.volumes.all(:display_name => volume_name).length).to be 1
+
+      volume = @service.volumes.get(volume_id)
+      volume.wait_for { ready? and size == volume_size_small }
+
+      # extend volume
+      puts "Extending volume..." if ENV['DEBUG_VERBOSE']
+      volume.extend(volume_size_large)
+      volume.wait_for { ready? and size == volume_size_large }
+
+      # shrinking is not allowed in OpenStack
+      puts "Shrinking volume should fail..." if ENV['DEBUG_VERBOSE']
+      expect { volume.extend(volume_size_small) }.to raise_error(Excon::Errors::BadRequest, /Invalid input received: New size for extend must be greater than current size./)
+
+      # delete volume
+      puts "Deleting volume..." if ENV['DEBUG_VERBOSE']
+      @service.delete_volume(volume_id)
+
+      Fog.wait_for do # wait for the volume to be deleted
+        begin
+          volume = @service.volumes.get(volume_id)
+          puts "Current volume status: #{volume ? volume.status : 'deleted'}" if ENV['DEBUG_VERBOSE']
+          false
+        rescue Fog::Compute::OpenStack::NotFound # FIXME: Why is this "Compute", not "Volume"? Copy-paste error?
+          true
+        end
+      end
+
+      # check that extending a non-existing volume fails
+      puts "Extending deleted volume should fail..." if ENV['DEBUG_VERBOSE']
+      expect { @service.extend_volume(volume_id, volume_size_small) }.to raise_error(Fog::Compute::OpenStack::NotFound)
+    end
+  end
+
   # TODO: tests for snapshots
   # TODO: tests for quotas
 
