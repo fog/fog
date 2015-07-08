@@ -40,6 +40,8 @@ module Fog
           new_error
         end
       end
+
+      class InterfaceNotImplemented < Fog::Errors::Error; end
     end
 
     service(:compute ,      'Compute')
