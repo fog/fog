@@ -19,6 +19,45 @@ RSpec.describe Fog::Volume::OpenStack do
     )
   end
 
+  def setup_test_object(options)
+    type = options.delete(:type)
+    case type
+      when :volume
+        puts "Checking for leftovers..." if ENV['DEBUG_VERBOSE']
+        volume_name = options[:display_name]
+        # if this fails, cleanup this object (it was left over from a failed test run)
+        expect(@service.volumes.all(:display_name => volume_name).length).to be(0)
+
+        puts "Creating volume #{volume_name}..." if ENV['DEBUG_VERBOSE']
+        return @service.volumes.create(options)
+      else
+        raise ArgumentError, "don't know how to setup a test object of type #{type.inspect}"
+    end
+  end
+
+  def cleanup_test_object(collection, id)
+    # has the object already been deleted?
+    begin
+      object = collection.get(id)
+    rescue Fog::Compute::OpenStack::NotFound # "Compute", not "Volume"; see issue #3618
+      true
+    end
+
+    puts "Deleting object #{object.class} #{id}..." if ENV['DEBUG_VERBOSE']
+    object.destroy
+
+    # wait for the object to be deleted
+    Fog.wait_for do
+      begin
+        object = collection.get(id)
+        puts "Current status: #{object ? object.status : 'deleted'}" if ENV['DEBUG_VERBOSE']
+        false
+      rescue Fog::Compute::OpenStack::NotFound # "Compute", not "Volume"; see issue #3618
+        true
+      end
+    end
+  end
+
   it 'CRUD volumes' do
     VCR.use_cassette('volume_crud') do
 
@@ -26,18 +65,13 @@ RSpec.describe Fog::Volume::OpenStack do
       volume_description = 'This is the volume description.'
       volume_size = 1 # in GB
 
-      # if any of these expectations fail, that means you have left-over
-      # objects from your previous failed test run
-      puts "Checking for leftovers..." if ENV['DEBUG_VERBOSE']
-      expect(@service.volumes.all(:display_name => volume_name).length).to be 0
-
       # create volume
-      puts "Creating volume..." if ENV['DEBUG_VERBOSE']
-      volume_id = @service.volumes.create(
+      volume_id = setup_test_object(:type => :volume,
         :display_name        => volume_name,
         :display_description => volume_description,
         :size                => volume_size
       ).id
+
       expect(@service.volumes.all(:display_name => volume_name).length).to be 1
 
       # check retrieval of volume by ID
@@ -68,20 +102,7 @@ RSpec.describe Fog::Volume::OpenStack do
       expect(volume.size).to eq(volume_size)
 
       # delete volume
-      puts "Deleting volume..." if ENV['DEBUG_VERBOSE']
-
-      @service.delete_volume(volume_id)
-
-      Fog.wait_for do # wait for the volume to be deleted
-        begin
-          volume = @service.volumes.get(volume_id)
-          puts "Current volume status: #{volume ? volume.status : 'deleted'}" if ENV['DEBUG_VERBOSE']
-          false
-        rescue Fog::Compute::OpenStack::NotFound # FIXME: Why is this "Compute", not "Volume"? Copy-paste error?
-          true
-        end
-      end
-
+      cleanup_test_object(@service.volumes, volume_id)
     end
   end
 
@@ -122,24 +143,13 @@ RSpec.describe Fog::Volume::OpenStack do
   it 'can extend volumes' do
     VCR.use_cassette('volume_extend') do
 
-      volume_name = "fog-testvolume-1"
       volume_size_small  = 1 # in GB
       volume_size_large  = 2 # in GB
 
-      # if any of these expectations fail, that means you have left-over
-      # objects from your previous failed test run
-      puts "Checking for leftovers..." if ENV['DEBUG_VERBOSE']
-      expect(@service.volumes.all(:display_name => volume_name).length).to be 0
-
-      # create volume
-      puts "Creating volume..." if ENV['DEBUG_VERBOSE']
-      volume_id = @service.volumes.create(
-        :display_name => volume_name,
+      volume = setup_test_object(:type => :volume,
+        :display_name => 'fog-testvolume-1',
         :size         => volume_size_small
-      ).id
-      expect(@service.volumes.all(:display_name => volume_name).length).to be 1
-
-      volume = @service.volumes.get(volume_id)
+      )
       volume.wait_for { ready? and size == volume_size_small }
 
       # extend volume
@@ -152,22 +162,11 @@ RSpec.describe Fog::Volume::OpenStack do
       expect { volume.extend(volume_size_small) }.to raise_error(Excon::Errors::BadRequest, /Invalid input received: New size for extend must be greater than current size./)
 
       # delete volume
-      puts "Deleting volume..." if ENV['DEBUG_VERBOSE']
-      @service.delete_volume(volume_id)
-
-      Fog.wait_for do # wait for the volume to be deleted
-        begin
-          volume = @service.volumes.get(volume_id)
-          puts "Current volume status: #{volume ? volume.status : 'deleted'}" if ENV['DEBUG_VERBOSE']
-          false
-        rescue Fog::Compute::OpenStack::NotFound # FIXME: Why is this "Compute", not "Volume"? Copy-paste error?
-          true
-        end
-      end
+      cleanup_test_object(@service.volumes, volume.id)
 
       # check that extending a non-existing volume fails
       puts "Extending deleted volume should fail..." if ENV['DEBUG_VERBOSE']
-      expect { @service.extend_volume(volume_id, volume_size_small) }.to raise_error(Fog::Compute::OpenStack::NotFound)
+      expect { @service.extend_volume(volume.id, volume_size_small) }.to raise_error(Fog::Compute::OpenStack::NotFound)
     end
   end
 
