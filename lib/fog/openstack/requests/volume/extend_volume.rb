@@ -8,13 +8,13 @@ module Fog
             :expects  => 202,
             :method   => 'POST',
             :path     => "volumes/#{volume_id}/action",
-            :body     => Fog::JSON.encode(body),
+            :body     => Fog::JSON.encode(body)
           )
         end
       end
 
       class Mock
-        def extend_volume(volume_id)
+        def extend_volume(volume_id, size)
           response = Excon::Response.new
           response.status = 202
           response

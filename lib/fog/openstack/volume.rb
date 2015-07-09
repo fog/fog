@@ -18,6 +18,9 @@ module Fog
       model       :volume_type
       collection  :volume_types
 
+      model       :transfer
+      collection  :transfers
+
       request_path 'fog/openstack/requests/volume'
 
        # Volume
@@ -35,6 +38,13 @@ module Fog
       request :list_snapshots
       request :get_snapshot_details
       request :delete_snapshot
+
+      request :list_transfers
+      request :list_transfers_detailed
+      request :create_transfer
+      request :get_transfer_details
+      request :accept_transfer
+      request :delete_transfer
 
       request :update_quota
       request :get_quota
