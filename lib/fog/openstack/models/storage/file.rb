@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Storage
     class OpenStack
-      class File < Fog::Model
+      class File < Fog::OpenStack::Model
         identity  :key,             :aliases => 'name'
 
         attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
