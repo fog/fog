@@ -1,10 +1,10 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/network/lb_member'
 
 module Fog
   module Network
     class OpenStack
-      class LbMembers < Fog::Collection
+      class LbMembers < Fog::OpenStack::Collection
         attribute :filters
 
         model Fog::Network::OpenStack::LbMember
@@ -16,7 +16,7 @@ module Fog
 
         def all(filters_arg = filters)
           filters = filters_arg
-          load(service.list_lb_members(filters).body['members'])
+          load_response(service.list_lb_members(filters), 'members')
         end
 
         alias_method :summary, :all
