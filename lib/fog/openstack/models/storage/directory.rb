@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 require 'fog/openstack/models/storage/files'
 
 module Fog
   module Storage
     class OpenStack
-      class Directory < Fog::Model
+      class Directory < Fog::OpenStack::Model
         identity  :key, :aliases => 'name'
 
         attribute :bytes, :aliases => 'X-Container-Bytes-Used'

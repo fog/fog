@@ -1,10 +1,10 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/network/router'
 
 module Fog
   module Network
     class OpenStack
-      class Routers < Fog::Collection
+      class Routers < Fog::OpenStack::Collection
         attribute :filters
 
         model Fog::Network::OpenStack::Router
@@ -16,7 +16,7 @@ module Fog
 
         def all(filters_arg = filters)
           filters = filters_arg
-          load(service.list_routers(filters).body['routers'])
+          load_response(service.list_routers(filters), 'routers')
         end
 
         alias_method :summary, :all
