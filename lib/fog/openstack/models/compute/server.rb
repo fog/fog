@@ -84,7 +84,7 @@ module Fog
         end
 
         def user_data=(ascii_userdata)
-          self.user_data_encoded = [ascii_userdata].pack('m')
+          self.user_data_encoded = [ascii_userdata].pack('m') if ascii_userdata
         end
 
         def destroy

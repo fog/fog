@@ -151,7 +151,7 @@ module Fog
           attr_reader :current_user
           attr_reader :current_tenant
           attr_reader :unscoped_token
-          attr_reader :auth_token
+          attr_accessor :auth_token
 
           include Fog::Identity::OpenStack::Common
           include Fog::OpenStack::Core
