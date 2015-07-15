@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class Endpoint < Fog::Model
+        class Endpoint < Fog::OpenStack::Model
           identity :id
 
           attribute :description
@@ -26,18 +26,14 @@ module Fog
           end
 
           def update(attr = nil)
-            requires :id
+            requires :id, :name
             merge_attributes(
                 service.update_endpoint(self.id, attr || attributes).body['endpoint'])
             self
           end
 
-          def save
-            requires :name
-            identity ? update : create
-          end
-
           def create
+            requires :name
             merge_attributes(
                 service.create_endpoint(attributes).body['endpoint'])
             self

@@ -1,7 +1,9 @@
+require 'fog/openstack/models/model'
+
 module Fog
   module Orchestration
     class OpenStack
-      class Stack < Fog::Model
+      class Stack < Fog::OpenStack::Model
 
         identity :id
 
@@ -9,12 +11,6 @@ module Fog
             stack_name stack_status stack_status_reason template_description timeout_mins parent
             creation_time updated_time stack_user_project_id stack_owner}.each do |a|
           attribute a.to_sym
-        end
-
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
         end
 
         def save(options={})

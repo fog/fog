@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class User < Fog::Model
+        class User < Fog::OpenStack::Model
           identity :id
 
           attribute :default_project_id
@@ -68,17 +68,11 @@ module Fog
             self
           end
 
-          def save
-            requires :name
-            identity ? update : create
-          end
-
           def create
             merge_attributes(
                 service.create_user(attributes).body['user'])
             self
           end
-
 
         end
       end

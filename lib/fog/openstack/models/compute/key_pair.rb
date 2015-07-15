@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Compute
     class OpenStack
-      class KeyPair < Fog::Model
+      class KeyPair < Fog::OpenStack::Model
         identity  :name
 
         attribute :fingerprint

@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Volume
     class OpenStack
-      class Transfer < Fog::Model
+      class Transfer < Fog::OpenStack::Model
         identity :id
 
         attribute :auth_key,    :aliases => 'authKey'

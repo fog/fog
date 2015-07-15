@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Compute
     class OpenStack
-      class SecurityGroupRule < Fog::Model
+      class SecurityGroupRule < Fog::OpenStack::Model
         identity :id
 
         attribute :from_port

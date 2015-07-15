@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Network
     class OpenStack
-      class LbPool < Fog::Model
+      class LbPool < Fog::OpenStack::Model
         identity :id
 
         attribute :subnet_id
@@ -21,16 +21,6 @@ module Fog
         attribute :bytes_in
         attribute :bytes_out
         attribute :total_connections
-
-        def initialize(attributes)
-          prepare_service_value(attributes)
-          super
-        end
-
-        def save
-          requires :subnet_id, :protocol, :lb_method
-          identity ? update : create
-        end
 
         def create
           requires :subnet_id, :protocol, :lb_method

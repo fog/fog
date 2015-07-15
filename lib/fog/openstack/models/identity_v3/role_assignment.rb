@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class RoleAssignment < Fog::Model
+        class RoleAssignment < Fog::OpenStack::Model
           attribute :scope
           attribute :role
           attribute :user

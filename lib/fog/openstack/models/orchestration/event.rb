@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Orchestration
     class OpenStack
-      class Event < Fog::Model
+      class Event < Fog::OpenStack::Model
 
         include Reflectable
 

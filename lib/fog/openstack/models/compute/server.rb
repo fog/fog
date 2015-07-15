@@ -52,6 +52,10 @@ module Fog
         attr_writer :image_ref, :flavor_ref, :nics, :os_scheduler_hints
         attr_accessor :block_device_mapping, :block_device_mapping_v2
 
+        # In some cases it's handy to be able to store the project for the record, e.g. swift doesn't contain project info
+        # in the result, so we can track it in this attribute based on what project was used in the request
+        attr_accessor :project
+
         def initialize(attributes={})
           # Old 'connection' is renamed as service and should be used instead
           prepare_service_value(attributes)
