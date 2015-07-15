@@ -92,6 +92,13 @@ module Fog
             service.revoke_project_group_role(self.id, group_id, role_id)
           end
 
+          def subtree
+            @attributes['subtree']
+          end
+
+          def parents
+            @attributes['parents']
+          end
         end
       end
     end
