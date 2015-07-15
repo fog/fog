@@ -1,10 +1,10 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/compute/volume'
 
 module Fog
   module Compute
     class OpenStack
-      class Volumes < Fog::Collection
+      class Volumes < Fog::OpenStack::Collection
         model Fog::Compute::OpenStack::Volume
 
         def all(options = true)
@@ -14,14 +14,14 @@ module Fog
             else
               Fog::Logger.deprecation('Calling OpenStack[:compute].volumes.all(false) is deprecated, use .volumes.summary')
             end
-            load(service.list_volumes(options).body['volumes'])
+            load_response(service.list_volumes(options), 'volumes')
           else
-            load(service.list_volumes_detail(options).body['volumes'])
+            load_response(service.list_volumes_detail(options), 'volumes')
           end
         end
 
         def summary(options = {})
-          load(service.list_volumes(options).body['volumes'])
+          load_response(service.list_volumes(options), 'volumes')
         end
 
         def get(volume_id)

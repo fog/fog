@@ -3,7 +3,7 @@ require 'fog/openstack/models/orchestration/resource'
 module Fog
   module Orchestration
     class OpenStack
-      class Resources < Fog::Collection
+      class Resources < Fog::OpenStack::Collection
         model Fog::Orchestration::OpenStack::Resource
 
         def types
@@ -11,11 +11,9 @@ module Fog
         end
 
         def all(options = {}, deprecated_options = {})
-          data = service.list_resources(options, deprecated_options).body['resources']
-          load(data)
+          data = service.list_resources(options, deprecated_options)
+          load_response(data, 'resources')
         end
-
-        alias_method :summary, :all
 
         def get(resource_name, stack=nil)
           stack = self.first.stack if stack.nil?

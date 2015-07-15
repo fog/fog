@@ -1,18 +1,16 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/storage/directory'
 
 module Fog
   module Storage
     class OpenStack
-      class Directories < Fog::Collection
+      class Directories < Fog::OpenStack::Collection
         model Fog::Storage::OpenStack::Directory
 
         def all(options = {})
-          data = service.get_containers(options).body
-          load(data)
+          data = service.get_containers(options)
+          load_response(data)
         end
-
-        alias_method :summary, :all
 
         def get(key, options = {})
           data = service.get_container(key, options)

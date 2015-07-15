@@ -19,8 +19,6 @@ module Fog
           load_response(service.list_subnets(filters), 'subnets')
         end
 
-        alias_method :summary, :all
-
         def get(subnet_id)
           if subnet = service.get_subnet(subnet_id).body['subnet']
             new(subnet)

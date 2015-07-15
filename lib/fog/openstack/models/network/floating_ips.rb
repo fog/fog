@@ -19,8 +19,6 @@ module Fog
           load_response(service.list_floating_ips(filters), 'floatingips')
         end
 
-        alias_method :summary, :all
-
         def get(floating_network_id)
           if floating_ip = service.get_floating_ip(floating_network_id).body['floatingip']
             new(floating_ip)

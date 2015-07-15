@@ -1,24 +1,24 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/baremetal/chassis'
 
 module Fog
   module Baremetal
     class OpenStack
-      class ChassisCollection < Fog::Collection
+      class ChassisCollection < Fog::OpenStack::Collection
         model Fog::Baremetal::OpenStack::Chassis
 
         def all(options = {})
-          load(service.list_chassis_detailed(options).body['chassis'])
+          load_response(service.list_chassis_detailed(options), 'chassis')
         end
 
         def summary(options = {})
-          load(service.list_chassis(options).body['chassis'])
+          load_response(service.list_chassis(options), 'chassis')
         end
 
         def details(options = {})
           Fog::Logger.deprecation("Calling OpenStack[:baremetal].chassis_collection.details will be removed, "\
                                   " call .chassis_collection.all for detailed list.")
-          load(service.list_chassis_detailed(options).body['chassis'])
+          all(options)
         end
 
         def find_by_uuid(uuid)

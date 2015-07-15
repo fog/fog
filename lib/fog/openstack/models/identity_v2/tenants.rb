@@ -1,18 +1,16 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/identity_v2/tenant'
 
 module Fog
   module Identity
     class OpenStack
       class V2
-        class Tenants < Fog::Collection
+        class Tenants < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V2::Tenant
 
           def all(options = {})
-            load(service.list_tenants(options).body['tenants'])
+            load_response(service.list_tenants(options), 'tenants')
           end
-
-          alias_method :summary, :all
 
           def find_by_id(id)
             cached_tenant = self.find { |tenant| tenant.id == id }

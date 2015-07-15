@@ -1,10 +1,10 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/compute/snapshot'
 
 module Fog
   module Compute
     class OpenStack
-      class Snapshots < Fog::Collection
+      class Snapshots < Fog::OpenStack::Collection
         model Fog::Compute::OpenStack::Snapshot
 
         def all(options = {})
@@ -14,14 +14,14 @@ module Fog
             else
               Fog::Logger.deprecation('Calling OpenStack[:compute].snapshots.all(false) is deprecated, use .snapshots.summary')
             end
-            load(service.list_snapshots(options).body['snapshots'])
+            load_response(service.list_snapshots(options), 'snapshots')
           else
-            load(service.list_snapshots_detail(options).body['snapshots'])
+            load_response(service.list_snapshots_detail(options), 'snapshots')
           end
         end
 
         def summary(options = {})
-          load(service.list_snapshots(options).body['snapshots'])
+          load_response(service.list_snapshots(options), 'snapshots')
         end
 
         def get(snapshot_id)

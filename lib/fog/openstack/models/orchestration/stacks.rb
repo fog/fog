@@ -3,20 +3,20 @@ require 'fog/openstack/models/orchestration/stack'
 module Fog
   module Orchestration
     class OpenStack
-      class Stacks < Fog::Collection
+      class Stacks < Fog::OpenStack::Collection
         model Fog::Orchestration::OpenStack::Stack
 
         def all(options = {})
           # TODO(lsmola) we can uncomment this when https://bugs.launchpad.net/heat/+bug/1468318 is fixed, till then
           # we will use non detailed list
           # data = service.list_stack_data_detailed(options).body['stacks']
-          data = service.list_stack_data(options).body['stacks']
-          load(data)
+          data = service.list_stack_data(options)
+          load_response(data, 'stacks')
         end
 
         def summary(options = {})
-          data = service.list_stack_data(options).body['stacks']
-          load(data)
+          data = service.list_stack_data(options)
+          load_response(data, 'stacks')
         end
 
         # Deprecated
