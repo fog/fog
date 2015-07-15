@@ -1,18 +1,16 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/identity_v3/service'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class Services < Fog::Collection
+        class Services < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V3::Service
 
           def all(options = {})
-            load(service.list_services(options).body['services'])
+            load_response(service.list_services(options), 'services')
           end
-
-          alias_method :summary, :all
 
           def find_by_id(id)
             cached_service = self.find { |service| service.id == id }

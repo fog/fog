@@ -19,8 +19,6 @@ module Fog
           load_response(service.list_lb_members(filters), 'members')
         end
 
-        alias_method :summary, :all
-
         def get(member_id)
           if member = service.get_lb_member(member_id).body['member']
             new(member)

@@ -1,18 +1,16 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/identity_v3/project'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class Projects < Fog::Collection
+        class Projects < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V3::Project
 
           def all(options = {})
-            load(service.list_projects(options).body['projects'])
+            load_response(service.list_projects(options), 'projects')
           end
-
-          alias_method :summary, :all
 
           def auth_projects(options = {})
             load(service.auth_projects(options).body['projects'])

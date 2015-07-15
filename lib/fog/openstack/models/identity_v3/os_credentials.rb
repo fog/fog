@@ -1,18 +1,16 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/identity_v3/os_credential'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class OsCredentials < Fog::Collection
+        class OsCredentials < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V3::OsCredential
 
           def all(options = {})
-            load(service.list_os_credentials(options).body['credentials'])
+            load_response(service.list_os_credentials(options), 'credentials')
           end
-
-          alias_method :summary, :all
 
           def find_by_id(id)
             cached_credential = self.find { |credential| credential.id == id }

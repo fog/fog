@@ -1,18 +1,18 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/baremetal/port'
 
 module Fog
   module Baremetal
     class OpenStack
-      class Ports < Fog::Collection
+      class Ports < Fog::OpenStack::Collection
         model Fog::Baremetal::OpenStack::Port
 
         def all(options = {})
-          load(service.list_ports_detailed(options).body['ports'])
+          load_response(service.list_ports_detailed(options), 'ports')
         end
 
         def summary(options = {})
-          load(service.list_ports(options).body['ports'])
+          load_response(service.list_ports(options), 'ports')
         end
 
         def details(options = {})

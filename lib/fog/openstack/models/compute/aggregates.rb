@@ -1,17 +1,15 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/compute/aggregate'
 
 module Fog
   module Compute
     class OpenStack
-      class Aggregates < Fog::Collection
+      class Aggregates < Fog::OpenStack::Collection
         model Fog::Compute::OpenStack::Aggregate
 
         def all(options = {})
-          load(service.list_aggregates(options).body['aggregates'])
+          load_response(service.list_aggregates(options), 'aggregates')
         end
-
-        alias_method :summary, :all
 
         def find_by_id(id)
           new(service.get_aggregate(id).body['aggregate'])

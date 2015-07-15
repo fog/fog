@@ -1,11 +1,11 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/identity_v2/user'
 
 module Fog
   module Identity
     class OpenStack
       class V2
-        class Users < Fog::Collection
+        class Users < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V2::User
 
           attribute :tenant_id
@@ -13,10 +13,8 @@ module Fog
           def all(options = {})
             options[:tenant_id] = tenant_id
 
-            load(service.list_users(options).body['users'])
+            load_response(service.list_users(options), 'users')
           end
-
-          alias_method :summary, :all
 
           def find_by_id(id)
             self.find { |user| user.id == id } ||

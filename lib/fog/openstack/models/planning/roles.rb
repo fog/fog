@@ -1,18 +1,15 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/planning/role'
 
 module Fog
   module Openstack
     class Planning
-      class Roles < Fog::Collection
+      class Roles < Fog::OpenStack::Collection
         model Fog::Openstack::Planning::Role
 
         def all(options = {})
-          load(service.list_roles(options).body)
+          load_response(service.list_roles(options))
         end
-
-        alias_method :summary, :all
-
       end
     end
   end

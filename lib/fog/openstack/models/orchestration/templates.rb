@@ -3,7 +3,7 @@ require 'fog/openstack/models/orchestration/template'
 module Fog
   module Orchestration
     class OpenStack
-      class Templates < Fog::Collection
+      class Templates < Fog::OpenStack::Collection
         model Fog::Orchestration::OpenStack::Template
 
         def get(obj)

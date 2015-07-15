@@ -1,18 +1,18 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/baremetal/node'
 
 module Fog
   module Baremetal
     class OpenStack
-      class Nodes < Fog::Collection
+      class Nodes < Fog::OpenStack::Collection
         model Fog::Baremetal::OpenStack::Node
 
         def all(options = {})
-          load(service.list_nodes_detailed(options).body['nodes'])
+          load_response(service.list_nodes_detailed(options), 'nodes')
         end
 
         def summary(options = {})
-          load(service.list_nodes(options).body['nodes'])
+          load_response(service.list_nodes(options), 'nodes')
         end
 
         def details(options = {})

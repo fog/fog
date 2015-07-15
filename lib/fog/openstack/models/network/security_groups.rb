@@ -19,8 +19,6 @@ module Fog
           load_response(service.list_security_groups(filters), 'security_groups')
         end
 
-        alias_method :summary, :all
-
         def get(security_group_id)
           if security_group = service.get_security_group(security_group_id).body['security_group']
             new(security_group)

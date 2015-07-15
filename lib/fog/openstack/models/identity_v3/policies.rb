@@ -1,18 +1,16 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/identity_v3/policy'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class Policies < Fog::Collection
+        class Policies < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V3::Policy
 
           def all(options = {})
-            load(service.list_policies(options).body['policies'])
+            load_response(service.list_policies(options), 'policies')
           end
-
-          alias_method :summary, :all
 
           def find_by_id(id)
             cached_policy = self.find { |policy| policy.id == id }

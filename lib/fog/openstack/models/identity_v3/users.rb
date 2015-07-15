@@ -1,18 +1,16 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/identity_v3/domain'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class Users < Fog::Collection
+        class Users < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V3::User
 
           def all(options = {})
-            load(service.list_users(options).body['users'])
+            load_response(service.list_users(options), 'users')
           end
-
-          alias_method :summary, :all
 
           def find_by_id(id)
             cached_user = self.find { |user| user.id == id }

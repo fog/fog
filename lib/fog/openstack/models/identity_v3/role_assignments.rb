@@ -1,18 +1,16 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/identity_v3/role'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class RoleAssignments < Fog::Collection
+        class RoleAssignments < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V3::RoleAssignment
 
           def all(options = {})
-            load(service.list_role_assignments(options).body['role_assignments'])
+            load_response(service.list_role_assignments(options), 'role_assignments')
           end
-
-          alias_method :summary, :all
 
           def filter_by(options = {})
             Fog::Logger.deprecation("Calling OpenStack[:keystone].role_assignments.filter_by(options) method which"\

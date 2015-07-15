@@ -19,8 +19,6 @@ module Fog
           load_response(service.list_lb_pools(filters), 'pools')
         end
 
-        alias_method :summary, :all
-
         def get(pool_id)
           if pool = service.get_lb_pool(pool_id).body['pool']
             new(pool)
