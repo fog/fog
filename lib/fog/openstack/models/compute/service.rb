@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Compute
     class OpenStack
-      class Service < Fog::Model
+      class Service < Fog::OpenStack::Model
         identity :id
 
         attribute :binary
@@ -15,12 +15,6 @@ module Fog
 
         #detailed
         attribute :disabled_reason
-
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
-        end
 
         def enable
           requires :binary, :host

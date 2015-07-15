@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Openstack
     class Planning
-      class Plan < Fog::Model
+      class Plan < Fog::OpenStack::Model
 
         MASTER_TEMPLATE_NAME = 'plan.yaml'
         ENVIRONMENT_NAME = 'environment.yaml'
@@ -16,12 +16,6 @@ module Fog
         attribute :created_at
         attribute :updated_at
         attribute :parameters
-
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
-        end
 
         def templates
           service.get_plan_templates(uuid).body
@@ -57,11 +51,6 @@ module Fog
           requires :uuid
           service.delete_plan(uuid)
           true
-        end
-
-        def save
-          requires :name
-          identity ? update : create
         end
 
         def create

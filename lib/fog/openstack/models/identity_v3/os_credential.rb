@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class OsCredential < Fog::Model
+        class OsCredential < Fog::OpenStack::Model
           identity :id
 
           attribute :project_id

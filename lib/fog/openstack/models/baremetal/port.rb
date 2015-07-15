@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Baremetal
     class OpenStack
-      class Port < Fog::Model
+      class Port < Fog::OpenStack::Model
         identity :uuid
 
         attribute :address
@@ -15,17 +15,6 @@ module Fog
         attribute :extra
         attribute :node_uuid
 
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
-        end
-
-        def save
-          requires :address, :node_uuid
-          identity ? update : create
-        end
-
         def create
           requires :address, :node_uuid
           merge_attributes(service.create_port(self.attributes).body)
@@ -33,7 +22,7 @@ module Fog
         end
 
         def update(patch=nil)
-          requires :uuid
+          requires :uuid, :address, :node_uuid
           if patch
             merge_attributes(service.patch_port(uuid, patch).body)
           else

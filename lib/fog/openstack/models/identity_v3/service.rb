@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class Service < Fog::Model
+        class Service < Fog::OpenStack::Model
           identity :id
 
           attribute :description

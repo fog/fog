@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class Role < Fog::Model
+        class Role < Fog::OpenStack::Model
           identity :id
 
           attribute :name
@@ -25,11 +25,6 @@ module Fog
             merge_attributes(
                 service.update_role(self.id, attr || attributes).body['role'])
             self
-          end
-
-          def save
-            requires :name
-            identity ? update : create
           end
 
           def create

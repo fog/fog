@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Identity
     class OpenStack
       class V2
-        class User < Fog::Model
+        class User < Fog::OpenStack::Model
           identity :id
 
           attribute :email
@@ -14,12 +14,6 @@ module Fog
           attribute :password
 
           attr_accessor :email, :name, :tenant_id, :enabled, :password
-
-          def initialize(attributes)
-            # Old 'connection' is renamed as service and should be used instead
-            prepare_service_value(attributes)
-            super
-          end
 
           def ec2_credentials
             requires :id

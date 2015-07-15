@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Compute
     class OpenStack
-      class Aggregate < Fog::Model
+      class Aggregate < Fog::OpenStack::Model
         identity :id
 
         attribute :availability_zone
@@ -16,12 +16,6 @@ module Fog
 
         # Detailed
         attribute :hosts
-
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
-        end
 
         def save
           requires :name

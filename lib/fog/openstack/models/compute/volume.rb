@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 require 'fog/openstack/models/compute/metadata'
 
 module Fog
   module Compute
     class OpenStack
-      class Volume < Fog::Model
+      class Volume < Fog::OpenStack::Model
         identity :id
 
         attribute :name,                :aliases => 'displayName'
@@ -16,12 +16,6 @@ module Fog
         attribute :availability_zone,   :aliases => 'availabilityZone'
         attribute :created_at,          :aliases => 'createdAt'
         attribute :attachments
-
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
-        end
 
         def save
           requires :name, :description, :size

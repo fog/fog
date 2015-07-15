@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Network
     class OpenStack
-      class LbMember < Fog::Model
+      class LbMember < Fog::OpenStack::Model
         identity :id
 
         attribute :pool_id
@@ -13,16 +13,6 @@ module Fog
         attribute :status
         attribute :admin_state_up
         attribute :tenant_id
-
-        def initialize(attributes)
-          prepare_service_value(attributes)
-          super
-        end
-
-        def save
-          requires :pool_id, :address, :protocol_port, :weight
-          identity ? update : create
-        end
 
         def create
           requires :pool_id, :address, :protocol_port, :weight
