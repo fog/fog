@@ -37,7 +37,7 @@ RSpec.shared_context 'OpenStack specs with VCR' do
       Fog.interval = 0
       # use an auth URL that matches our VCR recordings (IdentityV2 for most
       # services, but IdentityV3 test obviously needs IdentityV3 auth URL)
-      if @service_class == Fog::Identity::OpenStack::V3
+      if [Fog::Identity::OpenStack::V3, Fog::Network::OpenStack].include? @service_class
         @os_auth_url = 'http://devstack.openstack.stack:5000/v3'
       else
         @os_auth_url = 'http://devstack.openstack.stack:5000/v2.0'
@@ -67,7 +67,7 @@ RSpec.shared_context 'OpenStack specs with VCR' do
 
     # setup the service object
     VCR.use_cassette('common_setup') do
-      if @service_class == Fog::Identity::OpenStack::V3
+      if @service_class == Fog::Identity::OpenStack::V3 || @os_auth_url.end_with?('/v3')
         options = {
           :openstack_auth_url     => "#{@os_auth_url}/auth/tokens",
           :openstack_region       => ENV['OS_REGION_NAME']      || 'RegionOne',
