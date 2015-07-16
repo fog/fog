@@ -1,21 +1,15 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Identity
     class OpenStack
       class V2
-        class Ec2Credential < Fog::Model
+        class Ec2Credential < Fog::OpenStack::Model
           identity :access, :aliases => 'access_key'
 
           attribute :secret, :aliases => 'secret_key'
           attribute :tenant_id
           attribute :user_id
-
-          def initialize(attributes)
-            # Old 'connection' is renamed as service and should be used instead
-            prepare_service_value(attributes)
-            super
-          end
 
           def destroy
             requires :access

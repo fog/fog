@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Network
     class OpenStack
-      class FloatingIp < Fog::Model
+      class FloatingIp < Fog::OpenStack::Model
         identity :id
 
         attribute :floating_network_id
@@ -15,11 +15,6 @@ module Fog
         def initialize(attributes)
           @connection = attributes[:connection]
           super
-        end
-
-        def save
-          requires :floating_network_id
-          identity ? update : create
         end
 
         def create

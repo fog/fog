@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class Project < Fog::Model
+        class Project < Fog::OpenStack::Model
           identity :id
 
           attribute :domain_id
@@ -29,11 +29,6 @@ module Fog
             merge_attributes(
                 service.update_project(self.id, attr || attributes).body['project'])
             self
-          end
-
-          def save
-            requires :name
-            identity ? update : create
           end
 
           def create

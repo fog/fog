@@ -1,18 +1,16 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/identity_v3/group'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class Groups < Fog::Collection
+        class Groups < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V3::Group
 
           def all(options = {})
-            load(service.list_groups(options).body['groups'])
+            load_response(service.list_groups(options), 'groups')
           end
-
-          alias_method :summary, :all
 
           def find_by_id(id)
             cached_group = self.find { |group| group.id == id }

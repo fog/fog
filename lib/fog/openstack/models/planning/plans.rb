@@ -1,17 +1,15 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/planning/plan'
 
 module Fog
   module Openstack
     class Planning
-      class Plans < Fog::Collection
+      class Plans < Fog::OpenStack::Collection
         model Fog::Openstack::Planning::Plan
 
         def all(options = {})
-          load(service.list_plans(options).body)
+          load_response(service.list_plans(options))
         end
-
-        alias_method :summary, :all
 
         def find_by_uuid(plan_uuid)
           new(service.get_plan(plan_uuid).body)

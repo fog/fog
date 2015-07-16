@@ -19,8 +19,6 @@ module Fog
           load_response(service.list_lb_health_monitors(filters), 'health_monitors')
         end
 
-        alias_method :summary, :all
-
         def get(health_monitor_id)
           if health_monitor = service.get_lb_health_monitor(health_monitor_id).body['health_monitor']
             new(health_monitor)

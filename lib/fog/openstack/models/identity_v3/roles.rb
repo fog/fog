@@ -1,18 +1,16 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/identity_v3/role'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class Roles < Fog::Collection
+        class Roles < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V3::Role
 
           def all(options = {})
-            load(service.list_roles(options).body['roles'])
+            load_response(service.list_roles(options), 'roles')
           end
-
-          alias_method :summary, :all
 
           def assignments(options = {})
             # TODO(lsmola) this method doesn't make much sense, it should be moved to role.rb and automatically add

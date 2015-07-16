@@ -1,10 +1,10 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/compute/image'
 
 module Fog
   module Compute
     class OpenStack
-      class Images < Fog::Collection
+      class Images < Fog::OpenStack::Collection
         attribute :filters
 
         model Fog::Compute::OpenStack::Image
@@ -18,15 +18,13 @@ module Fog
 
         def all(filters_arg = filters)
           filters = filters_arg
-          data = service.list_images_detail(filters).body['images']
-          images = load(data)
+          data = service.list_images_detail(filters)
+          images = load_response(data, 'images')
           if server
             self.replace(self.select {|image| image.server_id == server.id})
           end
           images
         end
-
-        alias_method :summary, :all
 
         def get(image_id)
           data = service.get_image_details(image_id).body['image']

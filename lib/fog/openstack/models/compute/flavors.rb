@@ -1,20 +1,20 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/compute/flavor'
 
 module Fog
   module Compute
     class OpenStack
-      class Flavors < Fog::Collection
+      class Flavors < Fog::OpenStack::Collection
         model Fog::Compute::OpenStack::Flavor
 
         def all(options = {})
-          data = service.list_flavors_detail(options).body['flavors']
-          load(data)
+          data = service.list_flavors_detail(options)
+          load_response(data, 'flavors')
         end
 
         def summary(options = {})
-          data = service.list_flavors(options).body['flavors']
-          load(data)
+          data = service.list_flavors(options)
+          load_response(data, 'flavors')
         end
 
         def get(flavor_id)

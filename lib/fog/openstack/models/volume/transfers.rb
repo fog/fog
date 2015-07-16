@@ -1,18 +1,18 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/volume/transfer'
 
 module Fog
   module Volume
     class OpenStack
-      class Transfers < Fog::Collection
+      class Transfers < Fog::OpenStack::Collection
         model Fog::Volume::OpenStack::Transfer
 
         def all(options = {})
-          load(service.list_transfers_detailed(options).body['transfers'])
+          load_response(service.list_transfers_detailed(options), 'transfers')
         end
 
         def summary(options = {})
-          load(service.list_transfers(options).body['transfers'])
+          load_response(service.list_transfers(options), 'transfers')
         end
 
         def get(transfer_id)
@@ -22,7 +22,6 @@ module Fog
         rescue Fog::Volume::OpenStack::NotFound
           nil
         end
-        alias_method :find_by_id, :get
 
         def accept(transfer_id, auth_key)
           # NOTE: This is NOT a method on the Transfer object, since the

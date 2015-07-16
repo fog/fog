@@ -1,11 +1,11 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/identity_v2/ec2_credential'
 
 module Fog
   module Identity
     class OpenStack
       class V2
-        class Ec2Credentials < Fog::Collection
+        class Ec2Credentials < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V2::Ec2Credential
 
           attribute :user
@@ -16,10 +16,8 @@ module Fog
             options[:user_id] = user_id
             ec2_credentials = service.list_ec2_credentials(options)
 
-            load(ec2_credentials.body['credentials'])
+            load_response(ec2_credentials, 'credentials')
           end
-
-          alias_method :summary, :all
 
           def create(attributes = {})
             if user then

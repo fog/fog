@@ -19,8 +19,6 @@ module Fog
           load_response(service.list_security_group_rules(filters), 'security_group_rules')
         end
 
-        alias_method :summary, :all
-
         def get(sec_group_rule_id)
           if sec_group_rule = service.get_security_group_rule(sec_group_rule_id).body['security_group_rule']
             new(sec_group_rule)

@@ -1,10 +1,10 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/compute/server'
 
 module Fog
   module Compute
     class OpenStack
-      class Servers < Fog::Collection
+      class Servers < Fog::OpenStack::Collection
         attribute :filters
 
         model Fog::Compute::OpenStack::Server
@@ -16,11 +16,9 @@ module Fog
 
         def all(filters_arg = filters)
           filters = filters_arg
-          data = service.list_servers_detail(filters).body['servers']
-          load(data)
+          data = service.list_servers_detail
+          load_response(data, 'servers')
         end
-
-        alias_method :summary, :all
 
         # Creates a new server and populates ssh keys
         # @return [Fog::Compute::OpenStack::Server]

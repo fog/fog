@@ -1,18 +1,16 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/identity_v3/domain'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class Domains < Fog::Collection
+        class Domains < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V3::Domain
 
           def all(options = {})
-            load(service.list_domains(options).body['domains'])
+            load_response(service.list_domains(options), 'domains')
           end
-
-          alias_method :summary, :all
 
           def auth_domains(options = {})
             load(service.auth_domains(options).body['domains'])

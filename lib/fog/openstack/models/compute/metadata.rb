@@ -1,4 +1,4 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/meta_parent'
 require 'fog/openstack/models/compute/metadatum'
 require 'fog/openstack/models/compute/image'
@@ -7,7 +7,7 @@ require 'fog/openstack/models/compute/server'
 module Fog
   module Compute
     class OpenStack
-      class Metadata < Fog::Collection
+      class Metadata < Fog::OpenStack::Collection
         model Fog::Compute::OpenStack::Metadatum
 
         include Fog::Compute::OpenStack::MetaParent
@@ -17,6 +17,7 @@ module Fog
           metadata = service.list_metadata(collection_name, @parent.id).body['metadata']
           metas = []
           metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} } unless metadata.nil?
+          # TODO convert to load_response?
           load(metas)
         end
 

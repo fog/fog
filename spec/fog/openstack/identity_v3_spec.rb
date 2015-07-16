@@ -599,6 +599,72 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
     end
   end
 
+  it "CRUD & list hierarchical projects" do
+    VCR.use_cassette('idv3_project_hier_crud_list') do
+
+      default_domain = @service.domains.find_by_id ENV['OS_USER_DOMAIN_ID']||'default'
+
+      begin
+        # Create a project called foobar
+        foobar_project = @service.projects.create(:name => 'p-foobar67')
+        foobar_id = foobar_project.id
+
+        # Create a sub-project called baz
+        baz_project = @service.projects.create(:name => 'p-baz67', :parent_id => foobar_id)
+        baz_id = baz_project.id
+
+        expect(baz_project.parent_id).to eq foobar_id
+
+        # Read the project freshly and check the parent_id
+        fresh_baz_project = @service.projects.all(:name => 'p-baz67').first
+        expect(fresh_baz_project).to_not be_nil
+        expect(fresh_baz_project.parent_id).to eq foobar_id
+
+        # Create another sub-project called boo
+        boo_project = @service.projects.create(:name => 'p-boo67', :parent_id => foobar_id)
+        boo_id = boo_project.id
+
+        # Create a sub-project of boo called booboo
+        booboo_project = @service.projects.create(:name => 'p-booboo67', :parent_id => boo_id)
+        booboo_id = booboo_project.id
+
+        # Get the children of foobar
+        foobar_kids = @service.projects.find_by_id(foobar_id, :subtree_as_ids).subtree
+        expect(foobar_kids.keys.length).to eq 2
+
+        boo_index = foobar_kids.keys.index boo_id
+        expect(boo_index).to_not be_nil
+
+        foobar_child_id = foobar_kids.keys[boo_index]
+        expect(foobar_kids[foobar_child_id].length).to eq 1
+        foobar_grandchild_id = foobar_kids[foobar_child_id].keys.first
+        expect(foobar_grandchild_id).to eq booboo_id
+
+        # Get the parents of booboo
+        booboo_parents = @service.projects.find_by_id(booboo_id, :parents_as_ids).parents
+        expect(booboo_parents.keys.length).to eq 1
+        booboo_parent_id = booboo_parents.keys.first
+        expect(booboo_parents[booboo_parent_id].length).to eq 1
+        booboo_grandparent_id = booboo_parents[booboo_parent_id].keys.first
+        expect(booboo_grandparent_id).to eq foobar_id
+        expect(booboo_parents[booboo_parent_id][booboo_grandparent_id]).to be_nil
+
+      ensure
+        # Delete the projects
+        booboo_project.destroy if booboo_project
+        boo_project.destroy if boo_project
+        baz_project.destroy if baz_project
+        foobar_project.destroy if foobar_project
+
+        # Check that the deletion worked
+        expect { @service.projects.find_by_id foobar_id }.to raise_error(Fog::Identity::OpenStack::NotFound)
+        ['p-foobar67', 'p-baz67', 'p-boo67', 'p-booboo67'].each do |project_name|
+          expect(@service.projects.all(:name => project_name).length).to be 0
+        end
+      end
+    end
+  end
+
   it "Manipulates projects - add/remove users/groups via role assignment/revocation" do
     VCR.use_cassette('idv3_project_group_user_roles_mutation') do
 

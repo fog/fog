@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class Token < Fog::Model
+        class Token < Fog::OpenStack::Model
 
           attribute :value
           attribute :catalog

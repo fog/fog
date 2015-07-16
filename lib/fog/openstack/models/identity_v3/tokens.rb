@@ -1,11 +1,11 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/identity_v3/service'
 
 module Fog
   module Identity
     class OpenStack
       class V3
-        class Tokens < Fog::Collection
+        class Tokens < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V3::Token
 
 
