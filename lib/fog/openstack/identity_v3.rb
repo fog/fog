@@ -182,12 +182,12 @@ module Fog
             retried = false
             begin
               response = @connection.request(params.merge({
-                headers: params.fetch(:headers,{}).merge({
+                :headers => params.fetch(:headers,{}).merge({
                   'Content-Type' => 'application/json',
                   'Accept' => 'application/json',
                   'X-Auth-Token' => @auth_token
                 }), 
-                path: "#{@path}/#{params[:path]}"
+                :path => "#{@path}/#{params[:path]}"
               })) 
             rescue Excon::Errors::Unauthorized => error
               raise if retried
