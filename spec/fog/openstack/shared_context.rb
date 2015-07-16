@@ -1,6 +1,9 @@
 require 'rspec/core'
 require 'rspec/expectations'
 require 'vcr'
+require 'fog/openstack/identity'
+require 'fog/openstack/identity_v3'
+require 'fog/openstack/network'
 
 #
 # There are basically two modes of operation for these specs.
