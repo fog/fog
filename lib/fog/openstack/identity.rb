@@ -44,6 +44,7 @@ module Fog
             credentials = Fog::OpenStack.authenticate(options, @connection_options)
 
             @current_user = credentials[:user]
+            @current_user_id = credentials[:current_user_id]
             @current_tenant = credentials[:tenant]
 
             @openstack_must_reauthenticate = false
