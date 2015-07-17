@@ -59,6 +59,7 @@ module Fog
       attr_reader :auth_token
       attr_reader :auth_token_expiration
       attr_reader :current_user
+      attr_reader :current_user_id
       attr_reader :current_tenant
       attr_reader :openstack_domain_name
       attr_reader :openstack_user_domain
@@ -109,6 +110,7 @@ module Fog
         end
 
         @current_user = options[:current_user]
+        @current_user_id = options[:current_user_id]
         @current_tenant = options[:current_tenant]
 
       end
@@ -127,6 +129,7 @@ module Fog
           :openstack_identity_endpoint => @openstack_identity_public_endpoint,
           :openstack_region         => @openstack_region,
           :current_user             => @current_user,
+          :current_user_id          => @current_user_id,
           :current_tenant           => @current_tenant }
       end
 
@@ -158,6 +161,7 @@ module Fog
           credentials = Fog::OpenStack.authenticate(options, @connection_options)
 
           @current_user = credentials[:user]
+          @current_user_id = credentials[:current_user_id]
           @current_tenant = credentials[:tenant]
 
           @openstack_must_reauthenticate = false
