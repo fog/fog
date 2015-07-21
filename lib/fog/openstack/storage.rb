@@ -8,7 +8,8 @@ module Fog
       recognizes :persistent, :openstack_service_name,
                  :openstack_service_type, :openstack_tenant,
                  :openstack_region, :openstack_temp_url_key,
-                 :openstack_endpoint_type
+                 :openstack_endpoint_type, :openstack_auth_token,
+                 :openstack_management_url
 
       model_path 'fog/openstack/models/storage'
       model       :directory
@@ -89,6 +90,7 @@ module Fog
           @connection_options     = options[:connection_options] || {}
           @openstack_temp_url_key = options[:openstack_temp_url_key]
           @openstack_endpoint_type = options[:openstack_endpoint_type] || 'publicURL'
+          @openstack_management_url = options[:openstack_management_url]
           authenticate
           @persistent = options[:persistent] || false
           @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
