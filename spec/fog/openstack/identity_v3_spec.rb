@@ -649,7 +649,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         # Get the children of foobar, as a list of objects
         foobar_kids = @service.projects.find_by_id(foobar_id, :subtree_as_list).subtree
         expect(foobar_kids.length).to eq 3
-        expect([foobar_kids[0]['project']['id'],foobar_kids[1]['project']['id'],foobar_kids[2]['project']['id']].sort
+        expect([foobar_kids[0].id,foobar_kids[1].id,foobar_kids[2].id].sort
           ).to eq [baz_id, boo_id, booboo_id].sort
 
         # Get the parents of booboo, as a tree of IDs
@@ -664,8 +664,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         # Get the parents of booboo, as a list of objects
         booboo_parents = @service.projects.find_by_id(booboo_id, :parents_as_list).parents
         expect(booboo_parents.length).to eq 2
-        expect([booboo_parents[0]['project']['id'],booboo_parents[1]['project']['id']].sort
-          ).to eq [foobar_id, boo_id].sort
+        expect([booboo_parents[0].id,booboo_parents[1].id].sort).to eq [foobar_id, boo_id].sort
       ensure
         # Delete the projects
         booboo_project.destroy if booboo_project
