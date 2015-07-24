@@ -19,6 +19,8 @@ module Fog
       model_path 'fog/openstack/models/compute'
       model       :aggregate
       collection  :aggregates
+      model       :availability_zone
+      collection  :availability_zones
       model       :server
       collection  :servers
       model       :service
@@ -62,7 +64,7 @@ module Fog
       request :add_aggregate_host
       request :remove_aggregate_host
       request :delete_aggregate
-      
+
       # Server CRUD
       request :list_servers
       request :list_servers_detail
@@ -208,6 +210,7 @@ module Fog
 
       # Zones
       request :list_zones
+      request :list_zones_detailed
 
       class Mock
         attr_reader :auth_token

@@ -50,6 +50,7 @@ module Fog
       request :vm_clone
       request :vm_destroy
       request :vm_migrate
+      request :vm_execute
       request :list_datacenters
       request :get_datacenter
       request :list_clusters
