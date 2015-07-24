@@ -28,8 +28,8 @@ module Fog
   #macAddress: "00:50:56:a9:00:28",
   #unitNumber: 7,
   #
-        def list_vm_interfaces(vm_id)
-          get_vm_ref(vm_id).config.hardware.device.grep(RbVmomi::VIM::VirtualEthernetCard).map do |nic|
+        def list_vm_interfaces(vm_id, datacenter = nil)
+          get_vm_ref(vm_id, datacenter).config.hardware.device.grep(RbVmomi::VIM::VirtualEthernetCard).map do |nic|
             {
               :name    => nic.deviceInfo.label,
               :mac     => nic.macAddress,
