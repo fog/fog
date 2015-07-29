@@ -16,7 +16,13 @@ module Fog
 
         def all(filters_arg = filters)
           filters = filters_arg
-          data = service.list_servers_detail
+          data = service.list_servers_detail(filters)
+          load_response(data, 'servers')
+        end
+
+        def summary(filters_arg = filters)
+          filters = filters_arg
+          data = service.list_servers(filters)
           load_response(data, 'servers')
         end
 
