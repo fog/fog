@@ -69,6 +69,7 @@ module Fog
       attr_reader :openstack_project_domain_id
 
       def initialize_identity options
+        @openstack_identity_service_type = options[:openstack_identity_service_type] || 'identity'
         @openstack_auth_token = options[:openstack_auth_token]
         @auth_token        ||= options[:openstack_auth_token]
         @openstack_identity_public_endpoint = options[:openstack_identity_endpoint]
@@ -133,6 +134,10 @@ module Fog
           :current_tenant           => @current_tenant }
       end
 
+      def reload
+        @connection.reset
+      end
+
       private
       def authenticate
         if !@openstack_management_url || @openstack_must_reauthenticate
@@ -174,8 +179,17 @@ module Fog
 
         @host   = @openstack_management_uri.host
         @path   = @openstack_management_uri.path
+        @path.sub!(/\/$/, '')
         @port   = @openstack_management_uri.port
         @scheme = @openstack_management_uri.scheme
+
+        # Not all implementations have identity service in the catalog
+        if @openstack_identity_public_endpoint || @openstack_management_url
+          @identity_connection = Fog::Core::Connection.new(
+            @openstack_identity_public_endpoint || @openstack_management_url,
+            false, @connection_options)
+        end
+
         true
       end
     end
