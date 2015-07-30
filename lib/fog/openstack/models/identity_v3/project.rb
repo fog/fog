@@ -13,6 +13,8 @@ module Fog
           attribute :name
           attribute :links
           attribute :parent_id
+          attribute :subtree
+          attribute :parents
 
           def to_s
             self.name
@@ -87,13 +89,6 @@ module Fog
             service.revoke_project_group_role(self.id, group_id, role_id)
           end
 
-          def subtree
-            @attributes['subtree']
-          end
-
-          def parents
-            @attributes['parents']
-          end
         end
       end
     end
