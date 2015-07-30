@@ -327,28 +327,25 @@ module Fog
       end
 
       class Real
-
         include Fog::OpenStack::Core
 
         def initialize(options={})
           initialize_identity options
 
-          @openstack_identity_service_type = options[:openstack_identity_service_type] || 'identity'
-          @openstack_service_type  = options[:openstack_service_type] || ['nova', 'compute']
-          @openstack_service_name  = options[:openstack_service_name]
+          @openstack_service_type   = options[:openstack_service_type] || ['nova', 'compute']
+          @openstack_service_name   = options[:openstack_service_name]
 
-          @connection_options = options[:connection_options] || {}
+          @connection_options       = options[:connection_options] || {}
 
-          authenticate_compute
+          authenticate
+
+          unless @path.match(/1\.1|v2/)
+            raise Fog::OpenStack::Errors::ServiceUnavailable.new(
+                    "OpenStack compute binding only supports version 2 (a.k.a. 1.1)")
+          end
 
           @persistent = options[:persistent] || false
           @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
-        end
-
-
-
-        def reload
-          @connection.reset
         end
 
         def request(params)
@@ -365,7 +362,7 @@ module Fog
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
               @openstack_must_reauthenticate = true
-              authenticate_compute
+              authenticate
               retry
             else # Bad Credentials
               raise error
@@ -388,28 +385,6 @@ module Fog
 
         private
 
-        def authenticate_compute
-          authenticate
-
-          uri = URI.parse(@openstack_management_url)
-          @host   = uri.host
-          @path   = uri.path
-
-          @path.sub!(/\/$/, '')
-          unless @path.match(/1\.1|v2/)
-            raise Fog::OpenStack::Errors::ServiceUnavailable.new(
-                    "OpenStack compute binding only supports version 2 (a.k.a. 1.1)")
-          end
-
-          # Not all implementations have identity service in the catalog
-          if @openstack_identity_public_endpoint || @openstack_management_url
-            @identity_connection = Fog::Core::Connection.new(
-              @openstack_identity_public_endpoint || @openstack_management_url,
-              false, @connection_options)
-          end
-
-          true
-        end
       end
     end
   end

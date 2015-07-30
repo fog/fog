@@ -148,71 +148,24 @@ module Fog
         end
 
         class Real
-          attr_reader :current_user
-          attr_reader :current_user_id
-          attr_reader :current_tenant
-          attr_reader :unscoped_token
-          attr_accessor :auth_token
-
           include Fog::Identity::OpenStack::Common
-          include Fog::OpenStack::Core
 
           def initialize(options={})
             initialize_identity options
 
-            @openstack_service_type = options[:openstack_service_type] || ['identity_v3','identityv3','identity']
-            @openstack_service_name = options[:openstack_service_name]
+            @openstack_service_type   = options[:openstack_service_type] || ['identity_v3','identityv3','identity']
+            @openstack_service_name   = options[:openstack_service_name]
 
-            @connection_options = options[:connection_options] || {}
+            @connection_options       = options[:connection_options] || {}
 
-            @openstack_current_user_id = options[:openstack_current_user_id]
-
-            @openstack_endpoint_type = options[:openstack_endpoint_type] || 'adminURL'
+            @openstack_endpoint_type  = options[:openstack_endpoint_type] || 'adminURL'
 
             authenticate
 
             @persistent = options[:persistent] || false
             @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           end
-
-          def reload
-            @connection.reset
-          end
-
-          def request(params)
-            retried = false
-            begin
-              response = @connection.request(params.merge({
-                :headers => params.fetch(:headers,{}).merge({
-                  'Content-Type' => 'application/json',
-                  'Accept' => 'application/json',
-                  'X-Auth-Token' => @auth_token
-                }), 
-                :path => "#{@path}/#{params[:path]}"
-              })) 
-            rescue Excon::Errors::Unauthorized => error
-              raise if retried
-              retried = true
-
-              @openstack_must_reauthenticate = true
-              authenticate
-              retry
-            rescue Excon::Errors::HTTPStatusError => error
-              raise case error
-                      when Excon::Errors::NotFound
-                        Fog::Identity::OpenStack::NotFound.slurp(error)
-                      else
-                        error
-                    end
-            end
-            unless response.body.empty?
-              response.body = Fog::JSON.decode(response.body)
-            end
-            response
-          end
-
         end
-
       end
     end
   end
