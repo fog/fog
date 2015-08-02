@@ -24,13 +24,14 @@ module Fog
           response.body = {
             "ERRORARRAY" => [],
             "DATA" => [
-              { "LOCATION" => "Dallas, TX, USA",     "DATACENTERID" => 2 },
-              { "LOCATION" => "Fremont, CA, USA",    "DATACENTERID" => 3 },
-              { "LOCATION" => "Atlanta, GA, USA",    "DATACENTERID" => 4 },
-              { "LOCATION" => "Newark, NJ, USA",     "DATACENTERID" => 6 },
-              { "LOCATION" => "London, England, UK", "DATACENTERID" => 7 },
-              { "LOCATION" => "Tokyo, JP",           "DATACENTERID" => 8 },
-              { "LOCATION" => "Singapore, SGP",      "DATACENTERID" => 9 },
+              { "LOCATION" => "Dallas, TX, USA",     "DATACENTERID" => 2,  "ABBR" => "dallas" },
+              { "LOCATION" => "Fremont, CA, USA",    "DATACENTERID" => 3,  "ABBR" => "fremont" },
+              { "LOCATION" => "Atlanta, GA, USA",    "DATACENTERID" => 4,  "ABBR" => "atlanta" },
+              { "LOCATION" => "Newark, NJ, USA",     "DATACENTERID" => 6,  "ABBR" => "newark" },
+              { "LOCATION" => "London, England, UK", "DATACENTERID" => 7,  "ABBR" => "london" },
+              { "LOCATION" => "Tokyo, JP",           "DATACENTERID" => 8,  "ABBR" => "tokyo" },
+              { "LOCATION" => "Singapore, SGP",      "DATACENTERID" => 9,  "ABBR" => "singapore" },
+              { "LOCATION" => "Frankfurt, DE",       "DATACENTERID" => 10, "ABBR" => "frankfurt" },
             ],
             "ACTION" => "avail.datacenters"
           }
