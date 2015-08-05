@@ -96,6 +96,9 @@ module Fog
       request :reset_server_state
       request :add_security_group
       request :remove_security_group
+      request :shelve_server
+      request :unshelve_server
+      request :shelve_offload_server
 
       # Server Extenstions
       request :get_console_output
