@@ -26,9 +26,9 @@ module Fog
           if subnet = list_subnets.body['subnets'].find { |_| _['id'] == subnet_id }
             subnet['name']              = options[:name]
             subnet['gateway_ip']        = options[:gateway_ip]
-            subnet['dns_nameservers']   = options[:dns_nameservers]
-            subnet['host_routes']       = options[:host_routes]
-            subnet['allocation_pools']  = options[:allocation_pools]
+            subnet['dns_nameservers']   = options[:dns_nameservers]   || []
+            subnet['host_routes']       = options[:host_routes]       || []
+            subnet['allocation_pools']  = options[:allocation_pools]  || []
             subnet['enable_dhcp']       = options[:enable_dhcp]
             response.body = { 'subnet' => subnet }
             response.status = 200
