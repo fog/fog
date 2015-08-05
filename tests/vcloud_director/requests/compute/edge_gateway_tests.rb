@@ -20,7 +20,7 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
     :GatewayIpsecVpnService => 
       {
         :IsEnabled => "true",
-        :Tunnel => {
+        :Tunnel => [{
           :Name => "test vpn",
           :PeerIpAddress => "110.110.110.110",
           :PeerId => "1223-123UDH-12321",
@@ -41,7 +41,7 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
             :Gateway => "192.168.90.254",
             :Netmask => "255.255.255.0"
           }]
-        }
+        }]
       }
   }
 
