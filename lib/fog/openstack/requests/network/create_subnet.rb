@@ -14,7 +14,7 @@ module Fog
           vanilla_options = [:name, :gateway_ip, :allocation_pools,
                              :dns_nameservers, :host_routes, :enable_dhcp,
                              :tenant_id]
-          vanilla_options.reject{ |o| options[o].nil? unless o == :gateway_ip }.each do |key|
+          vanilla_options.select{ |o| options.key?(o) }.each do |key|
             data['subnet'][key] = options[key]
           end
 

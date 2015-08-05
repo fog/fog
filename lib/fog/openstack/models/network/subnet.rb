@@ -27,7 +27,7 @@ module Fog
         end
 
         def update
-          requires :id, :network_id, :cidr, :ip_version
+          requires :id
           merge_attributes(service.update_subnet(self.id,
                                                     self.attributes).body['subnet'])
           self
