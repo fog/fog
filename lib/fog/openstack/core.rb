@@ -74,8 +74,6 @@ module Fog
           instance_variable_set "@#{openstack_param}".to_sym, value
         end
 
-        @openstack_identity_service_type = options[:openstack_identity_service_type] || 'identity'
-
         @auth_token        ||= options[:openstack_auth_token]
 
         @openstack_auth_uri    = URI.parse(options[:openstack_auth_url])

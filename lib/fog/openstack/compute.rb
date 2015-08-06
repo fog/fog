@@ -329,6 +329,8 @@ module Fog
         def initialize(options={})
           initialize_identity options
 
+          @openstack_identity_service_type = options[:openstack_identity_service_type] || 'identity'
+
           @openstack_service_type   = options[:openstack_service_type] || ['nova', 'compute']
           @openstack_service_name   = options[:openstack_service_name]
 
