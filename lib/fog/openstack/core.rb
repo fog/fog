@@ -69,38 +69,19 @@ module Fog
       attr_reader :openstack_project_domain_id
 
       def initialize_identity options
-        @openstack_auth_token = options[:openstack_auth_token]
+        # Create @openstack_* instance variables from all :openstack_* options
+        options.select{|x|x.to_s.start_with? 'openstack'}.each do |openstack_param, value|
+          instance_variable_set "@#{openstack_param}".to_sym, value
+        end
+
         @auth_token        ||= options[:openstack_auth_token]
-        @openstack_identity_public_endpoint = options[:openstack_identity_endpoint]
-
-        @openstack_username = options[:openstack_username]
-        @openstack_userid = options[:openstack_userid]
-
-        @openstack_domain_name = options[:openstack_domain_name]
-        @openstack_user_domain = options[:openstack_user_domain]
-        @openstack_project_domain  = options[:openstack_project_domain]
-        @openstack_domain_id = options[:openstack_domain_id]
-        @openstack_user_domain_id = options[:openstack_user_domain_id]
-        @openstack_project_domain_id  = options[:openstack_project_domain_id]
-
-        @openstack_project_name = options[:openstack_project_name]
-        @openstack_tenant      = options[:openstack_tenant]
-        @openstack_tenant_id   = options[:openstack_tenant_id]
 
         @openstack_auth_uri    = URI.parse(options[:openstack_auth_url])
-
-        @openstack_management_url       = options[:openstack_management_url]
-
         @openstack_must_reauthenticate  = false
-
         @openstack_endpoint_type = options[:openstack_endpoint_type] || 'publicURL'
-        @openstack_region        = options[:openstack_region]
 
         unless @auth_token
           missing_credentials = Array.new
-          @openstack_api_key = options[:openstack_api_key]
-          @openstack_username = options[:openstack_username]
-          @openstack_userid = options[:openstack_userid]
 
           missing_credentials << :openstack_api_key unless @openstack_api_key
           unless @openstack_username || @openstack_userid
@@ -116,47 +97,38 @@ module Fog
       end
 
       def credentials
-        { :provider                 => 'openstack',
-          :openstack_domain_name    => @openstack_domain_name,
-          :openstack_user_domain    => @openstack_user_domain,
-          :openstack_project_domain => @openstack_project_domain,
-          :openstack_domain_id      => @openstack_domain_id,
-          :openstack_user_domain_id => @openstack_user_domain_id,
-          :openstack_project_domain_id => @openstack_project_domain_id,
+        options =  { :provider => 'openstack',
           :openstack_auth_url       => @openstack_auth_uri.to_s,
           :openstack_auth_token     => @auth_token,
-          :openstack_management_url => @openstack_management_url,
           :openstack_identity_endpoint => @openstack_identity_public_endpoint,
-          :openstack_region         => @openstack_region,
           :current_user             => @current_user,
           :current_user_id          => @current_user_id,
           :current_tenant           => @current_tenant }
+        openstack_options.merge options
+      end
+
+      def reload
+        @connection.reset
       end
 
       private
+
+      def openstack_options
+        options={}
+        # Create a hash of (:openstack_*, value) of all the @openstack_* instance variables
+        self.instance_variables.select{|x|x.to_s.start_with? '@openstack'}.each do |openstack_param|
+          option_name = openstack_param.to_s[1..-1]
+          options[option_name.to_sym] = instance_variable_get openstack_param
+        end
+        options
+      end
+
       def authenticate
         if !@openstack_management_url || @openstack_must_reauthenticate
-          options = {
-              :openstack_tenant        => @openstack_tenant,
-              :openstack_tenant_id     => @openstack_tenant_id,
-              :openstack_api_key       => @openstack_api_key,
-              :openstack_username      => @openstack_username,
-              :openstack_userid        => @openstack_userid,
-              :openstack_user_domain   => @openstack_user_domain,
-              :openstack_project_domain => @openstack_project_domain,
-              :openstack_user_domain_id => @openstack_user_domain_id,
-              :openstack_project_domain_id => @openstack_project_domain_id,
-              :openstack_domain_name   => @openstack_domain_name,
-              :openstack_project_name  => @openstack_project_name,
-              :openstack_domain_id     => @openstack_domain_id,
-              :openstack_project_id    => @openstack_project_id,
-              :openstack_auth_uri      => @openstack_auth_uri,
-              :openstack_auth_token    => @openstack_must_reauthenticate ? nil : @openstack_auth_token,
-              :openstack_service_type  => @openstack_service_type,
-              :openstack_service_name  => @openstack_service_name,
-              :openstack_endpoint_type => @openstack_endpoint_type,
-              :openstack_region        => @openstack_region
-          }
+
+          options = openstack_options
+
+          options[:openstack_auth_token] = @openstack_must_reauthenticate ? nil : @openstack_auth_token
 
           credentials = Fog::OpenStack.authenticate(options, @connection_options)
 
@@ -174,8 +146,18 @@ module Fog
 
         @host   = @openstack_management_uri.host
         @path   = @openstack_management_uri.path
+        @path.sub!(/\/$/, '')
         @port   = @openstack_management_uri.port
         @scheme = @openstack_management_uri.scheme
+
+        # Not all implementations have identity service in the catalog
+        if @openstack_identity_public_endpoint || @openstack_management_url
+          @identity_connection = Fog::Core::Connection.new(
+            @openstack_identity_public_endpoint || @openstack_management_url,
+            false, @connection_options
+          )
+        end
+
         true
       end
     end
