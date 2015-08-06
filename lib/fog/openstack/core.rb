@@ -69,8 +69,8 @@ module Fog
       attr_reader :openstack_project_domain_id
 
       def initialize_identity options
-        @openstack_identity_service_type = options[:openstack_identity_service_type] || 'identity'
         @openstack_auth_token = options[:openstack_auth_token]
+
         @auth_token        ||= options[:openstack_auth_token]
         @openstack_identity_public_endpoint = options[:openstack_identity_endpoint]
 
