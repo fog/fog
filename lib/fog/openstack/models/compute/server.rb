@@ -257,6 +257,21 @@ module Fog
           end
         end
 
+        def shelve
+          requires :id
+          service.shelve_server(id)
+        end
+
+        def unshelve
+          requires :id
+          service.unshelve_server(id)
+        end
+
+        def shelve_offload
+          requires :id
+          service.shelve_offload_server(id)
+        end
+
         def create_image(name, metadata={})
           requires :id
           service.create_image(id, name, metadata)
