@@ -15,6 +15,9 @@ module Fog
       model       :volume
       collection  :volumes
 
+      model       :availability_zone
+      collection  :availability_zones
+
       model       :volume_type
       collection  :volume_types
 
@@ -30,6 +33,8 @@ module Fog
       request :get_volume_details
       request :extend_volume
       request :delete_volume
+
+      request :list_zones
 
       request :list_volume_types
       request :get_volume_type_details
