@@ -649,8 +649,15 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         # Get the children of foobar, as a list of objects
         foobar_kids = @service.projects.find_by_id(foobar_id, :subtree_as_list).subtree
         expect(foobar_kids.length).to eq 3
-        expect([foobar_kids[0]['project']['id'],foobar_kids[1]['project']['id'],foobar_kids[2]['project']['id']].sort
+        expect([foobar_kids[0].id,foobar_kids[1].id,foobar_kids[2].id].sort
           ).to eq [baz_id, boo_id, booboo_id].sort
+
+        # Create a another sub-project of boo called fooboo and check that it appears in the parent's subtree
+        fooboo_project = @service.projects.create(:name => 'p-fooboo67', :parent_id => boo_id)
+        fooboo_id = fooboo_project.id
+        fooboo_project.grant_role_to_user(prj_role.id, @service.current_user_id)
+        foobar_new_kids = @service.projects.find_by_id(foobar_id, :subtree_as_list).subtree
+        expect(foobar_new_kids.length).to eq 4
 
         # Get the parents of booboo, as a tree of IDs
         booboo_parents = @service.projects.find_by_id(booboo_id, :parents_as_ids).parents
@@ -664,10 +671,10 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         # Get the parents of booboo, as a list of objects
         booboo_parents = @service.projects.find_by_id(booboo_id, :parents_as_list).parents
         expect(booboo_parents.length).to eq 2
-        expect([booboo_parents[0]['project']['id'],booboo_parents[1]['project']['id']].sort
-          ).to eq [foobar_id, boo_id].sort
+        expect([booboo_parents[0].id,booboo_parents[1].id].sort).to eq [foobar_id, boo_id].sort
       ensure
         # Delete the projects
+        fooboo_project.destroy if fooboo_project
         booboo_project.destroy if booboo_project
         boo_project.destroy if boo_project
         baz_project.destroy if baz_project
@@ -675,8 +682,10 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         prj_role = @service.roles.all(:name => 'r-project67').first unless prj_role
         prj_role.destroy if prj_role
         # Check that the deletion worked
-        expect { @service.projects.find_by_id foobar_id }.to raise_error(Fog::Identity::OpenStack::NotFound)
-        ['p-foobar67', 'p-baz67', 'p-boo67', 'p-booboo67'].each do |project_name|
+        expect { @service.projects.find_by_id foobar_id }.to raise_error(Fog::Identity::OpenStack::NotFound) if foobar_id
+        ['p-booboo67', 'p-fooboo67', 'p-boo67', 'p-baz67', 'p-foobar67'].each do |project_name|
+          prj = @service.projects.all(:name => project_name).first
+          prj.destroy if prj
           expect(@service.projects.all(:name => project_name).length).to be 0
         end
       end

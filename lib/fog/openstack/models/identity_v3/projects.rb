@@ -23,10 +23,20 @@ module Fog
             cached_project = self.find { |project| project.id == id } if options.empty?
             return cached_project if cached_project
             project_hash = service.get_project(id, options).body['project']
-            Fog::Identity::OpenStack::V3::Project.new(
-                project_hash.merge(:service => service))
+            top_project = project_from_hash(project_hash, service)
+            if options.include? :subtree_as_list
+              top_project.subtree.map! {|proj_hash| project_from_hash(proj_hash['project'], service)}
+            end
+            if options.include? :parents_as_list
+              top_project.parents.map! {|proj_hash| project_from_hash(proj_hash['project'], service)}
+            end
+            return top_project
           end
 
+          private
+          def project_from_hash(project_hash, service)
+            Fog::Identity::OpenStack::V3::Project.new(project_hash.merge(:service => service))
+          end
         end
       end
     end
