@@ -14,6 +14,17 @@ module Fog
         attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
         attribute :metadata
         attribute :origin,          :aliases => ['Origin']
+        # @!attribute [rw] delete_at
+        # A Unix Epoch Timestamp, in integer form, representing the time when this object will be automatically deleted.
+        # @return [Integer] the unix epoch timestamp of when this object will be automatically deleted
+        # @see http://docs.openstack.org/developer/swift/overview_expiring_objects.html
+        attribute :delete_at, :aliases => ['X-Delete-At']
+
+        # @!attribute [rw] delete_after
+        # A number of seconds representing how long from now this object will be automatically deleted.
+        # @return [Integer] the number of seconds until this object will be automatically deleted
+        # @see http://docs.openstack.org/developer/swift/overview_expiring_objects.html
+        attribute :delete_after, :aliases => ['X-Delete-After']
 
         def body
           attributes[:body] ||= if last_modified
@@ -88,6 +99,8 @@ module Fog
           options['Content-Disposition'] = content_disposition if content_disposition
           options['Access-Control-Allow-Origin'] = access_control_allow_origin if access_control_allow_origin
           options['Origin'] = origin if origin
+          options['X-Delete-At'] = delete_at if delete_at
+          options['X-Delete-After'] = delete_after if delete_after
           options.merge!(metadata_to_headers)
 
           data = service.put_object(directory.key, key, body, options)
