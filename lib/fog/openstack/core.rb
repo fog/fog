@@ -69,20 +69,10 @@ module Fog
       attr_reader :openstack_project_domain_id
 
       def initialize_identity options
-        @openstack_auth_token = options[:openstack_auth_token]
-
-        @auth_token        ||= options[:openstack_auth_token]
-        @openstack_identity_public_endpoint = options[:openstack_identity_endpoint]
-
-        @openstack_username = options[:openstack_username]
-        @openstack_userid = options[:openstack_userid]
-
-        @openstack_domain_name = options[:openstack_domain_name]
-        @openstack_user_domain = options[:openstack_user_domain]
-        @openstack_project_domain  = options[:openstack_project_domain]
-        @openstack_domain_id = options[:openstack_domain_id]
-        @openstack_user_domain_id = options[:openstack_user_domain_id]
-        @openstack_project_domain_id  = options[:openstack_project_domain_id]
+        # Create @openstack_* instance variables from all :openstack_* options
+        options.select{|x|x.to_s.start_with? 'openstack'}.each do |openstack_param, value|
+          instance_variable_set "@#{openstack_param}".to_sym, value
+        end
 
         @auth_token        ||= options[:openstack_auth_token]
 
