@@ -155,7 +155,7 @@ module Fog
                 'X-Auth-User'  => @openstack_username,
                 'X-Auth-Key'   => @openstack_api_key
               }.merge!(params[:headers] || {}),
-              :path     => "#{@path}/#{@tenant_id}/#{params[:path]}",
+              :path     => "#{@path}/#{params[:path]}",
               :query    => params[:query]
             }))
           rescue Excon::Errors::Unauthorized => error
