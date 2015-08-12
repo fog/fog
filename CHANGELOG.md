@@ -1,3 +1,62 @@
+## 1.33.0 08/12/2015
+*Hash* 514fb792da07e6c5beaf4b735ea944fa873483f0
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Downloads     | 11035171
+Forks         | 1472
+Open Issues   | 78
+Watchers      | 3573
+
+**MVP!** Darren Hague
+
+#### [Dynect]
+*   Extract Dynect DNS provider to fog-dynect. thanks Glenn Pratt
+
+#### [misc]
+*   vCloud Director queued tasks should not count as "non_running". thanks Adam Leff
+*   Add execute request. thanks Alan Sebastian
+*   Fix comment: 5mins = 300s. thanks Andrew Langhorn
+*   Allow real OpenStack storage adapter to take :openstack_management_url option. thanks Danny Guinther
+*   [openstack][Storage] Added the delete_at and delete_after flags. thanks Francesco Vollero
+*   Vsphere - customizing interfaces and disks when cloning from template. thanks as
+*   Add support for multiple VPN tunnels. thanks Josh Myers
+*   Adding Openstack Collection base class. thanks Ladislav Smola
+*   Openstack Model base class. thanks Ladislav Smola
+*   Fog::OpenStack::Model base class for all openstack models. thanks Ladislav Smola
+*   Fog::OpenStack::Collection base class for all openstack collections. thanks Ladislav Smola
+*   OpenStack compute add full support of availability zones. thanks Ladislav Smola
+*   OpenStack servers list options fix. thanks Ladislav Smola
+*   Adding OpenStack volume availability_zones. thanks Ladislav Smola
+*   OpenStack compute add shelve related actions. thanks Ladislav Smola
+*   Add missing require of identitty v3. thanks Ladislav Smola
+*   update Linode avail_datacenters mock results. thanks Marques Johansson
+*   add extend_volume request to Fog::Volume::OpenStack. thanks Stefan Majewsky
+*   fucking 1.8.7. thanks Stefan Majewsky
+*   fix test run on JRuby. thanks Stefan Majewsky
+*   Use traverse to get resource pools, fixes #3579. thanks alan
+*   Fix nested folders in get virtual machine. thanks alan
+*   Intermediate foldes in DC/Cluster tree. thanks slivik
+
+#### [openstack]
+*   Allow the auth_token to be overridden (e.g. with the admin token from keystone.conf). thanks Darren Hague
+*   Deal with Compute 'server details' returning null user_data. thanks Darren Hague
+*   Add support for hierarchical projects. thanks Darren Hague
+*   Add test for subnet creation. thanks Darren Hague
+*   Add tests for subtree_as_list and parents_as_list in hierarchical projects. thanks Darren Hague
+*   hierarchical projects: subtree_as_list and parents_as_list - set subtree and parents attributes as Array of Project instead of Array of Hash. thanks Darren Hague
+*   hierarchical projects: Add test to check that a newly added subproject appears in a top-level project's list. thanks Darren Hague
+*   Refactoring to avoid having to copy/paste openstack options to/from instance variables. thanks Darren Hague
+*   fix subnet update & create regarding to empty vanilla options, add allocation_pools option. thanks Maurice Schreiber
+*   mock create subnet array options. thanks Maurice Schreiber
+*   fix broken subnet test. thanks Maurice Schreiber
+*   reduce code duplication between specs. thanks Stefan Majewsky
+*   fix test run so that the volume_spec.rb is actually run. thanks Stefan Majewsky
+*   reduce code duplication in volume spec... thanks Stefan Majewsky
+*   add volume transfer models/requests. thanks Stefan Majewsky
+
+
 ## 1.32.0 07/02/2015
 *Hash* 3339ba764f099c1fab8c989510c427ac65dabeca
 

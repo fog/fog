@@ -113,6 +113,7 @@ Watchers      | #{watchers}
            'Christopher Oliver',
            'Colin Hebert',
            'Daniel Reichert',
+           'Darren Hague',
            'Decklin Foster',
            'Dylan Egan',
            'Erik Michaels-Ober',
