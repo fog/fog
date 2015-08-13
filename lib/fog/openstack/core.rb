@@ -107,6 +107,10 @@ module Fog
         openstack_options.merge options
       end
 
+      def reload
+        @connection.reset
+      end
+
       private
 
       def openstack_options
@@ -142,8 +146,17 @@ module Fog
 
         @host   = @openstack_management_uri.host
         @path   = @openstack_management_uri.path
+        @path.sub!(/\/$/, '')
         @port   = @openstack_management_uri.port
         @scheme = @openstack_management_uri.scheme
+
+        # Not all implementations have identity service in the catalog
+        if @openstack_identity_public_endpoint || @openstack_management_url
+          @identity_connection = Fog::Core::Connection.new(
+            @openstack_identity_public_endpoint || @openstack_management_url,
+            false, @connection_options)
+        end
+
         true
       end
     end

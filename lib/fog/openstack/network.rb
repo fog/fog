@@ -6,13 +6,15 @@ module Fog
       SUPPORTED_VERSIONS = /v2(\.0)*/
 
       requires :openstack_auth_url
-      recognizes :openstack_auth_token, :openstack_management_url, :persistent,
-                 :openstack_service_type, :openstack_service_name, :openstack_tenant,
-                 :openstack_tenant_id,
-                 :openstack_api_key, :openstack_username, :openstack_endpoint_type,
+      recognizes :openstack_auth_token, :openstack_management_url,
+                 :persistent, :openstack_service_type, :openstack_service_name,
+                 :openstack_tenant, :openstack_tenant_id,
+                 :openstack_api_key, :openstack_username, :openstack_identity_endpoint,
                  :current_user, :current_tenant, :openstack_region,
-                 :openstack_project_name,
-                 :openstack_project_domain, :openstack_user_domain
+                 :openstack_endpoint_type,
+                 :openstack_project_name, :openstack_project_id,
+                 :openstack_project_domain, :openstack_user_domain, :openstack_domain_name,
+                 :openstack_project_domain_id, :openstack_user_domain_id, :openstack_domain_id
 
       ## MODELS
       #
@@ -228,13 +230,12 @@ module Fog
         include Fog::OpenStack::Core
 
         def initialize(options={})
-
           initialize_identity options
 
-          @openstack_service_type         = options[:openstack_service_type] || ['network']
-          @openstack_service_name         = options[:openstack_service_name]
+          @openstack_service_type = options[:openstack_service_type] || ['network']
+          @openstack_service_name = options[:openstack_service_name]
 
-          @connection_options = options[:connection_options] || {}
+          @connection_options     = options[:connection_options] || {}
 
           authenticate
 
@@ -250,9 +251,6 @@ module Fog
           @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
-        def reload
-          @connection.reset
-        end
 
         def request(params)
           begin

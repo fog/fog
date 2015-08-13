@@ -1,3 +1,4 @@
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/orchestration/template'
 
 module Fog

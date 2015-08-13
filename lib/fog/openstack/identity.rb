@@ -22,53 +22,42 @@ module Fog
       end
 
       module Common
+        attr_reader :unscoped_token
 
-        def authenticate
-          if !@openstack_management_url || @openstack_must_reauthenticate
-            options = {
-                :openstack_api_key => @openstack_api_key,
-                :openstack_username => @openstack_username,
-                :openstack_userid => @openstack_userid,
-                :openstack_domain_name => @openstack_domain_name,
-                :openstack_domain_id => @openstack_domain_id,
-                :openstack_project_name => @openstack_project_name,
-                :openstack_auth_token => @openstack_must_reauthenticate ? nil : @openstack_auth_token,
-                :openstack_auth_uri => @openstack_auth_uri,
-                :openstack_tenant => @openstack_tenant,
-                :openstack_service_type => @openstack_service_type,
-                :openstack_service_name => @openstack_service_name,
-                :openstack_endpoint_type => @openstack_endpoint_type,
-                :openstack_region => @openstack_region
-            }
+        include Fog::OpenStack::Core
 
-            credentials = Fog::OpenStack.authenticate(options, @connection_options)
+        def request(params)
+          retried = false
+          begin
+            response = @connection.request(params.merge({
+              :headers => params.fetch(:headers,{}).merge({
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'X-Auth-Token' => @auth_token
+              }),
+              :path => "#{@path}/#{params[:path]}"
+            }))
+          rescue Excon::Errors::Unauthorized => error
+            raise if retried
+            retried = true
 
-            @current_user = credentials[:user]
-            @current_user_id = credentials[:current_user_id]
-            @current_tenant = credentials[:tenant]
-
-            @openstack_must_reauthenticate = false
-            @auth_token = credentials[:token]
-            @openstack_management_url = credentials[:server_management_url]
-            @openstack_current_user_id = credentials[:current_user_id]
-            @unscoped_token = credentials[:unscoped_token]
-            uri = URI.parse(@openstack_management_url)
-          else
-            @auth_token = @openstack_auth_token
-            uri = URI.parse(@openstack_management_url)
+            @openstack_must_reauthenticate = true
+            authenticate
+            retry
+          rescue Excon::Errors::HTTPStatusError => error
+            raise case error
+                    when Excon::Errors::NotFound
+                      Fog::Identity::OpenStack::NotFound.slurp(error)
+                    else
+                      error
+                  end
           end
-
-          @host = uri.host
-          @path = uri.path
-          @path.sub!(/\/$/, '')
-          @port = uri.port
-          @scheme = uri.scheme
-          true
+          unless response.body.empty?
+            response.body = Fog::JSON.decode(response.body)
+          end
+          response
         end
-
       end
     end
-
-
   end
 end
