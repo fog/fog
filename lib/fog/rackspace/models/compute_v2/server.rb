@@ -153,6 +153,11 @@ module Fog
         # @see http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot
         attribute :boot_volume_id
 
+        # @!attribute [w] boot_volume_size
+        # @return [Integer] The Size of the boot volume to be created by the BlockStorage service.
+        # @see http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot
+        attribute :boot_volume_size
+
         # @!attribute [w] boot_image_id
         # @return [String] The ID of an image to create a bootable volume from.
         # @see http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot
@@ -264,6 +269,7 @@ module Fog
           modified_options[:key_name] ||= attributes[:key_name]
           modified_options[:boot_volume_id] ||= attributes[:boot_volume_id]
           modified_options[:boot_image_id] ||= attributes[:boot_image_id]
+          modified_options[:boot_volume_size] ||= attributes[:boot_volume_size]
 
           if modified_options[:networks]
             modified_options[:networks].map! { |id| { :uuid => id } }
