@@ -13,12 +13,6 @@ def compute_providers
       },
       :mocked => false
     },
-    :brightbox  => {
-      :server_attributes => {
-        :image_id => Brightbox::Compute::TestSupport.image_id
-      },
-      :mocked => false
-    },
     :cloudstack => {
       :provider_attributes => {
         :cloudstack_host => 'http://host.foo'
