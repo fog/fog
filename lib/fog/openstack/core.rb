@@ -97,13 +97,15 @@ module Fog
       end
 
       def credentials
-        options =  { :provider => 'openstack',
-          :openstack_auth_url       => @openstack_auth_uri.to_s,
-          :openstack_auth_token     => @auth_token,
+        options =  {
+          :provider                    => 'openstack',
+          :openstack_auth_url          => @openstack_auth_uri.to_s,
+          :openstack_auth_token        => @auth_token,
           :openstack_identity_endpoint => @openstack_identity_public_endpoint,
-          :current_user             => @current_user,
-          :current_user_id          => @current_user_id,
-          :current_tenant           => @current_tenant }
+          :current_user                => @current_user,
+          :current_user_id             => @current_user_id,
+          :current_tenant              => @current_tenant,
+          :unscoped_token              => @unscoped_token}
         openstack_options.merge options
       end
 
@@ -139,6 +141,7 @@ module Fog
           @openstack_must_reauthenticate = false
           @auth_token = credentials[:token]
           @openstack_management_url = credentials[:server_management_url]
+          @unscoped_token = credentials[:unscoped_token]
         else
           @auth_token = @openstack_auth_token
         end
