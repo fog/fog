@@ -10,7 +10,8 @@ module Fog
           }
 
           vanilla_options = [:name, :fixed_ips, :mac_address, :admin_state_up,
-                             :device_owner, :device_id, :tenant_id, :security_groups]
+                             :device_owner, :device_id, :tenant_id, :security_groups,
+                             :allowed_address_pairs]
           vanilla_options.reject{ |o| options[o].nil? }.each do |key|
             data['port'][key] = options[key]
           end
@@ -40,6 +41,7 @@ module Fog
             'device_id'       => options[:device_id],
             'tenant_id'       => options[:tenant_id],
             'security_groups' => options[:security_groups],
+            'allowed_address_pairs' => options[:allowed_address_pairs],
           }
           self.data[:ports][data['id']] = data
           response.body = { 'port' => data }

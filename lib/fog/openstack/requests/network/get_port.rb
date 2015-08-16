@@ -34,6 +34,10 @@ module Fog
                 'device_owner' => 'network:dhcp',
                 'tenant_id' => 'f8b26a6032bc47718a7702233ac708b9',
                 'security_groups' => ['3ddde803-e550-4737-b5de-0862401dc834'],
+                'allowed_address_pairs' => [
+                    'ip_address' => '10.1.1.1',
+                    'mac_address' => 'fa:16:3e:3d:2a:cc'
+                ]
               }
             }
             response
