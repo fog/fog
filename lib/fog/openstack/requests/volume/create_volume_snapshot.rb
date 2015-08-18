@@ -3,12 +3,18 @@ module Fog
     class OpenStack
       class Real
         def create_volume_snapshot(volume_id, name, description, force=false)
+          # some attributes have different keys depending on the volume API version
+          name_key, desc_key = [ 'name', 'description' ]
+          if @volume_api_version == 'v1'
+            name_key, desc_key = [ 'display_name', 'display_description' ]
+          end
+
           data = {
             'snapshot' => {
-              'volume_id'           => volume_id,
-              'display_name'        => name,
-              'display_description' => description,
-              'force'               => force
+              'volume_id' => volume_id,
+              name_key    => name,
+              desc_key    => description,
+              'force'     => force
             }
           }
 
@@ -28,9 +34,9 @@ module Fog
           response.body = {
             "snapshot"=> {
                "status"=>"creating",
-               "display_name"=>name,
+               "name"=>name,
                "created_at"=>Time.now,
-               "display_description"=>description,
+               "description"=>description,
                "volume_id"=>volume_id,
                "id"=>"5",
                "size"=>1

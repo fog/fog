@@ -32,6 +32,9 @@ RSpec.shared_context 'OpenStack specs with VCR' do
     # read arguments
     expect(@vcr_directory = options[:vcr_directory]).to be_a(String)
     expect(@service_class = options[:service_class]).to be_a(Class)
+    if @service_options = options[:service_options]
+      expect(@service_options).to be_a(Hash)
+    end
 
     # determine mode of operation
     use_recorded = !ENV.has_key?('OS_AUTH_URL')
@@ -90,6 +93,10 @@ RSpec.shared_context 'OpenStack specs with VCR' do
           # :openstack_user_domain    => ENV['OS_USER_DOMAIN_NAME']    || 'Default',
           # :openstack_project_domain => ENV['OS_PROJECT_DOMAIN_NAME'] || 'Default',
         }
+      end
+
+      if @service_options
+        options.merge!(@service_options)
       end
       @service = @service_class.new(options) unless @service
     end

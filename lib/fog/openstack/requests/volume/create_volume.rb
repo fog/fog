@@ -3,11 +3,17 @@ module Fog
     class OpenStack
       class Real
         def create_volume(name, description, size, options={})
+          # some attributes have different keys depending on the volume API version
+          name_key, desc_key = [ 'name', 'description' ]
+          if @volume_api_version == 'v1'
+            name_key, desc_key = [ 'display_name', 'display_description' ]
+          end
+
           data = {
             'volume' => {
-              'display_name'        => name,
-              'display_description' => description,
-              'size'                => size
+              name_key => name,
+              desc_key => description,
+              'size'   => size
             }
           }
 
@@ -31,18 +37,18 @@ module Fog
           response.status = 202
           response.body = {
             'volume' => {
-              'id'                  => Fog::Mock.random_numbers(2),
-              'display_name'        => name,
-              'display_description' => description,
-              'metadata'            => options['metadata'] || {},
-              'size'                => size,
-              'status'              => 'creating',
-              'snapshot_id'         => options[:snapshot_id] || nil,
-              'image_id'            => options[:imageRef] || nil,
-              'volume_type'         => nil,
-              'availability_zone'   => 'nova',
-              'created_at'          => Time.now,
-              'attachments'         => []
+              'id'                => Fog::Mock.random_numbers(2),
+              'name'              => name,
+              'description'       => description,
+              'metadata'          => options['metadata'] || {},
+              'size'              => size,
+              'status'            => 'creating',
+              'snapshot_id'       => options[:snapshot_id] || nil,
+              'image_id'          => options[:imageRef] || nil,
+              'volume_type'       => nil,
+              'availability_zone' => 'nova',
+              'created_at'        => Time.now,
+              'attachments'       => []
             }
           }
           response

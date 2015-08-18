@@ -18,9 +18,9 @@ module Fog
           response.status = 200
           self.data[:volumes] ||= [
             { "status" => "available",
-              "display_description" => "test 1 desc",
+              "description" => "test 1 desc",
               "availability_zone" => "nova",
-              "display_name" => "Volume1",
+              "name" => "Volume1",
               "attachments" => [{}],
               "volume_type" => nil,
               "snapshot_id" => nil,
@@ -29,9 +29,9 @@ module Fog
               "created_at" => Time.now,
               "metadata" => {} },
             { "status" => "available",
-              "display_description" => "test 2 desc",
+              "description" => "test 2 desc",
               "availability_zone" => "nova",
-              "display_name" => "Volume2",
+              "name" => "Volume2",
               "attachments" => [{}],
               "volume_type" => nil,
               "snapshot_id" => nil,
