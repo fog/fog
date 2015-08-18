@@ -33,8 +33,22 @@ module Fog
           hmac = Fog::HMAC.new('sha1', @rackspace_temp_url_key)
           sig  = sig_to_hex(hmac.sign(string_to_sign))
 
-          scheme = options[:scheme] ? options[:scheme] : @uri.scheme
-          "#{scheme}://#{@uri.host}#{object_path_escaped}?temp_url_sig=#{sig}&temp_url_expires=#{expires}"
+          temp_url_query = {
+              temp_url_sig: sig,
+              temp_url_expires: expires
+          }
+          temp_url_query.merge!(inline: true) if options[:inline]
+          temp_url_query.merge!(filename: options[:filename]) if options[:filename]
+          q = temp_url_query.map do |param, val|
+            "#{CGI.escape(param.to_s)}=#{CGI.escape(val.to_s)}"
+          end.join('&')
+          temp_url_options = {
+              :scheme => options[:scheme] || @uri.scheme,
+              :host => @uri.host,
+              :path => object_path_escaped,
+              :query => q
+          }
+          URI::Generic.build(temp_url_options).to_s
         end
 
         private
