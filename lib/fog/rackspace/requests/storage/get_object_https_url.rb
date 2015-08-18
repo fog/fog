@@ -34,11 +34,11 @@ module Fog
           sig  = sig_to_hex(hmac.sign(string_to_sign))
 
           temp_url_query = {
-              temp_url_sig: sig,
-              temp_url_expires: expires
+              :temp_url_sig => sig,
+              :temp_url_expires => expires
           }
-          temp_url_query.merge!(inline: true) if options[:inline]
-          temp_url_query.merge!(filename: options[:filename]) if options[:filename]
+          temp_url_query.merge!(:inline => true) if options[:inline]
+          temp_url_query.merge!(:filename => options[:filename]) if options[:filename]
           temp_url_options = {
               :scheme => options[:scheme] || @uri.scheme,
               :host => @uri.host,
