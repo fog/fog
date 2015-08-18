@@ -39,14 +39,11 @@ module Fog
           }
           temp_url_query.merge!(inline: true) if options[:inline]
           temp_url_query.merge!(filename: options[:filename]) if options[:filename]
-          q = temp_url_query.map do |param, val|
-            "#{CGI.escape(param.to_s)}=#{CGI.escape(val.to_s)}"
-          end.join('&')
           temp_url_options = {
               :scheme => options[:scheme] || @uri.scheme,
               :host => @uri.host,
               :path => object_path_escaped,
-              :query => q
+              :query => temp_url_query.map { |param, val| "#{CGI.escape(param.to_s)}=#{CGI.escape(val.to_s)}" }.join('&')
           }
           URI::Generic.build(temp_url_options).to_s
         end
