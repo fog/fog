@@ -6,8 +6,6 @@ module Fog
       class Volume < Fog::OpenStack::Model
         identity :id
 
-        # NOTE: The attributes "name" and "description" are called
-        # "display_name" and "display_description" in API version v1.
         attribute :name,                :aliases => ['display_name', 'displayName', :display_name]
         attribute :description,         :aliases => ['display_description', 'displayDescription', :display_description]
         attribute :metadata
@@ -21,6 +19,13 @@ module Fog
         attribute :attachments
         attribute :source_volid
         attribute :tenant_id,           :aliases => 'os-vol-tenant-attr:tenant_id'
+
+        # NOTE: The attributes "name" and "description" are called
+        # "display_name" and "display_description" in API version v1.
+        alias_method :display_name,         :name
+        alias_method :display_name=,        :name=
+        alias_method :display_description,  :description
+        alias_method :display_description=, :description=
 
         def save
           requires :name, :size
@@ -43,13 +48,6 @@ module Fog
 
         def ready?
           status == 'available'
-        end
-
-        def display_name
-          name
-        end
-        def display_description
-          description
         end
       end
     end
