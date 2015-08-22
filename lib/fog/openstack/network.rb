@@ -238,14 +238,7 @@ module Fog
           @connection_options     = options[:connection_options] || {}
 
           authenticate
-
-          @path.sub!(/\/$/, '')
-          unless @path.match(SUPPORTED_VERSIONS)
-            @path = "/" + Fog::OpenStack.get_supported_version(SUPPORTED_VERSIONS,
-                                                               @openstack_management_uri,
-                                                               @auth_token,
-                                                               @connection_options)
-          end
+          set_api_path
 
           @persistent = options[:persistent] || false
           @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
@@ -284,6 +277,15 @@ module Fog
           response
         end
 
+        def set_api_path
+          @path.sub!(/\/$/, '')
+          unless @path.match(SUPPORTED_VERSIONS)
+            @path = "/" + Fog::OpenStack.get_supported_version(SUPPORTED_VERSIONS,
+                                                               @openstack_management_uri,
+                                                               @auth_token,
+                                                               @connection_options)
+          end
+        end
       end
     end
   end
