@@ -358,7 +358,7 @@ module Fog
         raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions.join(',')}'")
       end
 
-      identity_service = get_service_v3(body, identity_service_type) if identity_service_type
+      identity_service = get_service_v3(body, identity_service_type, nil, nil, :endpoint_path_matches => /\/v3/) if identity_service_type
 
       management_url = service['endpoints'].find { |e| e['interface']==endpoint_type }['url']
       identity_url = identity_service['endpoints'].find { |e| e['interface']=='public' }['url'] if identity_service
@@ -518,8 +518,9 @@ module Fog
       [response.headers["X-Subject-Token"], Fog::JSON.decode(response.body)]
     end
 
-    def self.get_service_v3(hash, service_type=[], service_name=nil, region=nil)
+    def self.get_service_v3(hash, service_type=[], service_name=nil, region=nil, options={})
 
+      # Find all services matching any of the types in service_type, filtered by service_name if it's non-nil
       services = hash['token']['catalog'].find_all do |s|
         if service_name.nil? or service_name.empty?
           service_type.include?(s['type'])
@@ -528,10 +529,19 @@ module Fog
         end
       end if hash['token']['catalog']
 
+      # Filter the found services by region (if specified) and whether the endpoint path matches the given regex (e.g. /\/v3/)
       services.find do |s|
-        region.nil? or s['endpoints'].any? { |ep| ep['region'] == region }
+        s['endpoints'].any? { |ep| endpoint_region?(ep, region) && endpoint_path_match?(ep, options[:endpoint_path_matches])}
       end if services
 
+    end
+
+    def self.endpoint_region?(endpoint, region)
+      region.nil? || endpoint['region'] == region
+    end
+
+    def self.endpoint_path_match?(endpoint, match_regex)
+      match_regex.nil? || URI(endpoint['url']).path =~ match_regex
     end
 
     def self.get_supported_version(supported_versions, uri, auth_token, connection_options = {})
