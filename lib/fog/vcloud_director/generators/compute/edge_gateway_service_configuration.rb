@@ -66,12 +66,13 @@ module Fog
                       xml.Netmask subnet[:Netmask]
                     }
                   end
-                  peer_subnet_config = tunnel_config[:PeerSubnet]
-                  xml.PeerSubnet {
-                    xml.Name peer_subnet_config[:Name]
-                    xml.Gateway peer_subnet_config[:Gateway]
-                    xml.Netmask peer_subnet_config[:Netmask]
-                  }
+                  tunnel_config[:PeerSubnet].each do |subnet|
+                    xml.PeerSubnet {
+                      xml.Name subnet[:Name]
+                      xml.Gateway subnet[:Gateway]
+                      xml.Netmask subnet[:Netmask]
+                    }
+                  end
                   xml.SharedSecret tunnel_config[:SharedSecret]
                   xml.SharedSecretEncrypted tunnel_config[:SharedSecretEncrypted] if tunnel_config.key?(:SharedSecretEncrypted)
                   xml.EncryptionProtocol tunnel_config[:EncryptionProtocol]
