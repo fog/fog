@@ -6,6 +6,7 @@ module Fog
           @openstack_must_reauthenticate = true
           @openstack_tenant = tenant.to_s
           authenticate
+          set_api_path
         end
       end
 
