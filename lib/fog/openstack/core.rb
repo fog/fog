@@ -56,7 +56,7 @@ module Fog
     service(:planning,      'Planning')
 
     module Core
-      attr_reader :auth_token
+      attr_accessor :auth_token
       attr_reader :auth_token_expiration
       attr_reader :current_user
       attr_reader :current_user_id
