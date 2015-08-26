@@ -75,6 +75,7 @@ module Fog
         end
 
         @auth_token        ||= options[:openstack_auth_token]
+        @openstack_identity_public_endpoint = options[:openstack_identity_endpoint]
 
         @openstack_auth_uri    = URI.parse(options[:openstack_auth_url])
         @openstack_must_reauthenticate  = false
