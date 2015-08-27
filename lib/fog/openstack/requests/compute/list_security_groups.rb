@@ -29,7 +29,15 @@ module Fog
       end
 
       class Mock
-        def list_security_groups(server_id = nil)
+        def list_security_groups(options = {})
+          if options.is_a?(Hash)
+            server_id = options.delete(:server_id)
+            query = options
+          else
+            server_id = options
+            query = {}
+          end
+
           security_groups = self.data[:security_groups].values
 
           groups = if server_id then
