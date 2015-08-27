@@ -45,6 +45,7 @@ module Fog
 
       request :create_volume_snapshot
       request :list_snapshots
+      request :list_snapshots_detailed
       request :get_snapshot_details
       request :delete_snapshot
 
