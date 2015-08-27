@@ -45,7 +45,7 @@ module Fog
         end
 
         def resources(options={})
-          @resources ||= service.resources.all(self, options)
+          @resources ||= service.resources.all({:stack => self}.merge(options))
         end
 
         def events(options={})
