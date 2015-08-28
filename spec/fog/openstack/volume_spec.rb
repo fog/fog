@@ -325,6 +325,11 @@ RSpec.describe Fog::Volume::OpenStack do
   end
 
   # TODO: tests for snapshots
+  it 'responds to list_snapshots_detailed' do
+    expect(@service.respond_to?(:list_snapshots_detailed)).to be true
+  end
+
+
   # TODO: tests for quotas
 
 end
