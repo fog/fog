@@ -1,17 +1,18 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/compute/key_pair'
 
 module Fog
   module Compute
     class OpenStack
-      class KeyPairs < Fog::Collection
+      class KeyPairs < Fog::OpenStack::Collection
         model Fog::Compute::OpenStack::KeyPair
 
-        def all
+        def all(options = {})
           items = Array.new
-          service.list_key_pairs.body['keypairs'].each do |kp|
+          service.list_key_pairs(options).body['keypairs'].each do |kp|
             items = items + kp.values
           end
+          # TODO convert to load_response?
           load(items)
         end
 

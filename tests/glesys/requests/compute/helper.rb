@@ -28,7 +28,6 @@ class Glesys
           'server' => {
             'managedhosting'  => String,
             'cost'            => {
-              'amount'      =>  Float,
               'timeperiod'  => String,
               'currency'    => String
             },
@@ -86,6 +85,18 @@ class Glesys
           }
         )
 
+        EDIT = DETAILS.merge(
+          'debug' => {
+            'input' => {
+              'serverid'      => Fog::Nullable::String,
+              'disksize'      => String,
+              'memorysize'    => String,
+              'cpucores'      => String,
+              'bandwidth'     => String
+            }
+          }
+        )
+
         STATUS = {
           'debug' => {
             'input' => {
@@ -115,7 +126,7 @@ class Glesys
               'unit'  => Fog::Nullable::String
             },
             'cpu'       => {
-              'usage' => Fog::Nullable::Integer,
+              'usage' => Fog::Nullable::Float,
               'max'   => Fog::Nullable::Integer,
               'unit'  => Fog::Nullable::String
             },
@@ -222,6 +233,59 @@ class Glesys
             'ptr'         => String,
             'reserved'    => String
           },
+          'status' => {
+            'timestamp' => String,
+            'code'      => Integer,
+            'text'      => String
+          }
+        }
+      end
+      module SshKeys
+        ADD = {
+          'debug' => {
+            'input' => {
+              'sshkey'      => String,
+              'description' => String
+            }
+          },
+          'sshkey' => {
+            'id'          => Integer,
+            'account'     => String,
+            'description' => String,
+            'data'        => String
+          },
+          'status' => {
+            'timestamp'     => String,
+            'code'          => Integer,
+            'text'          => String,
+            'transactionid' => Fog::Nullable::String
+          }
+        }
+        REMOVE = {
+          'debug' => {
+            'input' => {
+              'sshkeyids' => String,
+            }
+          },
+          'status' => {
+            'timestamp'     => String,
+            'code'          => Integer,
+            'text'          => String,
+            'transactionid' => Fog::Nullable::String
+          }
+        }
+        LIST = {
+          'debug' => {
+            'input' => []
+          },
+          'sshkeys' => [
+            {
+              'id' => Integer,
+              'account' => String,
+              'description' => String,
+              'data' => String,
+            }
+          ],
           'status' => {
             'timestamp' => String,
             'code'      => Integer,

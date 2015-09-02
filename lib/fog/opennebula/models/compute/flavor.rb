@@ -51,18 +51,22 @@ module Fog
         end  
 
         def get_vcpu
-          return "VCPU=1\n" unless vcpu
+          self.vcpu = 1 unless vcpu
           "VCPU=#{vcpu}\n"
         end  
 
         def get_memory
-          return "MEMORY=128\n" unless memory
+          self.memory = 128 unless memory
           "MEMORY=#{memory}\n"
         end  
 
         def get_raw
           return "" unless raw
-          "RAW=#{raw}\n"
+          ret = "RAW=#{raw}\n"
+          ret.gsub!(/\{/, '[')
+          ret.gsub!(/\}/, ']')
+          ret.gsub!(/>/,'')
+          ret
         end
 
         def get_disk
@@ -116,22 +120,22 @@ module Fog
 
         def get_sched_ds_requirements
           return "" unless sched_ds_requirements 
-          %Q|SCHED_DS_REQUIREMENTS="#{sched_ds_requirements}"\n|
+          %Q|SCHED_DS_REQUIREMENTS="#{sched_ds_requirements.gsub(/"/){ %q(\") }}"\n|
         end
 
         def get_sched_ds_rank
           return "" unless sched_ds_rank 
-          %Q|SCHED_DS_RANK="#{sched_ds_rank}"\n|
+          %Q|SCHED_DS_RANK="#{sched_ds_rank.gsub(/"/){ %q(\") }}"\n|
         end
 
         def get_sched_requirements
           return "" unless sched_requirements 
-          %Q|SCHED_REQUIREMENTS="#{sched_requirements}"\n|
+          %Q|SCHED_REQUIREMENTS="#{sched_requirements.gsub(/"/){ %q(\") }}"\n|
         end
 
         def get_sched_rank
           return "" unless sched_rank 
-          %Q|SCHED_RANK="#{sched_rank}"\n|
+          %Q|SCHED_RANK="#{sched_rank.gsub(/"/){ %q(\") }}"\n|
         end
 
         def get_context

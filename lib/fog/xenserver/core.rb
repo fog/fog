@@ -6,6 +6,14 @@ module Fog
     class InvalidLogin < Fog::Errors::Error; end
     class NotFound < Fog::Errors::Error; end
     class RequestFailed < Fog::Errors::Error; end
+    class HostIsSlave < Fog::Errors::Error
+      attr_reader :master_ip
+
+      def initialize(master_ip)
+        @master_ip = master_ip
+      end
+
+    end
 
     extend Fog::Provider
 
@@ -21,24 +29,16 @@ module Fog
         @factory.timeout = timeout
       end
 
-      def find_pool_master( username, password )
-        @credentials = authenticate( username, password )
-        response = @factory.call('host.get_all_records', @credentials)
-        if response['Status'] == "Failure" 
-          if response['ErrorDescription'][0] == "HOST_IS_SLAVE"
-            ip_address  = response['ErrorDescription'][1]
-            ip_address  = ip_address.chomp
-            valid = !(IPAddr.new(ip_address) rescue nil).nil?
-            if valid
-              response['ErrorDescription'][1]
-            end
-          end
-        end
-      end
-
       def authenticate( username, password )
         response = @factory.call('session.login_with_password', username.to_s, password.to_s)
-        raise Fog::XenServer::InvalidLogin.new unless response["Status"] =~ /Success/
+        if response['Status'] == 'Failure'
+          if response['ErrorDescription'][0] == 'HOST_IS_SLAVE'
+            master_ip = response['ErrorDescription'][1]
+            raise Fog::XenServer::HostIsSlave.new(master_ip)
+          else
+            raise Fog::XenServer::InvalidLogin.new
+          end
+        end
         @credentials = response["Value"]
       end
 

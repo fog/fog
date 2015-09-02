@@ -1,19 +1,22 @@
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/orchestration/event'
 
 module Fog
   module Orchestration
     class OpenStack
-      class Events < Fog::Collection
+      class Events < Fog::OpenStack::Collection
         model Fog::Orchestration::OpenStack::Event
 
-        def all(obj, options={})
-          data = if obj.is_a?(Stack)
-            service.list_stack_events(obj, options).body['events']
-          else
-            service.list_resource_events(obj.stack, obj, options).body['events']
-          end
+        def all(options = {}, options_deprecated = {})
+          data = if options.is_a?(Stack)
+                   service.list_stack_events(options, options_deprecated)
+                 elsif options.is_a?(Hash)
+                   service.list_events(options)
+                 else
+                   service.list_resource_events(options.stack, options, options_deprecated)
+                 end
 
-          load data
+          load_response(data, 'events')
         end
 
         def get(stack, resource, event_id)

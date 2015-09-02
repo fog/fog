@@ -2,18 +2,12 @@ module Fog
   module Baremetal
     class OpenStack
       class Real
-        def list_chassis(parameters=nil)
-          if parameters
-            query = parameters.each { |k, v| parameters[k] = URI::encode(v) }
-          else
-            query = {}
-          end
-
+        def list_chassis(options = {})
           request(
             :expects => [200, 204],
             :method  => 'GET',
             :path    => 'chassis',
-            :query   => query
+            :query   => options
           )
         end
       end # class Real

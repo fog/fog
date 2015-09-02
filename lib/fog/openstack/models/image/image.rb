@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Image
     class OpenStack
-      class Image < Fog::Model
+      class Image < Fog::OpenStack::Model
         identity :id
 
         attribute :name
@@ -27,17 +27,6 @@ module Fog
         attribute :properties
         attribute :location
         attribute :copy_from
-
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
-        end
-
-        def save
-          requires :name
-          identity ? update : create
-        end
 
         def create
           requires :name

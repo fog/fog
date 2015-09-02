@@ -85,7 +85,7 @@ module Fog
 
         def create_server( name_label, template = nil, networks = [], extra_args = {})
           if name_label.is_a?(Hash)
-            config = name_label.reject! { |_k,v| v.nil? }
+            config = name_label.reject { |_k,v| v.nil? }
             ref = @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.create' }, config)
           else
             Fog::Logger.deprecation(

@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Network
     class OpenStack
-      class LbVip < Fog::Model
+      class LbVip < Fog::OpenStack::Model
         identity :id
 
         attribute :subnet_id
@@ -19,16 +19,6 @@ module Fog
         attribute :status
         attribute :admin_state_up
         attribute :tenant_id
-
-        def initialize(attributes)
-          prepare_service_value(attributes)
-          super
-        end
-
-        def save
-          requires :subnet_id, :pool_id, :protocol, :protocol_port
-          identity ? update : create
-        end
 
         def create
           requires :subnet_id, :pool_id, :protocol, :protocol_port

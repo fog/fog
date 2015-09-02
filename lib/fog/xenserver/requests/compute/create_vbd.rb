@@ -4,7 +4,7 @@ module Fog
       class Real
         def create_vbd( vm_ref, vdi_ref = '', config = {} )
           if vm_ref.is_a?(Hash)
-            default_config = vm_ref.reject! { |_k,v| v.nil? }
+            default_config = vm_ref.reject { |_k,v| v.nil? }
           else
             Fog::Logger.deprecation(
                 'This api is deprecated. The only expected param is a hash of attributes.'

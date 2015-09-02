@@ -9,6 +9,7 @@ module Fog
         identity :id
 
         attribute :name
+        attribute :comment
         attribute :description
         attribute :profile
         attribute :display
@@ -27,6 +28,8 @@ module Fog
         attribute :raw
         attribute :quota
         attribute :ips
+        attribute :ha
+        attribute :ha_priority
 
         def ready?
           !(status =~ /down/i)

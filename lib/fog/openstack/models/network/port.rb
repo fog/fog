@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Network
     class OpenStack
-      class Port < Fog::Model
+      class Port < Fog::OpenStack::Model
         identity :id
 
         attribute :name
@@ -15,17 +15,7 @@ module Fog
         attribute :device_owner
         attribute :device_id
         attribute :tenant_id
-
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
-        end
-
-        def save
-          requires :network_id
-          identity ? update : create
-        end
+        attribute :security_groups
 
         def create
           requires :network_id

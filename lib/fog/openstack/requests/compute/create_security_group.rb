@@ -22,7 +22,7 @@ module Fog
       class Mock
         def create_security_group(name, description)
           Fog::Identity::OpenStack.new(:openstack_auth_url => credentials[:openstack_auth_url])
-          tenant_id = Fog::Identity::OpenStack::Mock.data[current_tenant][:tenants].keys.first
+          tenant_id = Fog::Identity::OpenStack::V2::Mock.data[current_tenant][:tenants].keys.first
           security_group_id = Fog::Mock.random_numbers(2).to_i + 1
           self.data[:security_groups][security_group_id.to_s] = {
             'tenant_id' => tenant_id,

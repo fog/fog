@@ -1,5 +1,4 @@
-require "minitest/autorun"
-require "fog"
+require "spec_helper"
 
 describe Fog::Identity do
   Fog::Identity.providers.each do |provider|

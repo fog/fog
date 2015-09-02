@@ -1,0 +1,762 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/detail?display_name=fog-testvolume-1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Compute-Request-Id:
+      - req-16b79930-2aa4-4e85-b02e-cb20f2c1baf2
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '15'
+      X-Openstack-Request-Id:
+      - req-16b79930-2aa4-4e85-b02e-cb20f2c1baf2
+      Date:
+      - Fri, 03 Jul 2015 12:39:33 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"volumes": []}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:33 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes
+    body:
+      encoding: UTF-8
+      string: ! '{"volume":{"display_name":"fog-testvolume-1","display_description":null,"size":1}}'
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Compute-Request-Id:
+      - req-89dab305-0f58-4ff2-9d0c-3f809714148a
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '402'
+      X-Openstack-Request-Id:
+      - req-89dab305-0f58-4ff2-9d0c-3f809714148a
+      Date:
+      - Fri, 03 Jul 2015 12:39:34 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"volume": {"status": "creating", "display_name": "fog-testvolume-1",
+        "attachments": [], "availability_zone": "nova", "bootable": "false", "encrypted":
+        false, "created_at": "2015-07-03T12:39:34.021237", "multiattach": "false",
+        "display_description": null, "volume_type": "lvmdriver-1", "snapshot_id":
+        null, "source_volid": null, "metadata": {}, "id": "5bc63964-414d-4f0f-ae21-1b9202e7acf0",
+        "size": 1}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:33 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/detail?display_name=fog-testvolume-1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Compute-Request-Id:
+      - req-1eab97d4-73df-40f8-9626-82655ee1323f
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '708'
+      X-Openstack-Request-Id:
+      - req-1eab97d4-73df-40f8-9626-82655ee1323f
+      Date:
+      - Fri, 03 Jul 2015 12:39:34 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"volumes": [{"status": "creating", "display_name": "fog-testvolume-1",
+        "attachments": [], "availability_zone": "nova", "bootable": "false", "encrypted":
+        false, "created_at": "2015-07-03T12:39:34.000000", "multiattach": "false",
+        "os-vol-tenant-attr:tenant_id": "a19e9490e4504b0b877c55510dfb2842", "os-volume-replication:driver_data":
+        null, "display_description": null, "os-volume-replication:extended_status":
+        null, "os-vol-host-attr:host": "mo-780872711@lvmdriver-1#lvmdriver-1", "volume_type":
+        "lvmdriver-1", "snapshot_id": null, "source_volid": null, "os-vol-mig-status-attr:name_id":
+        null, "metadata": {}, "id": "5bc63964-414d-4f0f-ae21-1b9202e7acf0", "os-vol-mig-status-attr:migstat":
+        null, "size": 1}]}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:33 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Compute-Request-Id:
+      - req-da2bad46-3591-457e-8801-fa6bbfe452ac
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '705'
+      X-Openstack-Request-Id:
+      - req-da2bad46-3591-457e-8801-fa6bbfe452ac
+      Date:
+      - Fri, 03 Jul 2015 12:39:34 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"volume": {"status": "creating", "display_name": "fog-testvolume-1",
+        "attachments": [], "availability_zone": "nova", "bootable": "false", "encrypted":
+        false, "created_at": "2015-07-03T12:39:34.000000", "multiattach": "false",
+        "os-vol-tenant-attr:tenant_id": "a19e9490e4504b0b877c55510dfb2842", "os-volume-replication:driver_data":
+        null, "display_description": null, "os-volume-replication:extended_status":
+        null, "os-vol-host-attr:host": "mo-780872711@lvmdriver-1#lvmdriver-1", "volume_type":
+        "lvmdriver-1", "snapshot_id": null, "source_volid": null, "os-vol-mig-status-attr:name_id":
+        null, "metadata": {}, "id": "5bc63964-414d-4f0f-ae21-1b9202e7acf0", "os-vol-mig-status-attr:migstat":
+        null, "size": 1}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:34 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Compute-Request-Id:
+      - req-23f18e81-6113-4e88-9675-ba46b30e0aaa
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '706'
+      X-Openstack-Request-Id:
+      - req-23f18e81-6113-4e88-9675-ba46b30e0aaa
+      Date:
+      - Fri, 03 Jul 2015 12:39:34 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"volume": {"status": "available", "display_name": "fog-testvolume-1",
+        "attachments": [], "availability_zone": "nova", "bootable": "false", "encrypted":
+        false, "created_at": "2015-07-03T12:39:34.000000", "multiattach": "false",
+        "os-vol-tenant-attr:tenant_id": "a19e9490e4504b0b877c55510dfb2842", "os-volume-replication:driver_data":
+        null, "display_description": null, "os-volume-replication:extended_status":
+        null, "os-vol-host-attr:host": "mo-780872711@lvmdriver-1#lvmdriver-1", "volume_type":
+        "lvmdriver-1", "snapshot_id": null, "source_volid": null, "os-vol-mig-status-attr:name_id":
+        null, "metadata": {}, "id": "5bc63964-414d-4f0f-ae21-1b9202e7acf0", "os-vol-mig-status-attr:migstat":
+        null, "size": 1}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:34 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0/action
+    body:
+      encoding: UTF-8
+      string: ! '{"os-extend":{"new_size":2}}'
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 202
+      message: ''
+    headers:
+      Content-Type:
+      - text/html; charset=UTF-8
+      Content-Length:
+      - '0'
+      X-Openstack-Request-Id:
+      - req-d5bb36f6-f9e8-452d-a9b8-adfa2e55372a
+      Date:
+      - Fri, 03 Jul 2015 12:39:35 GMT
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:34 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Compute-Request-Id:
+      - req-082f5196-64d9-470a-a3e6-8355c0173522
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '706'
+      X-Openstack-Request-Id:
+      - req-082f5196-64d9-470a-a3e6-8355c0173522
+      Date:
+      - Fri, 03 Jul 2015 12:39:35 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"volume": {"status": "extending", "display_name": "fog-testvolume-1",
+        "attachments": [], "availability_zone": "nova", "bootable": "false", "encrypted":
+        false, "created_at": "2015-07-03T12:39:34.000000", "multiattach": "false",
+        "os-vol-tenant-attr:tenant_id": "a19e9490e4504b0b877c55510dfb2842", "os-volume-replication:driver_data":
+        null, "display_description": null, "os-volume-replication:extended_status":
+        null, "os-vol-host-attr:host": "mo-780872711@lvmdriver-1#lvmdriver-1", "volume_type":
+        "lvmdriver-1", "snapshot_id": null, "source_volid": null, "os-vol-mig-status-attr:name_id":
+        null, "metadata": {}, "id": "5bc63964-414d-4f0f-ae21-1b9202e7acf0", "os-vol-mig-status-attr:migstat":
+        null, "size": 1}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:35 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Compute-Request-Id:
+      - req-4f2e0d28-c78f-4e2e-b2a0-e52702d1268a
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '706'
+      X-Openstack-Request-Id:
+      - req-4f2e0d28-c78f-4e2e-b2a0-e52702d1268a
+      Date:
+      - Fri, 03 Jul 2015 12:39:36 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"volume": {"status": "available", "display_name": "fog-testvolume-1",
+        "attachments": [], "availability_zone": "nova", "bootable": "false", "encrypted":
+        false, "created_at": "2015-07-03T12:39:34.000000", "multiattach": "false",
+        "os-vol-tenant-attr:tenant_id": "a19e9490e4504b0b877c55510dfb2842", "os-volume-replication:driver_data":
+        null, "display_description": null, "os-volume-replication:extended_status":
+        null, "os-vol-host-attr:host": "mo-780872711@lvmdriver-1#lvmdriver-1", "volume_type":
+        "lvmdriver-1", "snapshot_id": null, "source_volid": null, "os-vol-mig-status-attr:name_id":
+        null, "metadata": {}, "id": "5bc63964-414d-4f0f-ae21-1b9202e7acf0", "os-vol-mig-status-attr:migstat":
+        null, "size": 2}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:36 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0/action
+    body:
+      encoding: UTF-8
+      string: ! '{"os-extend":{"new_size":1}}'
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 400
+      message: ''
+    headers:
+      Content-Length:
+      - '149'
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Compute-Request-Id:
+      - req-5aa179b9-f49a-4ad8-a511-850f622fb2be
+      X-Openstack-Request-Id:
+      - req-5aa179b9-f49a-4ad8-a511-850f622fb2be
+      Date:
+      - Fri, 03 Jul 2015 12:39:37 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"badRequest": {"message": "Invalid input received: New size for
+        extend must be greater than current size. (current: 2, extended: 1).", "code":
+        400}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:36 GMT
+- request:
+    method: delete
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 202
+      message: ''
+    headers:
+      Content-Type:
+      - text/html; charset=UTF-8
+      Content-Length:
+      - '0'
+      X-Openstack-Request-Id:
+      - req-eb00b584-4373-442a-beb5-6c02e260fba9
+      Date:
+      - Fri, 03 Jul 2015 12:39:37 GMT
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:37 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Compute-Request-Id:
+      - req-99f0bd48-f5f3-4ba0-ac46-291302294a60
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '705'
+      X-Openstack-Request-Id:
+      - req-99f0bd48-f5f3-4ba0-ac46-291302294a60
+      Date:
+      - Fri, 03 Jul 2015 12:39:37 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"volume": {"status": "deleting", "display_name": "fog-testvolume-1",
+        "attachments": [], "availability_zone": "nova", "bootable": "false", "encrypted":
+        false, "created_at": "2015-07-03T12:39:34.000000", "multiattach": "false",
+        "os-vol-tenant-attr:tenant_id": "a19e9490e4504b0b877c55510dfb2842", "os-volume-replication:driver_data":
+        null, "display_description": null, "os-volume-replication:extended_status":
+        null, "os-vol-host-attr:host": "mo-780872711@lvmdriver-1#lvmdriver-1", "volume_type":
+        "lvmdriver-1", "snapshot_id": null, "source_volid": null, "os-vol-mig-status-attr:name_id":
+        null, "metadata": {}, "id": "5bc63964-414d-4f0f-ae21-1b9202e7acf0", "os-vol-mig-status-attr:migstat":
+        null, "size": 2}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:37 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Compute-Request-Id:
+      - req-29479376-1b77-4fb3-9381-16d2656847d3
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '705'
+      X-Openstack-Request-Id:
+      - req-29479376-1b77-4fb3-9381-16d2656847d3
+      Date:
+      - Fri, 03 Jul 2015 12:39:39 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"volume": {"status": "deleting", "display_name": "fog-testvolume-1",
+        "attachments": [], "availability_zone": "nova", "bootable": "false", "encrypted":
+        false, "created_at": "2015-07-03T12:39:34.000000", "multiattach": "false",
+        "os-vol-tenant-attr:tenant_id": "a19e9490e4504b0b877c55510dfb2842", "os-volume-replication:driver_data":
+        null, "display_description": null, "os-volume-replication:extended_status":
+        null, "os-vol-host-attr:host": "mo-780872711@lvmdriver-1#lvmdriver-1", "volume_type":
+        "lvmdriver-1", "snapshot_id": null, "source_volid": null, "os-vol-mig-status-attr:name_id":
+        null, "metadata": {}, "id": "5bc63964-414d-4f0f-ae21-1b9202e7acf0", "os-vol-mig-status-attr:migstat":
+        null, "size": 2}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:38 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Compute-Request-Id:
+      - req-adf4c117-6385-4f7b-b9ae-25d59206ef22
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '705'
+      X-Openstack-Request-Id:
+      - req-adf4c117-6385-4f7b-b9ae-25d59206ef22
+      Date:
+      - Fri, 03 Jul 2015 12:39:43 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"volume": {"status": "deleting", "display_name": "fog-testvolume-1",
+        "attachments": [], "availability_zone": "nova", "bootable": "false", "encrypted":
+        false, "created_at": "2015-07-03T12:39:34.000000", "multiattach": "false",
+        "os-vol-tenant-attr:tenant_id": "a19e9490e4504b0b877c55510dfb2842", "os-volume-replication:driver_data":
+        null, "display_description": null, "os-volume-replication:extended_status":
+        null, "os-vol-host-attr:host": "mo-780872711@lvmdriver-1#lvmdriver-1", "volume_type":
+        "lvmdriver-1", "snapshot_id": null, "source_volid": null, "os-vol-mig-status-attr:name_id":
+        null, "metadata": {}, "id": "5bc63964-414d-4f0f-ae21-1b9202e7acf0", "os-vol-mig-status-attr:migstat":
+        null, "size": 2}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:43 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Compute-Request-Id:
+      - req-89552932-4cef-424d-a60f-18acefec90bf
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '705'
+      X-Openstack-Request-Id:
+      - req-89552932-4cef-424d-a60f-18acefec90bf
+      Date:
+      - Fri, 03 Jul 2015 12:39:48 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"volume": {"status": "deleting", "display_name": "fog-testvolume-1",
+        "attachments": [], "availability_zone": "nova", "bootable": "false", "encrypted":
+        false, "created_at": "2015-07-03T12:39:34.000000", "multiattach": "false",
+        "os-vol-tenant-attr:tenant_id": "a19e9490e4504b0b877c55510dfb2842", "os-volume-replication:driver_data":
+        null, "display_description": null, "os-volume-replication:extended_status":
+        null, "os-vol-host-attr:host": "mo-780872711@lvmdriver-1#lvmdriver-1", "volume_type":
+        "lvmdriver-1", "snapshot_id": null, "source_volid": null, "os-vol-mig-status-attr:name_id":
+        null, "metadata": {}, "id": "5bc63964-414d-4f0f-ae21-1b9202e7acf0", "os-vol-mig-status-attr:migstat":
+        null, "size": 2}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:48 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Compute-Request-Id:
+      - req-9edda35e-a14b-4647-b3b0-9041d2a1a6e1
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '705'
+      X-Openstack-Request-Id:
+      - req-9edda35e-a14b-4647-b3b0-9041d2a1a6e1
+      Date:
+      - Fri, 03 Jul 2015 12:39:57 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"volume": {"status": "deleting", "display_name": "fog-testvolume-1",
+        "attachments": [], "availability_zone": "nova", "bootable": "false", "encrypted":
+        false, "created_at": "2015-07-03T12:39:34.000000", "multiattach": "false",
+        "os-vol-tenant-attr:tenant_id": "a19e9490e4504b0b877c55510dfb2842", "os-volume-replication:driver_data":
+        null, "display_description": null, "os-volume-replication:extended_status":
+        null, "os-vol-host-attr:host": "mo-780872711@lvmdriver-1#lvmdriver-1", "volume_type":
+        "lvmdriver-1", "snapshot_id": null, "source_volid": null, "os-vol-mig-status-attr:name_id":
+        null, "metadata": {}, "id": "5bc63964-414d-4f0f-ae21-1b9202e7acf0", "os-vol-mig-status-attr:migstat":
+        null, "size": 2}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:39:57 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Compute-Request-Id:
+      - req-7cff8f84-ab7a-4825-80c4-c223dad40a0f
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '705'
+      X-Openstack-Request-Id:
+      - req-7cff8f84-ab7a-4825-80c4-c223dad40a0f
+      Date:
+      - Fri, 03 Jul 2015 12:40:15 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"volume": {"status": "deleting", "display_name": "fog-testvolume-1",
+        "attachments": [], "availability_zone": "nova", "bootable": "false", "encrypted":
+        false, "created_at": "2015-07-03T12:39:34.000000", "multiattach": "false",
+        "os-vol-tenant-attr:tenant_id": "a19e9490e4504b0b877c55510dfb2842", "os-volume-replication:driver_data":
+        null, "display_description": null, "os-volume-replication:extended_status":
+        null, "os-vol-host-attr:host": "mo-780872711@lvmdriver-1#lvmdriver-1", "volume_type":
+        "lvmdriver-1", "snapshot_id": null, "source_volid": null, "os-vol-mig-status-attr:name_id":
+        null, "metadata": {}, "id": "5bc63964-414d-4f0f-ae21-1b9202e7acf0", "os-vol-mig-status-attr:migstat":
+        null, "size": 2}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:40:14 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Content-Length:
+      - '78'
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Compute-Request-Id:
+      - req-904acc13-d49a-487a-89dc-f3a071dc7618
+      X-Openstack-Request-Id:
+      - req-904acc13-d49a-487a-89dc-f3a071dc7618
+      Date:
+      - Fri, 03 Jul 2015 12:40:47 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"itemNotFound": {"message": "The resource could not be found.",
+        "code": 404}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:40:46 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:8776/v1/a19e9490e4504b0b877c55510dfb2842/volumes/5bc63964-414d-4f0f-ae21-1b9202e7acf0/action
+    body:
+      encoding: UTF-8
+      string: ! '{"os-extend":{"new_size":1}}'
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - fb5eafb443894cc59c09cf4608dbc5eb
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Content-Length:
+      - '109'
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Compute-Request-Id:
+      - req-c6680104-d416-4910-9cde-a04e4019b9f6
+      X-Openstack-Request-Id:
+      - req-c6680104-d416-4910-9cde-a04e4019b9f6
+      Date:
+      - Fri, 03 Jul 2015 12:40:47 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"itemNotFound": {"message": "Volume 5bc63964-414d-4f0f-ae21-1b9202e7acf0
+        could not be found.", "code": 404}}'
+    http_version: 
+  recorded_at: Fri, 03 Jul 2015 12:40:47 GMT
+recorded_with: VCR 2.9.3
