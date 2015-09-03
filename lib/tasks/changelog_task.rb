@@ -135,6 +135,7 @@ Watchers      | #{watchers}
            'Nat Welch',
            'Nick Osborn',
            'nightshade427',
+           'Oleg Vivtash',
            'Patrick Debois',
            'Paul Thornthwaite',
            'Paulo Henrique Lopes Ribeiro',

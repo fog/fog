@@ -1,3 +1,50 @@
+## 1.34.0 09/03/2015
+*Hash* 23467f391cbc9d8d3262da33cec533f8b8e80cee
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Downloads     | 11446261
+Forks         | 1472
+Open Issues   | 82
+Watchers      | 3594
+
+**MVP!** Oleg Vivtash
+
+#### [Brightbox]
+*   Remove provider specific tests. thanks Paul Thornthwaite
+
+#### [OpenStack]
+*   Enable list_snapshots_detailed request. thanks Greg Blomquist
+
+#### [misc]
+*   Adding #get_by_id for Fog::Compute::VcloudDirector::VmCustomizations. thanks Adam Leff
+*   Fix attach router to also use port id if passed. thanks Andrew Battye
+*   When getting a v3 identity service from the catalog, make sure the path includes /v3. thanks Darren Hague
+*   Fix issue #3662 - copy openstack_identity_endpoint option to @openstack_identity_public_endpoint. thanks Darren Hague
+*   Extract dynect bin from fog to fog-dynect. thanks Glenn Pratt
+*   Fix deprecated call to security_groups. thanks Greg Blomquist
+*   Fix deprecated call to resources. thanks Greg Blomquist
+*   Cloud Director supports multiple peer subnets. thanks Josh Myers
+*   Openstack missing passing of unscoped_token. thanks Ladislav Smola
+*   Allow Rackspace-specific options for get_object_https_url. thanks Oleg Vivtash
+*   Code prettified. thanks Oleg Vivtash
+*   Ruby187 hash syntax. thanks Oleg Vivtash
+*   Fog::Storage[:rackspace] object requests test update. thanks Oleg Vivtash
+*   Fog::Storage[:rackspace] object requests test cleanup. thanks Oleg Vivtash
+*   relax dependency for fog-ecloud. thanks Praveen Arimbrathodiyil
+*   support allowed address pairs. thanks pyama86
+*   style. thanks pyama86
+*   api path set. thanks pyama86
+
+#### [openstack]
+*   allow auth_token attribute to be written to. thanks Darren Hague
+*   align recognized parameters, move common things among services into openstack core. thanks Maurice Schreiber
+*   undo premature move of identity_service_type: default value does no good. thanks Maurice Schreiber
+*   orchestration: add missing collection requires, path variable already contains tenant_id. thanks Maurice Schreiber
+*   core: fix wrong merge in 3b129ab9b2eac1cddc3fa680c88f436a6a853474. thanks Maurice Schreiber
+
+
 ## 1.33.0 08/12/2015
 *Hash* 514fb792da07e6c5beaf4b735ea944fa873483f0
 
