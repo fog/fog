@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = "fog"
-  s.version           = "1.34.0"
+  s.version           = "2.0.0-alpha"
   s.date              = "2015-09-03"
   s.rubyforge_project = "fog"
 
@@ -43,6 +43,9 @@ Gem::Specification.new do |s|
   ## LICENSE files to the extra_rdoc_files list.
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.md]
+
+  ## Ruby version
+  s.required_ruby_version = ">= 1.9.3"
 
   s.add_dependency("fog-core", "~> 1.32")
   s.add_dependency("fog-json")
