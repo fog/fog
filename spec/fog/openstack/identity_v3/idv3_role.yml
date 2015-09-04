@@ -1,0 +1,233 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/roles
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 0c4458de5ba5446885c65b1dedfb2404
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-4bdf8936-d6d8-4a61-aacd-2dd0f00cd046
+      Content-Length:
+      - '884'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles", "previous":
+        null, "next": null}, "roles": [{"id": "1348e84f9797426bb6ec4cae1e6289d7",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/1348e84f9797426bb6ec4cae1e6289d7"},
+        "name": "anotherrole"}, {"id": "430e91ef76b74b728a2864bc8a410a60", "links":
+        {"self": "http://devstack.openstack.stack:35357/v3/roles/430e91ef76b74b728a2864bc8a410a60"},
+        "name": "service"}, {"id": "64537dfec884463faf4978fcb9ec1e14", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/64537dfec884463faf4978fcb9ec1e14"},
+        "name": "Member"}, {"id": "6ead57f8ae124996af8b0beb72ff1007", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/6ead57f8ae124996af8b0beb72ff1007"},
+        "name": "admin"}, {"id": "d7390adf0b014ceb9247591b70d0eac9", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/d7390adf0b014ceb9247591b70d0eac9"},
+        "name": "ResellerAdmin"}]}'
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:31 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/roles
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 0c4458de5ba5446885c65b1dedfb2404
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-6c8419cb-53d9-48e5-9af4-d031450a4dc3
+      Content-Length:
+      - '884'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles", "previous":
+        null, "next": null}, "roles": [{"id": "1348e84f9797426bb6ec4cae1e6289d7",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/1348e84f9797426bb6ec4cae1e6289d7"},
+        "name": "anotherrole"}, {"id": "430e91ef76b74b728a2864bc8a410a60", "links":
+        {"self": "http://devstack.openstack.stack:35357/v3/roles/430e91ef76b74b728a2864bc8a410a60"},
+        "name": "service"}, {"id": "64537dfec884463faf4978fcb9ec1e14", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/64537dfec884463faf4978fcb9ec1e14"},
+        "name": "Member"}, {"id": "6ead57f8ae124996af8b0beb72ff1007", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/6ead57f8ae124996af8b0beb72ff1007"},
+        "name": "admin"}, {"id": "d7390adf0b014ceb9247591b70d0eac9", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/d7390adf0b014ceb9247591b70d0eac9"},
+        "name": "ResellerAdmin"}]}'
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:31 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/roles
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 0c4458de5ba5446885c65b1dedfb2404
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-9ff19255-dd9b-4f04-9d81-db3e279a8872
+      Content-Length:
+      - '884'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles", "previous":
+        null, "next": null}, "roles": [{"id": "1348e84f9797426bb6ec4cae1e6289d7",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/1348e84f9797426bb6ec4cae1e6289d7"},
+        "name": "anotherrole"}, {"id": "430e91ef76b74b728a2864bc8a410a60", "links":
+        {"self": "http://devstack.openstack.stack:35357/v3/roles/430e91ef76b74b728a2864bc8a410a60"},
+        "name": "service"}, {"id": "64537dfec884463faf4978fcb9ec1e14", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/64537dfec884463faf4978fcb9ec1e14"},
+        "name": "Member"}, {"id": "6ead57f8ae124996af8b0beb72ff1007", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/6ead57f8ae124996af8b0beb72ff1007"},
+        "name": "admin"}, {"id": "d7390adf0b014ceb9247591b70d0eac9", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/d7390adf0b014ceb9247591b70d0eac9"},
+        "name": "ResellerAdmin"}]}'
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:31 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/roles
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 0c4458de5ba5446885c65b1dedfb2404
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-391c8638-2d60-4efd-b1f5-15c94a473f6c
+      Content-Length:
+      - '884'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles", "previous":
+        null, "next": null}, "roles": [{"id": "1348e84f9797426bb6ec4cae1e6289d7",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/1348e84f9797426bb6ec4cae1e6289d7"},
+        "name": "anotherrole"}, {"id": "430e91ef76b74b728a2864bc8a410a60", "links":
+        {"self": "http://devstack.openstack.stack:35357/v3/roles/430e91ef76b74b728a2864bc8a410a60"},
+        "name": "service"}, {"id": "64537dfec884463faf4978fcb9ec1e14", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/64537dfec884463faf4978fcb9ec1e14"},
+        "name": "Member"}, {"id": "6ead57f8ae124996af8b0beb72ff1007", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/6ead57f8ae124996af8b0beb72ff1007"},
+        "name": "admin"}, {"id": "d7390adf0b014ceb9247591b70d0eac9", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/d7390adf0b014ceb9247591b70d0eac9"},
+        "name": "ResellerAdmin"}]}'
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:31 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/roles/atlantis
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 0c4458de5ba5446885c65b1dedfb2404
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-08857458-848d-444d-9b43-4dd69dbdba28
+      Content-Length:
+      - '90'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"error": {"message": "Could not find role: atlantis", "code": 404,
+        "title": "Not Found"}}'
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:32 GMT
+recorded_with: VCR 2.9.3

@@ -2,24 +2,18 @@ module Fog
   module Baremetal
     class OpenStack
       class Real
-        def list_chassis_detailed(parameters=nil)
-          if parameters
-            query = parameters.each { |k, v| parameters[k] = URI::encode(v) }
-          else
-            query = {}
-          end
-
+        def list_chassis_detailed(options = {})
           request(
             :expects => [200, 204],
             :method  => 'GET',
             :path    => 'chassis/detail',
-            :query   => query
+            :query   => options
           )
         end
       end # class Real
 
       class Mock
-        def list_chassis_detailed(parameters=nil)
+        def list_chassis_detailed(options = {})
           response = Excon::Response.new
           response.status = [200, 204][rand(1)]
           response.body = { "chassis" => self.data[:chassis_collection] }

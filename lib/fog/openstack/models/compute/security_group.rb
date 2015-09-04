@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Compute
     class OpenStack
-      class SecurityGroup < Fog::Model
+      class SecurityGroup < Fog::OpenStack::Model
         identity  :id
 
         attribute :name

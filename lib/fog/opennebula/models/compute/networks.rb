@@ -12,7 +12,17 @@ module Fog
         end
 
         def get(id)
-          self.all({:id => id}).first
+          data = service.list_networks({:id => id})
+          load(data).first
+        rescue Fog::Compute::OpenNebula::NotFound
+          nil
+        end
+
+        def get_by_name(network)
+          data = service.list_networks({:network => network})
+          load(data).first
+        rescue Fog::Compute::OpenNebula::NotFound
+          nil
         end
 
         def get_by_filter(filter)

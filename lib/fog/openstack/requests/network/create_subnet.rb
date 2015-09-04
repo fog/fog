@@ -7,22 +7,22 @@ module Fog
             'subnet' => {
               'network_id' => network_id,
               'cidr'       => cidr,
-              'ip_version' => ip_version,
+              'ip_version' => ip_version
             }
           }
 
           vanilla_options = [:name, :gateway_ip, :allocation_pools,
                              :dns_nameservers, :host_routes, :enable_dhcp,
                              :tenant_id]
-          vanilla_options.reject{ |o| options[o].nil? }.each do |key|
+          vanilla_options.select{ |o| options.key?(o) }.each do |key|
             data['subnet'][key] = options[key]
           end
 
           request(
-            :body     => Fog::JSON.encode(data),
-            :expects  => [201],
-            :method   => 'POST',
-            :path     => 'subnets'
+            :body => Fog::JSON.encode(data),
+            :expects => [201],
+            :method => 'POST',
+            :path => 'subnets'
           )
         end
       end
@@ -42,7 +42,7 @@ module Fog
             'dns_nameservers'  => options[:dns_nameservers],
             'host_routes'      => options[:host_routes],
             'enable_dhcp'      => options[:enable_dhcp],
-            'tenant_id'        => options[:tenant_id],
+            'tenant_id'        => options[:tenant_id]
           }
           self.data[:subnets][data['id']] = data
           response.body = { 'subnet' => data }

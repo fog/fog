@@ -2,7 +2,7 @@ module Fog
   module Orchestration
     class OpenStack
       class Real
-        def list_stack_data(options={})
+        def list_stack_data(options = {})
           request(
             :method  => 'GET',
             :path    => 'stacks',
@@ -13,7 +13,7 @@ module Fog
       end
 
       class Mock
-        def list_stack_data
+        def list_stack_data(options = {})
           stacks = self.data[:stacks].values
 
           Excon::Response.new(

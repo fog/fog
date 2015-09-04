@@ -1,19 +1,14 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Metering
     class OpenStack
-      class Resource < Fog::Model
+      class Resource < Fog::OpenStack::Model
         identity :resource_id
 
         attribute :project_id
         attribute :user_id
         attribute :metadata
-
-        def initialize(attributes)
-          prepare_service_value(attributes)
-          super
-        end
       end
     end
   end

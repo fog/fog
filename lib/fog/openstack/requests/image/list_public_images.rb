@@ -2,17 +2,18 @@ module Fog
   module Image
     class OpenStack
       class Real
-        def list_public_images
+        def list_public_images(options = {})
           request(
             :expects => [200, 204],
             :method  => 'GET',
-            :path    => 'images'
+            :path    => 'images',
+            :query   => options
           )
         end
       end # class Real
 
       class Mock
-        def list_public_images
+        def list_public_images(options = {})
           response = Excon::Response.new
           response.status = [200, 204][rand(1)]
           response.body = {

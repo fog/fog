@@ -240,6 +240,59 @@ class Glesys
           }
         }
       end
+      module SshKeys
+        ADD = {
+          'debug' => {
+            'input' => {
+              'sshkey'      => String,
+              'description' => String
+            }
+          },
+          'sshkey' => {
+            'id'          => Integer,
+            'account'     => String,
+            'description' => String,
+            'data'        => String
+          },
+          'status' => {
+            'timestamp'     => String,
+            'code'          => Integer,
+            'text'          => String,
+            'transactionid' => Fog::Nullable::String
+          }
+        }
+        REMOVE = {
+          'debug' => {
+            'input' => {
+              'sshkeyids' => String,
+            }
+          },
+          'status' => {
+            'timestamp'     => String,
+            'code'          => Integer,
+            'text'          => String,
+            'transactionid' => Fog::Nullable::String
+          }
+        }
+        LIST = {
+          'debug' => {
+            'input' => []
+          },
+          'sshkeys' => [
+            {
+              'id' => Integer,
+              'account' => String,
+              'description' => String,
+              'data' => String,
+            }
+          ],
+          'status' => {
+            'timestamp' => String,
+            'code'      => Integer,
+            'text'      => String
+          }
+        }
+      end
       module Templates
         LIST = {
           'debug' => {

@@ -2,18 +2,32 @@ module Fog
   module Compute
     class OpenStack
       class Real
-        def list_volumes(detailed=true)
-          path = detailed ? 'os-volumes/detail' : 'os-volumes'
+        def list_volumes(options = true)
+          if options.is_a?(Hash)
+            path = 'os-volumes'
+            query = options
+          else
+            # Backwards compatibility layer, when 'detailed' boolean was sent as first param
+            if options
+              Fog::Logger.deprecation('Calling OpenStack[:compute].list_volumes(true) is deprecated, use .list_volumes_detail instead')
+            else
+              Fog::Logger.deprecation('Calling OpenStack[:compute].list_volumes(false) is deprecated, use .list_volumes({}) instead')
+            end
+            path = options ? 'os-volumes/detail' : 'os-volumes'
+            query = {}
+          end
+
           request(
             :expects  => 200,
             :method   => 'GET',
-            :path     => path
+            :path     => path,
+            :query    => query
           )
         end
       end
 
       class Mock
-        def list_volumes(detailed=true)
+        def list_volumes(options = true)
           Excon::Response.new(
             :body   => { 'volumes' => self.data[:volumes].values },
             :status => 200

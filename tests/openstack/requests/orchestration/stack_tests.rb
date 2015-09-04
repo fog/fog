@@ -10,6 +10,27 @@ Shindo.tests('Fog::Orchestration[:openstack] | stack requests', ['openstack']) d
     'updated_time'        => Time
   }
 
+  @stack_detailed_format = {
+    "parent"                => Fog::Nullable::String,
+    "disable_rollback"      => Fog::Boolean,
+    "description"           => String,
+    "links"                 => Array,
+    "stack_status_reason"   => String,
+    "stack_name"            => String,
+    "stack_user_project_id" => String,
+    "stack_owner"           => String,
+    "creation_time"         => Fog::Nullable::String,
+    "capabilities"          => Array,
+    "notification_topics"   => Array,
+    "updated_time"          => Fog::Nullable::String,
+    "timeout_mins"          => Fog::Nullable::String,
+    "stack_status"          => String,
+    "parameters"            => Hash,
+    "id"                    => String,
+    "outputs"               => Array,
+    "template_description"  => String
+  }
+
   @create_format = {
     'id'                  => String,
     'links'               => Array,
@@ -22,6 +43,10 @@ Shindo.tests('Fog::Orchestration[:openstack] | stack requests', ['openstack']) d
 
     tests('#list_stack_data').formats({'stacks' => [@stack_format]}) do
       Fog::Orchestration[:openstack].list_stack_data.body
+    end
+
+    tests('#list_stack_data_Detailed').formats({'stacks' => [@stack_detailed_format]}) do
+      Fog::Orchestration[:openstack].list_stack_data_detailed.body
     end
 
     tests('#update_stack("teststack")').formats({}) do

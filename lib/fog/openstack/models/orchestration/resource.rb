@@ -1,15 +1,15 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Orchestration
     class OpenStack
-      class Resource < Fog::Model
+      class Resource < Fog::OpenStack::Model
 
         include Reflectable
 
         identity :id
 
-        %w{resource_name description links logical_resource_id resource_status
+        %w{resource_name description links logical_resource_id physical_resource_id resource_status
             updated_time required_by resource_status_reason resource_type}.each do |a|
           attribute a.to_sym
         end

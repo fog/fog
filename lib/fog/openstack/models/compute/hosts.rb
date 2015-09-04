@@ -1,15 +1,15 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/compute/host'
 
 module Fog
   module Compute
     class OpenStack
-      class Hosts < Fog::Collection
+      class Hosts < Fog::OpenStack::Collection
         model Fog::Compute::OpenStack::Host
 
-        def all
-          data = service.list_hosts.body['hosts']
-          load(data)
+        def all(options = {})
+          data = service.list_hosts(options)
+          load_response(data, 'hosts')
         end
 
         def get(host_name)

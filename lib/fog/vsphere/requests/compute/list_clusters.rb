@@ -41,7 +41,7 @@ module Fog
 
         def cluster_path(cluster, datacenter_name)
           datacenter = find_raw_datacenter(datacenter_name)
-          cluster.pretty_path.gsub(/(#{datacenter.name}|#{datacenter.hostFolder.name})\//,'')
+          cluster.pretty_path.gsub(/(#{datacenter_name}|#{datacenter.hostFolder.name})\//,'')
         end
       end
 

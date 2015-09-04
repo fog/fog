@@ -33,8 +33,15 @@ module Fog
       request :linode_disk_create
       request :linode_disk_list
       request :linode_disk_delete
+      request :linode_disk_resize
+      request :linode_disk_update
+      request :linode_disk_imagize
+      request :linode_disk_duplicate
       request :linode_disk_createfromdistribution
       request :linode_disk_createfromstackscript
+      request :linode_disk_createfromimage
+      request :image_list
+      request :image_delete
       request :linode_ip_list
       request :linode_ip_addprivate
       request :linode_config_list

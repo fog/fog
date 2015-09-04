@@ -39,6 +39,7 @@ module Fog
         attribute :security_group_list,    :type => :array, :aliases => 'securitygroup'
         attribute :nics,                   :type => :array, :aliases => 'nic'
         attribute :job_id,                                  :aliases => 'jobid'   # only on create
+        attribute :size,                   :type => :integer
 
         attr_accessor :network_ids, :disk_offering_id, :ip_address, :ip_to_network_list
         attr_writer :security_group_ids
@@ -128,6 +129,7 @@ module Fog
             'projectid'         => project_id,
             'keypair'           => key_name,
             'userdata'          => user_data,
+            'size'              => size,
           }
 
           options.merge!('networkids' => network_ids) if network_ids

@@ -1,0 +1,452 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:35357/v3/users
+    body:
+      encoding: UTF-8
+      string: ! '{"user":{"name":"foobar_385","email":"foobar_demo@example.com","domain_id":"default","password":"s3cret!"}}'
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 0c4458de5ba5446885c65b1dedfb2404
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:24 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-7500224b-d72c-40fa-9f57-c502b7e467a1
+      Content-Length:
+      - '243'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"user": {"name": "foobar_385", "links": {"self": "http://devstack.openstack.stack:35357/v3/users/47d9bd80f4b549089609fcca39479140"},
+        "domain_id": "default", "enabled": true, "email": "foobar_demo@example.com",
+        "id": "47d9bd80f4b549089609fcca39479140"}}'
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:24 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:35357/v3/roles
+    body:
+      encoding: UTF-8
+      string: ! '{"role":{"name":"foobar_role390"}}'
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 0c4458de5ba5446885c65b1dedfb2404
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:24 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-5b6421c3-072e-485e-93be-5add1c84a22d
+      Content-Length:
+      - '170'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"role": {"id": "a60c9dcd072b4fad8ec326e5e61d9955", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/a60c9dcd072b4fad8ec326e5e61d9955"},
+        "name": "foobar_role390"}}'
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:24 GMT
+- request:
+    method: put
+    uri: http://devstack.openstack.stack:35357/v3/domains/default/users/47d9bd80f4b549089609fcca39479140/roles/a60c9dcd072b4fad8ec326e5e61d9955
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 0c4458de5ba5446885c65b1dedfb2404
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:24 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-d6fa789d-8e54-4263-a495-400afebc911d
+      Content-Length:
+      - '0'
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:24 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:5000/v3/auth/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"identity":{"methods":["password"],"password":{"user":{"password":"s3cret!","domain":{"id":"default"},"name":"foobar_385"}}},"scope":{"domain":{"id":"default"}}}}'
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:24 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      X-Subject-Token:
+      - de277fd5e2054079a380d41e43b40686
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-9d90ce38-e1c6-4316-930d-780764790067
+      Content-Length:
+      - '3546'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"token": {"domain": {"id": "default", "name": "Default"}, "methods":
+        ["password"], "roles": [{"id": "a60c9dcd072b4fad8ec326e5e61d9955", "name":
+        "foobar_role390"}], "expires_at": "2015-06-23T16:09:24.930033Z", "catalog":
+        [{"endpoints": [{"region_id": "RegionOne", "url": "http://devstack.openstack.stack:9292",
+        "region": "RegionOne", "interface": "public", "id": "6e82c8912d3f49a09df51035681d564c"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:9292", "region":
+        "RegionOne", "interface": "admin", "id": "7e44d321ae80457abc3728fa1e6feb32"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:9292", "region":
+        "RegionOne", "interface": "internal", "id": "c9a090a4597040849c03bc13588167f6"}],
+        "type": "image", "id": "0d56500210a24c38a3702b6825e24164", "name": "glance"},
+        {"endpoints": [], "type": "volumev2", "id": "2b92e79c45254516932c633229cd0e8b",
+        "name": "cinderv2"}, {"endpoints": [{"region_id": "RegionOne", "url": "http://devstack.openstack.stack:8773/",
+        "region": "RegionOne", "interface": "admin", "id": "1ce26a6fffd0424bac135b9c68055b6e"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:8773/", "region":
+        "RegionOne", "interface": "public", "id": "98db699b9ffa4dffb027d78163aad8cc"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:8773/", "region":
+        "RegionOne", "interface": "internal", "id": "ece52860cf1e4eb6a8fed05c47a30147"}],
+        "type": "ec2", "id": "3364a7b95c664bf89a7a8db081576364", "name": "ec2"}, {"endpoints":
+        [], "type": "volume", "id": "511b94ce0482484ea09028091dd5e9a5", "name": "cinder"},
+        {"endpoints": [], "type": "compute", "id": "5b7028751ed045d79467c7845ecb8c58",
+        "name": "nova"}, {"endpoints": [], "type": "computev21", "id": "97e665cbada043718180c5a6316df76a",
+        "name": "novav21"}, {"endpoints": [{"region_id": "RegionOne", "url": "http://devstack.openstack.stack:35357/v3",
+        "region": "RegionOne", "interface": "admin", "id": "185eda94de9340e58245062f75d7f80e"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:5000/v3", "region":
+        "RegionOne", "interface": "internal", "id": "9abd6797844d455f875af9537325cba4"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:5000/v3", "region":
+        "RegionOne", "interface": "public", "id": "d3b31f24e4ea40699f731e29e625c187"}],
+        "type": "identity", "id": "b577d8f7c7074d04a1165fcca638b600", "name": "keystone_v3x"},
+        {"endpoints": [{"region_id": "europe", "url": "http://devstack.openstack.stack:35357/v3",
+        "region": "europe", "interface": "admin", "id": "32bb2c6aea944ea6b4956eb24142d2e2"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:5000/v3", "region":
+        "RegionOne", "interface": "public", "id": "480ea71dc8cf4c959df1c6304be87056"},
+        {"region_id": "europe", "url": "http://devstack.openstack.stack:5000/v3", "region":
+        "europe", "interface": "public", "id": "600638643d22494fad4f30e3b22ae124"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:5000/v3", "region":
+        "RegionOne", "interface": "internal", "id": "8a254651925e4a3e9505c863a00c017e"},
+        {"region_id": "europe", "url": "http://devstack.openstack.stack:5000/v3", "region":
+        "europe", "interface": "internal", "id": "b93da6aaba654d8cb451ff8378d7d2a5"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:35357/v3", "region":
+        "RegionOne", "interface": "admin", "id": "d5f8e0da0f3345529a5fb324d735d4a3"}],
+        "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009", "name": "keystone_v3"}],
+        "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
+        "47d9bd80f4b549089609fcca39479140", "name": "foobar_385"}, "audit_ids": ["FsYe1DR9RcuaXCjkm0ElvA"],
+        "issued_at": "2015-06-23T15:09:24.930079Z"}}'
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:25 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:5000/v3/auth/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"de277fd5e2054079a380d41e43b40686"}}}}'
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:24 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      X-Subject-Token:
+      - 357daba7c7654ea4a40f95bfc18e152a
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-93e38120-8f8b-4605-9ae5-9b350532b251
+      Content-Length:
+      - '337'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"token": {"methods": ["token", "password"], "expires_at": "2015-06-23T16:09:24.930033Z",
+        "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
+        "47d9bd80f4b549089609fcca39479140", "name": "foobar_385"}, "audit_ids": ["4CUW0pnWTn2mkdyTsIDqEQ",
+        "FsYe1DR9RcuaXCjkm0ElvA"], "issued_at": "2015-06-23T15:09:25.076422Z"}}'
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:25 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:5000/v3/users/47d9bd80f4b549089609fcca39479140/projects
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 357daba7c7654ea4a40f95bfc18e152a
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:25 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-e9978caa-587c-4bc0-a147-39b1e3104a21
+      Content-Length:
+      - '148'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"links": {"self": "http://devstack.openstack.stack:5000/v3/users/47d9bd80f4b549089609fcca39479140/projects",
+        "previous": null, "next": null}, "projects": []}'
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:25 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:5000/v3/auth/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"de277fd5e2054079a380d41e43b40686"}},"scope":{"domain":{"id":"default"}}}}'
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:25 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      X-Subject-Token:
+      - 315efd1c5f8d4664815cd5fe69406b38
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-f7e6a683-17b1-4177-8224-d9aaf3ba2584
+      Content-Length:
+      - '3581'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"token": {"domain": {"id": "default", "name": "Default"}, "methods":
+        ["token", "password"], "roles": [{"id": "a60c9dcd072b4fad8ec326e5e61d9955",
+        "name": "foobar_role390"}], "expires_at": "2015-06-23T16:09:24.930033Z", "catalog":
+        [{"endpoints": [{"region_id": "RegionOne", "url": "http://devstack.openstack.stack:9292",
+        "region": "RegionOne", "interface": "public", "id": "6e82c8912d3f49a09df51035681d564c"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:9292", "region":
+        "RegionOne", "interface": "admin", "id": "7e44d321ae80457abc3728fa1e6feb32"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:9292", "region":
+        "RegionOne", "interface": "internal", "id": "c9a090a4597040849c03bc13588167f6"}],
+        "type": "image", "id": "0d56500210a24c38a3702b6825e24164", "name": "glance"},
+        {"endpoints": [], "type": "volumev2", "id": "2b92e79c45254516932c633229cd0e8b",
+        "name": "cinderv2"}, {"endpoints": [{"region_id": "RegionOne", "url": "http://devstack.openstack.stack:8773/",
+        "region": "RegionOne", "interface": "admin", "id": "1ce26a6fffd0424bac135b9c68055b6e"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:8773/", "region":
+        "RegionOne", "interface": "public", "id": "98db699b9ffa4dffb027d78163aad8cc"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:8773/", "region":
+        "RegionOne", "interface": "internal", "id": "ece52860cf1e4eb6a8fed05c47a30147"}],
+        "type": "ec2", "id": "3364a7b95c664bf89a7a8db081576364", "name": "ec2"}, {"endpoints":
+        [], "type": "volume", "id": "511b94ce0482484ea09028091dd5e9a5", "name": "cinder"},
+        {"endpoints": [], "type": "compute", "id": "5b7028751ed045d79467c7845ecb8c58",
+        "name": "nova"}, {"endpoints": [], "type": "computev21", "id": "97e665cbada043718180c5a6316df76a",
+        "name": "novav21"}, {"endpoints": [{"region_id": "RegionOne", "url": "http://devstack.openstack.stack:35357/v3",
+        "region": "RegionOne", "interface": "admin", "id": "185eda94de9340e58245062f75d7f80e"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:5000/v3", "region":
+        "RegionOne", "interface": "internal", "id": "9abd6797844d455f875af9537325cba4"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:5000/v3", "region":
+        "RegionOne", "interface": "public", "id": "d3b31f24e4ea40699f731e29e625c187"}],
+        "type": "identity", "id": "b577d8f7c7074d04a1165fcca638b600", "name": "keystone_v3x"},
+        {"endpoints": [{"region_id": "europe", "url": "http://devstack.openstack.stack:35357/v3",
+        "region": "europe", "interface": "admin", "id": "32bb2c6aea944ea6b4956eb24142d2e2"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:5000/v3", "region":
+        "RegionOne", "interface": "public", "id": "480ea71dc8cf4c959df1c6304be87056"},
+        {"region_id": "europe", "url": "http://devstack.openstack.stack:5000/v3", "region":
+        "europe", "interface": "public", "id": "600638643d22494fad4f30e3b22ae124"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:5000/v3", "region":
+        "RegionOne", "interface": "internal", "id": "8a254651925e4a3e9505c863a00c017e"},
+        {"region_id": "europe", "url": "http://devstack.openstack.stack:5000/v3", "region":
+        "europe", "interface": "internal", "id": "b93da6aaba654d8cb451ff8378d7d2a5"},
+        {"region_id": "RegionOne", "url": "http://devstack.openstack.stack:35357/v3", "region":
+        "RegionOne", "interface": "admin", "id": "d5f8e0da0f3345529a5fb324d735d4a3"}],
+        "type": "identity_v3", "id": "cd9002bbadfe495d81b5ee4c50768009", "name": "keystone_v3"}],
+        "extras": {}, "user": {"domain": {"id": "default", "name": "Default"}, "id":
+        "47d9bd80f4b549089609fcca39479140", "name": "foobar_385"}, "audit_ids": ["_bDviad6S_mO37zUd1-z5g",
+        "FsYe1DR9RcuaXCjkm0ElvA"], "issued_at": "2015-06-23T15:09:25.280490Z"}}'
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:25 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:5000/v3/auth/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"identity":{"methods":["token"],"token":{"id":"blahblahblah"}}}}'
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:25 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-dbae33aa-50fd-498d-86cc-0526abd157da
+      Content-Length:
+      - '95'
+      Content-Type:
+      - application/json
+    body:
+      encoding: US-ASCII
+      string: ! '{"error": {"message": "Could not find token: blahblahblah", "code":
+        404, "title": "Not Found"}}'
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:25 GMT
+- request:
+    method: delete
+    uri: http://devstack.openstack.stack:35357/v3/users/47d9bd80f4b549089609fcca39479140
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 0c4458de5ba5446885c65b1dedfb2404
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:25 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-0662bfee-8245-44a7-9c8b-d71b8bfbc1eb
+      Content-Length:
+      - '0'
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:25 GMT
+- request:
+    method: delete
+    uri: http://devstack.openstack.stack:35357/v3/roles/a60c9dcd072b4fad8ec326e5e61d9955
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.31.0 fog-core/1.31.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 0c4458de5ba5446885c65b1dedfb2404
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Tue, 23 Jun 2015 15:09:25 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-3e669481-17a2-4a05-9b87-13268be81781
+      Content-Length:
+      - '0'
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Tue, 23 Jun 2015 15:09:25 GMT
+recorded_with: VCR 2.9.3

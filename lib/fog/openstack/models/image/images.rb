@@ -1,18 +1,24 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/image/image'
 
 module Fog
   module Image
     class OpenStack
-      class Images < Fog::Collection
+      class Images < Fog::OpenStack::Collection
         model Fog::Image::OpenStack::Image
 
-        def all
-          load(service.list_public_images_detailed.body['images'])
+        def all(options = {})
+          load_response(service.list_public_images_detailed(options), 'images')
         end
 
-        def details(attribute=nil, query=nil)
-          load(service.list_public_images_detailed(attribute, query).body['images'])
+        def summary(options = {})
+          load_response(service.list_public_images(options), 'images')
+        end
+
+        def details(options = {}, deprecated_query = nil)
+          Fog::Logger.deprecation("Calling OpenStack[:glance].images.details will be removed, "\
+                                  " call .images.all for detailed list.")
+          load_response(service.list_public_images_detailed(options, deprecated_query), 'images')
         end
 
         def find_by_id(id)

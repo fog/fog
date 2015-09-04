@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Compute
     class OpenStack
-      class Tenant < Fog::Model
+      class Tenant < Fog::OpenStack::Model
         identity :id
 
         attribute :description

@@ -5,10 +5,15 @@ module Fog
     class OpenStack < Fog::Service
       requires   :openstack_auth_url, :openstack_username,
                  :openstack_api_key
-      recognizes :persistent, :openstack_service_name,
-                 :openstack_service_type, :openstack_tenant,
-                 :openstack_region, :openstack_temp_url_key,
-                 :openstack_endpoint_type
+      recognizes :openstack_auth_token, :openstack_management_url,
+                 :persistent, :openstack_service_type, :openstack_service_name,
+                 :openstack_tenant, :openstack_tenant_id,
+                 :openstack_api_key, :openstack_username, :openstack_identity_endpoint,
+                 :current_user, :current_tenant, :openstack_region,
+                 :openstack_endpoint_type,
+                 :openstack_project_name, :openstack_project_id,
+                 :openstack_project_domain, :openstack_user_domain, :openstack_domain_name,
+                 :openstack_project_domain_id, :openstack_user_domain_id, :openstack_domain_id
 
       model_path 'fog/openstack/models/storage'
       model       :directory
@@ -75,27 +80,19 @@ module Fog
       end
 
       class Real
+        include Fog::OpenStack::Core
+
         def initialize(options={})
-          @openstack_api_key = options[:openstack_api_key]
-          @openstack_username = options[:openstack_username]
-          @openstack_auth_url = options[:openstack_auth_url]
-          @openstack_auth_token = options[:openstack_auth_token]
-          @openstack_storage_url = options[:openstack_storage_url]
-          @openstack_must_reauthenticate = false
-          @openstack_service_type = options[:openstack_service_type] || ['object-store']
-          @openstack_service_name = options[:openstack_service_name]
-          @openstack_region       = options[:openstack_region]
-          @openstack_tenant       = options[:openstack_tenant]
-          @connection_options     = options[:connection_options] || {}
-          @openstack_temp_url_key = options[:openstack_temp_url_key]
-          @openstack_endpoint_type = options[:openstack_endpoint_type] || 'publicURL'
+          initialize_identity options
+
+          @openstack_service_type           = options[:openstack_service_type] || ['object-store']
+          @openstack_service_name           = options[:openstack_service_name]
+
+          @connection_options               = options[:connection_options] || {}
+
           authenticate
           @persistent = options[:persistent] || false
           @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
-        end
-
-        def reload
-          @connection.reset
         end
 
         # Change the current account while re-using the auth token.
@@ -178,40 +175,6 @@ module Fog
 
         private
 
-        def authenticate
-          if !@openstack_management_url || @openstack_must_reauthenticate
-            options = {
-              :openstack_api_key  => @openstack_api_key,
-              :openstack_username => @openstack_username,
-              :openstack_auth_uri => URI.parse(@openstack_auth_url),
-              :openstack_service_type => @openstack_service_type,
-              :openstack_service_name => @openstack_service_name,
-              :openstack_region => @openstack_region,
-              :openstack_tenant => @openstack_tenant,
-              :openstack_endpoint_type => @openstack_endpoint_type
-            }
-
-            credentials = Fog::OpenStack.authenticate(options, @connection_options)
-
-            @current_user = credentials[:user]
-            @current_tenant = credentials[:tenant]
-
-            @openstack_must_reauthenticate = false
-            @auth_token = credentials[:token]
-            @openstack_management_url = credentials[:server_management_url]
-            uri = URI.parse(@openstack_management_url)
-          else
-            @auth_token = @openstack_auth_token
-            uri = URI.parse(@openstack_management_url)
-          end
-
-          @host   = uri.host
-          @path   = uri.path
-          @path.sub!(/\/$/, '')
-          @port   = uri.port
-          @scheme = uri.scheme
-          true
-        end
       end
     end
   end

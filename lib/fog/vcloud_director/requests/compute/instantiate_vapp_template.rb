@@ -61,6 +61,21 @@ module Fog
             }
             # The template
             xml.Source(:href => options[:template_uri])
+            # Use of sourceItems for configuring VM's during instantiation.
+            # NOTE: Name and storage profile configuration supported so far.
+            # http://pubs.vmware.com/vca/index.jsp?topic=%2Fcom.vmware.vcloud.api.doc_56%2FGUID-BF9B790D-512E-4EA1-99E8-6826D4B8E6DC.html
+            (options[:vms_config] || []).each do |vm_config|
+              next unless vm_config[:href]
+              xml.SourcedItem {
+                xml.Source(:href => vm_config[:href])
+                xml.VmGeneralParams{
+                  xml.Name(vm_config[:name]) if vm_config[:name]
+                }
+                if storage_href = vm_config[:storage_profile_href]
+                  xml.StorageProfile(:href => storage_href)
+                end
+              }
+            end
             xml.AllEULAsAccepted("true")
           }
         end

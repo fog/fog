@@ -31,5 +31,21 @@ Shindo.tests("Fog::Openstack[:planning] | plan", ['openstack']) do
     tests('#remove_role').succeeds do
       @instance.remove_role(@role['uuid'])
     end
+
+    tests('#save').succeeds do
+      @instance.save
+    end
+
+    tests('#update').succeeds do
+      @instance.update
+    end
+
+    tests('#destroy').succeeds do
+      @instance.destroy
+    end
+
+    tests('#create').succeeds do
+      @instance.create
+    end
   end
 end

@@ -23,12 +23,22 @@ module Fog
       end
 
       class Mock
-        def list_public_ip_addresses(*arg)
-          public_ip_addresses = self.data[:public_ip_addresses]
-          { "listpublicipaddressesresponse" => { "count"=> public_ip_addresses.count, "publicipaddress"=> public_ip_addresses.values } }
+        def list_public_ip_addresses(*args)
+          public_ip_address_id = args[0].is_a?(Hash) ? args[0]['id'] : nil
+          if public_ip_address_id
+            public_ip_addresses = [self.data[:public_ip_addresses][public_ip_address_id]]
+          else
+            public_ip_addresses = self.data[:public_ip_addresses].values
+          end
+
+          {
+            'listpublicipaddressesresponse' => {
+              'count' => public_ip_addresses.size,
+              'publicipaddress' => public_ip_addresses
+            }
+          }
         end
       end
-
     end
   end
 end

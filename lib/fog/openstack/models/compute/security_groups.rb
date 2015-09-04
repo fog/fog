@@ -1,14 +1,14 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/compute/security_group'
 
 module Fog
   module Compute
     class OpenStack
-      class SecurityGroups < Fog::Collection
+      class SecurityGroups < Fog::OpenStack::Collection
         model Fog::Compute::OpenStack::SecurityGroup
 
-        def all
-          load(service.list_security_groups.body['security_groups'])
+        def all(options = {})
+          load_response(service.list_security_groups(options), 'security_groups')
         end
 
         def get(security_group_id)

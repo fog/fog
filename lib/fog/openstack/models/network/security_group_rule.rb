@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Network
     class OpenStack
-      class SecurityGroupRule < Fog::Model
+      class SecurityGroupRule < Fog::OpenStack::Model
         identity :id
 
         attribute :security_group_id
