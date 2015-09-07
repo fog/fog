@@ -12,7 +12,7 @@ module Fog
       end
 
       class Mock
-        def get_volume_details(volume_type_id)
+        def get_volume_type_details(volume_type_id)
           response = Excon::Response.new
           response.status = 200
           response.body = {

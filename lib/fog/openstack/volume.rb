@@ -41,6 +41,9 @@ module Fog
       request :list_zones
 
       request :list_volume_types
+      request :create_volume_type
+      request :update_volume_type
+      request :delete_volume_type
       request :get_volume_type_details
 
       request :create_volume_snapshot
