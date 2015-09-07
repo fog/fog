@@ -50,6 +50,7 @@ module Fog
       request :show_resource_template
       request :show_stack_details
       request :update_stack
+      request :patch_stack
       request :validate_template
 
       module Reflectable
