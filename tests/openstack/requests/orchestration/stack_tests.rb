@@ -38,7 +38,7 @@ Shindo.tests('Fog::Orchestration[:openstack] | stack requests', ['openstack']) d
 
   tests('success') do
     tests('#create_stack("teststack")').formats(@create_format) do
-      Fog::Orchestration[:openstack].create_stack("teststack").body
+      @stack = Fog::Orchestration[:openstack].create_stack("teststack").body
     end
 
     tests('#list_stack_data').formats({'stacks' => [@stack_format]}) do
@@ -51,6 +51,10 @@ Shindo.tests('Fog::Orchestration[:openstack] | stack requests', ['openstack']) d
 
     tests('#update_stack("teststack")').formats({}) do
       Fog::Orchestration[:openstack].update_stack("teststack").body
+    end
+
+    tests('#patch_stack("teststack")').formats({}) do
+      Fog::Orchestration[:openstack].patch_stack(@stack).body
     end
 
     tests('#delete_stack("teststack", "id")').formats({}) do
