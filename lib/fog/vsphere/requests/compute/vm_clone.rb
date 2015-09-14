@@ -652,20 +652,17 @@ module Fog
 
 
         def modify_template_nics_specs(template_path, new_nics, datacenter)
-          #new_spec_operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation('new')
-          #remove_spec_operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation('remove')
-
           template_nics = list_vm_interfaces(template_path, datacenter).map do |old_attributes|
             Fog::Compute::Vsphere::Interface.new(old_attributes)
           end
           specs = []
 
           template_nics.each do |interface|
-            specs << create_interface(interface, interface.key, :remove)
+            specs << create_interface(interface, interface.key, :remove, :datacenter => datacenter)
           end
 
           new_nics.each do |interface|
-            specs << create_interface(interface, 0, :add)
+            specs << create_interface(interface, 0, :add, :datacenter => datacenter)
           end
 
           return specs
