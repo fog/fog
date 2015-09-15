@@ -11,9 +11,9 @@ Shindo.tests('Fog::Compute::DigitalOceanV2 | list_regions request', ['digitaloce
 
   tests('success') do
     tests('#list_regions') do
-      service.list_regions.body['regions'].each do |image|
+      service.list_regions.body['regions'].each do |region|
         tests('format').data_matches_schema(region_format) do
-          image
+          region
         end
       end
     end
