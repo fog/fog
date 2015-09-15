@@ -8,10 +8,13 @@ module Fog
       model_path 'fog/digitalocean/models/compute_v2'
       model :server
       collection :servers
+      model :image
+      collection :images
 
       request_path 'fog/digitalocean/requests/compute_v2'
-      request :list_servers
       request :get_server
+      request :list_servers
+      request :list_images
 
       class Mock
         def self.data
