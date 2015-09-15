@@ -12,12 +12,15 @@ module Fog
       collection :images
       model :region
       collection :regions
+      model :flavor
+      collection :flavors
 
       request_path 'fog/digitalocean/requests/compute_v2'
       request :get_server
       request :list_servers
       request :list_images
       request :list_regions
+      request :list_flavors
 
       class Mock
         def self.data
