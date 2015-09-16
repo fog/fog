@@ -28,6 +28,9 @@ module Fog
       model       :transfer
       collection  :transfers
 
+      model       :snapshot
+      collection  :snapshots
+
       request_path 'fog/openstack/requests/volume'
 
        # Volume
