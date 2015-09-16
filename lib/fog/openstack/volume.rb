@@ -63,6 +63,8 @@ module Fog
       request :get_quota
       request :get_quota_defaults
 
+      request :get_quota_usage
+
       request :set_tenant
 
       class Mock
