@@ -23,6 +23,25 @@ module Fog
       request :list_flavors
       request :create_server
       request :delete_server
+      request :list_droplet_actions
+      request :get_droplet_action
+      request :disable_backups
+      request :reboot_server
+      request :power_cycle
+      request :shutdown
+      request :power_on
+      request :power_off
+      request :restore
+      request :password_reset
+      request :resize
+      request :rebuild
+      request :rename
+      request :change_kernel
+      request :enable_ipv6
+      request :enable_private_networking
+      request :snapshot
+      request :upgrade
+
 
       class Mock
         def self.data
