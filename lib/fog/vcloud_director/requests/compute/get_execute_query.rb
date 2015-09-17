@@ -96,7 +96,7 @@ module Fog
               :method     => 'GET',
               :parser     => Fog::ToHashDocument.new,
               :path       => 'query',
-              :query      => query.map {|q,v| URI.escape("#{q}=#{v}")}.join('&')
+              :query      => query.map {|k, v| "#{k}=#{CGI.escape(v.to_s)}" }.join('&').gsub('%3D', '=').gsub('%3B', ';')
             )
             ensure_list! response.body, :Link
             # TODO: figure out the right key (this isn't it)
