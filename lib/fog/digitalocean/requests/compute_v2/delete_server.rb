@@ -4,7 +4,6 @@ module Fog
       # noinspection RubyStringKeysInHashInspection
       class Real
         def delete_server(server_id)
-          puts "deleting server #{server_id}"
           request(
             :expects         => [204],
             :headers         => {

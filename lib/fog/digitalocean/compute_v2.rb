@@ -16,7 +16,7 @@ module Fog
       collection :flavors
 
       request_path 'fog/digitalocean/requests/compute_v2'
-      request :get_server
+      request :get_server_details
       request :list_servers
       request :list_images
       request :list_regions

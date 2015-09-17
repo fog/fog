@@ -2,7 +2,7 @@ module Fog
   module Compute
     class DigitalOceanV2
       class Real
-        def get_server(server_id)
+        def get_server_details(server_id)
           request(
             :expects => [200],
             :method  => 'GET',
@@ -13,7 +13,7 @@ module Fog
 
       # noinspection RubyStringKeysInHashInspection
       class Mock
-        def get_server(_)
+        def get_server_details(_)
           response        = Excon::Response.new
           response.status = 200
 

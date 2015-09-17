@@ -1,6 +1,16 @@
 Shindo.tests('Fog::Compute::DigitalOceanV2 | create_server request', ['digitalocean', 'compute']) do
   service = Fog::Compute.new(:provider => 'DigitalOcean', :version => 'V2')
 
+  server_format = {
+    'id'         => Integer,
+    'name'       => String,
+    'memory'     => Integer,
+    'vcpus'      => Integer,
+    'disk'       => Integer,
+    'locked'     => Fog::Boolean,
+    'created_at' => String,
+  }
+
   create_server_format = {
     'droplet' => {
       'id'           => Integer,
@@ -42,11 +52,24 @@ Shindo.tests('Fog::Compute::DigitalOceanV2 | create_server request', ['digitaloc
       body
     end
 
+    test('#get_server_details can retrieve by id') do
+      body = service.get_server_details(server_id).body
+      body['droplet']['name'] == server_name
+    end
+
     server = service.servers.get(server_id)
     server.wait_for { ready? }
 
     tests('#delete_server').succeeds do
       server.delete
+    end
+
+    tests('#list_servers') do
+      service.list_servers.body['droplets'].each do |droplet|
+        tests('format').data_matches_schema(server_format) do
+          droplet
+        end
+      end
     end
   end
 end
