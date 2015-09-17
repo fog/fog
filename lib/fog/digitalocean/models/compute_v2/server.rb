@@ -6,7 +6,7 @@ module Fog
       # A DigitalOcean Droplet
       #
       class Server < Fog::Compute::Server
-        identity  :id
+        identity :id
         attribute :name
         attribute :memory
         attribute :vcpus
@@ -24,13 +24,47 @@ module Fog
         attribute :networks
         attribute :kernel
         attribute :next_backup_window
+        attribute :private_networking
+        attribute :backups
+        attribute :ipv6
+        attribute :ssh_keys
 
         def public_ip_address
-          if pub_net = networks["v4"].find{|n| n["type"] == "public"}
-            pub_net["ip_address"]
+          if (pub_net = networks['v4'].find { |n| n['type'] == 'public' })
+            pub_net['ip_address']
           end
         end
 
+        def save
+          raise Fog::Errors::Error.new('Re-saving an existing object may create a duplicate') if persisted?
+          requires :name, :region, :size, :image
+
+          options = {}
+          if attributes[:ssh_keys]
+            options[:ssh_keys] = attributes[:ssh_keys]
+          elsif @ssh_keys
+            options[:ssh_keys] = @ssh_keys.map(&:id)
+          end
+
+          options[:private_networking] = private_networking
+          options[:backups]            = backups
+          options[:ipv6]               = ipv6
+
+          data = service.create_server(name, size, image, region, options)
+
+          merge_attributes(data.body['droplet'])
+          true
+        end
+
+        def delete
+          requires :id
+          response = service.delete_server id
+          response.body
+        end
+
+        def ready?
+          status == 'active'
+        end
 
         #### old shit below here
 

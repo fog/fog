@@ -21,6 +21,8 @@ module Fog
       request :list_images
       request :list_regions
       request :list_flavors
+      request :create_server
+      request :delete_server
 
       class Mock
         def self.data
