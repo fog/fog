@@ -77,15 +77,18 @@ module Fog
               :path       => 'query'
             )
           else
-            query = ["type=#{type}"]
-            query << "sortAsc=#{options[:sortAsc]}" if options[:sortAsc]
-            query << "sortDesc=#{options[:sortDesc]}" if options[:sortDesc]
-            query << "page=#{options[:page]}" if options[:page]
-            query << "pageSize=#{options[:pageSize]}" if options[:pageSize]
-            query << "format=#{options[:format]}" if options[:format]
-            query << "fields=#{Array(options[:fields]).join(',')}" if options[:fields]
-            query << "offset=#{options[:offset]}" if options[:offset]
-            query << "filter=#{options[:filter]}" if options[:filter]
+            query = {
+              :type => type,
+            }
+
+            query[:sortAsc] = options[:sortAsc] if options[:sortAsc]
+            query[:sortDesc] = options[:sortDesc] if options[:sortDesc]
+            query[:page] = options[:page] if options[:page]
+            query[:pageSize] = options[:pageSize] if options[:pageSize]
+            query[:format] = options[:format] if options[:format]
+            query[:fields] = Array(options[:fields]).join(',') if options[:fields]
+            query[:offset] = options[:offset] if options[:offset]
+            query[:filter] = options[:filter] if options[:filter]
 
             response = request(
               :expects    => 200,
@@ -93,7 +96,7 @@ module Fog
               :method     => 'GET',
               :parser     => Fog::ToHashDocument.new,
               :path       => 'query',
-              :query      => query.map {|q| URI.escape(q)}.join('&')
+              :query      => query.map {|k, v| "#{k}=#{CGI.escape(v.to_s)}" }.join('&').gsub('%3D', '=').gsub('%3B', ';')
             )
             ensure_list! response.body, :Link
             # TODO: figure out the right key (this isn't it)
