@@ -1,0 +1,437 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:9292/v2/images
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d1c47d0051d24b23a65222e7d4b5ba59
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Length:
+      - '1987'
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Openstack-Request-Id:
+      - req-req-0e399ccb-f5a8-47cc-b017-7e4058daccc2
+      Date:
+      - Thu, 10 Sep 2015 15:17:01 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"images": [{"status": "active", "name": "cirros-0.3.2-x86_64-uec",
+        "tags": [], "kernel_id": "a19e0492-ed63-471f-a017-4afcc4c0bf31", "container_format":
+        "ami", "created_at": "2015-05-07T09:35:58Z", "ramdisk_id": "56f1b09a-f38c-470d-90bb-0d41800d5a6f",
+        "disk_format": "ami", "updated_at": "2015-05-07T09:35:58Z", "visibility":
+        "public", "self": "/v2/images/d33e934a-55f3-4599-bf4e-d7557c251370", "min_disk":
+        0, "protected": false, "id": "d33e934a-55f3-4599-bf4e-d7557c251370", "size":
+        25165824, "file": "/v2/images/d33e934a-55f3-4599-bf4e-d7557c251370/file",
+        "checksum": "4eada48c2843d2a262c814ddc92ecf2c", "owner": "123ac695d4db400a9001b91bb3b8aa46",
+        "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}, {"status":
+        "active", "name": "cirros-0.3.2-x86_64-uec-ramdisk", "tags": [], "container_format":
+        "ari", "created_at": "2015-05-07T09:35:57Z", "size": 3723817, "disk_format":
+        "ari", "updated_at": "2015-05-07T09:35:57Z", "visibility": "public", "self":
+        "/v2/images/56f1b09a-f38c-470d-90bb-0d41800d5a6f", "min_disk": 0, "protected":
+        false, "id": "56f1b09a-f38c-470d-90bb-0d41800d5a6f", "file": "/v2/images/56f1b09a-f38c-470d-90bb-0d41800d5a6f/file",
+        "checksum": "68085af2609d03e51c7662395b5b6e4b", "owner": "123ac695d4db400a9001b91bb3b8aa46",
+        "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}, {"status":
+        "active", "name": "cirros-0.3.2-x86_64-uec-kernel", "tags": [], "container_format":
+        "aki", "created_at": "2015-05-07T09:35:55Z", "size": 4969360, "disk_format":
+        "aki", "updated_at": "2015-05-07T09:35:55Z", "visibility": "public", "self":
+        "/v2/images/a19e0492-ed63-471f-a017-4afcc4c0bf31", "min_disk": 0, "protected":
+        false, "id": "a19e0492-ed63-471f-a017-4afcc4c0bf31", "file": "/v2/images/a19e0492-ed63-471f-a017-4afcc4c0bf31/file",
+        "checksum": "836c69cbcd1dc4f225daedbab6edc7c7", "owner": "123ac695d4db400a9001b91bb3b8aa46",
+        "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}], "schema":
+        "/v2/schemas/images", "first": "/v2/images"}'
+    http_version: 
+  recorded_at: Thu, 10 Sep 2015 15:16:39 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:9292/v2/images
+    body:
+      encoding: UTF-8
+      string: ! '{"name":"foobar"}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d1c47d0051d24b23a65222e7d4b5ba59
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Content-Length:
+      - '546'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Location:
+      - http://devstack.openstack.stack:9292/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5
+      X-Openstack-Request-Id:
+      - req-req-e36a81e0-37c4-487a-834a-a946202bc051
+      Date:
+      - Thu, 10 Sep 2015 15:17:01 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"status": "queued", "name": "foobar", "tags": [], "container_format":
+        null, "created_at": "2015-09-10T15:17:01Z", "size": null, "disk_format": null,
+        "updated_at": "2015-09-10T15:17:01Z", "visibility": "private", "self": "/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5",
+        "min_disk": 0, "protected": false, "id": "bae4352d-db13-4e95-9143-1685f9ea7fd5",
+        "file": "/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5/file", "checksum":
+        null, "owner": "123ac695d4db400a9001b91bb3b8aa46", "virtual_size": null, "min_ram":
+        0, "schema": "/v2/schemas/image"}'
+    http_version: 
+  recorded_at: Thu, 10 Sep 2015 15:16:39 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:9292/v2/images?name=foobar
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d1c47d0051d24b23a65222e7d4b5ba59
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Length:
+      - '627'
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Openstack-Request-Id:
+      - req-req-1e9b9fc5-6858-470a-96ed-32270467b89d
+      Date:
+      - Thu, 10 Sep 2015 15:17:01 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"images": [{"status": "queued", "name": "foobar", "tags": [], "container_format":
+        null, "created_at": "2015-09-10T15:17:01Z", "size": null, "disk_format": null,
+        "updated_at": "2015-09-10T15:17:01Z", "visibility": "private", "self": "/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5",
+        "min_disk": 0, "protected": false, "id": "bae4352d-db13-4e95-9143-1685f9ea7fd5",
+        "file": "/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5/file", "checksum":
+        null, "owner": "123ac695d4db400a9001b91bb3b8aa46", "virtual_size": null, "min_ram":
+        0, "schema": "/v2/schemas/image"}], "schema": "/v2/schemas/images", "first":
+        "/v2/images?name=foobar"}'
+    http_version: 
+  recorded_at: Thu, 10 Sep 2015 15:16:39 GMT
+- request:
+    method: patch
+    uri: http://devstack.openstack.stack:9292/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5
+    body:
+      encoding: UTF-8
+      string: ! '[{"op":"replace","path":"/name","value":"baz"}]'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/openstack-images-v2.1-json-patch
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d1c47d0051d24b23a65222e7d4b5ba59
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Length:
+      - '543'
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Openstack-Request-Id:
+      - req-req-14373219-0fe9-4405-b195-e126bcdc358c
+      Date:
+      - Thu, 10 Sep 2015 15:17:01 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"status": "queued", "name": "baz", "tags": [], "container_format":
+        null, "created_at": "2015-09-10T15:17:01Z", "size": null, "disk_format": null,
+        "updated_at": "2015-09-10T15:17:01Z", "visibility": "private", "self": "/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5",
+        "min_disk": 0, "protected": false, "id": "bae4352d-db13-4e95-9143-1685f9ea7fd5",
+        "file": "/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5/file", "checksum":
+        null, "owner": "123ac695d4db400a9001b91bb3b8aa46", "virtual_size": null, "min_ram":
+        0, "schema": "/v2/schemas/image"}'
+    http_version: 
+  recorded_at: Thu, 10 Sep 2015 15:16:39 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:9292/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d1c47d0051d24b23a65222e7d4b5ba59
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Length:
+      - '543'
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Openstack-Request-Id:
+      - req-req-ae8ec1ae-b5c5-4073-81ac-b0e9037c33db
+      Date:
+      - Thu, 10 Sep 2015 15:17:01 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"status": "queued", "name": "baz", "tags": [], "container_format":
+        null, "created_at": "2015-09-10T15:17:01Z", "size": null, "disk_format": null,
+        "updated_at": "2015-09-10T15:17:01Z", "visibility": "private", "self": "/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5",
+        "min_disk": 0, "protected": false, "id": "bae4352d-db13-4e95-9143-1685f9ea7fd5",
+        "file": "/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5/file", "checksum":
+        null, "owner": "123ac695d4db400a9001b91bb3b8aa46", "virtual_size": null, "min_ram":
+        0, "schema": "/v2/schemas/image"}'
+    http_version: 
+  recorded_at: Thu, 10 Sep 2015 15:16:40 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:9292/v2/images?name=baz
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d1c47d0051d24b23a65222e7d4b5ba59
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Length:
+      - '621'
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Openstack-Request-Id:
+      - req-req-f280e84a-2b32-4616-ba8d-0481c85f1c53
+      Date:
+      - Thu, 10 Sep 2015 15:17:01 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"images": [{"status": "queued", "name": "baz", "tags": [], "container_format":
+        null, "created_at": "2015-09-10T15:17:01Z", "size": null, "disk_format": null,
+        "updated_at": "2015-09-10T15:17:01Z", "visibility": "private", "self": "/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5",
+        "min_disk": 0, "protected": false, "id": "bae4352d-db13-4e95-9143-1685f9ea7fd5",
+        "file": "/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5/file", "checksum":
+        null, "owner": "123ac695d4db400a9001b91bb3b8aa46", "virtual_size": null, "min_ram":
+        0, "schema": "/v2/schemas/image"}], "schema": "/v2/schemas/images", "first":
+        "/v2/images?name=baz"}'
+    http_version: 
+  recorded_at: Thu, 10 Sep 2015 15:16:40 GMT
+- request:
+    method: delete
+    uri: http://devstack.openstack.stack:9292/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d1c47d0051d24b23a65222e7d4b5ba59
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Content-Type:
+      - text/html; charset=UTF-8
+      Content-Length:
+      - '0'
+      X-Openstack-Request-Id:
+      - req-req-de47330f-f096-43ce-860e-3ef344bd7da6
+      Date:
+      - Thu, 10 Sep 2015 15:17:01 GMT
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Thu, 10 Sep 2015 15:16:40 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:9292/v2/images
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d1c47d0051d24b23a65222e7d4b5ba59
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Length:
+      - '1987'
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Openstack-Request-Id:
+      - req-req-90e5831c-8569-4416-8997-61e8a0be7ec3
+      Date:
+      - Thu, 10 Sep 2015 15:17:01 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"images": [{"status": "active", "name": "cirros-0.3.2-x86_64-uec",
+        "tags": [], "kernel_id": "a19e0492-ed63-471f-a017-4afcc4c0bf31", "container_format":
+        "ami", "created_at": "2015-05-07T09:35:58Z", "ramdisk_id": "56f1b09a-f38c-470d-90bb-0d41800d5a6f",
+        "disk_format": "ami", "updated_at": "2015-05-07T09:35:58Z", "visibility":
+        "public", "self": "/v2/images/d33e934a-55f3-4599-bf4e-d7557c251370", "min_disk":
+        0, "protected": false, "id": "d33e934a-55f3-4599-bf4e-d7557c251370", "size":
+        25165824, "file": "/v2/images/d33e934a-55f3-4599-bf4e-d7557c251370/file",
+        "checksum": "4eada48c2843d2a262c814ddc92ecf2c", "owner": "123ac695d4db400a9001b91bb3b8aa46",
+        "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}, {"status":
+        "active", "name": "cirros-0.3.2-x86_64-uec-ramdisk", "tags": [], "container_format":
+        "ari", "created_at": "2015-05-07T09:35:57Z", "size": 3723817, "disk_format":
+        "ari", "updated_at": "2015-05-07T09:35:57Z", "visibility": "public", "self":
+        "/v2/images/56f1b09a-f38c-470d-90bb-0d41800d5a6f", "min_disk": 0, "protected":
+        false, "id": "56f1b09a-f38c-470d-90bb-0d41800d5a6f", "file": "/v2/images/56f1b09a-f38c-470d-90bb-0d41800d5a6f/file",
+        "checksum": "68085af2609d03e51c7662395b5b6e4b", "owner": "123ac695d4db400a9001b91bb3b8aa46",
+        "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}, {"status":
+        "active", "name": "cirros-0.3.2-x86_64-uec-kernel", "tags": [], "container_format":
+        "aki", "created_at": "2015-05-07T09:35:55Z", "size": 4969360, "disk_format":
+        "aki", "updated_at": "2015-05-07T09:35:55Z", "visibility": "public", "self":
+        "/v2/images/a19e0492-ed63-471f-a017-4afcc4c0bf31", "min_disk": 0, "protected":
+        false, "id": "a19e0492-ed63-471f-a017-4afcc4c0bf31", "file": "/v2/images/a19e0492-ed63-471f-a017-4afcc4c0bf31/file",
+        "checksum": "836c69cbcd1dc4f225daedbab6edc7c7", "owner": "123ac695d4db400a9001b91bb3b8aa46",
+        "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}], "schema":
+        "/v2/schemas/images", "first": "/v2/images"}'
+    http_version: 
+  recorded_at: Thu, 10 Sep 2015 15:16:40 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:9292/v2/images/bae4352d-db13-4e95-9143-1685f9ea7fd5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d1c47d0051d24b23a65222e7d4b5ba59
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Content-Length:
+      - '79'
+      Content-Type:
+      - text/plain; charset=UTF-8
+      X-Openstack-Request-Id:
+      - req-req-9133aec2-d901-434a-bbd6-64505195ca9c
+      Date:
+      - Thu, 10 Sep 2015 15:17:01 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "404 Not Found\n\nNo image found with ID bae4352d-db13-4e95-9143-1685f9ea7fd5\n\n
+        \  "
+    http_version: 
+  recorded_at: Thu, 10 Sep 2015 15:16:40 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:9292/v2/images
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - d1c47d0051d24b23a65222e7d4b5ba59
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Length:
+      - '1987'
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Openstack-Request-Id:
+      - req-req-de5f2b7d-80e7-4d6f-900b-3e870039d09d
+      Date:
+      - Thu, 10 Sep 2015 15:17:01 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"images": [{"status": "active", "name": "cirros-0.3.2-x86_64-uec",
+        "tags": [], "kernel_id": "a19e0492-ed63-471f-a017-4afcc4c0bf31", "container_format":
+        "ami", "created_at": "2015-05-07T09:35:58Z", "ramdisk_id": "56f1b09a-f38c-470d-90bb-0d41800d5a6f",
+        "disk_format": "ami", "updated_at": "2015-05-07T09:35:58Z", "visibility":
+        "public", "self": "/v2/images/d33e934a-55f3-4599-bf4e-d7557c251370", "min_disk":
+        0, "protected": false, "id": "d33e934a-55f3-4599-bf4e-d7557c251370", "size":
+        25165824, "file": "/v2/images/d33e934a-55f3-4599-bf4e-d7557c251370/file",
+        "checksum": "4eada48c2843d2a262c814ddc92ecf2c", "owner": "123ac695d4db400a9001b91bb3b8aa46",
+        "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}, {"status":
+        "active", "name": "cirros-0.3.2-x86_64-uec-ramdisk", "tags": [], "container_format":
+        "ari", "created_at": "2015-05-07T09:35:57Z", "size": 3723817, "disk_format":
+        "ari", "updated_at": "2015-05-07T09:35:57Z", "visibility": "public", "self":
+        "/v2/images/56f1b09a-f38c-470d-90bb-0d41800d5a6f", "min_disk": 0, "protected":
+        false, "id": "56f1b09a-f38c-470d-90bb-0d41800d5a6f", "file": "/v2/images/56f1b09a-f38c-470d-90bb-0d41800d5a6f/file",
+        "checksum": "68085af2609d03e51c7662395b5b6e4b", "owner": "123ac695d4db400a9001b91bb3b8aa46",
+        "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}, {"status":
+        "active", "name": "cirros-0.3.2-x86_64-uec-kernel", "tags": [], "container_format":
+        "aki", "created_at": "2015-05-07T09:35:55Z", "size": 4969360, "disk_format":
+        "aki", "updated_at": "2015-05-07T09:35:55Z", "visibility": "public", "self":
+        "/v2/images/a19e0492-ed63-471f-a017-4afcc4c0bf31", "min_disk": 0, "protected":
+        false, "id": "a19e0492-ed63-471f-a017-4afcc4c0bf31", "file": "/v2/images/a19e0492-ed63-471f-a017-4afcc4c0bf31/file",
+        "checksum": "836c69cbcd1dc4f225daedbab6edc7c7", "owner": "123ac695d4db400a9001b91bb3b8aa46",
+        "virtual_size": null, "min_ram": 0, "schema": "/v2/schemas/image"}], "schema":
+        "/v2/schemas/images", "first": "/v2/images"}'
+    http_version: 
+  recorded_at: Thu, 10 Sep 2015 15:16:40 GMT
+recorded_with: VCR 2.9.3
