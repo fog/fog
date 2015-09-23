@@ -18,7 +18,9 @@ module Fog
       # noinspection RubyStringKeysInHashInspection
       class Mock
         def delete_server(_)
-          response(:status => 204)
+          response        = Excon::Response.new
+          response.status = 204
+          response
         end
       end
     end

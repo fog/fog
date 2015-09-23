@@ -13,7 +13,7 @@ module Fog
 
       # noinspection RubyStringKeysInHashInspection
       class Mock
-        def list_images
+        def list_regions
           response        = Excon::Response.new
           response.status = 200
           response.body   = {
