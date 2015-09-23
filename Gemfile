@@ -5,6 +5,7 @@ group :development, :test do
   gem "netrc", :require => false
   gem "octokit", :require => false
   gem 'rspec', :require => false
+  gem 'byebug'
 end
 
 gemspec

@@ -57,7 +57,6 @@ Shindo.tests('Fog::Compute::DigitalOceanV2 | create_server request', ['digitaloc
       tests('format').data_matches_schema(server_format) do
         body['droplet']
       end
-#      body['droplet']['name'] == server_name
     end
 
     server = service.servers.get(server_id)
