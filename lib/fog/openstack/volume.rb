@@ -96,8 +96,11 @@ module Fog
 
           management_url = URI.parse(options[:openstack_auth_url])
           management_url.port = 8776
-          management_url.path = '/v1'
+          management_url.path = '/v2'
           @openstack_management_url = management_url.to_s
+
+          # Right now, we always mock the v2 API.
+          @volume_api_version = 'v2'
 
           @data ||= { :users => {} }
           unless @data[:users].find {|u| u['name'] == options[:openstack_username]}
@@ -134,7 +137,9 @@ module Fog
         def initialize(options={})
           initialize_identity options
 
-          @openstack_service_type   = options[:openstack_service_type] || ['volume']
+          # TODO: I put "volumev2" first because v2 should be preferred over
+          # v1; however this is not respected in Fog::OpenStack::Core::get_service[_v3] yet
+          @openstack_service_type   = options[:openstack_service_type] || ['volumev2','volume']
           @openstack_service_name   = options[:openstack_service_name]
           @openstack_endpoint_type  = options[:openstack_endpoint_type] || 'adminURL'
 
@@ -142,7 +147,22 @@ module Fog
 
           authenticate
 
-          @persistent                       = options[:persistent] || false
+          # this module supports both v1 and v2 of the volume API (the only
+          # backwards-incompatible change is that "display_name" and
+          # "display_description" attributes of volumes and snapshots are
+          # called "name" and "description" in v2)
+          api_version = @path.match(/\bv[12]\b/)
+          unless api_version
+            raise Fog::OpenStack::Errors::ServiceUnavailable.new(
+                    "OpenStack volume binding only supports API version 1 or 2")
+          end
+          @volume_api_version = api_version.to_s # either "v1" or "v2"
+          # NOTE: This variable (@volume_api_version) can be checked in
+          # requests that are only implemented by the v2 API, to raise the
+          # proper Fog::OpenStack::Errors::ServiceUnavailable exception if the
+          # connection uses v1.
+
+          @persistent = options[:persistent] || false
           @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 

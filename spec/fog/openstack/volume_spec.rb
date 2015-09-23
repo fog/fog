@@ -15,7 +15,8 @@ RSpec.describe Fog::Volume::OpenStack do
   before :all do
     setup_vcr_and_service(
       :vcr_directory => 'spec/fog/openstack/volume',
-      :service_class => Fog::Volume::OpenStack
+      :service_class => Fog::Volume::OpenStack,
+      :service_options => { :openstack_service_type => ['volume'] } # force API version v1
     )
   end
 
@@ -231,7 +232,8 @@ RSpec.describe Fog::Volume::OpenStack do
         :openstack_region         => ENV['OS_REGION_NAME']         || 'RegionOne',
         :openstack_api_key        => ENV['OS_PASSWORD_OTHER']      || 'devstack',
         :openstack_username       => ENV['OS_USERNAME_OTHER']      || 'demo',
-        :openstack_tenant         => ENV['OS_PROJECT_NAME_OTHER']  || 'demo'
+        :openstack_tenant         => ENV['OS_PROJECT_NAME_OTHER']  || 'demo',
+        :openstack_service_type   => ['volume'] # enforce usage of Volume V1 API
       )
 
       # check that recipient cannot see the transfer object
@@ -309,7 +311,8 @@ RSpec.describe Fog::Volume::OpenStack do
         :openstack_region         => ENV['OS_REGION_NAME']         || 'RegionOne',
         :openstack_api_key        => ENV['OS_PASSWORD_OTHER']      || 'devstack',
         :openstack_username       => ENV['OS_USERNAME_OTHER']      || 'demo',
-        :openstack_tenant         => ENV['OS_PROJECT_NAME_OTHER']  || 'demo'
+        :openstack_tenant         => ENV['OS_PROJECT_NAME_OTHER']  || 'demo',
+        :openstack_service_type   => ['volume'] # enforce usage of Volume V1 API
       )
 
       # delete transfer again
