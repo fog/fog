@@ -25,7 +25,7 @@ module Fog
 
       # noinspection RubyStringKeysInHashInspection
       class Mock
-        def update_server(key_id, name)
+        def update_ssh_key(key_id, name)
           response        = Excon::Response.new
           response.status = 200
 
