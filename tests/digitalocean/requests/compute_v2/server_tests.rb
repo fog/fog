@@ -54,7 +54,10 @@ Shindo.tests('Fog::Compute::DigitalOceanV2 | create_server request', ['digitaloc
 
     test('#get_server_details can retrieve by id') do
       body = service.get_server_details(server_id).body
-      body['droplet']['name'] == server_name
+      tests('format').data_matches_schema(server_format) do
+        body['droplet']
+      end
+#      body['droplet']['name'] == server_name
     end
 
     server = service.servers.get(server_id)
