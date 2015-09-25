@@ -12,7 +12,7 @@ module Fog
         end
 
         def get(id)
-          new kernels(id).first
+          new kernels(id).select {|kernel| kernel[:id] == id }.first
         rescue Fog::Compute::Linode::NotFound
           nil
         end
