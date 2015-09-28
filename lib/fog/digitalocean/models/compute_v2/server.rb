@@ -30,8 +30,18 @@ module Fog
         attribute :ssh_keys
 
         def public_ip_address
-          if (pub_net = networks['v4'].find { |n| n['type'] == 'public' })
-            pub_net['ip_address']
+          ipv4_address
+        end
+
+        def ipv6_address
+          if (net = networks['v6'].find { |n| n['type'] == 'public' })
+            net['ip_address']
+          end
+        end
+
+        def ipv4_address
+          if (net = networks['v4'].find { |n| n['type'] == 'public' })
+            net['ip_address']
           end
         end
 
