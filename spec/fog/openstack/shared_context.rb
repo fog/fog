@@ -76,19 +76,20 @@ RSpec.shared_context 'OpenStack specs with VCR' do
       if @service_class == Fog::Identity::OpenStack::V3 || @os_auth_url.end_with?('/v3')
         options = {
           :openstack_auth_url     => "#{@os_auth_url}/auth/tokens",
-          :openstack_region       => ENV['OS_REGION_NAME']      || 'RegionOne',
-          :openstack_api_key      => ENV['OS_PASSWORD']         || 'password',
-          :openstack_username     => ENV['OS_USERNAME']         || 'admin',
-          :openstack_domain_name  => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
-          :openstack_project_name => ENV['OS_PROJECT_NAME']     || 'admin'
+          :openstack_region       => ENV['OS_REGION_NAME'] || options[:region_name]     || 'RegionOne',
+          :openstack_api_key      => ENV['OS_PASSWORD']    || options[:password]        || 'password',
+          :openstack_username     => ENV['OS_USERNAME']    || options[:username]        || 'admin',
+          :openstack_domain_name  => ENV['OS_USER_DOMAIN_NAME']|| options[:domain_name] || 'Default',
+          :openstack_project_name => ENV['OS_PROJECT_NAME']|| options[:project_name]    || 'admin'
         }
+        options[:openstack_service_type] = [ENV['OS_AUTH_SERVICE']] if ENV['OS_AUTH_SERVICE']
       else
         options = {
           :openstack_auth_url       => "#{@os_auth_url}/tokens",
-          :openstack_region         => ENV['OS_REGION_NAME']         || 'RegionOne',
-          :openstack_api_key        => ENV['OS_PASSWORD']            || 'devstack',
-          :openstack_username       => ENV['OS_USERNAME']            || 'admin',
-          :openstack_tenant         => ENV['OS_PROJECT_NAME']        || 'admin'
+          :openstack_region         => ENV['OS_REGION_NAME']  || options[:region_name]  || 'RegionOne',
+          :openstack_api_key        => ENV['OS_PASSWORD']     || options[:password]     || 'devstack',
+          :openstack_username       => ENV['OS_USERNAME']     || options[:username]     || 'admin',
+          :openstack_tenant         => ENV['OS_PROJECT_NAME'] || options[:project_name] || 'admin'
           # FIXME: Identity V3 not properly supported by other services yet
           # :openstack_user_domain    => ENV['OS_USER_DOMAIN_NAME']    || 'Default',
           # :openstack_project_domain => ENV['OS_PROJECT_DOMAIN_NAME'] || 'Default',

@@ -160,6 +160,7 @@ module Fog
 
             @openstack_endpoint_type  = options[:openstack_endpoint_type] || 'adminURL'
 
+            @openstack_endpoint_path_matches = options[:openstack_endpoint_path_matches] ||= /\/v3/
             authenticate
 
             @persistent = options[:persistent] || false
