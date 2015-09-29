@@ -157,7 +157,7 @@ module Fog
         end
 
         def tools_running?
-          tools_state == "toolsOk"
+          ["toolsOk","toolsOld"].include? tools_state
         end
 
         # defines VNC attributes on the hypervisor
