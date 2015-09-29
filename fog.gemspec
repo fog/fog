@@ -45,7 +45,7 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = %w[README.md]
 
   ## Ruby version
-  s.required_ruby_version = ">= 1.9.3"
+  s.required_ruby_version = ">= 2.0.0"
 
   s.add_dependency("fog-core", "~> 1.32")
   s.add_dependency("fog-json")
@@ -84,7 +84,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rake")
   s.add_development_dependency("rbovirt", "0.0.32")
   s.add_development_dependency("rbvmomi")
-  s.add_development_dependency("rubocop") if RUBY_VERSION > "1.9"
+  s.add_development_dependency("rubocop")
   s.add_development_dependency("shindo", "~> 0.3.4")
   s.add_development_dependency("simplecov")
   s.add_development_dependency("thor")
