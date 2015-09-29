@@ -28,6 +28,7 @@ if Fog.mock?
     :clodo_username                   => 'clodo_username',
     :digitalocean_api_key             => 'digitalocean_api_key',
     :digitalocean_client_id           => 'digitalocean_client_id',
+    :digitalocean_token               => 'digitalocean_token',
     :dnsimple_email                   => 'dnsimple_email',
     :dnsimple_password                => 'dnsimple_password',
     :dnsmadeeasy_api_key              => 'dnsmadeeasy_api_key',
