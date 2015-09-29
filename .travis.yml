@@ -18,7 +18,6 @@ matrix:
   fast_finish: true
   allow_failures:
     - rvm: jruby-head
-    - rvm: 2.2
 
 notifications:
   email: false
