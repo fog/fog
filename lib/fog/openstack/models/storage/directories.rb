@@ -13,6 +13,12 @@ module Fog
         end
 
         def get(key, options = {})
+          remap_attributes(options, {
+            :delimiter  => 'delimiter',
+            :marker     => 'marker',
+            :max_keys   => 'limit',
+            :prefix     => 'prefix'
+          })
           data = service.get_container(key, options)
           directory = new(:key => key)
           for key, value in data.headers
