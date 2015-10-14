@@ -9,7 +9,6 @@ Shindo.tests('Fog::Compute[:opennebula] | flavor model', ['opennebula']) do
     end
     tests('have attributes') do
       model_attribute_hash = flavor.attributes
-      attributes = 
       tests("The flavor model should respond to") do
         [:name, :id, :to_label, :to_s, :get_cpu, :get_vcpu, :get_memory, :get_raw, :get_disk, :get_os,
           :get_graphics, :get_nic, :get_sched_ds_requirements, :get_sched_ds_rank, :get_sched_requirements,
@@ -31,6 +30,7 @@ Shindo.tests('Fog::Compute[:opennebula] | flavor model', ['opennebula']) do
     test('have a 666 MB memory') { flavor.get_memory == "MEMORY=666\n" }
     test('have a 666 CPUs') { flavor.get_vcpu == "VCPU=666\n" }
 
+    test('raw parsed properly') { flavor.get_raw == %|RAW=["DATA"="<cpu match='exact'><model fallback='allow'>core2duo</model></cpu>", "TYPE"="kvm"]\n| }
   end
 
 end
