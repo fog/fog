@@ -297,7 +297,7 @@ module Fog
 
       token, body = retrieve_tokens_v3 options, connection_options
 
-      service = get_service_v3(body, service_type, service_name, openstack_region)
+      service = get_service_v3(body, service_type, service_name, openstack_region, options)
 
       options[:unscoped_token] = token
 
@@ -359,7 +359,7 @@ module Fog
         raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions.join(',')}'")
       end
 
-      identity_service = get_service_v3(body, identity_service_type, nil, nil, :endpoint_path_matches => /\/v3/) if identity_service_type
+      identity_service = get_service_v3(body, identity_service_type, nil, nil, :openstack_endpoint_path_matches => /\/v3/) if identity_service_type
 
       management_url = service['endpoints'].find { |e| e['interface']==endpoint_type }['url']
       identity_url = identity_service['endpoints'].find { |e| e['interface']=='public' }['url'] if identity_service
@@ -532,7 +532,7 @@ module Fog
 
       # Filter the found services by region (if specified) and whether the endpoint path matches the given regex (e.g. /\/v3/)
       services.find do |s|
-        s['endpoints'].any? { |ep| endpoint_region?(ep, region) && endpoint_path_match?(ep, options[:endpoint_path_matches])}
+        s['endpoints'].any? { |ep| endpoint_region?(ep, region) && endpoint_path_match?(ep, options[:openstack_endpoint_path_matches])}
       end if services
 
     end

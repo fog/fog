@@ -2,620 +2,622 @@
 http_interactions:
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/endpoints
+    uri: http://10.97.17.84:35357/v3/endpoints
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.31.1
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 0c4458de5ba5446885c65b1dedfb2404
+      - f6af15c0332e4d3ab7716b51d8fedfff
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Tue, 23 Jun 2015 15:09:40 GMT
+      - Fri, 02 Oct 2015 11:41:43 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-0d680d45-f5af-41f2-b444-700269afc55e
+      - req-9736a0f9-54d8-403d-af71-22eb7bb9a35d
       Content-Length:
-      - '8876'
+      - '7781'
       Content-Type:
       - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
     body:
-      encoding: US-ASCII
-      string: ! '{"endpoints": [{"region_id": "RegionOne", "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/185eda94de9340e58245062f75d7f80e"},
-        "url": "http://devstack.openstack.stack:35357/v3", "region": "RegionOne", "enabled":
-        true, "interface": "admin", "service_id": "b577d8f7c7074d04a1165fcca638b600",
-        "id": "185eda94de9340e58245062f75d7f80e"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/1ce26a6fffd0424bac135b9c68055b6e"},
-        "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
-        "interface": "admin", "service_id": "3364a7b95c664bf89a7a8db081576364", "id":
-        "1ce26a6fffd0424bac135b9c68055b6e"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/261aaf6239bb49a4a1cfa87c19859138"},
-        "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "2b92e79c45254516932c633229cd0e8b",
-        "id": "261aaf6239bb49a4a1cfa87c19859138"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/2f17e155b0aa47838394e6c4f6fe30e0"},
-        "url": "http://devstack.openstack.stack:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "97e665cbada043718180c5a6316df76a",
-        "id": "2f17e155b0aa47838394e6c4f6fe30e0"}, {"region_id": "europe", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/32bb2c6aea944ea6b4956eb24142d2e2"},
-        "url": "http://devstack.openstack.stack:35357/v3", "region": "europe", "enabled": true,
-        "interface": "admin", "service_id": "cd9002bbadfe495d81b5ee4c50768009", "id":
-        "32bb2c6aea944ea6b4956eb24142d2e2"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/437d282e0bb94622aaacc4d194c069a9"},
-        "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "2b92e79c45254516932c633229cd0e8b",
-        "id": "437d282e0bb94622aaacc4d194c069a9"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/4442fbd064844a7bbe6a792507d4b8e3"},
-        "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "4442fbd064844a7bbe6a792507d4b8e3"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/480ea71dc8cf4c959df1c6304be87056"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "public", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "480ea71dc8cf4c959df1c6304be87056"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/4b4178fd2e3d4f329600cc4ceaaa7e3a"},
-        "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "4b4178fd2e3d4f329600cc4ceaaa7e3a"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/5e78bf7bae7c4ff5b9720b2c2e4da743"},
-        "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "2b92e79c45254516932c633229cd0e8b",
-        "id": "5e78bf7bae7c4ff5b9720b2c2e4da743"}, {"region_id": "europe", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/600638643d22494fad4f30e3b22ae124"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "europe", "enabled": true,
-        "interface": "public", "service_id": "cd9002bbadfe495d81b5ee4c50768009", "id":
-        "600638643d22494fad4f30e3b22ae124"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/6e82c8912d3f49a09df51035681d564c"},
-        "url": "http://devstack.openstack.stack:9292", "region": "RegionOne", "enabled": true,
-        "interface": "public", "service_id": "0d56500210a24c38a3702b6825e24164", "id":
-        "6e82c8912d3f49a09df51035681d564c"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/7e44d321ae80457abc3728fa1e6feb32"},
-        "url": "http://devstack.openstack.stack:9292", "region": "RegionOne", "enabled": true,
-        "interface": "admin", "service_id": "0d56500210a24c38a3702b6825e24164", "id":
-        "7e44d321ae80457abc3728fa1e6feb32"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/81c51855280345e9a6c322ca986d4e4b"},
-        "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "81c51855280345e9a6c322ca986d4e4b"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/8a254651925e4a3e9505c863a00c017e"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "internal", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "8a254651925e4a3e9505c863a00c017e"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/90977723dba04ea9a2a184c99565ccff"},
-        "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "90977723dba04ea9a2a184c99565ccff"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/98db699b9ffa4dffb027d78163aad8cc"},
-        "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
-        "interface": "public", "service_id": "3364a7b95c664bf89a7a8db081576364", "id":
-        "98db699b9ffa4dffb027d78163aad8cc"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/9abd6797844d455f875af9537325cba4"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "internal", "service_id": "b577d8f7c7074d04a1165fcca638b600",
-        "id": "9abd6797844d455f875af9537325cba4"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/9d2555fd27dd44e5acfb5e56127d974b"},
-        "url": "http://devstack.openstack.stack:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "97e665cbada043718180c5a6316df76a",
-        "id": "9d2555fd27dd44e5acfb5e56127d974b"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/a0310a37cf6144a6a967cbae9a7959ba"},
-        "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "a0310a37cf6144a6a967cbae9a7959ba"}, {"region_id": "europe", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/b93da6aaba654d8cb451ff8378d7d2a5"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "europe", "enabled": true,
-        "interface": "internal", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "b93da6aaba654d8cb451ff8378d7d2a5"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/c9a090a4597040849c03bc13588167f6"},
-        "url": "http://devstack.openstack.stack:9292", "region": "RegionOne", "enabled": true,
-        "interface": "internal", "service_id": "0d56500210a24c38a3702b6825e24164",
-        "id": "c9a090a4597040849c03bc13588167f6"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/d3b31f24e4ea40699f731e29e625c187"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "public", "service_id": "b577d8f7c7074d04a1165fcca638b600",
-        "id": "d3b31f24e4ea40699f731e29e625c187"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/d5f8e0da0f3345529a5fb324d735d4a3"},
-        "url": "http://devstack.openstack.stack:35357/v3", "region": "RegionOne", "enabled":
-        true, "interface": "admin", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "d5f8e0da0f3345529a5fb324d735d4a3"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/e8bdd9403fbb4efa8d77bfd4f6a5e34a"},
-        "url": "http://devstack.openstack.stack:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "97e665cbada043718180c5a6316df76a",
-        "id": "e8bdd9403fbb4efa8d77bfd4f6a5e34a"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/ece52860cf1e4eb6a8fed05c47a30147"},
-        "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
-        "interface": "internal", "service_id": "3364a7b95c664bf89a7a8db081576364",
-        "id": "ece52860cf1e4eb6a8fed05c47a30147"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/f6d38c03b9c04a9e924aaa288ce014b8"},
-        "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints",
+      encoding: UTF-8
+      string: '{"endpoints": [{"region_id": "RegionOne", "links": {"self": "http://10.97.17.84:35357/v3/endpoints/09bb76485f3849c1a81dfeda62f1b27b"},
+        "url": "http://10.97.17.84:5000/v3", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "00707ec9c3574d8ebb638265844f7903", "id":
+        "09bb76485f3849c1a81dfeda62f1b27b"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/1232531a1eda43cba7c8c539270a4839"},
+        "url": "http://10.97.17.84:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "id": "1232531a1eda43cba7c8c539270a4839"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/1f0cd271fb524becaaa23c5e06730a19"},
+        "url": "http://10.97.17.84:8774/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "d22c9f37ebea4187ae97eb57ced02483",
+        "id": "1f0cd271fb524becaaa23c5e06730a19"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/273424f04e404eb98eb6008cdff7654f"},
+        "url": "http://10.97.17.84:8776/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "id": "273424f04e404eb98eb6008cdff7654f"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/2b86f18fc82c4f599455afa9f54cae20"},
+        "url": "http://10.97.17.84:8776/v1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "54efbe90e47244eca5fac1a65374e594",
+        "id": "2b86f18fc82c4f599455afa9f54cae20"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/4d6d1528f709499ca177e637521d7e85"},
+        "url": "http://10.97.17.84:8776/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "id": "4d6d1528f709499ca177e637521d7e85"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/51429028b9e74cb585dfe4a7df2bfd40"},
+        "url": "http://10.97.17.84:8774/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "d22c9f37ebea4187ae97eb57ced02483",
+        "id": "51429028b9e74cb585dfe4a7df2bfd40"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/5620b03559c84f6fbb01b660e3e5b8a9"},
+        "url": "http://10.97.17.84:8776/v1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "54efbe90e47244eca5fac1a65374e594",
+        "id": "5620b03559c84f6fbb01b660e3e5b8a9"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/59f19d0e7c59457fa611c4f552fa37c3"},
+        "url": "http://10.97.17.84:9696/", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "b6063de99a3b474094779d6f778cd87b", "id":
+        "59f19d0e7c59457fa611c4f552fa37c3"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/5f2d351a942e41bc8cc2163569c645b7"},
+        "url": "http://10.97.17.84:9696/", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "b6063de99a3b474094779d6f778cd87b", "id":
+        "5f2d351a942e41bc8cc2163569c645b7"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/73acd28dc39e4d2cb332fe63eafd05fa"},
+        "url": "http://10.97.17.84:35357/v3", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "00707ec9c3574d8ebb638265844f7903", "id":
+        "73acd28dc39e4d2cb332fe63eafd05fa"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/87a9c4d67a9549e58a12e93675520929"},
+        "url": "http://10.97.17.84:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "id": "87a9c4d67a9549e58a12e93675520929"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/8b6c30d816b1481f837448bcd368263a"},
+        "url": "http://10.97.17.84:8774/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "d22c9f37ebea4187ae97eb57ced02483",
+        "id": "8b6c30d816b1481f837448bcd368263a"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/8e2b48e33993420b934607375242e6a1"},
+        "url": "http://10.97.17.84:9696/", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "b6063de99a3b474094779d6f778cd87b",
+        "id": "8e2b48e33993420b934607375242e6a1"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/9799d84417464a4cbb9226485ce539c7"},
+        "url": "http://10.97.17.84:9292", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "1f1c2c6373754553938a93de04db5bc0", "id":
+        "9799d84417464a4cbb9226485ce539c7"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/a0d9872cbf42461ea5ab511d32387662"},
+        "url": "http://10.97.17.84:9292", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "1f1c2c6373754553938a93de04db5bc0",
+        "id": "a0d9872cbf42461ea5ab511d32387662"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/a93b60395e044b9187ccd7b37cf0c68c"},
+        "url": "http://10.97.17.84:9292", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "1f1c2c6373754553938a93de04db5bc0", "id":
+        "a93b60395e044b9187ccd7b37cf0c68c"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/aa0660735da048068454148d747bd997"},
+        "url": "http://10.97.17.84:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "id": "aa0660735da048068454148d747bd997"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/c0acc2a6600148248912d585cfd3debf"},
+        "url": "http://10.97.17.84:5000/v3", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "00707ec9c3574d8ebb638265844f7903",
+        "id": "c0acc2a6600148248912d585cfd3debf"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/d0af6d9e8b304d69bc349b63fdb7bd00"},
+        "url": "http://10.97.17.84:8773/", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "e2550fc44d8044398e49a080439462ed", "id":
+        "d0af6d9e8b304d69bc349b63fdb7bd00"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/e08749c48e9e4d2c9f2733fa221b3b2f"},
+        "url": "http://10.97.17.84:8773/", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "e2550fc44d8044398e49a080439462ed", "id":
+        "e08749c48e9e4d2c9f2733fa221b3b2f"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/f63063e775db4d48962172344fcdbdf1"},
+        "url": "http://10.97.17.84:8776/v1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "54efbe90e47244eca5fac1a65374e594",
+        "id": "f63063e775db4d48962172344fcdbdf1"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/fa22fdd7d604405bb734e5b04b825c57"},
+        "url": "http://10.97.17.84:8776/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "id": "fa22fdd7d604405bb734e5b04b825c57"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/faf1491ad0244c17b13f9b4fc10becbb"},
+        "url": "http://10.97.17.84:8773/", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "e2550fc44d8044398e49a080439462ed",
+        "id": "faf1491ad0244c17b13f9b4fc10becbb"}], "links": {"self": "http://10.97.17.84:35357/v3/endpoints",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Tue, 23 Jun 2015 15:09:40 GMT
+  recorded_at: Fri, 02 Oct 2015 11:41:31 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/endpoints
+    uri: http://10.97.17.84:35357/v3/endpoints
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.31.1
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 0c4458de5ba5446885c65b1dedfb2404
+      - f6af15c0332e4d3ab7716b51d8fedfff
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Tue, 23 Jun 2015 15:09:40 GMT
+      - Fri, 02 Oct 2015 11:41:43 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-d1c59f8b-fc07-44b4-9a91-05b3f999bd48
+      - req-171f89a7-e6b5-4774-8547-afb8827da272
       Content-Length:
-      - '8876'
+      - '7781'
       Content-Type:
       - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
     body:
-      encoding: US-ASCII
-      string: ! '{"endpoints": [{"region_id": "RegionOne", "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/185eda94de9340e58245062f75d7f80e"},
-        "url": "http://devstack.openstack.stack:35357/v3", "region": "RegionOne", "enabled":
-        true, "interface": "admin", "service_id": "b577d8f7c7074d04a1165fcca638b600",
-        "id": "185eda94de9340e58245062f75d7f80e"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/1ce26a6fffd0424bac135b9c68055b6e"},
-        "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
-        "interface": "admin", "service_id": "3364a7b95c664bf89a7a8db081576364", "id":
-        "1ce26a6fffd0424bac135b9c68055b6e"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/261aaf6239bb49a4a1cfa87c19859138"},
-        "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "2b92e79c45254516932c633229cd0e8b",
-        "id": "261aaf6239bb49a4a1cfa87c19859138"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/2f17e155b0aa47838394e6c4f6fe30e0"},
-        "url": "http://devstack.openstack.stack:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "97e665cbada043718180c5a6316df76a",
-        "id": "2f17e155b0aa47838394e6c4f6fe30e0"}, {"region_id": "europe", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/32bb2c6aea944ea6b4956eb24142d2e2"},
-        "url": "http://devstack.openstack.stack:35357/v3", "region": "europe", "enabled": true,
-        "interface": "admin", "service_id": "cd9002bbadfe495d81b5ee4c50768009", "id":
-        "32bb2c6aea944ea6b4956eb24142d2e2"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/437d282e0bb94622aaacc4d194c069a9"},
-        "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "2b92e79c45254516932c633229cd0e8b",
-        "id": "437d282e0bb94622aaacc4d194c069a9"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/4442fbd064844a7bbe6a792507d4b8e3"},
-        "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "4442fbd064844a7bbe6a792507d4b8e3"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/480ea71dc8cf4c959df1c6304be87056"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "public", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "480ea71dc8cf4c959df1c6304be87056"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/4b4178fd2e3d4f329600cc4ceaaa7e3a"},
-        "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "4b4178fd2e3d4f329600cc4ceaaa7e3a"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/5e78bf7bae7c4ff5b9720b2c2e4da743"},
-        "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "2b92e79c45254516932c633229cd0e8b",
-        "id": "5e78bf7bae7c4ff5b9720b2c2e4da743"}, {"region_id": "europe", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/600638643d22494fad4f30e3b22ae124"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "europe", "enabled": true,
-        "interface": "public", "service_id": "cd9002bbadfe495d81b5ee4c50768009", "id":
-        "600638643d22494fad4f30e3b22ae124"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/6e82c8912d3f49a09df51035681d564c"},
-        "url": "http://devstack.openstack.stack:9292", "region": "RegionOne", "enabled": true,
-        "interface": "public", "service_id": "0d56500210a24c38a3702b6825e24164", "id":
-        "6e82c8912d3f49a09df51035681d564c"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/7e44d321ae80457abc3728fa1e6feb32"},
-        "url": "http://devstack.openstack.stack:9292", "region": "RegionOne", "enabled": true,
-        "interface": "admin", "service_id": "0d56500210a24c38a3702b6825e24164", "id":
-        "7e44d321ae80457abc3728fa1e6feb32"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/81c51855280345e9a6c322ca986d4e4b"},
-        "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "81c51855280345e9a6c322ca986d4e4b"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/8a254651925e4a3e9505c863a00c017e"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "internal", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "8a254651925e4a3e9505c863a00c017e"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/90977723dba04ea9a2a184c99565ccff"},
-        "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "90977723dba04ea9a2a184c99565ccff"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/98db699b9ffa4dffb027d78163aad8cc"},
-        "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
-        "interface": "public", "service_id": "3364a7b95c664bf89a7a8db081576364", "id":
-        "98db699b9ffa4dffb027d78163aad8cc"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/9abd6797844d455f875af9537325cba4"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "internal", "service_id": "b577d8f7c7074d04a1165fcca638b600",
-        "id": "9abd6797844d455f875af9537325cba4"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/9d2555fd27dd44e5acfb5e56127d974b"},
-        "url": "http://devstack.openstack.stack:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "97e665cbada043718180c5a6316df76a",
-        "id": "9d2555fd27dd44e5acfb5e56127d974b"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/a0310a37cf6144a6a967cbae9a7959ba"},
-        "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "a0310a37cf6144a6a967cbae9a7959ba"}, {"region_id": "europe", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/b93da6aaba654d8cb451ff8378d7d2a5"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "europe", "enabled": true,
-        "interface": "internal", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "b93da6aaba654d8cb451ff8378d7d2a5"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/c9a090a4597040849c03bc13588167f6"},
-        "url": "http://devstack.openstack.stack:9292", "region": "RegionOne", "enabled": true,
-        "interface": "internal", "service_id": "0d56500210a24c38a3702b6825e24164",
-        "id": "c9a090a4597040849c03bc13588167f6"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/d3b31f24e4ea40699f731e29e625c187"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "public", "service_id": "b577d8f7c7074d04a1165fcca638b600",
-        "id": "d3b31f24e4ea40699f731e29e625c187"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/d5f8e0da0f3345529a5fb324d735d4a3"},
-        "url": "http://devstack.openstack.stack:35357/v3", "region": "RegionOne", "enabled":
-        true, "interface": "admin", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "d5f8e0da0f3345529a5fb324d735d4a3"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/e8bdd9403fbb4efa8d77bfd4f6a5e34a"},
-        "url": "http://devstack.openstack.stack:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "97e665cbada043718180c5a6316df76a",
-        "id": "e8bdd9403fbb4efa8d77bfd4f6a5e34a"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/ece52860cf1e4eb6a8fed05c47a30147"},
-        "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
-        "interface": "internal", "service_id": "3364a7b95c664bf89a7a8db081576364",
-        "id": "ece52860cf1e4eb6a8fed05c47a30147"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/f6d38c03b9c04a9e924aaa288ce014b8"},
-        "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints",
+      encoding: UTF-8
+      string: '{"endpoints": [{"region_id": "RegionOne", "links": {"self": "http://10.97.17.84:35357/v3/endpoints/09bb76485f3849c1a81dfeda62f1b27b"},
+        "url": "http://10.97.17.84:5000/v3", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "00707ec9c3574d8ebb638265844f7903", "id":
+        "09bb76485f3849c1a81dfeda62f1b27b"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/1232531a1eda43cba7c8c539270a4839"},
+        "url": "http://10.97.17.84:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "id": "1232531a1eda43cba7c8c539270a4839"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/1f0cd271fb524becaaa23c5e06730a19"},
+        "url": "http://10.97.17.84:8774/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "d22c9f37ebea4187ae97eb57ced02483",
+        "id": "1f0cd271fb524becaaa23c5e06730a19"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/273424f04e404eb98eb6008cdff7654f"},
+        "url": "http://10.97.17.84:8776/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "id": "273424f04e404eb98eb6008cdff7654f"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/2b86f18fc82c4f599455afa9f54cae20"},
+        "url": "http://10.97.17.84:8776/v1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "54efbe90e47244eca5fac1a65374e594",
+        "id": "2b86f18fc82c4f599455afa9f54cae20"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/4d6d1528f709499ca177e637521d7e85"},
+        "url": "http://10.97.17.84:8776/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "id": "4d6d1528f709499ca177e637521d7e85"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/51429028b9e74cb585dfe4a7df2bfd40"},
+        "url": "http://10.97.17.84:8774/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "d22c9f37ebea4187ae97eb57ced02483",
+        "id": "51429028b9e74cb585dfe4a7df2bfd40"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/5620b03559c84f6fbb01b660e3e5b8a9"},
+        "url": "http://10.97.17.84:8776/v1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "54efbe90e47244eca5fac1a65374e594",
+        "id": "5620b03559c84f6fbb01b660e3e5b8a9"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/59f19d0e7c59457fa611c4f552fa37c3"},
+        "url": "http://10.97.17.84:9696/", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "b6063de99a3b474094779d6f778cd87b", "id":
+        "59f19d0e7c59457fa611c4f552fa37c3"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/5f2d351a942e41bc8cc2163569c645b7"},
+        "url": "http://10.97.17.84:9696/", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "b6063de99a3b474094779d6f778cd87b", "id":
+        "5f2d351a942e41bc8cc2163569c645b7"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/73acd28dc39e4d2cb332fe63eafd05fa"},
+        "url": "http://10.97.17.84:35357/v3", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "00707ec9c3574d8ebb638265844f7903", "id":
+        "73acd28dc39e4d2cb332fe63eafd05fa"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/87a9c4d67a9549e58a12e93675520929"},
+        "url": "http://10.97.17.84:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "id": "87a9c4d67a9549e58a12e93675520929"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/8b6c30d816b1481f837448bcd368263a"},
+        "url": "http://10.97.17.84:8774/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "d22c9f37ebea4187ae97eb57ced02483",
+        "id": "8b6c30d816b1481f837448bcd368263a"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/8e2b48e33993420b934607375242e6a1"},
+        "url": "http://10.97.17.84:9696/", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "b6063de99a3b474094779d6f778cd87b",
+        "id": "8e2b48e33993420b934607375242e6a1"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/9799d84417464a4cbb9226485ce539c7"},
+        "url": "http://10.97.17.84:9292", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "1f1c2c6373754553938a93de04db5bc0", "id":
+        "9799d84417464a4cbb9226485ce539c7"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/a0d9872cbf42461ea5ab511d32387662"},
+        "url": "http://10.97.17.84:9292", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "1f1c2c6373754553938a93de04db5bc0",
+        "id": "a0d9872cbf42461ea5ab511d32387662"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/a93b60395e044b9187ccd7b37cf0c68c"},
+        "url": "http://10.97.17.84:9292", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "1f1c2c6373754553938a93de04db5bc0", "id":
+        "a93b60395e044b9187ccd7b37cf0c68c"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/aa0660735da048068454148d747bd997"},
+        "url": "http://10.97.17.84:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "id": "aa0660735da048068454148d747bd997"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/c0acc2a6600148248912d585cfd3debf"},
+        "url": "http://10.97.17.84:5000/v3", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "00707ec9c3574d8ebb638265844f7903",
+        "id": "c0acc2a6600148248912d585cfd3debf"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/d0af6d9e8b304d69bc349b63fdb7bd00"},
+        "url": "http://10.97.17.84:8773/", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "e2550fc44d8044398e49a080439462ed", "id":
+        "d0af6d9e8b304d69bc349b63fdb7bd00"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/e08749c48e9e4d2c9f2733fa221b3b2f"},
+        "url": "http://10.97.17.84:8773/", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "e2550fc44d8044398e49a080439462ed", "id":
+        "e08749c48e9e4d2c9f2733fa221b3b2f"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/f63063e775db4d48962172344fcdbdf1"},
+        "url": "http://10.97.17.84:8776/v1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "54efbe90e47244eca5fac1a65374e594",
+        "id": "f63063e775db4d48962172344fcdbdf1"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/fa22fdd7d604405bb734e5b04b825c57"},
+        "url": "http://10.97.17.84:8776/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "id": "fa22fdd7d604405bb734e5b04b825c57"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/faf1491ad0244c17b13f9b4fc10becbb"},
+        "url": "http://10.97.17.84:8773/", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "e2550fc44d8044398e49a080439462ed",
+        "id": "faf1491ad0244c17b13f9b4fc10becbb"}], "links": {"self": "http://10.97.17.84:35357/v3/endpoints",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Tue, 23 Jun 2015 15:09:40 GMT
+  recorded_at: Fri, 02 Oct 2015 11:41:32 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/endpoints
+    uri: http://10.97.17.84:35357/v3/endpoints
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.31.1
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 0c4458de5ba5446885c65b1dedfb2404
+      - f6af15c0332e4d3ab7716b51d8fedfff
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Tue, 23 Jun 2015 15:09:40 GMT
+      - Fri, 02 Oct 2015 11:41:44 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-f4a13fba-b310-4166-96c1-84e2c2d36624
+      - req-a7cf2db4-6291-4b0b-b364-5f11f23b354b
       Content-Length:
-      - '8876'
+      - '7781'
       Content-Type:
       - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
     body:
-      encoding: US-ASCII
-      string: ! '{"endpoints": [{"region_id": "RegionOne", "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/185eda94de9340e58245062f75d7f80e"},
-        "url": "http://devstack.openstack.stack:35357/v3", "region": "RegionOne", "enabled":
-        true, "interface": "admin", "service_id": "b577d8f7c7074d04a1165fcca638b600",
-        "id": "185eda94de9340e58245062f75d7f80e"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/1ce26a6fffd0424bac135b9c68055b6e"},
-        "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
-        "interface": "admin", "service_id": "3364a7b95c664bf89a7a8db081576364", "id":
-        "1ce26a6fffd0424bac135b9c68055b6e"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/261aaf6239bb49a4a1cfa87c19859138"},
-        "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "2b92e79c45254516932c633229cd0e8b",
-        "id": "261aaf6239bb49a4a1cfa87c19859138"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/2f17e155b0aa47838394e6c4f6fe30e0"},
-        "url": "http://devstack.openstack.stack:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "97e665cbada043718180c5a6316df76a",
-        "id": "2f17e155b0aa47838394e6c4f6fe30e0"}, {"region_id": "europe", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/32bb2c6aea944ea6b4956eb24142d2e2"},
-        "url": "http://devstack.openstack.stack:35357/v3", "region": "europe", "enabled": true,
-        "interface": "admin", "service_id": "cd9002bbadfe495d81b5ee4c50768009", "id":
-        "32bb2c6aea944ea6b4956eb24142d2e2"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/437d282e0bb94622aaacc4d194c069a9"},
-        "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "2b92e79c45254516932c633229cd0e8b",
-        "id": "437d282e0bb94622aaacc4d194c069a9"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/4442fbd064844a7bbe6a792507d4b8e3"},
-        "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "4442fbd064844a7bbe6a792507d4b8e3"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/480ea71dc8cf4c959df1c6304be87056"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "public", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "480ea71dc8cf4c959df1c6304be87056"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/4b4178fd2e3d4f329600cc4ceaaa7e3a"},
-        "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "4b4178fd2e3d4f329600cc4ceaaa7e3a"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/5e78bf7bae7c4ff5b9720b2c2e4da743"},
-        "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "2b92e79c45254516932c633229cd0e8b",
-        "id": "5e78bf7bae7c4ff5b9720b2c2e4da743"}, {"region_id": "europe", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/600638643d22494fad4f30e3b22ae124"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "europe", "enabled": true,
-        "interface": "public", "service_id": "cd9002bbadfe495d81b5ee4c50768009", "id":
-        "600638643d22494fad4f30e3b22ae124"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/6e82c8912d3f49a09df51035681d564c"},
-        "url": "http://devstack.openstack.stack:9292", "region": "RegionOne", "enabled": true,
-        "interface": "public", "service_id": "0d56500210a24c38a3702b6825e24164", "id":
-        "6e82c8912d3f49a09df51035681d564c"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/7e44d321ae80457abc3728fa1e6feb32"},
-        "url": "http://devstack.openstack.stack:9292", "region": "RegionOne", "enabled": true,
-        "interface": "admin", "service_id": "0d56500210a24c38a3702b6825e24164", "id":
-        "7e44d321ae80457abc3728fa1e6feb32"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/81c51855280345e9a6c322ca986d4e4b"},
-        "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "81c51855280345e9a6c322ca986d4e4b"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/8a254651925e4a3e9505c863a00c017e"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "internal", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "8a254651925e4a3e9505c863a00c017e"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/90977723dba04ea9a2a184c99565ccff"},
-        "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "90977723dba04ea9a2a184c99565ccff"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/98db699b9ffa4dffb027d78163aad8cc"},
-        "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
-        "interface": "public", "service_id": "3364a7b95c664bf89a7a8db081576364", "id":
-        "98db699b9ffa4dffb027d78163aad8cc"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/9abd6797844d455f875af9537325cba4"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "internal", "service_id": "b577d8f7c7074d04a1165fcca638b600",
-        "id": "9abd6797844d455f875af9537325cba4"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/9d2555fd27dd44e5acfb5e56127d974b"},
-        "url": "http://devstack.openstack.stack:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "97e665cbada043718180c5a6316df76a",
-        "id": "9d2555fd27dd44e5acfb5e56127d974b"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/a0310a37cf6144a6a967cbae9a7959ba"},
-        "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "a0310a37cf6144a6a967cbae9a7959ba"}, {"region_id": "europe", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/b93da6aaba654d8cb451ff8378d7d2a5"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "europe", "enabled": true,
-        "interface": "internal", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "b93da6aaba654d8cb451ff8378d7d2a5"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/c9a090a4597040849c03bc13588167f6"},
-        "url": "http://devstack.openstack.stack:9292", "region": "RegionOne", "enabled": true,
-        "interface": "internal", "service_id": "0d56500210a24c38a3702b6825e24164",
-        "id": "c9a090a4597040849c03bc13588167f6"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/d3b31f24e4ea40699f731e29e625c187"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "public", "service_id": "b577d8f7c7074d04a1165fcca638b600",
-        "id": "d3b31f24e4ea40699f731e29e625c187"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/d5f8e0da0f3345529a5fb324d735d4a3"},
-        "url": "http://devstack.openstack.stack:35357/v3", "region": "RegionOne", "enabled":
-        true, "interface": "admin", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "d5f8e0da0f3345529a5fb324d735d4a3"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/e8bdd9403fbb4efa8d77bfd4f6a5e34a"},
-        "url": "http://devstack.openstack.stack:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "97e665cbada043718180c5a6316df76a",
-        "id": "e8bdd9403fbb4efa8d77bfd4f6a5e34a"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/ece52860cf1e4eb6a8fed05c47a30147"},
-        "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
-        "interface": "internal", "service_id": "3364a7b95c664bf89a7a8db081576364",
-        "id": "ece52860cf1e4eb6a8fed05c47a30147"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/f6d38c03b9c04a9e924aaa288ce014b8"},
-        "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints",
+      encoding: UTF-8
+      string: '{"endpoints": [{"region_id": "RegionOne", "links": {"self": "http://10.97.17.84:35357/v3/endpoints/09bb76485f3849c1a81dfeda62f1b27b"},
+        "url": "http://10.97.17.84:5000/v3", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "00707ec9c3574d8ebb638265844f7903", "id":
+        "09bb76485f3849c1a81dfeda62f1b27b"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/1232531a1eda43cba7c8c539270a4839"},
+        "url": "http://10.97.17.84:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "id": "1232531a1eda43cba7c8c539270a4839"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/1f0cd271fb524becaaa23c5e06730a19"},
+        "url": "http://10.97.17.84:8774/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "d22c9f37ebea4187ae97eb57ced02483",
+        "id": "1f0cd271fb524becaaa23c5e06730a19"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/273424f04e404eb98eb6008cdff7654f"},
+        "url": "http://10.97.17.84:8776/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "id": "273424f04e404eb98eb6008cdff7654f"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/2b86f18fc82c4f599455afa9f54cae20"},
+        "url": "http://10.97.17.84:8776/v1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "54efbe90e47244eca5fac1a65374e594",
+        "id": "2b86f18fc82c4f599455afa9f54cae20"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/4d6d1528f709499ca177e637521d7e85"},
+        "url": "http://10.97.17.84:8776/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "id": "4d6d1528f709499ca177e637521d7e85"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/51429028b9e74cb585dfe4a7df2bfd40"},
+        "url": "http://10.97.17.84:8774/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "d22c9f37ebea4187ae97eb57ced02483",
+        "id": "51429028b9e74cb585dfe4a7df2bfd40"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/5620b03559c84f6fbb01b660e3e5b8a9"},
+        "url": "http://10.97.17.84:8776/v1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "54efbe90e47244eca5fac1a65374e594",
+        "id": "5620b03559c84f6fbb01b660e3e5b8a9"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/59f19d0e7c59457fa611c4f552fa37c3"},
+        "url": "http://10.97.17.84:9696/", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "b6063de99a3b474094779d6f778cd87b", "id":
+        "59f19d0e7c59457fa611c4f552fa37c3"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/5f2d351a942e41bc8cc2163569c645b7"},
+        "url": "http://10.97.17.84:9696/", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "b6063de99a3b474094779d6f778cd87b", "id":
+        "5f2d351a942e41bc8cc2163569c645b7"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/73acd28dc39e4d2cb332fe63eafd05fa"},
+        "url": "http://10.97.17.84:35357/v3", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "00707ec9c3574d8ebb638265844f7903", "id":
+        "73acd28dc39e4d2cb332fe63eafd05fa"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/87a9c4d67a9549e58a12e93675520929"},
+        "url": "http://10.97.17.84:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "id": "87a9c4d67a9549e58a12e93675520929"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/8b6c30d816b1481f837448bcd368263a"},
+        "url": "http://10.97.17.84:8774/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "d22c9f37ebea4187ae97eb57ced02483",
+        "id": "8b6c30d816b1481f837448bcd368263a"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/8e2b48e33993420b934607375242e6a1"},
+        "url": "http://10.97.17.84:9696/", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "b6063de99a3b474094779d6f778cd87b",
+        "id": "8e2b48e33993420b934607375242e6a1"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/9799d84417464a4cbb9226485ce539c7"},
+        "url": "http://10.97.17.84:9292", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "1f1c2c6373754553938a93de04db5bc0", "id":
+        "9799d84417464a4cbb9226485ce539c7"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/a0d9872cbf42461ea5ab511d32387662"},
+        "url": "http://10.97.17.84:9292", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "1f1c2c6373754553938a93de04db5bc0",
+        "id": "a0d9872cbf42461ea5ab511d32387662"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/a93b60395e044b9187ccd7b37cf0c68c"},
+        "url": "http://10.97.17.84:9292", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "1f1c2c6373754553938a93de04db5bc0", "id":
+        "a93b60395e044b9187ccd7b37cf0c68c"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/aa0660735da048068454148d747bd997"},
+        "url": "http://10.97.17.84:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "id": "aa0660735da048068454148d747bd997"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/c0acc2a6600148248912d585cfd3debf"},
+        "url": "http://10.97.17.84:5000/v3", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "00707ec9c3574d8ebb638265844f7903",
+        "id": "c0acc2a6600148248912d585cfd3debf"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/d0af6d9e8b304d69bc349b63fdb7bd00"},
+        "url": "http://10.97.17.84:8773/", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "e2550fc44d8044398e49a080439462ed", "id":
+        "d0af6d9e8b304d69bc349b63fdb7bd00"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/e08749c48e9e4d2c9f2733fa221b3b2f"},
+        "url": "http://10.97.17.84:8773/", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "e2550fc44d8044398e49a080439462ed", "id":
+        "e08749c48e9e4d2c9f2733fa221b3b2f"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/f63063e775db4d48962172344fcdbdf1"},
+        "url": "http://10.97.17.84:8776/v1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "54efbe90e47244eca5fac1a65374e594",
+        "id": "f63063e775db4d48962172344fcdbdf1"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/fa22fdd7d604405bb734e5b04b825c57"},
+        "url": "http://10.97.17.84:8776/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "id": "fa22fdd7d604405bb734e5b04b825c57"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/faf1491ad0244c17b13f9b4fc10becbb"},
+        "url": "http://10.97.17.84:8773/", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "e2550fc44d8044398e49a080439462ed",
+        "id": "faf1491ad0244c17b13f9b4fc10becbb"}], "links": {"self": "http://10.97.17.84:35357/v3/endpoints",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Tue, 23 Jun 2015 15:09:40 GMT
+  recorded_at: Fri, 02 Oct 2015 11:41:32 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/endpoints
+    uri: http://10.97.17.84:35357/v3/endpoints
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.31.1
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 0c4458de5ba5446885c65b1dedfb2404
+      - f6af15c0332e4d3ab7716b51d8fedfff
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Tue, 23 Jun 2015 15:09:40 GMT
+      - Fri, 02 Oct 2015 11:41:44 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-b2865147-cc83-4478-94d9-ae720808b0d6
+      - req-1ab0e551-8dec-40e9-a666-eb990db85bc0
       Content-Length:
-      - '8876'
+      - '7781'
       Content-Type:
       - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
     body:
-      encoding: US-ASCII
-      string: ! '{"endpoints": [{"region_id": "RegionOne", "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints/185eda94de9340e58245062f75d7f80e"},
-        "url": "http://devstack.openstack.stack:35357/v3", "region": "RegionOne", "enabled":
-        true, "interface": "admin", "service_id": "b577d8f7c7074d04a1165fcca638b600",
-        "id": "185eda94de9340e58245062f75d7f80e"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/1ce26a6fffd0424bac135b9c68055b6e"},
-        "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
-        "interface": "admin", "service_id": "3364a7b95c664bf89a7a8db081576364", "id":
-        "1ce26a6fffd0424bac135b9c68055b6e"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/261aaf6239bb49a4a1cfa87c19859138"},
-        "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "2b92e79c45254516932c633229cd0e8b",
-        "id": "261aaf6239bb49a4a1cfa87c19859138"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/2f17e155b0aa47838394e6c4f6fe30e0"},
-        "url": "http://devstack.openstack.stack:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "97e665cbada043718180c5a6316df76a",
-        "id": "2f17e155b0aa47838394e6c4f6fe30e0"}, {"region_id": "europe", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/32bb2c6aea944ea6b4956eb24142d2e2"},
-        "url": "http://devstack.openstack.stack:35357/v3", "region": "europe", "enabled": true,
-        "interface": "admin", "service_id": "cd9002bbadfe495d81b5ee4c50768009", "id":
-        "32bb2c6aea944ea6b4956eb24142d2e2"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/437d282e0bb94622aaacc4d194c069a9"},
-        "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "2b92e79c45254516932c633229cd0e8b",
-        "id": "437d282e0bb94622aaacc4d194c069a9"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/4442fbd064844a7bbe6a792507d4b8e3"},
-        "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "4442fbd064844a7bbe6a792507d4b8e3"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/480ea71dc8cf4c959df1c6304be87056"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "public", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "480ea71dc8cf4c959df1c6304be87056"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/4b4178fd2e3d4f329600cc4ceaaa7e3a"},
-        "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "4b4178fd2e3d4f329600cc4ceaaa7e3a"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/5e78bf7bae7c4ff5b9720b2c2e4da743"},
-        "url": "http://devstack.openstack.stack:8776/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "2b92e79c45254516932c633229cd0e8b",
-        "id": "5e78bf7bae7c4ff5b9720b2c2e4da743"}, {"region_id": "europe", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/600638643d22494fad4f30e3b22ae124"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "europe", "enabled": true,
-        "interface": "public", "service_id": "cd9002bbadfe495d81b5ee4c50768009", "id":
-        "600638643d22494fad4f30e3b22ae124"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/6e82c8912d3f49a09df51035681d564c"},
-        "url": "http://devstack.openstack.stack:9292", "region": "RegionOne", "enabled": true,
-        "interface": "public", "service_id": "0d56500210a24c38a3702b6825e24164", "id":
-        "6e82c8912d3f49a09df51035681d564c"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/7e44d321ae80457abc3728fa1e6feb32"},
-        "url": "http://devstack.openstack.stack:9292", "region": "RegionOne", "enabled": true,
-        "interface": "admin", "service_id": "0d56500210a24c38a3702b6825e24164", "id":
-        "7e44d321ae80457abc3728fa1e6feb32"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/81c51855280345e9a6c322ca986d4e4b"},
-        "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "internal", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "81c51855280345e9a6c322ca986d4e4b"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/8a254651925e4a3e9505c863a00c017e"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "internal", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "8a254651925e4a3e9505c863a00c017e"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/90977723dba04ea9a2a184c99565ccff"},
-        "url": "http://devstack.openstack.stack:8776/v1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "511b94ce0482484ea09028091dd5e9a5",
-        "id": "90977723dba04ea9a2a184c99565ccff"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/98db699b9ffa4dffb027d78163aad8cc"},
-        "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
-        "interface": "public", "service_id": "3364a7b95c664bf89a7a8db081576364", "id":
-        "98db699b9ffa4dffb027d78163aad8cc"}, {"region_id": "RegionOne", "links": {"self":
-        "http://devstack.openstack.stack:35357/v3/endpoints/9abd6797844d455f875af9537325cba4"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "internal", "service_id": "b577d8f7c7074d04a1165fcca638b600",
-        "id": "9abd6797844d455f875af9537325cba4"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/9d2555fd27dd44e5acfb5e56127d974b"},
-        "url": "http://devstack.openstack.stack:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "97e665cbada043718180c5a6316df76a",
-        "id": "9d2555fd27dd44e5acfb5e56127d974b"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/a0310a37cf6144a6a967cbae9a7959ba"},
-        "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "a0310a37cf6144a6a967cbae9a7959ba"}, {"region_id": "europe", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/b93da6aaba654d8cb451ff8378d7d2a5"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "europe", "enabled": true,
-        "interface": "internal", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "b93da6aaba654d8cb451ff8378d7d2a5"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/c9a090a4597040849c03bc13588167f6"},
-        "url": "http://devstack.openstack.stack:9292", "region": "RegionOne", "enabled": true,
-        "interface": "internal", "service_id": "0d56500210a24c38a3702b6825e24164",
-        "id": "c9a090a4597040849c03bc13588167f6"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/d3b31f24e4ea40699f731e29e625c187"},
-        "url": "http://devstack.openstack.stack:5000/v3", "region": "RegionOne", "enabled":
-        true, "interface": "public", "service_id": "b577d8f7c7074d04a1165fcca638b600",
-        "id": "d3b31f24e4ea40699f731e29e625c187"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/d5f8e0da0f3345529a5fb324d735d4a3"},
-        "url": "http://devstack.openstack.stack:35357/v3", "region": "RegionOne", "enabled":
-        true, "interface": "admin", "service_id": "cd9002bbadfe495d81b5ee4c50768009",
-        "id": "d5f8e0da0f3345529a5fb324d735d4a3"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/e8bdd9403fbb4efa8d77bfd4f6a5e34a"},
-        "url": "http://devstack.openstack.stack:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "admin", "service_id": "97e665cbada043718180c5a6316df76a",
-        "id": "e8bdd9403fbb4efa8d77bfd4f6a5e34a"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/ece52860cf1e4eb6a8fed05c47a30147"},
-        "url": "http://devstack.openstack.stack:8773/", "region": "RegionOne", "enabled": true,
-        "interface": "internal", "service_id": "3364a7b95c664bf89a7a8db081576364",
-        "id": "ece52860cf1e4eb6a8fed05c47a30147"}, {"region_id": "RegionOne", "links":
-        {"self": "http://devstack.openstack.stack:35357/v3/endpoints/f6d38c03b9c04a9e924aaa288ce014b8"},
-        "url": "http://devstack.openstack.stack:8774/v2/$(tenant_id)s", "region": "RegionOne",
-        "enabled": true, "interface": "public", "service_id": "5b7028751ed045d79467c7845ecb8c58",
-        "id": "f6d38c03b9c04a9e924aaa288ce014b8"}], "links": {"self": "http://devstack.openstack.stack:35357/v3/endpoints",
+      encoding: UTF-8
+      string: '{"endpoints": [{"region_id": "RegionOne", "links": {"self": "http://10.97.17.84:35357/v3/endpoints/09bb76485f3849c1a81dfeda62f1b27b"},
+        "url": "http://10.97.17.84:5000/v3", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "00707ec9c3574d8ebb638265844f7903", "id":
+        "09bb76485f3849c1a81dfeda62f1b27b"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/1232531a1eda43cba7c8c539270a4839"},
+        "url": "http://10.97.17.84:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "id": "1232531a1eda43cba7c8c539270a4839"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/1f0cd271fb524becaaa23c5e06730a19"},
+        "url": "http://10.97.17.84:8774/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "d22c9f37ebea4187ae97eb57ced02483",
+        "id": "1f0cd271fb524becaaa23c5e06730a19"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/273424f04e404eb98eb6008cdff7654f"},
+        "url": "http://10.97.17.84:8776/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "id": "273424f04e404eb98eb6008cdff7654f"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/2b86f18fc82c4f599455afa9f54cae20"},
+        "url": "http://10.97.17.84:8776/v1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "54efbe90e47244eca5fac1a65374e594",
+        "id": "2b86f18fc82c4f599455afa9f54cae20"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/4d6d1528f709499ca177e637521d7e85"},
+        "url": "http://10.97.17.84:8776/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "internal", "service_id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "id": "4d6d1528f709499ca177e637521d7e85"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/51429028b9e74cb585dfe4a7df2bfd40"},
+        "url": "http://10.97.17.84:8774/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "d22c9f37ebea4187ae97eb57ced02483",
+        "id": "51429028b9e74cb585dfe4a7df2bfd40"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/5620b03559c84f6fbb01b660e3e5b8a9"},
+        "url": "http://10.97.17.84:8776/v1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "54efbe90e47244eca5fac1a65374e594",
+        "id": "5620b03559c84f6fbb01b660e3e5b8a9"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/59f19d0e7c59457fa611c4f552fa37c3"},
+        "url": "http://10.97.17.84:9696/", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "b6063de99a3b474094779d6f778cd87b", "id":
+        "59f19d0e7c59457fa611c4f552fa37c3"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/5f2d351a942e41bc8cc2163569c645b7"},
+        "url": "http://10.97.17.84:9696/", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "b6063de99a3b474094779d6f778cd87b", "id":
+        "5f2d351a942e41bc8cc2163569c645b7"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/73acd28dc39e4d2cb332fe63eafd05fa"},
+        "url": "http://10.97.17.84:35357/v3", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "00707ec9c3574d8ebb638265844f7903", "id":
+        "73acd28dc39e4d2cb332fe63eafd05fa"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/87a9c4d67a9549e58a12e93675520929"},
+        "url": "http://10.97.17.84:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "id": "87a9c4d67a9549e58a12e93675520929"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/8b6c30d816b1481f837448bcd368263a"},
+        "url": "http://10.97.17.84:8774/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "d22c9f37ebea4187ae97eb57ced02483",
+        "id": "8b6c30d816b1481f837448bcd368263a"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/8e2b48e33993420b934607375242e6a1"},
+        "url": "http://10.97.17.84:9696/", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "b6063de99a3b474094779d6f778cd87b",
+        "id": "8e2b48e33993420b934607375242e6a1"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/9799d84417464a4cbb9226485ce539c7"},
+        "url": "http://10.97.17.84:9292", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "1f1c2c6373754553938a93de04db5bc0", "id":
+        "9799d84417464a4cbb9226485ce539c7"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/a0d9872cbf42461ea5ab511d32387662"},
+        "url": "http://10.97.17.84:9292", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "1f1c2c6373754553938a93de04db5bc0",
+        "id": "a0d9872cbf42461ea5ab511d32387662"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/a93b60395e044b9187ccd7b37cf0c68c"},
+        "url": "http://10.97.17.84:9292", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "1f1c2c6373754553938a93de04db5bc0", "id":
+        "a93b60395e044b9187ccd7b37cf0c68c"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/aa0660735da048068454148d747bd997"},
+        "url": "http://10.97.17.84:8774/v2.1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "admin", "service_id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "id": "aa0660735da048068454148d747bd997"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/c0acc2a6600148248912d585cfd3debf"},
+        "url": "http://10.97.17.84:5000/v3", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "00707ec9c3574d8ebb638265844f7903",
+        "id": "c0acc2a6600148248912d585cfd3debf"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/d0af6d9e8b304d69bc349b63fdb7bd00"},
+        "url": "http://10.97.17.84:8773/", "region": "RegionOne", "enabled": true,
+        "interface": "admin", "service_id": "e2550fc44d8044398e49a080439462ed", "id":
+        "d0af6d9e8b304d69bc349b63fdb7bd00"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/e08749c48e9e4d2c9f2733fa221b3b2f"},
+        "url": "http://10.97.17.84:8773/", "region": "RegionOne", "enabled": true,
+        "interface": "public", "service_id": "e2550fc44d8044398e49a080439462ed", "id":
+        "e08749c48e9e4d2c9f2733fa221b3b2f"}, {"region_id": "RegionOne", "links": {"self":
+        "http://10.97.17.84:35357/v3/endpoints/f63063e775db4d48962172344fcdbdf1"},
+        "url": "http://10.97.17.84:8776/v1/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "54efbe90e47244eca5fac1a65374e594",
+        "id": "f63063e775db4d48962172344fcdbdf1"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/fa22fdd7d604405bb734e5b04b825c57"},
+        "url": "http://10.97.17.84:8776/v2/$(tenant_id)s", "region": "RegionOne",
+        "enabled": true, "interface": "public", "service_id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "id": "fa22fdd7d604405bb734e5b04b825c57"}, {"region_id": "RegionOne", "links":
+        {"self": "http://10.97.17.84:35357/v3/endpoints/faf1491ad0244c17b13f9b4fc10becbb"},
+        "url": "http://10.97.17.84:8773/", "region": "RegionOne", "enabled": true,
+        "interface": "internal", "service_id": "e2550fc44d8044398e49a080439462ed",
+        "id": "faf1491ad0244c17b13f9b4fc10becbb"}], "links": {"self": "http://10.97.17.84:35357/v3/endpoints",
         "previous": null, "next": null}}'
     http_version: 
-  recorded_at: Tue, 23 Jun 2015 15:09:40 GMT
+  recorded_at: Fri, 02 Oct 2015 11:41:32 GMT
 - request:
     method: get
-    uri: http://devstack.openstack.stack:35357/v3/endpoints/atlantis
+    uri: http://10.97.17.84:35357/v3/endpoints/atlantis
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog/1.31.0 fog-core/1.31.1
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
       Content-Type:
       - application/json
       Accept:
       - application/json
       X-Auth-Token:
-      - 0c4458de5ba5446885c65b1dedfb2404
+      - f6af15c0332e4d3ab7716b51d8fedfff
   response:
     status:
       code: 404
       message: ''
     headers:
       Date:
-      - Tue, 23 Jun 2015 15:09:40 GMT
+      - Fri, 02 Oct 2015 11:41:44 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-9762e65e-846a-4abc-83bb-8aa657eee9bb
+      - req-65ab49d8-bcf2-490c-9767-536ac5d4a55d
       Content-Length:
       - '94'
       Content-Type:
       - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
     body:
-      encoding: US-ASCII
-      string: ! '{"error": {"message": "Could not find endpoint: atlantis", "code":
+      encoding: UTF-8
+      string: '{"error": {"message": "Could not find endpoint: atlantis", "code":
         404, "title": "Not Found"}}'
     http_version: 
-  recorded_at: Tue, 23 Jun 2015 15:09:41 GMT
+  recorded_at: Fri, 02 Oct 2015 11:41:32 GMT
 recorded_with: VCR 2.9.3
