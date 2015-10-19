@@ -625,7 +625,11 @@ module Fog
         end
 
         def password_lock
-          "passwd -l #{username}" unless attributes[:no_passwd_lock]
+          if !attributes[:no_passwd_lock].nil?
+            Fog::Logger.warning("Rackspace[:no_passwd_lock] is deprecated since it is now the default behavior, use Rackspace[:passwd_lock] instead")
+          end
+
+          "passwd -l #{username}" if attributes[:passwd_lock]
         end
 
         def user_data_encoded
