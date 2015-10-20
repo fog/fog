@@ -12,6 +12,14 @@ module Fog
         attribute :min_disk_size
         attribute :created_at
       end
+
+      def transfer
+        perform_action :transfer_image
+      end
+
+      def convert_to_snapshot
+        perform_action :convert_image_to_snapshot
+      end
     end
   end
 end
