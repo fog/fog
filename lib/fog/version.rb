@@ -1,3 +1,3 @@
 module Fog
-  VERSION = '2.0.0.pre.0'
+  VERSION = '1.35.0'
 end

@@ -1,3 +1,87 @@
+## 1.35.0 10/20/2015
+*Hash* 4444f3287454a4281ead73fa24aa1b93d5d23a39
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Downloads     | 12346569
+Forks         | 1496
+Open Issues   | 86
+Watchers      | 3665
+
+**MVP!** bryanl
+
+#### [#3099]
+*   Remove Nokogiri constraint. thanks Paul Thornthwaite
+
+#### [Fog 2.0]
+*   Remove 1.8.7 support. thanks Paul Thornthwaite
+*   Update docs re dropping 1.8.7 support. thanks Paul Thornthwaite
+
+#### [misc]
+*   Add boot_volume_size to RS compute_v2 Server Create. thanks Alain De Carolis
+*   fix kernel selection bug. thanks Alex Borisov
+*   Use head version of all released MRI versions. thanks Caleb Thompson
+*   Allow travis to generate matrix of rubies and gems. thanks Caleb Thompson
+*   Re-add 1.9.3 support. thanks Caleb Thompson
+*   Allow failures on latest Ruby version. thanks Caleb Thompson
+*   change get_raw replacement regex from />/ to /=>/ for output XML. thanks Cherdancev Evgeni
+*   add RAW tests. thanks Cherdancev Evgeni
+*   fixing scope of mock class on compute_v2 digital ocean list fiels. thanks Joshua Gross
+*   Fixing misnaming of methods for mock classes in compute v2 digitalocean. thanks Joshua Gross
+*   Making the existing suite of tests pass for digitalocean compute v2. thanks Joshua Gross
+*   fixing digitalocean server tests to test response format. thanks Joshua Gross
+*   fixing merge conflicts. thanks Joshua Gross
+*   forgetful save of a file. thanks Joshua Gross
+*   Openstack adding Heat Patch support. thanks Ladislav Smola
+*   Openstack volumes adding volume type management. thanks Ladislav Smola
+*   Ensure root user behaves like Rackspace defaults. thanks Martin Smith
+*   Require fog-google versions compatable w/ > 1.9.3. thanks Nat Welch
+*   update fog-google dep to > 0.1.1. thanks Nat Welch
+*   Added case to reboot gracefully if toolsOld. thanks Nick Huanca
+*   Change URL options to a hash rather than an array. thanks Paul Martin
+*   CGI.escape and character replacements. thanks Paul Martin
+*   Limit 1.9.3 tests to use older Net::SSH. thanks Paul Thornthwaite
+*   Remove support for Ruby 1.9.3. thanks Paul Thornthwaite
+*   Don't allow Travis failures for Ruby 2.2. thanks Paul Thornthwaite
+*   Removed unecessary configurations from Travis. thanks Paulo Henrique Lopes Ribeiro
+*   Bumped required ruby version to 1.9.3. thanks Paulo Henrique Lopes Ribeiro
+*   Remove XENSERVER code. thanks Paulo Henrique Lopes Ribeiro
+*   Remove XENSERVER tests. thanks Paulo Henrique Lopes Ribeiro
+*   Remove XENSERVER bin. thanks Paulo Henrique Lopes Ribeiro
+*   Remove XENSERVER test helper. thanks Paulo Henrique Lopes Ribeiro
+*   Depend on fog-xenserver. thanks Paulo Henrique Lopes Ribeiro
+*   Adds documentation for new V2 methods. thanks Peter Souter
+*   Add new #get method for images. thanks Peter Souter
+*   Adds #transfer and #convert methods to image. thanks Peter Souter
+*   list_servers. thanks bryanl
+*   list_images. thanks bryanl
+*   list_regions. thanks bryanl
+*   list_flavors. thanks bryanl
+*   add a server mock. thanks bryanl
+*   list_servers. thanks bryanl
+*   list_images. thanks bryanl
+*   list_regions. thanks bryanl
+*   list_flavors. thanks bryanl
+*   add a server mock. thanks bryanl
+*   add create and delete server. thanks bryanl
+*   get a server. thanks bryanl
+*   add droplet actions. thanks bryanl
+*   add ssh key data. thanks bryanl
+*   support DigitalOcean v2 compute API. thanks bryanl
+*   add methods for server ipv4 and ipv6 public addresses. thanks bryanl
+*   Fog support new provider: aliyun. thanks dengqinsi
+*   v2.0.0.pre.0. thanks geemus
+*   temporarily relax ruby version constraint. thanks geemus
+
+#### [openstack]
+*   Add request for Cinder to get quota usage. thanks Dang Tung Lam
+*   List server actions fix. thanks Dang Tung Lam
+*   Glance v2 API. thanks Darren Hague
+*   Make sure that Identity v3 authentication uses a v3 endpoint. thanks Darren Hague
+*   IdV3: re-record VCRs against a new DevStack kilo installation. thanks Darren Hague
+
+
 ## 1.34.0 09/03/2015
 *Hash* 23467f391cbc9d8d3262da33cec533f8b8e80cee
 

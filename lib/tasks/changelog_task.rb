@@ -108,6 +108,7 @@ Watchers      | #{watchers}
            'Ash Wilson',
            'Benson Kalahar',
            'Brian Hartsock',
+           'bryanl',
            'Chris Luo',
            'Chris Roberts',
            'Christopher Oliver',
