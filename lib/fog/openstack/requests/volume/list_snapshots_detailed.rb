@@ -1,7 +1,7 @@
 module Fog
   module Volume
     class OpenStack
-      class Real
+      module Real
         def list_snapshots_detailed(options = {})
           request(
             :expects  => 200,
@@ -12,7 +12,7 @@ module Fog
         end
       end
 
-      class Mock
+      module Mock
         def list_snapshots_detailed(options = {})
           response = Excon::Response.new
           response.status = 200

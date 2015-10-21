@@ -1,12 +1,9 @@
 require 'fog/openstack/models/collection'
-require 'fog/openstack/models/volume/volume_type'
 
 module Fog
   module Volume
     class OpenStack
-      class VolumeTypes < Fog::OpenStack::Collection
-        model Fog::Volume::OpenStack::VolumeType
-
+      module VolumeTypes
         def all(options = {})
           response = service.list_volume_types(options)
           load_response(response, 'volume_types')

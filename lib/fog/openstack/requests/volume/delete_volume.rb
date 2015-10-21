@@ -1,7 +1,7 @@
 module Fog
   module Volume
     class OpenStack
-      class Real
+      module Real
         def delete_volume(volume_id)
           request(
             :expects  => 202,
@@ -11,7 +11,7 @@ module Fog
         end
       end
 
-      class Mock
+      module Mock
         def delete_volume(volume_id)
           response = Excon::Response.new
           response.status = 204

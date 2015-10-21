@@ -7,6 +7,9 @@ require 'fog/openstack/identity_v3'
 require 'fog/openstack/image'
 require 'fog/openstack/image_v1'
 require 'fog/openstack/image_v2'
+require 'fog/openstack/volume'
+require 'fog/openstack/volume_v1'
+require 'fog/openstack/volume_v2'
 require 'fog/openstack/network'
 
 #
@@ -44,8 +47,14 @@ RSpec.shared_context 'OpenStack specs with VCR' do
       Fog.interval = 0
       # use an auth URL that matches our VCR recordings (IdentityV2 for most
       # services, but IdentityV3 test obviously needs IdentityV3 auth URL)
-      if [Fog::Identity::OpenStack::V3, Fog::Image::OpenStack, Fog::Image::OpenStack::V1, Fog::Network::OpenStack].include? @service_class
-        @os_auth_url = 'http://devstack.openstack.stack:5000/v3'
+      if [Fog::Identity::OpenStack::V3,
+          Fog::Volume::OpenStack,
+          Fog::Volume::OpenStack::V1,
+          Fog::Volume::OpenStack::V2,
+          Fog::Image::OpenStack,
+          Fog::Image::OpenStack::V1,
+          Fog::Network::OpenStack].include? @service_class
+        @os_auth_url = ENV['OS_AUTH_URL']||'http://devstack.openstack.stack:5000/v3'
       else
         @os_auth_url = 'http://devstack.openstack.stack:5000/v2.0'
       end

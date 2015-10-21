@@ -574,7 +574,11 @@ module Fog
     end
 
     def self.get_supported_version_path(supported_versions, uri, auth_token, connection_options = {})
-      connection = Fog::Core::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, connection_options)
+      # Find a version in the path (e.g. the v1 in /xyz/v1/tenantid/abc) and get the path up until that version (e.g. /xyz))
+      path_components = uri.path.split '/'
+      version_component_index = path_components.index{|comp| comp.match(/v[0-9].?[0-9]?/) }
+      versionless_path = (path_components.take(version_component_index).join '/' if version_component_index) || ''
+      connection = Fog::Core::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}#{versionless_path}", false, connection_options)
       response = connection.request({
                                         :expects => [200, 204, 300],
                                         :headers => {'Content-Type' => 'application/json',

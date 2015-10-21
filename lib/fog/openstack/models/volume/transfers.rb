@@ -1,11 +1,9 @@
 require 'fog/openstack/models/collection'
-require 'fog/openstack/models/volume/transfer'
 
 module Fog
   module Volume
     class OpenStack
-      class Transfers < Fog::OpenStack::Collection
-        model Fog::Volume::OpenStack::Transfer
+      module Transfers
 
         def all(options = {})
           load_response(service.list_transfers_detailed(options), 'transfers')
@@ -31,7 +29,6 @@ module Fog
             new(transfer)
           end
         end
-
       end
     end
   end

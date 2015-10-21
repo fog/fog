@@ -4,10 +4,7 @@ module Fog
   module Volume
     class OpenStack
       class VolumeType < Fog::OpenStack::Model
-        identity :id
 
-        attribute :name
-        attribute :volume_backend_name
         attribute :extra_specs
 
         def create

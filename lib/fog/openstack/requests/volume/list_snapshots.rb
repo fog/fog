@@ -1,7 +1,7 @@
 module Fog
   module Volume
     class OpenStack
-      class Real
+      module Real
         def list_snapshots(options = true, options_deprecated = {})
           if options.is_a?(Hash)
             path  = 'snapshots'
@@ -26,7 +26,7 @@ module Fog
         end
       end
 
-      class Mock
+      module Mock
         def list_snapshots(detailed=true, options={})
           response = Excon::Response.new
           response.status = 200

@@ -1,3 +1,4 @@
+require 'fog/openstack/common'
 require 'fog/openstack/core'
 require 'fog/openstack/image'
 
@@ -104,7 +105,10 @@ module Fog
 
         class Real
           include Fog::OpenStack::Core
-          include Fog::Image::OpenStack::Common
+          def self.not_found_class
+            Fog::Image::OpenStack::NotFound
+          end
+          include Fog::OpenStack::Common
 
           def initialize(options={})
             initialize_identity options
