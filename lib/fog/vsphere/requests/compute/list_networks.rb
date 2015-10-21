@@ -20,10 +20,11 @@ module Fog
 
         def network_attributes network, datacenter
           {
-            :id         => managed_obj_id(network),
-            :name       => network.name,
-            :accessible => network.summary.accessible,
-            :datacenter => datacenter,
+            :id            => managed_obj_id(network),
+            :name          => network.name,
+            :accessible    => network.summary.accessible,
+            :datacenter    => datacenter,
+            :virtualswitch => network.class.to_s == "DistributedVirtualPortgroup" ? network.config.distributedVirtualSwitch.name : nil
           }
         end
       end

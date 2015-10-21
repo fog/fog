@@ -7,6 +7,7 @@ module Fog
         attribute :name
         attribute :datacenter
         attribute :accessible # reachable by at least one hypervisor
+        attribute :virtualswitch
 
         def to_s
           name
