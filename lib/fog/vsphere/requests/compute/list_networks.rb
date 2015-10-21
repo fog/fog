@@ -24,7 +24,7 @@ module Fog
             :name          => network.name,
             :accessible    => network.summary.accessible,
             :datacenter    => datacenter,
-            :virtualswitch => network.class.to_s == "DistributedVirtualPortgroup" ? network.config.distributedVirtualSwitch.name : nil
+            :virtualswitch => network.class.name == "DistributedVirtualPortgroup" ? network.config.distributedVirtualSwitch.name : nil
           }
         end
       end
