@@ -86,6 +86,7 @@ module Fog
       request :list_customfields
       request :get_vm_first_scsi_controller
       request :set_vm_customvalue
+      request :vm_take_snapshot
 
       module Shared
         attr_reader :vsphere_is_vcenter

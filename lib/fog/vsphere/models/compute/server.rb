@@ -148,6 +148,11 @@ module Fog
           new_vm
         end
 
+        def take_snapshot(options = {})
+          requires :instance_uuid
+          service.vm_take_snapshot(options.merge('instance_uuid' => instance_uuid))
+        end
+
         def ready?
           power_state == "poweredOn"
         end

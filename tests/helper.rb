@@ -3,6 +3,7 @@ ENV['FOG_CREDENTIAL'] = ENV['FOG_CREDENTIAL'] || 'default'
 
 require 'fog'
 require 'fog/bin' # for available_providers and registered_providers
+require 'ostruct'
 
 Excon.defaults.merge!(:debug_request => true, :debug_response => true)
 
