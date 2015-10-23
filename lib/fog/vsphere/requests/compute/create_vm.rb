@@ -122,18 +122,23 @@ module Fog
         end
 
         def create_disk disk, index = 0, operation = :add, controller_key = 1000
+          if (index > 6) then
+            _index = index + 1
+          else
+            _index = index
+          end
           payload = {
             :operation     => operation,
             :fileOperation => operation == :add ? :create : :destroy,
             :device        => RbVmomi::VIM.VirtualDisk(
-              :key           => disk.key || index,
+              :key           => disk.key || _index,
               :backing       => RbVmomi::VIM.VirtualDiskFlatVer2BackingInfo(
                 :fileName        => "[#{disk.datastore}]",
                 :diskMode        => disk.mode.to_sym,
                 :thinProvisioned => disk.thin
               ),
               :controllerKey => controller_key,
-              :unitNumber    => index,
+              :unitNumber    => _index,
               :capacityInKB  => disk.size
             )
           }
