@@ -11,20 +11,27 @@ module Fog
           load kernels
         end
 
+        def all_kvm
+          load kernels(:isKVM => 1)
+        end
+
+        def all_xen
+          load kernels(:isXen => 1)
+        end
+
         def get(id)
-          new kernels(id).select {|kernel| kernel[:id] == id }.first
-        rescue Fog::Compute::Linode::NotFound
-          nil
+          new kernels.select {|kernel| kernel[:id] == id }.first
         end
 
         private
-        def kernels(id=nil)
-          service.avail_kernels(id).body['DATA'].map { |kernel| map_kernel kernel }
+        def kernels(options={})
+          service.avail_kernels(options).body['DATA'].map { |kernel| map_kernel kernel }
         end
 
         def map_kernel(kernel)
           kernel = kernel.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }
-          kernel.merge! :id => kernel[:kernelid], :name => kernel[:label]
+          kernel.merge! :id => kernel[:kernelid], :name => kernel[:label],
+                        :is_xen => kernel[:isxen], :is_kvm => kernel[:iskvm], :is_pvops => kernel[:ispvops]
         end
       end
     end
