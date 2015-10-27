@@ -11,6 +11,14 @@ module Fog
           )
         end
       end
+      class Mock
+        def validate_template(options = {})
+          Excon::Response.new(
+            :body   => { 'description' => "Valid Stack"},
+            :status => 200
+          )
+        end
+      end
     end
   end
 end
