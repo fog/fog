@@ -7,16 +7,15 @@ module Fog
       class Kernels < Fog::Collection
         model Fog::Compute::Linode::Kernel
 
-        def all
-          load kernels
-        end
-
-        def all_kvm
-          load kernels(:isKVM => 1)
-        end
-
-        def all_xen
-          load kernels(:isXen => 1)
+        # Returns an Array of the available kernels.
+        #
+        # The list of kernels can be filtered by support for KVM or Xen by
+        # specifying kvm: true or xen: true respectively as options.
+        def all(options={})
+          [[:kvm, :isKVM], [:xen, :isXen]].each do |type, param|
+            options[param] = options[type] ? 1 : 0 if options.has_key?(type)
+          end
+          load kernels(options)
         end
 
         def get(id)
