@@ -10,6 +10,7 @@ module Fog
 
 
           def authenticate(auth)
+            @@cache ||= {}
             response = service.token_authenticate(auth)
             token_hash = response.body['token']
             Fog::Identity::OpenStack::V3::Token.new(

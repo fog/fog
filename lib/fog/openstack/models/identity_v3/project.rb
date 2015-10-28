@@ -21,12 +21,14 @@ module Fog
           end
 
           def destroy
+            @@cache.clear if @@cache
             requires :id
             service.delete_project(self.id)
             true
           end
 
           def update(attr = nil)
+            @@cache.clear if @@cache
             requires :id
             merge_attributes(
                 service.update_project(self.id, attr || attributes).body['project'])
@@ -34,6 +36,7 @@ module Fog
           end
 
           def create
+            @@cache.clear if @@cache
             merge_attributes(
                 service.create_project(attributes).body['project'])
             self
@@ -45,6 +48,7 @@ module Fog
           end
 
           def grant_role_to_user(role_id, user_id)
+            @@cache.clear if @@cache
             requires :id
             service.grant_project_user_role(self.id, user_id, role_id)
           end
@@ -60,6 +64,7 @@ module Fog
           end
 
           def revoke_role_from_user(role_id, user_id)
+            @@cache.clear if @@cache
             requires :id
             service.revoke_project_user_role(self.id, user_id, role_id)
           end
@@ -70,6 +75,7 @@ module Fog
           end
 
           def grant_role_to_group(role_id, group_id)
+            @@cache.clear if @@cache
             requires :id
             service.grant_project_group_role(self.id, group_id, role_id)
           end
@@ -85,10 +91,14 @@ module Fog
           end
 
           def revoke_role_from_group(role_id, group_id)
+            @@cache.clear if @@cache
             requires :id
             service.revoke_project_group_role(self.id, group_id, role_id)
           end
 
+          def self.use_cache(cache)
+            @@cache = cache
+          end
         end
       end
     end
