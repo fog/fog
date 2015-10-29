@@ -1,6 +1,7 @@
 require 'rspec/core'
 require 'rspec/expectations'
 require 'vcr'
+require 'fog/openstack/core'
 require 'fog/openstack/identity'
 require 'fog/openstack/identity_v3'
 require 'fog/openstack/image'
@@ -73,6 +74,8 @@ RSpec.shared_context 'OpenStack specs with VCR' do
 
     # setup the service object
     VCR.use_cassette('common_setup') do
+      Fog::OpenStack.clear_token_cache
+
       if @service_class == Fog::Identity::OpenStack::V3 || @os_auth_url.end_with?('/v3')
         options = {
           :openstack_auth_url     => "#{@os_auth_url}/auth/tokens",
@@ -95,7 +98,8 @@ RSpec.shared_context 'OpenStack specs with VCR' do
           # :openstack_project_domain => ENV['OS_PROJECT_DOMAIN_NAME'] || 'Default',
         }
       end
-      @service = @service_class.new(options) unless @service
+      @service = @service_class.new(options)
+
     end
   end
 

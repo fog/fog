@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://10.97.17.84:35357/v3/roles
+    uri: http://devstack.openstack.stack:35357/v3/roles
     body:
       encoding: US-ASCII
       string: ''
@@ -16,20 +16,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - f6af15c0332e4d3ab7716b51d8fedfff
+      - e6b2788de4cb4562b55c8a7bb05e8444
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Fri, 02 Oct 2015 11:41:30 GMT
+      - Wed, 28 Oct 2015 16:05:48 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-2a018020-1c4f-4c31-879f-f7fe5cd9dca5
+      - req-f6a2cc8b-b3d1-442a-b754-fce880d21c7e
       Content-Length:
       - '866'
       Content-Type:
@@ -44,22 +44,22 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles", "previous":
+      string: '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles", "previous":
         null, "next": null}, "roles": [{"id": "5a571a620acb4365a0697755861a4e0b",
-        "links": {"self": "http://10.97.17.84:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"},
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"},
         "name": "ResellerAdmin"}, {"id": "693bf84201c446d19272c24aa4492c37", "links":
-        {"self": "http://10.97.17.84:35357/v3/roles/693bf84201c446d19272c24aa4492c37"},
+        {"self": "http://devstack.openstack.stack:35357/v3/roles/693bf84201c446d19272c24aa4492c37"},
         "name": "anotherrole"}, {"id": "d98e5f87050646f194c8c23b9e3f2bca", "links":
-        {"self": "http://10.97.17.84:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"},
+        {"self": "http://devstack.openstack.stack:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"},
         "name": "admin"}, {"id": "f6ca227446954afdb745b5fa83166c00", "links": {"self":
-        "http://10.97.17.84:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"}, "name":
-        "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self": "http://10.97.17.84:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"},
+        "http://devstack.openstack.stack:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"}, "name":
+        "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"},
         "name": "Member"}]}'
     http_version: 
-  recorded_at: Fri, 02 Oct 2015 11:41:18 GMT
+  recorded_at: Wed, 28 Oct 2015 16:05:29 GMT
 - request:
     method: get
-    uri: http://10.97.17.84:35357/v3/roles
+    uri: http://devstack.openstack.stack:35357/v3/roles
     body:
       encoding: US-ASCII
       string: ''
@@ -73,20 +73,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - f6af15c0332e4d3ab7716b51d8fedfff
+      - e6b2788de4cb4562b55c8a7bb05e8444
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Fri, 02 Oct 2015 11:41:30 GMT
+      - Wed, 28 Oct 2015 16:05:48 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-b15ee2fe-5ffe-4302-bd0a-969ea0b178d4
+      - req-f7d03edc-9190-4c53-b8c4-a458574e6e25
       Content-Length:
       - '866'
       Content-Type:
@@ -101,22 +101,22 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles", "previous":
+      string: '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles", "previous":
         null, "next": null}, "roles": [{"id": "5a571a620acb4365a0697755861a4e0b",
-        "links": {"self": "http://10.97.17.84:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"},
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"},
         "name": "ResellerAdmin"}, {"id": "693bf84201c446d19272c24aa4492c37", "links":
-        {"self": "http://10.97.17.84:35357/v3/roles/693bf84201c446d19272c24aa4492c37"},
+        {"self": "http://devstack.openstack.stack:35357/v3/roles/693bf84201c446d19272c24aa4492c37"},
         "name": "anotherrole"}, {"id": "d98e5f87050646f194c8c23b9e3f2bca", "links":
-        {"self": "http://10.97.17.84:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"},
+        {"self": "http://devstack.openstack.stack:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"},
         "name": "admin"}, {"id": "f6ca227446954afdb745b5fa83166c00", "links": {"self":
-        "http://10.97.17.84:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"}, "name":
-        "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self": "http://10.97.17.84:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"},
+        "http://devstack.openstack.stack:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"}, "name":
+        "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"},
         "name": "Member"}]}'
     http_version: 
-  recorded_at: Fri, 02 Oct 2015 11:41:18 GMT
+  recorded_at: Wed, 28 Oct 2015 16:05:29 GMT
 - request:
     method: get
-    uri: http://10.97.17.84:35357/v3/roles
+    uri: http://devstack.openstack.stack:35357/v3/roles
     body:
       encoding: US-ASCII
       string: ''
@@ -130,20 +130,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - f6af15c0332e4d3ab7716b51d8fedfff
+      - e6b2788de4cb4562b55c8a7bb05e8444
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Fri, 02 Oct 2015 11:41:30 GMT
+      - Wed, 28 Oct 2015 16:05:48 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-af5b8c05-97eb-40da-8de0-e2e5ede7dc51
+      - req-c6664aec-6dc4-49d2-9a79-278314cb3372
       Content-Length:
       - '866'
       Content-Type:
@@ -158,22 +158,22 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles", "previous":
+      string: '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles", "previous":
         null, "next": null}, "roles": [{"id": "5a571a620acb4365a0697755861a4e0b",
-        "links": {"self": "http://10.97.17.84:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"},
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"},
         "name": "ResellerAdmin"}, {"id": "693bf84201c446d19272c24aa4492c37", "links":
-        {"self": "http://10.97.17.84:35357/v3/roles/693bf84201c446d19272c24aa4492c37"},
+        {"self": "http://devstack.openstack.stack:35357/v3/roles/693bf84201c446d19272c24aa4492c37"},
         "name": "anotherrole"}, {"id": "d98e5f87050646f194c8c23b9e3f2bca", "links":
-        {"self": "http://10.97.17.84:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"},
+        {"self": "http://devstack.openstack.stack:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"},
         "name": "admin"}, {"id": "f6ca227446954afdb745b5fa83166c00", "links": {"self":
-        "http://10.97.17.84:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"}, "name":
-        "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self": "http://10.97.17.84:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"},
+        "http://devstack.openstack.stack:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"}, "name":
+        "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"},
         "name": "Member"}]}'
     http_version: 
-  recorded_at: Fri, 02 Oct 2015 11:41:18 GMT
+  recorded_at: Wed, 28 Oct 2015 16:05:29 GMT
 - request:
     method: get
-    uri: http://10.97.17.84:35357/v3/roles
+    uri: http://devstack.openstack.stack:35357/v3/roles
     body:
       encoding: US-ASCII
       string: ''
@@ -187,20 +187,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - f6af15c0332e4d3ab7716b51d8fedfff
+      - e6b2788de4cb4562b55c8a7bb05e8444
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Fri, 02 Oct 2015 11:41:30 GMT
+      - Wed, 28 Oct 2015 16:05:49 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-99b3f0a6-5da9-494b-9b0d-4a8a2a5da111
+      - req-295ea8b2-a670-4a0a-95ac-c982431c5bf0
       Content-Length:
       - '866'
       Content-Type:
@@ -215,22 +215,22 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles", "previous":
+      string: '{"links": {"self": "http://devstack.openstack.stack:35357/v3/roles", "previous":
         null, "next": null}, "roles": [{"id": "5a571a620acb4365a0697755861a4e0b",
-        "links": {"self": "http://10.97.17.84:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"},
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"},
         "name": "ResellerAdmin"}, {"id": "693bf84201c446d19272c24aa4492c37", "links":
-        {"self": "http://10.97.17.84:35357/v3/roles/693bf84201c446d19272c24aa4492c37"},
+        {"self": "http://devstack.openstack.stack:35357/v3/roles/693bf84201c446d19272c24aa4492c37"},
         "name": "anotherrole"}, {"id": "d98e5f87050646f194c8c23b9e3f2bca", "links":
-        {"self": "http://10.97.17.84:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"},
+        {"self": "http://devstack.openstack.stack:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"},
         "name": "admin"}, {"id": "f6ca227446954afdb745b5fa83166c00", "links": {"self":
-        "http://10.97.17.84:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"}, "name":
-        "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self": "http://10.97.17.84:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"},
+        "http://devstack.openstack.stack:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"}, "name":
+        "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self": "http://devstack.openstack.stack:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"},
         "name": "Member"}]}'
     http_version: 
-  recorded_at: Fri, 02 Oct 2015 11:41:18 GMT
+  recorded_at: Wed, 28 Oct 2015 16:05:29 GMT
 - request:
     method: get
-    uri: http://10.97.17.84:35357/v3/roles/atlantis
+    uri: http://devstack.openstack.stack:35357/v3/roles/atlantis
     body:
       encoding: US-ASCII
       string: ''
@@ -244,20 +244,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - f6af15c0332e4d3ab7716b51d8fedfff
+      - e6b2788de4cb4562b55c8a7bb05e8444
   response:
     status:
       code: 404
       message: ''
     headers:
       Date:
-      - Fri, 02 Oct 2015 11:41:30 GMT
+      - Wed, 28 Oct 2015 16:05:49 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-89be65ac-ccc8-43fa-a139-edd403ad8205
+      - req-ae46484a-6e32-4998-8c3a-48e52836f2ea
       Content-Length:
       - '90'
       Content-Type:
@@ -275,5 +275,5 @@ http_interactions:
       string: '{"error": {"message": "Could not find role: atlantis", "code": 404,
         "title": "Not Found"}}'
     http_version: 
-  recorded_at: Fri, 02 Oct 2015 11:41:18 GMT
+  recorded_at: Wed, 28 Oct 2015 16:05:29 GMT
 recorded_with: VCR 2.9.3
