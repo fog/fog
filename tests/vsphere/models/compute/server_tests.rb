@@ -10,6 +10,10 @@ Shindo.tests('Fog::Compute[:vsphere] | server model', ['vsphere']) do
         test(action) { server.respond_to? action }
         test("#{action} returns successfully") { server.send(action.to_sym) ? true : false }
       end
+      test('take_snapshot') do
+        test('responds') { server.respond_to? 'take_snapshot'}
+        test('returns successfully') { server.take_snapshot('name' => 'foobar').kind_of? Hash }
+      end
     end
     tests('have attributes') do
       model_attribute_hash = server.attributes
