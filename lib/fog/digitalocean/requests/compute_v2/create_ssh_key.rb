@@ -13,7 +13,7 @@ module Fog
           encoded_body = Fog::JSON.encode(create_options)
 
           request(
-            :expects => [202],
+            :expects => [201],
             :headers => {
               'Content-Type' => "application/json; charset=UTF-8",
             },
@@ -28,7 +28,7 @@ module Fog
       class Mock
         def create_ssh_key(name, public_key)
           response        = Excon::Response.new
-          response.status = 202
+          response.status = 201
 
           response.body ={
             'ssh_key' => {
