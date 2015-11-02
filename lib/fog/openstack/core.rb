@@ -261,9 +261,9 @@ module Fog
         raise Fog::Errors::NotFound, message
       end
 
-      if service['endpoints'].count > 1
-        regions = service["endpoints"].map{ |e| e['region'] }.uniq.join(',')
-        raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
+      regions = service["endpoints"].map{ |e| e['region'] }.uniq
+      if regions.count > 1
+        raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions.join(',')}'")
       end
 
       identity_service = get_service(body, identity_service_type) if identity_service_type
