@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://10.97.17.84:35357/v3/policies
+    uri: http://devstack.openstack.stack:35357/v3/policies
     body:
       encoding: US-ASCII
       string: ''
@@ -16,20 +16,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - f6af15c0332e4d3ab7716b51d8fedfff
+      - e6b2788de4cb4562b55c8a7bb05e8444
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Fri, 02 Oct 2015 11:41:47 GMT
+      - Wed, 28 Oct 2015 16:06:01 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-beea0fb2-a64f-4b82-8d4e-ee2dc8cdcdbe
+      - req-36866672-c7b8-4805-a69f-3fd1a3204f19
       Content-Length:
       - '107'
       Content-Type:
@@ -44,13 +44,13 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"links": {"self": "http://10.97.17.84:35357/v3/policies", "previous":
+      string: '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies", "previous":
         null, "next": null}, "policies": []}'
     http_version: 
-  recorded_at: Fri, 02 Oct 2015 11:41:35 GMT
+  recorded_at: Wed, 28 Oct 2015 16:05:41 GMT
 - request:
     method: get
-    uri: http://10.97.17.84:35357/v3/policies
+    uri: http://devstack.openstack.stack:35357/v3/policies
     body:
       encoding: US-ASCII
       string: ''
@@ -64,20 +64,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - f6af15c0332e4d3ab7716b51d8fedfff
+      - e6b2788de4cb4562b55c8a7bb05e8444
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Fri, 02 Oct 2015 11:41:47 GMT
+      - Wed, 28 Oct 2015 16:06:01 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-4ac33cec-40c9-4cb8-8622-540df25e8ad5
+      - req-24df2e0a-d4e6-4a9f-ae31-f3f5abc88e4d
       Content-Length:
       - '107'
       Content-Type:
@@ -92,13 +92,13 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"links": {"self": "http://10.97.17.84:35357/v3/policies", "previous":
+      string: '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies", "previous":
         null, "next": null}, "policies": []}'
     http_version: 
-  recorded_at: Fri, 02 Oct 2015 11:41:35 GMT
+  recorded_at: Wed, 28 Oct 2015 16:05:41 GMT
 - request:
     method: get
-    uri: http://10.97.17.84:35357/v3/policies
+    uri: http://devstack.openstack.stack:35357/v3/policies
     body:
       encoding: US-ASCII
       string: ''
@@ -112,20 +112,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - f6af15c0332e4d3ab7716b51d8fedfff
+      - e6b2788de4cb4562b55c8a7bb05e8444
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Fri, 02 Oct 2015 11:41:47 GMT
+      - Wed, 28 Oct 2015 16:06:01 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-a6ce5bf6-05e9-40f5-951e-f138e44179b0
+      - req-4cbff249-873f-4c1c-ba13-3e27590aa5b2
       Content-Length:
       - '107'
       Content-Type:
@@ -140,13 +140,13 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"links": {"self": "http://10.97.17.84:35357/v3/policies", "previous":
+      string: '{"links": {"self": "http://devstack.openstack.stack:35357/v3/policies", "previous":
         null, "next": null}, "policies": []}'
     http_version: 
-  recorded_at: Fri, 02 Oct 2015 11:41:35 GMT
+  recorded_at: Wed, 28 Oct 2015 16:05:41 GMT
 - request:
     method: get
-    uri: http://10.97.17.84:35357/v3/policies/atlantis
+    uri: http://devstack.openstack.stack:35357/v3/policies/atlantis
     body:
       encoding: US-ASCII
       string: ''
@@ -160,20 +160,20 @@ http_interactions:
       Accept:
       - application/json
       X-Auth-Token:
-      - f6af15c0332e4d3ab7716b51d8fedfff
+      - e6b2788de4cb4562b55c8a7bb05e8444
   response:
     status:
       code: 404
       message: ''
     headers:
       Date:
-      - Fri, 02 Oct 2015 11:41:47 GMT
+      - Wed, 28 Oct 2015 16:06:01 GMT
       Server:
       - Apache/2.4.7 (Ubuntu)
       Vary:
       - X-Auth-Token
       X-Openstack-Request-Id:
-      - req-0221db2a-83e0-4375-97e7-a99a21a2d168
+      - req-01baabf4-0037-4cd3-9c5e-3f794b822586
       Content-Length:
       - '92'
       Content-Type:
@@ -191,5 +191,5 @@ http_interactions:
       string: '{"error": {"message": "Could not find policy: atlantis", "code": 404,
         "title": "Not Found"}}'
     http_version: 
-  recorded_at: Fri, 02 Oct 2015 11:41:35 GMT
+  recorded_at: Wed, 28 Oct 2015 16:05:41 GMT
 recorded_with: VCR 2.9.3

@@ -8,8 +8,20 @@ module Fog
         class Projects < Fog::OpenStack::Collection
           model Fog::Identity::OpenStack::V3::Project
 
+          @@cache = {}
+          Fog::Identity::OpenStack::V3::Project.use_cache(@@cache)
+
           def all(options = {})
-            load_response(service.list_projects(options), 'projects')
+            cached_project, expires = @@cache[{token: service.auth_token, options: options}]
+            return cached_project if cached_project && expires > Time.now
+            project_to_cache = load_response(service.list_projects(options), 'projects')
+            @@cache[{token: service.auth_token, options: options}] = project_to_cache, Time.now + 30 # 30-second TTL
+            return project_to_cache
+          end
+
+          def create(attributes)
+            @@cache.clear if @@cache
+            super(attributes)
           end
 
           def auth_projects(options = {})
@@ -20,8 +32,8 @@ module Fog
             if options.is_a? Symbol # Deal with a single option being passed on its own
               options = [options]
             end
-            cached_project = self.find { |project| project.id == id } if options.empty?
-            return cached_project if cached_project
+            cached_project, expires = @@cache[{token: service.auth_token, id: id, options: options}]
+            return cached_project if cached_project && expires > Time.now
             project_hash = service.get_project(id, options).body['project']
             top_project = project_from_hash(project_hash, service)
             if options.include? :subtree_as_list
@@ -30,6 +42,7 @@ module Fog
             if options.include? :parents_as_list
               top_project.parents.map! {|proj_hash| project_from_hash(proj_hash['project'], service)}
             end
+            @@cache[{token: service.auth_token, id: id, options: options}] = top_project, Time.now + 30 # 30-second TTL
             return top_project
           end
 

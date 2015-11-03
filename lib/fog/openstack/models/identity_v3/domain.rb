@@ -17,12 +17,14 @@ module Fog
           end
 
           def destroy
+            @@cache.clear if @@cache
             requires :id
             service.delete_domain(self.id)
             true
           end
 
           def update(attr = nil)
+            @@cache.clear if @@cache
             requires :id, :name
             merge_attributes(
                 service.update_domain(self.id, attr || attributes).body['domain'])
@@ -30,12 +32,16 @@ module Fog
           end
 
           def create
+            @@cache.clear if @@cache
             requires :name
             merge_attributes(
                 service.create_domain(attributes).body['domain'])
             self
           end
 
+          def self.use_cache(cache)
+            @@cache = cache
+          end
         end
       end
     end

@@ -154,15 +154,14 @@ module Fog
         @port   = @openstack_management_uri.port
         @scheme = @openstack_management_uri.scheme
 
-        # Not all implementations have identity service in the catalog
-        if @openstack_identity_public_endpoint || @openstack_management_url
-          @identity_connection = Fog::Core::Connection.new(
-            @openstack_identity_public_endpoint || @openstack_management_url,
-            false, @connection_options)
-        end
-
         true
       end
+    end
+
+    @@token_cache = {}
+
+    def self.clear_token_cache
+      @@token_cache.clear
     end
 
     def self.authenticate(options, connection_options = {})
@@ -410,7 +409,7 @@ module Fog
       auth_token  = options[:openstack_auth_token] || options[:unscoped_token]
       uri         = options[:openstack_auth_uri]
 
-      connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
+      @identity_connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
       request_body = {:auth => Hash.new}
 
       if auth_token
@@ -425,7 +424,7 @@ module Fog
       end
       request_body[:auth][:tenantName] = tenant_name if tenant_name
 
-      response = connection.request({
+      response = @identity_connection.request({
         :expects  => [200, 204],
         :headers  => {'Content-Type' => 'application/json'},
         :body     => Fog::JSON.encode(request_body),
@@ -504,17 +503,19 @@ module Fog
       end
       request_body[:auth][:scope] = scope unless scope.empty?
 
-      puts "request_body: #{request_body}" if user_domain=='Default2'
+      path     = (uri.path and not uri.path.empty?) ? uri.path : 'v3'
 
-      response = connection.request({
-                                        :expects => [201],
-                                        :headers => {'Content-Type' => 'application/json'},
-                                        :body => Fog::JSON.encode(request_body),
-                                        :method => 'POST',
-                                        :path => (uri.path and not uri.path.empty?) ? uri.path : 'v2.0'
-                                    })
+      response, expires = @@token_cache[{body: request_body, path: path}]
 
-      puts "response.body: #{response.body}" if user_domain=='Default2'
+      unless response && expires > Time.now
+        response = connection.request({   :expects => [201],
+                                          :headers => {'Content-Type' => 'application/json'},
+                                          :body    => Fog::JSON.encode(request_body),
+                                          :method  => 'POST',
+                                          :path    => path
+                                      })
+        @@token_cache[{body: request_body, path: path}] = response, Time.now + 30 # 30-second TTL, enough for most requests
+      end
 
       [response.headers["X-Subject-Token"], Fog::JSON.decode(response.body)]
     end
