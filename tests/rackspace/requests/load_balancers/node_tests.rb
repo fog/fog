@@ -23,6 +23,13 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | node_tests', ['rackspace']) do
         end
 
         @lb.wait_for { ready? }
+        tests('#create_node with type').formats(NODES_FORMAT) do
+          data = @service.create_node(@lb.id, '1.1.1.4', 80, 'ENABLED', { :type => 'PRIMARY' }).body
+          @nodes_created << data['nodes'][0]['id']
+          data
+        end
+
+        @lb.wait_for { ready? }
         tests("#list_nodes(#{@lb.id})").formats(NODES_FORMAT) do
           @service.list_nodes(@lb.id).body
         end
