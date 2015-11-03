@@ -17,7 +17,11 @@ module Fog
 
       # noinspection RubyStringKeysInHashInspection
       class Mock
-        def delete_ssh_key(_)
+        def delete_ssh_key(id)
+          self.data[:ssh_keys].select! do |key|
+            key["id"] != id
+          end
+
           response        = Excon::Response.new
           response.status = 204
           response

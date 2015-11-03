@@ -17,6 +17,11 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
+            "ssh_keys" => data[:ssh_keys],
+            "links" => {},
+            "meta" => {
+              "total" => data[:ssh_keys].count
+            }
           }
           response
         end
