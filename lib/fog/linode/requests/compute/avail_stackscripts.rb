@@ -14,7 +14,7 @@ module Fog
       end
 
       class Mock
-        def avail_stackscripts(stackscript_id=nil)
+        def avail_stackscripts(options={})
           response = Excon::Response.new
           response.status = 200
 
@@ -22,17 +22,12 @@ module Fog
             "ERRORARRAY" => [],
             "ACTION" => "avail.stackscripts"
           }
-          if stackscript_id
-            mock_stackscript = create_mock_stackscript(stackscript_id)
-            response.body = body.merge("DATA" => [mock_stackscript])
-          else
-            mock_stackscripts = []
-            10.times do
-              stackscript_id = rand(1..200)
-              mock_stackscripts << create_mock_stackscript(stackscript_id)
-            end
-            response.body = body.merge("DATA" => mock_stackscripts)
+          mock_stackscripts = []
+          10.times do
+            stackscript_id = rand(1..200)
+            mock_stackscripts << create_mock_stackscript(stackscript_id)
           end
+          response.body = body.merge("DATA" => mock_stackscripts)
           response
         end
 

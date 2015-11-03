@@ -23,12 +23,15 @@ module Fog
       collection :ips
       model :disk
       collection :disks
+      model :node_balancer_flavor
+      collection :node_balancer_flavors
 
       request_path 'fog/linode/requests/compute'
       request :avail_datacenters
       request :avail_distributions
       request :avail_kernels
       request :avail_linodeplans
+      request :avail_nodebalancers
       request :avail_stackscripts
       request :linode_disk_create
       request :linode_disk_list
