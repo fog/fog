@@ -316,3 +316,34 @@ service.templates.validate(:template => content)
     content=nil
   >
 ```
+
+## Mocks
+The orchestration models provide a number of mocks.  To start using them intialize the mock framework in the standard 
+way e.g.
+
+```ruby
+Fog.mock!
+
+heat_client = Fog::Orchestration.new({
+  :provider => 'openstack',
+  :openstack_auth_url => 'http://www.madeup.com:5000',
+  :openstack_username => 'admin',
+  :openstack_api_key => 'really_bad_pasword',
+  :openstack_tenant => 'Mamas Big House', 
+  :openstack_endpoint => 'publicURL', 
+  :connection_options => {}
+})
+=> #<Fog::Orchestration::OpenStack::Mock:0x00000002a5ce20 @openstack_username="admin", @openstack_auth_uri=#<URI::HTTP http://www.madeup.com:5000>, @current_tenant="Mamas Big House", @auth_token="h5PU3Ez4KhDiRBkmNmu0yAuvWpxVF7yQ42sFUacjbiT7aYzEH/kCRaPA9NWmDRP9", @auth_token_expiration="2015-11-05T12:14:03Z", @openstack_management_url="http://www.madeup.com:8774/v1", @openstack_identity_public_endpoint="http://www.madeup.com:5000">
+
+
+template = '{ mock_template }'
+=> "{ mock_template }"
+
+heat_client.create_stack({
+  :stack_name => 'Mock_Stack',
+  :template => template,
+  :disable_rollback => true,
+  :parameters => { :image_name => 'RedHat 7', :flavor => 'm1.small' }
+})
+=> #<Excon::Response:0x0000000297e648 @data={:body=>{"stack"=>{"id"=>"11b54d18a9f8be9edd2fca1d38a92aa2", "links"=>[{"href"=>"http://localhost:8004/v1/fake_tenant_id/stacks/Mock_Stack/11b54d18a9f8be9edd2fca1d38a92aa2", "rel"=>"self"}]}}, :headers=>{}, :status=>201}, @body="", @headers={}, @status=nil, @remote_ip=nil, @local_port=nil, @local_address=nil>
+```
