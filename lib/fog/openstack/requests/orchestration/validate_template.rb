@@ -13,10 +13,30 @@ module Fog
       end
       class Mock
         def validate_template(options = {})
-          Excon::Response.new(
-            :body   => { 'description' => "Valid Stack"},
-            :status => 200
-          )
+          parameters = {
+            "key_name" => {
+              "Default"         => "mykey",
+              "Type"            =>"String",
+              "Description"     =>"SSH key",
+              "Label"           =>"SSH Key"
+            },
+            "image" => {
+              "Default"         => "RedHat 7",
+              "Type"            =>"String",
+              "Description"     =>"",
+              "Label"           =>"Image Name"
+            }
+          }
+
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "Description" => "Valid Stack",
+            "Parameters" => parameters
+          }
+
+          response
         end
       end
     end

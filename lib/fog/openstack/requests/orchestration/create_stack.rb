@@ -65,7 +65,7 @@ module Fog
           response = Excon::Response.new
           response.status = 201
           response.body = {
-            'stack' = {
+            'stack' => {
               'id' => stack_id,
               'links'=>[{"href"=>"http://localhost:8004/v1/fake_tenant_id/stacks/#{options[:stack_name]}/#{stack_id}", "rel"=>"self"}] 
             }
