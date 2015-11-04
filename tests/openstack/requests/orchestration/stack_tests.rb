@@ -37,7 +37,7 @@ Shindo.tests('Fog::Orchestration[:openstack] | stack requests', ['openstack']) d
   }
 
   tests('success') do
-    tests('#create_stack("teststack")').formats(@create_format) do
+    tests('#create_stack("teststack")').formats({'stack' => @create_format}) do
       @stack = Fog::Orchestration[:openstack].create_stack("teststack").body
     end
 
