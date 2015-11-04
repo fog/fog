@@ -71,6 +71,7 @@ module Fog
             }
           }
           response
+
         end
       end
     end
