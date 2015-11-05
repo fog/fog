@@ -218,6 +218,25 @@ module Fog
           attributes[:volumes] ||= id.nil? ? [] : service.volumes(:server_id => self.id)
         end
 
+        def snapshots(opts = {})
+          service.snapshots(server_id: self.id).all(opts)
+        end
+
+        def find_snapshot(snapshot_ref)
+          snapshots.get(snapshot_ref)
+        end
+
+        def revert_snapshot(snapshot)
+          case snapshot
+          when Snapshot
+            service.revert_to_snapshot(snapshot)
+          when String
+            service.revert_to_snapshot(find_snapshot(snapshot))
+          else
+            fail ArgumentError, "snapshot has to be kind of Snapshot or String class"
+          end
+        end
+
         def customvalues
           attributes[:customvalues] ||= id.nil? ? [] : service.customvalues( :vm => self )
         end

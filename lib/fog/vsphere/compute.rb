@@ -22,6 +22,8 @@ module Fog
       collection :interfacetypes
       model :volume
       collection :volumes
+      model :snapshot
+      collection :snapshots
       model :template
       collection :templates
       model :cluster
@@ -87,6 +89,9 @@ module Fog
       request :get_vm_first_scsi_controller
       request :set_vm_customvalue
       request :vm_take_snapshot
+      request :list_vm_snapshots
+      request :list_child_snapshots
+      request :revert_to_snapshot
 
       module Shared
         attr_reader :vsphere_is_vcenter

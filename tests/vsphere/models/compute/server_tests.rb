@@ -1,5 +1,4 @@
 Shindo.tests('Fog::Compute[:vsphere] | server model', ['vsphere']) do
-
   servers = Fog::Compute[:vsphere].servers
   server = servers.last
 
@@ -13,6 +12,28 @@ Shindo.tests('Fog::Compute[:vsphere] | server model', ['vsphere']) do
       test('take_snapshot') do
         test('responds') { server.respond_to? 'take_snapshot'}
         test('returns successfully') { server.take_snapshot('name' => 'foobar').kind_of? Hash }
+      end
+      test('snapshots') do
+        test('responds') { server.respond_to? 'snapshots'}
+        test('returns successfully') { server.snapshots.kind_of? Fog::Compute::Vsphere::Snapshots }
+      end
+      test('find_snapshot') do
+        test('responds') { server.respond_to? 'find_snapshot'}
+        test('returns successfully') do
+          server.find_snapshot('snapshot-0101').kind_of? Fog::Compute::Vsphere::Snapshot
+        end
+        test('returns correct snapshot') do
+          server.find_snapshot('snapshot-0101').ref == 'snapshot-0101'
+        end
+      end
+      tests('revert_snapshot') do
+        test('responds') { server.respond_to? 'revert_snapshot'}
+        tests('returns correctly') do
+          test('when correct input given') { server.revert_snapshot('snapshot-0101').kind_of? Hash }
+          test('when incorrect input given') do
+            raises(ArgumentError) { server.revert_snapshot(1) }
+          end
+        end
       end
     end
     tests('have attributes') do
