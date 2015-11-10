@@ -26,6 +26,13 @@ module Fog
         # @see http://docs.openstack.org/developer/swift/overview_expiring_objects.html
         attribute :delete_after, :aliases => ['X-Delete-After']
 
+        # @!attribute [rw] content_encoding
+        # When you create an object or update its metadata, you can optionally set the Content-Encoding metadata. 
+        # This metadata enables you to indicate that the object content is compressed without losing the identity of the 
+        # underlying media type (Content-Type) of the file, such as a video.
+        # @see http://docs.openstack.org/developer/swift/api/use_content-encoding_metadata.html#use-content-encoding-metadata
+        attribute :content_encoding, :aliases => 'Content-Encoding'
+
         def body
           attributes[:body] ||= if last_modified
             collection.get(identity).body
@@ -47,6 +54,7 @@ module Fog
           options['Content-Type'] ||= content_type if content_type
           options['Access-Control-Allow-Origin'] ||= access_control_allow_origin if access_control_allow_origin
           options['Origin'] ||= origin if origin
+          options['Content-Encoding'] ||= content_encoding if content_encoding          
           service.copy_object(directory.key, key, target_directory_key, target_file_key, options)
           target_directory = service.directories.new(:key => target_directory_key)
           target_directory.files.get(target_file_key)
@@ -101,6 +109,7 @@ module Fog
           options['Origin'] = origin if origin
           options['X-Delete-At'] = delete_at if delete_at
           options['X-Delete-After'] = delete_after if delete_after
+          options['Content-Encoding'] = content_encoding if content_encoding          
           options.merge!(metadata_to_headers)
 
           data = service.put_object(directory.key, key, body, options)
