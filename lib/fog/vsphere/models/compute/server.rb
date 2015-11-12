@@ -237,6 +237,11 @@ module Fog
           end
         end
 
+        def guest_processes(opts = {})
+          fail 'VM tools must be running' unless tools_running?
+          service.list_processes(self.id, opts)
+        end
+
         def customvalues
           attributes[:customvalues] ||= id.nil? ? [] : service.customvalues( :vm => self )
         end
