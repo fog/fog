@@ -1,10 +1,10 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/compute/network'
 
 module Fog
   module Compute
     class OpenStack
-      class Networks < Fog::Collection
+      class Networks < Fog::OpenStack::Collection
         model Fog::Compute::OpenStack::Network
 
         attribute :server
@@ -21,6 +21,7 @@ module Fog
             }
           end
 
+          # TODO convert to load_response?
           load(networks)
         end
       end # class Networks

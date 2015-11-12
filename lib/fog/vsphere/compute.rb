@@ -7,6 +7,7 @@ module Fog
       requires :vsphere_username, :vsphere_password, :vsphere_server
       recognizes :vsphere_port, :vsphere_path, :vsphere_ns
       recognizes :vsphere_rev, :vsphere_ssl, :vsphere_expected_pubkey_hash
+      recognizes :vsphere_debug
 
       model_path 'fog/vsphere/models/compute'
       model :server
@@ -41,6 +42,7 @@ module Fog
 
       request_path 'fog/vsphere/requests/compute'
       request :current_time
+      request :cloudinit_to_customspec
       request :list_virtual_machines
       request :vm_power_off
       request :vm_power_on
@@ -48,6 +50,7 @@ module Fog
       request :vm_clone
       request :vm_destroy
       request :vm_migrate
+      request :vm_execute
       request :list_datacenters
       request :get_datacenter
       request :list_clusters
@@ -58,6 +61,8 @@ module Fog
       request :get_network
       request :list_datastores
       request :get_datastore
+      request :list_compute_resources
+      request :get_compute_resource
       request :list_templates
       request :get_template
       request :get_folder
@@ -110,6 +115,9 @@ module Fog
           :overall_status => 'overallStatus',
           :guest_id => 'config.guestId',
           :hardware_version => 'config.version',
+          :cpuHotAddEnabled => 'config.cpuHotAddEnabled',
+          :memoryHotAddEnabled => 'config.memoryHotAddEnabled',
+          :firmware => 'config.firmware',
         }
 
         def convert_vm_view_to_attr_hash(vms)
@@ -378,6 +386,7 @@ module Fog
           @vsphere_ns       = options[:vsphere_ns] || 'urn:vim25'
           @vsphere_rev      = options[:vsphere_rev] || '4.0'
           @vsphere_ssl      = options[:vsphere_ssl] || true
+          @vsphere_debug    = options[:vsphere_debug] || false
           @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
           @vsphere_must_reauthenticate = false
           @vsphere_is_vcenter = nil
@@ -419,7 +428,8 @@ module Fog
                                              :ns   => @vsphere_ns,
                                              :rev  => @vsphere_rev,
                                              :ssl  => @vsphere_ssl,
-                                             :insecure => bad_cert
+                                             :insecure => bad_cert,
+                                             :debug => @vsphere_debug
               break
             rescue OpenSSL::SSL::SSLError
               raise if bad_cert

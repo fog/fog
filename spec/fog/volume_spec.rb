@@ -1,5 +1,4 @@
-require "minitest/autorun"
-require "fog"
+require "spec_helper"
 
 describe Fog::Volume do
   Fog::Volume.providers.each do |provider|

@@ -38,8 +38,8 @@ Shindo.tests('Fog::Network[:openstack] | subnet requests', ['openstack']) do
     tests('#update_subnet').formats({'subnet' => @subnet_format}) do
       subnet_id = Fog::Network[:openstack].subnets.all.first.id
       attributes = {:name => 'subnet_name', :gateway_ip => '10.2.2.1',
-                    :dns_nameservers => [], :host_routes => [],
-                    :enable_dhcp => true}
+                    :allocation_pools => [], :dns_nameservers => [],
+                    :host_routes => [], :enable_dhcp => true}
       Fog::Network[:openstack].update_subnet(subnet_id, attributes).body
     end
 

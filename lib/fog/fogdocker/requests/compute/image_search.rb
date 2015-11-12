@@ -3,7 +3,7 @@ module Fog
     class Fogdocker
       class Real
         def image_search(query = {})
-          Docker::Util.parse_json(Docker.connection.get('/images/search', query)).map do |image|
+          Docker::Util.parse_json(@connection.get('/images/search', query)).map do |image|
             downcase_hash_keys(image)
           end
         end

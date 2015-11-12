@@ -247,6 +247,8 @@ module Fog
 
         def raise_if_error!(request, response)
           case response.status
+          when 400 then
+            raise Joyent::Errors::BadRequest.new('Bad Request', request, response)
           when 401 then
             raise Joyent::Errors::Unauthorized.new('Invalid credentials were used', request, response)
           when 403 then

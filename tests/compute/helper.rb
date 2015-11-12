@@ -13,12 +13,6 @@ def compute_providers
       },
       :mocked => false
     },
-    :brightbox  => {
-      :server_attributes => {
-        :image_id => Brightbox::Compute::TestSupport.image_id
-      },
-      :mocked => false
-    },
     :cloudstack => {
       :provider_attributes => {
         :cloudstack_host => 'http://host.foo'
@@ -56,6 +50,14 @@ def compute_providers
       },
       :disk_offering_attributes => { :name => "new disk offering", :display_text => 'New Disk Offering' },
       :egress_firewall_rule_attributes => { :protocol => "tcp", :network_id => "8aacae29-e0a4-4b7b-8a7a-3ee11cfb4362", :cidr_list =>"10.1.1.0/24"},
+      :public_ip_address_attributes => {}.tap do |hash|
+        [:zone_id].each do |k|
+          key = "cloudstack_#{k}".to_sym
+          if Fog.credentials[key]
+            hash[k]= Fog.credentials[key]
+          end
+        end
+      end,
       :mocked => true
     },
     :glesys   => {

@@ -4,7 +4,7 @@ module Fog
       class Real
         def container_delete(options = {})
           raise ArgumentError, "instance id is a required parameter" unless options.key? :id
-          container = Docker::Container.get(options[:id])
+          container = Docker::Container.get(options[:id], {}, @connection)
           container.delete()
           true
         end

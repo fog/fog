@@ -1,10 +1,10 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/network/floating_ip'
 
 module Fog
   module Network
     class OpenStack
-      class FloatingIps < Fog::Collection
+      class FloatingIps < Fog::OpenStack::Collection
         attribute :filters
 
         model Fog::Network::OpenStack::FloatingIp
@@ -16,7 +16,7 @@ module Fog
 
         def all(filters_arg = filters)
           filters = filters_arg
-          load(service.list_floating_ips(filters).body['floatingips'])
+          load_response(service.list_floating_ips(filters), 'floatingips')
         end
 
         def get(floating_network_id)

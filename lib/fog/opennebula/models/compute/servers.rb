@@ -19,6 +19,10 @@ module Fog
           new data.first unless data.empty?
         end
 
+        def shutdown(id)
+          service.vm_shutdown(id)
+        end
+
       end
     end
   end

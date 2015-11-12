@@ -5,6 +5,7 @@ module Fog
     class Ovirt < Fog::Service
       requires   :ovirt_username, :ovirt_password
       recognizes :ovirt_url,      :ovirt_server,  :ovirt_port, :ovirt_api_path, :ovirt_datacenter,
+                 :ovirt_filtered_api,
                  :ovirt_ca_cert_store, :ovirt_ca_cert_file, :ovirt_ca_no_verify
 
       model_path 'fog/ovirt/models/compute'
@@ -20,6 +21,8 @@ module Fog
       collection :volumes
       model      :quota
       collection :quotas
+      model      :affinity_group
+      collection :affinity_groups
 
       request_path 'fog/ovirt/requests/compute'
 
@@ -45,12 +48,22 @@ module Fog
       request :vm_ticket
       request :list_vm_volumes
       request :list_template_volumes
+      request :list_volumes
       request :add_volume
       request :destroy_volume
       request :update_volume
+      request :attach_volume
+      request :detach_volume
       request :get_api_version
       request :list_quotas
       request :get_quota
+      request :list_affinity_groups
+      request :get_affinity_group
+      request :list_affinity_group_vms
+      request :create_affinity_group
+      request :destroy_affinity_group
+      request :add_to_affinity_group
+      request :remove_from_affinity_group
 
       module Shared
         # converts an OVIRT object into an hash for fog to consume.

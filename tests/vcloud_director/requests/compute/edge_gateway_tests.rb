@@ -20,17 +20,17 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
     :GatewayIpsecVpnService => 
       {
         :IsEnabled => "true",
-        :Tunnel => {
+        :Tunnel => [{
           :Name => "test vpn",
           :PeerIpAddress => "110.110.110.110",
           :PeerId => "1223-123UDH-12321",
           :LocalIpAddress => "192.168.90.90",
           :LocalId => "202UB-9602-UB629",
-          :PeerSubnet => {
+          :PeerSubnet => [{
             :Name => "192.168.0.0/18",
             :Gateway => "192.168.0.0",
             :Netmask => "255.255.192.0",
-          },
+          }],
           :SharedSecret => "dont tell anyone",
           :SharedSecretEncrypted => "false",
           :EncryptionProtocol => "AES",
@@ -41,7 +41,7 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
             :Gateway => "192.168.90.254",
             :Netmask => "255.255.255.0"
           }]
-        }
+        }]
       }
   }
 

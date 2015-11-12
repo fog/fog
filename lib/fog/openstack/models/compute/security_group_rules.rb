@@ -1,10 +1,10 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/compute/security_group_rule'
 
 module Fog
   module Compute
     class OpenStack
-      class SecurityGroupRules < Fog::Collection
+      class SecurityGroupRules < Fog::OpenStack::Collection
         model Fog::Compute::OpenStack::SecurityGroupRule
 
         def get(security_group_rule_id)

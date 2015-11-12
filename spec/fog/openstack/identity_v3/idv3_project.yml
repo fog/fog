@@ -1,0 +1,291 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/projects
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:32 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-e9fb5015-325a-4616-9f03-f20e5bf90068
+      Content-Length:
+      - '1055'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/projects", "previous":
+        null, "next": null}, "projects": [{"description": null, "links": {"self":
+        "http://10.97.17.84:35357/v3/projects/7695231df10d4cb5b6b5a1f74cb20c1d"},
+        "enabled": true, "id": "7695231df10d4cb5b6b5a1f74cb20c1d", "parent_id": null,
+        "domain_id": "default", "name": "service"}, {"description": null, "links":
+        {"self": "http://10.97.17.84:35357/v3/projects/a6266e6f4a56471da988788dd2a15c27"},
+        "enabled": true, "id": "a6266e6f4a56471da988788dd2a15c27", "parent_id": null,
+        "domain_id": "default", "name": "invisible_to_admin"}, {"description": null,
+        "links": {"self": "http://10.97.17.84:35357/v3/projects/ca6707581327490398bf1f68fe396a5a"},
+        "enabled": true, "id": "ca6707581327490398bf1f68fe396a5a", "parent_id": null,
+        "domain_id": "default", "name": "demo"}, {"description": null, "links": {"self":
+        "http://10.97.17.84:35357/v3/projects/ded5a6e0922c4be59e7c15517cfb89ee"},
+        "enabled": true, "id": "ded5a6e0922c4be59e7c15517cfb89ee", "parent_id": null,
+        "domain_id": "default", "name": "admin"}]}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:20 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/projects
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:32 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-05bd6ce4-4764-402b-9772-8551fab99330
+      Content-Length:
+      - '1055'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/projects", "previous":
+        null, "next": null}, "projects": [{"description": null, "links": {"self":
+        "http://10.97.17.84:35357/v3/projects/7695231df10d4cb5b6b5a1f74cb20c1d"},
+        "enabled": true, "id": "7695231df10d4cb5b6b5a1f74cb20c1d", "parent_id": null,
+        "domain_id": "default", "name": "service"}, {"description": null, "links":
+        {"self": "http://10.97.17.84:35357/v3/projects/a6266e6f4a56471da988788dd2a15c27"},
+        "enabled": true, "id": "a6266e6f4a56471da988788dd2a15c27", "parent_id": null,
+        "domain_id": "default", "name": "invisible_to_admin"}, {"description": null,
+        "links": {"self": "http://10.97.17.84:35357/v3/projects/ca6707581327490398bf1f68fe396a5a"},
+        "enabled": true, "id": "ca6707581327490398bf1f68fe396a5a", "parent_id": null,
+        "domain_id": "default", "name": "demo"}, {"description": null, "links": {"self":
+        "http://10.97.17.84:35357/v3/projects/ded5a6e0922c4be59e7c15517cfb89ee"},
+        "enabled": true, "id": "ded5a6e0922c4be59e7c15517cfb89ee", "parent_id": null,
+        "domain_id": "default", "name": "admin"}]}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:20 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/projects
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:32 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-ee10362e-86ea-4576-8f41-70c880e8905e
+      Content-Length:
+      - '1055'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/projects", "previous":
+        null, "next": null}, "projects": [{"description": null, "links": {"self":
+        "http://10.97.17.84:35357/v3/projects/7695231df10d4cb5b6b5a1f74cb20c1d"},
+        "enabled": true, "id": "7695231df10d4cb5b6b5a1f74cb20c1d", "parent_id": null,
+        "domain_id": "default", "name": "service"}, {"description": null, "links":
+        {"self": "http://10.97.17.84:35357/v3/projects/a6266e6f4a56471da988788dd2a15c27"},
+        "enabled": true, "id": "a6266e6f4a56471da988788dd2a15c27", "parent_id": null,
+        "domain_id": "default", "name": "invisible_to_admin"}, {"description": null,
+        "links": {"self": "http://10.97.17.84:35357/v3/projects/ca6707581327490398bf1f68fe396a5a"},
+        "enabled": true, "id": "ca6707581327490398bf1f68fe396a5a", "parent_id": null,
+        "domain_id": "default", "name": "demo"}, {"description": null, "links": {"self":
+        "http://10.97.17.84:35357/v3/projects/ded5a6e0922c4be59e7c15517cfb89ee"},
+        "enabled": true, "id": "ded5a6e0922c4be59e7c15517cfb89ee", "parent_id": null,
+        "domain_id": "default", "name": "admin"}]}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:20 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/projects
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:32 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-4bde5492-7226-4e16-b2bb-41e454a4390e
+      Content-Length:
+      - '1055'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/projects", "previous":
+        null, "next": null}, "projects": [{"description": null, "links": {"self":
+        "http://10.97.17.84:35357/v3/projects/7695231df10d4cb5b6b5a1f74cb20c1d"},
+        "enabled": true, "id": "7695231df10d4cb5b6b5a1f74cb20c1d", "parent_id": null,
+        "domain_id": "default", "name": "service"}, {"description": null, "links":
+        {"self": "http://10.97.17.84:35357/v3/projects/a6266e6f4a56471da988788dd2a15c27"},
+        "enabled": true, "id": "a6266e6f4a56471da988788dd2a15c27", "parent_id": null,
+        "domain_id": "default", "name": "invisible_to_admin"}, {"description": null,
+        "links": {"self": "http://10.97.17.84:35357/v3/projects/ca6707581327490398bf1f68fe396a5a"},
+        "enabled": true, "id": "ca6707581327490398bf1f68fe396a5a", "parent_id": null,
+        "domain_id": "default", "name": "demo"}, {"description": null, "links": {"self":
+        "http://10.97.17.84:35357/v3/projects/ded5a6e0922c4be59e7c15517cfb89ee"},
+        "enabled": true, "id": "ded5a6e0922c4be59e7c15517cfb89ee", "parent_id": null,
+        "domain_id": "default", "name": "admin"}]}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:20 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/projects/atlantis
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:32 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-e34a4011-e431-46a7-a702-ea41350b72e0
+      Content-Length:
+      - '93'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"error": {"message": "Could not find project: atlantis", "code": 404,
+        "title": "Not Found"}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:20 GMT
+recorded_with: VCR 2.9.3

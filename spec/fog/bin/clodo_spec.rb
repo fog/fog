@@ -1,5 +1,4 @@
-require "minitest/autorun"
-require "fog"
+require "spec_helper"
 require "fog/bin"
 require "helpers/bin"
 

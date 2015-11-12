@@ -36,28 +36,12 @@ ArgumentError: image_id is required for this operation
 true
 ```
 
-## Ruby 1.8.7
+## Ruby version
 
-The maintainers of this project, in concert with the maintainers of Ruby,
-**strongly** recommend using the latest patchlevel of Ruby 1.9.2 or later.
-[As of July 1, 2013, Ruby 1.8.7 is no longer officially maintained.][retired]
-This means fixes will no longer be provided, even for known security
-vulnerabilities.
+Fog requires Ruby `2.0.0` or later.
 
-[retired]: http://www.ruby-lang.org/en/news/2013/06/30/we-retire-1-8-7/
-
-With this caveat, if you wish to bundle `fog` into your application on Ruby
-1.8.7, you must add the following line to your `Gemfile`.
-
-```ruby
-gem 'nokogiri', '~>1.5.0'
-```
-
-Also, ensure that you are using LibXML version 2.8.0, since there is an
-[issue with LibXML version 2.9.0][issue829] ([and 2.9.1][issue904]).
-
-[issue829]: https://github.com/sparklemotion/nokogiri/issues/829
-[issue904]: https://github.com/sparklemotion/nokogiri/issues/904
+Ruby `1.8` and `1.9` support was dropped in `fog-v2.0.0` as a backwards incompatible
+change. Please use the later fog `1.x` versions if you require `1.8.7` or `1.9.x` support.
 
 ## Collections
 

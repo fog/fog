@@ -18,7 +18,6 @@ module Fog
 
           add_commits_to_changelog
           save_changelog
-          ::Rake::Task[:github_release].invoke
         end
       end
 
@@ -109,10 +108,13 @@ Watchers      | #{watchers}
            'Ash Wilson',
            'Benson Kalahar',
            'Brian Hartsock',
+           'bryanl',
+           'Chris Luo',
            'Chris Roberts',
            'Christopher Oliver',
            'Colin Hebert',
            'Daniel Reichert',
+           'Darren Hague',
            'Decklin Foster',
            'Dylan Egan',
            'Erik Michaels-Ober',
@@ -120,9 +122,11 @@ Watchers      | #{watchers}
            'geemus',
            'Henry Addison',
            'James Bence',
+           'Josef Stribny',
            'Kevin Menard',
            'Kevin Olbrich',
            'Kyle Rames',
+           'Ladislav Smola',
            'Lincoln Stoll',
            'Luqman Amjad',
            'Michael Hale',
@@ -132,12 +136,15 @@ Watchers      | #{watchers}
            'Nat Welch',
            'Nick Osborn',
            'nightshade427',
+           'Oleg Vivtash',
            'Patrick Debois',
            'Paul Thornthwaite',
            'Paulo Henrique Lopes Ribeiro',
+           'Peter Souter',
            'Rodrigo Estebanez',
            'Rupak Ganguly',
            'Stepan G. Fedorov',
+           'TerryHowe',
            'Wesley Beary'
          ].include?(committer)
       end
@@ -170,7 +177,7 @@ Watchers      | #{watchers}
       end
 
       def last_release_sha
-        `cat changelog.md | head -2`.split(' ').last
+        `cat CHANGELOG.md | head -2`.split(' ').last
       end
 
       def downloads

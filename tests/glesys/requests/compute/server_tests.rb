@@ -4,11 +4,11 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
     @hostname = "fog-#{Time.now.to_i}"
 
     @create = ":hostname => #@hostname, :rootpassword => 'pw#{Time.now.to_i}', "+
-    ":datacenter => 'Falkenberg', :platform => 'Xen', :templatename => 'Debian-6 x64', "+
+    ":datacenter => 'Falkenberg', :platform => 'VMware', :templatename => 'Debian 7.0 64-bit', "+
     ":disksize => '10', :memorysize => '512', :cpucores => '1', :transfer => '500', :bandwidth => '10'"
 
     @create_vz = ":hostname => #@hostname, :rootpassword => 'pw#{Time.now.to_i}', "+
-    ":datacenter => 'Stockholm', :platform => 'OpenVZ', :templatename => 'Debian 6.0 64-bit', "+
+    ":datacenter => 'Stockholm', :platform => 'OpenVZ', :templatename => 'Debian 7.0 64-bit', "+
     ":disksize => '10', :memorysize => '256', :cpucores => '2', :transfer => '500', :bandwidth => '10'"
 
   tests('success') do
@@ -22,10 +22,11 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
       pending if Fog.mocking?
       vm =  Fog::Compute[:glesys].create(
               :hostname     => @hostname,
+              :description  => "Fog test server",
               :rootpassword => "pw#{Time.now.to_i}",
               :datacenter   => "Falkenberg",
-              :platform     => "Xen",
-              :templatename => "Debian-6 x64",
+              :platform     => "VMware",
+              :templatename => "Debian 7.0 64-bit",
               :disksize     => "10",
               :memorysize   => "512",
               :cpucores     => "1",
@@ -86,15 +87,30 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
               :rootpassword => "pw#{Time.now.to_i}",
               :datacenter   => "Stockholm",
               :platform     => "OpenVZ",
-              :templatename => "Debian 6.0 64-bit",
+              :templatename => "Debian 7.0 64-bit",
               :disksize     => "10",
               :memorysize   => "256",
               :cpucores     => "2",
               :transfer     => "500",
               :bandwidth    => "10"
             )
-
       @serverid = vm.body['response']['server']['serverid']
+      vm.body['response']
+    end
+
+    unless Fog.mocking?
+      Fog::Compute[:glesys].servers.get(@serverid).wait_for { ready? }
+    end
+
+    tests("#edit #{@serverid}").formats(Glesys::Compute::Formats::Servers::EDIT) do
+      pending if Fog.mocking?
+      vm = Fog::Compute[:glesys].edit(
+        :serverid => @serverid,
+        :disksize => "10",
+        :memorysize => "512",
+        :cpucores => "1",
+        :bandwidth => "10"
+      )
       vm.body['response']
     end
 

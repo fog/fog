@@ -1,14 +1,14 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/metering/resource'
 
 module Fog
   module Metering
     class OpenStack
-      class Resources < Fog::Collection
+      class Resources < Fog::OpenStack::Collection
         model Fog::Metering::OpenStack::Resource
 
         def all(detailed=true)
-          load(service.list_resources.body)
+          load_response(service.list_resources)
         end
 
         def find_by_id(resource_id)

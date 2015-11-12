@@ -1,0 +1,602 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://10.97.17.84:35357/v3/roles
+    body:
+      encoding: UTF-8
+      string: '{"role":{"name":"foobar23"}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:30 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-41a1f2c6-04ca-43d9-9858-e553d7df7113
+      Content-Length:
+      - '161'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"role": {"id": "5441e79136274392994adfbc8654bd8a", "links": {"self":
+        "http://10.97.17.84:35357/v3/roles/5441e79136274392994adfbc8654bd8a"}, "name":
+        "foobar23"}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:18 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles?name=foobar23
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:30 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-fcbbbe1a-2348-47ef-86fd-9a7e22b3c0e3
+      Content-Length:
+      - '266'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles?name=foobar23",
+        "previous": null, "next": null}, "roles": [{"id": "5441e79136274392994adfbc8654bd8a",
+        "links": {"self": "http://10.97.17.84:35357/v3/roles/5441e79136274392994adfbc8654bd8a"},
+        "name": "foobar23"}]}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:18 GMT
+- request:
+    method: patch
+    uri: http://10.97.17.84:35357/v3/roles/5441e79136274392994adfbc8654bd8a
+    body:
+      encoding: UTF-8
+      string: '{"role":{"name":"baz23"}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:30 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-e12df8de-5542-4842-9442-be1b9c5e2ca4
+      Content-Length:
+      - '158'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"role": {"id": "5441e79136274392994adfbc8654bd8a", "links": {"self":
+        "http://10.97.17.84:35357/v3/roles/5441e79136274392994adfbc8654bd8a"}, "name":
+        "baz23"}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:19 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles?name=baz23
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-06a07e1e-d5ab-4e26-ac66-4a45f22d1c2a
+      Content-Length:
+      - '260'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles?name=baz23",
+        "previous": null, "next": null}, "roles": [{"id": "5441e79136274392994adfbc8654bd8a",
+        "links": {"self": "http://10.97.17.84:35357/v3/roles/5441e79136274392994adfbc8654bd8a"},
+        "name": "baz23"}]}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:19 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-4a50c017-20b0-4453-97e1-a201f30f9271
+      Content-Length:
+      - '1016'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles", "previous":
+        null, "next": null}, "roles": [{"id": "5441e79136274392994adfbc8654bd8a",
+        "links": {"self": "http://10.97.17.84:35357/v3/roles/5441e79136274392994adfbc8654bd8a"},
+        "name": "baz23"}, {"id": "5a571a620acb4365a0697755861a4e0b", "links": {"self":
+        "http://10.97.17.84:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"}, "name":
+        "ResellerAdmin"}, {"id": "693bf84201c446d19272c24aa4492c37", "links": {"self":
+        "http://10.97.17.84:35357/v3/roles/693bf84201c446d19272c24aa4492c37"}, "name":
+        "anotherrole"}, {"id": "d98e5f87050646f194c8c23b9e3f2bca", "links": {"self":
+        "http://10.97.17.84:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"}, "name":
+        "admin"}, {"id": "f6ca227446954afdb745b5fa83166c00", "links": {"self": "http://10.97.17.84:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"},
+        "name": "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self":
+        "http://10.97.17.84:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"}, "name":
+        "Member"}]}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:19 GMT
+- request:
+    method: delete
+    uri: http://10.97.17.84:35357/v3/roles/5441e79136274392994adfbc8654bd8a
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-1f116d70-2b2c-4fac-b3b2-77f4eb81d726
+      Content-Length:
+      - '0'
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:19 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-8d6f4ff1-9da2-4a32-887a-654a7bb45df9
+      Content-Length:
+      - '866'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles", "previous":
+        null, "next": null}, "roles": [{"id": "5a571a620acb4365a0697755861a4e0b",
+        "links": {"self": "http://10.97.17.84:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"},
+        "name": "ResellerAdmin"}, {"id": "693bf84201c446d19272c24aa4492c37", "links":
+        {"self": "http://10.97.17.84:35357/v3/roles/693bf84201c446d19272c24aa4492c37"},
+        "name": "anotherrole"}, {"id": "d98e5f87050646f194c8c23b9e3f2bca", "links":
+        {"self": "http://10.97.17.84:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"},
+        "name": "admin"}, {"id": "f6ca227446954afdb745b5fa83166c00", "links": {"self":
+        "http://10.97.17.84:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"}, "name":
+        "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self": "http://10.97.17.84:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"},
+        "name": "Member"}]}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:19 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles/5441e79136274392994adfbc8654bd8a
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-3ecd548a-274f-4eb2-9d01-019c0abb7857
+      Content-Length:
+      - '114'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"error": {"message": "Could not find role: 5441e79136274392994adfbc8654bd8a",
+        "code": 404, "title": "Not Found"}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:19 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles?name=foobar23
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-cb145fb2-5d47-4328-bb6a-40f6f37a750c
+      Content-Length:
+      - '115'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles?name=foobar23",
+        "previous": null, "next": null}, "roles": []}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:19 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles?name=baz23
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-aef11bf6-c492-4bdf-a68f-7bde5bc48a47
+      Content-Length:
+      - '112'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles?name=baz23",
+        "previous": null, "next": null}, "roles": []}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:19 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles?name=foobar23
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-a9446646-4b58-443a-8c24-e041d264674a
+      Content-Length:
+      - '115'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles?name=foobar23",
+        "previous": null, "next": null}, "roles": []}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:19 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles?name=baz23
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:31 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-4bdcbc1a-ec31-4573-9b99-b52432b15a24
+      Content-Length:
+      - '112'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles?name=baz23",
+        "previous": null, "next": null}, "roles": []}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:20 GMT
+recorded_with: VCR 2.9.3

@@ -1,0 +1,812 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users?name=foobar
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:16 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-6e86a013-29f5-48e5-89b4-3250a30797e6
+      Content-Length:
+      - '113'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [], "links": {"self": "http://10.97.17.84:35357/v3/users?name=foobar",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:05 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users?name=baz
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:17 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-a3e89f03-298c-4948-96e0-6e082a6d0fbf
+      Content-Length:
+      - '110'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [], "links": {"self": "http://10.97.17.84:35357/v3/users?name=baz",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:05 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users?name=foobar
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:17 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-eda2337d-799b-41fb-aff6-5dd637290864
+      Content-Length:
+      - '113'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [], "links": {"self": "http://10.97.17.84:35357/v3/users?name=foobar",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:05 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users?name=baz
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:17 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-7d62c422-2260-4428-82a2-abf7789755f3
+      Content-Length:
+      - '110'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [], "links": {"self": "http://10.97.17.84:35357/v3/users?name=baz",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:05 GMT
+- request:
+    method: post
+    uri: http://10.97.17.84:35357/v3/users
+    body:
+      encoding: UTF-8
+      string: '{"user":{"name":"foobar","email":"foobar@example.com","password":"s3cret!"}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:17 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-fa12de21-7957-4554-91d3-28e6448255fe
+      Content-Length:
+      - '231'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"user": {"name": "foobar", "links": {"self": "http://10.97.17.84:35357/v3/users/e44a94c37d3d40d5b0dfa64f0ca0df1d"},
+        "domain_id": "default", "enabled": true, "email": "foobar@example.com", "id":
+        "e44a94c37d3d40d5b0dfa64f0ca0df1d"}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:05 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users?name=foobar
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:17 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-b30b2ad7-5846-4f80-b2d1-5d7bafbdc37c
+      Content-Length:
+      - '334'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [{"name": "foobar", "links": {"self": "http://10.97.17.84:35357/v3/users/e44a94c37d3d40d5b0dfa64f0ca0df1d"},
+        "domain_id": "default", "enabled": true, "email": "foobar@example.com", "id":
+        "e44a94c37d3d40d5b0dfa64f0ca0df1d"}], "links": {"self": "http://10.97.17.84:35357/v3/users?name=foobar",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:05 GMT
+- request:
+    method: patch
+    uri: http://10.97.17.84:35357/v3/users/e44a94c37d3d40d5b0dfa64f0ca0df1d
+    body:
+      encoding: UTF-8
+      string: '{"user":{"name":"baz","enabled":false}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:17 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-6283b926-4af8-44f5-b82d-32b2f9284d5f
+      Content-Length:
+      - '271'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"user": {"name": "baz", "links": {"self": "http://10.97.17.84:35357/v3/users/e44a94c37d3d40d5b0dfa64f0ca0df1d"},
+        "extra": {"email": "foobar@example.com"}, "domain_id": "default", "enabled":
+        false, "email": "foobar@example.com", "id": "e44a94c37d3d40d5b0dfa64f0ca0df1d"}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:06 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users?name=baz
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:17 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-c73fab13-1787-46b7-a7c8-f9aa23f32441
+      Content-Length:
+      - '329'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [{"name": "baz", "links": {"self": "http://10.97.17.84:35357/v3/users/e44a94c37d3d40d5b0dfa64f0ca0df1d"},
+        "domain_id": "default", "enabled": false, "email": "foobar@example.com", "id":
+        "e44a94c37d3d40d5b0dfa64f0ca0df1d"}], "links": {"self": "http://10.97.17.84:35357/v3/users?name=baz",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:06 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:18 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-ff43065d-b72d-449d-bd66-e6baf0da0964
+      Content-Length:
+      - '1572'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [{"name": "glance", "links": {"self": "http://10.97.17.84:35357/v3/users/3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        {"name": "nova", "links": {"self": "http://10.97.17.84:35357/v3/users/4467ea650993437786817ca7ec1348ad"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "4467ea650993437786817ca7ec1348ad"},
+        {"name": "neutron", "links": {"self": "http://10.97.17.84:35357/v3/users/5f2d40b549ab419291fdc02ca93a2b21"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "5f2d40b549ab419291fdc02ca93a2b21"},
+        {"name": "cinder", "links": {"self": "http://10.97.17.84:35357/v3/users/74e0fdd6679f49a79e0d02729e70834e"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "74e0fdd6679f49a79e0d02729e70834e"},
+        {"name": "demo", "links": {"self": "http://10.97.17.84:35357/v3/users/83e19aa7df6843d497f7cde5ef8faf65"},
+        "domain_id": "default", "enabled": true, "email": "demo@example.com", "id":
+        "83e19aa7df6843d497f7cde5ef8faf65"}, {"name": "admin", "links": {"self": "http://10.97.17.84:35357/v3/users/a18abc2039d6493aa7239a42033cc7c9"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "a18abc2039d6493aa7239a42033cc7c9"},
+        {"name": "baz", "links": {"self": "http://10.97.17.84:35357/v3/users/e44a94c37d3d40d5b0dfa64f0ca0df1d"},
+        "domain_id": "default", "enabled": false, "email": "foobar@example.com", "id":
+        "e44a94c37d3d40d5b0dfa64f0ca0df1d"}], "links": {"self": "http://10.97.17.84:35357/v3/users",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:06 GMT
+- request:
+    method: post
+    uri: http://10.97.17.84:35357/v3/users
+    body:
+      encoding: UTF-8
+      string: '{"user":{"name":"baz","email":"foobar@example.com","password":"s3cret!"}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 409
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:18 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-3dca6ff4-082e-4640-866a-f3558d52b40c
+      Content-Length:
+      - '120'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"error": {"message": "Conflict occurred attempting to store user -
+        Duplicate Entry", "code": 409, "title": "Conflict"}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:06 GMT
+- request:
+    method: delete
+    uri: http://10.97.17.84:35357/v3/users/e44a94c37d3d40d5b0dfa64f0ca0df1d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:18 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-30b1e7b2-279a-4198-8458-ecf76a1c523b
+      Content-Length:
+      - '0'
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:06 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:18 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-e5cd799b-0915-4af4-885e-f0ff97b19dbf
+      Content-Length:
+      - '1351'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [{"name": "glance", "links": {"self": "http://10.97.17.84:35357/v3/users/3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        {"name": "nova", "links": {"self": "http://10.97.17.84:35357/v3/users/4467ea650993437786817ca7ec1348ad"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "4467ea650993437786817ca7ec1348ad"},
+        {"name": "neutron", "links": {"self": "http://10.97.17.84:35357/v3/users/5f2d40b549ab419291fdc02ca93a2b21"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "5f2d40b549ab419291fdc02ca93a2b21"},
+        {"name": "cinder", "links": {"self": "http://10.97.17.84:35357/v3/users/74e0fdd6679f49a79e0d02729e70834e"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "74e0fdd6679f49a79e0d02729e70834e"},
+        {"name": "demo", "links": {"self": "http://10.97.17.84:35357/v3/users/83e19aa7df6843d497f7cde5ef8faf65"},
+        "domain_id": "default", "enabled": true, "email": "demo@example.com", "id":
+        "83e19aa7df6843d497f7cde5ef8faf65"}, {"name": "admin", "links": {"self": "http://10.97.17.84:35357/v3/users/a18abc2039d6493aa7239a42033cc7c9"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "a18abc2039d6493aa7239a42033cc7c9"}],
+        "links": {"self": "http://10.97.17.84:35357/v3/users", "previous": null, "next":
+        null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:06 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users/e44a94c37d3d40d5b0dfa64f0ca0df1d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:18 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-25a96e8d-ad93-4ccc-920e-90cb95658011
+      Content-Length:
+      - '114'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"error": {"message": "Could not find user: e44a94c37d3d40d5b0dfa64f0ca0df1d",
+        "code": 404, "title": "Not Found"}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:06 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:18 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-9cbac336-c0d3-4ba2-a8f5-5d26e18c7a6e
+      Content-Length:
+      - '1351'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [{"name": "glance", "links": {"self": "http://10.97.17.84:35357/v3/users/3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        {"name": "nova", "links": {"self": "http://10.97.17.84:35357/v3/users/4467ea650993437786817ca7ec1348ad"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "4467ea650993437786817ca7ec1348ad"},
+        {"name": "neutron", "links": {"self": "http://10.97.17.84:35357/v3/users/5f2d40b549ab419291fdc02ca93a2b21"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "5f2d40b549ab419291fdc02ca93a2b21"},
+        {"name": "cinder", "links": {"self": "http://10.97.17.84:35357/v3/users/74e0fdd6679f49a79e0d02729e70834e"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "74e0fdd6679f49a79e0d02729e70834e"},
+        {"name": "demo", "links": {"self": "http://10.97.17.84:35357/v3/users/83e19aa7df6843d497f7cde5ef8faf65"},
+        "domain_id": "default", "enabled": true, "email": "demo@example.com", "id":
+        "83e19aa7df6843d497f7cde5ef8faf65"}, {"name": "admin", "links": {"self": "http://10.97.17.84:35357/v3/users/a18abc2039d6493aa7239a42033cc7c9"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "a18abc2039d6493aa7239a42033cc7c9"}],
+        "links": {"self": "http://10.97.17.84:35357/v3/users", "previous": null, "next":
+        null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:06 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users?name=foobar
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:18 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-443f14c1-5687-463e-baed-4a5ae9685a94
+      Content-Length:
+      - '113'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [], "links": {"self": "http://10.97.17.84:35357/v3/users?name=foobar",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:06 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users?name=baz
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:18 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-853e8b3d-4af3-472f-9213-0738153fb138
+      Content-Length:
+      - '110'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [], "links": {"self": "http://10.97.17.84:35357/v3/users?name=baz",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:06 GMT
+recorded_with: VCR 2.9.3

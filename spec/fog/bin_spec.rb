@@ -1,5 +1,4 @@
-require "minitest/autorun"
-require "fog"
+require "spec_helper"
 require "fog/bin"
 
 describe Fog do
@@ -27,7 +26,6 @@ describe Fog do
       assert_equal "IBM", Fog.providers[:ibm]
       assert_equal "InternetArchive", Fog.providers[:internetarchive]
       assert_equal "Joyent", Fog.providers[:joyent]
-      assert_equal "Libvirt", Fog.providers[:libvirt]
       assert_equal "Linode", Fog.providers[:linode]
       assert_equal "Local", Fog.providers[:local]
       assert_equal "Ninefold", Fog.providers[:ninefold]
@@ -35,6 +33,7 @@ describe Fog do
       assert_equal "OpenStack", Fog.providers[:openstack]
       assert_equal "Openvz", Fog.providers[:openvz]
       assert_equal "Ovirt", Fog.providers[:ovirt]
+      assert_equal "PowerDNS", Fog.providers[:powerdns]
       assert_equal "ProfitBricks", Fog.providers[:profitbricks]
       assert_equal "Rackspace", Fog.providers[:rackspace]
       assert_equal "Rage4", Fog.providers[:rage4]
@@ -77,7 +76,6 @@ describe Fog do
       assert_includes Fog.registered_providers, "IBM"
       assert_includes Fog.registered_providers, "InternetArchive"
       assert_includes Fog.registered_providers, "Joyent"
-      assert_includes Fog.registered_providers, "Libvirt"
       assert_includes Fog.registered_providers, "Linode"
       assert_includes Fog.registered_providers, "Local"
       assert_includes Fog.registered_providers, "Ninefold"
@@ -85,6 +83,7 @@ describe Fog do
       assert_includes Fog.registered_providers, "OpenStack"
       assert_includes Fog.registered_providers, "Openvz"
       assert_includes Fog.registered_providers, "Ovirt"
+      assert_includes Fog.registered_providers, "PowerDNS"
       assert_includes Fog.registered_providers, "ProfitBricks"
       assert_includes Fog.registered_providers, "Rackspace"
       assert_includes Fog.registered_providers, "Rage4"
@@ -127,7 +126,6 @@ describe Fog do
       assert_includes Fog.available_providers, "IBM" if IBM.available?
       assert_includes Fog.available_providers, "InternetArchive" if InternetArchive.available?
       assert_includes Fog.available_providers, "Joyent" if Joyent.available?
-      assert_includes Fog.available_providers, "Libvirt" if Libvirt.available?
       assert_includes Fog.available_providers, "Linode" if Linode.available?
       assert_includes Fog.available_providers, "Local" if Local.available?
       assert_includes Fog.available_providers, "Ninefold" if Ninefold.available?
@@ -135,6 +133,7 @@ describe Fog do
       assert_includes Fog.available_providers, "OpenStack" if OpenStack.available?
       assert_includes Fog.available_providers, "Openvz" if Openvz.available?
       assert_includes Fog.available_providers, "Ovirt" if Ovirt.available?
+      assert_includes Fog.available_providers, "PowerDNS" if PowerDNS.available?
       assert_includes Fog.available_providers, "ProfitBricks" if ProfitBricks.available?
       assert_includes Fog.available_providers, "Rackspace" if Rackspace.available?
       assert_includes Fog.available_providers, "Rage4" if Rage4.available?

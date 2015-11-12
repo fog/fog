@@ -1,0 +1,331 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/services
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:42 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-408d3792-5da6-490e-850d-beab0627fe6a
+      Content-Length:
+      - '1949'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"services": [{"name": "keystone", "links": {"self": "http://10.97.17.84:35357/v3/services/00707ec9c3574d8ebb638265844f7903"},
+        "enabled": true, "type": "identity", "id": "00707ec9c3574d8ebb638265844f7903",
+        "description": "Keystone Identity Service"}, {"name": "glance", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/1f1c2c6373754553938a93de04db5bc0"},
+        "enabled": true, "type": "image", "id": "1f1c2c6373754553938a93de04db5bc0",
+        "description": "Glance Image Service"}, {"name": "cinderv2", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/49ef74e8dab84ed0b683f764ae6d510c"},
+        "enabled": true, "type": "volumev2", "id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "description": "Cinder Volume Service V2"}, {"name": "cinder", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/54efbe90e47244eca5fac1a65374e594"},
+        "enabled": true, "type": "volume", "id": "54efbe90e47244eca5fac1a65374e594",
+        "description": "Cinder Volume Service"}, {"name": "neutron", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/b6063de99a3b474094779d6f778cd87b"},
+        "enabled": true, "type": "network", "id": "b6063de99a3b474094779d6f778cd87b",
+        "description": "Neutron Service"}, {"name": "novav21", "links": {"self": "http://10.97.17.84:35357/v3/services/c6ad05da1baa4dd190bdf01dca60e911"},
+        "enabled": true, "type": "computev21", "id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "description": "Nova Compute Service V2.1"}, {"name": "nova", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/d22c9f37ebea4187ae97eb57ced02483"},
+        "enabled": true, "type": "compute", "id": "d22c9f37ebea4187ae97eb57ced02483",
+        "description": "Nova Compute Service"}, {"name": "ec2", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/e2550fc44d8044398e49a080439462ed"},
+        "enabled": true, "type": "ec2", "id": "e2550fc44d8044398e49a080439462ed",
+        "description": "EC2 Compatibility Layer"}], "links": {"self": "http://10.97.17.84:35357/v3/services",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:30 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/services
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:42 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-466bf060-3016-422a-9072-300d4d8cde46
+      Content-Length:
+      - '1949'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"services": [{"name": "keystone", "links": {"self": "http://10.97.17.84:35357/v3/services/00707ec9c3574d8ebb638265844f7903"},
+        "enabled": true, "type": "identity", "id": "00707ec9c3574d8ebb638265844f7903",
+        "description": "Keystone Identity Service"}, {"name": "glance", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/1f1c2c6373754553938a93de04db5bc0"},
+        "enabled": true, "type": "image", "id": "1f1c2c6373754553938a93de04db5bc0",
+        "description": "Glance Image Service"}, {"name": "cinderv2", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/49ef74e8dab84ed0b683f764ae6d510c"},
+        "enabled": true, "type": "volumev2", "id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "description": "Cinder Volume Service V2"}, {"name": "cinder", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/54efbe90e47244eca5fac1a65374e594"},
+        "enabled": true, "type": "volume", "id": "54efbe90e47244eca5fac1a65374e594",
+        "description": "Cinder Volume Service"}, {"name": "neutron", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/b6063de99a3b474094779d6f778cd87b"},
+        "enabled": true, "type": "network", "id": "b6063de99a3b474094779d6f778cd87b",
+        "description": "Neutron Service"}, {"name": "novav21", "links": {"self": "http://10.97.17.84:35357/v3/services/c6ad05da1baa4dd190bdf01dca60e911"},
+        "enabled": true, "type": "computev21", "id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "description": "Nova Compute Service V2.1"}, {"name": "nova", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/d22c9f37ebea4187ae97eb57ced02483"},
+        "enabled": true, "type": "compute", "id": "d22c9f37ebea4187ae97eb57ced02483",
+        "description": "Nova Compute Service"}, {"name": "ec2", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/e2550fc44d8044398e49a080439462ed"},
+        "enabled": true, "type": "ec2", "id": "e2550fc44d8044398e49a080439462ed",
+        "description": "EC2 Compatibility Layer"}], "links": {"self": "http://10.97.17.84:35357/v3/services",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:30 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/services
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:42 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-25507d0e-4a18-468e-ab36-bdb6e3fcf6dc
+      Content-Length:
+      - '1949'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"services": [{"name": "keystone", "links": {"self": "http://10.97.17.84:35357/v3/services/00707ec9c3574d8ebb638265844f7903"},
+        "enabled": true, "type": "identity", "id": "00707ec9c3574d8ebb638265844f7903",
+        "description": "Keystone Identity Service"}, {"name": "glance", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/1f1c2c6373754553938a93de04db5bc0"},
+        "enabled": true, "type": "image", "id": "1f1c2c6373754553938a93de04db5bc0",
+        "description": "Glance Image Service"}, {"name": "cinderv2", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/49ef74e8dab84ed0b683f764ae6d510c"},
+        "enabled": true, "type": "volumev2", "id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "description": "Cinder Volume Service V2"}, {"name": "cinder", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/54efbe90e47244eca5fac1a65374e594"},
+        "enabled": true, "type": "volume", "id": "54efbe90e47244eca5fac1a65374e594",
+        "description": "Cinder Volume Service"}, {"name": "neutron", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/b6063de99a3b474094779d6f778cd87b"},
+        "enabled": true, "type": "network", "id": "b6063de99a3b474094779d6f778cd87b",
+        "description": "Neutron Service"}, {"name": "novav21", "links": {"self": "http://10.97.17.84:35357/v3/services/c6ad05da1baa4dd190bdf01dca60e911"},
+        "enabled": true, "type": "computev21", "id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "description": "Nova Compute Service V2.1"}, {"name": "nova", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/d22c9f37ebea4187ae97eb57ced02483"},
+        "enabled": true, "type": "compute", "id": "d22c9f37ebea4187ae97eb57ced02483",
+        "description": "Nova Compute Service"}, {"name": "ec2", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/e2550fc44d8044398e49a080439462ed"},
+        "enabled": true, "type": "ec2", "id": "e2550fc44d8044398e49a080439462ed",
+        "description": "EC2 Compatibility Layer"}], "links": {"self": "http://10.97.17.84:35357/v3/services",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:30 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/services
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:42 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-5c7716fa-f3d0-4576-bdb5-28f83ab0c567
+      Content-Length:
+      - '1949'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"services": [{"name": "keystone", "links": {"self": "http://10.97.17.84:35357/v3/services/00707ec9c3574d8ebb638265844f7903"},
+        "enabled": true, "type": "identity", "id": "00707ec9c3574d8ebb638265844f7903",
+        "description": "Keystone Identity Service"}, {"name": "glance", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/1f1c2c6373754553938a93de04db5bc0"},
+        "enabled": true, "type": "image", "id": "1f1c2c6373754553938a93de04db5bc0",
+        "description": "Glance Image Service"}, {"name": "cinderv2", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/49ef74e8dab84ed0b683f764ae6d510c"},
+        "enabled": true, "type": "volumev2", "id": "49ef74e8dab84ed0b683f764ae6d510c",
+        "description": "Cinder Volume Service V2"}, {"name": "cinder", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/54efbe90e47244eca5fac1a65374e594"},
+        "enabled": true, "type": "volume", "id": "54efbe90e47244eca5fac1a65374e594",
+        "description": "Cinder Volume Service"}, {"name": "neutron", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/b6063de99a3b474094779d6f778cd87b"},
+        "enabled": true, "type": "network", "id": "b6063de99a3b474094779d6f778cd87b",
+        "description": "Neutron Service"}, {"name": "novav21", "links": {"self": "http://10.97.17.84:35357/v3/services/c6ad05da1baa4dd190bdf01dca60e911"},
+        "enabled": true, "type": "computev21", "id": "c6ad05da1baa4dd190bdf01dca60e911",
+        "description": "Nova Compute Service V2.1"}, {"name": "nova", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/d22c9f37ebea4187ae97eb57ced02483"},
+        "enabled": true, "type": "compute", "id": "d22c9f37ebea4187ae97eb57ced02483",
+        "description": "Nova Compute Service"}, {"name": "ec2", "links": {"self":
+        "http://10.97.17.84:35357/v3/services/e2550fc44d8044398e49a080439462ed"},
+        "enabled": true, "type": "ec2", "id": "e2550fc44d8044398e49a080439462ed",
+        "description": "EC2 Compatibility Layer"}], "links": {"self": "http://10.97.17.84:35357/v3/services",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:30 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/projects/atlantis
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:42 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-26759931-b6e2-40e7-a61a-da7bab60c839
+      Content-Length:
+      - '93'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"error": {"message": "Could not find project: atlantis", "code": 404,
+        "title": "Not Found"}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:30 GMT
+recorded_with: VCR 2.9.3

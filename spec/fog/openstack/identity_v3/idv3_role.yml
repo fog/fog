@@ -1,0 +1,279 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:30 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-2a018020-1c4f-4c31-879f-f7fe5cd9dca5
+      Content-Length:
+      - '866'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles", "previous":
+        null, "next": null}, "roles": [{"id": "5a571a620acb4365a0697755861a4e0b",
+        "links": {"self": "http://10.97.17.84:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"},
+        "name": "ResellerAdmin"}, {"id": "693bf84201c446d19272c24aa4492c37", "links":
+        {"self": "http://10.97.17.84:35357/v3/roles/693bf84201c446d19272c24aa4492c37"},
+        "name": "anotherrole"}, {"id": "d98e5f87050646f194c8c23b9e3f2bca", "links":
+        {"self": "http://10.97.17.84:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"},
+        "name": "admin"}, {"id": "f6ca227446954afdb745b5fa83166c00", "links": {"self":
+        "http://10.97.17.84:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"}, "name":
+        "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self": "http://10.97.17.84:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"},
+        "name": "Member"}]}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:18 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:30 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-b15ee2fe-5ffe-4302-bd0a-969ea0b178d4
+      Content-Length:
+      - '866'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles", "previous":
+        null, "next": null}, "roles": [{"id": "5a571a620acb4365a0697755861a4e0b",
+        "links": {"self": "http://10.97.17.84:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"},
+        "name": "ResellerAdmin"}, {"id": "693bf84201c446d19272c24aa4492c37", "links":
+        {"self": "http://10.97.17.84:35357/v3/roles/693bf84201c446d19272c24aa4492c37"},
+        "name": "anotherrole"}, {"id": "d98e5f87050646f194c8c23b9e3f2bca", "links":
+        {"self": "http://10.97.17.84:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"},
+        "name": "admin"}, {"id": "f6ca227446954afdb745b5fa83166c00", "links": {"self":
+        "http://10.97.17.84:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"}, "name":
+        "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self": "http://10.97.17.84:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"},
+        "name": "Member"}]}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:18 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:30 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-af5b8c05-97eb-40da-8de0-e2e5ede7dc51
+      Content-Length:
+      - '866'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles", "previous":
+        null, "next": null}, "roles": [{"id": "5a571a620acb4365a0697755861a4e0b",
+        "links": {"self": "http://10.97.17.84:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"},
+        "name": "ResellerAdmin"}, {"id": "693bf84201c446d19272c24aa4492c37", "links":
+        {"self": "http://10.97.17.84:35357/v3/roles/693bf84201c446d19272c24aa4492c37"},
+        "name": "anotherrole"}, {"id": "d98e5f87050646f194c8c23b9e3f2bca", "links":
+        {"self": "http://10.97.17.84:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"},
+        "name": "admin"}, {"id": "f6ca227446954afdb745b5fa83166c00", "links": {"self":
+        "http://10.97.17.84:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"}, "name":
+        "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self": "http://10.97.17.84:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"},
+        "name": "Member"}]}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:18 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:30 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-99b3f0a6-5da9-494b-9b0d-4a8a2a5da111
+      Content-Length:
+      - '866'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://10.97.17.84:35357/v3/roles", "previous":
+        null, "next": null}, "roles": [{"id": "5a571a620acb4365a0697755861a4e0b",
+        "links": {"self": "http://10.97.17.84:35357/v3/roles/5a571a620acb4365a0697755861a4e0b"},
+        "name": "ResellerAdmin"}, {"id": "693bf84201c446d19272c24aa4492c37", "links":
+        {"self": "http://10.97.17.84:35357/v3/roles/693bf84201c446d19272c24aa4492c37"},
+        "name": "anotherrole"}, {"id": "d98e5f87050646f194c8c23b9e3f2bca", "links":
+        {"self": "http://10.97.17.84:35357/v3/roles/d98e5f87050646f194c8c23b9e3f2bca"},
+        "name": "admin"}, {"id": "f6ca227446954afdb745b5fa83166c00", "links": {"self":
+        "http://10.97.17.84:35357/v3/roles/f6ca227446954afdb745b5fa83166c00"}, "name":
+        "service"}, {"id": "f7f01056a1b04631be460a3b0c07c59f", "links": {"self": "http://10.97.17.84:35357/v3/roles/f7f01056a1b04631be460a3b0c07c59f"},
+        "name": "Member"}]}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:18 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/roles/atlantis
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:30 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-89be65ac-ccc8-43fa-a139-edd403ad8205
+      Content-Length:
+      - '90'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"error": {"message": "Could not find role: atlantis", "code": 404,
+        "title": "Not Found"}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:18 GMT
+recorded_with: VCR 2.9.3

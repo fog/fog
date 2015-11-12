@@ -4,14 +4,25 @@ module Fog
       class Real
         # Delete a stack.
         #
-        # @param stack_name [String] Name of the stack to delete.
-        # @param stack_id [String] ID of the stack to delete.
+        # @param [Stack] Stack to be deleted
         #
         # @return [Excon::Response]
         #
-        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_DeleteStack.html
+        # @see http://developer.openstack.org/api-ref-orchestration-v1.html
 
-        def delete_stack(stack_name, stack_id)
+        def delete_stack(arg1, arg2 = nil)
+          if arg1.is_a?(Stack)
+            # Normal use: delete_stack(stack)
+            stack = arg1
+            stack_name = stack.stack_name
+            stack_id = stack.id
+          else
+            # Deprecated: delete_stack(stack_name, stack_id)
+            Fog::Logger.deprecation("#delete_stack(stack_name, stack_id) is deprecated, use #delete_stack(stack) instead [light_black](#{caller.first})[/]")
+            stack_name = arg1
+            stack_id = arg2
+          end
+
           request(
             :expects  => 204,
             :path => "stacks/#{stack_name}/#{stack_id}",
@@ -21,7 +32,19 @@ module Fog
       end
 
       class Mock
-        def delete_stack(stack_name, stack_id)
+        def delete_stack(arg1, arg2 = nil)
+          if arg1.is_a?(Stack)
+            # Normal use: delete_stack(stack)
+            stack = arg1
+            stack_name = stack.stack_name
+            stack_id = stack.id
+          else
+            # Deprecated: delete_stack(stack_name, stack_id)
+            Fog::Logger.deprecation("#delete_stack(stack_name, stack_id) is deprecated, use #delete_stack(stack) instead [light_black](#{caller.first})[/]")
+            stack_name = arg1
+            stack_id = arg2
+          end
+
           self.data[:stacks].delete(stack_id)
 
           response = Excon::Response.new

@@ -1,0 +1,389 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:16 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-3d1068b5-2f86-4f6b-9842-d8b479c911ab
+      Content-Length:
+      - '1351'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [{"name": "glance", "links": {"self": "http://10.97.17.84:35357/v3/users/3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        {"name": "nova", "links": {"self": "http://10.97.17.84:35357/v3/users/4467ea650993437786817ca7ec1348ad"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "4467ea650993437786817ca7ec1348ad"},
+        {"name": "neutron", "links": {"self": "http://10.97.17.84:35357/v3/users/5f2d40b549ab419291fdc02ca93a2b21"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "5f2d40b549ab419291fdc02ca93a2b21"},
+        {"name": "cinder", "links": {"self": "http://10.97.17.84:35357/v3/users/74e0fdd6679f49a79e0d02729e70834e"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "74e0fdd6679f49a79e0d02729e70834e"},
+        {"name": "demo", "links": {"self": "http://10.97.17.84:35357/v3/users/83e19aa7df6843d497f7cde5ef8faf65"},
+        "domain_id": "default", "enabled": true, "email": "demo@example.com", "id":
+        "83e19aa7df6843d497f7cde5ef8faf65"}, {"name": "admin", "links": {"self": "http://10.97.17.84:35357/v3/users/a18abc2039d6493aa7239a42033cc7c9"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "a18abc2039d6493aa7239a42033cc7c9"}],
+        "links": {"self": "http://10.97.17.84:35357/v3/users", "previous": null, "next":
+        null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:04 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users/u-random-blah
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:16 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-dc4e369c-438c-4e71-8908-748aab2060e9
+      Content-Length:
+      - '95'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"error": {"message": "Could not find user: u-random-blah", "code":
+        404, "title": "Not Found"}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:04 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users?name=admin
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:16 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-4bc58476-4c25-4549-8bf9-e419f0df96f2
+      Content-Length:
+      - '316'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [{"name": "admin", "links": {"self": "http://10.97.17.84:35357/v3/users/a18abc2039d6493aa7239a42033cc7c9"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "a18abc2039d6493aa7239a42033cc7c9"}],
+        "links": {"self": "http://10.97.17.84:35357/v3/users?name=admin", "previous":
+        null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:04 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:16 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-0e3e9ccb-a9b3-454b-917e-7d0f6c2760ad
+      Content-Length:
+      - '1351'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [{"name": "glance", "links": {"self": "http://10.97.17.84:35357/v3/users/3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        {"name": "nova", "links": {"self": "http://10.97.17.84:35357/v3/users/4467ea650993437786817ca7ec1348ad"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "4467ea650993437786817ca7ec1348ad"},
+        {"name": "neutron", "links": {"self": "http://10.97.17.84:35357/v3/users/5f2d40b549ab419291fdc02ca93a2b21"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "5f2d40b549ab419291fdc02ca93a2b21"},
+        {"name": "cinder", "links": {"self": "http://10.97.17.84:35357/v3/users/74e0fdd6679f49a79e0d02729e70834e"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "74e0fdd6679f49a79e0d02729e70834e"},
+        {"name": "demo", "links": {"self": "http://10.97.17.84:35357/v3/users/83e19aa7df6843d497f7cde5ef8faf65"},
+        "domain_id": "default", "enabled": true, "email": "demo@example.com", "id":
+        "83e19aa7df6843d497f7cde5ef8faf65"}, {"name": "admin", "links": {"self": "http://10.97.17.84:35357/v3/users/a18abc2039d6493aa7239a42033cc7c9"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "a18abc2039d6493aa7239a42033cc7c9"}],
+        "links": {"self": "http://10.97.17.84:35357/v3/users", "previous": null, "next":
+        null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:04 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:16 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-c41dffe6-b0f5-47f7-ac79-92a5a5e48c3e
+      Content-Length:
+      - '1351'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [{"name": "glance", "links": {"self": "http://10.97.17.84:35357/v3/users/3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        {"name": "nova", "links": {"self": "http://10.97.17.84:35357/v3/users/4467ea650993437786817ca7ec1348ad"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "4467ea650993437786817ca7ec1348ad"},
+        {"name": "neutron", "links": {"self": "http://10.97.17.84:35357/v3/users/5f2d40b549ab419291fdc02ca93a2b21"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "5f2d40b549ab419291fdc02ca93a2b21"},
+        {"name": "cinder", "links": {"self": "http://10.97.17.84:35357/v3/users/74e0fdd6679f49a79e0d02729e70834e"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "74e0fdd6679f49a79e0d02729e70834e"},
+        {"name": "demo", "links": {"self": "http://10.97.17.84:35357/v3/users/83e19aa7df6843d497f7cde5ef8faf65"},
+        "domain_id": "default", "enabled": true, "email": "demo@example.com", "id":
+        "83e19aa7df6843d497f7cde5ef8faf65"}, {"name": "admin", "links": {"self": "http://10.97.17.84:35357/v3/users/a18abc2039d6493aa7239a42033cc7c9"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "a18abc2039d6493aa7239a42033cc7c9"}],
+        "links": {"self": "http://10.97.17.84:35357/v3/users", "previous": null, "next":
+        null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:04 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:16 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-be7df575-6aac-4464-8240-61b61f3b81f3
+      Content-Length:
+      - '1351'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [{"name": "glance", "links": {"self": "http://10.97.17.84:35357/v3/users/3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "3fac8bae1b6f4d2e99a1cecf9b27f797"},
+        {"name": "nova", "links": {"self": "http://10.97.17.84:35357/v3/users/4467ea650993437786817ca7ec1348ad"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "4467ea650993437786817ca7ec1348ad"},
+        {"name": "neutron", "links": {"self": "http://10.97.17.84:35357/v3/users/5f2d40b549ab419291fdc02ca93a2b21"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "5f2d40b549ab419291fdc02ca93a2b21"},
+        {"name": "cinder", "links": {"self": "http://10.97.17.84:35357/v3/users/74e0fdd6679f49a79e0d02729e70834e"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "74e0fdd6679f49a79e0d02729e70834e"},
+        {"name": "demo", "links": {"self": "http://10.97.17.84:35357/v3/users/83e19aa7df6843d497f7cde5ef8faf65"},
+        "domain_id": "default", "enabled": true, "email": "demo@example.com", "id":
+        "83e19aa7df6843d497f7cde5ef8faf65"}, {"name": "admin", "links": {"self": "http://10.97.17.84:35357/v3/users/a18abc2039d6493aa7239a42033cc7c9"},
+        "domain_id": "default", "enabled": true, "email": null, "id": "a18abc2039d6493aa7239a42033cc7c9"}],
+        "links": {"self": "http://10.97.17.84:35357/v3/users", "previous": null, "next":
+        null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:04 GMT
+- request:
+    method: get
+    uri: http://10.97.17.84:35357/v3/users?name=pimpernel
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - f6af15c0332e4d3ab7716b51d8fedfff
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 02 Oct 2015 11:41:16 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-4ca6c204-f223-4887-b8b4-28306d180c41
+      Content-Length:
+      - '116'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"users": [], "links": {"self": "http://10.97.17.84:35357/v3/users?name=pimpernel",
+        "previous": null, "next": null}}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 11:41:04 GMT
+recorded_with: VCR 2.9.3

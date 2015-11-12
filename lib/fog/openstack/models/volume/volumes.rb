@@ -1,17 +1,28 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/volume/volume'
 
 module Fog
   module Volume
     class OpenStack
-      class Volumes < Fog::Collection
+      class Volumes < Fog::OpenStack::Collection
         model Fog::Volume::OpenStack::Volume
 
-        def all(options = {:detailed => true})
+        def all(options = {})
           # the parameter has been "detailed = true" before. Make sure we are
           # backwards compatible
           detailed = options.is_a?(Hash) ? options.delete(:detailed) : options
-          load(service.list_volumes(detailed, options).body['volumes'])
+          if detailed.nil? || detailed
+            # This method gives details by default, unless false or {:detailed => false} is passed
+            load_response(service.list_volumes_detailed(options), 'volumes')
+          else
+            Fog::Logger.deprecation('Calling OpenStack[:volume].volumes.all(false) or volumes.all(:detailed => false) '\
+                                    ' is deprecated, call .volumes.summary instead')
+            load_response(service.list_volumes(options), 'volumes')
+          end
+        end
+
+        def summary(options = {})
+          load_response(service.list_volumes(options), 'volumes')
         end
 
         def get(volume_id)
@@ -21,7 +32,6 @@ module Fog
         rescue Fog::Volume::OpenStack::NotFound
           nil
         end
-        alias_method :find_by_id, :get
       end
     end
   end

@@ -48,21 +48,25 @@ module Fog
           return "CPU=#{vcpu.to_f/10}\n" unless cpu
           return "CPU=#{vcpu}\n" if cpu.to_i > vcpu.to_i
           "CPU=#{cpu}\n"
-        end  
+        end
 
         def get_vcpu
-          return "VCPU=1\n" unless vcpu
+          self.vcpu = 1 unless vcpu
           "VCPU=#{vcpu}\n"
-        end  
+        end
 
         def get_memory
-          return "MEMORY=128\n" unless memory
+          self.memory = 128 unless memory
           "MEMORY=#{memory}\n"
-        end  
+        end
 
         def get_raw
           return "" unless raw
-          "RAW=#{raw}\n"
+          ret = "RAW=#{raw}\n"
+          ret.gsub!(/\{/, '[')
+          ret.gsub!(/\}/, ']')
+          ret.gsub!(/=>/,'=')
+          ret
         end
 
         def get_disk
@@ -78,7 +82,7 @@ module Fog
           ret.gsub!(/\{/, '[')
           ret.gsub!(/\}/, ']')
           ret.gsub!(/>/,'')
-          ret 
+          ret
         end
 
         def get_os
@@ -87,16 +91,16 @@ module Fog
           ret.gsub!(/\{/, '[')
           ret.gsub!(/\}/, ']')
           ret.gsub!(/>/,'')
-          ret 
+          ret
         end
 
         def get_graphics
-          return "" unless graphics 
+          return "" unless graphics
           ret = "GRAPHICS=#{graphics}\n"
           ret.gsub!(/\{/, '[')
           ret.gsub!(/\}/, ']')
           ret.gsub!(/>/,'')
-          ret 
+          ret
         end
 
         def get_nic
@@ -111,27 +115,27 @@ module Fog
           #ret.gsub!(/\{/, '[')
           #ret.gsub!(/\}/, ']')
           #ret.gsub!(/>/,'')
-          ret 
+          ret
         end
 
         def get_sched_ds_requirements
-          return "" unless sched_ds_requirements 
-          %Q|SCHED_DS_REQUIREMENTS="#{sched_ds_requirements}"\n|
+          return "" unless sched_ds_requirements
+          %Q|SCHED_DS_REQUIREMENTS="#{sched_ds_requirements.gsub(/"/){ %q(\") }}"\n|
         end
 
         def get_sched_ds_rank
-          return "" unless sched_ds_rank 
-          %Q|SCHED_DS_RANK="#{sched_ds_rank}"\n|
+          return "" unless sched_ds_rank
+          %Q|SCHED_DS_RANK="#{sched_ds_rank.gsub(/"/){ %q(\") }}"\n|
         end
 
         def get_sched_requirements
-          return "" unless sched_requirements 
-          %Q|SCHED_REQUIREMENTS="#{sched_requirements}"\n|
+          return "" unless sched_requirements
+          %Q|SCHED_REQUIREMENTS="#{sched_requirements.gsub(/"/){ %q(\") }}"\n|
         end
 
         def get_sched_rank
-          return "" unless sched_rank 
-          %Q|SCHED_RANK="#{sched_rank}"\n|
+          return "" unless sched_rank
+          %Q|SCHED_RANK="#{sched_rank.gsub(/"/){ %q(\") }}"\n|
         end
 
         def get_context

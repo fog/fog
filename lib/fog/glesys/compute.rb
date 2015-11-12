@@ -14,11 +14,14 @@ module Fog
       model       :template
       collection  :ips
       model       :ip
+      collection  :ssh_keys
+      model       :ssh_key
 
       request_path 'fog/glesys/requests/compute'
 
       # Server
       request :create
+      request :edit
       request :destroy
       request :list_servers
       request :server_details
@@ -38,6 +41,11 @@ module Fog
       request :ip_release
       request :ip_add
       request :ip_remove
+
+      # SSH keys
+      request :ssh_key_list
+      request :ssh_key_add
+      request :ssh_key_remove
 
       class Mock
         def initialize(options={})
@@ -120,7 +128,7 @@ module Fog
         end
 
         def urlencode(hash)
-          hash.to_a.map! { |k, v| "#{k}=#{v.to_s}" }.join("&")
+          hash.to_a.map! { |k, v| "#{k}=#{CGI.escape(v.to_s)}" }.join("&")
         end
       end
     end

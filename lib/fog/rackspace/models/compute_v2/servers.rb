@@ -27,8 +27,8 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
-        # @note This method is compatible with Cloud Servers utlizing RackConnect ***if and only if***
-        #       provided the attribute "no_passwd_lock" set to *true*.
+        # @note This method is incompatible with Cloud Servers utlizing RackConnect ***if and only if***
+        #       provided the attribute "passwd_lock" left at *false*.
         # @example
         #   service.servers.bootstrap :name => 'bootstrap-server',
         #                             :flavor_id => service.flavors.first.id,

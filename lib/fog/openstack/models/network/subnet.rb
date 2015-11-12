@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Network
     class OpenStack
-      class Subnet < Fog::Model
+      class Subnet < Fog::OpenStack::Model
         identity :id
 
         attribute :name
@@ -17,17 +17,6 @@ module Fog
         attribute :enable_dhcp
         attribute :tenant_id
 
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
-        end
-
-        def save
-          requires :network_id, :cidr, :ip_version
-          identity ? update : create
-        end
-
         def create
           requires :network_id, :cidr, :ip_version
           merge_attributes(service.create_subnet(self.network_id,
@@ -38,7 +27,7 @@ module Fog
         end
 
         def update
-          requires :id, :network_id, :cidr, :ip_version
+          requires :id
           merge_attributes(service.update_subnet(self.id,
                                                     self.attributes).body['subnet'])
           self

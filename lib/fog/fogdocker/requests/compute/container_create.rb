@@ -27,7 +27,7 @@ module Fog
       #}
       class Real
         def container_create(attrs)
-          downcase_hash_keys Docker::Container.create(camelize_hash_keys(attrs)).json
+          downcase_hash_keys Docker::Container.create(camelize_hash_keys(attrs), @connection).json
         end
       end
 
