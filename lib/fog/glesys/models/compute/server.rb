@@ -90,7 +90,6 @@ module Fog
 
         def setup(credentials = {})
           requires :ssh_ip_address, :username
-          require 'net/ssh'
 
           attrs = attributes.dup
           attrs.delete(:rootpassword)
