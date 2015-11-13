@@ -41,6 +41,7 @@ module Fog
       model :customfield
       collection :customfields
       model :scsicontroller
+      model :process
 
       request_path 'fog/vsphere/requests/compute'
       request :current_time
@@ -92,6 +93,7 @@ module Fog
       request :list_vm_snapshots
       request :list_child_snapshots
       request :revert_to_snapshot
+      request :list_processes
 
       module Shared
         attr_reader :vsphere_is_vcenter
