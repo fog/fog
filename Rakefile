@@ -69,9 +69,6 @@ namespace :test do
   task :travis => [:openstack_specs] do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont")
   end
-  task :vsphere do
-      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/vsphere")
-  end
   task :openvz do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/openvz")
   end
