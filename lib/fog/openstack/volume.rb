@@ -37,6 +37,7 @@ module Fog
       request :get_volume_details
       request :extend_volume
       request :delete_volume
+      request :volume_action
 
       request :list_zones
 

@@ -46,7 +46,8 @@ module Fog
           if options['nics']
             data['server']['networks'] =
             Array(options['nics']).map do |nic|
-              neti = { 'uuid' => (nic['net_id'] || nic[:net_id]) }
+              neti = {}
+              neti['uuid'] = (nic['net_id'] || nic[:net_id]) unless (nic['net_id'] || nic[:net_id]).nil?
               neti['fixed_ip'] = (nic['v4_fixed_ip'] || nic[:v4_fixed_ip]) unless (nic['v4_fixed_ip'] || nic[:v4_fixed_ip]).nil?
               neti['port'] = (nic['port_id'] || nic[:port_id]) unless (nic['port_id'] || nic[:port_id]).nil?
               neti
@@ -77,6 +78,25 @@ module Fog
                 'volume_id'             => mapping[:volume_id],
                 'volume_size'           => mapping[:volume_size],
               }
+            end
+          end
+
+          if options['block_device_mapping_v2']
+            data['server']['block_device_mapping_v2'] =
+            [options['block_device_mapping_v2']].flatten.map do |mapping|
+              {
+                'uuid' => mapping[:uuid],
+                'delete_on_termination' => mapping[:delete_on_termination],
+                'boot_index' => mapping[:boot_index],
+                'disk_bus' => mapping[:disk_bus],
+                'device_type' => mapping[:device_type],
+                'guest_format' => mapping[:guest_format],
+                'device_name' => mapping[:device_name],
+                'virtual_name' => mapping[:virtual_name],
+                'source_type' => mapping[:source_type],
+                'destination_type' => mapping[:destination_type],
+                'volume_size' => mapping[:volume_size]
+              }.select { |k,v| v }
             end
           end
 
