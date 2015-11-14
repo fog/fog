@@ -28,7 +28,7 @@ module Fog
 
           def save
             raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
-            requires :name, :tenant_id, :password
+            requires :name
             enabled = true if enabled.nil?
             data = service.create_user(name, password, email, tenant_id, enabled)
             merge_attributes(data.body['user'])
@@ -62,7 +62,11 @@ module Fog
           end
 
           def roles(tenant_id = self.tenant_id)
-            service.list_roles_for_user_on_tenant(tenant_id, self.id).body['roles']
+            if tenant_id
+              service.list_roles_for_user_on_tenant(tenant_id, self.id).body['roles']
+            else
+              []
+            end
           end
         end # class User
       end # class V2
