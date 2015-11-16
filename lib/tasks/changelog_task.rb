@@ -141,6 +141,7 @@ Watchers      | #{watchers}
            'Paul Thornthwaite',
            'Paulo Henrique Lopes Ribeiro',
            'Peter Souter',
+           'Phil Ross',
            'Rodrigo Estebanez',
            'Rupak Ganguly',
            'Stepan G. Fedorov',

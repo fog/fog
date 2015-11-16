@@ -1,3 +1,53 @@
+## 1.36.0 11/16/2015
+*Hash* e7cd19696284633d4363993e2e3fda41384b7d58
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Downloads     | 12793379
+Forks         | 1517
+Open Issues   | 92
+Watchers      | 3689
+
+**MVP!** Phil Ross
+
+#### [misc]
+*   added content-encoding meta-data. thanks ller
+*   version for fog-aliyun added in fog.gemspec. thanks Daniyal Shah
+*   Digital Ocean V2 call to create an ssh key returns a 201 on success: https://developers.digitalocean.com/documentation/v2/#create-a-new-key. thanks Dave Benvenuti
+*   improve mocks to more closely match real ssh key endpoint functionality. thanks Dave Benvenuti
+*   Fix issue when creating virtual machines with more than 7 disks. thanks Francois Herbert
+*   Fix distributed port group switches support for cloning with multiple networks. thanks as
+*   Extract virtualswitch parameter to the network model. thanks as
+*   fix openstack baremetal node delete. thanks Jason Montleon
+*   Fixed issue with OpenStack Auth v2. thanks ller
+*   Fix set node type for Rackspace load balancer. thanks Pablo Porto
+*   Add abbr attribute to Linode DataCenter. thanks Phil Ross
+*   Add created_at and requires_pvops_kernel to Linode Image model. thanks Phil Ross
+*   Update the Linode avail_kernels request and Kernel model. thanks Phil Ross
+*   Update the Linode avail_linodeplans request and Flavor model. thanks Phil Ross
+*   Add support for the Linode avail.nodebalancers API call. thanks Phil Ross
+*   Fix the signature of the Linode avail_stackscripts mock. thanks Phil Ross
+*   Use options on the all method to filter Linode kernels. thanks Phil Ross
+*   fix method call name in openstack node destroy so that it will work. thanks Stephen Herr
+*   vsphere: allow setting of boot order when using api > 5.0. thanks Timo Goebel
+*   Revert "temporarily relax ruby version constraint". thanks geemus
+*   make net/ssh require optional. thanks geemus
+*   re-add 1.9 to travis config. thanks geemus
+*   limit to 1.9 compat fog-google. thanks geemus
+*   1.8 compatibility for pre 2 release. thanks geemus
+
+#### [openstack]
+*   Basic caching support for auth tokens, domains & projects. thanks Darren Hague
+*   Re-record VCRs, plus some light refactoring. thanks Darren Hague
+
+#### [vsphere]
+*   add support for taking snapshot. thanks Ivo Reznicek
+*   support for snapshot list and revert. thanks Ivo Reznicek
+*   support for listing processes in guest OS. thanks Ivo Reznicek
+*   Prefer Class#name to Class#to_s. thanks Kevin Menard
+
+
 ## 1.35.0 10/20/2015
 *Hash* 4444f3287454a4281ead73fa24aa1b93d5d23a39
 
