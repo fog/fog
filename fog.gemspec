@@ -49,7 +49,6 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-xml", "~> 0.1.1")
 
   s.add_dependency("ipaddress", "~> 0.5")
-  s.add_dependency("nokogiri", "~> 1.5", ">= 1.5.11")
 
   # Modular providers (please keep sorted)
   s.add_dependency("fog-atmos")
