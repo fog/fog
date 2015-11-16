@@ -11,12 +11,16 @@ module Fog
         # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
         # @raise [Fog::Storage::Rackspace::ServiceError]
         def put_container(name, options={})
-          request(
-            :expects  => [201, 202],
-            :method   => 'PUT',
-            :headers => options,
-            :path     => Fog::Rackspace.escape(name)
-          )
+          if name =~ /\//
+            raise Fog::Errors::Error.new('Folder names cannot include "/".')
+          else
+            request(
+              :expects  => [201, 202],
+              :method   => 'PUT',
+              :headers => options,
+              :path     => Fog::Rackspace.escape(name)
+            )
+          end
         end
       end
 
