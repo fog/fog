@@ -19,6 +19,7 @@ module Fog
           vm_cfg[:cpuHotAddEnabled] = attributes[:cpuHotAddEnabled] if attributes.key?(:cpuHotAddEnabled)
           vm_cfg[:memoryHotAddEnabled] = attributes[:memoryHotAddEnabled] if attributes.key?(:memoryHotAddEnabled)
           vm_cfg[:firmware] = attributes[:firmware] if attributes.key?(:firmware)
+          vm_cfg[:bootOptions] = boot_options(attributes) if attributes.key?(:boot_order)
           resource_pool = if attributes[:resource_pool]
                             get_raw_resource_pool(attributes[:resource_pool], attributes[:cluster], attributes[:datacenter])
                           else
@@ -52,6 +53,63 @@ module Fog
             devices << disks.map { |disk| create_disk(disk, disks.index(disk)) }
           end
           devices.flatten
+        end
+
+        def boot_options attributes
+          # NOTE: you must be using vsphere_rev 5.0 or greater to set boot_order
+          # e.g. Fog::Compute.new(provider: "vsphere", vsphere_rev: "5.5", etc)
+          RbVmomi::VIM::VirtualMachineBootOptions.new(
+            :bootOrder => boot_order(attributes)
+          )
+        end
+
+        def boot_order attributes
+          # attributes[:boot_order] may be an array like this ['network', 'disk']
+          # stating, that we want to prefer network boots over disk boots
+          boot_order = []
+          attributes[:boot_order].each do |boot_device|
+            case boot_device
+            when 'network'
+              if nics = attributes[:interfaces]
+                # key is based on 4000 + the interface index
+                # we allow booting from all network interfaces, the first interface has the highest priority
+                nics.each do |nic|
+                  boot_order << RbVmomi::VIM::VirtualMachineBootOptionsBootableEthernetDevice.new(
+                    :deviceKey => 4000 + nics.index(nic),
+                  )
+                end
+              end
+            when 'disk'
+              if disks = attributes[:volumes]
+                disks.each do |disk|
+                  # we allow booting from all harddisks, the first disk has the highest priority
+                  boot_order << RbVmomi::VIM::VirtualMachineBootOptionsBootableDiskDevice.new(
+                    :deviceKey => disk.key || get_disk_device_key(disks.index(disk)),
+                  )
+                end
+              end
+            when 'cdrom'
+              boot_order << RbVmomi::VIM::VirtualMachineBootOptionsBootableCdromDevice.new()
+            when 'floppy'
+              boot_order << RbVmomi::VIM::VirtualMachineBootOptionsBootableFloppyDevice.new()
+            else
+              raise "failed to create boot device because \"#{boot_device}\" is unknown"
+            end
+          end
+          boot_order
+        end
+
+        def get_disk_device_key(index)
+          # disk key is based on 2000 + the SCSI ID + the controller bus * 16
+          # the scsi host adapter appears as SCSI ID 7, so we have to skip that
+          # host adapter key is based on 1000 + bus id
+          # fog assumes that there is only a single scsi controller, see device_change()
+          if (index > 6) then
+            _index = index + 1
+          else
+            _index = index
+          end
+          2000 + _index
         end
 
         def create_nic_backing nic, attributes
