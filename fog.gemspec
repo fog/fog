@@ -44,15 +44,12 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.md]
 
-  ## Ruby version
-  s.required_ruby_version = ">= 2.0.0"
-
   s.add_dependency("fog-core", "~> 1.32")
   s.add_dependency("fog-json")
   s.add_dependency("fog-xml", "~> 0.1.1")
 
   s.add_dependency("ipaddress", "~> 0.5")
-  s.add_dependency("nokogiri")
+  s.add_dependency("nokogiri", "~> 1.5", ">= 1.5.11")
 
   # Modular providers (please keep sorted)
   s.add_dependency("fog-atmos")
