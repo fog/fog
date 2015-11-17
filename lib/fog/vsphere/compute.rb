@@ -7,7 +7,7 @@ module Fog
       requires :vsphere_username, :vsphere_password, :vsphere_server
       recognizes :vsphere_port, :vsphere_path, :vsphere_ns
       recognizes :vsphere_rev, :vsphere_ssl, :vsphere_expected_pubkey_hash
-      recognizes :vsphere_debug
+      recognizes :vsphere_debug, :vsphere_cookie
 
       model_path 'fog/vsphere/models/compute'
       model :server
@@ -366,6 +366,7 @@ module Fog
           require 'rbvmomi'
           @vsphere_username = options[:vsphere_username]
           @vsphere_password = 'REDACTED'
+          @vsphere_cookie   = options[:vpshere_cookie] || nil
           @vsphere_server   = options[:vsphere_server]
           @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
           @vsphere_is_vcenter = true
@@ -388,6 +389,7 @@ module Fog
           require 'rbvmomi'
           @vsphere_username = options[:vsphere_username]
           @vsphere_password = options[:vsphere_password]
+          @vsphere_cookie   = options[:vsphere_cookie] || nil
           @vsphere_server   = options[:vsphere_server]
           @vsphere_port     = options[:vsphere_port] || 443
           @vsphere_path     = options[:vsphere_path] || '/sdk'
@@ -437,7 +439,8 @@ module Fog
                                              :rev  => @vsphere_rev,
                                              :ssl  => @vsphere_ssl,
                                              :insecure => bad_cert,
-                                             :debug => @vsphere_debug
+                                             :debug => @vsphere_debug,
+                                             :cookie => @vsphere_cookie
               break
             rescue OpenSSL::SSL::SSLError
               raise if bad_cert
@@ -452,8 +455,10 @@ module Fog
 
         def authenticate
           begin
-            @connection.serviceContent.sessionManager.Login :userName => @vsphere_username,
-                                                            :password => @vsphere_password
+            unless @vsphere_cookie
+              @connection.serviceContent.sessionManager.Login :userName => @vsphere_username,
+                                                              :password => @vsphere_password
+            end
           rescue RbVmomi::VIM::InvalidLogin => e
             raise Fog::Vsphere::Errors::ServiceError, e.message
           end
