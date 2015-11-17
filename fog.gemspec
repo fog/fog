@@ -69,6 +69,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-terremark")
   s.add_dependency("fog-vmfusion")
   s.add_dependency("fog-voxel")
+  s.add_dependency("fog-vsphere", "~> 0.2")
   s.add_dependency("fog-xenserver")
   s.add_dependency("fog-aliyun",">= 0.1.0")
 
