@@ -297,7 +297,7 @@ This returns a collection of `Fog::Compute::OpenStack::Flavor` models:
 
 To retrieve individual flavor:
 
-	service.flavor.get 1
+	service.flavors.get 1
 
 This returns a `Fog::Compute::OpenStack::Flavor` instance:
 
