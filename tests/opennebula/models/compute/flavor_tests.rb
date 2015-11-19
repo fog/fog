@@ -17,7 +17,7 @@ Shindo.tests('Fog::Compute[:opennebula] | flavor model', ['opennebula']) do
         end
       end
       tests("The attributes hash should have key") do
-        [:name, :id, :content, :cpu, :vcpu, :memory, :os, :graphics, :raw, :context, :user_variables ].each do |attribute|
+        [:name, :id, :content, :cpu, :vcpu, :memory, :os, :graphics, :context, :user_variables ].each do |attribute|
           test("#{attribute}") { model_attribute_hash.has_key? attribute }
         end
       end

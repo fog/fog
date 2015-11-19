@@ -110,35 +110,11 @@ module Fog
           nic1 = Mock_nic.new
           nic1.vnet = networks.first
 
-          [
-            {
-              :content => %Q{
-                NAME = mock-vm
-                MEMORY = 512
-                VCPU = 1
-                CPU = 1
-              },
-              :id => 1,
-              :name => 'mock',
-              :cpu => 1,
-              :vcpu => 1,
-              :memory => 512,
-              :sched_requirements => 'CPUSPEED > 1000',
-              :sched_rank => 'FREECPU',
-              :sched_ds_requirements => "NAME=mock",
-              :sched_ds_rank => "FREE_MB",
-              :disk => {},
-              :nic => {},
-              :nic => [ nic1 ] ,
-              :os => {
-                'ARCH' => 'x86_64'
-              },
-              :graphics => {},
-              :raw => %|["DATA"=>"<cpu match='exact'><model fallback='allow'>core2duo</model></cpu>", "TYPE"=>"kvm"]|,
-              :context => {},
-              :user_variables => {}
-            }
-          ]
+          self.data['template_pool']
+          self.data['template_pool'].each do |tmpl|
+            tmpl['nic'][0] = nic1
+          end
+          self.data['template_pool']
         end
 
         class Mock_nic
@@ -150,6 +126,9 @@ module Fog
           def name
             "fogtest"
           end
+					def model
+						"virtio-net"
+					end
         end
       end #class Mock
     end #class OpenNebula
