@@ -2,19 +2,18 @@ module Fog
   module Compute
     class OpenNebula
       class Real
-
         def vm_stop(id)
           vmpool = ::OpenNebula::VirtualMachinePool.new(client)
-	  vmpool.info!(-2,id,id,-1)
-	  puts "#{vmpool.entries.class} #{vmpool.entries.methods}"
-	  puts "#{vmpool.entries.inspect} #{vmpool.entries.methods}"
-          
-	  vmpool.each do |vm|
-	    vm.stop
+          vmpool.info!(-2,id,id,-1)
+          vmpool.each do |vm|
+            vm.stop
           end
         end #def vm_stop
+      end
 
-        class Mock
+      class Mock
+        def vm_stop
+          true
         end
       end
     end

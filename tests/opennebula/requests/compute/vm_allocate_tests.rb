@@ -1,4 +1,4 @@
-Shindo.tests("Fog::Compute[:opennebula] | vm_create and destroy request", 'opennebula') do
+Shindo.tests("Fog::Compute[:opennebula] | vm_create and vm_destroy request", 'opennebula') do
 
   compute = Fog::Compute[:opennebula]
   name_base = Time.now.to_i
@@ -17,10 +17,27 @@ Shindo.tests("Fog::Compute[:opennebula] | vm_create and destroy request", 'openn
     test("response should be a kind of Hash") { response.kind_of?  Hash}
     test("id should be a one-id (Fixnum)") { response['id'].is_a?  Fixnum}
   end
+
   tests("Destroy VM") do
     compute.vm_destroy(response['id'])
-    vms = compute.list_vms({:id => response['id'], :mock_return => false})
-    test("get vm should be empty") { compute.list_vms({:id => response['id']}).empty?}
+    test("vm should not be in array of vms") {
+      vm_not_exist = true
+      compute.list_vms.each do |vm|
+        if vm['id'] == response['id']
+          vm_not_exist = false
+        end
+      end
+      vm_not_exist
+    }
+    test("vm should not be in array of vms by filter") {
+      vm_not_exist = true
+      compute.list_vms({:id => response['id']}).each do |vm|
+        if vm['id'] == response['id']
+          vm_not_exist = false
+        end
+      end
+      vm_not_exist
+    }
   end
 
   #tests("Create VM from template (clone)") do

@@ -53,33 +53,15 @@ module Fog
 
       class Mock
         def list_vms(filter = {})
-          if filter[:id].nil?
-            vm1 = mock_vm 'fog-vm1'
-            vm2 = mock_vm 'fog-vm2'
-            vm3 = mock_vm 'fog-vm3'
-            return [vm1, vm2, vm3]
-          elsif filter[:mock_return]
-            mock_vm 'fog-vm1', filter[:id]
-          else 
-            []
+          vms = []
+          self.data['vms'].each do |vm|
+            if filter[:id].nil?
+              vms << vm
+            elsif filter[:id] == vm['id']
+              vms << vm
+            end
           end
-        end
-        def mock_vm(name, id=4)
-          data = {}
-          data["onevm_object"] = ""
-          data["status"] = "Running"
-          data["state"]  = "3"
-          data["id"]     = id
-          data["uuid"]   = "5"
-          data["gid"]    = "5"
-          data["name"]   = "MockVM-#{name}"
-          data["user"]   = "MockUser" 
-          data["group"]  = "MockGroup"
-          data["cpu"]    = "2"
-          data["memory"] = "1024"
-          data["mac"]	 = "00:01:02:03:04:05"
-          data["ip"]	 = "1.1.1.1"
-          data
+          vms
         end
       end
     end

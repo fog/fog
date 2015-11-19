@@ -60,11 +60,19 @@ module Fog
             service.vm_resume(id)
           end
           true
-        end	
+        end
 
         def stop
           Fog::Logger.warning("stop VM: ID:#{id}")
           service.vm_stop(id)
+        end
+
+        def suspend
+          service.vm_suspend(id)
+        end
+
+        def resume
+          service.vm_resume(id)
         end
 
         def destroy

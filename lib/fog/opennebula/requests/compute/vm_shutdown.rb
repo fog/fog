@@ -8,7 +8,7 @@ module Fog
           vmpool.info!(-2,id,id,-1)
 
           vmpool.each do |vm|
-            vm.shutdown()
+            vm.shutdown
           end
         end #def vm_shutdown
 
