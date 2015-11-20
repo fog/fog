@@ -117,6 +117,7 @@ module Fog
       request :list_virtual_interfaces
       request :create_virtual_interface
       request :delete_virtual_interface
+      request :get_vnc_console
 
       class Mock < Fog::Rackspace::Service
         include Fog::Rackspace::MockData

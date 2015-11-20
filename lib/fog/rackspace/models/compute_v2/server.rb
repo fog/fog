@@ -618,6 +618,20 @@ module Fog
           @virtual_interfaces ||= Fog::Compute::RackspaceV2::VirtualInterfaces.new :server => self, :service => service
         end
 
+        # VNC Console URL
+        # @param [String] Type of vnc console to get ('novnc' or 'xvpvnc')
+        # @return [String] returns URL to vnc console
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
+        # @note This URL will time out due to inactivity
+        def get_vnc_console(console_type = "xvpvnc")
+          requires :identity
+          data = service.get_vnc_console(identity, console_type)
+          data.body['console']['url']
+        end
+
         private
 
         def adminPass=(new_admin_pass)
