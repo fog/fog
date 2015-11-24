@@ -75,7 +75,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency("docker-api", ">= 1.13.6")
   s.add_development_dependency("fission")
-  s.add_development_dependency("mime-types", "~>2.99")
+  s.add_development_dependency("mime-types", "< 3.0")
   s.add_development_dependency("minitest")
   s.add_development_dependency("minitest-stub-const")
   s.add_development_dependency("opennebula")
