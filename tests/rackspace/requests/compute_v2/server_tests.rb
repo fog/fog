@@ -164,5 +164,9 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
     tests('#delete_server').succeeds do
       service.delete_server(server_id)
     end
+
+    tests('#get_vnc_console').succeeds do
+      service.get_vnc_console(server_id, 'novnc')
+    end
   end
 end
