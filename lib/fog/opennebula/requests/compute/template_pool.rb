@@ -126,9 +126,9 @@ module Fog
           def name
             "fogtest"
           end
-					def model
-						"virtio-net"
-					end
+          def model
+            "virtio-net"
+          end
         end
       end #class Mock
     end #class OpenNebula
