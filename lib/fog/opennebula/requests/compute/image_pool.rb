@@ -21,12 +21,6 @@ module Fog
           images
         end #def image_pool
       end #class Real
-
-      class Mock
-        def image_pool(filter = {})
-        end
-      end
-
     end #class OpenNebula
   end #module Compute
 end #module Fog

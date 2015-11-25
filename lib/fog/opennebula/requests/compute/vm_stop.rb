@@ -10,12 +10,6 @@ module Fog
           end
         end #def vm_stop
       end
-
-      class Mock
-        def vm_stop
-          true
-        end
-      end
     end
   end
 end
