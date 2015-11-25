@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:opennebula] | network model', ['opennebula']) do
 
   networks = Fog::Compute[:opennebula].networks
-  network = networks.last
+  network = networks.get_by_name('fogtest')
 
   tests('The network model should') do
     tests('have the action') do
@@ -9,7 +9,6 @@ Shindo.tests('Fog::Compute[:opennebula] | network model', ['opennebula']) do
     end
     tests('have attributes') do
       model_attribute_hash = network.attributes
-      attributes = 
       tests("The network model should respond to") do
         [:name, :id, :vlan, :uid, :uname, :gid, :description].each do |attribute|
           test("#{attribute}") { network.respond_to? attribute }
