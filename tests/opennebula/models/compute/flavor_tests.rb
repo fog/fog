@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:opennebula] | flavor model', ['opennebula']) do
 
   flavors = Fog::Compute[:opennebula].flavors
-  flavor = flavors.last
+  flavor = flavors.get_by_name('fogtest').last
 
   tests('The flavor model should') do
     tests('have the action') do
