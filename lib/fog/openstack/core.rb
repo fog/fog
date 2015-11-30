@@ -154,6 +154,13 @@ module Fog
         @port   = @openstack_management_uri.port
         @scheme = @openstack_management_uri.scheme
 
+        # Not all implementations have identity service in the catalog
+        if @openstack_identity_public_endpoint || @openstack_management_url
+          @identity_connection = Fog::Core::Connection.new(
+              @openstack_identity_public_endpoint || @openstack_management_url,
+              false, @connection_options)
+        end
+
         true
       end
     end
@@ -409,7 +416,7 @@ module Fog
       auth_token  = options[:openstack_auth_token] || options[:unscoped_token]
       uri         = options[:openstack_auth_uri]
 
-      @identity_connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
+      identity_v2_connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
       request_body = {:auth => Hash.new}
 
       if auth_token
@@ -424,7 +431,7 @@ module Fog
       end
       request_body[:auth][:tenantName] = tenant_name if tenant_name
 
-      response = @identity_connection.request({
+      response = identity_v2_connection.request({
         :expects  => [200, 204],
         :headers  => {'Content-Type' => 'application/json'},
         :body     => Fog::JSON.encode(request_body),
