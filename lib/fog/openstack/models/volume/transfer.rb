@@ -4,13 +4,6 @@ module Fog
   module Volume
     class OpenStack
       class Transfer < Fog::OpenStack::Model
-        identity :id
-
-        attribute :auth_key,    :aliases => 'authKey'
-        attribute :created_at,  :aliases => 'createdAt'
-        attribute :name
-        attribute :volume_id,   :aliases => 'volumeId'
-
         def save
           requires :name, :volume_id
           data = service.create_transfer(volume_id, :name => name)
@@ -29,7 +22,6 @@ module Fog
           prepare_service_value(attributes)
           super
         end
-
       end
     end
   end

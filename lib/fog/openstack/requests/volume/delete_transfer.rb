@@ -1,9 +1,7 @@
 module Fog
   module Volume
     class OpenStack
-      # no Mock needed, test coverage in RSpec
-
-      class Real
+      module Real
         def delete_transfer(transfer_id)
           request(
             :expects => 202,

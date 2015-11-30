@@ -1,12 +1,9 @@
 require 'fog/openstack/models/collection'
-require 'fog/openstack/models/volume/volume'
 
 module Fog
   module Volume
     class OpenStack
-      class Volumes < Fog::OpenStack::Collection
-        model Fog::Volume::OpenStack::Volume
-
+      module Volumes
         def all(options = {})
           # the parameter has been "detailed = true" before. Make sure we are
           # backwards compatible
