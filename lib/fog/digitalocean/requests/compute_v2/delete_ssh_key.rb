@@ -10,7 +10,7 @@ module Fog
               'Content-Type' => "application/json; charset=UTF-8",
             },
             :method  => 'DELETE',
-            :path    => "/v2/account/keys#{id}",
+            :path    => "/v2/account/keys/#{id}",
           )
         end
       end
