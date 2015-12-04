@@ -17,6 +17,7 @@ module Fog
 
           if block_given?
             params[:response_block] = block
+            params[:idempotent] = false
           end
 
           request(params, false)
