@@ -16,7 +16,8 @@ module Fog
                    :openstack_endpoint_type,
                    :openstack_project_name, :openstack_project_id,
                    :openstack_project_domain, :openstack_user_domain, :openstack_domain_name,
-                   :openstack_project_domain_id, :openstack_user_domain_id, :openstack_domain_id
+                   :openstack_project_domain_id, :openstack_user_domain_id, :openstack_domain_id,
+                   :openstack_identity_prefix
 
         model_path 'fog/openstack/models/identity_v2'
         model :tenant
@@ -181,6 +182,7 @@ module Fog
 
             @openstack_service_type   = options[:openstack_service_type] || ['identity']
             @openstack_service_name   = options[:openstack_service_name]
+            @identity_prefix          = options[:openstack_identity_prefix] ? "/#{options[:openstack_identity_prefix]}" : nil
 
             @connection_options       = options[:connection_options] || {}
 
@@ -189,7 +191,7 @@ module Fog
             authenticate
 
             @persistent = options[:persistent] || false
-            @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+            @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}#{@identity_prefix}", @persistent, @connection_options)
           end
         end
       end

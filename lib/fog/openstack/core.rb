@@ -67,6 +67,7 @@ module Fog
       attr_reader :openstack_domain_id
       attr_reader :openstack_user_domain_id
       attr_reader :openstack_project_domain_id
+      attr_reader :openstack_identity_prefix
 
       def initialize_identity options
         # Create @openstack_* instance variables from all :openstack_* options
