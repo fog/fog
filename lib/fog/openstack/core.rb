@@ -151,6 +151,7 @@ module Fog
         @host   = @openstack_management_uri.host
         @path   = @openstack_management_uri.path
         @path.sub!(/\/$/, '')
+        @path   = @openstack_auth_uri.path.scan(/(\/v\d(\.\d+)?)/)[0][0] if @path.empty?
         @port   = @openstack_management_uri.port
         @scheme = @openstack_management_uri.scheme
 
