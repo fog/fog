@@ -23,6 +23,29 @@ module Fog
           )
         end
       end
+      class Mock
+        def get_vms(id)
+          vapp = get_vapp(id).body
+          parser = Fog::Parsers::Compute::VcloudDirector::Vms.new
+          vms  = vapp[:Children][:Vm].map do |vm|
+            {
+              :id => vm[:href].split('/').last,
+              :vapp_id => vapp[:id],
+              :vapp_name => vapp[:name],
+              :name => vm[:name],
+              :type => vm[:type],
+              :href => vm[:href],
+              :ip_address => vm[:NetworkConnectionSection][:NetworkConnection][:IpAddress],
+            }
+          end
+          body = {:type => vapp[:type], :vms => vms}
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
+        end
+      end
     end
   end
 end
