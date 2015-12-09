@@ -1,4 +1,5 @@
 require 'fog/openstack/core'
+require 'fog/openstack/common'
 require 'fog/openstack/identity'
 
 module Fog
@@ -14,7 +15,7 @@ module Fog
                    :openstack_user_domain_id, :openstack_project_domain_id,
                    :openstack_api_key, :openstack_current_user_id, :openstack_userid, :openstack_username,
                    :current_user, :current_user_id, :current_tenant,
-                   :provider
+                   :provider, :openstack_identity_prefix
 
         model_path 'fog/openstack/models/identity_v3'
         model :domain
@@ -148,22 +149,27 @@ module Fog
         end
 
         class Real
-          include Fog::Identity::OpenStack::Common
+          def self.not_found_class
+            Fog::Identity::OpenStack::NotFound
+          end
+          include Fog::OpenStack::Common
 
           def initialize(options={})
             initialize_identity options
 
             @openstack_service_type   = options[:openstack_service_type] || ['identity_v3','identityv3','identity']
             @openstack_service_name   = options[:openstack_service_name]
+            @identity_prefix          = options[:openstack_identity_prefix] ? "/#{options[:openstack_identity_prefix]}" : nil
 
             @connection_options       = options[:connection_options] || {}
 
             @openstack_endpoint_type  = options[:openstack_endpoint_type] || 'adminURL'
 
+            @openstack_endpoint_path_matches = options[:openstack_endpoint_path_matches] ||= /\/v3/
             authenticate
 
             @persistent = options[:persistent] || false
-            @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+            @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}#{@identity_prefix}", @persistent, @connection_options)
           end
         end
       end

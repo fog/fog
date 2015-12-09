@@ -1,3 +1,4 @@
+require 'fog/openstack/common'
 require 'fog/openstack/core'
 require 'fog/openstack/image'
 
@@ -17,7 +18,8 @@ module Fog
                    :openstack_endpoint_type,
                    :openstack_project_name, :openstack_project_id,
                    :openstack_project_domain, :openstack_user_domain, :openstack_domain_name,
-                   :openstack_project_domain_id, :openstack_user_domain_id, :openstack_domain_id
+                   :openstack_project_domain_id, :openstack_user_domain_id, :openstack_domain_id,
+                   :openstack_identity_prefix
 
         model_path 'fog/openstack/models/image_v1'
 
@@ -98,8 +100,12 @@ module Fog
 
         class Real
           include Fog::OpenStack::Core
-          include Fog::Image::OpenStack::Common
-          
+
+          def self.not_found_class
+            Fog::Image::OpenStack::NotFound
+          end
+          include Fog::OpenStack::Common
+
           def initialize(options={})
             initialize_identity options
 

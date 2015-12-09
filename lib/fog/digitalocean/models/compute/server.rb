@@ -81,7 +81,6 @@ module Fog
 
         def setup(credentials = {})
           requires :ssh_ip_address
-          require 'net/ssh'
 
           commands = [
             %{mkdir .ssh},

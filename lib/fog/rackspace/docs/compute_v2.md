@@ -120,7 +120,7 @@ To see a list of requests supported by the service:
 	
 This returns:
 
-	:list_servers, :get_server, :create_server, :update_server, :delete_server, :change_server_password, :reboot_server, :rebuild_server, :resize_server, :confirm_resize_server, :revert_resize_server, :list_images, :get_image, :list_flavors, :get_flavor, :attach_volume, :get_attachment, :list_attachments, :delete_attachment
+	:list_servers, :get_server, :create_server, :update_server, :delete_server, :change_server_password, :reboot_server, :rebuild_server, :resize_server, :confirm_resize_server, :revert_resize_server, :list_images, :get_image, :list_flavors, :get_flavor, :attach_volume, :get_attachment, :list_attachments, :delete_attachment, :get_vnc_console
 
 
 #### Example Request

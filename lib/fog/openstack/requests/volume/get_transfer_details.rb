@@ -3,7 +3,7 @@ module Fog
     class OpenStack
       # no Mock needed, test coverage in RSpec
 
-      class Real
+      module Real
         def get_transfer_details(transfer_id)
           request(
             :expects  => 200,

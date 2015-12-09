@@ -24,7 +24,14 @@ module Fog
 
         def map_flavor(flavor)
           flavor = flavor.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }
-          flavor.merge! :id => flavor[:planid], :name => flavor[:label]
+          flavor.merge! :id => flavor[:planid], :name => flavor[:label],
+                        :transfer => flavor[:xfer], :price_hourly => flavor[:hourly],
+                        :available => map_available(flavor[:avail])
+        end
+
+        def map_available(available)
+          return nil unless available
+          available.each_with_object({}) { |(k, v), h| h[k.to_i] = v }
         end
       end
     end

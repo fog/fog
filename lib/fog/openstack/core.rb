@@ -67,6 +67,7 @@ module Fog
       attr_reader :openstack_domain_id
       attr_reader :openstack_user_domain_id
       attr_reader :openstack_project_domain_id
+      attr_reader :openstack_identity_prefix
 
       def initialize_identity options
         # Create @openstack_* instance variables from all :openstack_* options
@@ -157,12 +158,18 @@ module Fog
         # Not all implementations have identity service in the catalog
         if @openstack_identity_public_endpoint || @openstack_management_url
           @identity_connection = Fog::Core::Connection.new(
-            @openstack_identity_public_endpoint || @openstack_management_url,
-            false, @connection_options)
+              @openstack_identity_public_endpoint || @openstack_management_url,
+              false, @connection_options)
         end
 
         true
       end
+    end
+
+    @@token_cache = {}
+
+    def self.clear_token_cache
+      @@token_cache.clear
     end
 
     def self.authenticate(options, connection_options = {})
@@ -261,9 +268,9 @@ module Fog
         raise Fog::Errors::NotFound, message
       end
 
-      if service['endpoints'].count > 1
-        regions = service["endpoints"].map{ |e| e['region'] }.uniq.join(',')
-        raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
+      regions = service["endpoints"].map{ |e| e['region'] }.uniq
+      if regions.count > 1
+        raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions.join(',')}'")
       end
 
       identity_service = get_service(body, identity_service_type) if identity_service_type
@@ -297,7 +304,7 @@ module Fog
 
       token, body = retrieve_tokens_v3 options, connection_options
 
-      service = get_service_v3(body, service_type, service_name, openstack_region)
+      service = get_service_v3(body, service_type, service_name, openstack_region, options)
 
       options[:unscoped_token] = token
 
@@ -359,7 +366,7 @@ module Fog
         raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions.join(',')}'")
       end
 
-      identity_service = get_service_v3(body, identity_service_type, nil, nil, :endpoint_path_matches => /\/v3/) if identity_service_type
+      identity_service = get_service_v3(body, identity_service_type, nil, nil, :openstack_endpoint_path_matches => /\/v3/) if identity_service_type
 
       management_url = service['endpoints'].find { |e| e['interface']==endpoint_type }['url']
       identity_url = identity_service['endpoints'].find { |e| e['interface']=='public' }['url'] if identity_service
@@ -410,7 +417,7 @@ module Fog
       auth_token  = options[:openstack_auth_token] || options[:unscoped_token]
       uri         = options[:openstack_auth_uri]
 
-      connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
+      identity_v2_connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
       request_body = {:auth => Hash.new}
 
       if auth_token
@@ -425,7 +432,7 @@ module Fog
       end
       request_body[:auth][:tenantName] = tenant_name if tenant_name
 
-      response = connection.request({
+      response = identity_v2_connection.request({
         :expects  => [200, 204],
         :headers  => {'Content-Type' => 'application/json'},
         :body     => Fog::JSON.encode(request_body),
@@ -504,17 +511,19 @@ module Fog
       end
       request_body[:auth][:scope] = scope unless scope.empty?
 
-      puts "request_body: #{request_body}" if user_domain=='Default2'
+      path     = (uri.path and not uri.path.empty?) ? uri.path : 'v3'
 
-      response = connection.request({
-                                        :expects => [201],
-                                        :headers => {'Content-Type' => 'application/json'},
-                                        :body => Fog::JSON.encode(request_body),
-                                        :method => 'POST',
-                                        :path => (uri.path and not uri.path.empty?) ? uri.path : 'v2.0'
-                                    })
+      response, expires = @@token_cache[{body: request_body, path: path}]
 
-      puts "response.body: #{response.body}" if user_domain=='Default2'
+      unless response && expires > Time.now
+        response = connection.request({   :expects => [201],
+                                          :headers => {'Content-Type' => 'application/json'},
+                                          :body    => Fog::JSON.encode(request_body),
+                                          :method  => 'POST',
+                                          :path    => path
+                                      })
+        @@token_cache[{body: request_body, path: path}] = response, Time.now + 30 # 30-second TTL, enough for most requests
+      end
 
       [response.headers["X-Subject-Token"], Fog::JSON.decode(response.body)]
     end
@@ -532,7 +541,7 @@ module Fog
 
       # Filter the found services by region (if specified) and whether the endpoint path matches the given regex (e.g. /\/v3/)
       services.find do |s|
-        s['endpoints'].any? { |ep| endpoint_region?(ep, region) && endpoint_path_match?(ep, options[:endpoint_path_matches])}
+        s['endpoints'].any? { |ep| endpoint_region?(ep, region) && endpoint_path_match?(ep, options[:openstack_endpoint_path_matches])}
       end if services
 
     end
@@ -573,7 +582,11 @@ module Fog
     end
 
     def self.get_supported_version_path(supported_versions, uri, auth_token, connection_options = {})
-      connection = Fog::Core::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, connection_options)
+      # Find a version in the path (e.g. the v1 in /xyz/v1/tenantid/abc) and get the path up until that version (e.g. /xyz))
+      path_components = uri.path.split '/'
+      version_component_index = path_components.index{|comp| comp.match(/v[0-9].?[0-9]?/) }
+      versionless_path = (path_components.take(version_component_index).join '/' if version_component_index) || ''
+      connection = Fog::Core::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}#{versionless_path}", false, connection_options)
       response = connection.request({
                                         :expects => [200, 204, 300],
                                         :headers => {'Content-Type' => 'application/json',

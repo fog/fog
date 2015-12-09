@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = "fog"
-  s.version           = "2.0.0.pre.0"
-  s.date              = "2015-09-15"
+  s.version           = "1.36.0"
+  s.date              = "2015-11-16"
   s.rubyforge_project = "fog"
 
   ## Make sure your summary is short. The description may be as long
@@ -44,15 +44,11 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.md]
 
-  ## Ruby version
-  s.required_ruby_version = ">= 1.9.3"
-
   s.add_dependency("fog-core", "~> 1.32")
   s.add_dependency("fog-json")
   s.add_dependency("fog-xml", "~> 0.1.1")
 
   s.add_dependency("ipaddress", "~> 0.5")
-  s.add_dependency("nokogiri")
 
   # Modular providers (please keep sorted)
   s.add_dependency("fog-atmos")
@@ -60,7 +56,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-brightbox", "~> 0.4")
   s.add_dependency("fog-dynect", "~> 0.0.2")
   s.add_dependency("fog-ecloud", "~> 0.1")
-  s.add_dependency("fog-google", ">= 0.0.2")
+  s.add_dependency("fog-google", "<= 0.1.0")
   s.add_dependency("fog-local")
   s.add_dependency("fog-powerdns", ">= 0.1.1")
   s.add_dependency("fog-profitbricks")
@@ -73,7 +69,9 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-terremark")
   s.add_dependency("fog-vmfusion")
   s.add_dependency("fog-voxel")
+  s.add_dependency("fog-vsphere", "~> 0.2")
   s.add_dependency("fog-xenserver")
+  s.add_dependency("fog-aliyun",">= 0.1.0")
 
   s.add_development_dependency("docker-api", ">= 1.13.6")
   s.add_development_dependency("fission")
@@ -84,7 +82,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rake")
   s.add_development_dependency("rbovirt", "0.0.32")
   s.add_development_dependency("rbvmomi")
-  s.add_development_dependency("rubocop") if RUBY_VERSION > "1.9"
+  s.add_development_dependency("rubocop")
   s.add_development_dependency("shindo", "~> 0.3.4")
   s.add_development_dependency("simplecov")
   s.add_development_dependency("thor")
@@ -92,7 +90,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rspec-core")
   s.add_development_dependency("rspec-expectations")
   s.add_development_dependency("vcr")
-  s.add_development_dependency("webmock")
+  s.add_development_dependency("webmock","~>1.22.2")
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {spec,tests}/*`.split("\n")

@@ -6,6 +6,7 @@ module Fog
       class DataCenter < Fog::Model
         identity :id
         attribute :location
+        attribute :abbr
       end
     end
   end

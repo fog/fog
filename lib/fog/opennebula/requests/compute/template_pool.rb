@@ -21,6 +21,9 @@
 # OS=[
 #     ARCH="x86_64",
 #     BOOT="network,hd" ]
+# RAW=[
+#   DATA="<cpu match='exact'><model fallback='allow'>core2duo</model></cpu>",
+#   TYPE="kvm" ]
 
 
 module Fog
@@ -37,7 +40,7 @@ module Fog
             templates.info!(-2, filter[:id], filter[:id])
           end # if filter[:id].nil?
 
-          templates = templates.map do |t| 
+          templates = templates.map do |t|
             # filtering by name
             # done here, because OpenNebula:TemplatePool does not support something like .delete_if
             if filter[:name] && filter[:name].is_a?(String) && !filter[:name].empty?
@@ -51,8 +54,8 @@ module Fog
             end
 
             h = Hash[
-              :id => t.to_hash["VMTEMPLATE"]["ID"], 
-              :name => t.to_hash["VMTEMPLATE"]["NAME"], 
+              :id => t.to_hash["VMTEMPLATE"]["ID"],
+              :name => t.to_hash["VMTEMPLATE"]["NAME"],
               :content => t.template_str,
               :USER_VARIABLES => "" # Default if not set in template
             ]
@@ -67,7 +70,7 @@ module Fog
                   vnet = networks.get(n["NETWORK_ID"].to_s)
                 elsif n["NETWORK"]
                   vnet = networks.get_by_name(n["NETWORK"].to_s)
-                else 
+                else
                   next
                 end
                 h["NIC"] << interfaces.new({ :vnet => vnet, :model => n["MODEL"] || "virtio" })
@@ -87,15 +90,15 @@ module Fog
             else
               # should i break?
             end
-          
+
             # every key should be lowercase
             ret_hash = {}
-            h.each_pair do |k,v| 
-              ret_hash.merge!({k.downcase => v}) 
+            h.each_pair do |k,v|
+              ret_hash.merge!({k.downcase => v})
             end
             ret_hash
           end
-          
+
           templates.delete nil
           raise Fog::Compute::OpenNebula::NotFound, "Flavor/Template not found" if templates.empty?
           templates
@@ -107,7 +110,7 @@ module Fog
           nic1 = Mock_nic.new
           nic1.vnet = networks.first
 
-          [ 
+          [
             {
               :content => %Q{
                 NAME = mock-vm
@@ -131,14 +134,14 @@ module Fog
                 'ARCH' => 'x86_64'
               },
               :graphics => {},
-              :raw => {},
+              :raw => %|["DATA"=>"<cpu match='exact'><model fallback='allow'>core2duo</model></cpu>", "TYPE"=>"kvm"]|,
               :context => {},
               :user_variables => {}
             }
           ]
         end
 
-        class Mock_nic 
+        class Mock_nic
           attr_accessor :vnet
 
           def id

@@ -27,7 +27,7 @@ module Fog
         alias_method :get, :find_by_uuid
 
         def destroy(uuid)
-          node = self.find_by_id(uuid)
+          node = self.find_by_uuid(uuid)
           node.destroy
         end
 

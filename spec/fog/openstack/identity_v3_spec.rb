@@ -11,19 +11,32 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
   include_context 'OpenStack specs with VCR'
   before :all do
+    VCR_USER_ID='a18abc2039d6493aa7239a42033cc7c9'
+    VCR_USER_NAME='admin'
+    VCR_PASSWORD='devstack'
+    VCR_DOMAIN_ID='default'
+    VCR_DOMAIN_NAME='Default'
+    VCR_PROJECT_NAME='admin'
+    VCR_REGION='RegionOne'
+
     setup_vcr_and_service(
-      :vcr_directory => 'spec/fog/openstack/identity_v3',
-      :service_class => Fog::Identity::OpenStack::V3
+        :vcr_directory => 'spec/fog/openstack/identity_v3',
+        :service_class => Fog::Identity::OpenStack::V3,
+        :username => VCR_USER_NAME,
+        :password => VCR_PASSWORD,
+        :project_name => VCR_PROJECT_NAME,
+        :domain_name => VCR_DOMAIN_NAME,
+        :region_name => VCR_REGION
     )
   end
 
   it 'authenticates with password, userid and domain_id' do
     VCR.use_cassette('authv3_a') do
       Fog::Identity::OpenStack::V3.new(
-          :openstack_domain_id => ENV['OS_USER_DOMAIN_ID'] || 'default',
-          :openstack_api_key => ENV['OS_PASSWORD'] || 'password',
-          :openstack_userid => ENV['OS_USER_ID'] || 'aa9f25defa6d4cafb48466df83106065',
-          :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
+          :openstack_domain_id => ENV['OS_USER_DOMAIN_ID'] || VCR_DOMAIN_ID,
+          :openstack_api_key => ENV['OS_PASSWORD'] || VCR_PASSWORD,
+          :openstack_userid => ENV['OS_USER_ID'] || VCR_USER_ID,
+          :openstack_region => ENV['OS_REGION_NAME'] || VCR_REGION,
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
     end
   end
@@ -31,10 +44,10 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it 'authenticates with password, username and domain_id' do
     VCR.use_cassette('authv3_b') do
       Fog::Identity::OpenStack::V3.new(
-          :openstack_domain_id => ENV['OS_USER_DOMAIN_ID'] || 'default',
-          :openstack_api_key => ENV['OS_PASSWORD'] || 'password',
-          :openstack_username => ENV['OS_USERNAME'] || 'admin',
-          :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
+          :openstack_domain_id => ENV['OS_USER_DOMAIN_ID'] || VCR_DOMAIN_ID,
+          :openstack_api_key => ENV['OS_PASSWORD'] || VCR_PASSWORD,
+          :openstack_username => ENV['OS_USERNAME'] || VCR_USER_NAME,
+          :openstack_region => ENV['OS_REGION_NAME'] || VCR_REGION,
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
     end
   end
@@ -42,10 +55,10 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it 'authenticates with password, username and domain_name' do
     VCR.use_cassette('authv3_c') do
       Fog::Identity::OpenStack::V3.new(
-          :openstack_user_domain => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
-          :openstack_api_key => ENV['OS_PASSWORD'] || 'password',
-          :openstack_username => ENV['OS_USERNAME'] || 'admin',
-          :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
+          :openstack_user_domain => ENV['OS_USER_DOMAIN_NAME'] || VCR_DOMAIN_NAME,
+          :openstack_api_key => ENV['OS_PASSWORD'] || VCR_PASSWORD,
+          :openstack_username => ENV['OS_USERNAME'] || VCR_USER_NAME,
+          :openstack_region => ENV['OS_REGION_NAME'] || VCR_REGION,
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
     end
   end
@@ -60,8 +73,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       @fog = Fog::Identity::OpenStack::V3.new({
                                                   :openstack_region => ENV['OS_REGION_OTHER']||'europe',
                                                   :openstack_auth_url => "#{@os_auth_url}/auth/tokens",
-                                                  :openstack_userid => ENV['OS_USER_ID'] || 'aa9f25defa6d4cafb48466df83106065',
-                                                  :openstack_api_key => ENV['OS_PASSWORD'] || "password"
+                                                  :openstack_userid => ENV['OS_USER_ID'] || VCR_USER_ID,
+                                                  :openstack_api_key => ENV['OS_PASSWORD'] || VCR_PASSWORD
                                               })
       expect(@fog).to_not be_nil
     end unless endpoints_in_region.empty?
@@ -71,15 +84,15 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
     VCR.use_cassette('authv3_unscoped_reauth') do
 
       id_v3 = Fog::Identity::OpenStack::V3.new(
-          :openstack_api_key => ENV['OS_PASSWORD'] || 'password',
-          :openstack_userid => ENV['OS_USER_ID'] || 'aa9f25defa6d4cafb48466df83106065',
-          :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
+          :openstack_api_key => ENV['OS_PASSWORD'] || VCR_PASSWORD,
+          :openstack_userid => ENV['OS_USER_ID'] || VCR_USER_ID,
+          :openstack_region => ENV['OS_REGION_NAME'] || VCR_REGION,
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
 
       auth_params = {:provider => "openstack",
                      :openstack_auth_token => id_v3.credentials[:openstack_auth_token],
                      :openstack_auth_url => "#{@os_auth_url}/auth/tokens",
-                     :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne'}
+                     :openstack_region => ENV['OS_REGION_NAME'] || VCR_REGION}
       @fog2 = Fog::Identity::OpenStack::V3.new(auth_params)
 
       expect(@fog2).to_not be_nil
@@ -92,11 +105,11 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it 'authenticates with project scope' do
     VCR.use_cassette('authv3_project') do
       Fog::Identity::OpenStack::V3.new(
-          :openstack_project_name => ENV['OS_PROJECT_NAME'] || 'admin',
-          :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
-          :openstack_api_key => ENV['OS_PASSWORD'] || 'password',
-          :openstack_username => ENV['OS_USERNAME'] || 'admin',
-          :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
+          :openstack_project_name => ENV['OS_PROJECT_NAME'] || VCR_PROJECT_NAME,
+          :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || VCR_DOMAIN_NAME,
+          :openstack_api_key => ENV['OS_PASSWORD'] || VCR_PASSWORD,
+          :openstack_username => ENV['OS_USERNAME'] || VCR_USER_NAME,
+          :openstack_region => ENV['OS_REGION_NAME'] || VCR_REGION,
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
     end
   end
@@ -105,18 +118,18 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
     VCR.use_cassette('authv3_unscoped') do
 
       id_v3 = Fog::Identity::OpenStack::V3.new(
-          :openstack_api_key => ENV['OS_PASSWORD'] || 'password',
-          :openstack_userid => ENV['OS_USER_ID']||'aa9f25defa6d4cafb48466df83106065',
-          :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
+          :openstack_api_key => ENV['OS_PASSWORD'] || VCR_PASSWORD,
+          :openstack_userid => ENV['OS_USER_ID']||VCR_USER_ID,
+          :openstack_region => ENV['OS_REGION_NAME'] || VCR_REGION,
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
 
       # Exchange it for a project-scoped token
       auth = Fog::Identity::OpenStack::V3.new(
-          :openstack_project_name => ENV['OS_PROJECT_NAME'] || 'admin',
-          :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
-          :openstack_tenant => ENV['OS_USERNAME'] || 'admin',
+          :openstack_project_name => ENV['OS_PROJECT_NAME'] || VCR_PROJECT_NAME,
+          :openstack_domain_name => ENV['OS_USER_DOMAIN_NAME'] || VCR_DOMAIN_NAME,
+          :openstack_tenant => ENV['OS_USERNAME'] || VCR_USER_NAME,
           :openstack_auth_token => id_v3.credentials[:openstack_auth_token],
-          :openstack_region => ENV['OS_REGION_NAME'] || 'RegionOne',
+          :openstack_region => ENV['OS_REGION_NAME'] || VCR_REGION,
           :openstack_auth_url => "#{@os_auth_url}/auth/tokens")
 
       token = auth.credentials[:openstack_auth_token]
@@ -135,7 +148,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
       expect { nonexistent_user = @service.users.find_by_id 'u-random-blah' }.to raise_error(Fog::Identity::OpenStack::NotFound)
 
-      admin_user = @service.users.find_by_name ENV['OS_USERNAME'] || 'admin'
+      admin_user = @service.users.find_by_name ENV['OS_USERNAME'] || VCR_USER_NAME
       expect(admin_user.length).to be 1
 
       users = @service.users
@@ -167,8 +180,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
       # Create a user called foobar
       foobar_user = @service.users.create(:name => 'foobar',
-                                        :email => 'foobar@example.com',
-                                        :password => 's3cret!')
+                                          :email => 'foobar@example.com',
+                                          :password => 's3cret!')
       foobar_id = foobar_user.id
       expect(@service.users.find_by_name('foobar').length).to be 1
 
@@ -186,8 +199,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
       # Try to create the user again
       expect { @service.users.create(:name => 'baz',
-                                   :email => 'foobar@example.com',
-                                   :password => 's3cret!') }.to raise_error(Excon::Errors::Conflict)
+                                     :email => 'foobar@example.com',
+                                     :password => 's3cret!') }.to raise_error(Excon::Errors::Conflict)
 
       # Delete the user
       baz_user.destroy
@@ -227,13 +240,13 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       #foobar_user1 = @service.users.find_by_name('foobar1').first
       #foobar_user1.destroy if foobar_user1
       foobar_user1 = @service.users.create(:name => 'foobar1',
-                                         :email => 'foobar1@example.com',
-                                         :password => 's3cret!1')
+                                           :email => 'foobar1@example.com',
+                                           :password => 's3cret!1')
       #foobar_user2 = @service.users.find_by_name('foobar2').first
       #foobar_user2.destroy if foobar_user2
       foobar_user2 = @service.users.create(:name => 'foobar2',
-                                         :email => 'foobar2@example.com',
-                                         :password => 's3cret!2')
+                                           :email => 'foobar2@example.com',
+                                           :password => 's3cret!2')
 
       expect(foobar_user1.groups.length).to be 0
       expect(baz_group.users.length).to be 0
@@ -271,10 +284,10 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it "gets a token, checks it and then revokes it" do
     VCR.use_cassette('idv3_token') do
       auth = {:auth => {:identity => {:methods => %w{password},
-                                      :password => {:user => {:id => ENV['OS_USER_ID']||'aa9f25defa6d4cafb48466df83106065',
-                                                              :password => ENV['OS_PASSWORD']||'password'}}},
-                        :scope => {:project => {:domain => {:name => ENV['OS_USER_DOMAIN_NAME']||'Default'},
-                                                :name => ENV['OS_PROJECT_NAME']||'admin'}}}}
+                                      :password => {:user => {:id => ENV['OS_USER_ID']||VCR_USER_ID,
+                                                              :password => ENV['OS_PASSWORD']||VCR_PASSWORD}}},
+                        :scope => {:project => {:domain => {:name => ENV['OS_USER_DOMAIN_NAME']||VCR_DOMAIN_NAME},
+                                                :name => ENV['OS_PROJECT_NAME']||VCR_PROJECT_NAME}}}}
 
       token = @service.tokens.authenticate(auth)
       expect(token).to_not be_nil
@@ -297,9 +310,9 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       begin
 
         foobar_user = @service.users.create(:name => 'foobar_385',
-                                          :email => 'foobar_demo@example.com',
-                                          :domain_id => ENV['OS_USER_DOMAIN_ID'] || 'default',
-                                          :password => 's3cret!')
+                                            :email => 'foobar_demo@example.com',
+                                            :domain_id => ENV['OS_USER_DOMAIN_ID'] || VCR_DOMAIN_ID,
+                                            :password => 's3cret!')
 
         foobar_role = @service.roles.create(:name => 'foobar_role390')
         foobar_user.grant_role(foobar_role.id)
@@ -308,20 +321,20 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
             :openstack_domain_id => foobar_user.domain_id,
             :openstack_api_key => 's3cret!',
             :openstack_username => 'foobar_385',
-            :openstack_region => ENV['OS_REGION_NAME']||'europe',
+            :openstack_region => ENV['OS_REGION_NAME']||VCR_REGION,
             :openstack_auth_url => auth_url)
 
         # Test - check the token validity by using it to create a new Fog::Identity::OpenStack::V3 instance
         token_check = Fog::Identity::OpenStack::V3.new(
             :openstack_auth_token => nonadmin_v3.auth_token,
-            :openstack_region => ENV['OS_REGION_NAME']||'europe',
+            :openstack_region => ENV['OS_REGION_NAME']||VCR_REGION,
             :openstack_auth_url => auth_url)
 
         expect(token_check).to_not be_nil
 
         expect { Fog::Identity::OpenStack::V3.new(
             :openstack_auth_token => 'blahblahblah',
-            :openstack_region => ENV['OS_REGION_NAME']||'europe',
+            :openstack_region => ENV['OS_REGION_NAME']||VCR_REGION,
             :openstack_auth_url => auth_url) }.to raise_error(Excon::Errors::NotFound)
       ensure
         # Clean up
@@ -345,7 +358,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       expect(domains_all).to_not be_nil
       expect(domains_all.length).to_not be 0
 
-      default_domain = @service.domains.find_by_id ENV['OS_USER_DOMAIN_ID']||'default'
+      default_domain = @service.domains.find_by_id ENV['OS_USER_DOMAIN_ID']||VCR_DOMAIN_ID
       expect(default_domain).to_not be_nil
 
       expect { @service.domains.find_by_id 'atlantis' }.to raise_error(Fog::Identity::OpenStack::NotFound)
@@ -395,8 +408,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
     VCR.use_cassette('idv3_domain_roles_mutation') do
       begin
         foobar_user = @service.users.create(:name => 'foobar_role_user',
-                                          :email => 'foobar@example.com',
-                                          :password => 's3cret!')
+                                            :email => 'foobar@example.com',
+                                            :password => 's3cret!')
 
         # User has no roles initially
         expect(foobar_user.roles.length).to be 0
@@ -423,7 +436,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         foobar_user.revoke_role(foobar_role.id)
         expect(foobar_user.check_role(foobar_role.id)).to be false
       ensure
-        foobar_user = @service.users.find_by_name('u-foobar_role_user').first unless foobar_user
+        foobar_user = @service.users.find_by_name('foobar_role_user').first unless foobar_user
         foobar_user.destroy if foobar_user
         foobar_role = @service.roles.all.select { |role| role.name == 'foobar_role' }.first unless foobar_role
         foobar_role.destroy if foobar_role
@@ -441,14 +454,14 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
         # Create a group in this domain
         foobar_group = @service.groups.create(:name => 'g-foobar',
-                                            :description => "Group of Foobar users",
-                                            :domain_id => foobar_domain.id)
+                                              :description => "Group of Foobar users",
+                                              :domain_id => foobar_domain.id)
 
         # Create a user in the domain
         foobar_user = @service.users.create(:name => 'u-foobar_foobar',
-                                          :email => 'foobar@example.com',
-                                          :password => 's3cret!',
-                                          :domain_id => foobar_domain.id)
+                                            :email => 'foobar@example.com',
+                                            :password => 's3cret!',
+                                            :domain_id => foobar_domain.id)
 
         # User has no roles initially
         expect(foobar_user.roles.length).to be 0
@@ -535,14 +548,19 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         baz_role = @service.roles.find_by_id foobar_id
         expect(baz_role).to_not be_nil
         expect(baz_role.name).to eq 'baz23'
-      ensure
-        # Delete the role
-        baz_role.destroy if baz_role
+        baz_role.destroy
+        baz_role = nil
         # Check that the deletion worked
         expect { @service.roles.find_by_id foobar_id }.to raise_error(Fog::Identity::OpenStack::NotFound) if foobar_id
         ['foobar23', 'baz23'].each do |role_name|
           expect(@service.roles.all(:name => role_name).length).to be 0
         end
+      ensure
+        # Delete the roles
+        foobar_by_name = @service.roles.all(:name => 'foobar23').first
+        foobar_by_name.destroy if foobar_by_name
+        baz_by_name = @service.roles.all(:name => 'baz23').first
+        baz_by_name.destroy if baz_by_name
       end
     end
   end
@@ -567,7 +585,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it "CRUD projects" do
     VCR.use_cassette('idv3_project_crud') do
 
-      default_domain = @service.domains.find_by_id ENV['OS_USER_DOMAIN_ID']||'default'
+      default_domain = @service.domains.find_by_id ENV['OS_USER_DOMAIN_ID']||VCR_DOMAIN_ID
 
       begin
         # Create a project called foobar - should not work without domain id?
@@ -602,7 +620,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
   it "CRUD & list hierarchical projects" do
     VCR.use_cassette('idv3_project_hier_crud_list') do
 
-      default_domain = @service.domains.find_by_id ENV['OS_USER_DOMAIN_ID']||'default'
+      default_domain = @service.domains.find_by_id ENV['OS_USER_DOMAIN_ID']||VCR_DOMAIN_ID
 
       begin
         # Create a project called foobar
@@ -650,7 +668,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         foobar_kids = @service.projects.find_by_id(foobar_id, :subtree_as_list).subtree
         expect(foobar_kids.length).to eq 3
         expect([foobar_kids[0].id,foobar_kids[1].id,foobar_kids[2].id].sort
-          ).to eq [baz_id, boo_id, booboo_id].sort
+        ).to eq [baz_id, boo_id, booboo_id].sort
 
         # Create a another sub-project of boo called fooboo and check that it appears in the parent's subtree
         fooboo_project = @service.projects.create(:name => 'p-fooboo67', :parent_id => boo_id)
@@ -714,19 +732,19 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
         # Create a user
         foobar_user = @service.users.create(:name => 'u-foobar69',
-                                          :email => 'foobar@example.com',
-                                          :password => 's3cret!')
+                                            :email => 'foobar@example.com',
+                                            :password => 's3cret!')
 
         # Create a group and add the user to it
         foobar_group = @service.groups.create(:name => 'g-foobar69',
-                                            :description => "Group of Foobar users")
+                                              :description => "Group of Foobar users")
         foobar_group.add_user foobar_user.id
 
         # User has no projects initially
         expect(foobar_user.projects.length).to be 0
         expect(@service.role_assignments.all(:user_id => foobar_user.id,
-                                           :project_id => foobar_project.id,
-                                           :effective => true).length).to be 0
+                                             :project_id => foobar_project.id,
+                                             :effective => true).length).to be 0
         expect(foobar_project.user_roles(foobar_user.id).length).to be 0
 
         # Grant role to the user in the new project - this assigns the project to the user
@@ -744,8 +762,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
         expect(foobar_project.group_roles(foobar_group.id).length).to be 0
 
         expect(@service.role_assignments.all(:user_id => foobar_user.id,
-                                           :project_id => foobar_project.id,
-                                           :effective => true).length).to be 0
+                                             :project_id => foobar_project.id,
+                                             :effective => true).length).to be 0
 
         # Grant role to the group in the new project - this assigns the project to the group
         foobar_project.grant_role_to_group(baz_role.id, foobar_group.id)
@@ -754,8 +772,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
         # Now we check that a user has the role in that project
         assignments = @service.role_assignments.all(:user_id => foobar_user.id,
-                                                  :project_id => foobar_project.id,
-                                                  :effective => true)
+                                                    :project_id => foobar_project.id,
+                                                    :effective => true)
         expect(assignments.length).to be 1
         expect(assignments.first.role['id']).to eq baz_role.id
         expect(assignments.first.user['id']).to eq foobar_user.id
@@ -859,10 +877,10 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       begin
         # Create a endpoint called foobar
         foobar_endpoint = @service.endpoints.create(:service_id => service.id,
-                                                  :interface => 'internal',
-                                                  :name => 'foobar',
-                                                  :url => 'http://example.com/foobar',
-                                                  :enabled => false)
+                                                    :interface => 'internal',
+                                                    :name => 'foobar',
+                                                    :url => 'http://example.com/foobar',
+                                                    :enabled => false)
         foobar_id = foobar_endpoint.id
         expect(@service.endpoints.all(:interface => 'internal').select { |endpoint| endpoint.name == 'foobar' }.length).to be 1
 
@@ -907,8 +925,8 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
       begin
         # Create a user
         foobar_user = @service.users.create(:name => 'u-foobar_cred',
-                                          :email => 'foobar@example.com',
-                                          :password => 's3cret!')
+                                            :email => 'foobar@example.com',
+                                            :password => 's3cret!')
         project = @service.projects.all.first
 
         access_key = '9c4e774a-f644-498f-90c4-970b3f817fc5'
@@ -926,9 +944,9 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
         # Create a credential
         foo_credential = @service.os_credentials.create(:type => 'ec2',
-                                                      :project_id => project.id,
-                                                      :user_id => foobar_user.id,
-                                                      :blob => blob_json)
+                                                        :project_id => project.id,
+                                                        :user_id => foobar_user.id,
+                                                        :blob => blob_json)
         credential_id = foo_credential.id
         expect(@service.os_credentials.all.select { |credential| credential.type == 'ec2' }.length).to be 1
 
@@ -988,7 +1006,7 @@ RSpec.describe Fog::Identity::OpenStack::V3 do
 
       # Create a policy
       foo_policy = @service.policies.create(:type => 'application/json',
-                                          :blob => blob)
+                                            :blob => blob)
       policy_id = foo_policy.id
       expect(@service.policies.all.select { |policy| policy.type == 'application/json' }.length).to be 1
 

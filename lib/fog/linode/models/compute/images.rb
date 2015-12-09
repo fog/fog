@@ -25,7 +25,8 @@ module Fog
         def map_image(image)
           image = image.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }
           image.merge!(:id => image[:distributionid], :name => image[:label], :image_size => image[:minimagesize],
-                       :kernel_id => image[:requirespvopskernel], :bits => ((image[:is64bit] == 1) ? 64 : 32 ))
+                       :requires_pvops_kernel => image[:requirespvopskernel], :bits => ((image[:is64bit] == 1) ? 64 : 32 ),
+                       :created_at => image[:create_dt])
         end
       end
     end

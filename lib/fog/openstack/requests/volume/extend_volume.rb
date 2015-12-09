@@ -1,7 +1,7 @@
 module Fog
   module Volume
     class OpenStack
-      class Real
+      module Real
         def extend_volume(volume_id, size)
           body = { 'os-extend' => { 'new_size' => size } }
           request(
@@ -13,7 +13,7 @@ module Fog
         end
       end
 
-      class Mock
+      module Mock
         def extend_volume(volume_id, size)
           response = Excon::Response.new
           response.status = 202

@@ -153,6 +153,11 @@ module Fog
         # @see http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot
         attribute :boot_volume_id
 
+        # @!attribute [w] boot_volume_size
+        # @return [Integer] The Size of the boot volume to be created by the BlockStorage service.
+        # @see http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot
+        attribute :boot_volume_size
+
         # @!attribute [w] boot_image_id
         # @return [String] The ID of an image to create a bootable volume from.
         # @see http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot
@@ -264,6 +269,7 @@ module Fog
           modified_options[:key_name] ||= attributes[:key_name]
           modified_options[:boot_volume_id] ||= attributes[:boot_volume_id]
           modified_options[:boot_image_id] ||= attributes[:boot_image_id]
+          modified_options[:boot_volume_size] ||= attributes[:boot_volume_size]
 
           if modified_options[:networks]
             modified_options[:networks].map! { |id| { :uuid => id } }
@@ -612,6 +618,20 @@ module Fog
           @virtual_interfaces ||= Fog::Compute::RackspaceV2::VirtualInterfaces.new :server => self, :service => service
         end
 
+        # VNC Console URL
+        # @param [String] Type of vnc console to get ('novnc' or 'xvpvnc')
+        # @return [String] returns URL to vnc console
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
+        # @note This URL will time out due to inactivity
+        def get_vnc_console(console_type = "xvpvnc")
+          requires :identity
+          data = service.get_vnc_console(identity, console_type)
+          data.body['console']['url']
+        end
+
         private
 
         def adminPass=(new_admin_pass)
@@ -619,7 +639,11 @@ module Fog
         end
 
         def password_lock
-          "passwd -l #{username}" unless attributes[:no_passwd_lock]
+          if !attributes[:no_passwd_lock].nil?
+            Fog::Logger.warning("Rackspace[:no_passwd_lock] is deprecated since it is now the default behavior, use Rackspace[:passwd_lock] instead")
+          end
+
+          "passwd -l #{username}" if attributes[:passwd_lock]
         end
 
         def user_data_encoded

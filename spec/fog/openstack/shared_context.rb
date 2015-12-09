@@ -1,11 +1,15 @@
 require 'rspec/core'
 require 'rspec/expectations'
 require 'vcr'
+require 'fog/openstack/core'
 require 'fog/openstack/identity'
 require 'fog/openstack/identity_v3'
 require 'fog/openstack/image'
 require 'fog/openstack/image_v1'
 require 'fog/openstack/image_v2'
+require 'fog/openstack/volume'
+require 'fog/openstack/volume_v1'
+require 'fog/openstack/volume_v2'
 require 'fog/openstack/network'
 
 #
@@ -43,8 +47,14 @@ RSpec.shared_context 'OpenStack specs with VCR' do
       Fog.interval = 0
       # use an auth URL that matches our VCR recordings (IdentityV2 for most
       # services, but IdentityV3 test obviously needs IdentityV3 auth URL)
-      if [Fog::Identity::OpenStack::V3, Fog::Image::OpenStack, Fog::Image::OpenStack::V1, Fog::Network::OpenStack].include? @service_class
-        @os_auth_url = 'http://devstack.openstack.stack:5000/v3'
+      if [Fog::Identity::OpenStack::V3,
+          Fog::Volume::OpenStack,
+          Fog::Volume::OpenStack::V1,
+          Fog::Volume::OpenStack::V2,
+          Fog::Image::OpenStack,
+          Fog::Image::OpenStack::V1,
+          Fog::Network::OpenStack].include? @service_class
+        @os_auth_url = ENV['OS_AUTH_URL']||'http://devstack.openstack.stack:5000/v3'
       else
         @os_auth_url = 'http://devstack.openstack.stack:5000/v2.0'
       end
@@ -73,28 +83,32 @@ RSpec.shared_context 'OpenStack specs with VCR' do
 
     # setup the service object
     VCR.use_cassette('common_setup') do
+      Fog::OpenStack.clear_token_cache
+
       if @service_class == Fog::Identity::OpenStack::V3 || @os_auth_url.end_with?('/v3')
         options = {
           :openstack_auth_url     => "#{@os_auth_url}/auth/tokens",
-          :openstack_region       => ENV['OS_REGION_NAME']      || 'RegionOne',
-          :openstack_api_key      => ENV['OS_PASSWORD']         || 'password',
-          :openstack_username     => ENV['OS_USERNAME']         || 'admin',
-          :openstack_domain_name  => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
-          :openstack_project_name => ENV['OS_PROJECT_NAME']     || 'admin'
+          :openstack_region       => ENV['OS_REGION_NAME'] || options[:region_name]     || 'RegionOne',
+          :openstack_api_key      => ENV['OS_PASSWORD']    || options[:password]        || 'password',
+          :openstack_username     => ENV['OS_USERNAME']    || options[:username]        || 'admin',
+          :openstack_domain_name  => ENV['OS_USER_DOMAIN_NAME']|| options[:domain_name] || 'Default',
+          :openstack_project_name => ENV['OS_PROJECT_NAME']|| options[:project_name]    || 'admin'
         }
+        options[:openstack_service_type] = [ENV['OS_AUTH_SERVICE']] if ENV['OS_AUTH_SERVICE']
       else
         options = {
           :openstack_auth_url       => "#{@os_auth_url}/tokens",
-          :openstack_region         => ENV['OS_REGION_NAME']         || 'RegionOne',
-          :openstack_api_key        => ENV['OS_PASSWORD']            || 'devstack',
-          :openstack_username       => ENV['OS_USERNAME']            || 'admin',
-          :openstack_tenant         => ENV['OS_PROJECT_NAME']        || 'admin'
+          :openstack_region         => ENV['OS_REGION_NAME']  || options[:region_name]  || 'RegionOne',
+          :openstack_api_key        => ENV['OS_PASSWORD']     || options[:password]     || 'devstack',
+          :openstack_username       => ENV['OS_USERNAME']     || options[:username]     || 'admin',
+          :openstack_tenant         => ENV['OS_PROJECT_NAME'] || options[:project_name] || 'admin'
           # FIXME: Identity V3 not properly supported by other services yet
           # :openstack_user_domain    => ENV['OS_USER_DOMAIN_NAME']    || 'Default',
           # :openstack_project_domain => ENV['OS_PROJECT_DOMAIN_NAME'] || 'Default',
         }
       end
-      @service = @service_class.new(options) unless @service
+      @service = @service_class.new(options)
+
     end
   end
 
