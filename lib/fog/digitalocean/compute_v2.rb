@@ -27,6 +27,7 @@ module Fog
       request :enable_ipv6
       request :enable_private_networking
       request :get_droplet_action
+      request :get_image_details
       request :get_server_details
       request :get_ssh_key
       request :list_droplet_actions
