@@ -225,6 +225,7 @@ module Fog
       request :post_power_off_vapp
       request :post_power_on_vapp
       request :post_reboot_vapp
+      request :post_reconfigure_vm
       request :post_remove_all_snapshots
       request :post_reset_vapp
       request :post_revert_snapshot

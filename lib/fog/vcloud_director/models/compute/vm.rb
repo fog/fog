@@ -154,7 +154,20 @@ module Fog
             service.process_task(response.body)
           end
         end
-
+        
+        # Reconfigure a VM using any of the options documented in
+        # post_reconfigure_vm
+        def reconfigure(options)
+          options[:name] ||= name # name has to be sent
+          # Delete those things that are not changing for performance
+          [:cpu, :memory].each do |k|
+            options.delete(k) if options.key? k and options[k] == attributes[k]
+          end
+          response = service.post_reconfigure_vm(id, options)
+          service.process_task(response.body)
+          reload_single_vm
+        end
+        
         def ready?
           reload
           status == 'on'
