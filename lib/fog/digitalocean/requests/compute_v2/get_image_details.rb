@@ -6,7 +6,7 @@ module Fog
           request(
             :expects => [200],
             :method  => 'GET',
-            :path    => "/v2/images/#{server_id}"
+            :path    => "/v2/images/#{image_id}"
           )
         end
       end
@@ -33,7 +33,6 @@ module Fog
                 'min_disk_size' => 20
               }
             }
-          }
 
           response
         end
