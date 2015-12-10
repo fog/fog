@@ -105,6 +105,70 @@ module Fog
           end_point
         end
       end
+      
+      class Mock
+        # Assume the template is a single VM with one network interface.
+        def instantiate_vapp_template(vapp_name, template_id, options={})          
+          unless data[:catalog_items].values.find {|i| i[:template_id] == template_id}
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'No such template.'
+            )
+          end
+          unless vdc = data[:vdcs][options[:vdc_id]]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'No such VDC.'
+            )
+          end
+          
+          vapp_uuid = uuid
+          vapp_id   = "vapp-#{vapp_uuid}"
+          owner = {
+            :href => make_href("vApp/#{vapp_id}"),
+            :type => 'application/vnd.vmware.vcloud.vm+xml'
+          }
+          task_id = enqueue_task(
+            "Creating Virtual Application #{vapp_name}(#{vapp_uuid})", 'vdcInstantiateVapp', owner,
+            :on_success => lambda do
+              # Add to the VDC
+              data[:vapps][vapp_id] = {
+                :name => vapp_name,
+                :vdc_id => options[:vdc_id],
+                :description => 'From Template',
+                :networks => [
+                  {:parent_id => default_network_uuid }
+                ]
+              }
+              data[:vms]["vm-#{uuid}"] = {
+                :name => vapp_name,
+                :parent_vapp => vapp_id,
+                :nics => [
+                  {
+                    :network_name => 'Default Network',
+                    :mac_address  => '7d:68:a2:a0:a4:f8',
+                    :ip_address   => nil
+                  }
+                ]
+              }
+            end
+          )
+          body = {
+            :href => make_href("vApp/#{vapp_id}"),
+            :Tasks => {
+              :Task => {
+                :xmlns => xmlns,
+                :xmlns_xsi => xmlns_xsi,
+                :xsi_schemaLocation => xsi_schema_location,
+              }.merge(task_body(task_id))
+            }
+          }
+
+          Excon::Response.new(
+            :status => 202,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
+        end
+      end
     end
   end
 end
