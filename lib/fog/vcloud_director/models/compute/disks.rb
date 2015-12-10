@@ -32,6 +32,11 @@ module Fog
           end
           items
         end
+        
+        # Filters out all the controllers (returns only resource_type == 17)
+        def storage_only
+          select {|d| d.resource_type == 17}
+        end
       end
     end
   end
