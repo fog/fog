@@ -541,7 +541,13 @@ module Fog
                   :template_id => template_uuid
                 }
               },
-              :disks => {},
+              :disks => {
+                uuid => {
+                  :name => 'Hard Disk 1',
+                  :capacity => 10240,
+                  :parent_vm => vapp1vm1_id
+                }
+              },
               :edge_gateways => {
                 uuid => {
                   :name => 'MockEdgeGateway',

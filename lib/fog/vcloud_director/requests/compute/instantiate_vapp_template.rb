@@ -107,7 +107,7 @@ module Fog
       end
       
       class Mock
-        # Assume the template is a single VM with one network interface.
+        # Assume the template is a single VM with one network interface and one disk.
         def instantiate_vapp_template(vapp_name, template_id, options={})          
           unless data[:catalog_items].values.find {|i| i[:template_id] == template_id}
             raise Fog::Compute::VcloudDirector::Forbidden.new(
@@ -138,7 +138,8 @@ module Fog
                   {:parent_id => default_network_uuid }
                 ]
               }
-              data[:vms]["vm-#{uuid}"] = {
+              vm_id = "vm-#{uuid}"
+              data[:vms][vm_id] = {
                 :name => vapp_name,
                 :parent_vapp => vapp_id,
                 :nics => [
@@ -148,6 +149,11 @@ module Fog
                     :ip_address   => nil
                   }
                 ]
+              }
+              data[:disks][uuid] = {
+                :name => 'Hard Disk 1',
+                :capacity => 10240,
+                :parent_vm => vm_id
               }
             end
           )
