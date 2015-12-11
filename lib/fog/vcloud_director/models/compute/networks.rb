@@ -11,6 +11,7 @@ module Fog
         model Fog::Compute::VcloudDirector::Network
 
         attribute :organization
+        attribute :vdc
 
         def query_type
           "orgVdcNetwork"
@@ -46,8 +47,12 @@ module Fog
         end
 
         def item_list
-          data = service.get_organization(organization.id).body
-          items = data[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.orgNetwork+xml" }
+          items = if vdc
+            vdc.available_networks.select {|link| link[:type] == "application/vnd.vmware.vcloud.network+xml"}
+          else
+            data = service.get_organization(organization.id).body
+            data[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.orgNetwork+xml" }
+          end
           items.each{|item| service.add_id_from_href!(item) }
           items
         end

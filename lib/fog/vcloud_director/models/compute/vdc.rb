@@ -29,6 +29,11 @@ module Fog
           requires :id
           service.vapps(:vdc => self)
         end
+        
+        def networks
+          requires :id
+          service.networks(:vdc => self)
+        end
       end
     end
   end
