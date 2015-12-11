@@ -161,7 +161,7 @@ module Fog
         def reconfigure(options)
           options[:name] ||= name # name has to be sent
           # Delete those things that are not changing for performance
-          [:cpu, :memory].each do |k|
+          [:cpu, :memory, :description].each do |k|
             options.delete(k) if options.key? k and options[k] == attributes[k]
           end
           response = service.post_reconfigure_vm(id, options)
