@@ -31,7 +31,7 @@ module Fog
         end
         
         def networks
-          requires :id
+          requires :available_networks
           service.networks(:vdc => self)
         end
       end
