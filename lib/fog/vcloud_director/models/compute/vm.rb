@@ -165,7 +165,7 @@ module Fog
           end
           response = service.post_reconfigure_vm(id, options)
           service.process_task(response.body)
-          reload_single_vm
+          options.each {|k,v| attributes[k] = v}
         end
         
         def ready?
