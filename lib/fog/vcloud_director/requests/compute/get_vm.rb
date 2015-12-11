@@ -44,7 +44,7 @@ module Fog
             :id => vapp[:href].split('/').last,
             :status => parser.human_status(vapp[:status]),
             :ip_address => network[:NetworkConnection][:IpAddress],
-            :description => vapp[:"ovf:OperatingSystemSection"][:"ovf:Description"],
+            :description => vapp[:Description],
             :cpu => get_hardware(vapp, 3),
             :memory => get_hardware(vapp, 4),
             :disks => get_disks(vapp),
