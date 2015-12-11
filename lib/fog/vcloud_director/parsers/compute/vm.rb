@@ -33,6 +33,10 @@ module Fog
             when 'IpAddress'
               @response[:vm][:ip_address] = value
             when 'Description'
+              # Assume the very first Description we find is the VM description
+              if !@response[:vm][:description]
+                @response[:vm][:description] = value
+              end
               if @in_operating_system
                 @response[:vm][:operating_system] = value
                 @in_operating_system = false

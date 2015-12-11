@@ -12,6 +12,7 @@ module Fog
         # @param [Hash] options
         #
         # @option options [String] :name Change the VM's name [required].
+        # @option options [String] :description VM description
         # @option options [Integer] :cpu Number of CPUs
         # @option options [Integer] :memory Memory in MB
         #
@@ -32,6 +33,7 @@ module Fog
               :name => options[:name]
             }
             xml.Vm(attrs) do
+              xml.Description options[:description] if options[:description]
               virtual_hardware_section(xml, options)
             end
           end.to_xml
@@ -93,6 +95,7 @@ module Fog
             "Updating Virtual Machine #{data[:vms][id][:name]}(#{id})", 'vappUpdateVm', owner,
             :on_success => lambda do
               data[:vms][id][:name] = options[:name]
+              data[:vms][id][:description] = options[:description] if options[:description]
               data[:vms][id][:cpu_count] = options[:cpu] if options[:cpu]
               data[:vms][id][:memory_in_mb] = options[:memory] if options[:memory]
             end

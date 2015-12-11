@@ -11,6 +11,7 @@ module Fog
         attribute :vapp_name
         attribute :name
         attribute :type
+        attribute :description
         attribute :href
         attribute :status
         attribute :operating_system
