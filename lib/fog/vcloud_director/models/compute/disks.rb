@@ -33,7 +33,8 @@ module Fog
           items
         end
         
-        # Filters out all the controllers (returns only resource_type == 17)
+        # Returns only disk drives (OVF resource type 17) and not controllers,
+        # etc. See <https://blogs.vmware.com/vapp/2009/11/virtual-hardware-in-ovf-part-1.html>
         def storage_only
           select {|d| d.resource_type == 17}
         end
