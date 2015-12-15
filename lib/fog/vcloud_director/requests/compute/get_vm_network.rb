@@ -33,7 +33,7 @@ module Fog
           connection = network[:NetworkConnection]
           body = {
             :type => network[:type],
-            :id   => network[:href].split('/').last,
+            :id   => network[:href].split('/')[-2],
             :href => network[:href],
             :info => network[:"ovf:Info"],
             :primary_network_connection_index => network[:PrimaryNetworkConnectionIndex],
