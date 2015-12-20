@@ -106,6 +106,7 @@ module Fog
       request :get_vnc_console
       request :live_migrate_server
       request :migrate_server
+      request :evacuate_server
 
       # Service CRUD
       request :list_services
