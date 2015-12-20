@@ -29,6 +29,11 @@ module Fog
           requires :id
           service.vapps(:vdc => self)
         end
+
+        def create_edge_gateway(name, options)
+          response = service.post_create_edge_gateway(self.id, name, options)
+          service.process_task(response.body[:Tasks][:Task])
+        end
       end
     end
   end

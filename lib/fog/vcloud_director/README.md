@@ -866,6 +866,12 @@ org.catalogs.get("4ee720e5-173a-41ac-824b-6f4908bac975") # or get_by_name("Publi
     is_published=true
   >
 ```
+### Create Catalogs
+
+```ruby
+org = vcloud.organizations.first
+org.create_catalog("New Catalog", "optional description")
+```
 
 ## Catalog Items
 
