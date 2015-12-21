@@ -76,6 +76,10 @@ module Fog
           status == 'active'
         end
 
+        def locked?
+          locked
+        end
+
         def actions
           requires :id
           response = service.list_droplet_actions id
