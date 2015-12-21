@@ -11,6 +11,7 @@ module Fog
         attribute :vapp_name
         attribute :name
         attribute :type
+        attribute :description
         attribute :href
         attribute :status
         attribute :operating_system
@@ -154,7 +155,20 @@ module Fog
             service.process_task(response.body)
           end
         end
-
+        
+        # Reconfigure a VM using any of the options documented in
+        # post_reconfigure_vm
+        def reconfigure(options)
+          options[:name] ||= name # name has to be sent
+          # Delete those things that are not changing for performance
+          [:cpu, :memory, :description].each do |k|
+            options.delete(k) if options.key? k and options[k] == attributes[k]
+          end
+          response = service.post_reconfigure_vm(id, options)
+          service.process_task(response.body)
+          options.each {|k,v| attributes[k] = v}
+        end
+        
         def ready?
           reload
           status == 'on'

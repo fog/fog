@@ -43,6 +43,10 @@ module Fog
               when 'IpAddress'
                 @vm[:ip_address] = value
               when 'Description'
+                if !@vm[:description]
+                  # Assume the first description we find is the VM description
+                  @vm[:description] = value
+                end
                 if @in_operating_system
                   @vm[:operating_system] = value
                   @in_operating_system = false
