@@ -5,7 +5,7 @@ require 'fog/openstack/models/volume/availability_zones'
 module Fog
   module Volume
     class OpenStack
-      class V1
+      class V2
         class AvailabilityZones < Fog::OpenStack::Collection
           model Fog::Volume::OpenStack::V2::AvailabilityZone
           include Fog::Volume::OpenStack::AvailabilityZones
