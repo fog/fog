@@ -26,6 +26,26 @@ module Fog
           )
         end
       end
+      class Mock
+        def get_vm_disks(id)
+          disks = data[:disks].values.select {|d| d[:parent_vm] == id}.each_with_index.map do |disk, i|
+            {
+              :address => i,
+              :description => disk[:description],
+              :name => disk[:name],
+              :id => (i+1)*1000,
+              :resource_type => 17,
+              :capacity => disk[:capacity],
+            }
+          end
+          body = {:type => 'application/vnd.vmware.vcloud.rasditemslist+xml', :disks => disks}
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
+        end
+      end
     end
   end
 end

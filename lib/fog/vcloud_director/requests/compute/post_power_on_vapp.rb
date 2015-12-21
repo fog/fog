@@ -31,6 +31,41 @@ module Fog
           )
         end
       end
+      class Mock
+        def post_power_on_vapp(id)
+          unless vapp = data[:vapps][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'This operation is denied.'
+            )
+          end
+          
+          owner = {
+            :href => make_href("vApp/#{id}"),
+            :type => 'application/vnd.vmware.vcloud.vApp+xml'
+          }
+          task_id = enqueue_task(
+            "Starting Virtual Application #{data[:vapps][id]} vapp(#{id})", 'vappDeploy', owner,
+            :on_success => lambda do
+              data[:vms].values.each do |vm|
+                if vm[:parent_vapp] == id
+                  vm[:status] = '4' # on
+                end
+              end
+            end
+          )
+          body = {
+            :xmlns => xmlns,
+            :xmlns_xsi => xmlns_xsi,
+            :xsi_schemaLocation => xsi_schema_location,
+          }.merge(task_body(task_id))
+
+          Excon::Response.new(
+            :status => 202,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
+        end
+        end
     end
   end
 end

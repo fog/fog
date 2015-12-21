@@ -32,9 +32,30 @@ module Fog
               "No access to entity \"(com.vmware.vcloud.entity.catalog:#{id})\"."
             )
           end
-
-          Fog::Mock.not_implemented
-          catalog.is_used_here # avoid warning from syntax checker
+          
+          items = data[:catalog_items].select {|_,v| v[:catalog] == id}
+          
+          body = {
+            :href => make_href("catalog/#{id}"),
+            :type => 'application/vnd.vmware.vcloud.catalog+xml',
+            :id   => id,
+            :name => catalog[:name],
+            :CatalogItems => {
+              :CatalogItem => items.map do |uuid,item|
+                {
+                  :href => make_href("catalogItem/#{uuid}"),
+                  :id   => uuid,
+                  :name => item[:name],
+                  :type => 'application/vnd.vmware.vcloud.catalogItem+xml'
+                }
+              end
+            },
+          }
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
         end
       end
     end

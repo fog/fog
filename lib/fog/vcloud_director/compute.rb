@@ -507,12 +507,16 @@ module Fog
       class Mock
         attr_reader :end_point, :api_version
 
+        # This is used in some mocks so it's a method rather than a variable
+        def default_network_uuid
+          @default_network_uuid ||= uuid
+        end
+
         def data
           @@data ||= Hash.new do |hash, key|
 
             vdc1_uuid = uuid
             vdc2_uuid = uuid
-            default_network_uuid = uuid
             uplink_network_uuid  = uuid
             isolated_vdc1_network_uuid = uuid
             isolated_vdc2_network_uuid = uuid
@@ -522,6 +526,7 @@ module Fog
             vapp2vm1_id = "vm-#{uuid}"
             vapp2vm2_id = "vm-#{uuid}"
             catalog_uuid = uuid
+            template_uuid = uuid
 
             hash[key] = {
               :catalogs => {
@@ -534,9 +539,16 @@ module Fog
                   :type    => 'vAppTemplate',
                   :name    => 'vAppTemplate 1',
                   :catalog => catalog_uuid,
+                  :template_id => template_uuid
                 }
               },
-              :disks => {},
+              :disks => {
+                uuid => {
+                  :name => 'Hard Disk 1',
+                  :capacity => 10240,
+                  :parent_vm => vapp1vm1_id
+                }
+              },
               :edge_gateways => {
                 uuid => {
                   :name => 'MockEdgeGateway',
@@ -678,6 +690,9 @@ module Fog
                 :name => org_name,
                 :uuid => uuid
               },
+              
+              :tags => {},
+              
               :tasks => {},
 
               :vapps => {

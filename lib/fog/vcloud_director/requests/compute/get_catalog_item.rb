@@ -20,6 +20,29 @@ module Fog
           )
         end
       end
+      class Mock
+        def get_catalog_item(id)
+          unless item = data[:catalog_items][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"(com.vmware.vcloud.entity.catalogItem:#{id})\"."
+            )
+          end
+          body = {
+            :href => make_href("catalogItem/#{id}"),
+            :id   => id,
+            :name => item[:name],
+            :type => 'application/vnd.vmware.vcloud.catalogItem+xml',
+            :Entity => {
+              :href => make_href("vAppTemplate/#{item[:template_id]}")              
+            }
+          }
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
+        end
+      end
     end
   end
 end
