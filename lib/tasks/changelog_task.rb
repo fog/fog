@@ -142,6 +142,7 @@ Watchers      | #{watchers}
            'Paulo Henrique Lopes Ribeiro',
            'Peter Souter',
            'Phil Ross',
+           'Rich Daley',
            'Rodrigo Estebanez',
            'Rupak Ganguly',
            'Stepan G. Fedorov',

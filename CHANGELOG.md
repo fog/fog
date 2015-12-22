@@ -1,3 +1,64 @@
+## 1.37.0 12/22/2015
+*Hash* f7cf6b7c6499ab2a58bb7fe6848363d7cc459d3a
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Downloads     | 13380838
+Forks         | 1530
+Open Issues   | 89
+Watchers      | 3729
+
+**MVP!** Rich Daley
+
+#### [misc]
+*   Remove vSphere provider. thanks  Garcia
+*   Remove lib/fog/bin/vsphere. thanks  Garcia
+*   Use fog-vsphere ~> 0.2. thanks  Garcia
+*   OpenStack fix Cinder v2 typo. thanks Ladislav Smola
+*   OpenStack add server evacuate action. thanks Ladislav Smola
+*   Fix DigitalOceanV2::SshKey misplaced #save, #destroy and #update methods. thanks Manuel Franco
+*   Enforce no slash in container name. thanks Matt Darby
+*   Update API path for deleting SSH keys. thanks Michael Borohovski
+*   Upgrade version of fog-vsphere to 0.4. Fixes #3784. thanks Michael Borohovski
+*   Updates Getting Started for DigitalOcean. thanks Peter Souter
+*   Add some mocks for VM (partial) and Network. thanks Rich Daley
+*   Add loads more mocks to the vcloud_director backend. thanks Rich Daley
+*   Add mocks for disks. thanks Rich Daley
+*   Add mock support for tags. thanks Rich Daley
+*   Don't pass AdminPassword if AdminPasswordAuto is true (causes an exception). thanks Rich Daley
+*   Remove erroneous file. thanks Rich Daley
+*   Add a barebones :post_reconfigure_vm and a Vm#reconfigure that uses it. thanks Rich Daley
+*   Add a mock and fix infinite loop issue. thanks Rich Daley
+*   Set description in the mocks ahead of separate PR. thanks Rich Daley
+*   Add support for VM descriptions. thanks Rich Daley
+*   Add a #storage_only to disks to return only those disks that are actually disks. thanks Rich Daley
+*   Remove description if it hasn't changed. thanks Rich Daley
+*   Make comment more explicit about OVF. thanks Rich Daley
+*   Add vdc.networks. thanks Rich Daley
+*   Fix bogus requires. thanks Rich Daley
+*   Add a mock for put_network_connection_system_section_vapp and fix the mock for get_vm_network to get the VM ID the same way the parser does. thanks Rich Daley
+*   Add mock for post_power_on_vapp. thanks Rich Daley
+*   Add mock for delete_vapp. thanks Rich Daley
+*   According to doc, only the username is mandatory. thanks Sean Handley
+*   If the management URL has no path, use the one in the auth URI. thanks Sean Handley
+*   Revert "If the management URL has no path, use the one in the auth URI.". thanks Sean Handley
+*   Workaround for installs using both v2 and v3. thanks Sean Handley
+*   Fix #3785 Missing image details for digitalocean version 2 api. thanks Suraj Shirvankar
+*   Added method locked? to check if the machine is currently locked with     another operation. thanks Suraj Shirvankar
+*   Add openstack_temp_url_key to the list of recognized options. thanks Yauheni Kryudziuk
+*   rely on fog-xml nokogiri dep. thanks geemus
+*   add mime-types as dev dependency. thanks geemus
+*   Update compute.md. thanks losingle
+
+#### [openstack]
+*   volume API v2 implementation. thanks Darren Hague
+*   Revert over-eager optimisation in v2 authentication case. thanks Darren Hague
+
+#### [rackspace]
+*   Add support for get_vnc_console request to compute_v2. thanks Dusty Jones
+
+
 ## 1.36.0 11/16/2015
 *Hash* e7cd19696284633d4363993e2e3fda41384b7d58
 
