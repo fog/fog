@@ -331,7 +331,7 @@ module Fog
         end
 
         token, body = retrieve_tokens_v3(options, connection_options)
-        service = get_service_v3(body, service_type, service_name, openstack_region)
+        service = get_service_v3(body, service_type, service_name, openstack_region, options)
       end
 
       unless service
