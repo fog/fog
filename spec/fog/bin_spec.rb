@@ -10,6 +10,7 @@ describe Fog do
       assert_equal "Bluebox", Fog.providers[:bluebox]
       assert_equal "Brightbox", Fog.providers[:brightbox]
       assert_equal "Clodo", Fog.providers[:clodo]
+      assert_equal "CloudAtCost", Fog.providers[:cloudatcost]
       assert_equal "CloudSigma", Fog.providers[:cloudsigma]
       assert_equal "Cloudstack", Fog.providers[:cloudstack]
       assert_equal "DigitalOcean", Fog.providers[:digitalocean]
@@ -112,6 +113,7 @@ describe Fog do
       assert_includes Fog.available_providers, "Clodo" if Clodo.available?
       assert_includes Fog.available_providers, "CloudSigma" if CloudSigma.available?
       assert_includes Fog.available_providers, "Cloudstack" if Cloudstack.available?
+      assert_includes Fog.available_providers, "CloudAtCost" if CloudAtCost.available?
       assert_includes Fog.available_providers, "DigitalOcean" if DigitalOcean.available?
       assert_includes Fog.available_providers, "DNSimple" if DNSimple.available?
       assert_includes Fog.available_providers, "DNSMadeEasy" if DNSMadeEasy.available?
