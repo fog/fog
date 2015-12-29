@@ -21,7 +21,7 @@ module Fog
       request :change_kernel
       request :create_server
       request :create_ssh_key
-      request :delete_server
+      request :destroy_server
       request :delete_ssh_key
       request :disable_backups
       request :enable_ipv6
