@@ -42,6 +42,10 @@ def gem_file
   "#{name}-#{version}.gem"
 end
 
+def package_gem_file
+  "pkg/#{gem_file}"
+end
+
 def replace_header(head, header_name)
   head.sub!(/(\.#{header_name}\s*= \").*\"/) { "#{$1}#{send(header_name)}\""}
 end
@@ -157,7 +161,7 @@ namespace :release do
 
   task :prepare => :preflight do
     Rake::Task[:build].invoke
-    sh "gem install pkg/#{name}-#{version}.gem"
+    sh "gem install #{package_gem_file}"
     Rake::Task[:git_mark_release].invoke
   end
 
@@ -177,7 +181,7 @@ task :git_push_release do
 end
 
 task :gem_push do
-  sh "gem push pkg/#{name}-#{version}.gem"
+  sh "gem push #{package_gem_file}"
 end
 
 desc "Build fog-#{version}.gem"
@@ -187,6 +191,12 @@ task :build => :gemspec do
   sh "mv #{gem_file} pkg"
 end
 task :gem => :build
+
+desc "Install fog-#{version}.gem"
+task "install" do
+  Rake::Task[:build].invoke
+  sh "gem install #{package_gem_file} --no-document"
+end
 
 desc "Updates the gemspec and runs 'validate'"
 task :gemspec => :validate do
