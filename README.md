@@ -62,7 +62,7 @@ Collections share basic CRUD type operations, such as:
 
 * `all` - fetch every object of that type from the provider.
 * `create` - initialize a new record locally and a remote resource with the provider.
-* `get` - fetch a single object by it's identity from the provider.
+* `get` - fetch a single object by its identity from the provider.
 * `new` - initialize a new record locally, but do not create a remote resource with the provider.
 
 As an example, we'll try initializing and persisting a Rackspace Cloud server:
@@ -95,9 +95,9 @@ Many of the collection methods return individual objects, which also provide com
 
 ## Mocks
 
-As you might imagine, testing code using Fog can be slow and expensive, constantly turning on and and shutting down instances.
-Mocking allows skipping this overhead by providing an in memory representation resources as you make requests.
-Enabling mocking easy to use, before you run other commands, simply run:
+As you might imagine, testing code using Fog can be slow and expensive, constantly turning on and shutting down instances.
+Mocking allows skipping this overhead by providing an in memory representation of resources as you make requests.
+Enabling mocking is easy to use: before you run other commands, simply run:
 
 ```ruby
 Fog.mock!
