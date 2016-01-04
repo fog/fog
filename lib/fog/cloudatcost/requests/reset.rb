@@ -19,10 +19,10 @@ module Fog
           response.status  = 200
           response.body    = {
             'server_id'   => Fog::Mock.random_numbers(1).to_i,
-            'api'        => "v1",
-            'status'     => "ok",
-            'result'     => "successful",
-            'action'     => "reset",
+            'api'        => 'v1',
+            'status'     => 'ok',
+            'result'     => 'successful',
+            'action'     => 'reset',
             'time'       => 12312323,
             'taskid'     => 123123123123
           }

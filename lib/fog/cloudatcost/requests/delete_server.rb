@@ -7,7 +7,7 @@ module Fog
           request(
             :expects => [200],
             :method  => 'POST',
-            :path    => "api/v1/cloudpro/delete.php",
+            :path    => 'api/v1/cloudpro/delete.php',
             :body    => body,
           )
         end
@@ -18,10 +18,10 @@ module Fog
           response         = Excon::Response.new
           response.status  = 200
           response.body    = {
-            'result'     => "successful",
-            'api'        => "v1",
-            'action'     => "delete",
-            'status'     => "ok",
+            'result'     => 'successful',
+            'api'        => 'v1',
+            'action'     => 'delete',
+            'status'     => 'ok',
             'taskid'     => 123123123123,
             'time'       => 12312323,
           }

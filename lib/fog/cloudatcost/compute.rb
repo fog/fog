@@ -46,7 +46,7 @@ module Fog
         end
 
         def request(params)
-          params[:headers] ||= { "Content-Type": "application/x-www-form-urlencoded" }
+          params[:headers] ||= { 'Content-Type' => 'application/x-www-form-urlencoded' }
           params[:query] ||= {}
           required_params = {
             key: "#{@api_key}",

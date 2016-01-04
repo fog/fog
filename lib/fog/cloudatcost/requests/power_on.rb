@@ -7,7 +7,7 @@ module Fog
           request(
             :expects => [200],
             :method  => 'POST',
-            :path    => "api/v1/powerop.php",
+            :path    => 'api/v1/powerop.php',
             :body    => body,
           )
         end
@@ -19,10 +19,10 @@ module Fog
           response.status  = 200
           response.body    = {
             'server_id'   => Fog::Mock.random_numbers(1).to_i,
-            'api'        => "v1",
-            'status'     => "ok",
-            'result'     => "successful",
-            'action'     => "poweron",
+            'api'        => 'v1',
+            'status'     => 'ok',
+            'result'     => 'successful',
+            'action'     => 'poweron',
             'time'       => 12312323,
             'taskid'     => 123123123123
           }

@@ -7,7 +7,7 @@ module Fog
           request(
             :expects => [200],
             :method  => 'POST',
-            :path    => "api/v1/renameserver.php",
+            :path    => 'api/v1/renameserver.php',
             :body    => body,
           )
         end

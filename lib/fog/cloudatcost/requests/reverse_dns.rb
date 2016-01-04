@@ -7,7 +7,7 @@ module Fog
           request(
             :expects => [200],
             :method  => 'POST',
-            :path    => "api/v1/rdns.php",
+            :path    => 'api/v1/rdns.php',
             :body    => body,
           )
         end
@@ -19,9 +19,9 @@ module Fog
           response.status  = 200
           response.body    = {
             'server_id'   => Fog::Mock.random_numbers(1).to_i,
-            'api'        => "v1",
-            'status'     => "ok",
-            'result'     => "successful",
+            'api'        => 'v1',
+            'status'     => 'ok',
+            'result'     => 'successful',
             'time'       => 12312323,
           }
           response
