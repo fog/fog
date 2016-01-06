@@ -10,15 +10,8 @@ Shindo.tests("Fog::Compute[:digitalocean] | flavor model", ['digitalocean', 'com
     tests('have attributes') do
       model_attribute_hash = flavor.attributes
       attributes = [
-        :available,
-        :disk,
-        :memory,
-        :price_hourly,
-        :price_monthly,
-        :regions,
-        :slug,
-        :transfer,
-        :vcpus
+        :id,
+        :name,
       ]
       tests("The flavor model should respond to") do
         attributes.each do |attribute|
