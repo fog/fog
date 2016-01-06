@@ -3,8 +3,7 @@ require 'fog/openstack/core'
 module Fog
   module Storage
     class OpenStack < Fog::Service
-      requires   :openstack_auth_url, :openstack_username,
-                 :openstack_api_key
+      requires   :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url,
                  :persistent, :openstack_service_type, :openstack_service_name,
                  :openstack_tenant, :openstack_tenant_id,
