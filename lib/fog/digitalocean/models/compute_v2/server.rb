@@ -60,7 +60,7 @@ module Fog
           options[:private_networking] = private_networking
           options[:backups]            = backups
           options[:ipv6]               = ipv6
-          options[:user_data]               = user_data
+          options[:user_data]          = user_data
           
           data = service.create_server(name, size, image, region, options)
 
