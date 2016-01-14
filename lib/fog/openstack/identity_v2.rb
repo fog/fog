@@ -17,7 +17,7 @@ module Fog
                    :openstack_project_name, :openstack_project_id,
                    :openstack_project_domain, :openstack_user_domain, :openstack_domain_name,
                    :openstack_project_domain_id, :openstack_user_domain_id, :openstack_domain_id,
-                   :openstack_identity_prefix
+                   :openstack_identity_prefix, :openstack_endpoint_path_matches
 
         model_path 'fog/openstack/models/identity_v2'
         model :tenant
