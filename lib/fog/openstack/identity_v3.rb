@@ -15,7 +15,7 @@ module Fog
                    :openstack_user_domain_id, :openstack_project_domain_id,
                    :openstack_api_key, :openstack_current_user_id, :openstack_userid, :openstack_username,
                    :current_user, :current_user_id, :current_tenant,
-                   :provider, :openstack_identity_prefix
+                   :provider, :openstack_identity_prefix, :openstack_endpoint_path_matches
 
         model_path 'fog/openstack/models/identity_v3'
         model :domain
