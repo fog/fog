@@ -182,7 +182,6 @@ module Fog
 
             @openstack_service_type   = options[:openstack_service_type] || ['identity']
             @openstack_service_name   = options[:openstack_service_name]
-            @identity_prefix          = options[:openstack_identity_prefix] ? "/#{options[:openstack_identity_prefix]}" : nil
 
             @connection_options       = options[:connection_options] || {}
 
@@ -190,8 +189,12 @@ module Fog
 
             authenticate
 
+            if options[:openstack_identity_prefix]
+              @path = "/#{options[:openstack_identity_prefix]}/#{@path}"
+            end
+
             @persistent = options[:persistent] || false
-            @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}#{@identity_prefix}", @persistent, @connection_options)
+            @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           end
         end
       end
