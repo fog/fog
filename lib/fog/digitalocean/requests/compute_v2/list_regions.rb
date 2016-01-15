@@ -2,7 +2,7 @@ module Fog
   module Compute
     class DigitalOceanV2
       class Real
-        def list_regions
+        def list_regions(filters = {})
           request(
             :expects => [200],
             :method  => 'GET',
