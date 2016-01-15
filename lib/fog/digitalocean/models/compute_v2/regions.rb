@@ -12,7 +12,7 @@ module Fog
         # @raise [Fog::Compute::DigitalOceanV2::ServiceError]
         # @see https://developers.digitalocean.com/documentation/v2/#list-all-regions
         def all(filters = {})
-          data = service.list_regions.body["regions"]
+          data = service.list_regions(filters).body["regions"]
           load(data)
         end
       end
