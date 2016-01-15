@@ -2,11 +2,11 @@ module Fog
   module Compute
     class DigitalOceanV2
       class Real
-        def list_servers
+        def list_servers(filters = {})
           request(
             :expects => [200],
             :method => 'GET',
-            :path => '/v2/droplets'
+            :path => "/v2/droplets?#{filters.to_a.map { |x| "#{x[0]}=#{x[1]}" }.join("&")}"
           )
         end
       end

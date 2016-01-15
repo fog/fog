@@ -15,7 +15,7 @@ module Fog
         # @raise [Fog::Compute::DigitalOceanV2::ServiceError]
         # @see https://developers.digitalocean.com/documentation/v2/#droplets
         def all(filters = {})
-          data = service.list_servers.body['droplets']
+          data = service.list_servers(filters).body['droplets']
           load(data)
         end
 
