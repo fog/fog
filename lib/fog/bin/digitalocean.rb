@@ -3,7 +3,7 @@ class DigitalOcean < Fog::Bin
     def class_for(key)
       case key
       when :compute
-        Fog::Compute::DigitalOcean
+        Fog::Compute::DigitalOceanV2
       else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
