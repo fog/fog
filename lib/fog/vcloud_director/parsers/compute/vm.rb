@@ -18,9 +18,10 @@ module Fog
               @in_operating_system = true
             when 'Vm'
               vm_attrs = extract_attributes(attributes)
-              @response[:vm].merge!(vm_attrs.reject {|key,value| ![:href, :name, :status, :type].include?(key)})
+              @response[:vm].merge!(vm_attrs.reject {|key,value| ![:href, :name, :status, :type, :deployed].include?(key)})
               @response[:vm][:id] = @response[:vm][:href].split('/').last
               @response[:vm][:status] = human_status(@response[:vm][:status])
+              @response[:vm][:deployed] = @response[:vm][:deployed] == 'true'
             when 'HostResource'
               @current_host_resource = extract_attributes(attributes)
             when 'Link'

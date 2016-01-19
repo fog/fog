@@ -23,7 +23,8 @@ module Fog
               @response[:id] = @response[:href].split('/').last
             when 'Vm'
               vapp = extract_attributes(attributes)
-              @vm.merge!(vapp.reject {|key,value| ![:href, :name, :status, :type].include?(key)})
+              @vm.merge!(vapp.reject {|key,value| ![:href, :name, :status, :type, :deployed].include?(key)})
+              @vm[:deployed] = response[:deployed] == 'true'
               @vm[:id] = @vm[:href].split('/').last
               @vm[:vapp_id] = @response[:id]
               @vm[:vapp_name] = @response[:name]
