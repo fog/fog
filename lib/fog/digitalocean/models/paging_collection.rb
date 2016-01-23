@@ -7,7 +7,6 @@ module Fog
         attribute :last
 
         def next_page
-          binding.pry
           all(page: @next) if @next != @last
         end
 
@@ -31,7 +30,6 @@ module Fog
         end
 
         def get_paged_links(links)
-          binding.pry
           next_link = dig(links, "pages", "next").to_s
           last_link = dig(links, "pages", "last").to_s
           @next = get_page(next_link) || @next
