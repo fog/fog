@@ -17,7 +17,7 @@ module Fog
         end
 
         private
-        def dig(hash, *path)
+        def deep_fetch(hash, *path)
           path.inject(hash) do |acc, key|
             acc.respond_to?(:keys) ? acc[key] : nil
           end
@@ -30,8 +30,8 @@ module Fog
         end
 
         def get_paged_links(links)
-          next_link = dig(links, "pages", "next").to_s
-          last_link = dig(links, "pages", "last").to_s
+          next_link = deep_fetch(links, "pages", "next").to_s
+          last_link = deep_fetch(links, "pages", "last").to_s
           @next = get_page(next_link) || @next
           @last = get_page(last_link) || @last
         end
