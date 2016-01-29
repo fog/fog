@@ -71,6 +71,7 @@ module Fog
       request :list_servers_detail
       request :create_server
       request :get_server_details
+      request :get_server_password
       request :update_server
       request :delete_server
 
