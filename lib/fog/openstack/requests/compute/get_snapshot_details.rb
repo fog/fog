@@ -14,19 +14,14 @@ module Fog
       class Mock
         def get_snapshot_details(snapshot_id)
           response = Excon::Response.new
-          response.status = 200
-          response.body = {
-            'snapshot' => {
-              'id'                 => '1',
-              'display_name'        => Fog::Mock.random_letters(rand(8) + 5),
-              'display_description' => Fog::Mock.random_letters(rand(12) + 10),
-              'size'               => 3,
-              'volume_id'           => '4',
-              'status'             => 'online',
-              'created_at'          => Time.now
-            }
-          }
-          response
+          if snapshot = list_snapshots_detail.body['snapshots'].find{
+            |_| _['id'] == snapshot_id }
+            response.status = 200
+            response.body = { 'snapshot' => snapshot }
+            response
+          else
+            raise Fog::Compute::OpenStack::NotFound
+          end
         end
       end
     end
