@@ -1,15 +1,12 @@
-require 'fog/core/collection'
-require 'fog/openstack/models/volume/volume_type'
+require 'fog/openstack/models/collection'
 
 module Fog
   module Volume
     class OpenStack
-      class VolumeTypes < Fog::Collection
-        model Fog::Volume::OpenStack::VolumeType
-
+      module VolumeTypes
         def all(options = {})
           response = service.list_volume_types(options)
-          load(response.body['volume_types'])
+          load_response(response, 'volume_types')
         end
 
         def get(volume_type_id)
@@ -19,7 +16,6 @@ module Fog
         rescue Fog::Volume::OpenStack::NotFound
           nil
         end
-        alias_method :find_by_id, :get
       end
     end
   end

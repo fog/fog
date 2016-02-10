@@ -1,0 +1,54 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:9292/v1.1/images/detail
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - 7016a3d2ce5348ae951b1e3d8edaa55d
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '1621'
+      X-Openstack-Request-Id:
+      - req-req-6b19389b-d481-47bf-84e7-bf91e231cf6d
+      Date:
+      - Mon, 21 Sep 2015 17:49:17 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"images": [{"status": "active", "deleted_at": null, "name": "cirros-0.3.2-x86_64-uec",
+        "deleted": false, "container_format": "ami", "created_at": "2015-05-07T09:35:58.000000",
+        "disk_format": "ami", "updated_at": "2015-05-07T09:35:58.000000", "min_disk":
+        0, "protected": false, "id": "d33e934a-55f3-4599-bf4e-d7557c251370", "min_ram":
+        0, "checksum": "4eada48c2843d2a262c814ddc92ecf2c", "owner": "123ac695d4db400a9001b91bb3b8aa46",
+        "is_public": true, "virtual_size": null, "properties": {"kernel_id": "a19e0492-ed63-471f-a017-4afcc4c0bf31",
+        "ramdisk_id": "56f1b09a-f38c-470d-90bb-0d41800d5a6f"}, "size": 25165824},
+        {"status": "active", "deleted_at": null, "name": "cirros-0.3.2-x86_64-uec-ramdisk",
+        "deleted": false, "container_format": "ari", "created_at": "2015-05-07T09:35:57.000000",
+        "disk_format": "ari", "updated_at": "2015-05-07T09:35:57.000000", "min_disk":
+        0, "protected": false, "id": "56f1b09a-f38c-470d-90bb-0d41800d5a6f", "min_ram":
+        0, "checksum": "68085af2609d03e51c7662395b5b6e4b", "owner": "123ac695d4db400a9001b91bb3b8aa46",
+        "is_public": true, "virtual_size": null, "properties": {}, "size": 3723817},
+        {"status": "active", "deleted_at": null, "name": "cirros-0.3.2-x86_64-uec-kernel",
+        "deleted": false, "container_format": "aki", "created_at": "2015-05-07T09:35:55.000000",
+        "disk_format": "aki", "updated_at": "2015-05-07T09:35:55.000000", "min_disk":
+        0, "protected": false, "id": "a19e0492-ed63-471f-a017-4afcc4c0bf31", "min_ram":
+        0, "checksum": "836c69cbcd1dc4f225daedbab6edc7c7", "owner": "123ac695d4db400a9001b91bb3b8aa46",
+        "is_public": true, "virtual_size": null, "properties": {}, "size": 4969360}]}'
+    http_version: 
+  recorded_at: Mon, 21 Sep 2015 17:49:17 GMT
+recorded_with: VCR 2.9.3

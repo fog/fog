@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Compute
     class OpenStack
-      class Network < Fog::Model
+      class Network < Fog::OpenStack::Model
         identity  :id
         attribute :name
         attribute :addresses

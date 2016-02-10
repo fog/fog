@@ -156,6 +156,32 @@ Shindo.tests('Fog::OpenStack::Storage | file', ['openstack']) do
 
     end
 
+    tests("#delete_at") do
+      @delete_at_time = (Time.now + 300).to_i
+
+      tests("#delete_at should default to nil").returns(nil) do
+        @instance.delete_at
+      end
+
+      @instance.delete_at = @delete_at_time
+      @instance.save
+      tests("#delete_at should return delete_at attribute").returns(@delete_at_time) do
+        @instance.delete_at
+      end
+
+      @instance.delete_at = @delete_at_time
+      @instance.save
+      tests("#delete_at= should update delete_at").returns(@delete_at_time + 100) do
+        @instance.delete_at = @delete_at_time + 100
+        @instance.save
+        @instance.delete_at
+      end
+
+      tests("#delete_at= should not blow up on nil") do
+        @instance.delete_at = nil
+        @instance.save
+      end
+    end
   end
 
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
@@ -184,6 +210,35 @@ Shindo.tests('Fog::OpenStack::Storage | file', ['openstack']) do
 
       tests("#origin= should not blow up on nil") do
         @instance.origin = nil
+        @instance.save
+      end
+
+    end
+
+    tests("#content_encoding") do
+
+      tests("#content_encoding should default to nil").returns(nil) do
+        @instance.save
+        @instance.content_encoding
+      end
+
+      @instance.content_encoding = 'gzip'
+      @instance.save
+      tests("#content_encoding should return the content encoding").returns('gzip') do
+        @instance.content_encoding
+      end
+      @instance.attributes.delete('content_encoding')
+
+      @instance.content_encoding = 'foo'
+      @instance.save
+      tests("#content_encoding= should update content_encoding").returns('bar') do
+        @instance.content_encoding = 'bar'
+        @instance.save
+        @instance.content_encoding
+      end
+
+      tests("#content_encoding= should not blow up on nil") do
+        @instance.content_encoding = nil
         @instance.save
       end
 

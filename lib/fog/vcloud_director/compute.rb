@@ -30,6 +30,7 @@ module Fog
         PORT        = 443
         SCHEME      = 'https'
         API_VERSION = '5.1'
+        OMIT_DEFAULT_PORT = true
       end
 
       class ServiceError < Fog::VcloudDirector::Errors::ServiceError; end
@@ -44,7 +45,7 @@ module Fog
       class TaskError < Fog::VcloudDirector::Errors::TaskError; end
 
       requires :vcloud_director_username, :vcloud_director_password, :vcloud_director_host
-      recognizes :vcloud_director_api_version, :vcloud_director_show_progress
+      recognizes :vcloud_director_api_version, :vcloud_director_show_progress, :path, :vcloud_token
 
       secrets :vcloud_director_password
 
@@ -209,6 +210,8 @@ module Fog
       request :post_create_catalog_item
       request :post_create_org_vdc_network
       request :post_deploy_vapp
+      request :post_compose_vapp
+      request :post_recompose_vapp
       request :post_detach_disk
       request :post_disable_nested_hv
       request :post_disable_vapp_template_download
@@ -225,6 +228,7 @@ module Fog
       request :post_power_off_vapp
       request :post_power_on_vapp
       request :post_reboot_vapp
+      request :post_reconfigure_vm
       request :post_remove_all_snapshots
       request :post_reset_vapp
       request :post_revert_snapshot
@@ -336,6 +340,7 @@ module Fog
           @vcloud_director_password = options[:vcloud_director_password]
           @vcloud_director_username = options[:vcloud_director_username]
           @connection_options = options[:connection_options] || {}
+          @connection_options[:omit_default_port] = Fog::Compute::VcloudDirector::Defaults::OMIT_DEFAULT_PORT unless @connection_option[:omit_default_port]
           @host       = options[:vcloud_director_host]
           @path       = options[:path]        || Fog::Compute::VcloudDirector::Defaults::PATH
           @persistent = options[:persistent]  || false
@@ -346,6 +351,7 @@ module Fog
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
           @show_progress = options[:vcloud_director_show_progress]
           @show_progress = $stdin.tty? if @show_progress.nil?
+          @vcloud_token  = options[:vcloud_token]
         end
 
         def vcloud_token
@@ -460,7 +466,8 @@ module Fog
         private
 
         def login
-          if @vcloud_token = ENV['FOG_VCLOUD_TOKEN']
+          @vcloud_token ||= ENV['FOG_VCLOUD_TOKEN']
+          if @vcloud_token
             response = get_current_session
             session_org = response.body[:org]
             session_user = response.body[:user]
@@ -504,12 +511,16 @@ module Fog
       class Mock
         attr_reader :end_point, :api_version
 
+        # This is used in some mocks so it's a method rather than a variable
+        def default_network_uuid
+          @default_network_uuid ||= uuid
+        end
+
         def data
           @@data ||= Hash.new do |hash, key|
 
             vdc1_uuid = uuid
             vdc2_uuid = uuid
-            default_network_uuid = uuid
             uplink_network_uuid  = uuid
             isolated_vdc1_network_uuid = uuid
             isolated_vdc2_network_uuid = uuid
@@ -519,6 +530,7 @@ module Fog
             vapp2vm1_id = "vm-#{uuid}"
             vapp2vm2_id = "vm-#{uuid}"
             catalog_uuid = uuid
+            template_uuid = uuid
 
             hash[key] = {
               :catalogs => {
@@ -531,9 +543,16 @@ module Fog
                   :type    => 'vAppTemplate',
                   :name    => 'vAppTemplate 1',
                   :catalog => catalog_uuid,
+                  :template_id => template_uuid
                 }
               },
-              :disks => {},
+              :disks => {
+                uuid => {
+                  :name => 'Hard Disk 1',
+                  :capacity => 10240,
+                  :parent_vm => vapp1vm1_id
+                }
+              },
               :edge_gateways => {
                 uuid => {
                   :name => 'MockEdgeGateway',
@@ -675,6 +694,9 @@ module Fog
                 :name => org_name,
                 :uuid => uuid
               },
+              
+              :tags => {},
+              
               :tasks => {},
 
               :vapps => {
@@ -768,8 +790,9 @@ module Fog
           @port = options[:port] || Fog::Compute::VcloudDirector::Defaults::PORT
           @scheme = options[:scheme] || Fog::Compute::VcloudDirector::Defaults::SCHEME
           #@connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
-          @end_point = "#{@scheme}://#{@host}#{@path}/"
-          @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
+          @end_point    = "#{@scheme}://#{@host}#{@path}/"
+          @api_version  = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
+          @vcloud_token = options[:vcloud_token]
         end
 
         def vcloud_token

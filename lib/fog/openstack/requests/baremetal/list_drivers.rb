@@ -2,17 +2,18 @@ module Fog
   module Baremetal
     class OpenStack
       class Real
-        def list_drivers
+        def list_drivers(options = {})
           request(
             :expects => [200, 204],
             :method  => 'GET',
-            :path    => 'drivers'
+            :path    => 'drivers',
+            :query   => options
           )
         end
       end # class Real
 
       class Mock
-        def list_drivers
+        def list_drivers(options = {})
           response = Excon::Response.new
           response.status = [200, 204][rand(1)]
           response.body = { "drivers" => self.data[:drivers] }

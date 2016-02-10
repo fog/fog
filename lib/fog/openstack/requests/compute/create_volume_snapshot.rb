@@ -23,20 +23,27 @@ module Fog
 
       class Mock
         def create_volume_snapshot(volume_id, name, description, force=false)
-          response = Excon::Response.new
-          response.status = 202
-          response.body = {
-            "snapshot"=> {
-               "status"=>"creating",
-               "display_name"=>name,
-               "created_at"=>Time.now,
-               "display_description"=>description,
-               "volume_id"=>volume_id,
-               "id"=>"5",
-               "size"=>1
+          volume_response = get_volume_details(volume_id)
+          volume = volume_response.data[:body]['volume']
+          unless volume.nil?
+            response = Excon::Response.new
+            data = {
+              "status" => "availble",
+              "name" => name,
+              "created_at" => Time.now,
+              "description" => description,
+              "volume_id" => volume_id,
+              "id" => Fog::Mock.random_numbers(2),
+              "size" => volume['size']
             }
-          }
-          response
+
+            self.data[:snapshots][data['id']] = data
+            response.body = { "snapshot" => data }
+            response.status = 202
+            response
+          else
+            raise Fog::Compute::OpenStack::NotFound
+          end
         end
       end
     end

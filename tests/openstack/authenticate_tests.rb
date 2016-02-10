@@ -1,3 +1,7 @@
+require 'fog/openstack/identity'
+require 'fog/openstack/identity_v2'
+require 'fog/openstack/identity_v3'
+
 Shindo.tests('OpenStack | authenticate', ['openstack']) do
   begin
     @old_mock_value = Excon.defaults[:mock]

@@ -1,14 +1,14 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/compute/tenant'
 
 module Fog
   module Compute
     class OpenStack
-      class Tenants < Fog::Collection
+      class Tenants < Fog::OpenStack::Collection
         model Fog::Compute::OpenStack::Tenant
 
         def all
-          load(service.list_tenants.body['tenants'])
+          load_response(service.list_tenants, 'tenants')
         end
 
         def usages(start_date = nil, end_date = nil, details = false)
@@ -18,7 +18,6 @@ module Fog
         def get(id)
           self.find {|tenant| tenant.id == id}
         end
-        alias_method :find_by_id, :get
 
       end # class Tenants
     end # class OpenStack

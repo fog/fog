@@ -1,18 +1,19 @@
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/orchestration/resource'
 
 module Fog
   module Orchestration
     class OpenStack
-      class Resources < Fog::Collection
+      class Resources < Fog::OpenStack::Collection
         model Fog::Orchestration::OpenStack::Resource
 
         def types
           service.list_resource_types.body['resource_types'].sort
         end
 
-        def all(stack, options={})
-          data = service.list_resources(stack, options).body['resources']
-          load(data)
+        def all(options = {}, deprecated_options = {})
+          data = service.list_resources(options, deprecated_options)
+          load_response(data, 'resources')
         end
 
         def get(resource_name, stack=nil)

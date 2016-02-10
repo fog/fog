@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Network
     class OpenStack
-      class LbHealthMonitor < Fog::Model
+      class LbHealthMonitor < Fog::OpenStack::Model
         identity :id
 
         attribute :type
@@ -16,16 +16,6 @@ module Fog
         attribute :status
         attribute :admin_state_up
         attribute :tenant_id
-
-        def initialize(attributes)
-          prepare_service_value(attributes)
-          super
-        end
-
-        def save
-          requires :type, :delay, :timeout, :max_retries
-          identity ? update : create
-        end
 
         def create
           requires :type, :delay, :timeout, :max_retries

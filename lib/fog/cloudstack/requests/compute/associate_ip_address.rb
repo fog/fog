@@ -22,8 +22,9 @@ module Fog
 
       class Mock
         def associate_ip_address(*args)
+          public_ip_address_id = Fog::Cloudstack.uuid
           public_ip_address = {
-            "id"                => "f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2",
+            "id"                => public_ip_address_id,
             "ipaddress"         => "192.168.200.3",
             "allocated"         => "2014-12-22T22:32:39+0000",
             "zoneid"            => "0e276270-7950-4483-bf21-3dc897dbe08a",
@@ -48,7 +49,6 @@ module Fog
           {'associateipaddressresponse' => public_ip_address}
         end
       end
-
     end
   end
 end

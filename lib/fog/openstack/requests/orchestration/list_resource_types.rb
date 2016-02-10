@@ -2,11 +2,12 @@ module Fog
   module Orchestration
     class OpenStack
       class Real
-        def list_resource_types
+        def list_resource_types(options = {})
           request(
             :method  => 'GET',
             :path    => "resource_types",
-            :expects => 200
+            :expects => 200,
+            :query   => {}
           )
         end
       end

@@ -23,7 +23,8 @@ module Fog
               @response[:id] = @response[:href].split('/').last
             when 'Vm'
               vapp = extract_attributes(attributes)
-              @vm.merge!(vapp.reject {|key,value| ![:href, :name, :status, :type].include?(key)})
+              @vm.merge!(vapp.reject {|key,value| ![:href, :name, :status, :type, :deployed].include?(key)})
+              @vm[:deployed] = response[:deployed] == 'true'
               @vm[:id] = @vm[:href].split('/').last
               @vm[:vapp_id] = @response[:id]
               @vm[:vapp_name] = @response[:name]
@@ -43,6 +44,10 @@ module Fog
               when 'IpAddress'
                 @vm[:ip_address] = value
               when 'Description'
+                if !@vm[:description]
+                  # Assume the first description we find is the VM description
+                  @vm[:description] = value
+                end
                 if @in_operating_system
                   @vm[:operating_system] = value
                   @in_operating_system = false

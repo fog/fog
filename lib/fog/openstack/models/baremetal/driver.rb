@@ -1,19 +1,13 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Baremetal
     class OpenStack
-      class Driver < Fog::Model
+      class Driver < Fog::OpenStack::Model
         identity :name
 
         attribute :name
         attribute :hosts
-
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
-        end
 
         def properties
           requires :name

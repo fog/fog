@@ -38,6 +38,7 @@ module Fog
         attribute :canuse_for_deploy,       :aliases => 'canusefordeploy'
         attribute :is_persistent,           :aliases => 'ispersistent', :type => :boolean
         attribute :display_network,         :aliases => 'displaynetwork'
+        attribute :is_default,              :aliases => 'isdefault', :type => :boolean
 
         # restart network - will return a job
         def restart(options={})

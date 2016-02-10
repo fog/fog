@@ -8,8 +8,11 @@ module Fog
         attribute :disk
         attribute :name
         attribute :ram
+        attribute :transfer
         attribute :price
+        attribute :price_hourly
         attribute :cores
+        attribute :available
 
         def bits
           0 # these are determined by images you select not the hardware

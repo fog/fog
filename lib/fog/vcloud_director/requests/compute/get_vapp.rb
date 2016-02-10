@@ -63,6 +63,7 @@ module Fog
             :status => vm[:status],
             :deployed => vm[:deployed],
             :needsCustomization => vm[:needs_customization],
+            :Description => vm[:description],
             :"ovf:VirtualHardwareSection" => get_vm_virtual_hardware_section_body(id, vm),
             :"ovf:OperatingSystemSection" => get_vm_operating_system_section_body(id, vm),
             :NetworkConnectionSection     => get_vm_network_connection_section_body(id, vm),

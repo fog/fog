@@ -11,8 +11,10 @@ module Fog
         attribute :vapp_name
         attribute :name
         attribute :type
+        attribute :description
         attribute :href
         attribute :status
+        attribute :deployed
         attribute :operating_system
         attribute :ip_address
         attribute :cpu, :type => :integer
@@ -89,6 +91,17 @@ module Fog
           service.process_task(response.body)
         end
 
+        def undeploy
+          requires :id
+          begin
+            response = service.post_undeploy_vapp(id)
+          rescue Fog::Compute::VcloudDirector::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
+          service.process_task(response.body)
+        end
+
         # Shut down the VM.
         def shutdown
           requires :id
@@ -154,7 +167,20 @@ module Fog
             service.process_task(response.body)
           end
         end
-
+        
+        # Reconfigure a VM using any of the options documented in
+        # post_reconfigure_vm
+        def reconfigure(options)
+          options[:name] ||= name # name has to be sent
+          # Delete those things that are not changing for performance
+          [:cpu, :memory, :description].each do |k|
+            options.delete(k) if options.key? k and options[k] == attributes[k]
+          end
+          response = service.post_reconfigure_vm(id, options)
+          service.process_task(response.body)
+          options.each {|k,v| attributes[k] = v}
+        end
+        
         def ready?
           reload
           status == 'on'

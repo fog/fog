@@ -9,6 +9,7 @@ module Fog
         identity :id
 
         attribute :name
+        attribute :comment
         attribute :description
         attribute :profile
         attribute :display

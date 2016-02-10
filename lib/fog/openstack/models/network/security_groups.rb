@@ -1,10 +1,10 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/network/security_group'
 
 module Fog
   module Network
     class OpenStack
-      class SecurityGroups < Fog::Collection
+      class SecurityGroups < Fog::OpenStack::Collection
         attribute :filters
 
         model Fog::Network::OpenStack::SecurityGroup
@@ -16,7 +16,7 @@ module Fog
 
         def all(filters_arg = filters)
           filters = filters_arg
-          load(service.list_security_groups(filters).body['security_groups'])
+          load_response(service.list_security_groups(filters), 'security_groups')
         end
 
         def get(security_group_id)

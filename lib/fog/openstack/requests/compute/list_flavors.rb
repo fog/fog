@@ -2,17 +2,18 @@ module Fog
   module Compute
     class OpenStack
       class Real
-        def list_flavors
+        def list_flavors(options = {})
           request(
-            :expects  => [200, 203],
-            :method   => 'GET',
-            :path     => 'flavors.json'
+            :expects => [200, 203],
+            :method  => 'GET',
+            :path    => 'flavors.json',
+            :query   => options
           )
         end
       end
 
       class Mock
-        def list_flavors
+        def list_flavors(options = {})
           response = Excon::Response.new
           response.status = 200
           response.body = {

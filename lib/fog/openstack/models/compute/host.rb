@@ -4,7 +4,7 @@ require 'fog/openstack/models/compute/metadata'
 module Fog
   module Compute
     class OpenStack
-      class Host < Fog::Model
+      class Host < Fog::OpenStack::Model
         attribute :host_name
         attribute :service_name
         attribute :details

@@ -1,7 +1,7 @@
 module Fog
   module Volume
     class OpenStack
-      class Real
+      module Real
         def get_volume_type_details(volume_type_id)
           request(
             :expects  => 200,
@@ -11,8 +11,8 @@ module Fog
         end
       end
 
-      class Mock
-        def get_volume_details(volume_type_id)
+      module Mock
+        def get_volume_type_details(volume_type_id)
           response = Excon::Response.new
           response.status = 200
           response.body = {

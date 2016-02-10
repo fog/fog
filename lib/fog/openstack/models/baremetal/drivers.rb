@@ -1,14 +1,14 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/baremetal/driver'
 
 module Fog
   module Baremetal
     class OpenStack
-      class Drivers < Fog::Collection
+      class Drivers < Fog::OpenStack::Collection
         model Fog::Baremetal::OpenStack::Driver
 
-        def all
-          load(service.list_drivers.body['drivers'])
+        def all(options = {})
+          load_response(service.list_drivers(options), 'drivers')
         end
 
         def find_by_name(name)

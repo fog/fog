@@ -120,7 +120,7 @@ To see a list of requests supported by the service:
 	
 This returns:
 
-	:list_servers, :get_server, :create_server, :update_server, :delete_server, :change_server_password, :reboot_server, :rebuild_server, :resize_server, :confirm_resize_server, :revert_resize_server, :list_images, :get_image, :list_flavors, :get_flavor, :attach_volume, :get_attachment, :list_attachments, :delete_attachment
+	:list_servers, :get_server, :create_server, :update_server, :delete_server, :change_server_password, :reboot_server, :rebuild_server, :resize_server, :confirm_resize_server, :revert_resize_server, :list_images, :get_image, :list_flavors, :get_flavor, :attach_volume, :get_attachment, :list_attachments, :delete_attachment, :get_vnc_console
 
 
 #### Example Request
@@ -485,6 +485,10 @@ The `create` method also supports the following key values:
 		<td>Whether a read-only configuration drive is attached. Refer to  Next Gen Server API documentation - <a
 href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/config_drive_ext.html">Config Drive Extension</a>.</td>
 	</tr>
+        <tr>
+                <td>:networks</td>
+                <td>Array of uuids corresponding to cloud networks that should be attached to the server, and defaults to two elements (all-zeros for public internet and all-ones for ServiceNet). Please refer to the Rackspace <a href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/CreateServers.html">Create Server </a> API documentation for further information.</td>
+        </tr>
 </table>
 
 ## Bootstrap

@@ -28,7 +28,7 @@ Next, create a connection to queue service:
 
 Using a US-based account:
 
-	service = Fog::Rackspace::Queues(
+	service = Fog::Rackspace::Queues.new(
 		:rackspace_username  => RACKSPACE_USER_NAME,   # Your Rackspace Username
 		:rackspace_api_key   => RACKSPACE_API,         # Your Rackspace API key
 		:rackspace_region    => :ord,                  # Your desired region
@@ -38,7 +38,7 @@ Using a US-based account:
 
 Using a UK-based account:
 
-	service = Fog::Rackspace::Queues(
+	service = Fog::Rackspace::Queues.new(
 		:rackspace_username  => RACKSPACE_USER_NAME,        # Your Rackspace Username
 		:rackspace_api_key   => RACKSPACE_API,              # Your Rackspace API key
 		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT,

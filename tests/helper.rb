@@ -3,6 +3,7 @@ ENV['FOG_CREDENTIAL'] = ENV['FOG_CREDENTIAL'] || 'default'
 
 require 'fog'
 require 'fog/bin' # for available_providers and registered_providers
+require 'ostruct'
 
 Excon.defaults.merge!(:debug_request => true, :debug_response => true)
 
@@ -34,7 +35,7 @@ end
 all_providers = Fog.registered_providers.map {|provider| provider.downcase}
 
 # Manually remove these providers since they are local applications, not lacking credentials
-all_providers = all_providers - ["libvirt", "openvz"]
+all_providers = all_providers - ["openvz"]
 
 available_providers = Fog.available_providers.map {|provider| provider.downcase}
 
@@ -48,12 +49,4 @@ end
 
 for provider in unavailable_providers
   Fog::Formatador.display_line("[yellow]Skipping tests for [bold]#{provider}[/] [yellow]due to lacking credentials (add some to '#{Fog.credentials_path}' to run them)[/]")
-end
-
-# mark libvirt tests pending if not setup
-begin
-  require('libvirt')
-rescue LoadError
-  Fog::Formatador.display_line("[yellow]Skipping tests for [bold]libvirt[/] [yellow]due to missing `ruby-libvirt` gem.[/]")
-  Thread.current[:tags] << '-libvirt'
 end

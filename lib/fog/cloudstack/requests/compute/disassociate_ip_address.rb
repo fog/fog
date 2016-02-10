@@ -21,7 +21,7 @@ module Fog
 
       class Mock
         def disassociate_ip_address(*args)
-          public_ip_address_id = options['id']
+          public_ip_address_id = args[0].is_a?(Hash) ? args[0]['id'] : args[0]
           if self.data[:public_ip_addresses][public_ip_address_id]
             self.data[:public_ip_addresses].delete(public_ip_address_id)
             { "disassociateipaddressresponse" => { "success" => "true" }}

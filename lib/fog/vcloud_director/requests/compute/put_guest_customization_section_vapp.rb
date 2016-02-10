@@ -110,7 +110,8 @@ module Fog
               if options.key?(:AdminPasswordAuto)
                 AdminPasswordAuto options[:AdminPasswordAuto]
               end
-              if options.key?(:AdminPassword)
+              # Don't add AdminPassword if AdminPasswordAuto is true
+              if options.key?(:AdminPassword) and !options[:AdminPasswordAuto]
                 AdminPassword options[:AdminPassword]
               end
               if options.key?(:ResetPasswordRequired)

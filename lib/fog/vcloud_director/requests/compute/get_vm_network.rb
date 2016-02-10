@@ -26,6 +26,31 @@ module Fog
           )
         end
       end
+      class Mock
+        def get_vm_network(id)
+          vapp    = get_vapp(id).body
+          network = vapp[:NetworkConnectionSection]
+          connection = network[:NetworkConnection]
+          body = {
+            :type => network[:type],
+            :id   => network[:href].split('/')[-2],
+            :href => network[:href],
+            :info => network[:"ovf:Info"],
+            :primary_network_connection_index => network[:PrimaryNetworkConnectionIndex],
+            :network => connection[:network],
+            :needs_customization => connection[:needsCustomization],
+            :network_connection_index => connection[:NetworkConnectionIndex],
+            :is_connected => connection[:IsConnected],
+            :mac_address => connection[:MACAddress],
+            :ip_address_allocation_mode => connection[:IpAddressAllocationMode]
+          }
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
+        end
+      end
     end
   end
 end

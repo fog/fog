@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Baremetal
     class OpenStack
-      class Node < Fog::Model
+      class Node < Fog::OpenStack::Model
         identity :uuid
 
         attribute :instance_uuid
@@ -29,17 +29,6 @@ module Fog
         attribute :target_power_state
         attribute :target_provision_state
 
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
-        end
-
-        def save
-          requires :driver
-          identity ? update : create
-        end
-
         def create
           requires :driver
           merge_attributes(service.create_node(self.attributes).body)
@@ -47,7 +36,7 @@ module Fog
         end
 
         def update(patch=nil)
-          requires :uuid
+          requires :uuid, :driver
           if patch
             merge_attributes(service.patch_node(uuid, patch).body)
           else
@@ -75,9 +64,31 @@ module Fog
           service.list_ports_detailed({:node_uuid => self.uuid}).body['ports']
         end
 
+        def set_node_maintenance(parameters=nil)
+          requires :uuid
+          service.set_node_maintenance(uuid, parameters)
+          true
+        end
+
+        def unset_node_maintenance(parameters=nil)
+          requires :uuid
+          service.unset_node_maintenance(uuid, parameters)
+          true
+        end
+
         def metadata
           requires :uuid
           service.get_node(self.uuid).headers
+        end
+
+        def set_power_state(power_state)
+          requires :uuid
+          service.set_node_power_state(self.uuid, power_state)
+        end
+
+        def set_provision_state(provision_state)
+          requires :uuid
+          service.set_node_provision_state(self.uuid, provision_state)
         end
       end
     end

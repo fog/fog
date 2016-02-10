@@ -1,20 +1,16 @@
+require 'fog/openstack/models/model'
+
 module Fog
   module Orchestration
     class OpenStack
-      class Stack < Fog::Model
+      class Stack < Fog::OpenStack::Model
 
         identity :id
 
         %w{capabilities description disable_rollback links notification_topics outputs parameters
-            stack_name stack_status stack_status_reason template_description timeout_mins
-            creation_time updated_time}.each do |a|
+            stack_name stack_status stack_status_reason template_description timeout_mins parent
+            creation_time updated_time stack_user_project_id stack_owner}.each do |a|
           attribute a.to_sym
-        end
-
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
         end
 
         def save(options={})
@@ -39,6 +35,11 @@ module Fog
           service.update_stack(self, default_options).body['stack']
         end
 
+        def patch(options = {})
+          requires :stack_name
+          service.patch_stack(self, options).body['stack']
+        end
+
         def delete
           service.delete_stack(self)
         end
@@ -49,7 +50,7 @@ module Fog
         end
 
         def resources(options={})
-          @resources ||= service.resources.all(self, options)
+          @resources ||= service.resources.all({:stack => self}.merge(options))
         end
 
         def events(options={})

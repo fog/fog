@@ -25,6 +25,17 @@ module Fog
           )
         end
       end
+      class Mock
+        def get_metadata(id)
+          tags = data[:tags][id] || {}
+          body = {:type => 'application/vnd.vmware.vcloud.metadata+xml', :metadata => tags}
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
+        end
+      end
     end
   end
 end

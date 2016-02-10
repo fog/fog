@@ -6,6 +6,12 @@ require 'rubygems/package_task'
 require 'yard'
 require File.dirname(__FILE__) + '/lib/fog'
 
+require "tasks/changelog_task"
+Fog::Rake::ChangelogTask.new
+
+require "tasks/github_release_task"
+Fog::Rake::GithubReleaseTask.new
+
 #############################################################################
 #
 # Helper functions
@@ -36,6 +42,10 @@ def gem_file
   "#{name}-#{version}.gem"
 end
 
+def package_gem_file
+  "pkg/#{gem_file}"
+end
+
 def replace_header(head, header_name)
   head.sub!(/(\.#{header_name}\s*= \").*\"/) { "#{$1}#{send(header_name)}\""}
 end
@@ -48,7 +58,7 @@ end
 
 GEM_NAME = "#{name}"
 task :default => :test
-task :travis  => ['test', 'test:travis']
+task :travis  => ['test', 'test:travis', 'test:openstack_specs']
 
 Rake::TestTask.new do |t|
   t.pattern = File.join("spec", "**", "*_spec.rb")
@@ -57,11 +67,11 @@ end
 
 namespace :test do
   mock = ENV['FOG_MOCK'] || 'true'
-  task :travis do
-      sh("export FOG_MOCK=#{mock} && bundle exec shindont")
+  task :openstack_specs do
+    sh("export FOG_MOCK=false && bundle exec rspec spec/fog/openstack/*_spec.rb")
   end
-  task :vsphere do
-      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/vsphere")
+  task :travis => [:openstack_specs] do
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont")
   end
   task :openvz do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/openvz")
@@ -71,6 +81,9 @@ namespace :test do
   end
   task :openstack do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/openstack")
+  end
+  task :rackspace do
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/rackspace")
   end
   task :cloudstack do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/cloudstack")
@@ -148,7 +161,7 @@ namespace :release do
 
   task :prepare => :preflight do
     Rake::Task[:build].invoke
-    sh "gem install pkg/#{name}-#{version}.gem"
+    sh "gem install #{package_gem_file}"
     Rake::Task[:git_mark_release].invoke
   end
 
@@ -160,16 +173,15 @@ end
 
 task :git_mark_release do
   sh "git commit --allow-empty -a -m 'Release #{version}'"
-  sh "git tag v#{version}"
 end
 
 task :git_push_release do
   sh "git push origin master"
-  sh "git push origin v#{version}"
+  ::Rake::Task[:github_release].invoke
 end
 
 task :gem_push do
-  sh "gem push pkg/#{name}-#{version}.gem"
+  sh "gem push #{package_gem_file}"
 end
 
 desc "Build fog-#{version}.gem"
@@ -179,6 +191,12 @@ task :build => :gemspec do
   sh "mv #{gem_file} pkg"
 end
 task :gem => :build
+
+desc "Install fog-#{version}.gem"
+task "install" do
+  Rake::Task[:build].invoke
+  sh "gem install #{package_gem_file} --no-document"
+end
 
 desc "Updates the gemspec and runs 'validate'"
 task :gemspec => :validate do
@@ -215,9 +233,3 @@ YARD::Rake::YardocTask.new do |t|
   t.files   = ['lib/**/*.rb', "README"]
   t.options = ["--output-dir", YARDOC_LOCATION, "--title", "#{name} #{version}"]
 end
-
-require "tasks/changelog_task"
-Fog::Rake::ChangelogTask.new
-
-require "tasks/github_release_task"
-Fog::Rake::GithubReleaseTask.new

@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = "fog"
-  s.version           = "1.29.0"
-  s.date              = "2015-04-02"
+  s.version           = "1.37.0"
+  s.date              = "2015-12-22"
   s.rubyforge_project = "fog"
 
   ## Make sure your summary is short. The description may be as long
@@ -44,19 +44,20 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.md]
 
-  s.add_dependency("fog-core", "~> 1.27", ">= 1.27.4")
+  s.add_dependency("fog-core", "~> 1.32")
   s.add_dependency("fog-json")
   s.add_dependency("fog-xml", "~> 0.1.1")
 
   s.add_dependency("ipaddress", "~> 0.5")
-  s.add_dependency("nokogiri", "~> 1.5", ">= 1.5.11")
 
   # Modular providers (please keep sorted)
   s.add_dependency("fog-atmos")
-  s.add_dependency("fog-aws", "~> 0.0")
+  s.add_dependency("fog-aws", ">= 0.6.0")
   s.add_dependency("fog-brightbox", "~> 0.4")
-  s.add_dependency("fog-ecloud")
-  s.add_dependency("fog-google", ">= 0.0.2")
+  s.add_dependency("fog-cloudatcost", "~> 0.1.0")
+  s.add_dependency("fog-dynect", "~> 0.0.2")
+  s.add_dependency("fog-ecloud", "~> 0.1")
+  s.add_dependency("fog-google", "<= 0.1.0")
   s.add_dependency("fog-local")
   s.add_dependency("fog-powerdns", ">= 0.1.1")
   s.add_dependency("fog-profitbricks")
@@ -69,9 +70,13 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-terremark")
   s.add_dependency("fog-vmfusion")
   s.add_dependency("fog-voxel")
+  s.add_dependency("fog-vsphere", ">= 0.4.0")
+  s.add_dependency("fog-xenserver")
+  s.add_dependency("fog-aliyun",">= 0.1.0")
 
   s.add_development_dependency("docker-api", ">= 1.13.6")
   s.add_development_dependency("fission")
+  s.add_development_dependency("mime-types")
   s.add_development_dependency("minitest")
   s.add_development_dependency("minitest-stub-const")
   s.add_development_dependency("opennebula")
@@ -79,15 +84,15 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rake")
   s.add_development_dependency("rbovirt", "0.0.32")
   s.add_development_dependency("rbvmomi")
-  s.add_development_dependency("rubocop") if RUBY_VERSION > "1.9"
+  s.add_development_dependency("rubocop")
   s.add_development_dependency("shindo", "~> 0.3.4")
   s.add_development_dependency("simplecov")
   s.add_development_dependency("thor")
   s.add_development_dependency("yard")
-
-  if ENV["FOG_USE_LIBVIRT"]
-    s.add_development_dependency("ruby-libvirt","~> 0.5.0")
-  end
+  s.add_development_dependency("rspec-core")
+  s.add_development_dependency("rspec-expectations")
+  s.add_development_dependency("vcr")
+  s.add_development_dependency("webmock","~>1.22.2")
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {spec,tests}/*`.split("\n")

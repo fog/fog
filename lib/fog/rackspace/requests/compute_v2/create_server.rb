@@ -18,6 +18,7 @@ module Fog
         #   attachment of volumes to this server. Mutually exclusive with :volume_id or :volume_image_id. If provided, leave image_id
         #   as "". See http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot for details.
         # @option options [String] boot_volume_id Id of a pre-created bootable volume to use for this server. If provided, leave image_id as "".
+        # @option options [Integer] boot_volume_size Size of the bootable volume to be created expressed in GB. (defaults to 100)
         # @option options [String] boot_image_id Id of an image to create a bootable volume from and attach to this server. If provided,
         #   leave image_id as "".
         # @return [Excon::Response] response:
@@ -96,12 +97,16 @@ module Fog
                 Fog::Logger.warning(":boot_volume_id overrides :boot_image_id!")
               end
 
+              if options[:boot_volume_size]
+                Fog::Logger.warning("Boot volume size: " + options[:boot_volume_size] + "GB")
+              end
+
               data['server']['block_device_mapping_v2'] = [{
                 'boot_index' => '0',
                 'uuid' => options[:boot_volume_id],
                 'source_type' => 'volume',
                 'destination_type' => 'volume',
-                'volume_size' => 100
+                'volume_size' => options[:boot_volume_size] ? options[:boot_volume_size] : 100
               }]
             end
 
@@ -111,7 +116,7 @@ module Fog
                 'uuid' => options[:boot_image_id],
                 'source_type' => 'image',
                 'destination_type' => 'volume',
-                'volume_size' => 100
+                'volume_size' => options[:boot_volume_size] ? options[:boot_volume_size] : 100
               }]
             end
         end

@@ -1,7 +1,7 @@
 module Fog
   module Volume
     class OpenStack
-      class Real
+      module Real
         def update_quota(tenant_id, options = {})
           options['tenant_id'] = tenant_id
           request(
@@ -13,7 +13,7 @@ module Fog
         end
       end
 
-      class Mock
+      module Mock
         def update_quota(tenant_id, options = {})
           self.data[:quota_updated] = self.data[:quota].merge options
 

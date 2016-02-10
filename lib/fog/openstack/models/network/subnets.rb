@@ -1,10 +1,10 @@
-require 'fog/core/collection'
+require 'fog/openstack/models/collection'
 require 'fog/openstack/models/network/subnet'
 
 module Fog
   module Network
     class OpenStack
-      class Subnets < Fog::Collection
+      class Subnets < Fog::OpenStack::Collection
         attribute :filters
 
         model Fog::Network::OpenStack::Subnet
@@ -16,7 +16,7 @@ module Fog
 
         def all(filters_arg = filters)
           filters = filters_arg
-          load(service.list_subnets(filters).body['subnets'])
+          load_response(service.list_subnets(filters), 'subnets')
         end
 
         def get(subnet_id)

@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 
 module Fog
   module Baremetal
     class OpenStack
-      class Chassis < Fog::Model
+      class Chassis < Fog::OpenStack::Model
         identity :uuid
 
         attribute :description
@@ -14,17 +14,6 @@ module Fog
         attribute :updated_at
         attribute :extra
 
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
-        end
-
-        def save
-          requires :description
-          identity ? update : create
-        end
-
         def create
           requires :description
           merge_attributes(service.create_chassis(self.attributes).body)
@@ -32,7 +21,7 @@ module Fog
         end
 
         def update(patch=nil)
-          requires :uuid
+          requires :uuid, :description
           if patch
             merge_attributes(service.patch_chassis(uuid, patch).body)
           else

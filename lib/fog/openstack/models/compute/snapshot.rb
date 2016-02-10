@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/openstack/models/model'
 require 'fog/openstack/models/compute/metadata'
 
 module Fog
   module Compute
     class OpenStack
-      class Snapshot < Fog::Model
+      class Snapshot < Fog::OpenStack::Model
         identity :id
 
         attribute :name,                :aliases => 'displayName'
@@ -13,12 +13,6 @@ module Fog
         attribute :status
         attribute :size
         attribute :created_at,          :aliases => 'createdAt'
-
-        def initialize(attributes)
-          # Old 'connection' is renamed as service and should be used instead
-          prepare_service_value(attributes)
-          super
-        end
 
         def save(force=false)
           requires :volume_id, :name, :description

@@ -1,3 +1,6 @@
+require 'uri'
+require 'cgi'
+
 Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
   @directory = Fog::Storage[:rackspace].directories.create(:key => 'fogobjecttests')
@@ -6,6 +9,21 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
     def override_path(path)
       @uri.path = path
     end
+  end
+
+  def parse_url(url_string)
+    uri = URI.parse(url_string)
+    query_hash = CGI.parse(uri.query)
+    query_hash.each do |k, v|
+      query_hash[k] = v[0] if query_hash[k].is_a?(Array) and query_hash[k].count == 1
+    end
+    {
+        :scheme => uri.scheme,
+        :host => uri.host,
+        :port => uri.port,
+        :path => uri.path,
+        :query => query_hash
+    }
   end
 
   tests('success') do
@@ -41,7 +59,13 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
       storage.extend RackspaceStorageHelpers
       storage.override_path('/fake_version/fake_tenant')
       object_url = storage.get_object_http_url('fogobjecttests', 'fog_object', expires_at)
-      object_url =~ /http:\/\/.*clouddrive.com\/[^\/]+\/[^\/]+\/fogobjecttests\/fog_object\?temp_url_sig=7e69a73092e333095a70b3be826a7350fcbede86&temp_url_expires=1344149532/
+      url = parse_url(object_url)
+      [
+         url[:host] =~ /.*clouddrive\.com$/,
+         url[:path] =~ /\/fogobjecttests\/fog_object$/,
+         url[:query]['temp_url_sig'] == '7e69a73092e333095a70b3be826a7350fcbede86',
+         url[:query]['temp_url_expires'] == '1344149532'
+      ].all?
     end
 
     # an object key with no special characters
@@ -51,7 +75,13 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
       storage.extend RackspaceStorageHelpers
       storage.override_path('/fake_version/fake_tenant')
       object_url = storage.get_object_https_url('fogobjecttests', 'fog_object', expires_at)
-      object_url =~ /https:\/\/.*clouddrive.com\/[^\/]+\/[^\/]+\/fogobjecttests\/fog_object\?temp_url_sig=7e69a73092e333095a70b3be826a7350fcbede86&temp_url_expires=1344149532/
+      url = parse_url(object_url)
+      [
+          url[:host] =~ /.*clouddrive\.com$/,
+          url[:path] =~ /\/fogobjecttests\/fog_object$/,
+          url[:query]['temp_url_sig'] == '7e69a73092e333095a70b3be826a7350fcbede86',
+          url[:query]['temp_url_expires'] == '1344149532'
+      ].all?
     end
 
     # an object key nested under a /
@@ -61,7 +91,13 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
       storage.extend RackspaceStorageHelpers
       storage.override_path('/fake_version/fake_tenant')
       object_url = storage.get_object_https_url('fogobjecttests', 'fog/object', expires_at)
-      object_url =~ /https:\/\/.*clouddrive.com\/[^\/]+\/[^\/]+\/fogobjecttests\/fog\/object\?temp_url_sig=3e99892828804e3d0fdadd18c543b688591ca8b8&temp_url_expires=1344149532/
+      url = parse_url(object_url)
+      [
+          url[:host] =~ /.*clouddrive\.com$/,
+          url[:path] =~ /\/fogobjecttests\/fog\/object$/,
+          url[:query]['temp_url_sig'] == '3e99892828804e3d0fdadd18c543b688591ca8b8',
+          url[:query]['temp_url_expires'] == '1344149532'
+      ].all?
     end
 
     # an object key containing a -
@@ -71,7 +107,13 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
       storage.extend RackspaceStorageHelpers
       storage.override_path('/fake_version/fake_tenant')
       object_url = storage.get_object_https_url('fogobjecttests', 'fog-object', expires_at)
-      object_url =~ /https:\/\/.*clouddrive.com\/[^\/]+\/[^\/]+\/fogobjecttests\/fog-object\?temp_url_sig=a24dd5fc955a57adce7d1b5bc4ec2c7660ab8396&temp_url_expires=1344149532/
+      url = parse_url(object_url)
+      [
+          url[:host] =~ /.*clouddrive\.com$/,
+          url[:path] =~ /\/fogobjecttests\/fog-object$/,
+          url[:query]['temp_url_sig'] == 'a24dd5fc955a57adce7d1b5bc4ec2c7660ab8396',
+          url[:query]['temp_url_expires'] == '1344149532'
+      ].all?
     end
 
     tests("put_object with block") do

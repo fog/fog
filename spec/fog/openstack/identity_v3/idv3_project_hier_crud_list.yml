@@ -1,0 +1,1405 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:35357/v3/projects
+    body:
+      encoding: UTF-8
+      string: '{"project":{"name":"p-foobar67"}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:51 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-d8dfb940-60ca-4f9d-ae92-7d3c33675d34
+      Content-Length:
+      - '248'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"project": {"description": "", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/5cfd96ed4443498c8b6693599e8672c2"},
+        "enabled": true, "id": "5cfd96ed4443498c8b6693599e8672c2", "parent_id": null,
+        "domain_id": "default", "name": "p-foobar67"}}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:31 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:35357/v3/projects
+    body:
+      encoding: UTF-8
+      string: '{"project":{"name":"p-baz67","parent_id":"5cfd96ed4443498c8b6693599e8672c2"}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:51 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-9fb0fdda-c7e4-4fef-94e2-c9c217fa64d0
+      Content-Length:
+      - '275'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"project": {"description": "", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/4f2542e6df764095bf8b0cecc51affc9"},
+        "enabled": true, "id": "4f2542e6df764095bf8b0cecc51affc9", "parent_id": "5cfd96ed4443498c8b6693599e8672c2",
+        "domain_id": "default", "name": "p-baz67"}}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:31 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-baz67
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:51 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-2e39d69e-8a38-4190-9eab-1596ac0c1058
+      Content-Length:
+      - '382'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-baz67",
+        "previous": null, "next": null}, "projects": [{"description": "", "links":
+        {"self": "http://devstack.openstack.stack:35357/v3/projects/4f2542e6df764095bf8b0cecc51affc9"},
+        "enabled": true, "id": "4f2542e6df764095bf8b0cecc51affc9", "parent_id": "5cfd96ed4443498c8b6693599e8672c2",
+        "domain_id": "default", "name": "p-baz67"}]}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:31 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:35357/v3/projects
+    body:
+      encoding: UTF-8
+      string: '{"project":{"name":"p-boo67","parent_id":"5cfd96ed4443498c8b6693599e8672c2"}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:51 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-26fc5503-486d-4306-957e-6a73472a2624
+      Content-Length:
+      - '275'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"project": {"description": "", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/41d05014e58f4dc3aa9e957daacf38fe"},
+        "enabled": true, "id": "41d05014e58f4dc3aa9e957daacf38fe", "parent_id": "5cfd96ed4443498c8b6693599e8672c2",
+        "domain_id": "default", "name": "p-boo67"}}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:31 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:35357/v3/projects
+    body:
+      encoding: UTF-8
+      string: '{"project":{"name":"p-booboo67","parent_id":"41d05014e58f4dc3aa9e957daacf38fe"}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:51 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-c6f49dc9-de7d-466b-ad27-6fbd4524ec86
+      Content-Length:
+      - '278'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"project": {"description": "", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/161cedc65f50438e9b5f9eb6a6b86ad2"},
+        "enabled": true, "id": "161cedc65f50438e9b5f9eb6a6b86ad2", "parent_id": "41d05014e58f4dc3aa9e957daacf38fe",
+        "domain_id": "default", "name": "p-booboo67"}}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:32 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:35357/v3/roles
+    body:
+      encoding: UTF-8
+      string: '{"role":{"name":"r-project67"}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:51 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-ec2ef216-ece3-450d-a8bc-fe43cc1a053d
+      Content-Length:
+      - '164'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"role": {"id": "c528ea1a7e0c4ecd845c64e48288beeb", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/roles/c528ea1a7e0c4ecd845c64e48288beeb"}, "name":
+        "r-project67"}}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:32 GMT
+- request:
+    method: put
+    uri: http://devstack.openstack.stack:35357/v3/projects/5cfd96ed4443498c8b6693599e8672c2/users/a18abc2039d6493aa7239a42033cc7c9/roles/c528ea1a7e0c4ecd845c64e48288beeb
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:51 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-bc8f1423-f424-44a1-a0a8-4916443ac683
+      Content-Length:
+      - '0'
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:32 GMT
+- request:
+    method: put
+    uri: http://devstack.openstack.stack:35357/v3/projects/4f2542e6df764095bf8b0cecc51affc9/users/a18abc2039d6493aa7239a42033cc7c9/roles/c528ea1a7e0c4ecd845c64e48288beeb
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:52 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-039955a4-47b0-4221-8d02-9611b557d69a
+      Content-Length:
+      - '0'
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:32 GMT
+- request:
+    method: put
+    uri: http://devstack.openstack.stack:35357/v3/projects/41d05014e58f4dc3aa9e957daacf38fe/users/a18abc2039d6493aa7239a42033cc7c9/roles/c528ea1a7e0c4ecd845c64e48288beeb
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:52 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-6b03c109-f1fc-4b3d-8672-b6a8134b9ec1
+      Content-Length:
+      - '0'
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:32 GMT
+- request:
+    method: put
+    uri: http://devstack.openstack.stack:35357/v3/projects/161cedc65f50438e9b5f9eb6a6b86ad2/users/a18abc2039d6493aa7239a42033cc7c9/roles/c528ea1a7e0c4ecd845c64e48288beeb
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:52 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-379ba812-c100-410b-a8d7-0ed19a08c1a3
+      Content-Length:
+      - '0'
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:32 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/projects/5cfd96ed4443498c8b6693599e8672c2?subtree_as_ids
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:52 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-c1a01378-a41a-442e-9ebe-14fe31047b5d
+      Content-Length:
+      - '383'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"project": {"description": "", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/5cfd96ed4443498c8b6693599e8672c2"},
+        "enabled": true, "subtree": {"4f2542e6df764095bf8b0cecc51affc9": null, "41d05014e58f4dc3aa9e957daacf38fe":
+        {"161cedc65f50438e9b5f9eb6a6b86ad2": null}}, "id": "5cfd96ed4443498c8b6693599e8672c2",
+        "parent_id": null, "domain_id": "default", "name": "p-foobar67"}}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:32 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/projects/5cfd96ed4443498c8b6693599e8672c2?subtree_as_list
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:52 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-f8d26482-ec4b-44cd-a2fb-2899a6242829
+      Content-Length:
+      - '1095'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"project": {"description": "", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/5cfd96ed4443498c8b6693599e8672c2"},
+        "enabled": true, "subtree": [{"project": {"description": "", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/projects/41d05014e58f4dc3aa9e957daacf38fe"},
+        "enabled": true, "id": "41d05014e58f4dc3aa9e957daacf38fe", "parent_id": "5cfd96ed4443498c8b6693599e8672c2",
+        "domain_id": "default", "name": "p-boo67"}}, {"project": {"description": "",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/4f2542e6df764095bf8b0cecc51affc9"},
+        "enabled": true, "id": "4f2542e6df764095bf8b0cecc51affc9", "parent_id": "5cfd96ed4443498c8b6693599e8672c2",
+        "domain_id": "default", "name": "p-baz67"}}, {"project": {"description": "",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/161cedc65f50438e9b5f9eb6a6b86ad2"},
+        "enabled": true, "id": "161cedc65f50438e9b5f9eb6a6b86ad2", "parent_id": "41d05014e58f4dc3aa9e957daacf38fe",
+        "domain_id": "default", "name": "p-booboo67"}}], "id": "5cfd96ed4443498c8b6693599e8672c2",
+        "parent_id": null, "domain_id": "default", "name": "p-foobar67"}}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:32 GMT
+- request:
+    method: post
+    uri: http://devstack.openstack.stack:35357/v3/projects
+    body:
+      encoding: UTF-8
+      string: '{"project":{"name":"p-fooboo67","parent_id":"41d05014e58f4dc3aa9e957daacf38fe"}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:52 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-fdabf4c5-3a8a-496f-abcb-ad6f927e3975
+      Content-Length:
+      - '278'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"project": {"description": "", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/39ca776d0ecd4c519e4bf49b48b8bf77"},
+        "enabled": true, "id": "39ca776d0ecd4c519e4bf49b48b8bf77", "parent_id": "41d05014e58f4dc3aa9e957daacf38fe",
+        "domain_id": "default", "name": "p-fooboo67"}}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:32 GMT
+- request:
+    method: put
+    uri: http://devstack.openstack.stack:35357/v3/projects/39ca776d0ecd4c519e4bf49b48b8bf77/users/a18abc2039d6493aa7239a42033cc7c9/roles/c528ea1a7e0c4ecd845c64e48288beeb
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:52 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-59d6ed41-5cd5-4d93-939f-e7e9b6f96a99
+      Content-Length:
+      - '0'
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:32 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/projects/5cfd96ed4443498c8b6693599e8672c2?subtree_as_list
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:52 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-6447cbea-81b3-4ce2-837b-6c5250738c2e
+      Content-Length:
+      - '1375'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"project": {"description": "", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/5cfd96ed4443498c8b6693599e8672c2"},
+        "enabled": true, "subtree": [{"project": {"description": "", "links": {"self":
+        "http://devstack.openstack.stack:35357/v3/projects/41d05014e58f4dc3aa9e957daacf38fe"},
+        "enabled": true, "id": "41d05014e58f4dc3aa9e957daacf38fe", "parent_id": "5cfd96ed4443498c8b6693599e8672c2",
+        "domain_id": "default", "name": "p-boo67"}}, {"project": {"description": "",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/4f2542e6df764095bf8b0cecc51affc9"},
+        "enabled": true, "id": "4f2542e6df764095bf8b0cecc51affc9", "parent_id": "5cfd96ed4443498c8b6693599e8672c2",
+        "domain_id": "default", "name": "p-baz67"}}, {"project": {"description": "",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/161cedc65f50438e9b5f9eb6a6b86ad2"},
+        "enabled": true, "id": "161cedc65f50438e9b5f9eb6a6b86ad2", "parent_id": "41d05014e58f4dc3aa9e957daacf38fe",
+        "domain_id": "default", "name": "p-booboo67"}}, {"project": {"description":
+        "", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/39ca776d0ecd4c519e4bf49b48b8bf77"},
+        "enabled": true, "id": "39ca776d0ecd4c519e4bf49b48b8bf77", "parent_id": "41d05014e58f4dc3aa9e957daacf38fe",
+        "domain_id": "default", "name": "p-fooboo67"}}], "id": "5cfd96ed4443498c8b6693599e8672c2",
+        "parent_id": null, "domain_id": "default", "name": "p-foobar67"}}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:33 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/projects/161cedc65f50438e9b5f9eb6a6b86ad2?parents_as_ids
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:52 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-8c7151b3-8828-4040-a343-dde1e1206df1
+      Content-Length:
+      - '371'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"project": {"description": "", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/161cedc65f50438e9b5f9eb6a6b86ad2"},
+        "enabled": true, "id": "161cedc65f50438e9b5f9eb6a6b86ad2", "parent_id": "41d05014e58f4dc3aa9e957daacf38fe",
+        "parents": {"41d05014e58f4dc3aa9e957daacf38fe": {"5cfd96ed4443498c8b6693599e8672c2":
+        null}}, "domain_id": "default", "name": "p-booboo67"}}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:33 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/projects/161cedc65f50438e9b5f9eb6a6b86ad2?parents_as_list
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:52 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-1ead553e-6086-44e2-8337-08739a4717d3
+      Content-Length:
+      - '818'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"project": {"description": "", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/161cedc65f50438e9b5f9eb6a6b86ad2"},
+        "enabled": true, "id": "161cedc65f50438e9b5f9eb6a6b86ad2", "parent_id": "41d05014e58f4dc3aa9e957daacf38fe",
+        "parents": [{"project": {"description": "", "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/41d05014e58f4dc3aa9e957daacf38fe"},
+        "enabled": true, "id": "41d05014e58f4dc3aa9e957daacf38fe", "parent_id": "5cfd96ed4443498c8b6693599e8672c2",
+        "domain_id": "default", "name": "p-boo67"}}, {"project": {"description": "",
+        "links": {"self": "http://devstack.openstack.stack:35357/v3/projects/5cfd96ed4443498c8b6693599e8672c2"},
+        "enabled": true, "id": "5cfd96ed4443498c8b6693599e8672c2", "parent_id": null,
+        "domain_id": "default", "name": "p-foobar67"}}], "domain_id": "default", "name":
+        "p-booboo67"}}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:33 GMT
+- request:
+    method: delete
+    uri: http://devstack.openstack.stack:35357/v3/projects/39ca776d0ecd4c519e4bf49b48b8bf77
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:52 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-2ebe5500-7c4e-4cc9-b92e-584041250c38
+      Content-Length:
+      - '0'
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:33 GMT
+- request:
+    method: delete
+    uri: http://devstack.openstack.stack:35357/v3/projects/161cedc65f50438e9b5f9eb6a6b86ad2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:53 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-5e0656bc-df56-46a0-b05f-551b2c9e1dc6
+      Content-Length:
+      - '0'
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:33 GMT
+- request:
+    method: delete
+    uri: http://devstack.openstack.stack:35357/v3/projects/41d05014e58f4dc3aa9e957daacf38fe
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:53 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-3d6c22ad-b0ba-4a50-b8ba-f4869bf3a0a6
+      Content-Length:
+      - '0'
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:33 GMT
+- request:
+    method: delete
+    uri: http://devstack.openstack.stack:35357/v3/projects/4f2542e6df764095bf8b0cecc51affc9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:53 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-31443db7-18a1-4748-a287-3b200c0b1322
+      Content-Length:
+      - '0'
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:33 GMT
+- request:
+    method: delete
+    uri: http://devstack.openstack.stack:35357/v3/projects/5cfd96ed4443498c8b6693599e8672c2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:53 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-5a2c7fa4-1df5-4a72-a687-471e19e6c52a
+      Content-Length:
+      - '0'
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:33 GMT
+- request:
+    method: delete
+    uri: http://devstack.openstack.stack:35357/v3/roles/c528ea1a7e0c4ecd845c64e48288beeb
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:53 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-baea6dfc-6215-464d-977d-5afa02e81728
+      Content-Length:
+      - '0'
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:33 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/projects/5cfd96ed4443498c8b6693599e8672c2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:53 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-3782a5f1-801d-4d4d-ba13-9d6df7b6059b
+      Content-Length:
+      - '117'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"error": {"message": "Could not find project: 5cfd96ed4443498c8b6693599e8672c2",
+        "code": 404, "title": "Not Found"}}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:33 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-booboo67
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:53 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-4310903f-eb99-4948-82c5-e1963a97f340
+      Content-Length:
+      - '123'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-booboo67",
+        "previous": null, "next": null}, "projects": []}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:34 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-fooboo67
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:53 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-557c8f6f-e88d-46af-81a7-c7f0c9770df1
+      Content-Length:
+      - '123'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-fooboo67",
+        "previous": null, "next": null}, "projects": []}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:34 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-boo67
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:53 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-817cc8fa-229b-4bbb-985f-57e005499952
+      Content-Length:
+      - '120'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-boo67",
+        "previous": null, "next": null}, "projects": []}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:34 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-baz67
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:53 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-4f09367c-573e-4daa-8b91-d13c8d766494
+      Content-Length:
+      - '120'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-baz67",
+        "previous": null, "next": null}, "projects": []}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:34 GMT
+- request:
+    method: get
+    uri: http://devstack.openstack.stack:35357/v3/projects?name=p-foobar67
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Proxy-Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      X-Auth-Token:
+      - e6b2788de4cb4562b55c8a7bb05e8444
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 28 Oct 2015 16:05:53 GMT
+      Server:
+      - Apache/2.4.7 (Ubuntu)
+      Vary:
+      - X-Auth-Token
+      X-Openstack-Request-Id:
+      - req-3cd20cbe-d665-48ed-a5be-7d39d3743534
+      Content-Length:
+      - '123'
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from i056593-vagrant
+      X-Cache-Lookup:
+      - MISS from i056593-vagrant:3128
+      Via:
+      - 1.1 i056593-vagrant (squid/3.3.8)
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"links": {"self": "http://devstack.openstack.stack:35357/v3/projects?name=p-foobar67",
+        "previous": null, "next": null}, "projects": []}'
+    http_version: 
+  recorded_at: Wed, 28 Oct 2015 16:05:34 GMT
+recorded_with: VCR 2.9.3

@@ -58,7 +58,7 @@ puts "\nNow creating server '#{server.name}' connected the the Internet and '#{n
 
 begin
   # Check every 5 seconds to see if server is in the active state (ready?).
-  # If the server has not been built in 5 minutes (600 seconds) an exception will be raised.
+  # If the server has not been built in 10 minutes (600 seconds) an exception will be raised.
   server.wait_for(600, 5) do
     print "."
     STDOUT.flush
