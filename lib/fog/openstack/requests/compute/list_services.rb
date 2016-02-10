@@ -3,17 +3,11 @@ module Fog
     class OpenStack
       class Real
         def list_services(parameters=nil)
-          if parameters
-            query = parameters.each { |k, v| parameters[k] = URI::encode(v) }
-          else
-            query = {}
-          end
-
           request(
             :expects => [200, 203],
             :method  => 'GET',
             :path    => 'os-services',
-            :query   => query
+            :query   => parameters
           )
         end
       end

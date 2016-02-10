@@ -3,17 +3,11 @@ module Fog
     class OpenStack
       class Real
         def set_node_maintenance(node_uuid, parameters=nil)
-          if parameters
-            query = parameters.each { |k, v| parameters[k] = URI::encode(v) }
-          else
-            query = {}
-          end
-
           request(
             :expects => [200, 202, 204],
             :method => 'PUT',
             :path => "nodes/#{node_uuid}/maintenance",
-            :query   => query
+            :query   => parameters
           )
         end
       end
