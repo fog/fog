@@ -156,7 +156,9 @@ module Fog
         end
 
         def private_ip_addresses
-          ip_addresses - public_ip_addresses - floating_ip_addresses
+          rfc1918_regexp = /(^10\.|^172\.1[6-9]\.|^172\.2[0-9]\.|^172.3[0-1]\.|^192\.168\.)/
+          almost_private = ip_addresses - public_ip_addresses - floating_ip_addresses
+          almost_private.find_all{ |ip| rfc1918_regexp.match ip }
         end
 
         def private_ip_address
