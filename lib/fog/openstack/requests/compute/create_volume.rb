@@ -11,7 +11,7 @@ module Fog
             }
           }
 
-          vanilla_options = ['snapshot_id', 'availability_zone']
+          vanilla_options = [:snapshot_id, :availability_zone]
           vanilla_options.select{|o| options[o]}.each do |key|
             data['volume'][key] = options[key]
           end
@@ -34,9 +34,9 @@ module Fog
             'displayDescription'  => description,
             'size'                => size,
             'status'              => 'creating',
-            'snapshotId'          => nil,
+            'snapshotId'          => options[:snapshot_id],
             'volumeType'          => 'None',
-            'availabilityZone'    => 'nova',
+            'availabilityZone'    => options[:availability_zone] || 'nova',
             'createdAt'           => Time.now.strftime('%FT%T.%6N'),
             'attachments'         => [],
             'metadata'            => {}
