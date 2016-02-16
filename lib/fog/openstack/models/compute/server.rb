@@ -139,16 +139,26 @@ module Fog
           all_floating.empty? ? manual : all_floating
         end
 
-        alias_method :public_ip_addresses, :floating_ip_addresses
+        def public_ip_addresses
+          if floating_ip_addresses.empty?
+            addresses.find_all{|s| s[0] =~ /public/i}.map{|a| a[1][0]['addr']}
+          else
+            floating_ip_addresses
+          end
+        end
 
         def floating_ip_address
           floating_ip_addresses.first
         end
 
-        alias_method :public_ip_address, :floating_ip_address
+        def public_ip_address
+          public_ip_addresses.first
+        end
 
         def private_ip_addresses
-          ip_addresses - floating_ip_addresses
+          rfc1918_regexp = /(^10\.|^172\.1[6-9]\.|^172\.2[0-9]\.|^172.3[0-1]\.|^192\.168\.)/
+          almost_private = ip_addresses - public_ip_addresses - floating_ip_addresses
+          almost_private.find_all{ |ip| rfc1918_regexp.match ip }
         end
 
         def private_ip_address
