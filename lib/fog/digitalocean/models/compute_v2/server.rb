@@ -13,7 +13,7 @@ module Fog
         attribute :disk
         attribute :locked
         attribute :created_at
-        attribute :status
+        attribute :status,    :aliases => 'state'
         attribute :backup_ids
         attribute :snapshot_ids
         attribute :features
