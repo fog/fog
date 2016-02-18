@@ -174,7 +174,17 @@ module Fog
                   'tenant_id'        => tenant_id,
                 }
               },
-              :floating_ips => {},
+              :floating_ips => {
+                '00000000-0000-0000-0000-000000000000' => {
+                  'id'               => '00000000-0000-0000-0000-000000000000',
+                  'port_id'             => nil,
+                  'tenant_id'           => tenant_id,
+                  'floating_network_id'    => network_id,
+                  'router_id'           => '00000000-0000-0000-0000-000000000000',
+                  'floating_ip_address' => '66.66.66.66',
+
+                }
+              },
               :routers => {},
               :lb_pools => {},
               :lb_members => {},
