@@ -340,7 +340,7 @@ module Fog
           @vcloud_director_password = options[:vcloud_director_password]
           @vcloud_director_username = options[:vcloud_director_username]
           @connection_options = options[:connection_options] || {}
-          @connection_options[:omit_default_port] = Fog::Compute::VcloudDirector::Defaults::OMIT_DEFAULT_PORT unless @connection_option[:omit_default_port]
+          @connection_options[:omit_default_port] = Fog::Compute::VcloudDirector::Defaults::OMIT_DEFAULT_PORT unless @connection_options[:omit_default_port]
           @host       = options[:vcloud_director_host]
           @path       = options[:path]        || Fog::Compute::VcloudDirector::Defaults::PATH
           @persistent = options[:persistent]  || false
