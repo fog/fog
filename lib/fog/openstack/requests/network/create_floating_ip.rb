@@ -28,7 +28,7 @@ module Fog
           response = Excon::Response.new
           response.status = 201
           data = {
-            'id'                  => floating_network_id,
+            'id'                  => Fog::UUID.uuid,
             'floating_network_id' => floating_network_id,
             'port_id'             => options[:port_id],
             'tenant_id'           => options[:tenant_id],
