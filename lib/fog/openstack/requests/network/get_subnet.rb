@@ -33,6 +33,9 @@ module Fog
                 "dns_nameservers" => [],
                 "host_routes" => [],
                 "enable_dhcp" => true,
+		"subnetpool_id" => "c5e1a693-ac18-4973-8fab-e7eb427b2cd6",
+		"ipv6_address_mode" => "slaac",
+		"ipv6_ra_mode" => "slaac",
                 "tenant_id" => "f8b26a6032bc47718a7702233ac708b9",
               }
             }

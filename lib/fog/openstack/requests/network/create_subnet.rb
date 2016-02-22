@@ -13,6 +13,7 @@ module Fog
 
           vanilla_options = [:name, :gateway_ip, :allocation_pools,
                              :dns_nameservers, :host_routes, :enable_dhcp,
+                             :subnetpool_id, :ipv6_ra_mode, :ipv6_address_mode,
                              :tenant_id]
           vanilla_options.select{ |o| options.key?(o) }.each do |key|
             data['subnet'][key] = options[key]
@@ -42,6 +43,9 @@ module Fog
             'dns_nameservers'  => options[:dns_nameservers],
             'host_routes'      => options[:host_routes],
             'enable_dhcp'      => options[:enable_dhcp],
+	    'subnetpool_id'    => options[:subnetpool_id],
+	    'ipv6_ra_mode'     => options[:ipv6_ra_mode],
+	    'ipv6_address_mode'=> options[:ipv6_address_mode],
             'tenant_id'        => options[:tenant_id]
           }
           self.data[:subnets][data['id']] = data
