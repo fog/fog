@@ -22,7 +22,10 @@ module Fog
             section[:user_configurable] ||= true
             section[:type]              ||= "string"
             section[:password]          ||= false
-            xml += "<ovf:Property ovf:userConfigurable='#{section[:user_configurable]}' ovf:type='#{section[:type]}' ovf:password='#{section[:password]}' ovf:key='#{section[:id]}' ovf:value='#{section[:value]}'/>"
+            xml += "<ovf:Property ovf:userConfigurable='#{section[:user_configurable]}' ovf:type='#{section[:type]}' ovf:password='#{section[:password]}' ovf:key='#{section[:id]}' ovf:value='#{section[:value]}'>"
+            xml += "<ovf:Label>#{section[:id]}</ovf:Label>"
+            xml += "</ovf:Property>"
+            
           end
 
           xml += '</ovf:ProductSection>'
