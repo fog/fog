@@ -51,6 +51,7 @@ Gem::Specification.new do |s|
   s.add_dependency("ipaddress", "~> 0.5")
 
   # Modular providers (please keep sorted)
+  s.add_dependency("fog-aliyun",">= 0.1.0")
   s.add_dependency("fog-atmos")
   s.add_dependency("fog-aws", ">= 0.6.0")
   s.add_dependency("fog-brightbox", "~> 0.4")
@@ -74,7 +75,6 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-voxel")
   s.add_dependency("fog-vsphere", ">= 0.4.0")
   s.add_dependency("fog-xenserver")
-  s.add_dependency("fog-aliyun",">= 0.1.0")
 
   s.add_development_dependency("docker-api", ">= 1.13.6")
   s.add_development_dependency("fission")
