@@ -21,7 +21,6 @@ Shindo.tests('Parsers::Compute::VcloudDirector::Vm', ['vclouddirector', 'all']) 
     tests('#links').returns(false){ vm[:links].empty? }
 
     tests('#network_adapters').returns(2){ vm[:network_adapters].size }
-
     primary_nic = vm[:network_adapters].select { |nic| nic[:primary] }.first
     tests('#network_adapters:ip_address').returns('192.168.96.10'){ primary_nic[:ip_address] }
     tests('#network_adapters:primary').returns(true){ primary_nic[:primary] }
@@ -60,7 +59,6 @@ Shindo.tests('Parsers::Compute::VcloudDirector::Vms', ['vclouddirector', 'all'])
     tests('vms[0]#network_adapters').returns(false){ vms[0][:network_adapters].empty? }
 
     tests('#network_adapters').returns(2){ vms[0][:network_adapters].size }
-
     primary_nic = vms[0][:network_adapters].select { |nic| nic[:primary] }.first
     tests('vms[0]#network_adapters:ip_address').returns('192.168.96.4'){ primary_nic[:ip_address] }
     tests('vms[0]#network_adapters:primary').returns(true){ primary_nic[:primary] }
@@ -90,7 +88,6 @@ Shindo.tests('Parsers::Compute::VcloudDirector::Vms', ['vclouddirector', 'all'])
     tests('vms[1]#links').returns(false){ vms[1][:links].empty? }
 
     tests('#network_adapters').returns(2){ vms[1][:network_adapters].size }
-
     primary_nic = vms[1][:network_adapters].select { |nic| nic[:primary] }.first
     tests('vms[0]#network_adapters:ip_address').returns('192.168.96.5'){ primary_nic[:ip_address] }
     tests('vms[0]#network_adapters:primary').returns(true){ primary_nic[:primary] }
