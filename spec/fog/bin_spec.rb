@@ -22,7 +22,6 @@ describe Fog do
       assert_equal "Glesys", Fog.providers[:glesys]
       assert_equal "GoGrid", Fog.providers[:gogrid]
       assert_equal "Google", Fog.providers[:google]
-      assert_equal "HP", Fog.providers[:hp]
       assert_equal "IBM", Fog.providers[:ibm]
       assert_equal "InternetArchive", Fog.providers[:internetarchive]
       assert_equal "Joyent", Fog.providers[:joyent]
@@ -72,7 +71,6 @@ describe Fog do
       assert_includes Fog.registered_providers, "Glesys"
       assert_includes Fog.registered_providers, "GoGrid"
       assert_includes Fog.registered_providers, "Google"
-      assert_includes Fog.registered_providers, "HP"
       assert_includes Fog.registered_providers, "IBM"
       assert_includes Fog.registered_providers, "InternetArchive"
       assert_includes Fog.registered_providers, "Joyent"
@@ -122,7 +120,6 @@ describe Fog do
       assert_includes Fog.available_providers, "Glesys" if Glesys.available?
       assert_includes Fog.available_providers, "GoGrid" if GoGrid.available?
       assert_includes Fog.available_providers, "Google" if Google.available?
-      assert_includes Fog.available_providers, "HP" if HP.available?
       assert_includes Fog.available_providers, "IBM" if IBM.available?
       assert_includes Fog.available_providers, "InternetArchive" if InternetArchive.available?
       assert_includes Fog.available_providers, "Joyent" if Joyent.available?
