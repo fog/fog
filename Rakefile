@@ -89,6 +89,9 @@ namespace :test do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/cloudstack")
   end
 
+  task :vcloud_director do
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/vcloud_director")
+  end
 end
 
 desc 'Run mocked tests for a specific provider'

@@ -17,7 +17,7 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
   }
 
   @vpn_configuration = {
-    :GatewayIpsecVpnService => 
+    :GatewayIpsecVpnService =>
       {
         :IsEnabled => "true",
         :Tunnel => [{
