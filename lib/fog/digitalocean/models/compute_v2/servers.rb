@@ -1,10 +1,11 @@
 require 'fog/core/collection'
 require 'fog/digitalocean/models/compute_v2/server'
+require 'fog/digitalocean/models/paging_collection'
 
 module Fog
   module Compute
     class DigitalOceanV2
-      class Servers < Fog::Collection
+      class Servers < Fog::Compute::DigitalOceanV2::PagingCollection
         model Fog::Compute::DigitalOceanV2::Server
 
         # Returns list of servers
@@ -15,8 +16,11 @@ module Fog
         # @raise [Fog::Compute::DigitalOceanV2::ServiceError]
         # @see https://developers.digitalocean.com/documentation/v2/#droplets
         def all(filters = {})
-          data = service.list_servers(filters).body['droplets']
-          load(data)
+          data = service.list_servers(filters)
+          links = data.body["links"]
+          get_paged_links(links) 
+          droplets = data.body["droplets"]
+          load(droplets)
         end
 
         # Retrieves server
