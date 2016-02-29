@@ -49,6 +49,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-xml", "~> 0.1.1")
 
   s.add_dependency("ipaddress", "~> 0.5")
+  s.add_dependenct("builder", ">=3.2.2")
 
   # Modular providers (please keep sorted)
   s.add_dependency("fog-aliyun",">= 0.1.0")
@@ -75,7 +76,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-voxel")
   s.add_dependency("fog-vsphere", ">= 0.4.0")
   s.add_dependency("fog-xenserver")
-
+  
   s.add_development_dependency("docker-api", ">= 1.13.6")
   s.add_development_dependency("fission")
   s.add_development_dependency("mime-types")
