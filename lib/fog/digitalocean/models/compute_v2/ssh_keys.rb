@@ -1,7 +1,9 @@
+require 'fog/digitalocean/models/paging_collection'
+
 module Fog
   module Compute
     class DigitalOceanV2
-      class SshKeys < Fog::Collection
+      class SshKeys < Fog::Compute::DigitalOceanV2::PagingCollection
         model Fog::Compute::DigitalOceanV2::SshKey
 
         # Returns list of ssh keys
@@ -12,8 +14,11 @@ module Fog
         # @raise [Fog::Compute::DigitalOceanV2::ServiceError]
         # @see https://developers.digitalocean.com/documentation/v2/#list-all-keys
         def all(filters={})
-          data = service.list_ssh_keys.body['ssh_keys']
-          load(data)
+          data = service.list_ssh_keys(filters)
+          links = data.body["links"]
+          get_paged_links(links) 
+          keys = data.body["ssh_keys"]
+          load(keys)
         end
 
         # Returns ssh key
