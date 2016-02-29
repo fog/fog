@@ -1,3 +1,5 @@
+require 'builder'
+
 module Fog
   module Compute
     class VcloudDirector
