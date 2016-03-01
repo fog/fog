@@ -12,8 +12,11 @@ organizations
                                               -> disks -> disk
                                               -> tags -> tag
                                               -> power_on
+                            
+                            vapp_templates -> vms -> vm
     networks -> network
     catalogs -> catalog -> catalog_items -> catalog_item -> instantiate_vapp
+                                                         -> vapp_template -> vms -> vm
     medias -> media
 ```
 

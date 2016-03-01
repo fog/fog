@@ -49,8 +49,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-xml", "~> 0.1.1")
 
   s.add_dependency("ipaddress", "~> 0.5")
-  s.add_dependenct("builder", ">=3.2.2")
-
+  
   # Modular providers (please keep sorted)
   s.add_dependency("fog-aliyun",">= 0.1.0")
   s.add_dependency("fog-atmos")
@@ -96,6 +95,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rspec-expectations")
   s.add_development_dependency("vcr")
   s.add_development_dependency("webmock","~>1.22.2")
+  s.add_development_dependency("builder", ">=3.2.2")
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {spec,tests}/*`.split("\n")

@@ -55,6 +55,10 @@ module Fog
       model      :organization
       collection :organizations
       model      :catalog_item
+      collection :vapp_templates
+      model      :vapp_template
+      collection :template_vms
+      model      :template_vm
       collection :catalog_items
       model      :custom_field
       collection :custom_fields
@@ -159,6 +163,8 @@ module Fog
       request :get_supported_versions
       request :get_task
       request :get_task_list
+      request :get_template_vm
+      request :get_template_vms
       request :get_thumbnail
       request :get_users_from_query
       request :get_vapp

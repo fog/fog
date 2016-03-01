@@ -14,6 +14,7 @@ Shindo.tests("Compute::VcloudDirector | catalog_items", ['vclouddirector', 'all'
     tests("#name").returns(String){ catalog_item.name.class }
     tests("#href").returns(String){ catalog_item.href.class }
     tests("#type").returns("application/vnd.vmware.vcloud.catalogItem+xml"){ catalog_item.type }
+    tests("#vapp_template").returns(VappTemplate){ catalog_item.vapp_template.class }
   end
 
   tests("Compute::VcloudDirector | catalog_item", ['lazy load attrs']) do
