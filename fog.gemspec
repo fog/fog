@@ -49,7 +49,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-xml", "~> 0.1.1")
 
   s.add_dependency("ipaddress", "~> 0.5")
-  
+
   # Modular providers (please keep sorted)
   s.add_dependency("fog-aliyun",">= 0.1.0")
   s.add_dependency("fog-atmos")
