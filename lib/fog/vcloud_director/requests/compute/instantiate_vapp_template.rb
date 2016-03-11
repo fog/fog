@@ -4,6 +4,7 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
+        require 'fog/vcloud_director/generators/compute/instantiate_vapp_template_params'
         # Create a vApp from a vApp template.
         #
         # The response includes a Task element. You can monitor the task to to
@@ -43,43 +44,33 @@ module Fog
           options
         end
 
-        def generate_instantiate_vapp_template_request(options ={})
-          xml = Builder::XmlMarkup.new
-          xml.InstantiateVAppTemplateParams(xmlns.merge!(:name => options[:vapp_name], :"xml:lang" => "en")) {
-            xml.Description(options[:description])
-            xml.InstantiationParams {
-              # This options are fully ignored
-              if options[:network_uri]
-                xml.NetworkConfigSection {
-                  xml.tag!("ovf:Info"){ "Configuration parameters for logical networks" }
-                  xml.NetworkConfig("networkName" => options[:network_name]) {
-                    xml.Configuration {
-                      xml.ParentNetwork(:href => options[:network_uri])
-                      xml.FenceMode("bridged")
-                    }
-                  }
-                }
-              end
-            }
-            # The template
-            xml.Source(:href => options[:template_uri])
-            # Use of sourceItems for configuring VM's during instantiation.
-            # NOTE: Name and storage profile configuration supported so far.
-            # http://pubs.vmware.com/vca/index.jsp?topic=%2Fcom.vmware.vcloud.api.doc_56%2FGUID-BF9B790D-512E-4EA1-99E8-6826D4B8E6DC.html
-            (options[:vms_config] || []).each do |vm_config|
-              next unless vm_config[:href]
-              xml.SourcedItem {
-                xml.Source(:href => vm_config[:href])
-                xml.VmGeneralParams{
-                  xml.Name(vm_config[:name]) if vm_config[:name]
-                }
-                if storage_href = vm_config[:storage_profile_href]
-                  xml.StorageProfile(:href => storage_href)
-                end
-              }
-            end
-            xml.AllEULAsAccepted("true")
-          }
+        def generate_instantiate_vapp_template_request(options ={})        
+          
+          #overriding some params so they work with new standardised generator
+          options[:InstantiationParams] = 
+          {
+            :NetworkConfig => 
+              [{
+              :networkName => options[:network_name],
+              :networkHref => options[:network_uri],
+              :fenceMode => 'bridged'
+              }]
+          } unless options[:InstantiationParams]
+          options[:name] = options.delete(:vapp_name) if options[:vapp_name]
+          options[:Description] = options.delete(:description) unless options[:Description]
+          if options[:vms_config] then
+            options[:source_vms] = options.delete(:vms_config)
+            options[:source_vms].each_with_index {|vm, i|options[:source_vms][i][:StorageProfileHref] = options[:source_vms][i].delete(:storage_profile_href) }
+          end
+          options[:Source] = options.delete(:template_uri) if options[:template_uri]
+            
+              
+
+          
+          Fog::Generators::Compute::VcloudDirector::InstantiateVappTemplateParams.new(options).generate_xml
+
+
+
         end
 
         def xmlns

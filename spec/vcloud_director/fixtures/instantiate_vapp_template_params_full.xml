@@ -1,0 +1,30 @@
+<InstantiateVAppTemplateParams xmlns="http://www.vmware.com/vcloud/v1.5" xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="VAPP_NAME" xml:lang="en">
+  <Description>MY VAPP</Description>
+  <InstantiationParams>
+    <NetworkConfigSection>
+      <ovf:Info></ovf:Info>
+      <NetworkConfig networkName="NETWORK">
+        <Configuration>
+          <ParentNetwork href="http://vcloud/api/network/123456789"/>
+          <FenceMode>bridged</FenceMode>
+        </Configuration>
+      </NetworkConfig>
+    </NetworkConfigSection>
+  </InstantiationParams>
+  <Source href="http://vcloud/api/vapptemplate/123456789"/>
+  <SourcedItem>
+    <Source href="http://vcloud/api/vm/12345"/>
+      <VmGeneralParams>
+        <Name>VM1</Name>
+      </VmGeneralParams>
+      <StorageProfile href="http://vcloud/storage/123456789"/>
+  </SourcedItem>
+  <SourcedItem>
+    <Source href="http://vcloud/api/vm/12345"/>
+    <VmGeneralParams>
+      <Name>VM2</Name>
+    </VmGeneralParams>
+    <StorageProfile href="http://vcloud/storage/123456789"/>
+  </SourcedItem>
+  <AllEULAsAccepted>true</AllEULAsAccepted>
+</InstantiateVAppTemplateParams>
