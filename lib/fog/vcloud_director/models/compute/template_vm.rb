@@ -12,14 +12,6 @@ module Fog
         attribute :name
         attribute :type
         attribute :href
-        #attribute :status
-        #attribute :deployed
-        #attribute :operating_system
-        #attribute :ip_address
-        #attribute :cpu, :type => :integer
-        #attribute :memory, :type => :integer
-        #attribute :hard_disks, :aliases => :disks
-        #attribute :network_adapters
 
         def reload
           #Parent vapp_name & id are nil on a template_vm. Adding them from the collection parent
