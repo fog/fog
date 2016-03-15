@@ -1,3 +1,4 @@
+require './spec/vcloud_director/spec_helper.rb'
 require 'minitest/autorun'
 require 'nokogiri'
 require './lib/fog/vcloud_director/generators/compute/instantiate_vapp_template_params.rb'
@@ -61,9 +62,7 @@ describe Fog::Generators::Compute::VcloudDirector::InstantiateVappTemplateParams
   
   it "Allows New VM Parameters" do
     nodes = xml.xpath('//xmlns:VmGeneralParams')
-    nodes.length.must_equal 2
-    puts nodes
-    
+    nodes.length.must_equal 2   
   end
   
 end

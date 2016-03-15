@@ -1,8 +1,13 @@
+require './spec/vcloud_director/spec_helper.rb'
 require 'minitest/autorun'
 require './lib/fog/vcloud_director/requests/compute/instantiate_vapp_template.rb'
 
 describe Fog::Compute::VcloudDirector::Real do
+  before do
+    Fog.unmock!
+  end
   
+
   let(:xml) do
     service = Fog::Compute::VcloudDirector.new()
 
@@ -57,7 +62,9 @@ describe Fog::Compute::VcloudDirector::Real do
   end
   
     
-
+  after do
+    Fog.mock!
+  end
 
   
 end
