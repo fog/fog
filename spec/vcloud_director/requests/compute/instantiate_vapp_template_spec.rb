@@ -9,7 +9,15 @@ describe Fog::Compute::VcloudDirector::Real do
   
 
   let(:xml) do
-    service = Fog::Compute::VcloudDirector.new()
+    service = Fog::Compute::VcloudDirector.new(
+    {
+      :vcloud_director_host             => 'vcloud-director-host',
+      :vcloud_director_password         => 'vcloud_director_password',
+      :vcloud_director_username         => 'vcd_user@vcd_org_name',
+    }
+    
+    
+    )
 
     params = {
       :description => 'MY VAPP',
