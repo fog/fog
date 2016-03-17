@@ -50,12 +50,21 @@ module Fog
               }
             }
           end
+          
+          def build_source_template(xml)
+            xml.Source(:href => @configuration[:Source])
+          end
 
           def build_source_items(xml)
             vms = @configuration[:source_vms]
             vms.each do |vm|
               xml.SourcedItem {
                 xml.Source(:name =>vm[:name], :href => vm[:href])
+                xml.VmGeneralParams {
+                  xml.Name vm[:name]
+                  xml.Description vm[:Description] if vm[:Description]
+                  xml.NeedsCustomization if vm[:NeedsCustomization]
+                } if vm[:name]
                 xml.InstantiationParams {
                   if vm[:networks]
                     xml.NetworkConnectionSection(:href => "#{vm[:href]}/networkConnectionSection/", :type => "application/vnd.vmware.vcloud.networkConnectionSection+xml", 'xmlns:ovf' => "http://schemas.dmtf.org/ovf/envelope/1", "ovf:required" => "false") {

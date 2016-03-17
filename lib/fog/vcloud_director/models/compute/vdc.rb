@@ -30,6 +30,11 @@ module Fog
           service.vapps(:vdc => self)
         end
         
+        def vapp_templates
+          requires :id
+          service.vapp_templates(:vdc => self)
+        end
+        
         def networks
           requires :available_networks
           service.networks(:vdc => self)

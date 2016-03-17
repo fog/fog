@@ -82,6 +82,12 @@ namespace :test do
   task :vcloud_director do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/vcloud_director")
   end
+  task :vcloud_director_specs do
+    puts "Running vCloud Minitest Suite"
+    Rake::TestTask.new do |t|
+      Dir.glob('./spec/vcloud_director/**/*_spec.rb').each { |file| require file}
+    end
+  end
 end
 
 desc 'Run mocked tests for a specific provider'

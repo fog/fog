@@ -12,6 +12,13 @@ module Fog
         attribute :description, :aliases => :Description
         attribute :vapp_template_id
 
+        
+        def vapp_template
+          requires :id
+          service.vapp_templates.get(self.vapp_template_id)
+        end
+        
+        
         def instantiate(vapp_name, options={})
           response = service.instantiate_vapp_template(vapp_name, vapp_template_id, options)
           service.process_task(response.body[:Tasks][:Task])

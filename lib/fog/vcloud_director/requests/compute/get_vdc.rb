@@ -135,7 +135,7 @@ module Fog
               {:type => "application/vnd.vmware.vcloud.vApp+xml",
                :name => vapp[:name],
                :href => make_href("vApp/#{vapp_id}")}
-            end
+            end      
 
           body[:AvailableNetworks][:Network] =
             data[:networks].map do |id, network|
