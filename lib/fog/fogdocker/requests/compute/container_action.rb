@@ -13,9 +13,9 @@ module Fog
             result
           end
         rescue Docker::Error::NotFoundError => e
-          raise Fog::Errors::Error::NotFound.new(e.message)
+          raise Fog::Errors::NotFound.new(e.message)
         rescue Docker::Error::TimeoutError => e
-          raise Fog::Errors::Error::TimeoutError.new(e.message)
+          raise Fog::Errors::TimeoutError.new(e.message)
         rescue Docker::Error::UnauthorizedError => e
           raise Fog::Errors::Fogdocker::AuthenticationError.new(e.message)
         rescue Docker::Error::DockerError => e
