@@ -113,6 +113,7 @@ Watchers      | #{watchers}
            'Chris Roberts',
            'Christopher Oliver',
            'Colin Hebert',
+           'Daniel Aragao',
            'Daniel Reichert',
            'Darren Hague',
            'Decklin Foster',

@@ -1,3 +1,176 @@
+## 1.38.0 03/28/2016
+*Hash* 5e4bde2733adc08ba2d92b2d2824e2d3845fc5e5
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Downloads     | 14820336
+Forks         | 1539
+Open Issues   | 58
+Watchers      | 3805
+
+**MVP!** Daniel Aragao
+
+#### [DigitalOcean]
+*   - Failed requests fail to log because of Bluebox. thanks Daniel Lobato
+
+#### [HPCloud]
+*   Removing HP cloud. thanks JJ Asghar
+
+#### [digitalocean]
+*   fix method sig for list_images mock. thanks geemus
+*   update flavor tests to match v2 mock. thanks geemus
+
+#### [docker]
+*   Fixing bad namespace on errors. thanks David Davis
+
+#### [misc]
+*   support neutron networks labled as public. thanks Chris McClimans
+*   rfc1918 addys for private_address. thanks  Emilie
+*   merging. thanks Dan Aragao
+*   fixing bad merge. thanks Dan Aragao
+*   this doesn't seem to exist anymore. thanks Dan Aragao
+*   Task to run vcloud-director tests only. thanks Daniel Aragao
+*   Adding Syslog config elements to org network. thanks Daniel Aragao
+*   Revert "Adding Syslog config elements to org network.". thanks Daniel Aragao
+*   Adds VPN section to edge gateway service configuration. thanks Daniel Aragao
+*   Adds DHCP to edge gateway service configuration. thanks Daniel Aragao
+*   Fixes attributes when generating xml body for post deploy vapps. thanks Daniel Aragao
+*   Add post compose vapp to requests. thanks Daniel Aragao
+*   Add post compose vapp to requests. thanks Daniel Aragao
+*   The AdminPassword XML element isn't present unless AdminPasswordEnabled, maybe because it's an empty tag? If not set the VCloud API gives a 400. thanks Daniel Aragao
+*   WIP - Complying with VCloud Director's xml and pulling it into its own class with tests. thanks Daniel Aragao
+*   AllEULAsAccepted has to be in the right 'place', adding VM name and escape customisation scripts. thanks Daniel Aragao
+*   Once more, order matters. thanks Daniel Aragao
+*   WIP - Complying with VCloud Director's xml and pulling it into its own class with tests. thanks Daniel Aragao
+*   AllEULAsAccepted has to be in the right 'place', adding VM name and escape customisation scripts. thanks Daniel Aragao
+*   Once more, order matters. thanks Daniel Aragao
+*   The AdminPassword XML element isn't present unless AdminPasswordEnabled, maybe because it's an empty tag? If not set the VCloud API gives a 400. thanks Daniel Aragao
+*   Adding network_adapters to VM parser and model as a single IP address doesn't cut when dealing with multiple networks. thanks Daniel Aragao
+*   Adding network_adapters to VM parser and model as a single IP address doesn't cut when dealing with multiple networks. thanks Daniel Aragao
+*   DRYer refactored version. thanks Daniel Aragao
+*   Adding network_adapters to VM parser and model as a single IP address doesn't cut when dealing with multiple networks. thanks Daniel Aragao
+*   DRYer refactored version. thanks Daniel Aragao
+*   I need the network name too. thanks Daniel Aragao
+*   I need the network name too. thanks Daniel Aragao
+*   Fix from closed PR #2967. thanks Daniel Aragao
+*   Changed my mind on this one and closed off PR #2967. thanks Daniel Aragao
+*   WIP - Adding post recompose vapp. Hacky for now. thanks Daniel Aragao
+*   Better to pass the VM model instead of a random hash. thanks Daniel Aragao
+*   Power off leaves it in 'Partially Running' state. VMs must be fully OFF when deleting them with recompose. thanks Daniel Aragao
+*   InstantiationParams and SourceItems are only needed when actually adding VMs. thanks Daniel Aragao
+*   Easier to read. thanks Daniel Aragao
+*   Adding 'deployed' status to model so that one can decide whether to undeploy. thanks Daniel Aragao
+*   Revert "Fix from closed PR #2967". thanks Daniel Aragao
+*   Refactoring to remove duplication from compose and recompose generators. thanks Daniel Aragao
+*   Wrong merge. thanks Daniel Aragao
+*   Ignoring this for now. thanks Daniel Aragao
+*   Housekeeping. thanks Daniel Aragao
+*   WIP - Adding post recompose vapp. Hacky for now. thanks Daniel Aragao
+*   Better to pass the VM model instead of a random hash. thanks Daniel Aragao
+*   Power off leaves it in 'Partially Running' state. VMs must be fully OFF when deleting them with recompose. thanks Daniel Aragao
+*   InstantiationParams and SourceItems are only needed when actually adding VMs. thanks Daniel Aragao
+*   Easier to read. thanks Daniel Aragao
+*   Adding 'deployed' status to VM model. thanks Daniel Aragao
+*   Housekeeping. thanks Daniel Aragao
+*   Refactoring to remove duplication from compose and recompose generators. thanks Daniel Aragao
+*   Don't try to build it if it doesn't exist. thanks Daniel Aragao
+*   Oops. thanks Daniel Aragao
+*   Adding missing tags for NetworkConnection. thanks Daniel Aragao
+*   Adding missing tags for NetworkConnection. thanks Daniel Aragao
+*   Adding tests for vm and vms parsers. These represent the XML crunching from GET requests in compute. thanks Daniel Aragao
+*   Adding tests for vm and vms parsers. These represent the XML crunching from GET requests in compute. thanks Daniel Aragao
+*   Adding 'deployed' status to model so that one can decide whether to undeploy. thanks Daniel Aragao
+*   For the old versions of Ruby. thanks Daniel Aragao
+*   For the old versions of Ruby. thanks Daniel Aragao
+*   Fixing dependency in Travis. thanks Daniel Aragao
+*   Fixing dependency in Travis. thanks Daniel Aragao
+*   Adding network_adapters to VM parser and model as a single IP address doesn't cut when dealing with multiple networks. thanks Daniel Aragao
+*   DRYer refactored version. thanks Daniel Aragao
+*   I need the network name too. thanks Daniel Aragao
+*   Revert "Fix from closed PR #2967". thanks Daniel Aragao
+*   Adding tests for vm and vms parsers. These represent the XML crunching from GET requests in compute. thanks Daniel Aragao
+*   Adding 'deployed' status to model so that one can decide whether to undeploy. thanks Daniel Aragao
+*   For the old versions of Ruby. thanks Daniel Aragao
+*   Fixing dependency in Travis. thanks Daniel Aragao
+*   Task to run vcloud-director tests only. thanks Daniel Aragao
+*   Adding Syslog config elements to org network. thanks Daniel Aragao
+*   Revert "Adding Syslog config elements to org network.". thanks Daniel Aragao
+*   Adds VPN section to edge gateway service configuration. thanks Daniel Aragao
+*   Adding network_adapters to VM parser and model as a single IP address doesn't cut when dealing with multiple networks. thanks Daniel Aragao
+*   Adding network_adapters to VM parser and model as a single IP address doesn't cut when dealing with multiple networks. thanks Daniel Aragao
+*   DRYer refactored version. thanks Daniel Aragao
+*   Adding network_adapters to VM parser and model as a single IP address doesn't cut when dealing with multiple networks. thanks Daniel Aragao
+*   DRYer refactored version. thanks Daniel Aragao
+*   I need the network name too. thanks Daniel Aragao
+*   Changed my mind on this one and closed off PR #2967. thanks Daniel Aragao
+*   Adding 'deployed' status to model so that one can decide whether to undeploy. thanks Daniel Aragao
+*   Wrong merge. thanks Daniel Aragao
+*   Don't try to build it if it doesn't exist. thanks Daniel Aragao
+*   Oops. thanks Daniel Aragao
+*   Adding tests for vm and vms parsers. These represent the XML crunching from GET requests in compute. thanks Daniel Aragao
+*   For the old versions of Ruby. thanks Daniel Aragao
+*   Fixing dependency in Travis. thanks Daniel Aragao
+*   Adding network_adapters to VM parser and model as a single IP address doesn't cut when dealing with multiple networks. thanks Daniel Aragao
+*   DRYer refactored version. thanks Daniel Aragao
+*   Adding tests for vm and vms parsers. These represent the XML crunching from GET requests in compute. thanks Daniel Aragao
+*   For the old versions of Ruby. thanks Daniel Aragao
+*   Standardize the `:state` alias to `:status`. thanks JJ Asghar
+*   Keeping the dependency gems in order. thanks JJ Asghar
+*   Move Rackspace out to provider gem. thanks Matt Darby
+*   Removed bulk of OpenStack. thanks Matt Darby
+*   openstack service retrieval also pass options on unscoped fallback. thanks Maurice Schreiber
+*   openstack image v2 correct images find_by_* and find_attribute. thanks Maurice Schreiber
+*   Removes URI::encode call on parameteres. thanks Petr Blaho
+*   Added filtering capabilities to images request. thanks Raul Roa
+*   Added filtering capabilities to servers request. thanks Raul Roa
+*   Added filtering capabilities to regions request. thanks Raul Roa
+*   Adding myself to the contributors list. thanks Raul Roa
+*   Added missing argument for regions request. thanks Raul Roa
+*   Updated list_regions signature at Mock. thanks Raul Roa
+*   Updated list_servers signature at Mock. thanks Raul Roa
+*   Put the prefix in place for all identity calls. thanks Sean Handley
+*   Include endpoint path matcher. thanks Sean Handley
+*   Deperate delete_server for destroy_server. thanks Suraj Shirvankar
+*   Added rake task to install the gem locally. thanks Suraj Shirvankar
+*   Added the cloudatcost as a gem. thanks Suraj Shirvankar
+*   Delete stuff. thanks Suraj Shirvankar
+*   Update README.md. thanks Suraj Shirvankar
+*   Remove more hp remains. thanks Suraj Shirvankar
+*   Added paging for images collection. thanks Suraj Shirvankar
+*   Removed debug code. thanks Suraj Shirvankar
+*   Change method from dig to deep fetch. thanks Suraj Shirvankar
+*   Add get_server_password functionality. thanks Tareq
+*   Strip port number from host header. thanks Tim Lawrence
+*   Added label to Guest Properties. thanks Tim Lawrence
+*   require builder. thanks Tim Lawrence
+*   Added instantiate_vapp_template_params generator. thanks Tim Lawrence
+*   Tidying up for PR. thanks Tim Lawrence
+*   Tidying up for PR. thanks Tim Lawrence
+*   Tidying up for PR. thanks Tim Lawrence
+*   pin mime-types version. thanks Tim Lawrence
+*   add spec helper with creds. thanks Tim Lawrence
+*   fix tests. thanks Tim Lawrence
+*   Revert "[digitalocean] update flavor tests to match v2 mock". thanks geemus
+*   cleanup some HP remnants. thanks geemus
+*   remove old test running stuff for extracted providers. thanks geemus
+*   rework mock openstack snapshot to have same behavior as servers... thanks zhitongLBN
+*   use symbol to fix get options erreur. thanks zhitongLBN
+*   added associate and disassociate into floating_ip objet     make mock requests concern floating_ips to have same behaviors as     compute's. thanks zhitongLIU
+
+#### [openstack]
+*   storage does not require api_key and username, token can also be used. thanks Andreas Pfau
+
+#### [skip ci]
+*   Fix some typos in the README. thanks Tim Wade
+
+#### [vcloud director]
+*   access vApp Template Virtual Machines from Catalog Items. thanks Tim Lawrence
+
+#### [vcloud_director]
+*   fix typo for port omission. thanks Wesley Beary
+
+
 ## 1.37.0 12/22/2015
 *Hash* f7cf6b7c6499ab2a58bb7fe6848363d7cc459d3a
 
