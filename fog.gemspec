@@ -98,4 +98,21 @@ Gem::Specification.new do |s|
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {spec,tests}/*`.split("\n")
+
+  postinstall_message =  <<-POSTINST
+------------------------------
+Thank you for installing fog!
+
+IMPORTANT NOTICE:
+If there's a metagem available for your cloud provider, e.g. `fog-aws`,
+you should be using it instead of requiring the full fog collection to avoid
+unnecessary dependencies.
+
+'fog' should be required explicitly only if:
+- The provider you use doesn't yet have a metagem available.
+- You require Ruby 1.9.3 support.
+------------------------------
+  POSTINST
+
+  s.post_install_message = postinstall_message
 end
