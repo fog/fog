@@ -11,6 +11,19 @@ fog is the Ruby cloud services library, top to bottom:
 [![Code Climate](https://codeclimate.com/github/fog/fog/badges/gpa.svg)](https://codeclimate.com/github/fog/fog)
 [![Gem Version](https://badge.fury.io/rb/fog.svg)](http://badge.fury.io/rb/fog)
 
+## Dependency Notice
+
+Currently all fog providers are getting separated into metagems to lower the
+load time and dependency count.
+
+If there's a metagem available for your cloud provider, e.g. `fog-aws`,
+you should be using it instead of requiring the full fog collection to avoid 
+unnecessary dependencies.
+
+'fog' should be required explicitly only if:  
+- The provider you use doesn't yet have a metagem available.
+- You require Ruby 1.9.3 support.
+
 ## Getting Started
 
 The easiest way to learn fog is to install the gem and use the interactive console.
