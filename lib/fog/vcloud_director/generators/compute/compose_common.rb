@@ -29,26 +29,27 @@ module Fog
           end
 
           def build_vapp_instantiation_params(xml)
-            xml.Description @configuration[:Description]
+            xml.Description @configuration[:Description] if @configuration[:Description]
             
             vapp = @configuration[:InstantiationParams]
-
-            xml.InstantiationParams {
-              xml.DefaultStorageProfileSection {
-                  xml.StorageProfile vapp[:DefaultStorageProfile]
-              } if (vapp.key? :DefaultStorageProfile)
-              xml.NetworkConfigSection {
-                xml['ovf'].Info
-                vapp[:NetworkConfig].each do |network|
-                  xml.NetworkConfig(:networkName => network[:networkName]) {
-                    xml.Configuration {
-                      xml.ParentNetwork(:href => network[:networkHref])
-                      xml.FenceMode network[:fenceMode]
+            if vapp 
+              xml.InstantiationParams {
+                xml.DefaultStorageProfileSection {
+                    xml.StorageProfile vapp[:DefaultStorageProfile]
+                } if (vapp.key? :DefaultStorageProfile)
+                xml.NetworkConfigSection {
+                  xml['ovf'].Info
+                  vapp[:NetworkConfig].each do |network|
+                    xml.NetworkConfig(:networkName => network[:networkName]) {
+                      xml.Configuration {
+                        xml.ParentNetwork(:href => network[:networkHref])
+                        xml.FenceMode network[:fenceMode]
+                      }
                     }
-                  }
-                end if vapp[:NetworkConfig]
+                  end if vapp[:NetworkConfig]
+                }
               }
-            }
+            end
           end
           
           def build_source_template(xml)
