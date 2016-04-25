@@ -9,7 +9,7 @@ module Fog
           request(
             :body => body,
             :expects => 202,
-            :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.recomposeVAppParams+xml' },
+            :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.createSnapshotParams+xml' },
             :method => 'POST',
             :parser => Fog::ToHashDocument.new,
             :path => "vApp/#{id}/action/createSnapshot"
