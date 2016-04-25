@@ -250,6 +250,7 @@ module Fog
       request :post_upload_disk
       request :post_upload_media
       request :post_upload_vapp_template
+      request :post_create_snapshot
       request :put_catalog_item_metadata_item_metadata
       request :put_cpu
       request :put_disk_metadata_item_metadata
