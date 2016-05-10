@@ -18,7 +18,6 @@ module Fog
               end
             end
           end
-          images.delete nil
           images
         end #def image_pool
       end #class Real
