@@ -18,7 +18,7 @@ module Fog
           request(
             :expects  => 201,
             :method   => 'PUT',
-            :path     => "/V1.2/domains/#{domain}"
+            :path     => "/#{@api_version}/domains/#{domain}"
           )
         end
       end
