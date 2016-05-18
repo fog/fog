@@ -85,6 +85,7 @@ module Fog
           @port       = options[:port]        || 80 #443 Not yet
           @scheme     = options[:scheme]      || 'http' #'https Not yet
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @api_version = options[:api_version] || 'V2.0'
         end
 
         def reload
