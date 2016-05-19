@@ -20,6 +20,7 @@ module Fog
           links = data.body["links"]
           get_paged_links(links) 
           droplets = data.body["droplets"]
+          meta = data.body["meta"]
           load(droplets)
         end
 

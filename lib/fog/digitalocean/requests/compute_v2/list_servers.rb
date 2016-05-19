@@ -18,7 +18,8 @@ module Fog
           response.status = 200
           response.body = {
               "status" => "OK",
-              "droplets"  => self.data[:servers]
+              "droplets"  => self.data[:servers],
+              "meta"  => self.data[:meta]
           }
           response
         end
