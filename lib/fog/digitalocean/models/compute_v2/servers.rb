@@ -15,13 +15,17 @@ module Fog
         # @raise [Fog::Compute::DigitalOceanV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::DigitalOceanV2::ServiceError]
         # @see https://developers.digitalocean.com/documentation/v2/#droplets
-        def all(filters = {})
+        def all(filters = {}, total=false)
           data = service.list_servers(filters)
           links = data.body["links"]
           get_paged_links(links) 
           droplets = data.body["droplets"]
           meta = data.body["meta"]
-          load(droplets)
+          if total
+            load(meta)
+          else
+            load(droplets)
+          end
         end
 
         # Retrieves server
