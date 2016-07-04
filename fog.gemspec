@@ -75,6 +75,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-voxel")
   s.add_dependency("fog-vsphere", ">= 0.4.0")
   s.add_dependency("fog-xenserver")
+  s.add_dependency("fog-aliyun")
 
   s.add_development_dependency("docker-api", ">= 1.13.6")
   s.add_development_dependency("fission")
