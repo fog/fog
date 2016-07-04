@@ -120,5 +120,5 @@ server.power_cycle
 Destroying the server:
 
 ```ruby
-server.destroy
+server.delete
 ```
