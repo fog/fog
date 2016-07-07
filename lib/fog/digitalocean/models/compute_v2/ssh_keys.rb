@@ -13,8 +13,8 @@ module Fog
         # @raise [Fog::Compute::DigitalOceanV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::DigitalOceanV2::ServiceError]
         # @see https://developers.digitalocean.com/documentation/v2/#list-all-keys
-        def all(filters={})
-          data = service.list_ssh_keys()
+        def all(filters = {})
+          data = service.list_ssh_keys(filters)
           links = data.body["links"]
           get_paged_links(links)
           keys = data.body["ssh_keys"]
