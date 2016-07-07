@@ -19,7 +19,10 @@ module Fog
           response.body = {
               "status" => "OK",
               "droplets"  => self.data[:servers],
-              "total"  => self.data[:meta]["total"]
+              "links" => {},
+              "meta" => {
+                "total" => data[:servers].count
+              }
           }
           response
         end
