@@ -6,7 +6,8 @@ module Fog
           request(
             :expects => [200],
             :method  => 'GET',
-            :path    => "/v2/regions?#{filters.to_a.map { |x| "#{x[0]}=#{x[1]}" }.join("&")}"
+            :path    => "/v2/regions",
+            :query   => filters
           )
         end
       end
