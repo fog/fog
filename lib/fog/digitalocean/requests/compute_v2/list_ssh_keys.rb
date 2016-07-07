@@ -5,8 +5,9 @@ module Fog
         def list_ssh_keys(filters = {})
           request(
             :expects => [200],
-            :method => 'GET',
-            :path => "v2/account/keys#{filters.to_a.map { |x| "#{x[0]}=#{x[1]}" }.join("&")}",
+            :method  => 'GET',
+            :path    => "v2/account/keys",
+            :query   => filters
           )
         end
       end

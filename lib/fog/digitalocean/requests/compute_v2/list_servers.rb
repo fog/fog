@@ -5,8 +5,9 @@ module Fog
         def list_servers(filters = {})
           request(
             :expects => [200],
-            :method => 'GET',
-            :path => "/v2/droplets?#{filters.to_a.map { |x| "#{x[0]}=#{x[1]}" }.join("&")}"
+            :method  => 'GET',
+            :path    => "/v2/droplets",
+            :query   => filters
           )
         end
       end
