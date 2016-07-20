@@ -28,6 +28,7 @@ module Fog
         attribute :backups
         attribute :ipv6
         attribute :ssh_keys
+        attribute :user_data
 
         def public_ip_address
           ipv4_address
@@ -59,6 +60,7 @@ module Fog
           options[:private_networking] = private_networking
           options[:backups]            = backups
           options[:ipv6]               = ipv6
+          options[:user_data]          = user_data
 
           data = service.create_server(name, size, image, region, options)
 
