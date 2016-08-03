@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   ## the sub! line in the Rakefile
   s.name              = "fog"
   s.version           = "1.38.0"
-  s.date              = "2016-03-28"
+  s.date              = "2016-08-03"
   s.rubyforge_project = "fog"
 
   ## Make sure your summary is short. The description may be as long
@@ -75,6 +75,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-voxel")
   s.add_dependency("fog-vsphere", ">= 0.4.0")
   s.add_dependency("fog-xenserver")
+  s.add_dependency("fog-digitalocean")
 
   s.add_development_dependency("docker-api", ">= 1.13.6")
   s.add_development_dependency("fission")
