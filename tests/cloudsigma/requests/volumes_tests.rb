@@ -14,6 +14,7 @@ Shindo.tests('Fog::Compute[:cloudsigma] | volume requests', ['cloudsigma']) do
       'affinities' => Array,
       'mounted_on' => Array,
       'media' => String,
+      'storage_type' => String,
       'allow_multimount' => Fog::Boolean
   }
 
@@ -47,7 +48,7 @@ Shindo.tests('Fog::Compute[:cloudsigma] | volume requests', ['cloudsigma']) do
   end
 
   tests('failure') do
-    tests("#get_volume(#@server_uuid)|deleted|").raises(Fog::CloudSigma::Errors::NotFound) do
+    tests("#get_volume(#@volume_uuid)|deleted|").raises(Fog::CloudSigma::Errors::NotFound) do
       Fog::Compute[:cloudsigma].get_volume(@volume_uuid).body
     end
   end
