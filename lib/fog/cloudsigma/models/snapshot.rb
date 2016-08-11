@@ -18,7 +18,7 @@ module Fog
         attribute :grantees, :type => :array
         attribute :drive
         attribute :allocated_size, :type => :integer
-        
+
         def save
           if persisted?
             update
@@ -39,7 +39,7 @@ module Fog
         def update
           requires :identity, :name
 
-          data = attributes()
+          data = attributes
 
           response = service.update_snapshot(identity, data)
           new_attributes = response.body
@@ -62,14 +62,14 @@ module Fog
 
           Volume.new(response.body)
         end
-        
+
         alias_method :promote, :clone
-        
-        
+
+
         def available?
           status == 'available'
         end
-        
+
       end
     end
   end
