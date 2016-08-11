@@ -3,31 +3,31 @@ Shindo.tests('Fog::Compute[:cloudsigma] | snapshot requests', ['cloudsigma']) do
   @snapshot_format = {
       'uuid' => String,
       'allocated_size' => Fog::Nullable::Integer,
-      'status' => String,
-      'name' => String,
-      'tags' => Array,
       'drive' => Fog::Nullable::Hash,
       'meta' => Fog::Nullable::Hash,
+      'name' => String,
       'owner' => Fog::Nullable::Hash,
       'resource_uri' => Fog::Nullable::String,
+      'status' => String,
+      'tags' => Array,
       'timestamp' => String
   }
   @promoted_volume_format = {
       'uuid' => String,
+      'affinities' => Array,
+      'allow_multimount' => Fog::Boolean,
+      'jobs' => Array,
+      'licenses' => Array,
+      'media' => String,
+      'meta' => Fog::Nullable::Hash,
+      'mounted_on' => Array,
+      'name' => String,
+      'owner' => Fog::Nullable::Hash,
+      'resource_uri' => Fog::Nullable::Hash, # this field's type is the only difference from volume format
       'size' => Integer,
       'status' => String,
-      'name' => String,
-      'tags' => Array,
-      'meta' => Fog::Nullable::Hash,
-      'owner' => Fog::Nullable::Hash,
-      'resource_uri' => Fog::Nullable::Hash, # this field is the only difference from volume format
-      'licenses' => Array,
-      'jobs' => Array,
-      'affinities' => Array,
-      'mounted_on' => Array,
-      'media' => String,
       'storage_type' => String,
-      'allow_multimount' => Fog::Boolean
+      'tags' => Array
   }
 
   @volume = Fog::Compute[:cloudsigma].volumes.create(:name => 'fogsnapshottest', :size => 1024**3, :media => :disk)

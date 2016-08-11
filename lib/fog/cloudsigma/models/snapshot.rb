@@ -7,17 +7,18 @@ module Fog
       class Snapshot < Fog::CloudSigma::CloudsigmaModel
         identity :uuid
 
-        attribute :timestamp, :type => :string
-        attribute :tags
-        attribute :status, :type => :string
-        attribute :resource_uri, :type => :string
-        attribute :permissions, :type => :array
-        attribute :owner
-        attribute :name, :type => :string
-        attribute :meta
-        attribute :grantees, :type => :array
-        attribute :drive
         attribute :allocated_size, :type => :integer
+        attribute :drive
+        attribute :grantees, :type => :array
+        attribute :meta
+        attribute :name, :type => :string
+        attribute :owner
+        attribute :permissions, :type => :array
+        attribute :resource_uri, :type => :string
+        attribute :status, :type => :string
+        attribute :tags
+        attribute :timestamp, :type => :string
+
 
         def save
           if persisted?
