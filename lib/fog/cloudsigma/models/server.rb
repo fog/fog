@@ -71,6 +71,11 @@ module Fog
           requires :identity
           service.stop_server(identity)
         end
+        
+        def shutdown
+          requires :identity
+          service.stop_server(identity, true)
+        end
 
         def ready?
           status == "running"

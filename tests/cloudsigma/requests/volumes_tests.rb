@@ -2,19 +2,20 @@ Shindo.tests('Fog::Compute[:cloudsigma] | volume requests', ['cloudsigma']) do
 
   @volume_format = {
       'uuid' => String,
-      'size' => Integer,
-      'status' => String,
-      'name' => String,
-      'tags' => Array,
+      'affinities' => Array,
+      'allow_multimount' => Fog::Boolean,
+      'jobs' => Array,
+      'licenses' => Array,
+      'media' => String,
       'meta' => Fog::Nullable::Hash,
+      'mounted_on' => Array,
+      'name' => String,
       'owner' => Fog::Nullable::Hash,
       'resource_uri' => Fog::Nullable::String,
-      'licenses' => Array,
-      'jobs' => Array,
-      'affinities' => Array,
-      'mounted_on' => Array,
-      'media' => String,
-      'allow_multimount' => Fog::Boolean
+      'size' => Integer,
+      'status' => String,
+      'storage_type' => String,
+      'tags' => Array
   }
 
   @volume_create_args = {:name => 'fogtest', :size => 1024**3, :media => :cdrom}
@@ -47,7 +48,7 @@ Shindo.tests('Fog::Compute[:cloudsigma] | volume requests', ['cloudsigma']) do
   end
 
   tests('failure') do
-    tests("#get_volume(#@server_uuid)|deleted|").raises(Fog::CloudSigma::Errors::NotFound) do
+    tests("#get_volume(#@volume_uuid)|deleted|").raises(Fog::CloudSigma::Errors::NotFound) do
       Fog::Compute[:cloudsigma].get_volume(@volume_uuid).body
     end
   end
