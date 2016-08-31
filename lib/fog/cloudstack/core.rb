@@ -13,6 +13,8 @@ module Fog
     def self.escape(string)
       string = CGI::escape(string)
       string = string.gsub("+","%20")
+      # Escaped asterisk will cause malformed request
+      string = string.gsub("%2A","*")
       string
     end
 
