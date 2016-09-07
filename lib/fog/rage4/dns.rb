@@ -27,6 +27,7 @@ module Fog
       request :list_geo_regions
       request :create_record
       request :update_record
+      request :bulk_update_records
       request :list_records
       request :delete_record
       request :set_record_failover
