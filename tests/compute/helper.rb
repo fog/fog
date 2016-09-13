@@ -67,28 +67,12 @@ def compute_providers
       },
       :mocked => false
     },
-    :hp       => {
-      :server_attributes => {
-        :flavor_id => 100,
-        :image_id  => 1242,
-        :name      => "fog_#{Time.now.to_i}"
-      },
-      :mocked => true
-    },
     :ibm => {
       :server_attributes => {},
       :mocked => true
     },
     :joyent => {
       :mocked => false
-    },
-    :hp       => {
-      :server_attributes => {
-        :flavor_id => 100,
-        :image_id => 1242,
-        :name     => "fog_#{Time.now.to_i}"
-      },
-      :mocked => true
     },
     :ninefold   => {
       :mocked => false
