@@ -7,7 +7,8 @@ module Fog
         # * zone_id <~Integer> Need to specify the zone id
         # * options <~Hash> Options should contain the body for the post
         #                   in the following format.
-        #                   [{:id=><record_id>, :priority=>2}, {:id=><record_id>, :priority=>2}]
+        #                   data = [{:id=><record_id>, :priority=>2}, {:id=><record_id>, :priority=>2}]
+        #                   options => { :body => data.to_json }
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:

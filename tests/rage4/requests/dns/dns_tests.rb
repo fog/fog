@@ -110,7 +110,8 @@ Shindo.tests('Fog::DNS[:rage4] | DNS requests', ['rage4', 'dns']) do
     test("bulk_update_records") do
       pending if Fog.mocking?
 
-      response = Fog::DNS[:rage4].bulk_update_records(@zone_id, { :id => @record_id, :priority => 1 })
+      data = { :id => @record_id, :priority => 1 }
+      response = Fog::DNS[:rage4].bulk_update_records(@zone_id, { :body => data.to_json } )
 
       returns(200) { response.status }
       returns(true) {response.body['status']}
