@@ -13,7 +13,7 @@ module Fog
 
           xml = ::OpenNebula::VirtualMachine.build_xml
           vm  = ::OpenNebula::VirtualMachine.new(xml, client)
-          rc = vm.allocate(attr[:flavor].to_s + "\nNAME=" + attr[:name])
+          rc = vm.allocate(attr[:flavor].to_s + "\nNAME=\"" + attr[:name] + "\"") 
 
           # irb(main):050:0> vm.allocate(s.flavor.to_s + "\nNAME=altest5")
           # => #<OpenNebula::Error:0x00000002a50760 @message="[VirtualMachineAllocate] User [42] : Not authorized to perform CREATE VM.", @errno=512>
