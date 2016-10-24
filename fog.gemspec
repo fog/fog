@@ -44,10 +44,12 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.md]
 
-  s.add_dependency("fog-core", "~> 1.42")
+  s.add_dependency("fog-core", "~> 1.43")
   s.add_dependency("fog-json")
   s.add_dependency("fog-xml", "~> 0.1.1")
-
+  
+  # JSON locked for Ruby 1.9, remove once deprecated
+  s.add_dependency("json", ">= 1.8", "< 2.0")
   s.add_dependency("ipaddress", "~> 0.5")
 
   # Modular providers (please keep sorted)
