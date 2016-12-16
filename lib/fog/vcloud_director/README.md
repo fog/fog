@@ -410,7 +410,7 @@ vdc = org.vdcs.first
 vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
 customization = vm.customization
-customization.compute_name = "NEWNAME"
+customization.computer_name = "NEWNAME"
 customization.enabled = false
 customization.script = "new userdata script"
 customization.save
