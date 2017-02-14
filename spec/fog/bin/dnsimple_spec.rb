@@ -2,8 +2,8 @@ require "spec_helper"
 require "fog/bin"
 require "helpers/bin"
 
-describe DNSimple do
+describe Dnsimple do
   include Fog::BinSpec
 
-  let(:subject) { DNSimple }
+  let(:subject) { Dnsimple }
 end
