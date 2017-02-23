@@ -4,6 +4,8 @@ source "https://rubygems.org"
 gem "fog-core", :github => "fog/fog-core"
 gem "fog-json", :github => "fog/fog-json"
 
+gem "nokogiri", "1.6.8.1"
+
 group :development, :test do
   gem "coveralls", :require => false
   gem "netrc", :require => false
