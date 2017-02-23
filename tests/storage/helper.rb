@@ -9,9 +9,6 @@ def storage_providers
     :local      => {
       :mocked => false
     },
-    :ninefold   => {
-      :mocked => false
-    },
     :rackspace  => {
       :mocked => false
     }
