@@ -27,7 +27,6 @@ describe Fog do
       assert_equal "Joyent", Fog.providers[:joyent]
       assert_equal "Linode", Fog.providers[:linode]
       assert_equal "Local", Fog.providers[:local]
-      assert_equal "Ninefold", Fog.providers[:ninefold]
       assert_equal "OpenNebula", Fog.providers[:opennebula]
       assert_equal "OpenStack", Fog.providers[:openstack]
       assert_equal "Openvz", Fog.providers[:openvz]
@@ -76,7 +75,6 @@ describe Fog do
       assert_includes Fog.registered_providers, "Joyent"
       assert_includes Fog.registered_providers, "Linode"
       assert_includes Fog.registered_providers, "Local"
-      assert_includes Fog.registered_providers, "Ninefold"
       assert_includes Fog.registered_providers, "OpenNebula"
       assert_includes Fog.registered_providers, "OpenStack"
       assert_includes Fog.registered_providers, "Openvz"
@@ -125,7 +123,6 @@ describe Fog do
       assert_includes Fog.available_providers, "Joyent" if Joyent.available?
       assert_includes Fog.available_providers, "Linode" if Linode.available?
       assert_includes Fog.available_providers, "Local" if Local.available?
-      assert_includes Fog.available_providers, "Ninefold" if Ninefold.available?
       assert_includes Fog.available_providers, "OpenNebula" if OpenNebula.available?
       assert_includes Fog.available_providers, "OpenStack" if OpenStack.available?
       assert_includes Fog.available_providers, "Openvz" if Openvz.available?
