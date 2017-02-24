@@ -23,6 +23,7 @@ module Fog
         attribute :host
         attribute :cluster
         attribute :template
+        attribute :instance_type
         attribute :interfaces
         attribute :volumes
         attribute :raw

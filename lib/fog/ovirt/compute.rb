@@ -13,6 +13,8 @@ module Fog
       collection :servers
       model      :template
       collection :templates
+      model      :instance_type
+      collection :instance_types
       model      :cluster
       collection :clusters
       model      :interface
@@ -37,6 +39,8 @@ module Fog
       request :get_virtual_machine
       request :list_templates
       request :get_template
+      request :list_instance_types
+      request :get_instance_type
       request :list_clusters
       request :get_cluster
       request :add_interface
