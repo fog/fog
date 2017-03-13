@@ -1,3 +1,18 @@
+## 1.40.0 03/13/2017
+*Hash* ed5edd8610f5585267f07567cccec1c10b002764
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Forks         | 1556
+Open Issues   | 48
+Watchers      | 3975
+
+
+#### [misc]
+*   bump fog-digitalocean version to avoid conflict. thanks geemus
+
+
 ## 1.39.0 03/13/2017
 *Hash* d6c89ea01e747f36e3d384191ac3072e29ddec64
 
