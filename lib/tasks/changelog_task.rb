@@ -31,7 +31,6 @@ module Fog
 Statistic     | Value
 ------------- | --------:
 Collaborators | #{collaborators}
-Downloads     | #{downloads}
 Forks         | #{forks}
 Open Issues   | #{open_issues}
 Watchers      | #{watchers}
@@ -109,6 +108,7 @@ Watchers      | #{watchers}
            'Benson Kalahar',
            'Brian Hartsock',
            'bryanl',
+           'Cherdancev Evgeni',
            'Chris Luo',
            'Chris Roberts',
            'Christopher Oliver',
@@ -184,9 +184,9 @@ Watchers      | #{watchers}
       end
 
       def downloads
-        repsonse = Excon.get('https://rubygems.org/api/v1/gems/fog.json')
-        data = Fog::JSON.decode(repsonse.body)
-        data['downloads']
+        response = Excon.get('https://rubygems.org/api/v1/downloads/fog.json')
+        data = Fog::JSON.decode(response.body)
+        data['total_downloads']
       end
 
       def collaborators
