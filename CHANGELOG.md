@@ -1,3 +1,84 @@
+## 1.40.0 03/13/2017
+*Hash* ed5edd8610f5585267f07567cccec1c10b002764
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Forks         | 1556
+Open Issues   | 48
+Watchers      | 3975
+
+
+#### [misc]
+*   bump fog-digitalocean version to avoid conflict. thanks geemus
+
+
+## 1.39.0 03/13/2017
+*Hash* d6c89ea01e747f36e3d384191ac3072e29ddec64
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Forks         | 1556
+Open Issues   | 48
+Watchers      | 3975
+
+**MVP!** Cherdancev Evgeni
+
+#### [CloudSigma]
+*   add snapshots (#3491). thanks zephyrean
+
+#### [digitalocean]
+*   delete leftover spec. thanks geemus
+
+#### [misc]
+*   Adding postinstall message. thanks Artem Yakimenko
+*   Fixing gemspec conflicts with 1.9. thanks Artem Yakimenko
+*   Add instance_types support to oVirt provider. thanks Baptiste Agasse
+*   Fix filtering for Digital Ocean list_ssh_keys request. thanks Ben Sedat
+*   Allow filtering for Digital Ocean list_flavors request. thanks Ben Sedat
+*   Fix Digital Ocean list_servers mock format. thanks Ben Sedat
+*   Add tests for Digital Ocean list_ssh_keys request. thanks Ben Sedat
+*   Digital Ocean list_* requests pass query params to Excon. thanks Ben Sedat
+*   add suspend&resume support and change tests to fog way. thanks Cherdancev Evgeni
+*   remove execute flag from README.md. thanks Cherdancev Evgeni
+*   retab & remove empty Mock. thanks Cherdancev Evgeni
+*   change tests for using fogtest flavor. thanks Cherdancev Evgeni
+*   add suspend&resume support and change tests to fog way. thanks Cherdancev Evgeni
+*   remove execute flag from README.md. thanks Cherdancev Evgeni
+*   retab & remove empty Mock. thanks Cherdancev Evgeni
+*   change tests for using fogtest flavor. thanks Cherdancev Evgeni
+*   Prevent malformed request with asterisk (*) character. thanks Gavin Lam
+*   Add DigitalOcean provider. thanks  Garcia
+*   Removed 'filters' from ssh_key. thanks JJ Asghar
+*   extract DNSimple, require 'fog-dnsimple'. thanks Joshua Lane
+*   remove dnsimple tests. thanks Joshua Lane
+*   remove ninefold. thanks Joshua Lane
+*   Fix default API version for Joyent. thanks Manuel Franco
+*   fix dependency issues when building on 1.9.*. thanks Paulo Ribeiro
+*   Add request to create snapshot. thanks Pierre Tinguely
+*   #3900 Escape VM name in OpenNebula allocator. thanks Sergey Susikov
+*   Remove digitalocean. thanks Suraj Shirvankar
+*   Remove digitalocean bin files. thanks Suraj Shirvankar
+*   Total number of droplets for digital ocean. thanks Tameem
+*   Add more changes. thanks Tameem
+*   Testing. thanks Tameem
+*   Working. thanks Tameem
+*   clean. thanks Tameem
+*   F rage4 bulk update endpoint (#3917). thanks Tameem Iftikhar
+*   Drop 'hp' from compute tests. thanks t Ondruch
+*   Drop 'hp' from storage tests. thanks t Ondruch
+*   Drop 'hp' test cases. thanks t Ondruch
+*   bump fog-core dep. thanks geemus
+*   bump fog-core dependency. thanks geemus
+*   fix fog-core dependency. thanks geemus
+*   bump fog-core dep. thanks geemus
+*   remove require for missing digitalocean bin. thanks geemus
+*   Update licence.md. thanks pieceofcakeresul
+*   Update compose_common.rb. thanks tinguelyp
+*   Update post_create_snapshot.rb. thanks tinguelyp
+
+
 ## 1.38.0 03/28/2016
 *Hash* 5e4bde2733adc08ba2d92b2d2824e2d3845fc5e5
 
