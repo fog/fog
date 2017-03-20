@@ -1,12 +1,15 @@
 language: ruby
 
 sudo: false
+dist: trusty
 
 script: bundle exec rake travis
 
 rvm:
   - 2.1
   - 2.2
+  - 2.3
+  - 2.4
   - jruby-head
 
 gemfile:
