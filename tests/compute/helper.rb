@@ -71,9 +71,6 @@ def compute_providers
       :server_attributes => {},
       :mocked => true
     },
-    :joyent => {
-      :mocked => false
-    },
     :openstack => {
       :mocked => true,
       :server_attributes => {
