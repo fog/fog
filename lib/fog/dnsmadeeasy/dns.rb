@@ -90,6 +90,10 @@ module Fog
         def reload
           @connection.reset
         end
+        
+        def use_v2
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}/V2.0", @persistent, @connection_options)
+        end
 
         private
 
