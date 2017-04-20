@@ -13,7 +13,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :path     => '/V1.2/secondary'
+            :path     => '/#{@api_version}/secondary'
           )
         end
       end

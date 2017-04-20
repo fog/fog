@@ -49,7 +49,7 @@ module Fog
           request(
             :expects  => 201,
             :method   => "POST",
-            :path     => "/V1.2/domains/#{domain}/records",
+            :path     => "/#{@api_version}/domains/#{domain}/records",
             :body     => Fog::JSON.encode(body)
           )
         end

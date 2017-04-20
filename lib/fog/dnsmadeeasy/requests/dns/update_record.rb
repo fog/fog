@@ -44,7 +44,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => "PUT",
-            :path     => "/V1.2/domains/#{domain}/records/#{record_id}",
+            :path     => "/#{@api_version}/domains/#{domain}/records/#{record_id}",
             :body     => Fog::JSON.encode(options)
           )
         end

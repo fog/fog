@@ -27,7 +27,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => "GET",
-            :path     => "/V1.2/domains/#{domain}/records/#{record_id}"
+            :path     => "/#{@api_version}/domains/#{domain}/records/#{record_id}"
           )
         end
       end

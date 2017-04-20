@@ -12,7 +12,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'DELETE',
-            :path     => '/V1.2/domains'
+            :path     => '/#{@api_version}/domains'
           )
         end
       end
