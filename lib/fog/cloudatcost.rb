@@ -1,0 +1,1 @@
+require 'fog/cloudatcost/compute'
