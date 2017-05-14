@@ -31,6 +31,8 @@ module Fog
         attribute :ips
         attribute :ha
         attribute :ha_priority
+        attribute :clone
+        attribute :disks
 
         def ready?
           !(status =~ /down/i)
