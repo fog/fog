@@ -1,7 +1,7 @@
 ![fog](http://geemus.s3.amazonaws.com/fog.png)
-
+#What is fog?? <br>
 fog is the Ruby cloud services library, top to bottom:
-
+<br>
 * Collections provide a simplified interface, making clouds easier to work with and switch between.
 * Requests allow power users to get the most out of the features of each individual cloud.
 * Mocks make testing and integrating a breeze.
@@ -12,7 +12,7 @@ fog is the Ruby cloud services library, top to bottom:
 [![Gem Version](https://badge.fury.io/rb/fog.svg)](http://badge.fury.io/rb/fog)
 
 ## Dependency Notice
-
+<br>
 Currently all fog providers are getting separated into metagems to lower the
 load time and dependency count.
 
