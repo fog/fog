@@ -677,6 +677,7 @@
 * Sean Handley <seanhandley@users.noreply.github.com>
 * Sean Hart <boardnutz@blacklight.net>
 * Sean Hart <sean.hart@gree.co.jp>
+* Sean Hart <seanhart@funzio.com>
 * Sean Porter <portertech@gmail.com>
 * Sebastian Saemann <ssaemann@netways.de>
 * Sergio Rubio <rubiojr@frameos.org>
@@ -782,7 +783,6 @@
 * Yamashita Yuu <peek824545201@gmail.com>
 * Yann Hamon <Yann@trailburning.com>
 * Yauheni Kryudziuk <yauheni.kryudziuk@xing.com>
-* Your Name <seanhart@funzio.com>
 * Yousef Ourabi <yourabi@gmail.com>
 * Yury Tsarev <yury.tsarev@gooddata.com>
 * Zachary Danger Campbell <zacharydangercampbell@gmail.com>
