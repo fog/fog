@@ -4,7 +4,7 @@ Shindo.tests("Fog::Compute[:fogdocker] | container_create request", 'fogdocker')
   name_base = Time.now.to_i
 
   tests("Create Container") do
-    response = compute.container_create(:name => 'fog-'+name_base.to_s, 'image' => 'mattdm/fedora:f19','Cmd' => ['date'] )
+    response = compute.container_create(fog_test_container_attributes )
     test("should be a kind of Hash") { response.kind_of?  Hash}
   end
 
