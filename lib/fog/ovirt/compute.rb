@@ -58,6 +58,8 @@ module Fog
       request :update_volume
       request :attach_volume
       request :detach_volume
+      request :activate_volume
+      request :deactivate_volume
       request :get_api_version
       request :list_quotas
       request :get_quota
