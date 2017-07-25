@@ -44,7 +44,7 @@ module Fog
         end
 
         def stopped?
-          !!(status =~ /down/i)
+          status.downcase == 'down'
         end
 
         def mac
@@ -134,7 +134,10 @@ module Fog
         end
 
         def reboot(options = {})
-          stop unless stopped?
+          unless stopped?
+            stop
+            wait_for { stopped? }
+          end
           start options.merge(:blocking => true)
         end
 
