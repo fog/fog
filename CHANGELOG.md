@@ -1,3 +1,33 @@
+## 1.41.0 08/01/2017
+*Hash* e5d3672e804149d38f91ccdfdaf7cfd7be52b75b
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Forks         | 1558
+Open Issues   | 44
+Watchers      | 4042
+
+**MVP!** effeminate-batman
+
+#### [misc]
+*   Attach ovirt activate and deactivate volume calls that are available in the rbovirt library. thanks  Felix
+*   Remove internet_archive. thanks Nat Welch
+*   add fog-internet-archive to deps. thanks Nat Welch
+*   sort dependency list. thanks Nat Welch
+*   Remove more internet archive stuff. thanks Nat Welch
+*   Re-add internet_archive. thanks Nat Welch
+*   Add 2.3 and 2.4 to test builds, also trusty. thanks Nat Welch
+*   Joyent Extraction. thanks effeminate-batman
+*   Add Joyent to fog.gemspec. thanks effeminate-batman
+*   bump fog-core. thanks geemus
+*   allow dash in committer name for changelog. thanks geemus
+*   adding disks and clone to attribute. thanks orrabin
+
+#### [ovirt]
+*   fix waiting for VM to be stopped. thanks as
+
+
 ## 1.40.0 03/13/2017
 *Hash* ed5edd8610f5585267f07567cccec1c10b002764
 
