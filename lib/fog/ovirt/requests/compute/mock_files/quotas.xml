@@ -1,7 +1,0 @@
-<quotas>
-  <quota href="/api/datacenters/c0645886-4b4b-11e1-a0ae-5254009970cc/quotas/aae6e3f3-0798-4ef7-b4e4-c036f04a98d7" id="aae6e3f3-0798-4ef7-b4e4-c036f04a98d7">
-    <name>DefaultQuota-Datacenter1</name>
-    <description>Automatic generated Quota for Data Center Datacenter1</description>
-    <data_center href="/api/datacenters/c0645886-4b4b-11e1-a0ae-5254009970cc" id="c0645886-4b4b-11e1-a0ae-5254009970cc"/>
-  </quota>
-</quotas>

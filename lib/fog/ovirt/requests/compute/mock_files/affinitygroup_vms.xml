@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<vms>
-	<vm href="/api/vms/5ee86332-7b19-465b-8801-2a12ed0d6c1b" id="5ee86332-7b19-465b-8801-2a12ed0d6c1b">
-		<name>test-vm1</name>
-    </vm>
-	<vm href="/api/vms/349764bb-eba3-4466-abef-f18f4c40c9f1" id="349764bb-eba3-4466-abef-f18f4c40c9f1">
-		<name>fosdem</name>
-    </vm>
-</vms>
