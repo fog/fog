@@ -123,7 +123,11 @@ module Fog
 
         def start_with_cloudinit(options = {})
           wait_for { !locked? } if options[:blocking]
-          user_data = Hash[YAML.load(options[:user_data]).map{|a| [a.first.to_sym, a.last]}]
+          if options[:use_custom_script]
+            user_data = { :custom_script => options[:user_data] }
+          else
+            user_data = Hash[YAML.load(options[:user_data]).map{|a| [a.first.to_sym, a.last]}]
+          end
           service.vm_start_with_cloudinit(:id =>id, :user_data =>user_data)
           reload
         end
