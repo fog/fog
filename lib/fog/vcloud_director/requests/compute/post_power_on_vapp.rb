@@ -65,7 +65,7 @@ module Fog
             :body => body
           )
         end
-        end
+      end
     end
   end
 end

@@ -47,7 +47,7 @@ module Fog
       end
 
       def release_match
-        @current_line.match /## (\d+\.\d+\.\d+) \d+\/\d+\d+/
+        @current_line.match (/## (\d+\.\d+\.\d+) \d+\/\d+\d+/)
       end
 
       def github
