@@ -1,3 +1,23 @@
+## 1.42.0 09/29/2017
+*Hash* 41a38068d34237b9639ac045f99a4b48160834a9
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Forks         | 1556
+Open Issues   | 45
+Watchers      | 4060
+
+**MVP!** swamp09
+
+#### [misc]
+*   Upgrade JSON to ~> 2.0. thanks Denis Defreyne
+*   Removing ovirt provider. thanks Ori Rabin
+*   fix changelog task. thanks geemus
+*   Suppress `warning: ambiguous first argument; put parentheses or a space even after `/' operator`. thanks swamp09
+*   Suppress `warning: mismatched indentations at 'end' with 'class'`. thanks swamp09
+
+
 ## 1.41.0 08/01/2017
 *Hash* e5d3672e804149d38f91ccdfdaf7cfd7be52b75b
 

@@ -148,6 +148,7 @@ Watchers      | #{watchers}
            'Rodrigo Estebanez',
            'Rupak Ganguly',
            'Stepan G. Fedorov',
+           'swamp09',
            'TerryHowe',
            'Wesley Beary'
          ].include?(committer)
