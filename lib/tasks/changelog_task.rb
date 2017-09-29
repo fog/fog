@@ -177,7 +177,7 @@ Watchers      | #{watchers}
       end
 
       def committer_match
-        current_line.match (/([-\w\s]+)\s+\(\d+\)/)
+        @current_line.match (/([-\w\s]+)\s+\(\d+\)/)
       end
 
       def last_release_sha
