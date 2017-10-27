@@ -44,6 +44,8 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.md]
 
+  s.required_ruby_version = '>= 2.0.0'
+
   s.add_dependency("fog-core", "~> 1.45")
   s.add_dependency("fog-json")
   s.add_dependency("fog-xml", "~> 0.1.1")
@@ -113,9 +115,8 @@ If there's a metagem available for your cloud provider, e.g. `fog-aws`,
 you should be using it instead of requiring the full fog collection to avoid
 unnecessary dependencies.
 
-'fog' should be required explicitly only if:
-- The provider you use doesn't yet have a metagem available.
-- You require Ruby 1.9.3 support.
+'fog' should be required explicitly only if the provider you use doesn't yet 
+have a metagem available.
 ------------------------------
   POSTINST
 
