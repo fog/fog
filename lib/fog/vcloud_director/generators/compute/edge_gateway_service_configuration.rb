@@ -165,7 +165,7 @@ module Fog
                 xml.NatRule {
                   xml.RuleType rule[:RuleType]
                   xml.IsEnabled rule[:IsEnabled]
-                  xml.Id rule[:Id]
+                  xml.Id rule[:Id] if rule[:Id]
                   gateway_nat_rule = rule[:GatewayNatRule]
                   xml.GatewayNatRule {
                     xml.Interface(:name => gateway_nat_rule[:Interface][:name], :href => gateway_nat_rule[:Interface][:href])
@@ -211,7 +211,7 @@ module Fog
               xml.LogDefaultAction firewall_config[:LogDefaultAction] if firewall_config.key?(:LogDefaultAction)
               firewall_config[:FirewallRule].each do |rule|
                 xml.FirewallRule {
-                  xml.Id rule[:Id]
+                  xml.Id rule[:Id] if rule[:Id]
                   xml.IsEnabled rule[:IsEnabled] if rule.key?(:IsEnabled)
                   xml.MatchOnTranslate rule[:MatchOnTranslate] if rule.key?(:MatchOnTranslate)
                   xml.Description rule[:Description] if rule.key?(:Description)
