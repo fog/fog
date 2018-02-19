@@ -31,6 +31,7 @@ describe Fog do
       assert_equal "OpenStack", Fog.providers[:openstack]
       assert_equal "Openvz", Fog.providers[:openvz]
       assert_equal "Ovirt", Fog.providers[:ovirt]
+      assert_equal "Kubevirt", Fog.providers[:kubevirt]
       assert_equal "PowerDNS", Fog.providers[:powerdns]
       assert_equal "ProfitBricks", Fog.providers[:profitbricks]
       assert_equal "Rackspace", Fog.providers[:rackspace]
