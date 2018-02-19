@@ -267,6 +267,7 @@ module Fog
       request :put_vapp_template_metadata_item_metadata
       request :put_vm
       request :put_vm_capabilities
+      request :put_config_network_section_vapp
 
       class Model < Fog::Model
         def initialize(attrs={})
@@ -701,9 +702,9 @@ module Fog
                 :name => org_name,
                 :uuid => uuid
               },
-              
+
               :tags => {},
-              
+
               :tasks => {},
 
               :vapps => {
