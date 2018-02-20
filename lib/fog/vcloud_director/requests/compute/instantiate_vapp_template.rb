@@ -44,18 +44,18 @@ module Fog
           options
         end
 
-        def generate_instantiate_vapp_template_request(options ={})        
-          
+        def generate_instantiate_vapp_template_request(options ={})
+
           #overriding some params so they work with new standardised generator
-          options[:InstantiationParams] = 
+          options[:InstantiationParams] =
           {
-            :NetworkConfig => 
+            :NetworkConfig =>
               [{
               :networkName => options[:network_name],
               :networkHref => options[:network_uri],
               :fenceMode => 'bridged'
               }]
-          } unless options[:InstantiationParams]
+          } unless options[:InstantiationParams] || !options[:network_uri]
           options[:name] = options.delete(:vapp_name) if options[:vapp_name]
           options[:Description] = options.delete(:description) unless options[:Description]
           if options[:vms_config] then
@@ -63,10 +63,10 @@ module Fog
             options[:source_vms].each_with_index {|vm, i|options[:source_vms][i][:StorageProfileHref] = options[:source_vms][i].delete(:storage_profile_href) }
           end
           options[:Source] = options.delete(:template_uri) if options[:template_uri]
-            
-              
 
-          
+
+
+
           Fog::Generators::Compute::VcloudDirector::InstantiateVappTemplateParams.new(options).generate_xml
 
 
@@ -98,10 +98,10 @@ module Fog
           end_point
         end
       end
-      
+
       class Mock
         # Assume the template is a single VM with one network interface and one disk.
-        def instantiate_vapp_template(vapp_name, template_id, options={})          
+        def instantiate_vapp_template(vapp_name, template_id, options={})
           unless data[:catalog_items].values.find {|i| i[:template_id] == template_id}
             raise Fog::Compute::VcloudDirector::Forbidden.new(
               'No such template.'
@@ -112,7 +112,7 @@ module Fog
               'No such VDC.'
             )
           end
-          
+
           vapp_uuid = uuid
           vapp_id   = "vapp-#{vapp_uuid}"
           owner = {
