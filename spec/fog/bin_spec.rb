@@ -46,7 +46,6 @@ describe Fog do
       assert_equal "Voxel", Fog.providers[:voxel]
       assert_equal "Vsphere", Fog.providers[:vsphere]
       assert_equal "XenServer", Fog.providers[:xenserver]
-      assert_equal "Zerigo", Fog.providers[:zerigo]
     end
   end
 
@@ -94,7 +93,6 @@ describe Fog do
       assert_includes Fog.registered_providers, "Voxel"
       assert_includes Fog.registered_providers, "Vsphere"
       assert_includes Fog.registered_providers, "XenServer"
-      assert_includes Fog.registered_providers, "Zerigo"
     end
   end
 
@@ -142,7 +140,6 @@ describe Fog do
       assert_includes Fog.available_providers, "Voxel" if Voxel.available?
       assert_includes Fog.available_providers, "Vsphere" if Vsphere.available?
       assert_includes Fog.available_providers, "XenServer" if XenServer.available?
-      assert_includes Fog.available_providers, "Zerigo" if Zerigo.available?
     end
   end
 

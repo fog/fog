@@ -27,9 +27,6 @@ def dns_providers
         :email => 'fog@example.com'
       }
     },
-    :zerigo       => {
-      :mocked => false
-    },
     :rackspace    => {
       :mocked => false,
       :zone_attributes => {
