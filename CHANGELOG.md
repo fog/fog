@@ -1,3 +1,24 @@
+## 2.0.0 03/06/2018
+*Hash* ff9fe270cd23627f748dd37e9bf2800640187f60
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Forks         | 1553
+Open Issues   | 41
+Watchers      | 4102
+
+**MVP!** Tinguely Pierre
+
+#### [misc]
+*   Drop Zerigo. thanks Paulo Ribeiro
+*   add id in xml only if present. Else an id is generated from xsd generation. thanks Tinguely Pierre
+*   make network optionnal for instantiate request. thanks Tinguely Pierre
+*   implement the put api to configure the network section in vapp. thanks Tinguely Pierre
+*   Drop Ruby<2 support. thanks Tomer Brisker
+*   bump rubocop dep. thanks geemus
+
+
 ## 1.42.0 09/29/2017
 *Hash* 41a38068d34237b9639ac045f99a4b48160834a9
 

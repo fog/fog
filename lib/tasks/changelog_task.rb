@@ -150,6 +150,7 @@ Watchers      | #{watchers}
            'Stepan G. Fedorov',
            'swamp09',
            'TerryHowe',
+           'Tinguely Pierre',
            'Wesley Beary'
          ].include?(committer)
       end
