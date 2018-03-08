@@ -115,7 +115,7 @@ If there's a metagem available for your cloud provider, e.g. `fog-aws`,
 you should be using it instead of requiring the full fog collection to avoid
 unnecessary dependencies.
 
-'fog' should be required explicitly only if the provider you use doesn't yet 
+'fog' should be required explicitly only if the provider you use doesn't yet
 have a metagem available.
 ------------------------------
   POSTINST
