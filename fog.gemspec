@@ -63,7 +63,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-dnsimple", "~> 1.0")
   s.add_dependency("fog-dynect", "~> 0.0.2")
   s.add_dependency("fog-ecloud", "~> 0.1")
-  s.add_dependency("fog-google", "<= 0.1.0")
+  s.add_dependency("fog-google", "~> 1.0")
   s.add_dependency("fog-internet-archive")
   s.add_dependency("fog-joyent")
   s.add_dependency("fog-local")
@@ -86,7 +86,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency("docker-api", ">= 1.13.6")
   s.add_development_dependency("fission")
-  s.add_development_dependency("mime-types", "<=2.99.1")
+  s.add_development_dependency("mime-types")
   s.add_development_dependency("minitest")
   s.add_development_dependency("minitest-stub-const")
   s.add_development_dependency("opennebula")
@@ -115,7 +115,7 @@ If there's a metagem available for your cloud provider, e.g. `fog-aws`,
 you should be using it instead of requiring the full fog collection to avoid
 unnecessary dependencies.
 
-'fog' should be required explicitly only if the provider you use doesn't yet 
+'fog' should be required explicitly only if the provider you use doesn't yet
 have a metagem available.
 ------------------------------
   POSTINST
