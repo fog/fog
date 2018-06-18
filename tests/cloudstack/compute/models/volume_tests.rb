@@ -4,7 +4,7 @@ def volume_tests(connection, params, mocks_implemented = true)
       @instance.wait_for { ready? }
     end
 
-    @server = @instance.connection.servers.create(params[:server_attributes])
+    @server = @instance.service.servers.create(params[:server_attributes])
     @server.wait_for { ready? }
 
     tests('attach').succeeds do
