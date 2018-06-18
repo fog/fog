@@ -77,22 +77,4 @@ describe AWS do
       end
     end
   end
-
-  describe "#[]" do
-    describe "when service is recognised" do
-      it "returns correct instance" do
-        KEY_CLASS_MAPPING.each do |key, klass|
-          klass.stub(:new, "#{klass} instance") do
-            assert_equal "#{klass} instance", AWS[key]
-          end
-        end
-      end
-    end
-
-    describe "when service is not recognised" do
-      it "raises ArgumentError" do
-        assert_raises(ArgumentError) { AWS[:bad_service] }
-      end
-    end
-  end
 end

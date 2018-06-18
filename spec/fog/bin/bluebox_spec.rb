@@ -34,22 +34,4 @@ describe Bluebox do
       end
     end
   end
-
-  describe "#[]" do
-    describe "when requesting compute service" do
-      it "returns instance" do
-        Fog::Compute::Bluebox.stub(:new, "instance") do
-          assert_equal "instance", Bluebox[:compute]
-        end
-      end
-    end
-
-    describe "when requesting dns service" do
-      it "returns instance" do
-        Fog::DNS::Bluebox.stub(:new, "instance") do
-          assert_equal "instance", Bluebox[:dns]
-        end
-      end
-    end
-  end
 end

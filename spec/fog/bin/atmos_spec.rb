@@ -20,14 +20,4 @@ describe Atmos do
       end
     end
   end
-
-  describe "#[]" do
-    describe "when requesting storage service" do
-      it "returns instance" do
-        Fog::Storage::Atmos.stub(:new, "instance") do
-          assert_equal "instance", Atmos[:storage]
-        end
-      end
-    end
-  end
 end
