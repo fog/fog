@@ -1,6 +1,10 @@
 Shindo.tests('Fog::Compute[:opennebula] | network model', ['opennebula']) do
+  begin
+    networks = Fog::Compute[:opennebula].networks
+  rescue Fog::Errors::LoadError
+    pending
+  end
 
-  networks = Fog::Compute[:opennebula].networks
   network = networks.get_by_name('fogtest')
 
   tests('The network model should') do

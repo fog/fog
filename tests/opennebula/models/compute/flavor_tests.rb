@@ -1,6 +1,10 @@
 Shindo.tests('Fog::Compute[:opennebula] | flavor model', ['opennebula']) do
+  begin
+    flavors = Fog::Compute[:opennebula].flavors
+  rescue Fog::Errors::LoadError
+    pending
+  end
 
-  flavors = Fog::Compute[:opennebula].flavors
   flavor = flavors.get_by_name('fogtest').last
 
   tests('The flavor model should') do

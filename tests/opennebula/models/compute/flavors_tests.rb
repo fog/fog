@@ -1,6 +1,9 @@
 Shindo.tests('Fog::Compute[:opennebula] | flavors collection', ['opennebula']) do
-
-  flavors = Fog::Compute[:opennebula].flavors
+  begin
+    flavors = Fog::Compute[:opennebula].flavors
+  rescue Fog::Errors::LoadError
+    pending
+  end
 
   tests('The flavors collection should') do
     test('should be a kind of Fog::Compute::OpenNebula::Flavors') { flavors.kind_of? Fog::Compute::OpenNebula::Flavors }

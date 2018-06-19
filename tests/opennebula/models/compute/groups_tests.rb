@@ -1,6 +1,9 @@
 Shindo.tests('Fog::Compute[:opennebula] | groups collection', ['opennebula']) do
-
-  groups = Fog::Compute[:opennebula].groups
+  begin
+    groups = Fog::Compute[:opennebula].groups
+  rescue Fog::Errors::LoadError
+    pending
+  end
 
   tests('The groups collection') do
     test('should be a kind of Fog::Compute::OpenNebula::Groups') { groups.kind_of? Fog::Compute::OpenNebula::Groups }

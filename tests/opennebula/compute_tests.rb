@@ -1,6 +1,9 @@
 Shindo.tests('Fog::Compute[:opennebula]', ['opennebula']) do
-
-  compute = Fog::Compute[:opennebula]
+  begin
+    compute = Fog::Compute[:opennebula]
+  rescue Fog::Errors::LoadError
+    pending
+  end
 
   tests("Compute collections") do
     %w{networks groups}.each do |collection|
