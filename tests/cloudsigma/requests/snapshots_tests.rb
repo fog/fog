@@ -1,4 +1,5 @@
 Shindo.tests('Fog::Compute[:cloudsigma] | snapshot requests', ['cloudsigma']) do
+  pending if Fog.mocking?
 
   @snapshot_format = {
       'uuid' => String,
