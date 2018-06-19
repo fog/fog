@@ -7,8 +7,12 @@ describe Fog::Compute do
         # Stub credentials so you still see errors where the tester really has credentials
         Fog.stub :credentials, {} do
           # These providers do not raise ArgumentError since they have no requirements defined
-          if [:openvz, :vmfusion].include?(provider)
+          # FIXME: They should use the same interface as everyone else
+          case provider
+          when :ecloud, :openvz
             assert Fog::Compute[provider]
+          when :vmfusion
+            assert_raises(Fog::Errors::MockNotImplemented) { Fog::Compute[provider] }
           else
             assert_raises(ArgumentError) { Fog::Compute[provider] }
           end
