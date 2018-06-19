@@ -1,6 +1,9 @@
 Shindo.tests('Fog::Compute[:opennebula] | networks collection', ['opennebula']) do
-
-  networks = Fog::Compute[:opennebula].networks
+  begin
+    networks = Fog::Compute[:opennebula].networks
+  rescue Fog::Errors::LoadError
+    pending
+  end
 
   tests('The networks collection') do
     test('should be a kind of Fog::Compute::OpenNebula::Networks') { networks.kind_of? Fog::Compute::OpenNebula::Networks }

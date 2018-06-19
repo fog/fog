@@ -1,4 +1,6 @@
 Shindo.tests('Fog::Compute[:cloudsigma] | snapshot model', ['cloudsigma']) do
+  pending if Fog.mocking?
+
   volume = Fog::Compute[:cloudsigma].volumes.create(:name => 'fogmodeltest', :size => 1024**3, :media => :disk)
   volume.wait_for { available? } unless Fog.mocking?
 

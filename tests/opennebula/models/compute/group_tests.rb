@@ -1,6 +1,9 @@
 Shindo.tests('Fog::Compute[:opennebula] | group model', ['opennebula']) do
-
-  groups = Fog::Compute[:opennebula].groups
+  begin
+    groups = Fog::Compute[:opennebula].groups
+  rescue Fog::Errors::LoadError
+    pending
+  end
   group = groups.last
 
   tests('The group model should') do

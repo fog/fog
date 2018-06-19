@@ -98,7 +98,12 @@ module Fog
           @opennebula_endpoint = options[:opennebula_endpoint]
           @opennebula_username = options[:opennebula_username]
           @opennebula_password = options[:opennebula_password]
-          require 'opennebula'
+
+          begin
+            require "opennebula"
+          rescue LoadError
+            raise Fog::Errors::LoadError, "To use OpenNebula provider, you must load 'opennebula' gem"
+          end
         end
 
         def client

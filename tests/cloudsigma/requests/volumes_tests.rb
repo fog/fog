@@ -14,7 +14,7 @@ Shindo.tests('Fog::Compute[:cloudsigma] | volume requests', ['cloudsigma']) do
       'resource_uri' => Fog::Nullable::String,
       'size' => Integer,
       'status' => String,
-      'storage_type' => String,
+      'storage_type' => Fog::Nullable::String,
       'tags' => Array
   }
 

@@ -1,6 +1,9 @@
 Shindo.tests("Fog::Compute[:opennebula] | vm_suspend and vm_resume request", 'opennebula') do
-
-  compute = Fog::Compute[:opennebula]
+  begin
+    compute = Fog::Compute[:opennebula]
+  rescue Fog::Errors::LoadError
+    pending
+  end
 
   name_base = Time.now.to_i
   f = compute.flavors.get_by_name("fogtest")

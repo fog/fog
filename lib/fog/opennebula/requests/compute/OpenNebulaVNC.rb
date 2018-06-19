@@ -20,7 +20,11 @@
 
 require 'rubygems'
 require 'json'
-require 'opennebula'
+begin
+  require "opennebula"
+rescue LoadError
+  raise Fog::Errors::LoadError, "To use OpenNebula provider, you must load 'opennebula' gem"
+end
 
 
 #if !ONE_LOCATION
