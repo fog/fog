@@ -1,9 +1,9 @@
 source "https://rubygems.org"
 
 # Shared components
-gem "fog-core", :github => "fog/fog-core"
-gem "fog-json", :github => "fog/fog-json"
-gem "fog-xml",  :github => "fog/fog-xml"
+gem "fog-core", :git => "https://github.com/fog/fog-core"
+gem "fog-json", :git => "https://github.com/fog/fog-json"
+gem "fog-xml",  :git => "https://github.com/fog/fog-xml"
 
 group :development, :test do
   gem "coveralls", :require => false
