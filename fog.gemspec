@@ -71,6 +71,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-ovirt")
   s.add_dependency("fog-powerdns", ">= 0.1.1")
   s.add_dependency("fog-profitbricks")
+  s.add_dependency("fog-packet")
   s.add_dependency("fog-rackspace")
   s.add_dependency("fog-radosgw", ">= 0.0.2")
   s.add_dependency("fog-riakcs")
