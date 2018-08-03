@@ -82,6 +82,8 @@ module Fog
       collection :tags
       model      :media
       collection :medias # sic
+      model      :edge_gateway
+      collection :edge_gateways
 
       request_path 'fog/vcloud_director/requests/compute'
       request :delete_catalog_item

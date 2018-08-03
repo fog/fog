@@ -12,8 +12,9 @@ organizations
                                               -> disks -> disk
                                               -> tags -> tag
                                               -> power_on
-                            
-                            vapp_templates -> vms -> vm
+                         -> vapp_templates -> vms -> vm
+
+                -> edge_gateways -> edge_gateway
     networks -> network
     catalogs -> catalog -> catalog_items -> catalog_item -> instantiate_vapp
                                                          -> vapp_template -> vms -> vm
