@@ -219,6 +219,7 @@ module Fog
       request :post_compose_vapp
       request :post_recompose_vapp
       request :post_detach_disk
+      request :post_create_catalog
       request :post_disable_nested_hv
       request :post_disable_vapp_template_download
       request :post_discard_vapp_state
