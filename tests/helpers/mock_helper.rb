@@ -80,5 +80,6 @@ if Fog.mock?
     :docker_password                  => 'i<3docker',
     :docker_email                     => 'dockerfan@gmail.com',
     :docker_url                       => 'unix://var/run/docker.sock'
+    :packet_token                     => 'packet_token'
   }.merge(Fog.credentials)
 end
