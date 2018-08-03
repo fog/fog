@@ -22,6 +22,17 @@ module Fog
         attribute :hard_disks, :aliases => :disks
         attribute :network_adapters
 
+        def deploy(options = {})
+          requires :id
+          begin
+            response = service.post_deploy_vapp(id, options)
+          rescue Fog::Compute::VcloudDirector::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
+          service.process_task(response.body)
+        end
+
         def reload
           # when collection.vapp is nil, it means it's fatherless,
           # vms from different vapps are loaded in the same collection.
