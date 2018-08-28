@@ -64,6 +64,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-dynect", "~> 0.0.2")
   s.add_dependency("fog-ecloud", "~> 0.1")
   s.add_dependency("fog-google", "~> 1.0")
+  s.add_dependency("fog-huaweicloud", ">= 0.1.2")
   s.add_dependency("fog-internet-archive")
   s.add_dependency("fog-joyent")
   s.add_dependency("fog-local")
