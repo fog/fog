@@ -13,8 +13,6 @@ if Fog.mock?
     :aws_secret_access_key            => 'aws_secret_access_key',
     :ia_access_key_id                 => 'aws_access_key_id',
     :ia_secret_access_key             => 'aws_secret_access_key',
-    :bluebox_api_key                  => 'bluebox_api_key',
-    :bluebox_customer_id              => 'bluebox_customer_id',
     :brightbox_client_id              => 'brightbox_client_id',
     :brightbox_secret                 => 'brightbox_secret',
     :cloudstack_disk_offering_id      => '',

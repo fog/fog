@@ -7,7 +7,6 @@ describe Fog do
       assert_equal "Atmos", Fog.providers[:atmos]
       assert_equal "AWS", Fog.providers[:aws]
       assert_equal "BareMetalCloud", Fog.providers[:baremetalcloud]
-      assert_equal "Bluebox", Fog.providers[:bluebox]
       assert_equal "Brightbox", Fog.providers[:brightbox]
       assert_equal "Clodo", Fog.providers[:clodo]
       assert_equal "CloudSigma", Fog.providers[:cloudsigma]
@@ -54,7 +53,6 @@ describe Fog do
       assert_includes Fog.registered_providers, "Atmos"
       assert_includes Fog.registered_providers, "AWS"
       assert_includes Fog.registered_providers, "BareMetalCloud"
-      assert_includes Fog.registered_providers, "Bluebox"
       assert_includes Fog.registered_providers, "Brightbox"
       assert_includes Fog.registered_providers, "Clodo"
       assert_includes Fog.registered_providers, "CloudSigma"
@@ -101,7 +99,6 @@ describe Fog do
       assert_includes Fog.available_providers, "Atmos" if Atmos.available?
       assert_includes Fog.available_providers, "AWS" if AWS.available?
       assert_includes Fog.available_providers, "BareMetalCloud" if BareMetalCloud.available?
-      assert_includes Fog.available_providers, "Bluebox" if Bluebox.available?
       assert_includes Fog.available_providers, "Brightbox" if Brightbox.available?
       assert_includes Fog.available_providers, "Clodo" if Clodo.available?
       assert_includes Fog.available_providers, "CloudSigma" if CloudSigma.available?

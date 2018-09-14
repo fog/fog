@@ -3,12 +3,6 @@ def dns_providers
     :aws          => {
       :mocked => false
     },
-    :bluebox      => {
-      :mocked => false,
-      :zone_attributes => {
-        :ttl => 60
-      }
-    },
     :dnsimple     => {
       :mocked => false
     },

@@ -4,15 +4,6 @@ def compute_providers
       :server_attributes => {},
       :mocked => true
     },
-    :bluebox    => {
-      :server_attributes => {
-        :flavor_id    => '94fd37a7-2606-47f7-84d5-9000deda52ae', # Block 1GB Virtual Server
-        :image_id     => 'a8f05200-7638-47d1-8282-2474ef57c4c3', # Scientific Linux 6
-        :location_id  => '37c2bd9a-3e81-46c9-b6e2-db44a25cc675', # Seattle, WA
-        :password     => 'chunkybacon'
-      },
-      :mocked => false
-    },
     :cloudstack => {
       :provider_attributes => {
         :cloudstack_host => 'http://host.foo'
