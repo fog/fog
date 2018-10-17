@@ -32,6 +32,7 @@ module Fog
               { "LOCATION" => "Tokyo, JP",           "DATACENTERID" => 8,  "ABBR" => "tokyo" },
               { "LOCATION" => "Singapore, SGP",      "DATACENTERID" => 9,  "ABBR" => "singapore" },
               { "LOCATION" => "Frankfurt, DE",       "DATACENTERID" => 10, "ABBR" => "frankfurt" },
+              { "LOCATION" => "Tokyo 2, JP",         "DATACENTERID" => 11, "ABBR" => "tokyo2" },
             ],
             "ACTION" => "avail.datacenters"
           }
