@@ -17,13 +17,13 @@ describe Brightbox do
   describe "#class_for" do
     describe "when requesting compute service" do
       it "returns correct class" do
-        assert_equal Fog::Compute::Brightbox, Brightbox.class_for(:compute)
+        assert_equal Fog::Brightbox::Compute, Brightbox.class_for(:compute)
       end
     end
 
     describe "when requesting storage service" do
       it "returns correct class" do
-        assert_equal Fog::Storage::Brightbox, Brightbox.class_for(:storage)
+        assert_equal Fog::Brightbox::Storage, Brightbox.class_for(:storage)
       end
     end
   end

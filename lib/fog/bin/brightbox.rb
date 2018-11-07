@@ -3,9 +3,9 @@ class Brightbox < Fog::Bin
     def class_for(key)
       case key
       when :compute
-        Fog::Compute::Brightbox
+        Fog::Brightbox::Compute
       when :storage
-        Fog::Storage::Brightbox
+        Fog::Brightbox::Storage
       else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
