@@ -1,3 +1,40 @@
+## 2.1.0 11/12/2018
+*Hash* adc3d36e1c47976a1ec2630bd4577e082593c884
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Forks         | 1545
+Open Issues   | 7
+Watchers      | 4168
+
+**MVP!** Akira Matsuda
+
+#### [cloudstack]
+*   Allow specifying the size of root volume. thanks Takashi Kokubun
+
+#### [misc]
+*   GitHub is https by default. thanks Akira Matsuda
+*   Remove BlueBox Blocks. thanks Chris Lundquist
+*   Add SemVer stability badge to README. thanks Grey Baker
+*   Upgrade google dependency. thanks Nat Welch
+*   Fix whitespace in gemspec. thanks Nat Welch
+*   unpin mime-types. thanks Nat Welch
+*   Removing leftovers from extraction of fog-ovirt. thanks Ori Rabin
+*   Make CloudSigma snapshot tests pending. thanks Paul Thornthwaite
+*   Rescue `opennebula` loading issues. thanks Paul Thornthwaite
+*   "Fix" incorrect `Compute` provider credential test. thanks Paul Thornthwaite
+*   Tweak CloudSigma testing schema. thanks Paul Thornthwaite
+*   Fix Cloudstack `#connection` deprecation warning. thanks Paul Thornthwaite
+*   Remove tests for deprecated binary `#[]`. thanks Paul Thornthwaite
+*   Enable Ruby 2.5 in CI. thanks Pavel Valena
+*   lib/fog/linode: Add Tokyo2 to avail_datacenters. thanks Penny
+*   Fix compatibility with fog-brightbox 1.0.0+. thanks t Ondruch
+*   v2.0.0. thanks geemus
+*   add stale bot config. thanks geemus
+*   remove tests around deprecated usage. thanks geemus
+
+
 ## 2.0.0 03/06/2018
 *Hash* ff9fe270cd23627f748dd37e9bf2800640187f60
 
