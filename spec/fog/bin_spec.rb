@@ -10,7 +10,6 @@ describe Fog do
       assert_equal "Brightbox", Fog.providers[:brightbox]
       assert_equal "Clodo", Fog.providers[:clodo]
       assert_equal "CloudSigma", Fog.providers[:cloudsigma]
-      assert_equal "Cloudstack", Fog.providers[:cloudstack]
       assert_equal "DigitalOcean", Fog.providers[:digitalocean]
       assert_equal "Dnsimple", Fog.providers[:dnsimple]
       assert_equal "DNSMadeEasy", Fog.providers[:dnsmadeeasy]
@@ -56,7 +55,6 @@ describe Fog do
       assert_includes Fog.registered_providers, "Brightbox"
       assert_includes Fog.registered_providers, "Clodo"
       assert_includes Fog.registered_providers, "CloudSigma"
-      assert_includes Fog.registered_providers, "Cloudstack"
       assert_includes Fog.registered_providers, "DigitalOcean"
       assert_includes Fog.registered_providers, "Dnsimple"
       assert_includes Fog.registered_providers, "DNSMadeEasy"
@@ -102,7 +100,6 @@ describe Fog do
       assert_includes Fog.available_providers, "Brightbox" if Brightbox.available?
       assert_includes Fog.available_providers, "Clodo" if Clodo.available?
       assert_includes Fog.available_providers, "CloudSigma" if CloudSigma.available?
-      assert_includes Fog.available_providers, "Cloudstack" if Cloudstack.available?
       assert_includes Fog.available_providers, "DigitalOcean" if DigitalOcean.available?
       assert_includes Fog.available_providers, "Dnsimple" if Dnsimple.available?
       assert_includes Fog.available_providers, "DNSMadeEasy" if DNSMadeEasy.available?

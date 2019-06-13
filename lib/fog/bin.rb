@@ -54,7 +54,6 @@ end
 require 'fog/bin/atmos'
 require 'fog/bin/aws'
 require 'fog/bin/brightbox'
-require 'fog/bin/cloudstack'
 require 'fog/bin/clodo'
 require 'fog/bin/digitalocean'
 require 'fog/bin/dnsimple'
