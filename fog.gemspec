@@ -65,7 +65,6 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-ecloud", "~> 0.1")
   s.add_dependency("fog-google", "~> 1.0")
   s.add_dependency("fog-internet-archive")
-  s.add_dependency("fog-joyent")
   s.add_dependency("fog-local")
   s.add_dependency("fog-openstack")
   s.add_dependency("fog-ovirt")

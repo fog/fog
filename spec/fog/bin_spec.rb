@@ -23,7 +23,6 @@ describe Fog do
       assert_equal "Google", Fog.providers[:google]
       assert_equal "IBM", Fog.providers[:ibm]
       assert_equal "InternetArchive", Fog.providers[:internetarchive]
-      assert_equal "Joyent", Fog.providers[:joyent]
       assert_equal "Linode", Fog.providers[:linode]
       assert_equal "Local", Fog.providers[:local]
       assert_equal "OpenNebula", Fog.providers[:opennebula]
@@ -69,7 +68,6 @@ describe Fog do
       assert_includes Fog.registered_providers, "Google"
       assert_includes Fog.registered_providers, "IBM"
       assert_includes Fog.registered_providers, "InternetArchive"
-      assert_includes Fog.registered_providers, "Joyent"
       assert_includes Fog.registered_providers, "Linode"
       assert_includes Fog.registered_providers, "Local"
       assert_includes Fog.registered_providers, "OpenNebula"
@@ -115,7 +113,6 @@ describe Fog do
       assert_includes Fog.available_providers, "Google" if Google.available?
       assert_includes Fog.available_providers, "IBM" if IBM.available?
       assert_includes Fog.available_providers, "InternetArchive" if InternetArchive.available?
-      assert_includes Fog.available_providers, "Joyent" if Joyent.available?
       assert_includes Fog.available_providers, "Linode" if Linode.available?
       assert_includes Fog.available_providers, "Local" if Local.available?
       assert_includes Fog.available_providers, "OpenNebula" if OpenNebula.available?
