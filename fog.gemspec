@@ -46,7 +46,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.0.0'
 
-  s.add_dependency("fog-core", "~> 1.45")
+  s.add_dependency("fog-core", "~> 2.1")
   s.add_dependency("fog-json")
   s.add_dependency("fog-xml", "~> 0.1.1")
 
@@ -58,14 +58,14 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-atmos")
   s.add_dependency("fog-aws", ">= 0.6.0")
   s.add_dependency("fog-brightbox", "~> 0.4")
-  s.add_dependency("fog-cloudatcost", "~> 0.1.0")
+  s.add_dependency("fog-cloudatcost", "~> 0.4")
+  s.add_dependency("fog-cloudstack", "~> 0.1.0")
   s.add_dependency("fog-digitalocean", ">= 0.3.0")
-  s.add_dependency("fog-dnsimple", "~> 1.0")
+  s.add_dependency("fog-dnsimple", "~> 2.1")
   s.add_dependency("fog-dynect", "~> 0.0.2")
   s.add_dependency("fog-ecloud", "~> 0.1")
   s.add_dependency("fog-google", "~> 1.0")
   s.add_dependency("fog-internet-archive")
-  s.add_dependency("fog-joyent")
   s.add_dependency("fog-local")
   s.add_dependency("fog-openstack")
   s.add_dependency("fog-ovirt")

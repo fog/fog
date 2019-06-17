@@ -10,6 +10,7 @@ describe Fog do
       assert_equal "Brightbox", Fog.providers[:brightbox]
       assert_equal "Clodo", Fog.providers[:clodo]
       assert_equal "CloudSigma", Fog.providers[:cloudsigma]
+      assert_equal "Cloudstack", Fog.providers[:cloudstack]
       assert_equal "DigitalOcean", Fog.providers[:digitalocean]
       assert_equal "Dnsimple", Fog.providers[:dnsimple]
       assert_equal "DNSMadeEasy", Fog.providers[:dnsmadeeasy]
@@ -22,7 +23,6 @@ describe Fog do
       assert_equal "Google", Fog.providers[:google]
       assert_equal "IBM", Fog.providers[:ibm]
       assert_equal "InternetArchive", Fog.providers[:internetarchive]
-      assert_equal "Joyent", Fog.providers[:joyent]
       assert_equal "Linode", Fog.providers[:linode]
       assert_equal "Local", Fog.providers[:local]
       assert_equal "OpenNebula", Fog.providers[:opennebula]
@@ -55,6 +55,7 @@ describe Fog do
       assert_includes Fog.registered_providers, "Brightbox"
       assert_includes Fog.registered_providers, "Clodo"
       assert_includes Fog.registered_providers, "CloudSigma"
+      assert_includes Fog.registered_providers, "Cloudstack"
       assert_includes Fog.registered_providers, "DigitalOcean"
       assert_includes Fog.registered_providers, "Dnsimple"
       assert_includes Fog.registered_providers, "DNSMadeEasy"
@@ -67,7 +68,6 @@ describe Fog do
       assert_includes Fog.registered_providers, "Google"
       assert_includes Fog.registered_providers, "IBM"
       assert_includes Fog.registered_providers, "InternetArchive"
-      assert_includes Fog.registered_providers, "Joyent"
       assert_includes Fog.registered_providers, "Linode"
       assert_includes Fog.registered_providers, "Local"
       assert_includes Fog.registered_providers, "OpenNebula"
@@ -100,6 +100,7 @@ describe Fog do
       assert_includes Fog.available_providers, "Brightbox" if Brightbox.available?
       assert_includes Fog.available_providers, "Clodo" if Clodo.available?
       assert_includes Fog.available_providers, "CloudSigma" if CloudSigma.available?
+      assert_includes Fog.available_providers, "Cloudstack" if Cloudstack.available?
       assert_includes Fog.available_providers, "DigitalOcean" if DigitalOcean.available?
       assert_includes Fog.available_providers, "Dnsimple" if Dnsimple.available?
       assert_includes Fog.available_providers, "DNSMadeEasy" if DNSMadeEasy.available?
@@ -112,7 +113,6 @@ describe Fog do
       assert_includes Fog.available_providers, "Google" if Google.available?
       assert_includes Fog.available_providers, "IBM" if IBM.available?
       assert_includes Fog.available_providers, "InternetArchive" if InternetArchive.available?
-      assert_includes Fog.available_providers, "Joyent" if Joyent.available?
       assert_includes Fog.available_providers, "Linode" if Linode.available?
       assert_includes Fog.available_providers, "Local" if Local.available?
       assert_includes Fog.available_providers, "OpenNebula" if OpenNebula.available?
