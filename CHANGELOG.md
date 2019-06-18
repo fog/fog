@@ -1,3 +1,23 @@
+## 2.2.0 06/18/2019
+*Hash* 198649965a63fea6296831689cadda2c06570840
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Forks         | 1534
+Open Issues   | 4
+Watchers      | 4215
+
+**MVP!** Conor Tinch
+
+#### [misc]
+*   Removed all references to fog-cloudstack. Fog-cloudstack can be added back into lib/fog/bin.rb once we have a fog-cloudstack gem. thanks Conor Tinch
+*   Added cloudstack in as a provider since there's a gem. thanks Conor Tinch
+*   Added cloudstack in as a provider since there's a gem. thanks Conor Tinch
+*   remove fog-joyent from gemspec, at least temporarily. thanks geemus
+*   bump fog-core version. thanks geemus
+
+
 ## 2.1.0 11/12/2018
 *Hash* adc3d36e1c47976a1ec2630bd4577e082593c884
 

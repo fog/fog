@@ -114,6 +114,7 @@ Watchers      | #{watchers}
            'Chris Roberts',
            'Christopher Oliver',
            'Colin Hebert',
+           'Conor Tinch',
            'Daniel Aragao',
            'Daniel Reichert',
            'Darren Hague',
