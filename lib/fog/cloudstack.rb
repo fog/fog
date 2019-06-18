@@ -1,1 +1,0 @@
-require 'fog/cloudstack/compute'

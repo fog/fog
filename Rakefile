@@ -73,9 +73,6 @@ namespace :test do
   task :openvz do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/openvz")
   end
-  task :cloudstack do
-      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/cloudstack")
-  end
   task :vcloud_director do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/vcloud_director")
   end
