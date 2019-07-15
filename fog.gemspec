@@ -13,7 +13,6 @@ Gem::Specification.new do |s|
   s.name              = "fog"
   s.version           = "2.2.0"
   s.date              = "2019-06-18"
-  s.rubyforge_project = "fog"
 
   ## Make sure your summary is short. The description may be as long
   ## as you like.
