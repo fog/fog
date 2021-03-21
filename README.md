@@ -6,7 +6,7 @@ fog is the Ruby cloud services library, top to bottom:
 * Requests allow power users to get the most out of the features of each individual cloud.
 * Mocks make testing and integrating a breeze.
 
-[![Build Status](https://secure.travis-ci.org/fog/fog.svg?branch=master)](http://travis-ci.org/fog/fog)
+[![Build Status](https://github.com/fog/fog/actions/workflows/ruby.yml/badge.svg)](https://github.com/fog/fog/actions/workflows/ruby.yml)
 [![Code Climate](https://codeclimate.com/github/fog/fog/badges/gpa.svg)](https://codeclimate.com/github/fog/fog)
 [![Gem Version](https://badge.fury.io/rb/fog.svg)](http://badge.fury.io/rb/fog)
 [![SemVer](https://api.dependabot.com/badges/compatibility_score?dependency-name=fog&package-manager=bundler&version-scheme=semver)](https://dependabot.com/compatibility-score.html?dependency-name=fog&package-manager=bundler&version-scheme=semver)
