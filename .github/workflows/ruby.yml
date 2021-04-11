@@ -24,6 +24,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install libcurl dev (for ovirt native extensions)
+      run: sudo apt-get install libcurl4-openssl-dev
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
