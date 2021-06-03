@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.md]
 
-  s.required_ruby_version = '>= 2.0.0'
+  s.required_ruby_version = '>= 2.5.0'
 
   s.add_dependency("fog-core", "~> 2.1")
   s.add_dependency("fog-json")
