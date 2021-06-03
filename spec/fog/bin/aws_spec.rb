@@ -10,7 +10,7 @@ describe AWS do
   KEY_CLASS_MAPPING = {
     :auto_scaling => Fog::AWS::AutoScaling,
     :beanstalk => Fog::AWS::ElasticBeanstalk,
-    :cdn => Fog::CDN::AWS,
+    :cdn => Fog::AWS::CDN,
     :cloud_formation => Fog::AWS::CloudFormation,
     :cloud_watch => Fog::AWS::CloudWatch,
     :compute => Fog::Compute::AWS,
