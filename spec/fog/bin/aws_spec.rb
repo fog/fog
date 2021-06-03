@@ -2,6 +2,12 @@ require "spec_helper"
 require "fog/bin"
 require "helpers/bin"
 
+# workaround autoload which doesn't match renested/deprecated classes
+require "fog/aws/cdn"
+require "fog/aws/compute"
+require "fog/aws/dns"
+require "fog/aws/storage"
+
 describe AWS do
   include Fog::BinSpec
 
@@ -10,7 +16,7 @@ describe AWS do
   KEY_CLASS_MAPPING = {
     :auto_scaling => Fog::AWS::AutoScaling,
     :beanstalk => Fog::AWS::ElasticBeanstalk,
-    :cdn => Fog::AWS::CDN,
+    :cdn => Fog::CDN::AWS,
     :cloud_formation => Fog::AWS::CloudFormation,
     :cloud_watch => Fog::AWS::CloudWatch,
     :compute => Fog::Compute::AWS,
