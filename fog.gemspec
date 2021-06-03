@@ -61,7 +61,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-cloudstack", "~> 0.1.0")
   s.add_dependency("fog-digitalocean", ">= 0.3.0")
   s.add_dependency("fog-dnsimple", "~> 2.1")
-  s.add_dependency("fog-dynect", ">= 0.0.2", "< 0.5.0")
+  s.add_dependency("fog-dynect", ">= 0.0.2", "< 0.6.0")
   s.add_dependency("fog-ecloud", "~> 0.1")
   s.add_dependency("fog-google", "~> 1.0")
   s.add_dependency("fog-internet-archive")
