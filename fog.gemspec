@@ -92,7 +92,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("pry")
   s.add_development_dependency("rake")
   s.add_development_dependency("rbvmomi")
-  s.add_development_dependency("rubocop", "1.22.0")
+  s.add_development_dependency("rubocop", "1.22.1")
   s.add_development_dependency("shindo", "~> 0.3.4")
   s.add_development_dependency("simplecov")
   s.add_development_dependency("thor")
