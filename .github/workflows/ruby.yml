@@ -23,7 +23,7 @@ jobs:
         ruby-version: ['2.5', '2.6', '2.7', '3.0', 'head']
 
     steps:
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v3
     - name: Install libcurl dev (for ovirt native extensions)
       run: sudo apt-get install libcurl4-openssl-dev
     - name: Set up Ruby
