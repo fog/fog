@@ -6,18 +6,4 @@ on:
 
 jobs:
   stale:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/stale@v4
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        days-before-stale: 60
-        days-before-close: 7
-        exempt-issue-labels: 'pinned,security'
-        exempt-pr-labels: 'pinned,security'
-        stale-issue-message: 'This issue has been marked inactive and will be closed if no further activity occurs.'
-        stale-pr-message: 'This pr has been marked inactive and will be closed if no further activity occurs.'
-        stale-issue-label: 'no-issue-activity'
-        stale-pr-label: 'no-pr-activity'
+    uses: fog/.github/.github/workflows/stale.yml@v1.1.0
