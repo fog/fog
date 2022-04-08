@@ -13,6 +13,11 @@ on:
   pull_request:
     branches: [ master ]
 
+permissions:
+  contents: read
+
 jobs:
   test:
+    permissions:
+      contents: none
     uses: fog/.github/.github/workflows/ruby.yml@v1.1.0
