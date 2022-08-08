@@ -100,7 +100,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rspec-core")
   s.add_development_dependency("rspec-expectations")
   s.add_development_dependency("vcr")
-  s.add_development_dependency("webmock","~>3.16.0")
+  s.add_development_dependency("webmock","~>3.17.0")
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {spec,tests}/*`.split("\n")
