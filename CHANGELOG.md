@@ -1,3 +1,80 @@
+## 2.3.0 10/03/2022
+*Hash* 934c38de2597788b7f7cf5fb7540138232955544
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 2
+Forks         | 1504
+Open Issues   | 4
+Watchers      | 4305
+
+**MVP!** Olle Jonsson
+
+#### [misc]
+*   Supported Ruby version is 2.5+ now. thanks Lukas Zapletal
+*   chore: Enable codeql action. thanks Naveen
+*   Rakefile: Drop EOL'd property rubyforge_project. thanks Olle Jonsson
+*   Gemspec: Drop EOL'd property rubyforge_project. thanks Olle Jonsson
+*   Update library dependences. thanks Takashi Yamamoto
+*   dependabot[bot] (43):. thanks Wesley Beary
+*   Update fog-dynect requirement from ~> 0.0.2 to >= 0.0.2, < 0.5.0. thanks Wesley Beary
+*   Update webmock requirement from ~> 1.22.2 to ~> 3.12.1. thanks Wesley Beary
+*   Update fog-brightbox requirement from ~> 0.4 to >= 0.4, < 2.0. thanks Wesley Beary
+*   Bump actions/stale from 3 to 3.0.18. thanks Wesley Beary
+*   Bump actions/checkout from 2 to 2.3.4. thanks Wesley Beary
+*   Bump actions/stale from 3.0.18 to 3.0.19. thanks Wesley Beary
+*   Update fog-dynect requirement from >= 0.0.2, < 0.5.0 to >= 0.0.2, < 0.6.0. thanks Wesley Beary
+*   Update webmock requirement from ~> 3.12.1 to ~> 3.13.0. thanks Wesley Beary
+*   Update rubocop requirement from = 0.52.1 to = 1.16.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.16.0 to = 1.16.1. thanks Wesley Beary
+*   Update rubocop requirement from = 1.16.1 to = 1.17.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.17.0 to = 1.18.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.18.0 to = 1.18.1. thanks Wesley Beary
+*   Update rubocop requirement from = 1.18.1 to = 1.18.2. thanks Wesley Beary
+*   Update rubocop requirement from = 1.18.2 to = 1.18.3. thanks Wesley Beary
+*   Bump actions/stale from 3.0.19 to 4. thanks Wesley Beary
+*   Update rubocop requirement from = 1.18.3 to = 1.18.4. thanks Wesley Beary
+*   Update webmock requirement from ~> 3.13.0 to ~> 3.14.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.18.4 to = 1.19.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.19.0 to = 1.20.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.20.0 to = 1.21.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.21.0 to = 1.22.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.22.0 to = 1.22.1. thanks Wesley Beary
+*   Bump actions/checkout from 2.3.4 to 2.3.5. thanks Wesley Beary
+*   Update rubocop requirement from = 1.22.1 to = 1.22.2. thanks Wesley Beary
+*   Update rubocop requirement from = 1.22.2 to = 1.22.3. thanks Wesley Beary
+*   Bump actions/checkout from 2.3.5 to 2.4.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.22.3 to = 1.23.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.23.0 to = 1.24.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.24.0 to = 1.24.1. thanks Wesley Beary
+*   Update rubocop requirement from = 1.24.1 to = 1.25.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.25.0 to = 1.25.1. thanks Wesley Beary
+*   Bump actions/checkout from 2.4.0 to 3. thanks Wesley Beary
+*   Update rubocop requirement from = 1.25.1 to = 1.26.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.26.0 to = 1.26.1. thanks Wesley Beary
+*   Update rubocop requirement from = 1.26.1 to = 1.27.0. thanks Wesley Beary
+*   Update rubocop requirement from = 1.27.0 to = 1.28.1. thanks Wesley Beary
+*   Update rubocop requirement from = 1.28.1 to = 1.28.2. thanks Wesley Beary
+*   Bump actions/dependency-review-action from 1 to 2. thanks Wesley Beary
+*   Update webmock requirement from ~> 3.14.0 to ~> 3.15.0. thanks Wesley Beary
+*   Update webmock requirement from ~> 3.15.0 to ~> 3.16.0. thanks Wesley Beary
+*   Update webmock requirement from ~> 3.16.0 to ~> 3.17.0. thanks Wesley Beary
+*   Update webmock requirement from ~> 3.17.0 to ~> 3.18.1. thanks Wesley Beary
+*   v2.2.0. thanks geemus
+*   refresh github actions and  config. thanks geemus
+*   focus actions tests on supported rubies. thanks geemus
+*   allow 3.0/head test failures for now. thanks geemus
+*   attempt to add libcurl dev headers to get bundler working. thanks geemus
+*   add bin/cloudstack back in to get ci on track. thanks geemus
+*   drop Aliyun bin require, as it is broken. thanks geemus
+*   make available check in bin resilient to nil. thanks geemus
+*   fix AWS CDN reference in bin tests. thanks geemus
+*   workaround autoload mismatch with renested AWS class/module names. thanks geemus
+*   use shared workflows. thanks geemus
+*   Set permissions for GitHub actions. thanks naveensrinivasan
+*   chore(deps): Included dependency review. thanks naveensrinivasan
+
+
 ## 2.2.0 06/18/2019
 *Hash* 198649965a63fea6296831689cadda2c06570840
 

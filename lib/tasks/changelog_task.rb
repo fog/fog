@@ -141,6 +141,7 @@ Watchers      | #{watchers}
            'Nick Osborn',
            'nightshade427',
            'Oleg Vivtash',
+           'Olle Jonsson',
            'Patrick Debois',
            'Paul Thornthwaite',
            'Paulo Henrique Lopes Ribeiro',
