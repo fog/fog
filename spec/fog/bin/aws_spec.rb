@@ -28,8 +28,8 @@ describe AWS do
     :simpledb => Fog::AWS::SimpleDB,
     :ses => Fog::AWS::SES,
     :sqs => Fog::AWS::SQS,
-    :eu_storage => Fog::Storage::AWS,
-    :storage => Fog::Storage::AWS,
+    :eu_storage => Fog::AWS::Storage,
+    :storage => Fog::AWS::Storage,
     :rds => Fog::AWS::RDS,
     :sns => Fog::AWS::SNS,
     :sts => Fog::AWS::STS
