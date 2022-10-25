@@ -3,7 +3,9 @@ require 'fog/core/credentials'
 module Fog
   class << self
     def available_providers
-      @available_providers ||= Fog.providers.values.select {|provider| Kernel.const_get(provider).try(:available?)}.sort
+      available_providers ||= Fog.providers.values.select do |provider|
+        Kernel.const_defined?(provider) && Kernel.const_get(provider).try(:available?)
+      end.sort
     end
 
     def registered_providers
