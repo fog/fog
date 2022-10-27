@@ -46,7 +46,7 @@ module Fog
         when :sqs
           Fog::AWS::SQS
         when :eu_storage, :storage
-          Fog::Storage::AWS
+          Fog::AWS::Storage
         when :rds
           Fog::AWS::RDS
         when :sns
