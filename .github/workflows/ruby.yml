@@ -18,6 +18,25 @@ permissions:
 
 jobs:
   test:
+
     permissions:
       contents: none
-    uses: fog/.github/.github/workflows/ruby.yml@v1.1.0
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby-version: ['2.5', '2.6', '2.7', '3.0', '3.1', 'head']
+    continue-on-error: ${{ matrix.ruby-version == 'head' }}
+
+    steps:
+    - uses: actions/checkout@v2.4.0
+    - name: Set up dependencies
+      run: sudo apt-get install libcurl4-openssl-dev
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Run tests
+      run: bundle exec rake
