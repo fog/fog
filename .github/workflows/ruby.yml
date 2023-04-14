@@ -30,7 +30,7 @@ jobs:
     continue-on-error: ${{ matrix.ruby-version == 'head' }}
 
     steps:
-    - uses: actions/checkout@v3.5.1
+    - uses: actions/checkout@v3.5.2
     - name: Set up dependencies
       run: sudo apt-get install libcurl4-openssl-dev
     - name: Set up Ruby
