@@ -53,7 +53,6 @@ module Fog
   end
 end
 
-require 'fog/bin/atmos'
 require 'fog/bin/aws'
 require 'fog/bin/brightbox'
 require 'fog/bin/clodo'
