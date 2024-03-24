@@ -4,7 +4,6 @@ require "fog/bin"
 describe Fog do
   describe "#providers" do
     it "includes existing providers" do
-      assert_equal "Atmos", Fog.providers[:atmos]
       assert_equal "AWS", Fog.providers[:aws]
       assert_equal "BareMetalCloud", Fog.providers[:baremetalcloud]
       assert_equal "Brightbox", Fog.providers[:brightbox]
@@ -16,7 +15,6 @@ describe Fog do
       assert_equal "DNSMadeEasy", Fog.providers[:dnsmadeeasy]
       assert_equal "Dreamhost", Fog.providers[:dreamhost]
       assert_equal "Dynect", Fog.providers[:dynect]
-      assert_equal "Ecloud", Fog.providers[:ecloud]
       assert_equal "Fogdocker", Fog.providers[:fogdocker]
       assert_equal "Glesys", Fog.providers[:glesys]
       assert_equal "GoGrid", Fog.providers[:gogrid]
@@ -49,7 +47,6 @@ describe Fog do
 
   describe "#registered_providers" do
     it "includes existing providers" do
-      assert_includes Fog.registered_providers, "Atmos"
       assert_includes Fog.registered_providers, "AWS"
       assert_includes Fog.registered_providers, "BareMetalCloud"
       assert_includes Fog.registered_providers, "Brightbox"
@@ -61,7 +58,6 @@ describe Fog do
       assert_includes Fog.registered_providers, "DNSMadeEasy"
       assert_includes Fog.registered_providers, "Dreamhost"
       assert_includes Fog.registered_providers, "Dynect"
-      assert_includes Fog.registered_providers, "Ecloud"
       assert_includes Fog.registered_providers, "Fogdocker"
       assert_includes Fog.registered_providers, "Glesys"
       assert_includes Fog.registered_providers, "GoGrid"
@@ -94,7 +90,6 @@ describe Fog do
 
   describe "#available_providers" do
     it "includes existing providers" do
-      assert_includes Fog.available_providers, "Atmos" if Atmos.available?
       assert_includes Fog.available_providers, "AWS" if AWS.available?
       assert_includes Fog.available_providers, "BareMetalCloud" if BareMetalCloud.available?
       assert_includes Fog.available_providers, "Brightbox" if Brightbox.available?
@@ -106,7 +101,6 @@ describe Fog do
       assert_includes Fog.available_providers, "DNSMadeEasy" if DNSMadeEasy.available?
       assert_includes Fog.available_providers, "Dreamhost" if Dreamhost.available?
       assert_includes Fog.available_providers, "Dynect" if Dynect.available?
-      assert_includes Fog.available_providers, "Ecloud" if Ecloud.available?
       assert_includes Fog.available_providers, "Fogdocker" if Fogdocker.available?
       assert_includes Fog.available_providers, "Glesys" if Glesys.available?
       assert_includes Fog.available_providers, "GoGrid" if GoGrid.available?
