@@ -33,7 +33,6 @@ describe Fog do
       assert_equal "Rage4", Fog.providers[:rage4]
       assert_equal "RiakCS", Fog.providers[:riakcs]
       assert_equal "SakuraCloud", Fog.providers[:sakuracloud]
-      assert_equal "Serverlove", Fog.providers[:serverlove]
       assert_equal "Softlayer", Fog.providers[:softlayer]
       assert_equal "StormOnDemand", Fog.providers[:stormondemand]
       assert_equal "Vcloud", Fog.providers[:vcloud]
@@ -76,7 +75,6 @@ describe Fog do
       assert_includes Fog.registered_providers, "Rage4"
       assert_includes Fog.registered_providers, "RiakCS"
       assert_includes Fog.registered_providers, "SakuraCloud"
-      assert_includes Fog.registered_providers, "Serverlove"
       assert_includes Fog.registered_providers, "Softlayer"
       assert_includes Fog.registered_providers, "StormOnDemand"
       assert_includes Fog.registered_providers, "Vcloud"
@@ -119,7 +117,6 @@ describe Fog do
       assert_includes Fog.available_providers, "Rage4" if Rage4.available?
       assert_includes Fog.available_providers, "RiakCS" if RiakCS.available?
       assert_includes Fog.available_providers, "SakuraCloud" if SakuraCloud.available?
-      assert_includes Fog.available_providers, "Serverlove" if Serverlove.available?
       assert_includes Fog.available_providers, "Softlayer" if Softlayer.available?
       assert_includes Fog.available_providers, "StormOnDemand" if StormOnDemand.available?
       assert_includes Fog.available_providers, "Vcloud" if Vcloud.available?

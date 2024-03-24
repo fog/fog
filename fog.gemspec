@@ -72,7 +72,6 @@ Gem::Specification.new do |s|
   s.add_dependency("fog-radosgw", ">= 0.0.2")
   s.add_dependency("fog-riakcs")
   s.add_dependency("fog-sakuracloud", ">= 0.0.4")
-  s.add_dependency("fog-serverlove")
   s.add_dependency("fog-softlayer")
   s.add_dependency("fog-storm_on_demand")
   s.add_dependency("fog-terremark")
