@@ -34,7 +34,7 @@ module Fog
               "test, operating system is SUSE Linux Enterprise Server/11 SP1 - English\n\nYour access to and use of the Service, including all selected options, are governed by the terms of the Agreement signed between your Enterprise and IBM.  Each Service is also governed by one or more Attachments (including, for example, Image Terms Attachments).  Applicable Attachments are part of the Agreement between you and IBM and include Attachments for Services you acquire after the Agreement was signed.  The Agreement also references applicable IBM and third party end user license agreements that govern the use of IBM software and operating system software provided as part of an Image.\n\nYou are responsible for complying with the terms of the Agreement (including applicable Attachments) and applicable license agreements. You may review the terms for the Service by 1) obtaining information regarding the Agreement from your Account Administrator and 2) accessing the Asset Catalog to review specific Image Terms and end user license agreements for IBM and third party software provided as part of an Image.  ",
              "id"=>"20020159",
              "attachments"=>
-              [{"label"=>"Service Description for Developement & Test Service",
+              [{"label"=>"Service Description for Development & Test Service",
                 "url"=>
                  "https://www-147.ibm.com/cloud/enterprise/static/internal_user_agreement.pdf",
                 "type"=>0},

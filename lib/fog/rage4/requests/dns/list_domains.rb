@@ -2,7 +2,7 @@ module Fog
   module DNS
     class Rage4
       class Real
-        # Get the lsit of all domains for your account.
+        # Get the list of all domains for your account.
         # ==== Parameters
         #
         # ==== Returns

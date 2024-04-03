@@ -22,7 +22,7 @@ dh = Fog::DNS.new( :provider => "Dreamhost",
 
 ## List all the DNS zones
 
-This will list all the DNS zones avaialble in your account:
+This will list all the DNS zones available in your account:
 
 ```ruby
 dh.zones.each do |zone|
@@ -32,7 +32,7 @@ end
 
 ## Retrieve all the records
 
-List all the records available in your Dreamhost account, accross all the zones:
+List all the records available in your Dreamhost account, across all the zones:
 
 ```ruby
 dh.records.each do |r|

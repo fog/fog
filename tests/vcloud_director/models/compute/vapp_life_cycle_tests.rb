@@ -37,7 +37,7 @@ Shindo.tests("Compute::VcloudDirector | vapp", ['vclouddirector', 'creation']) d
       tests("#enabled").returns(true) { customization.enabled  }
     end
 
-    tests("Compute::VcloudDirector | vm", ['doble the disk size']) do
+    tests("Compute::VcloudDirector | vm", ['double the disk size']) do
       disk = vm.disks.get_by_name('Hard disk 1')
       tests("#disk_size").returns(Fixnum) { disk.capacity.class}
       new_size = disk.capacity * 2
@@ -54,7 +54,7 @@ Shindo.tests("Compute::VcloudDirector | vapp", ['vclouddirector', 'creation']) d
       tests("hard disk 2 doesn't exist anymore").returns(nil) { vm.disks.get_by_name('Hard disk 2') }
     end
 
-    tests("Compute::VcloudDirector | vm", ['doble the memory size']) do
+    tests("Compute::VcloudDirector | vm", ['double the memory size']) do
       tests("#memory").returns(Fixnum) { vm.memory.class}
       new_size = vm.memory * 2
       vm.memory = new_size
@@ -62,7 +62,7 @@ Shindo.tests("Compute::VcloudDirector | vapp", ['vclouddirector', 'creation']) d
       tests("#memory is now doubled").returns(new_size) { vm.memory }
     end
 
-    tests("Compute::VcloudDirector | vm", ['doble the cpu size']) do
+    tests("Compute::VcloudDirector | vm", ['double the cpu size']) do
       tests("#cpu").returns(Fixnum) { vm.cpu.class}
       new_size = vm.cpu * 2
       vm.cpu = new_size

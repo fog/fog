@@ -54,7 +54,7 @@ module Fog
                         xml.FenceMode configuration[:FenceMode] if configuration[:FenceMode]
                         xml.RetainNetInfoAcrossDeployments configuration[:RetainNetInfoAcrossDeployments] if configuration[:RetainNetInfoAcrossDeployments]
                       }
-                    end #Configuraton
+                    end #Configuration
                     xml.IsDeployed configuration[:IsDeployed] if configuration[:IsDeployed]
                   }
                 end

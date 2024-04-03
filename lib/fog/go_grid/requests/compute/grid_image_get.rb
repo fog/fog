@@ -8,7 +8,7 @@ module Fog
         # * options<~Hash>:
         #   * 'id'<~String>         - ID of the image
         #   * 'name'<~String>       - Name of the image
-        #   * 'image'<~String>      - ID(s) or Name(s) of the images to retrive. Can be speicifed multiple times
+        #   * 'image'<~String>      - ID(s) or Name(s) of the images to retrieve. Can be speicifed multiple times
         #
         # ==== Returns
         # * response<~Excon::Response>:

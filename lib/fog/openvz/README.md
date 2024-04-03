@@ -11,7 +11,7 @@ It allows you to specify connect command to connect to the openvz server, if it'
 - This is specified as a string where the '@command@' placeholder will be replaced when the commands are executed
 - The @command@ will contain double quotes, therefore make sure you use single quotes only inside the placeholder
 
-To connect to a remote ssh server myopenvzserver and sudo excute the command
+To connect to a remote ssh server myopenvzserver and sudo execute the command
 
     openvz = ::Fog::Compute.new( {
       :provider => 'openvz',

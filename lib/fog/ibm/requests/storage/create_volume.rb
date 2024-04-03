@@ -5,7 +5,7 @@ module Fog
         # Requests a new Storage Volume be created.
         #
         # ==== Parameters
-        # * name<~String> - The alias to use to referance storage volume
+        # * name<~String> - The alias to use to reference storage volume
         # * offeringID<~String> - offering id can be requested from /computecloud/enterprise/api/rest/20100331/offerings/storage
         # * format<~String> - filesystem format for volume
         # * location<~String> - datacenter location for volume
@@ -15,7 +15,7 @@ module Fog
         # === Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * name<~String> - The alias to use to referance storage volume
+        #     * name<~String> - The alias to use to reference storage volume
         #     * format<~String> - filesystem format for storage
         #     * location<~String> - datacenter location for storage
         #     * createdTime<~Integer> - Epoch time of creation
