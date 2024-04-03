@@ -34,7 +34,7 @@ module Fog
           )
         end
 
-        # Add an ip-adress to the server.
+        # Add an ip-address to the server.
         def attach(server)
           requires :ip
           server = server.serverid if server.is_a?(Fog::Compute::Glesys::Server)

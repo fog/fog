@@ -13,17 +13,17 @@ module Fog
         #   * body<~Array>:
         #     * DATA<~Array>
         #       * 'PROTOCOL'<~String>:  for SRV records. default is UDP
-        #       * 'TTL_SEC'<~Interger>:
-        #       * 'PRIORITY'<~Interger>: for MX and SRV records
+        #       * 'TTL_SEC'<~Integer>:
+        #       * 'PRIORITY'<~Integer>: for MX and SRV records
         #       * 'TYPE'<~String>: One of: NS, MX, A, AAAA, CNAME, TXT, or SRV
         #       * 'TARGET'<~String>: When Type=MX the hostname. When Type=CNAME the target of the alias.
         #                           When Type=TXT the value of the record. When Type=A or AAAA the token
         #                           of '[remote_addr]' will be substituted with the IP address of the request.
-        #       * 'WEIGHT'<~Interger>:
-        #       * 'RESOURCEID'<~Interger>: ID of the resource record
-        #       * 'PORT'<~Interger>:
-        #       * 'DOMAINID'<~Interger>: ID of the domain that this record belongs to
-        #       * 'NAME'<~Interger>: The hostname or FQDN. When Type=MX, the subdomain to delegate to
+        #       * 'WEIGHT'<~Integer>:
+        #       * 'RESOURCEID'<~Integer>: ID of the resource record
+        #       * 'PORT'<~Integer>:
+        #       * 'DOMAINID'<~Integer>: ID of the domain that this record belongs to
+        #       * 'NAME'<~Integer>: The hostname or FQDN. When Type=MX, the subdomain to delegate to
         def domain_resource_list(domain_id, resource_id = nil)
           query = { :api_action => 'domain.resource.list', :domainID => domain_id }
           if resource_id

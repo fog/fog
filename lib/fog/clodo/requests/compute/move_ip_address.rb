@@ -3,7 +3,7 @@ module Fog
     class Clodo
       class Real
         # Move IP-address to specified server.
-        # ==== Paramaters
+        # ==== Parameters
         # * server_id<~Integer> - Id of server to move IP to
         # * ip<~String> - IP-address to move
         #

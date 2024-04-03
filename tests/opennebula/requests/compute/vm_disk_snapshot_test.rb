@@ -27,7 +27,7 @@ Shindo.tests("Fog::Compute[:opennebula] | vm_create and destroy request", 'openn
     img_id = compute.vm_disk_snapshot(vm.id, 0, 'fogtest-'+name_base.to_s)
     test("Image ID of created snapshot should be a kind of Fixnum") { img_id.is_a? Fixnum }
     (1..5).each do # wait maximum 5 seconds
-      sleep(1) # The delay is needed for some reason between issueing disk-snapshot and shutdown
+      sleep(1) # The delay is needed for some reason between issuing disk-snapshot and shutdown
       images = compute.image_pool( { :mine => true, :id => img_id } )
       test("Got Image with ID=#{img_id}") { images.kind_of? Array }
       if images[0].state == 4 # LOCKED, it is normal we must shutdown VM for image to go into READY state

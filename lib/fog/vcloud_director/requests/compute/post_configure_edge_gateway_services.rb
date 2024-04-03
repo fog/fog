@@ -17,7 +17,7 @@ module Fog
         # @return [Excon::Response]
         #   * body<~Hash>:
         # @see https://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-ConfigureEdgeGatewayServices.html
-        #   vCloud API Documentaion
+        #   vCloud API Documentation
         # @since vCloud API version 5.1
         def post_configure_edge_gateway_services(id, configuration)
           body = Fog::Generators::Compute::VcloudDirector::EdgeGatewayServiceConfiguration.new(configuration).generate_xml

@@ -3,7 +3,7 @@ module Fog
     class Clodo
       class Real
         # Bye new IP-address for specified server
-        # ==== Paramaters
+        # ==== Parameters
         # * server_id<~Integer> - Id of server to bye IP for
         #
         # ==== Returns

@@ -11,7 +11,7 @@ Shindo.tests('Compute::VcloudDirector | query requests', ['vclouddirector']) do
     end
   end
 
-  # for each queriable type, query and check that each available format
+  # for each queryable type, query and check that each available format
   # returns a result that matches the base schema
   #
   @query_list[:Link].select do |link|

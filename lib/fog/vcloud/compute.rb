@@ -19,7 +19,7 @@ module Fog
           msg = ":href missing, call with a :href pointing to #{if opts[:message]
                   opts[:message]
                 elsif opts[:parent]
-                  "the #{opts[:parent]} whos #{self.class.to_s.split('::').last.downcase} you want to enumerate"
+                  "the #{opts[:parent]} whose #{self.class.to_s.split('::').last.downcase} you want to enumerate"
                 else
                   "the resource"
                 end}"

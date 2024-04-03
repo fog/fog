@@ -3,7 +3,7 @@ module Fog
     class Clodo
       class Real
         # Delete IP-address from specified server
-        # ==== Paramaters
+        # ==== Parameters
         # * server_id<~Integer> - Id of server to delete IP from
         # * ip<~String> - IP-address to delete
         #

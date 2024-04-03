@@ -21,16 +21,16 @@ module Fog
           #}
 
           grouppool.each do |group| 
-            filter_missmatch = false
+            filter_mismatch = false
 
             unless (filter.empty?)
               filter.each do |k,v|
                 if group["#{k.to_s.upcase}"] && group["#{k.to_s.upcase}"] != v.to_s
-                  filter_missmatch = true
+                  filter_mismatch = true
                   break
                 end
               end 
-              next if filter_missmatch
+              next if filter_mismatch
             end 
             groups << {:id => group["ID"], :name => group["NAME"]}
           end
@@ -47,16 +47,16 @@ module Fog
 
           grouppool = [net1, net2]
           grouppool.each do |group| 
-            filter_missmatch = false
+            filter_mismatch = false
 
             unless (filter.empty?)
               filter.each do |k,v|
                 if group["#{k.to_s.upcase}"] && group["#{k.to_s.upcase}"] != v.to_s
-                  filter_missmatch = true
+                  filter_mismatch = true
                   break
                 end
               end 
-              next if filter_missmatch
+              next if filter_mismatch
             end 
             groups << {:id => group["ID"], :name => group["NAME"]}
           end

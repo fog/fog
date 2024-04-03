@@ -6,7 +6,7 @@ module Fog
         #
         # ==== Parameters
         # * domain_id<~Integer>: id of domain resource belongs to
-        # * resource_id<~Integer>: id of resouce to delete
+        # * resource_id<~Integer>: id of resource to delete
         #
         # ==== Returns
         # * response<~Excon::Response>:

@@ -25,7 +25,7 @@ module Fog
         #     * 'documentation'<~String>: link to documentation for image
         #     * 'manifest'<~String>: link to xml manifest file
         #     * 'description'<~String>: text description of image
-        #     * 'visibility'<~String>: status of visibilty of image. known values so far are "PUBLIC" and "PRIVATE"
+        #     * 'visibility'<~String>: status of visibility of image. known values so far are "PUBLIC" and "PRIVATE"
         #     * 'platform'<~String>: operating system
         #     * 'architecture'<~String>: architecture supported by image
         #     * 'documentation'<~String>: link to documentation for image

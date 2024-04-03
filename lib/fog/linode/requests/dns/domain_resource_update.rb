@@ -6,7 +6,7 @@ module Fog
         #
         # ==== Parameters
         # * domain_id<~Integer>: limit the list to the domain ID specified
-        # * resource_id<~Integer>: id of resouce to delete
+        # * resource_id<~Integer>: id of resource to delete
         # * options<~Hash>
         #   * type<~String>: One of: NS, MX, A, AAAA, CNAME, TXT, or SRV
         #   * name<~String>: The hostname or FQDN. When Type=MX the subdomain to delegate to the

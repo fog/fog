@@ -74,12 +74,12 @@ module Fog
           "vhost" + Fog::Mock.random_numbers(3).to_i.to_s + ".fake.compute.ihost.com"
         end
 
-        # Miliseconds since epoch
+        # Milliseconds since epoch
         def launch_time
           (Time.now.tv_sec * 1000).to_i
         end
 
-        # 1 year from now, in miliseconds since epoch
+        # 1 year from now, in milliseconds since epoch
         def expiry_time
           ((Time.now.tv_sec + 31556926) * 1000).to_i
         end

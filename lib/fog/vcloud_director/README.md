@@ -37,7 +37,7 @@ When listing a collection (eg: `vdc.vapps`), lazy load will be used by default
 to improve the performance, otherwise it will make as many requests as items
 are in the collection.
 
-You can disable lazy load using the explict caller and passing a *false*
+You can disable lazy load using the explicit caller and passing a *false*
 option: `vdc.vapps.all(false)`.
 
 Attributes showing the value **NonLoaded** will be populated when accessing the

@@ -23,7 +23,7 @@ General proceeding:
 * Connect to one-rpc
 * create new vm object
 * fetch a template/flavor from one (this template should be predefined)
-* assigne the flavor/template to the vm
+* assign the flavor/template to the vm
 * change the attributes of this flavor/template (name, cpu, memory, nics....)
 * save/instantiate the vm
 

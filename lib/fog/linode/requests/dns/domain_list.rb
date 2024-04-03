@@ -11,7 +11,7 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Array>:
         #     * DATA<~Array>
-        #       * 'DOMAINID'<~Interger>
+        #       * 'DOMAINID'<~Integer>
         #       * 'SOA_EMAIL'<~String>
         #       * 'DESCRIPTION'<~String>
         #       * 'TTL_SEC'<~String>

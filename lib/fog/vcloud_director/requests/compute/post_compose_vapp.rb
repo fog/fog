@@ -15,9 +15,9 @@ module Fog
         # @option options [Boolean] :deploy Used to specify whether to deploy
         #   the vApp, if not set default value is true.
         # @option options [String] :name Used to identify the vApp.
-        # @option options [String] :networkName Used to conect the vApp and VMs to a VDC network, which has
+        # @option options [String] :networkName Used to connect the vApp and VMs to a VDC network, which has
         # to exist beforehand.
-        # @option options [String] :networkHref Used to conect the vApp and VMs to a VDC network, which has
+        # @option options [String] :networkHref Used to connect the vApp and VMs to a VDC network, which has
         # to exist beforehand.
         # @option options [String] :fenceMode Used to configure the network Mode (briged, isolated).
         # @option options [String] :source_vms Array with VMs to be used to compose the vApp, each containing -
