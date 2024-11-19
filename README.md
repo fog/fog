@@ -131,7 +131,7 @@ It will return an [excon](http://github.com/geemus/excon) response, which has `b
 
 ## Go forth and conquer
 
-Play around and use the console to explore or check out [fog.io](http://fog.io) and the [provider documentation](http://fog.io/about/provider_documentation.html)
+Play around and use the console to explore or check out [fog.github.io](http://fog.github.io) and the [provider documentation](http://fog.github.io/about/provider_documentation.html)
 for more details and examples. Once you are ready to start scripting fog, here is a quick hint on how to make connections without the command line thing to help you.
 
 ```ruby
@@ -173,8 +173,8 @@ spec.add_dependency 'fog', '~> 1.16'
 
 ## Getting Help
 
-* [General Documentation](http://fog.io).
-* [Provider Specific Documentation](http://fog.io/about/provider_documentation.html).
+* [General Documentation](http://fog.github.io).
+* [Provider Specific Documentation](http://fog.github.io/about/provider_documentation.html).
 * Ask specific questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/fog)
 * Report bugs and discuss potential features in [Github issues](https://github.com/fog/fog/issues).
 
